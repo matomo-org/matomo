@@ -34,10 +34,13 @@ class VisitTest extends IntegrationTestCase
         // setup the access layer
         FakeAccess::$superUser = true;
 
+        Fixture::createSuperUser(true);
         Manager::getInstance()->loadTrackerPlugins();
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';
         $pluginNames[] = 'WebsiteMeasurable';
+        $pluginNames[] = 'TagManager';// needed because we create a site in Tracker mode...
+        $pluginNames[] = 'API'; // needed because we create a site in Tracker mode...
         Manager::getInstance()->loadPlugins($pluginNames);
         Visit::$dimensions = null;
     }

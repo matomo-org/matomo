@@ -10,8 +10,12 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
+use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -115,9 +119,8 @@ class Model
     public function getUsersLoginWithSiteAccess($idSite, $access)
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login
-                                           FROM " . Common::prefixTable("access")
-                                       . " WHERE idsite = ? AND access = ?", array($idSite, $access));
+        $users = $db->fetchAll("SELECT login FROM " . Common::prefixTable("access")
+                               . " WHERE idsite = ? AND access = ?", array($idSite, $access));
 
         $logins = array();
         foreach ($users as $user) {
@@ -145,10 +148,16 @@ class Model
      */
     public function getSitesAccessFromUser($userLogin)
     {
-        $db = $this->getDb();
-        $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
-                                        . " WHERE login = ?", $userLogin);
+        $accessTable = Common::prefixTable('access');
+        $siteTable = Common::prefixTable('site');
 
+        $sql = sprintf("SELECT access.idsite, access.access 
+    FROM %s access 
+    LEFT JOIN %s site 
+    ON access.idsite=site.idsite
+     WHERE access.login = ? and site.idsite is not null", $accessTable, $siteTable);
+        $db = $this->getDb();
+        $users = $db->fetchAll($sql, $userLogin);
         $return = array();
         foreach ($users as $user) {
             $return[] = array(
@@ -156,15 +165,70 @@ class Model
                 'access' => $user['access'],
             );
         }
-
         return $return;
+    }
+
+    public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null, $idSites = null)
+    {
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
+
+        list($joins, $bind) = $siteAccessFilter->getJoins('a');
+
+        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        $bind = array_merge($bind, $whereBind);
+
+        $limitSql = '';
+        $offsetSql = '';
+        if ($limit) {
+            $limitSql = "LIMIT " . (int)$limit;
+
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
+                  FROM ' . Common::prefixTable('access') . " a
+                $joins
+                $where
+              GROUP BY s.idsite
+              ORDER BY s.name ASC, s.idsite ASC
+              $limitSql $offsetSql";
+        $db = $this->getDb();
+
+        $access = $db->fetchAll($sql, $bind);
+        foreach ($access as &$entry) {
+            $entry['access'] = explode('|', $entry['access']);
+        }
+
+        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+
+        return [$access, $count];
+    }
+
+    public function getIdSitesAccessMatching($userLogin, $filter_search = null, $filter_access = null, $idSites = null)
+    {
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $filter_search, $filter_access, $idSites);
+
+        list($joins, $bind) = $siteAccessFilter->getJoins('a');
+
+        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        $bind = array_merge($bind, $whereBind);
+
+        $sql = 'SELECT s.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
+
+        $db = $this->getDb();
+
+        $sites = $db->fetchAll($sql, $bind);
+        $sites = array_column($sites, 'idsite');
+        return $sites;
     }
 
     public function getUser($userLogin)
     {
         $db = $this->getDb();
 
-        $matchedUsers = $db->fetchAll("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->table} WHERE login = ?", $userLogin);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
         // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
@@ -199,7 +263,8 @@ class Model
             'email'            => $email,
             'token_auth'       => $tokenAuth,
             'date_registered'  => $dateRegistered,
-            'superuser_access' => 0
+            'superuser_access' => 0,
+            'ts_password_modified' => Date::now()->getDatetime(),
         );
 
         $db = $this->getDb();
@@ -213,7 +278,7 @@ class Model
         ));
     }
 
-    private function updateUserFields($userLogin, $fields)
+    public function updateUserFields($userLogin, $fields)
     {
         $set  = array();
         $bind = array();
@@ -221,6 +286,11 @@ class Model
         foreach ($fields as $key => $val) {
             $set[]  = "`$key` = ?";
             $bind[] = $val;
+        }
+
+        if (!empty($fields['password'])) {
+            $set[] = "ts_password_modified = ?";
+            $bind[] = Date::now()->getDatetime();
         }
 
         $bind[] = $userLogin;
@@ -237,7 +307,7 @@ class Model
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login, email, token_auth
+        $users = $db->fetchAll("SELECT login, email, token_auth, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
                                 ORDER BY date_registered ASC");
@@ -247,12 +317,15 @@ class Model
 
     public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
     {
-        $this->updateUserFields($userLogin, array(
-            'password'   => $hashedPassword,
+        $fields = array(
             'alias'      => $alias,
             'email'      => $email,
             'token_auth' => $tokenAuth
-        ));
+        );
+        if (!empty($hashedPassword)) {
+            $fields['password'] = $hashedPassword;
+        }
+        $this->updateUserFields($userLogin, $fields);
     }
 
     public function updateUserTokenAuth($userLogin, $tokenAuth)
@@ -278,19 +351,31 @@ class Model
         return $count != 0;
     }
 
+    public function removeUserAccess($userLogin, $access, $idSites)
+    {
+        $db = $this->getDb();
+
+        $table = Common::prefixTable("access");
+
+        foreach ($idSites as $idsite) {
+            $bind = array($userLogin, $idsite, $access);
+            $db->query("DELETE FROM " . $table . " WHERE login = ? and idsite = ? and access = ?", $bind);
+        }
+    }
+
     public function addUserAccess($userLogin, $access, $idSites)
     {
         $db = $this->getDb();
 
+        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
         foreach ($idSites as $idsite) {
-            $db->insert(Common::prefixTable("access"),
-                array("idsite" => $idsite,
-                      "login"  => $userLogin,
-                      "access" => $access)
-            );
+            $db->query($insertSql, [$idsite, $userLogin, $access]);
         }
     }
 
+    /**
+     * @param string $userLogin
+     */
     public function deleteUserOnly($userLogin)
     {
         $db = $this->getDb();
@@ -302,25 +387,23 @@ class Model
          * This event should be used to clean up any data that is related to the now deleted user.
          * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
          *
-         * @param string $userLogin The login handle of the deleted user.
+         * @param string $userLogins The login handle of the deleted user.
          */
         Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
 
+    /**
+     * @param string $userLogin
+     */
     public function deleteUserAccess($userLogin, $idSites = null)
     {
         $db = $this->getDb();
 
         if (is_null($idSites)) {
-            $db->query("DELETE FROM " . Common::prefixTable("access") .
-                " WHERE login = ?",
-                array($userLogin));
+            $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login = ?", $userLogin);
         } else {
             foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") .
-                    " WHERE idsite = ? AND login = ?",
-                    array($idsite, $userLogin)
-                );
+                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?", [$idsite, $userLogin]);
             }
         }
     }
@@ -328,6 +411,95 @@ class Model
     private function getDb()
     {
         return Db::get();
+    }
+
+    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null, $logins = null)
+    {
+        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
+
+        list($joins, $bind) = $filter->getJoins('u');
+        list($where, $whereBind) = $filter->getWhere();
+
+        $bind = array_merge($bind, $whereBind);
+
+        $sql = 'SELECT u.login FROM ' . $this->table . " u $joins $where";
+
+        $db = $this->getDb();
+
+        $result = $db->fetchAll($sql, $bind);
+        $result = array_column($result, 'login');
+        return $result;
+    }
+
+    /**
+     * Returns all users and their access to `$idSite`.
+     *
+     * @param int $idSite
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $pattern text to search for if any
+     * @param string|null $access 'noaccess','some','view','admin' or 'superuser'
+     * @param string[]|null $logins the logins to limit the search to (if any)
+     * @return array
+     */
+    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null, $logins = null)
+    {
+        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
+
+        list($joins, $bind) = $filter->getJoins('u');
+        list($where, $whereBind) = $filter->getWhere();
+
+        $bind = array_merge($bind, $whereBind);
+
+        $limitSql = '';
+        $offsetSql = '';
+        if ($limit) {
+            $limitSql = "LIMIT " . (int)$limit;
+
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
+                  FROM ' . $this->table . " u
+                $joins
+                $where
+              GROUP BY u.login
+              ORDER BY u.login ASC
+                 $limitSql $offsetSql";
+
+        $db = $this->getDb();
+
+        $users = $db->fetchAll($sql, $bind);
+        foreach ($users as &$user) {
+            $user['access'] = explode('|', $user['access']);
+        }
+
+        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+
+        return [$users, $count];
+    }
+
+    public function getSiteAccessCount($userLogin)
+    {
+        $sql = "SELECT COUNT(*) FROM " . Common::prefixTable('access') . " WHERE login = ?";
+        $bind = [$userLogin];
+
+        $db = $this->getDb();
+        return $db->fetchOne($sql, $bind);
+    }
+
+    public function getUsersWithAccessToSites($idSites)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
+            . implode(',', $idSites) . ')';
+
+        $logins = \Piwik\Db::fetchAll($loginSql);
+        $logins = array_column($logins, 'login');
+        return $logins;
     }
 
 }

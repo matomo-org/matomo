@@ -17,7 +17,7 @@ return array(
         return $config;
     }),
 
-    'observers.global' => \DI\add(array(
+    'observers.global' => \DI\add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
@@ -32,10 +32,8 @@ return array(
             }
 
             $controllerActionblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.controller');
-            if (!empty($request['module'])
-                && !empty($request['action'])
-            ) {
-                $controllerAction = $request['module'] . '.' . $request['action'];
+            if (!empty($request['module'])) {
+                $controllerAction = $request['module'] . '.' . (isset($request['action']) ? $request['action'] : 'index');
                 if (in_array($controllerAction, $controllerActionblacklist)) {
                     return;
                 }
@@ -57,6 +55,8 @@ return array(
         array('Controller.RssWidget.rssPiwik.end', function (&$result, $parameters) {
             $result = "";
         }),
-    )),
+
+        \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
+    ]),
 
 );

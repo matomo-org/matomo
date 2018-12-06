@@ -15,12 +15,16 @@
         piwik.broadcast = broadcast;
         piwik.updatePeriodParamsFromUrl = updatePeriodParamsFromUrl;
         piwik.updateDateInTitle = updateDateInTitle;
+        piwik.hasUserCapability = hasUserCapability;
         return piwik;
 
-        function updatePeriodParamsFromUrl() {
-            var date = piwik.broadcast.getValueFromHash('date');
-            var period = piwik.broadcast.getValueFromHash('period');
+        function hasUserCapability(capability) {
+            return angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
+        }
 
+        function updatePeriodParamsFromUrl() {
+            var date = piwik.broadcast.getValueFromHash('date') || piwik.broadcast.getValueFromUrl('date');
+            var period = piwik.broadcast.getValueFromHash('period') || piwik.broadcast.getValueFromUrl('period');
             if (!isValidPeriod(period, date)) {
                 // invalid data in URL
                 return;
@@ -39,22 +43,13 @@
 
             updateDateInTitle(date, period);
 
-            // do not set anything to previous7/last7, as piwik frontend code does not
-            // expect those values.
+            // do not set anything to previousN/lastN, as it's more useful to plugins
+            // to have the dates than previousN/lastN.
             if (piwik.period === 'range') {
                 date = piwik.startDateString + ',' + piwik.endDateString;
             }
 
-            if (date && date.indexOf(',') > -1) {
-                var dateParts = date.split(',');
-                if (dateParts[1]) {
-                    piwik.currentDateString = dateParts[1];
-                } else if (dateParts[0]) {
-                    piwik.currentDateString = dateParts[0];
-                }
-            } else {
-                piwik.currentDateString = date;
-            }
+            piwik.currentDateString = date;
         }
 
         function isValidPeriod(periodStr, dateStr) {
@@ -67,12 +62,17 @@
         }
 
         function updateDateInTitle( date, period ) {
+            if (!$('.top_controls #periodString').length) {
+                return;
+            }
+
             // Cache server-rendered page title
             originalTitle = originalTitle || document.title;
-            var titleParts = originalTitle.split('-');
-            var dateString = ' ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
-            titleParts.splice(1, 0, dateString);
-            document.title = titleParts.join('-');
+
+            if (0 === originalTitle.indexOf(piwik.siteName)) {
+                var dateString = ' - ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
+                document.title = piwik.siteName + dateString + originalTitle.substr(piwik.siteName.length);
+            }
         }
     }
 

@@ -58,7 +58,7 @@ class Auth implements \Piwik\Auth
         } elseif (is_null($this->login)) {
             return $this->authenticateWithToken($this->token_auth);
         } elseif (!empty($this->login)) {
-            return $this->authenticateWithTokenOrHashToken($this->token_auth, $this->login);
+            return $this->authenticateWithLoginAndToken($this->token_auth, $this->login);
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
@@ -96,7 +96,7 @@ class Auth implements \Piwik\Auth
         return new AuthResult(AuthResult::FAILURE, null, $token);
     }
 
-    private function authenticateWithTokenOrHashToken($token, $login)
+    private function authenticateWithLoginAndToken($token, $login)
     {
         $user = $this->userModel->getUser($login);
 
@@ -191,5 +191,11 @@ class Auth implements \Piwik\Auth
         UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
 
         $this->hashedPassword = $passwordHash;
+    }
+
+    // for tests
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 }

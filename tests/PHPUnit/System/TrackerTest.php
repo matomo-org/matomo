@@ -224,7 +224,7 @@ class TrackerTest extends IntegrationTestCase
 
     protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed)
     {
-        $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php';
+        $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php';
 
         $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
 
@@ -251,7 +251,7 @@ class TrackerTest extends IntegrationTestCase
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php' . $url);
+        curl_setopt($ch, CURLOPT_URL, Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php' . $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -392,7 +392,8 @@ class TrackerTest extends IntegrationTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 

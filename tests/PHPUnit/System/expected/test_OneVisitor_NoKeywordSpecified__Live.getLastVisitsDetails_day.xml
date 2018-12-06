@@ -16,6 +16,8 @@
 				<pageId>2</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -58,6 +60,8 @@
 		<referrerUrl>http://www.google.com.vn/url?sa=t&amp;rct=j&amp;q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&amp;source=web&amp;cd=4&amp;ved=0FjAD&amp;url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&amp;ei=y-HHAQ&amp;usg=AFQjCN2-nt5_GgDeg&amp;cad=rja</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
@@ -134,6 +138,8 @@
 				<timeSpent>1084</timeSpent>
 				<timeSpentPretty>18 min 4s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title! (Page URL contains a HTML entity)</title>
+				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -147,6 +153,8 @@
 				
 				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Conversion de l'objectif</title>
+				<subtitle>triggered js ($US 42 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -187,6 +195,8 @@
 		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CC&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=&amp;usg=</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>

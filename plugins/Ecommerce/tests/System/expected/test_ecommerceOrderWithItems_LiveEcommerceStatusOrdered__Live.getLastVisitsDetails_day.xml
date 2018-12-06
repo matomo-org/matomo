@@ -26,6 +26,8 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<title>Ordered (666)</title>
+				<subtitle>$ 240 revenue - 2 items: TRIPOD - bought day after)</subtitle>
 				
 			</row>
 			<row>
@@ -41,6 +43,8 @@
 				<itemDetails>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<title>Ordered (777)</title>
+				<subtitle>$ 10000 revenue - 0 items: )</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -81,6 +85,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>
@@ -169,6 +175,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -203,6 +211,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -237,6 +247,8 @@
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
 				<interactionPosition>3</interactionPosition>
+				<title>View product left in cart</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -284,6 +296,8 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<title>Abandoned Cart</title>
+				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -324,6 +338,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>

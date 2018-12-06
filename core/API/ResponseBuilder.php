@@ -28,16 +28,18 @@ class ResponseBuilder
 
     private $apiModule = false;
     private $apiMethod = false;
+    private $shouldPrintBacktrace = false;
 
     /**
      * @param string $outputFormat
      * @param array $request
      */
-    public function __construct($outputFormat, $request = array())
+    public function __construct($outputFormat, $request = array(), $shouldPrintBacktrace = null)
     {
         $this->outputFormat = $outputFormat;
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
+        $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? \Piwik_ShouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
     }
 
     public function disableSendHeader()
@@ -145,7 +147,7 @@ class ResponseBuilder
     {
         // If we are in tests, show full backtrace
         if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+            if ($this->shouldPrintBacktrace) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
                 $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";
@@ -163,10 +165,19 @@ class ResponseBuilder
      */
     private function formatExceptionMessage($exception)
     {
-        $message = $exception->getMessage();
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $message .= "\n" . $exception->getTraceAsString();
-        }
+        $message = "";
+
+        $e = $exception;
+        do {
+            if ($e !== $exception) {
+                $message .= ",\ncaused by: ";
+            }
+
+            $message .= $e->getMessage();
+            if ($this->shouldPrintBacktrace) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+        } while ($e = $e->getPrevious());
 
         return Renderer::formatValueXml($message);
     }

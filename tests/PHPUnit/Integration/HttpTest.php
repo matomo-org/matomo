@@ -35,8 +35,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'piwik.js', 30);
-        $this->assertTrue(strpos($result, 'Piwik') !== false);
+        $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'matomo.js', 30);
+        $this->assertTrue(strpos($result, 'Matomo') !== false);
     }
 
     public function testFetchApiLatestVersion()
@@ -73,7 +73,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $result = Http::sendHttpRequestBy(
             $method,
-            Fixture::getRootUrl() . '/piwik.js',
+            Fixture::getRootUrl() . '/matomo.js',
             30,
             $userAgent = null,
             $destinationPath = null,

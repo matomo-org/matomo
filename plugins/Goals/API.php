@@ -23,6 +23,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -54,6 +55,7 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
+    const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
      * Return a single goal.
@@ -84,6 +86,9 @@ class API extends \Piwik\Plugin\API
         $cacheId = self::getCacheId($idSite);
         $cache = $this->getGoalsInfoStaticCache();
         if (!$cache->contains($cacheId)) {
+            // note: the reason this is secure is because the above cache is a static cache and cleared after each request
+            // if we were to use a different cache that persists the result, this would not be secure because when a
+            // result is in the cache, it would just return the result
             $idSite = Site::getIdSitesFromIdSitesString($idSite);
 
             if (empty($idSite)) {
@@ -131,9 +136,10 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return int ID of the new goal
      */
-    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                            $useEventValueAsRevenue = false)
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
@@ -153,6 +159,7 @@ class API extends \Piwik\Plugin\API
             'allow_multiple'  => (int)$allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
             'deleted'         => 0,
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
         );
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
@@ -185,9 +192,10 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return void
      */
-    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                               $useEventValueAsRevenue = false)
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
@@ -197,7 +205,7 @@ class API extends \Piwik\Plugin\API
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
-        $this->getModel()->updateGoal($idSite, $idGoal, array(
+        $goal = array(
             'name'            => $name,
             'description'     => $description,
             'match_attribute' => $matchAttribute,
@@ -206,11 +214,23 @@ class API extends \Piwik\Plugin\API
             'case_sensitive'  => (int) $caseSensitive,
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
-        ));
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
+        );
+
+        $this->checkEventValueAsRevenue($goal);
+
+        $this->getModel()->updateGoal($idSite, $idGoal, $goal);
 
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
+    }
+
+    private function checkEventValueAsRevenue($goal)
+    {
+        if ($goal['event_value_as_revenue'] && !GoalManager::isEventMatchingGoal($goal)) {
+            throw new \Exception("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+        }
     }
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
@@ -268,7 +288,7 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteGoal($idSite, $idGoal)
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);
@@ -410,7 +430,7 @@ class API extends \Piwik\Plugin\API
 
         $segments = array(
             '' => false,
-            '_new_visit' => 'visitorType%3D%3Dnew', // visitorType==new
+            '_new_visit' => self::NEW_VISIT_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
 
@@ -425,7 +445,7 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
-                'format_metrics' => 'bc'
+                'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
             ));
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
@@ -518,18 +538,7 @@ class API extends \Piwik\Plugin\API
 
     protected function appendSegment($segment, $segmentToAppend)
     {
-        if (empty($segment)) {
-            return $segmentToAppend;
-        }
-
-        if (empty($segmentToAppend)) {
-            return $segment;
-        }
-
-        $segment .= urlencode(SegmentExpression::AND_DELIMITER);
-        $segment .= $segmentToAppend;
-
-        return $segment;
+        return Segment::combine($segment, SegmentExpression::AND_DELIMITER, $segmentToAppend);
     }
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)

@@ -25,6 +25,7 @@
         "ExcludeRowsWithLowPopulation": "Po shfaqen krejt rreshtat %s Përjashtoni popullatat e ulëta",
         "ExternalHelp": "Ndihmë (hapet në skedë të re)",
         "FlattenDataTable": "Raporti është hierarkik %s Bëjeni të sheshtë",
+        "FormatMetrics": "Statistika formatesh",
         "ShowExportUrl": "Shfaq URL Eksportimi",
         "HideExportUrl": "Fshihe URL-në e Eksportimit",
         "HomeShortcut": "Kreu",
@@ -100,6 +101,7 @@
         "ExpandSubtables": "Zgjeroji nëntabelat",
         "StandardReport": "Raport standard",
         "FlattenReport": "Raport i sheshtë",
-        "ReportWithMetadata": "Raport me tejtëdhëna"
+        "ReportWithMetadata": "Raport me tejtëdhëna",
+        "SeeAvailableVersions": "Shihni Versione të Gatshëm"
     }
 }

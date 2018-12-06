@@ -20,6 +20,8 @@
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Ads</title>
+				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -39,6 +41,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - Unknown</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -57,6 +62,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -75,6 +83,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -93,6 +104,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -111,6 +125,9 @@
 				<contentInteraction>submit</contentInteraction>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (submit)</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -129,6 +146,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -147,6 +167,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -165,6 +188,9 @@
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -183,6 +209,9 @@
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -201,6 +230,9 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -219,6 +251,30 @@
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.com/de/suche?q=foo</url>
+				<pageTitle />
+				<pageIdAction>18</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>13</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -260,6 +316,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -331,32 +389,16 @@
 				<pageIdAction>2</pageIdAction>
 				
 				
-				<pageId>13</pageId>
+				<pageId>14</pageId>
 				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Ads</title>
+				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>0</timeSpentRef>
-				<pageId>14</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>Unknown</contentPiece>
-				<contentTarget />
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -370,29 +412,14 @@
 				<timeSpentRef>0</timeSpentRef>
 				<pageId>15</pageId>
 				<contentName>ImageAd</contentName>
-				<contentPiece />
+				<contentPiece>Unknown</contentPiece>
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>120</timeSpentRef>
-				<pageId>16</pageId>
-				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad.jpg</contentPiece>
-				<contentTarget>http://www.example.com</contentTarget>
-				<contentInteraction />
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - Unknown</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -404,13 +431,37 @@
 				
 				
 				<timeSpentRef>0</timeSpentRef>
+				<pageId>16</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>120</timeSpentRef>
 				<pageId>17</pageId>
 				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad2.jpg</contentPiece>
+				<contentPiece>/path/ad.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -424,29 +475,14 @@
 				<timeSpentRef>0</timeSpentRef>
 				<pageId>18</pageId>
 				<contentName>ImageAd</contentName>
-				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentPiece>/path/ad2.jpg</contentPiece>
 				<contentTarget>http://www.example.com</contentTarget>
-				<contentInteraction>submit</contentInteraction>
-				<bandwidth />
-				<interactionPosition>1</interactionPosition>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-			<row>
-				<type>13</type>
-				<url>http://www.example.org/page</url>
-				<pageTitle />
-				<pageIdAction>3</pageIdAction>
-				
-				
-				<timeSpentRef>60</timeSpentRef>
-				<pageId>19</pageId>
-				<contentName>Text Ad</contentName>
-				<contentPiece>Click to download Piwik now</contentPiece>
-				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -458,13 +494,37 @@
 				
 				
 				<timeSpentRef>0</timeSpentRef>
+				<pageId>19</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (submit)</title>
+				<subtitle>ImageAd - /path/ad.jpg</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
 				<pageId>20</pageId>
 				<contentName>Text Ad</contentName>
-				<contentPiece>Click NOW</contentPiece>
-				<contentTarget>http://piwik.org/</contentTarget>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -478,11 +538,14 @@
 				<timeSpentRef>0</timeSpentRef>
 				<pageId>21</pageId>
 				<contentName>Text Ad</contentName>
-				<contentPiece>Click to download Piwik now</contentPiece>
-				<contentTarget>http://piwik.org/download</contentTarget>
-				<contentInteraction>click</contentInteraction>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -496,11 +559,35 @@
 				<timeSpentRef>0</timeSpentRef>
 				<pageId>22</pageId>
 				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>23</pageId>
+				<contentName>Text Ad</contentName>
 				<contentPiece>Click NOW</contentPiece>
 				<contentTarget>http://piwik.org/download</contentTarget>
 				<contentInteraction>click</contentInteraction>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<title>Content Interaction (click)</title>
+				<subtitle>Text Ad - Click NOW</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -512,13 +599,16 @@
 				
 				
 				<timeSpentRef>60</timeSpentRef>
-				<pageId>23</pageId>
+				<pageId>24</pageId>
 				<contentName>Text Ad</contentName>
 				<contentPiece>Click to download Piwik now</contentPiece>
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -530,13 +620,37 @@
 				
 				
 				<timeSpentRef>30</timeSpentRef>
-				<pageId>24</pageId>
+				<pageId>25</pageId>
 				<contentName>Video Ad</contentName>
 				<contentPiece>movie.mov</contentPiece>
 				<contentTarget />
 				<contentInteraction />
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.com/de/suche?q=foo</url>
+				<pageTitle />
+				<pageIdAction>18</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>26</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<title>Content Impression</title>
+				<subtitle>Video Ad - movie.mov</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -578,6 +692,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>

@@ -15,6 +15,7 @@ use Piwik\Archiver\Request;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
+use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\RawLogDao;
@@ -258,6 +259,11 @@ class CronArchive
     private $invalidator;
 
     /**
+     * @var bool
+     */
+    private $isArchiveProfilingEnabled = false;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -285,6 +291,8 @@ class CronArchive
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+
+        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
     }
 
     private function isMaintenanceModeEnabled()
@@ -385,6 +393,9 @@ class CronArchive
             foreach ($processes as $process) {
                 if (strpos($process, 'console core:archive') !== false &&
                     (!$instanceId
+                      || strpos($process, '--matomo-domain=' . $instanceId) !== false
+                      || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
                       || strpos($process, '--piwik-domain=' . $instanceId) !== false
                       || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
                       || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
@@ -853,7 +864,7 @@ class CronArchive
         }
 
         $content = $this->request($url);
-        $daysResponse = @unserialize($content);
+        $daysResponse = Common::safe_unserialize($content);
 
         if (empty($content)
             || !is_array($daysResponse)
@@ -969,20 +980,19 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
 
-            $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
-            if ($periodInProgress) {
-                $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
+            if ($this->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
                 $success = false;
                 return $success;
             }
 
-            if ($cliMulti->isCommandAlreadyRunning($url)) {
-                $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
-                $success = false;
-                return $success;
-            }
-
-            $urls[] = $url;
+            $self = $this;
+            $request = new Request($url);
+            $request->before(function () use ($self, $url, $idSite, $period, $date) {
+                if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
+                     return Request::ABORT;
+                }
+            });
+            $urls[] = $request;
             $this->logArchiveWebsite($idSite, $period, $date);
         }
 
@@ -998,15 +1008,14 @@ class CronArchive
 
         $this->requests += count($urls);
 
-        $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $response = $cliMulti->request($urls);
 
         foreach ($urls as $index => $url) {
             $content = array_key_exists($index, $response) ? $response[$index] : null;
             $success = $success && $this->checkResponse($content, $url);
 
-            if ($noSegmentUrl === $url && $success) {
-                $stats = @unserialize($content);
+            if ($noSegmentUrl == $url && $success) {
+                $stats = Common::safe_unserialize($content);
 
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
@@ -1762,8 +1771,6 @@ class CronArchive
             $segments[] = $segment;
         }
 
-        $cliMulti = $this->makeCliMulti();
-
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
 
@@ -1773,20 +1780,19 @@ class CronArchive
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
 
-            $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
-            if ($periodInProgress) {
-                $this->logger->info("- skipping segment archiving for period '{period}' with segment '{segment}' because processing the period '{periodcheck}' is already in progress.", array('segment' => $segment, 'period' => $period, 'periodcheck' => $periodInProgress));
-                continue;
-            }
-
-            if ($cliMulti->isCommandAlreadyRunning($urlWithSegment)) {
-                $this->logger->info("- skipping segment archiving for '{segment}' because such a process is already in progress.", array('segment' => $segment));
+            if ($this->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
                 continue;
             }
 
             $request = new Request($urlWithSegment);
             $logger = $this->logger;
-            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount) {
+            $self = $this;
+            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount, $idSite, $period, $urlWithSegment, $self) {
+
+                if ($self->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
+                    return Request::ABORT;
+                }
+
                 $processedSegmentCount++;
                 $logger->info(sprintf(
                     '- pre-processing segment %d/%d %s',
@@ -1859,6 +1865,48 @@ class CronArchive
         $this->logger->info('- pre-processing all visits');
     }
 
+    public function isAlreadyArchivingUrl($url, $idSite, $period, $date)
+    {
+        $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
+        if ($periodInProgress) {
+            $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
+            return true;
+        }
+
+        $cliMulti = $this->makeCliMulti();
+        if ($cliMulti->isCommandAlreadyRunning($url)) {
+            $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
+            return true;
+        }
+        return false;
+    }
+
+    public function isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)
+    {
+        // we can check for this or lower period only when the below condition is given. Otherwise the archiver might launch
+        // the following requests at once:
+        // - week
+        // - week segment1
+        // - week segment2
+        // and it would always skip archiving the segments cause the week was launched first and would be running when
+        // it starts them all 3 "at the same time".
+        $isProcessingOne = $this->concurrentRequestsPerWebsite == 1;
+
+        $periodInProgress = $isProcessingOne && $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
+        if ($periodInProgress) {
+            $this->logger->info("- skipping segment archiving for period '{period}' with segment '{segment}' because processing the period '{periodcheck}' is already in progress.", array('segment' => $segment, 'period' => $period, 'periodcheck' => $periodInProgress));
+            return true;
+        }
+
+        $cliMulti = $this->makeCliMulti();
+        if ($cliMulti->isCommandAlreadyRunning($urlWithSegment)) {
+            $this->logger->info("- skipping segment archiving for '{segment}' because such a process is already in progress.", array('segment' => $segment));
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @param $idSite
      * @param $period
@@ -1900,16 +1948,40 @@ class CronArchive
      */
     private function makeCliMulti()
     {
-        $cliMulti = StaticContainer::get('Piwik\CliMulti');
+        /** @var CliMulti $cliMulti */
+        $cliMulti = StaticContainer::getContainer()->make('Piwik\CliMulti');
         $cliMulti->setUrlToPiwik($this->urlToPiwik);
         $cliMulti->setPhpCliConfigurationOptions($this->phpCliConfigurationOptions);
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
+        $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $cliMulti->runAsSuperUser();
+        $cliMulti->onProcessFinish(function ($pid) {
+            $this->printPerformanceStatsForProcess($pid);
+        });
         return $cliMulti;
     }
 
     public function setUrlToPiwik($url)
     {
         $this->urlToPiwik = $url;
+    }
+
+    private function printPerformanceStatsForProcess($childPid)
+    {
+        if (!$this->isArchiveProfilingEnabled) {
+            return;
+        }
+
+        $data = Logger::getMeasurementsFor(getmypid(), $childPid);
+        if (empty($data)) {
+            return;
+        }
+
+        $message = "";
+        foreach ($data as $request => $measurements) {
+            $message .= "PERFORMANCE FOR " . $request . "\n  ";
+            $message .= implode("\n  ", $measurements) . "\n";
+        }
+        $this->logger->info($message);
     }
 }

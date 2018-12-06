@@ -46,6 +46,11 @@ class Parameters
     private $onlyArchiveRequestedPlugin = false;
 
     /**
+     * @var bool
+     */
+    private $isRootArchiveRequest = true;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -206,7 +211,7 @@ class Parameters
     {
         $period = $this->getPeriod();
         $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
-        $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
+        $oneDay = $secondsInPeriod < Date::NUM_SECONDS_IN_DAY;
 
         return $oneDay;
     }
@@ -232,5 +237,28 @@ class Parameters
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
         );
+    }
+
+    /**
+     * Returns `true` if these parameters are part of an initial archiving request.
+     * Returns `false` if these parameters are for an archiving request that was initiated
+     * during archiving.
+     *
+     * @return bool
+     */
+    public function isRootArchiveRequest()
+    {
+        return $this->isRootArchiveRequest;
+    }
+
+    /**
+     * Sets whether these parameters are part of the initial archiving request or if they are
+     * for a request that was initiated during archiving.
+     *
+     * @param $isRootArchiveRequest
+     */
+    public function setIsRootArchiveRequest($isRootArchiveRequest)
+    {
+        $this->isRootArchiveRequest = $isRootArchiveRequest;
     }
 }

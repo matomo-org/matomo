@@ -40,7 +40,7 @@
     {% for report in reports %}
         <tr>
             <td class="first">
-                {{ report.description | raw }}
+                {{ report.description|rawSafeDecoded }}
                 {% if segmentEditorActivated and report.idsegment %}
                     <div class="entityInlineHelp" style="font-size: 9pt;">
                         {{ savedSegmentsById[report.idsegment] }}
@@ -80,7 +80,7 @@
                             'outputType':downloadOutputType, 'language':language,
                             'format': (report.format in ['html', 'csv']) ? report.format : false
                        }) }}"
-                   rel="noreferrer"  target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
+                   rel="noreferrer noopener" target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0" width="16px" height="16px"/>
                     {{ 'General_Download'|translate }}
                 </a>

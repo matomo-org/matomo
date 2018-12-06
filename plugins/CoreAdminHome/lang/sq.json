@@ -7,6 +7,8 @@
         "ReleaseChannel": "Kanal hedhjesh në qarkullim",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
         "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\".",
+        "CorsDomains": "Përkatësi Cross-Origin Resource Sharing (CORS)",
+        "CorsDomainsHelp": "Mund të përkufizoni përkatësi ose nënpërkatësi të tilla si http:\/\/shembull.com ose http:\/\/stats.shembull.com. Ose, që të lejoni kërkesa <em>cross domain<\/em> për krejt përkatësitë, thjesht shtoni *",
         "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Matomo-s, mund t’ju interesonte edhe fshehja lidhjes %1$s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %2$sAdministrimit të Shtojcave%3$s.",
         "CustomLogoHelpText": "Logon e Matomo-s, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email, mund ta personalizoni.",
         "DevelopmentProcess": "Edhe pse %1$sprocesi ynë i zhvillimit%2$s përfshin mijëra prova të automatizuara, Testuesit Beta luajnë një rol kyç në arritjen e \"No bug policy\" te Matomo.",
@@ -96,12 +98,16 @@
         "UseCustomLogo": "Përdorni një logo vetjake",
         "ValidPiwikHostname": "Strehëemër e Vlefshme Matomo",
         "WithOptionalRevenue": "me të ardhura opsionale",
-        "YouAreOptedIn": "Tani jeni nën \"opt-in\"",
         "YouAreOptedOut": "Tani jeni nën \"opt-out\"",
+        "YouAreNotOptedOut": "Nuk keni zgjedhur lënien jashtë.",
         "YouMayOptOut": "Mundet edhe të zgjidhni të mos ju përshoqërohet një numër unik identifikimi \"cookie\" analizash web për kompjuterin tuaj, për të shmangur mbledhjen dhe analizimin e të dhënave të mbledhura në këtë sajt.",
         "YouMayOptOutBis": "Për ta bërë këtë zgjedhje, ju lutem klikoni më poshtë që të merrni një \"cookie\" \"opt-out\".",
         "OptingYouOut": "Po liheni jashtë kësaj, ju lutemi, pritni…",
         "ProtocolNotDetectedCorrectly": "Jeni duke e parë Matomo-n përmes një lidhjeje të sigurt SSL (po përdorni https), por Matomo mund të zbulojë vetëm një lidhje jo të sigurt me shërbyesin.",
-        "ProtocolNotDetectedCorrectlySolution": "Që ta bëni Matomo-n të kërkojë dhe shërbejë lëndën tuaj përmes HTTPS-je, mund të përpunoni kartelën tuaj %1$s dhe ose të formësoni rregullime ndërmjetësi, ose mund të shtoni rreshtin %2$s nën ndarjen %3$s. %4$sMësoni më tepër%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Që ta bëni Matomo-n të kërkojë dhe shërbejë lëndën tuaj përmes HTTPS-je, mund të përpunoni kartelën tuaj %1$s dhe ose të formësoni rregullime ndërmjetësi, ose mund të shtoni rreshtin %2$s nën ndarjen %3$s. %4$sMësoni më tepër%5$s",
+        "MissingTrackingCodeEmailSubject": "S’ka regjistrim trafiku në Matomo Analytics for %s, fillojani tani",
+        "JsTrackingCodeMissingEmail1": "Ca ditë më parë shtuat sajtin '%s' te Matomo Analytics i juaj. Sapo kontrolluam dhe Matomo-ja juaj s’duket të ketë të regjistruar trafik për këtë sajt.",
+        "JsTrackingCodeMissingEmail2": "Që të fillohet të ndiqen të dhëna dhe të merret ide mbi prirjet e përdoruesve tuaj, lypset të rregulloni ndjekjen në sajtin tuaj ose në aplikacionin për celular. Për sajte, thjesht trupëzoni në ta kodin e gjurmimit mu para etiketës %s.",
+        "JsTrackingCodeMissingEmail3": "Që të gjeni dhe përshtatni kodin tuaj të ndjekjeve, %1$sklikoni këtu%2$s (ose hidhini një sy %3$sudhërrëfyesit për Klient JavaScript Ndjekjesh%4$s)."
     }
 }

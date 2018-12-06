@@ -2,7 +2,7 @@
 
     <div ng-repeat="settings in pluginSettings.settingsPerPlugin"
          class="card"
-          id="pluginSettings">
+          id="{{ settings.pluginName }}PluginSettings">
 
         <div class="card-content">
             <h2 id="{{ settings.pluginName }}" class="card-title">{{ settings.title }}</h2>

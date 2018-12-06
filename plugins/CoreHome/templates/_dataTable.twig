@@ -41,7 +41,7 @@
     {% endif %}
 
     <div class="reportDocumentation">
-        {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
+        {% if properties.documentation|default is not empty %}<p ng-bind-html="{{ properties.documentation|json_encode|e('html_attr') }}"></p>{% endif %}
         {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
 
@@ -75,6 +75,14 @@
         {% endif %}
     </div>
 </div>
+
+{% if notifications is not empty and notifications|length %}
+    {% for notificationId, n in notifications %}
+
+        {{ n.message|notification({'id': notificationId, 'type': n.type, 'title': n.title, 'noclear': n.hasNoClear, 'context': n.context, 'raw': n.raw}, false) }}
+
+    {% endfor %}
+{% endif %}
 
 {% if showCardTableIsEmpty %}
     </div></div>

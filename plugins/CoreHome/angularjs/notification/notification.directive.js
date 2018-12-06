@@ -37,13 +37,16 @@
                                               //       HTML of the node that uses the directive.
                 context: '@?',
                 type: '@?',
-                noclear: '@?'
+                noclear: '@?',
+                toastLength: '@?'
             },
             transclude: true,
             templateUrl: 'plugins/CoreHome/angularjs/notification/notification.directive.html?cb=' + piwik.cacheBuster,
             controller: 'NotificationController',
             controllerAs: 'notification',
             link: function (scope, element) {
+                scope.toastLength = scope.toastLength || 12 * 1000;
+
                 if (scope.notificationId) {
                     closeExistingNotificationHavingSameIdIfNeeded(scope.notificationId, element);
                 }
@@ -70,7 +73,7 @@
                         element.fadeOut('slow', function() {
                             element.remove();
                         });
-                    }, 12 * 1000);
+                    }, scope.toastLength);
                 }
 
                 function addCloseEvent() {

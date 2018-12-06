@@ -59,6 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getEvolutionGraph()
     {
+        $this->checkSitePermission();
         $columns = Common::getRequestVar('columns', false);
         if (false !== $columns) {
             $columns = Piwik::getArrayFromApiParameter($columns);
@@ -77,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
             . $this->translator->translate('General_ColumnNbActionsDocumentation') . '<br />'
 
             . '<b>' . $this->translator->translate('General_ColumnNbUsers') . ':</b> '
-            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer"  target="_blank" href="https://matomo.org/docs/user-id/">User ID</a>)<br />'
+            . $this->translator->translate('General_ColumnNbUsersDocumentation') . ' (<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/user-id/">User ID</a>)<br />'
 
             . '<b>' . $this->translator->translate('General_ColumnActionsPerVisit') . ':</b> '
             . $this->translator->translate('General_ColumnActionsPerVisitDocumentation');
@@ -102,8 +103,7 @@ class Controller extends \Piwik\Plugin\Controller
             'avg_time_generation'
         );
 
-        $idSite = Common::getRequestVar('idSite');
-        $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
+        $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
 
         if ($displaySiteSearch) {
             $selectableColumns[] = 'nb_searches';

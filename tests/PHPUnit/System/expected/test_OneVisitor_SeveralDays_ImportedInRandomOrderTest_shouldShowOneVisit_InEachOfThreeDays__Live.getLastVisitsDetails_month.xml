@@ -15,6 +15,8 @@
 				<pageId>1</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
 				<timestamp>1365328800</timestamp>
 				<customVariables>
@@ -63,6 +65,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -123,6 +127,8 @@
 				<pageId>2</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
 				<timestamp>1365246000</timestamp>
 				<customVariables>
@@ -171,6 +177,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -231,6 +239,8 @@
 				<pageId>3</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
 				<timestamp>1365163200</timestamp>
 				<customVariables>
@@ -279,6 +289,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>

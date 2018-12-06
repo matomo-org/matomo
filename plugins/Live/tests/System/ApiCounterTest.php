@@ -159,7 +159,7 @@ class ApiCounterTest extends SystemTestCase
             $t->doTrackGoal(2);
         }
 
-        $t->doBulkTrack();
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
     private function buildCounter($visits, $actions, $visitors, $visitsConverted)

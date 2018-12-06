@@ -37,7 +37,7 @@
             </div>
             <div class="col s12 m6">
                 <div piwik-alert="info" ng-show="manageGoals.goal.triggerType == 'manually'">
-                    {{ 'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/javascript-tracking/%23toc-manually-trigger-a-conversion-for-a-goal'>","</a>")|raw }}
+                    {{ 'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/tracking-javascript-guide#manually-trigger-goal-conversions'>","</a>")|raw }}
                 </div>
 
                 <div piwik-field uicontrol="radio" name="match_attribute"
@@ -120,6 +120,7 @@
             </div>
         </div>
 
+
         <div piwik-field uicontrol="checkbox" name="case_sensitive"
              ng-model="manageGoals.goal.caseSensitive"
              ng-show="manageGoals.goal.triggerType != 'manually'"
@@ -133,10 +134,20 @@
              inline-help="{{ 'Goals_HelpOneConversionPerVisit'|translate|e('html_attr') }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="revenue"
+        <h3>{{ 'Goals_GoalRevenue'|translate }} {{ 'Goals_Optional'|translate }}</h3>
+
+        <div piwik-field uicontrol="number" name="revenue"
              ng-model="manageGoals.goal.revenue"
-             introduction="{{ 'Goals_DefaultRevenue'|translate }} {{ 'Goals_Optional'|translate }}"
+             placeholder="{{ 'Goals_DefaultRevenueLabel'|translate }}"
              inline-help="{{ 'Goals_DefaultRevenueHelp'|translate|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="use_event_value"
+             ng-model="manageGoals.goal.useEventValueAsRevenue"
+             title="{{ 'Goals_UseEventValueAsRevenue'|translate|e('html_attr') }}"
+             ng-show="manageGoals.goal.matchAttribute == 'event'"
+             inline-help="{{ 'Goals_EventValueAsRevenueHelp'|translate|e('html_attr') }} &lt;br/&gt;&lt;br/&gt; {{ 'Goals_EventValueAsRevenueHelp2'|translate|e('html_attr') }}"
+        >
         </div>
 
         {{ postEvent("Template.endGoalEditTable") }}

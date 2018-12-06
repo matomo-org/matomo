@@ -49,6 +49,7 @@
         "NotDownloadable": "Kann nicht heruntergeladen werden",
         "PluginNotDownloadable": "Das Plugin kann nicht heruntergeladen werden.",
         "PluginNotDownloadablePaidReason": "Mögliche Gründe sind eine abgelaufene oder überschrittene Lizenz.",
+        "PluginRequiresInternet": "Dieses Plugin benötigt eine funktionierende Internetverbindung. Bitte prüfen Sie Ihre Konfiguration auf `enable_internet_features` wenn Sie dieses Feature verwenden wollen.",
         "PluginActivated": "Plugin aktiviert",
         "Status": "Status",
         "SuccessfullyActicated": "Sie haben <strong>%s<\/strong> erfolgreich aktiviert.",

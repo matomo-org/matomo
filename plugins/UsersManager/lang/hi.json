@@ -21,6 +21,8 @@
         "NoUsersExist": "कोई उपयोगकर्ता अभी तक कर रहे हैं ।",
         "PrivAdmin": "व्यवस्थापक",
         "PrivNone": "प्रवेश नही",
-        "PrivView": "देखना"
+        "PrivView": "देखना",
+        "XtoYofN": "%1$s - %2$s के लिए %3$s",
+        "Username": "उपयोगकर्ता नाम"
     }
 }

@@ -572,7 +572,14 @@ class Url
             return false;
         }
 
-        return in_array($host, Url::getLocalHostnames(), true);
+        // remove port
+        $hostWithoutPort = explode(':', $host);
+        array_pop($hostWithoutPort);
+        $hostWithoutPort = implode(':', $hostWithoutPort);
+
+        $localHostnames = Url::getLocalHostnames();
+        return in_array($host, $localHostnames, true)
+            || in_array($hostWithoutPort, $localHostnames, true);
     }
 
     public static function getTrustedHostsFromConfig()

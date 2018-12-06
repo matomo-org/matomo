@@ -9,12 +9,16 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Session;
+use Piwik\Url;
 
 /**
  *
@@ -22,16 +26,16 @@ use Piwik\Piwik;
 class Login extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         $hooks = array(
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Session.beforeSessionStart'       => 'beforeSessionStart',
         );
         return $hooks;
     }
@@ -45,6 +49,26 @@ class Login extends \Piwik\Plugin
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
+    }
+
+    public function beforeSessionStart()
+    {
+        if (!$this->shouldHandleRememberMe()) {
+            return;
+        }
+
+        // if this is a login request & form_rememberme was set, change the session cookie expire time before starting the session
+        $rememberMe = isset($_POST['form_rememberme']) ? $_POST['form_rememberme'] : null;
+        if ($rememberMe == '1') {
+            Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
+        }
+    }
+
+    private function shouldHandleRememberMe()
+    {
+        $module = Common::getRequestVar('module', false);
+        $action = Common::getRequestVar('action', false);
+        return ($module == 'Login' || $module == 'CoreHome') && (empty($action) || $action == 'index' || $action == 'login');
     }
 
     /**
@@ -82,35 +106,12 @@ class Login extends \Piwik\Plugin
     }
 
     /**
-     * Initializes the authentication object.
-     * Listens to Request.initAuthenticationObject hook.
-     */
-    function initAuthenticationObject($activateCookieAuth = false)
-    {
-        $this->initAuthenticationFromCookie(StaticContainer::getContainer()->get('Piwik\Auth'), $activateCookieAuth);
-    }
-
-    /**
      * @param $auth
+     * @deprecated authenticating via cookie is handled in core by SessionAuth
      */
     public static function initAuthenticationFromCookie(\Piwik\Auth $auth, $activateCookieAuth)
     {
-        if (self::isModuleIsAPI() && !$activateCookieAuth) {
-            return;
-        }
-
-        $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        $authCookieExpiry = 0;
-        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        $authCookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
-        $defaultLogin = 'anonymous';
-        $defaultTokenAuth = 'anonymous';
-        if ($authCookie->isCookieFound()) {
-            $defaultLogin = $authCookie->get('login');
-            $defaultTokenAuth = $authCookie->get('token_auth');
-        }
-        $auth->setLogin($defaultLogin);
-        $auth->setTokenAuth($defaultTokenAuth);
+        // empty
     }
 
 }

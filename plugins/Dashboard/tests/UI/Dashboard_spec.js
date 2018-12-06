@@ -52,7 +52,6 @@ describe("Dashboard", function () {
             []
         ];
 
-        // TODO: should probably include an async lib
         testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2}, function () {
             // reset default widget selection
             testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0}, function () {
@@ -120,8 +119,8 @@ describe("Dashboard", function () {
         expect.screenshot("widget_add_widget").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
-            page.click('.widgetpreview-categorylist>li:contains(Live!)');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
+            page.click('.widgetpreview-categorylist>li:contains(Goals)');
 
             page.mouseMove('.widgetpreview-categorylist>li:contains(Behaviour):first');
             page.click('.widgetpreview-categorylist>li:contains(Behaviour):first');

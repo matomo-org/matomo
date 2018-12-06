@@ -9,7 +9,7 @@
  * Usage:
  * <div piwik-field>
  *
- *     eg <div piwik-field ui-control="select"
+ *     eg <div piwik-field uicontrol="select"
  * title="{{ 'SitesManager_Timezone'|translate }}"
  * value="site.timezone"
  * options="timezones"

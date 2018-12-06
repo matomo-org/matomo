@@ -21,6 +21,8 @@ class Session extends Zend_Session
 {
     const SESSION_NAME = 'PIWIK_SESSID';
 
+    public static $sessionName = self::SESSION_NAME;
+
     protected static $sessionStarted = false;
 
     /**
@@ -28,11 +30,11 @@ class Session extends Zend_Session
      *
      * @return bool  True if file-based; false otherwise
      */
-    public static function isFileBasedSessions()
+    public static function isSessionHandler($handler)
     {
         $config = Config::getInstance();
         return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === 'files';
+        || $config->General['session_save_handler'] === $handler;
     }
 
     /**
@@ -52,6 +54,8 @@ class Session extends Zend_Session
         }
         self::$sessionStarted = true;
 
+        $config = Config::getInstance();
+
         // use cookies to store session id on the client side
         @ini_set('session.use_cookies', '1');
 
@@ -67,16 +71,19 @@ class Session extends Zend_Session
         @ini_set('session.cookie_httponly', '1');
 
         // don't use the default: PHPSESSID
-        @ini_set('session.name', self::SESSION_NAME);
+        @ini_set('session.name', self::$sessionName);
 
         // proxies may cause the referer check to fail and
         // incorrectly invalidate the session
         @ini_set('session.referer_check', '');
 
-        $currentSaveHandler = ini_get('session.save_handler');
-        $config = Config::getInstance();
+        // to preserve previous behavior piwik_auth provided when it contained a token_auth, we ensure
+        // the session data won't be deleted until the cookie expires.
+        @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
-        if (self::isFileBasedSessions()) {
+        $currentSaveHandler = ini_get('session.save_handler');
+
+        if (!SettingsPiwik::isPiwikInstalled()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
             // for "files", use our own folder to prevent local session file hijacking
@@ -86,15 +93,18 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif ($config->General['session_save_handler'] === 'dbtable'
+        } elseif (self::isSessionHandler('dbtable')
+            || self::isSessionHandler('files')
             || in_array($currentSaveHandler, array('user', 'mm'))
         ) {
+            // as of Matomo 3.7.0 we only support files session handler during installation
+
             // We consider these to be misconfigurations, in that:
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
             $config = array(
-                'name'           => Common::prefixTable('session'),
+                'name'           => Common::prefixTable(DbTable::TABLE_NAME),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
@@ -121,7 +131,7 @@ class Session extends Zend_Session
             $enableDbSessions = '';
             if (DbHelper::isInstalled()) {
                 $enableDbSessions = "<br/>If you still experience issues after trying these changes,
-			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer' target='_blank'>enable database session storage</a>.";
+			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer noopener' target='_blank'>enable database session storage</a>.";
             }
 
             $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
@@ -152,5 +162,10 @@ class Session extends Zend_Session
     public static function close()
     {
         parent::writeClose();
+    }
+
+    public static function isSessionStarted()
+    {
+        return self::$sessionStarted;
     }
 }

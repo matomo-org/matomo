@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <meta name="robots" content="noindex,nofollow">
+        <meta name="google" content="notranslate">
         <style type="text/css">
             html, body {
                 background-color: white;
@@ -34,9 +36,9 @@
             <p>
                 The following error just broke Matomo{% if showVersion %} (v{{ piwikVersion }}){% endif %}:
             </p>
-            <pre>{{ lastError.message }}</pre>
-            <p>in</p>
-            <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+            <pre>{{ lastError.message }}
+{% if lastError.backtrace is defined %}{{ lastError.backtrace }}{% else %}in {{ lastError.file }} line {{ lastError.line }}{% endif %}
+            </pre>
 
             <hr>
             <h3>Troubleshooting</h3>
@@ -67,7 +69,7 @@
                 If this error continues to happen, you may be able to fix this issue by disabling one or more of
                 the Third-Party plugins. If you don't know which plugin is causing this error, we recommend to first disable any plugin not created by "Matomo" and not created by "InnoCraft".
                 You can enable plugin again afterwards in the
-                <a rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a>
+                <a rel="noreferrer noopener" target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a>
                 or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
                 settings at any time.
 

@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "No data in this category. Try to \"Include all population\".",
         "ChangeVisualization": "Change visualization",
+        "ChangePeriod": "Change period",
         "CheckForUpdates": "Check for updates",
         "CheckPiwikOut": "Check Matomo out!",
         "ClickToEditX": "Click to edit %s",
@@ -101,6 +102,7 @@
         "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
-        "ReportWithMetadata": "Report with metadata"
+        "ReportWithMetadata": "Report with metadata",
+        "SeeAvailableVersions": "See Available Versions"
     }
 }

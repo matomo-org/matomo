@@ -68,7 +68,7 @@ class Rules
      * @param $idSites
      * @return array
      */
-    private static function getSegmentsToProcess($idSites)
+    public static function getSegmentsToProcess($idSites)
     {
         $knownSegmentsToArchiveAllSites = SettingsPiwik::getKnownSegmentsToArchive();
 

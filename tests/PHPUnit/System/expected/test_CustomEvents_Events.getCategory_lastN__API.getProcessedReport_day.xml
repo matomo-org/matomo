@@ -72,12 +72,12 @@
 			</row>
 			<row>
 				<label>CategoryTriggersGoal here</label>
-				<nb_events>1</nb_events>
-				<nb_events_with_value>0</nb_events_with_value>
-				<sum_event_value>0</sum_event_value>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>23</sum_event_value>
 				<min_event_value>0</min_event_value>
-				<max_event_value>0</max_event_value>
-				<avg_event_value>0</avg_event_value>
+				<max_event_value>23</max_event_value>
+				<avg_event_value>11.5</avg_event_value>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -120,39 +120,39 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1494</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1495</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1496</idsubdatatable>
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==CategoryTriggersGoal+here</segment>
-				<idsubdatatable>1497</idsubdatatable>
+				<idsubdatatable>5</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1499</idsubdatatable>
+				<idsubdatatable>7</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1500</idsubdatatable>
+				<idsubdatatable>8</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1501</idsubdatatable>
+				<idsubdatatable>9</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />

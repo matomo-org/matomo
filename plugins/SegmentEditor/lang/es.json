@@ -22,7 +22,6 @@
         "SegmentDisplayedThisWebsiteOnly": "este sitio de internet únicamente",
         "SegmentIsDisplayedForWebsite": "y procesado por",
         "SegmentNotApplied": "Segmento '%s' no aplicado",
-        "SegmentNotAppliedMessage": "Está solicitando datos para el segmento personalizado '%s', esta configuración de Matomo actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
         "SelectSegmentOfVisits": "Seleccione un segmento de visitas:",
         "ThisSegmentIsVisibleTo": "Este segmento es visible para:",
         "VisibleToAllUsers": "todos los usuarios",
@@ -36,6 +35,7 @@
         "SegmentXIsAUnionOf": "%s es una unión de estos segmentos:",
         "CustomSegment": "Segmento personalizado",
         "SegmentOperatorIsNullOrEmpty": "es nulo o vacío",
-        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío"
+        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío",
+        "CustomUnprocessedSegmentApiError2": "Para ver datos de este segmento, debe dirigirse a Matomo y crear este segmento manualmente dentro del Editor de Segmentos"
     }
 }

@@ -23,6 +23,7 @@ use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
+use Piwik\Plugins\SitesManager;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -53,6 +54,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->segment = Request::getRawSegmentFromRequest();
 
         $view->ssl = ProxyHttp::isHttps();
+        $view->siteUrls = SitesManager\API::getInstance()->getSiteUrlsFromId($this->site->getId());
 
         $this->outputCORSHeaders();
         return $view->render();
@@ -61,7 +63,6 @@ class Controller extends \Piwik\Plugin\Controller
     /** Render the area left of the iframe */
     public function renderSidebar()
     {
-        $idSite = Common::getRequestVar('idSite');
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
         $currentUrl = Common::getRequestVar('currentUrl');
@@ -69,7 +70,7 @@ class Controller extends \Piwik\Plugin\Controller
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
         $segmentSidebar = '';
 
-        $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
+        $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $this->idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
@@ -79,7 +80,7 @@ class Controller extends \Piwik\Plugin\Controller
         $label = implode('>', $path);
 
         $params = array(
-            'idSite' => $idSite,
+            'idSite' => $this->idSite,
             'date' => $date,
             'period' => $period,
             'label' => $label,
@@ -146,11 +147,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->location = $page;
         $view->normalizedUrl = $normalizedCurrentUrl;
         $view->label = $label;
-        $view->idSite = $idSite;
+        $view->idSite = $this->idSite;
         $view->period = $period;
         $view->date = $date;
         $view->segment = $segmentSidebar;
-        $view->segmentDescription = $this->segmentFormatter->getHumanReadable($segment, $idSite);
+        $view->segmentDescription = $this->segmentFormatter->getHumanReadable($segment, $this->idSite);
 
         $this->outputCORSHeaders();
         return $view->render();
@@ -162,14 +163,14 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function startOverlaySession()
     {
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $view = new View('@Overlay/startOverlaySession');
 
         $sitesManager = APISitesManager::getInstance();
-        $site = $sitesManager->getSiteFromId($idSite);
-        $urls = $sitesManager->getSiteUrlsFromId($idSite);
+        $site = $sitesManager->getSiteFromId($this->idSite);
+        $urls = $sitesManager->getSiteUrlsFromId($this->idSite);
 
         $view->isHttps   = ProxyHttp::isHttps();
         $view->knownUrls = json_encode($urls);
@@ -187,8 +188,8 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function showErrorWrongDomain()
     {
-        $idSite = Common::getRequestVar('idSite', 0, 'int');
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $url = Common::getRequestVar('url', '');
         $url = Common::unsanitizeInputValue($url);
@@ -200,7 +201,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->addCustomLogoInfo($view);
         $view->message = $message;
 
-        if (Piwik::isUserHasAdminAccess($idSite)) {
+        if (Piwik::isUserHasWriteAccess($this->idSite)) {
             // TODO use $idSite to link to the correct row. This is tricky because the #rowX ids don't match
             // the site ids when sites have been deleted.
             $url = 'index.php?module=SitesManager&action=index';

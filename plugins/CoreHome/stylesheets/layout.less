@@ -40,9 +40,16 @@ nav {
     }
   }
 
+  ul.right.hide-on-med-and-down {
+    margin-right: 4px;
+  }
+
   .languageSelection {
     &:hover {
       background-color: rgba(0,0,0,0.1);
+    }
+    .title {
+      color: @theme-color-header-text;
     }
   }
 
@@ -90,8 +97,12 @@ nav {
 #root {
 
   .pageWrap {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  #secondNavBar {
+    box-shadow: none !important;
   }
 
   #secondNavBar + .pageWrap {
@@ -107,6 +118,12 @@ nav {
       @media screen and (max-width: 600px) {
         display: none;
       }
+    }
+  }
+
+  @media only screen and (min-width: 993px) {
+    ~ .drag-target {
+      display: none !important;
     }
   }
 
@@ -204,6 +221,7 @@ nav {
               &:hover, &:focus {
                 text-decoration: none;
                 color: @theme-color-menu-contrast-textActive;
+                background-color: @theme-color-background-base;
               }
             }
 
@@ -244,6 +262,8 @@ nav {
           padding: 15px 22px 11px 45px;
           font-size: 13px;
           font-weight: normal;
+          word-wrap: break-word;
+          word-break: break-all;
 
           &:hover, &:focus {
             color: @theme-color-menu-contrast-textActive;
@@ -342,8 +362,8 @@ nav {
     }
 
     .piwikTopControl {
-      margin-top: 8px;
-      margin-bottom: 8px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 }
@@ -361,7 +381,7 @@ nav {
       display: inline-block;
       float: none;
       position: relative;
-      margin-right: 12px;
+      margin-right: 14px;
       vertical-align: top;
       font-size: 11px;
     }
@@ -434,4 +454,11 @@ nav {
   .dataTableFooterNavigation > .row{
     margin-bottom: -20px !important;
   }
+}
+
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+  box-shadow: @default-box-shade;
+}
+#root .borderedControl, #standalone .borderedControl, .ui-dialog .borderedControl, .ngdialog .borderedControl {
+  box-shadow: @default-box-shade;
 }

@@ -8,10 +8,8 @@
  */
 namespace Piwik\Plugins\Referrers;
 
-use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
@@ -24,15 +22,50 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 class Referrers extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
             'Request.getRenamedModuleAndAction' => 'renameDeprecatedModuleAndAction',
-            'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral',
+            'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
         );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.directive.less';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_Required2';
+        $translationKeys[] = 'General_Clear';
+        $translationKeys[] = 'Actions_ColumnPageURL';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_CampaignNameParam';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_CampaignKwdParam';
+        $translationKeys[] = 'Referrers_CampaignSource';
+        $translationKeys[] = 'Referrers_CampaignSourceHelp';
+        $translationKeys[] = 'Referrers_CampaignContent';
+        $translationKeys[] = 'Referrers_CampaignContentHelp';
+        $translationKeys[] = 'Referrers_CampaignMedium';
+        $translationKeys[] = 'Referrers_CampaignMediumHelp';
+        $translationKeys[] = 'Referrers_CampaignPageUrlHelp';
+        $translationKeys[] = 'Referrers_CampaignNameHelp';
+        $translationKeys[] = 'Referrers_CampaignKeywordHelp';
+        $translationKeys[] = 'Referrers_URLCampaignBuilderResult';
+        $translationKeys[] = 'Referrers_GenerateUrl';
+        $translationKeys[] = 'Goals_Optional';
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.controller.js';
+        $jsFiles[] = 'plugins/Referrers/angularjs/campaign-builder/campaign-builder.directive.js';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -75,6 +108,9 @@ class Referrers extends \Piwik\Plugin
                 break;
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 $indexTranslation = 'General_ColumnKeyword';
+                break;
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                $indexTranslation = 'Referrers_ColumnSocial';
                 break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $indexTranslation = 'Referrers_ColumnWebsite';

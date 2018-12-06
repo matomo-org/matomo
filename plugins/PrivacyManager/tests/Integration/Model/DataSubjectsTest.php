@@ -17,6 +17,7 @@ use Piwik\Plugins\PrivacyManager\tests\Fixtures\TestLogFoo;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\TestLogFooBar;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\TestLogFooBarBaz;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * Class DataSubjectsTest
@@ -124,6 +125,166 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->assertSame(array(), $this->getAllLogFooBarBaz());
     }
 
+    public function test_deleteDataSubjectsForDeletedSites_RemovesLogDataThatDoesNotBelongToASite()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $this->theFixture->trackVisits($idSite = 2, 1);
+        $this->theFixture->insertOtherLogTableData(2);
+
+        $this->theFixture->trackVisits($idSite = 3, 1);
+        $this->theFixture->insertOtherLogTableData(3);
+
+        $this->theFixture->trackVisits($idSite = 4, 1);
+        $this->theFixture->insertOtherLogTableData(4);
+
+        // delete idSite = 2 & idSite = 3
+        SitesManagerAPI::getInstance()->deleteSite(2);
+        SitesManagerAPI::getInstance()->deleteSite(3);
+
+        // assert visits still exist
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 4));
+
+        // purge
+        $result = $this->dataSubjects->deleteDataSubjectsForDeletedSites(SitesManagerAPI::getInstance()->getAllSitesId());
+        $this->assertEquals([
+            'log_visit' => 64,
+            'log_link_visit_action' => 232,
+            'log_foo_bar_baz' => 4,
+            'log_foo_bar' => 6,
+            'log_foo' => 6,
+            'log_conversion_item' => 8,
+            'log_conversion' => 32,
+        ], $result);
+
+        // assert new counts
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getLinkActionsCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getConversionsCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getConversionItemsCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getLogFooCountForSite($idSite = 1));
+
+        $this->assertEquals(0, $this->getVisitCountForSite($idSite = 2));
+        $this->assertEquals(0, $this->getLinkActionsCountForSite($idSite = 2));
+        $this->assertEquals(0, $this->getConversionsCountForSite($idSite = 2));
+        $this->assertEquals(0, $this->getConversionItemsCountForSite($idSite = 2));
+        $this->assertEquals(0, $this->getLogFooCountForSite($idSite = 2));
+
+        $this->assertEquals(0, $this->getVisitCountForSite($idSite = 3));
+        $this->assertEquals(0, $this->getLinkActionsCountForSite($idSite = 3));
+        $this->assertEquals(0, $this->getConversionsCountForSite($idSite = 3));
+        $this->assertEquals(0, $this->getConversionItemsCountForSite($idSite = 3));
+        $this->assertEquals(0, $this->getLogFooCountForSite($idSite = 3));
+
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getLinkActionsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getConversionsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getConversionItemsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getLogFooCountForSite($idSite = 4));
+
+        // assert foo bar + foo bar baz (these tables don't have idsite columns)
+        $this->assertEquals([
+            ['idlogfoobarbaz' => 51, 'idlogfoobar' => 35],
+            ['idlogfoobarbaz' => 52, 'idlogfoobar' => 36],
+            ['idlogfoobarbaz' => 351, 'idlogfoobar' => 335],
+            ['idlogfoobarbaz' => 352, 'idlogfoobar' => 336],
+        ], $this->getAllLogFooBar());
+        $this->assertEquals([
+            ['idlogfoobar' => 35, 'idlogfoo' => 10],
+            ['idlogfoobar' => 36, 'idlogfoo' => 10],
+            ['idlogfoobar' => 37, 'idlogfoo' => 22],
+            ['idlogfoobar' => 335, 'idlogfoo' => 310],
+            ['idlogfoobar' => 336, 'idlogfoo' => 310],
+            ['idlogfoobar' => 337, 'idlogfoo' => 322],
+        ], $this->getAllLogFooBarBaz());
+    }
+
+    public function test_deleteDataSubjectsForDeletedSites_IgnoresSitesNewerThanThoseInList()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 1);
+
+        $this->theFixture->trackVisits($idSite = 2, 1);
+        $this->theFixture->insertOtherLogTableData(2);
+
+        $this->theFixture->trackVisits($idSite = 3, 1);
+        $this->theFixture->insertOtherLogTableData(3);
+
+        $this->theFixture->trackVisits($idSite = 4, 1);
+        $this->theFixture->insertOtherLogTableData(4);
+
+        // delete idSite = 1
+        SitesManagerAPI::getInstance()->deleteSite(1);
+
+        // assert visits still exist
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 1));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 4));
+
+        // purge
+        $result = $this->dataSubjects->deleteDataSubjectsForDeletedSites([2, 3]); // pretending 4 is added while purge is running
+        $this->assertEquals([
+            'log_visit' => 32,
+            'log_link_visit_action' => 116,
+            'log_foo_bar_baz' => 2,
+            'log_foo_bar' => 3,
+            'log_foo' => 3,
+            'log_conversion_item' => 4,
+            'log_conversion' => 16,
+        ], $result);
+
+        // assert new counts
+        $this->assertEquals(0, $this->getVisitCountForSite($idSite = 1));
+        $this->assertEquals(0, $this->getLinkActionsCountForSite($idSite = 1));
+        $this->assertEquals(0, $this->getConversionsCountForSite($idSite = 1));
+        $this->assertEquals(0, $this->getConversionItemsCountForSite($idSite = 1));
+        $this->assertEquals(0, $this->getLogFooCountForSite($idSite = 1));
+
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getLinkActionsCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getConversionsCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getConversionItemsCountForSite($idSite = 2));
+        $this->assertGreaterThan(0, $this->getLogFooCountForSite($idSite = 2));
+
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getLinkActionsCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getConversionsCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getConversionItemsCountForSite($idSite = 3));
+        $this->assertGreaterThan(0, $this->getLogFooCountForSite($idSite = 3));
+
+        $this->assertGreaterThan(0, $this->getVisitCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getLinkActionsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getConversionsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getConversionItemsCountForSite($idSite = 4));
+        $this->assertGreaterThan(0, $this->getLogFooCountForSite($idSite = 4));
+
+        // assert foo bar + foo bar baz (these tables don't have idsite columns)
+        $this->assertEquals([
+            ['idlogfoobarbaz' => 151, 'idlogfoobar' => 135],
+            ['idlogfoobarbaz' => 152, 'idlogfoobar' => 136],
+            ['idlogfoobarbaz' => 251, 'idlogfoobar' => 235],
+            ['idlogfoobarbaz' => 252, 'idlogfoobar' => 236],
+            ['idlogfoobarbaz' => 351, 'idlogfoobar' => 335],
+            ['idlogfoobarbaz' => 352, 'idlogfoobar' => 336],
+        ], $this->getAllLogFooBar());
+        $this->assertEquals([
+            ['idlogfoobar' => 135, 'idlogfoo' => 110],
+            ['idlogfoobar' => 136, 'idlogfoo' => 110],
+            ['idlogfoobar' => 137, 'idlogfoo' => 122],
+            ['idlogfoobar' => 235, 'idlogfoo' => 210],
+            ['idlogfoobar' => 236, 'idlogfoo' => 210],
+            ['idlogfoobar' => 237, 'idlogfoo' => 222],
+            ['idlogfoobar' => 335, 'idlogfoo' => 310],
+            ['idlogfoobar' => 336, 'idlogfoo' => 310],
+            ['idlogfoobar' => 337, 'idlogfoo' => 322],
+        ], $this->getAllLogFooBarBaz());
+    }
+
     private function getFromTable($table)
     {
         $rows = Db::fetchAll('SELECT * from ' . Common::prefixTable($table));
@@ -186,4 +347,33 @@ class DataSubjectsTest extends IntegrationTestCase
         return $this->getOneVisit($idSite, $idVisit, 'log_link_visit_action');
     }
 
+    private function getVisitCountForSite($idSite)
+    {
+        return $this->getCountForSite('log_visit', $idSite);
+    }
+
+    private function getLinkActionsCountForSite($idSite)
+    {
+        return $this->getCountForSite('log_link_visit_action', $idSite);
+    }
+
+    private function getConversionsCountForSite($idSite)
+    {
+        return $this->getCountForSite('log_conversion', $idSite);
+    }
+
+    private function getConversionItemsCountForSite($idSite)
+    {
+        return $this->getCountForSite('log_conversion_item', $idSite);
+    }
+
+    private function getLogFooCountForSite($idSite)
+    {
+        return $this->getCountForSite('log_foo', $idSite);
+    }
+
+    private function getCountForSite($table, $idSite)
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable($table) . "` WHERE idsite = ?", [$idSite]);
+    }
 }

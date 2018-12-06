@@ -11,9 +11,12 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\Performance\Logger;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
+use Piwik\ErrorHandler;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
@@ -122,6 +125,9 @@ class PluginsArchiver
         Log::debug("PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
             __FUNCTION__, $visits, $visitsConverted);
 
+        /** @var Logger $performanceLogger */
+        $performanceLogger = StaticContainer::get(Logger::class);
+
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
         $archivers = static::getPluginArchivers();
@@ -152,14 +158,16 @@ class PluginsArchiver
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateDayReport();
+                        $archiver->callAggregateDayReport();
                     } else {
                         Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateMultipleReports();
+                        $archiver->callAggregateMultipleReports();
                     }
 
                     $this->logAggregator->setQueryOriginHint('');
+
+                    $performanceLogger->logMeasurement('plugin', $pluginName, $this->params, $timer);
 
                     Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
                         __FUNCTION__,
@@ -169,15 +177,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    $className = get_class($e);
-
-                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
-                    } else {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
-                    }
-
-                    throw $exception;
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);

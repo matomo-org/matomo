@@ -41,6 +41,8 @@
 					<bandwidth />
 					<interactionPosition />
 					<icon>plugins/Morpheus/images/link.png</icon>
+					<title>Outlink</title>
+					<subtitle>http://test.com</subtitle>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -82,6 +84,8 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>
@@ -163,6 +167,8 @@
 					
 					<url>http://example.org/homepage</url>
 					<icon>plugins/Morpheus/images/goal.png</icon>
+					<title>Goal conversion</title>
+					<subtitle>triggered js ($ 1000 revenue)</subtitle>
 					
 				</row>
 				<row>
@@ -175,6 +181,8 @@
 					<pageId>4</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>Homepage</title>
+					<subtitle>http://example.org/homepage</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -217,6 +225,8 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>

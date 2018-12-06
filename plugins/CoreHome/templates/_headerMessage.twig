@@ -22,22 +22,28 @@
             <span class="icon-warning"></span>
           </a>
         {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
-        <a class="title">
-            {{ updateCheck|raw }}
-          </a>
+            {% if isInternetEnabled %}
+            <a class="title">{{ updateCheck|raw }}</a>
+            {% else %}
+            <a class="title" href="https://matomo.org/changelog/" target="_blank" rel="noreferrer noopener">
+                <span id="updateCheckLinkContainer">
+                    {{ 'CoreHome_SeeAvailableVersions'|translate }}
+                </span>
+            </a>
+            {% endif %}
         {% endif %}
 
     <div class="dropdown positionInViewport">
         {% if latest_version_available and isSuperUser %}
             {% if isMultiServerEnvironment %}
-                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
+                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer noopener' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
             {% else %}
-                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/changelog/' target='_blank'>","</a>")|raw }}
+                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>","</a>")|raw }}
             {% endif %}
             <br />
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://matomo.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
+            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/'>Piwik</a> <a target='_blank' rel='noreferrer noopener' href='https://matomo.org/changelog/'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
             <br />
         {% endif %}
 

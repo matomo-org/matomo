@@ -1,0 +1,5 @@
+<div id="footerLinks">
+    {% if privacyPolicyUrl|default('') is not empty %}<a target="_blank" rel="noreferrer noopener" href="{{ privacyPolicyUrl|safelink|e('html_attr') }}">{{ 'PrivacyManager_PrivacyPolicy'|translate }}</a>{% endif %}
+    {% if privacyPolicyUrl|default('') is not empty and termsAndCondition|default('') is not empty %}|{% endif %}
+    {% if termsAndCondition|default('') is not empty %}<a target="_blank" rel="noreferrer noopener" href="{{ termsAndCondition|safelink|e('html_attr') }}">{{ 'PrivacyManager_TermsAndConditions'|translate }}</a>{% endif %}
+</div>

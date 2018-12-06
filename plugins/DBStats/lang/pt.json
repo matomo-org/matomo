@@ -1,13 +1,21 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Uso da base de dados",
+        "DatabaseUsage": "Utilização da base de dados",
         "DataSize": "Tamanho dos dados",
-        "DBSize": "Tamanho DB",
+        "DBSize": "Tamanho da base de dados",
+        "EstimatedSize": "Tamanho estimado",
         "IndexSize": "Tamanho do índice",
-        "LearnMore": "Para aprender mais sobre como o Matomo processa dados e como optimizar o Matomo para websites de tráfego médio ou elevado, veja a documentação %s.",
-        "MainDescription": "Matomo está a armazenar todos os seus dados de analíticas da web na base de dados MySQL. Actualmente, tabelas Matomo estão a utilizar %s.",
+        "LearnMore": "Para saber mais sobre como o Matomo processa dados e como otimizar o Matomo para sites de tráfego médio ou elevado, consulte esta documentação %s.",
+        "MainDescription": "O Matomo está a armazenar todos os seus dados de análise numa base de dados MySQL. Atualmente, as tabelas do Matomo estão a utilizar %s de espaço.",
+        "MetricDataByYear": "Tabelas de métricas por ano",
+        "MetricTables": "Tabelas de métricas",
+        "OtherTables": "Outras tabelas",
+        "PluginDescription": "Fornece relatórios detalhados sobre a utilização da base de dados MySQL. Disponível para super-utilizadores sob Diagnósticos.",
+        "ReportDataByYear": "Tabelas de relatórios por ano",
+        "ReportTables": "Tabelas de relatórios",
         "RowCount": "Número de linhas",
         "Table": "Tabela",
-        "TotalSize": "Tamanho total"
+        "TotalSize": "Tamanho total",
+        "TrackerTables": "Tabelas de acompanhamento"
     }
 }

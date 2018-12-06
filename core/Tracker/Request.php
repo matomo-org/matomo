@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 
@@ -85,12 +86,25 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in url and replace them with �
+        // check for 4byte utf8 characters in all tracking params and replace them with �
         // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
-        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
-            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
-            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
+        $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+    }
+
+    protected function replaceUnsupportedUtf8Chars($value, $key=false)
+    {
+        if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
+            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
+
+        if (is_array($value)) {
+            array_walk_recursive ($value, function(&$value, $key){
+                $value = $this->replaceUnsupportedUtf8Chars($value, $key);
+            });
+        }
+
+        return $value;
     }
 
     /**
@@ -150,7 +164,7 @@ class Request
             }
 
             try {
-                $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $this->isAuthenticated = self::authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite);
                 $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
                 Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
@@ -167,7 +181,7 @@ class Request
         }
     }
 
-    public static function authenticateSuperUserOrAdmin($tokenAuth, $idSite)
+    public static function authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite)
     {
         if (empty($tokenAuth)) {
             return false;
@@ -190,13 +204,15 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
 
-            if (array_key_exists('admin_token_auth', $website) && in_array((string) $tokenAuth, $website['admin_token_auth'])) {
+            if (array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
                 return true;
             }
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
 
         return false;
     }
@@ -397,7 +413,7 @@ class Request
         $paramType = $supportedParams[$name][1];
 
         if ($this->hasParam($name)) {
-            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+            $this->paramsCache[$name] = $this->replaceUnsupportedUtf8Chars(Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params), $name);
         } else {
             $this->paramsCache[$name] = $paramDefaultValue;
         }
@@ -846,7 +862,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            return IP::getIpFromHeader();
+            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
         }
 
         return $cip;

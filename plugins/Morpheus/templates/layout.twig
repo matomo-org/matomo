@@ -4,9 +4,9 @@
         {% block head %}
             <meta charset="utf-8">
             <title>
-                {%- block pageTitle -%}
-                    {%- if title is defined %}{{ title }} - {% endif %}
-                    {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
+                {%- block pageTitle %}
+                    {%- if title is defined -%}{{ title }} - {% endif -%}
+                    {%- if categoryTitle is defined -%}{{ categoryTitle }} - {% endif -%}
                     Matomo
                 {%- endblock -%}
             </title>
@@ -15,13 +15,14 @@
             <meta name="generator" content="Matomo - free/libre analytics platform"/>
             <meta name="description" content="{% block pageDescription %}{% endblock %}"/>
             <meta name="apple-itunes-app" content="app-id=737216887" />
+            <meta name="google" content="notranslate">
             {% block meta %}
                 <meta name="robots" content="noindex,nofollow">
             {% endblock %}
 
             {% include "@CoreHome/_favicon.twig" %}
             {% include "@CoreHome/_applePinnedTabIcon.twig" %}
-            <meta name="theme-color" content="#37474f">
+            <meta name="theme-color" content="#3450A3">
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
 
@@ -46,6 +47,10 @@
         {% include "@CoreHome/_shortcuts.twig" %}
 
     {% endblock %}
+
+        <div id="pageFooter">
+            {{ postEvent('Template.pageFooter') }}
+        </div>
 
         {% include "@CoreHome/_adblockDetect.twig" %}
     </body>

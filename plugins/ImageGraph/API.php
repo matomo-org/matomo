@@ -126,6 +126,8 @@ class API extends \Piwik\Plugin\API
         $idDimension = false
     )
     {
+        $idSite = (int) $idSite;
+
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?

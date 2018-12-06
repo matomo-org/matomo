@@ -18,6 +18,8 @@
 				<generationTimeMilliseconds>292</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -66,6 +68,8 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -150,6 +154,8 @@
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Changelog Archive - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/changelog/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -170,6 +176,8 @@
 				<pageId>68</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
+				<title>Contact the Piwik team - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/contact/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -218,6 +226,8 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -285,6 +295,8 @@
 				<generationTimeMilliseconds>413</generationTimeMilliseconds>
 				<generationTime>0.41s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
+				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -333,6 +345,8 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -429,6 +443,8 @@
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -449,6 +465,8 @@
 				<pageId>66</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
+				<title>What is Piwik? - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -497,6 +515,8 @@
 		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -584,6 +604,8 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://demo.piwik.org/</subtitle>
 				
 				<customVariables>
 					<row>
@@ -631,6 +653,8 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -719,6 +743,8 @@
 				<generationTimeMilliseconds>391</generationTimeMilliseconds>
 				<generationTime>0.39s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -767,6 +793,8 @@
 		<referrerUrl>https://www.google.com/</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -861,6 +889,8 @@
 				<pageId>62</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -909,6 +939,8 @@
 		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -993,6 +1025,8 @@
 				<generationTimeMilliseconds>119</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1041,6 +1075,8 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -1117,6 +1153,8 @@
 				<generationTimeMilliseconds>145</generationTimeMilliseconds>
 				<generationTime>0.15s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1165,6 +1203,8 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1263,6 +1303,8 @@
 				<generationTimeMilliseconds>182</generationTimeMilliseconds>
 				<generationTime>0.18s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1287,6 +1329,8 @@
 				<generationTimeMilliseconds>113</generationTimeMilliseconds>
 				<generationTime>0.11s</generationTime>
 				<interactionPosition>2</interactionPosition>
+				<title>Download - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/download/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1308,6 +1352,8 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1355,6 +1401,8 @@
 		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1435,6 +1483,8 @@
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Hello Installing Piwik - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/docs/installation/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1483,6 +1533,8 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1571,6 +1623,8 @@
 				<generationTimeMilliseconds>58</generationTimeMilliseconds>
 				<generationTime>0.06s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1619,6 +1673,8 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1705,6 +1761,8 @@
 				<pageId>50</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title!</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1761,6 +1819,8 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1839,6 +1899,8 @@
 				<pageId>51</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>Piwik Forums</title>
+				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1887,6 +1949,8 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1983,6 +2047,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -2005,6 +2071,8 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
+				<title>Another Product page with no category</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -2029,6 +2097,8 @@
 				<pageId>53</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>3</interactionPosition>
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -2077,6 +2147,8 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>

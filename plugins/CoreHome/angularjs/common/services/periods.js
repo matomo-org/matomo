@@ -167,40 +167,83 @@
     addCustomPeriod('year', YearPeriod);
 
     // range period
-    function RangePeriod(startDate, endDate) {
+    function RangePeriod(startDate, endDate, childPeriodType) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.childPeriodType = childPeriodType;
     }
 
-    RangePeriod.parse = function parseRangePeriod(strDate) {
-        var dates = [];
+    RangePeriod.parse = function parseRangePeriod(strDate, childPeriodType) {
+        childPeriodType = childPeriodType || 'day';
 
         if (/^previous/.test(strDate)) {
-            dates = getLastNRange(strDate.substring(8), 1);
+            var endDate = RangePeriod.getLastNRange(childPeriodType, 2).startDate;
+            return RangePeriod.getLastNRange(childPeriodType, strDate.substring(8), endDate);
         } else if (/^last/.test(strDate)) {
-            dates = getLastNRange(strDate.substring(4), 0);
+            return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
         } else {
             var parts = strDate.split(',');
-            dates[0] = parseDate(parts[0]);
-            dates[1] = parseDate(parts[1]);
+            return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType)
+        }
+    };
+
+    /**
+     * Returns a range representing the last N childPeriodType periods, including the current one.
+     *
+     * @param childPeriodType
+     * @param strAmount
+     * @param endDate
+     * @returns {RangePeriod}
+     */
+    RangePeriod.getLastNRange = function (childPeriodType, strAmount, endDate) {
+        var nAmount = Math.max(parseInt(strAmount) - 1, 0);
+        if (isNaN(nAmount)) {
+            throw new Error('Invalid range date: ' + strDate);
         }
 
-        return new RangePeriod(dates[0], dates[1]);
+        endDate = endDate ? parseDate(endDate) : getToday();
 
-        function getLastNRange(strAmount, extraDaysStart) {
-            var nAmount = Math.max(parseInt(strAmount) - 1, 0);
-            if (isNaN(nAmount)) {
-                throw new Error('Invalid range date: ' + strDate);
-            }
-
-            var endDate = getToday();
-            endDate.setDate(endDate.getDate() - extraDaysStart);
-
-            var startDate = new Date(endDate.getTime());
+        var startDate = new Date(endDate.getTime());
+        if (childPeriodType === 'day') {
             startDate.setDate(startDate.getDate() - nAmount);
-
-            return [startDate, endDate];
+        } else if (childPeriodType === 'week') {
+            startDate.setDate(startDate.getDate() - (nAmount * 7));
+        } else if (childPeriodType === 'month') {
+            startDate.setMonth(startDate.getMonth() - nAmount);
+        } else if (childPeriodType === 'year') {
+            startDate.setFullYear(startDate.getFullYear() - nAmount);
+        } else {
+            throw new Error("Unknown period type '" + childPeriodType + "'.");
         }
+
+        if (childPeriodType !== 'day') {
+            var startPeriod = periods[childPeriodType].parse(startDate);
+            var endPeriod = periods[childPeriodType].parse(endDate);
+
+            startDate = startPeriod.getDateRange()[0];
+            endDate = endPeriod.getDateRange()[1];
+        }
+
+        var firstWebsiteDate = new Date(1991, 7, 6);
+        if (startDate - firstWebsiteDate < 0) {
+            switch (childPeriodType) {
+                case 'year':
+                    startDate = new Date(1992, 0, 1);
+                    break;
+                case 'month':
+                    startDate = new Date(1991, 8, 1);
+                    break;
+                case 'week':
+                    startDate = new Date(1991, 8, 12);
+                    break;
+                case 'day':
+                default:
+                    startDate = firstWebsiteDate;
+                    break;
+            }
+        }
+
+        return new RangePeriod(startDate, endDate, childPeriodType);
     };
 
     RangePeriod.getDisplayText = function () {
@@ -268,13 +311,20 @@
     }
 
     function parseDate(strDate) {
+        if (strDate instanceof Date) {
+            return strDate;
+        }
+
         if (strDate === 'today'
             || strDate === 'now'
         ) {
             return getToday();
         }
 
-        if (strDate === 'yesterday') {
+        if (strDate === 'yesterday'
+            // note: ignoring the 'same time' part since the frontend doesn't care about the time
+            || strDate === 'yesterdaySameTime'
+        ) {
             var yesterday = getToday();
             yesterday.setDate(yesterday.getDate() - 1);
             return yesterday;
@@ -290,7 +340,15 @@
     }
 
     function getToday() {
-        var date = new Date();
+        var date = new Date(Date.now());
+
+        // undo browser timezone
+        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        // apply piwik site timezone (if it exists)
+        date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
+
+        // get rid of hours/minutes/seconds/etc.
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);

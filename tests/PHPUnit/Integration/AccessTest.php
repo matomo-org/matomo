@@ -11,9 +11,34 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Cache\Cache;
 use Piwik\Db;
 use Piwik\NoAccessException;
+use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+class TestCustomCap extends Access\Capability {
+
+    const ID = 'testcustomcap';
+    public function getId() {
+        return self::ID;
+    }
+    public function getName() {
+        return 'customcap';
+    }
+    public function getCategory() {
+        return 'test';
+    }
+    public function getDescription() {
+        return 'lorem ipsum';
+    }
+    public function getIncludedInRoles() {
+        return array(Access\Role\Admin::ID);
+    }
+
+}
 
 /**
  * @group Core
@@ -22,39 +47,90 @@ class AccessTest extends IntegrationTestCase
 {
     public function testGetListAccess()
     {
-        $accessList = Access::getListAccess();
-        $shouldBe = array('noaccess', 'view', 'admin', 'superuser');
+        $roleProvider = new Access\RolesProvider();
+        $accessList = $roleProvider->getAllRoleIds();
+        $shouldBe = array('view', 'write', 'admin');
         $this->assertEquals($shouldBe, $accessList);
+    }
+    
+    private function getAccess()
+    {
+        return new Access(new Access\RolesProvider(), new Access\CapabilitiesProvider());
+    }
+
+    public function test_loadSitesIfNeeded_automaticallyAssignsCapabilityWhenIncludedInRole()
+    {
+        Piwik::addAction('Access.Capability.addCapabilities', function (&$cap) {
+            $cap[] = new TestCustomCap();
+        });
+        \Piwik\Cache::flushAll();
+
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'admin', $idSite);
+
+        $this->switchUser('testuser');
+
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(false);
+        $this->assertEquals('admin', $access->getRoleForSite($idSite));
+        $access->checkUserHasCapability($idSite, TestCustomCap::ID);
+        $this->assertTrue(true);
+    }
+
+    public function test_loadSitesIfNeeded_doesNotAutomaticallyAssignCapabilityWhenNotIncludedInRole()
+    {
+        Piwik::addAction('Access.Capability.addCapabilities', function (&$cap) {
+            $cap[] = new TestCustomCap();
+        });
+
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'write', $idSite);
+
+        $this->switchUser('testuser');
+
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(false);
+        $this->assertEquals('write', $access->getRoleForSite($idSite));
+
+        try {
+
+            $access->checkUserHasCapability($idSite, TestCustomCap::ID);
+            $this->fail('an expected exception has not been triggered');
+        } catch (NoAccessException $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function testGetTokenAuthWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertNull($access->getTokenAuth());
     }
 
     public function testGetLoginWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertNull($access->getLogin());
     }
 
     public function testHasSuperUserAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertFalse($access->hasSuperUserAccess());
     }
 
     public function testHasSuperUserAccessWithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $this->assertTrue($access->hasSuperUserAccess());
     }
 
     public function test_GetLogin_UserIsNotAnonymous_WhenSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $this->assertNotEmpty($access->getLogin());
         $this->assertNotSame('anonymous', $access->getLogin());
@@ -62,26 +138,32 @@ class AccessTest extends IntegrationTestCase
 
     public function testHasSuperUserAccessWithNoSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(false);
         $this->assertFalse($access->hasSuperUserAccess());
     }
 
     public function testGetSitesIdWithAtLeastViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
     }
 
     public function testGetSitesIdWithAdminAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertEmpty($access->getSitesIdWithAdminAccess());
+    }
+
+    public function testGetSitesIdWithWriteAccessWithEmptyAccess()
+    {
+        $access = $this->getAccess();
+        $this->assertEmpty($access->getSitesIdWithWriteAccess());
     }
 
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertEmpty($access->getSitesIdWithViewAccess());
     }
 
@@ -90,13 +172,13 @@ class AccessTest extends IntegrationTestCase
      */
     public function testCheckUserHasSuperUserAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->checkUserHasSuperUserAccess();
     }
 
     public function testCheckUserHasSuperUserAccessWithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSuperUserAccess();
     }
@@ -106,27 +188,27 @@ class AccessTest extends IntegrationTestCase
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->checkUserHasSomeAdminAccess();
     }
 
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeAdminAccess();
     }
 
     public function test_isUserHasSomeAdminAccess_WithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $this->assertTrue($access->isUserHasSomeAdminAccess());
     }
 
     public function test_isUserHasSomeAdminAccess_WithOnlyViewAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertFalse($access->isUserHasSomeAdminAccess());
     }
 
@@ -182,13 +264,13 @@ class AccessTest extends IntegrationTestCase
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->checkUserHasSomeViewAccess();
     }
 
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasSomeViewAccess();
     }
@@ -204,12 +286,37 @@ class AccessTest extends IntegrationTestCase
         $mock->checkUserHasSomeViewAccess();
     }
 
+    public function testCheckUserHasSomeWriteAccessWithSomeAccess()
+    {
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
+
+        $mock->expects($this->once())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array(1, 2, 3, 4))));
+
+        $mock->checkUserHasSomeWriteAccess();
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasSomeWriteAccessWithSomeAccessDoesNotHaveAccess()
+    {
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
+
+        $mock->expects($this->once())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array())));
+
+        $mock->checkUserHasSomeWriteAccess();
+    }
+
     /**
      * @expectedException \Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->checkUserHasViewAccess(array());
     }
 
@@ -258,9 +365,39 @@ class AccessTest extends IntegrationTestCase
         $mock->checkUserHasViewAccess(array(1, 5));
     }
 
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasWriteAccessWithEmptyAccessNoSiteIdsGiven()
+    {
+        $access = $this->getAccess();
+        $access->checkUserHasWriteAccess(array());
+    }
+
+    public function testCheckUserHasWriteAccessWithSuperUserAccess()
+    {
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(true);
+        $access->checkUserHasWriteAccess(array());
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasWriteAccessWithSomeAccessFailure()
+    {
+        $mock = $this->getMockBuilder('Piwik\Access')->setMethods(array('getSitesIdWithAtLeastWriteAccess'))->getMock();
+
+        $mock->expects($this->once())
+            ->method('getSitesIdWithAtLeastWriteAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
+
+        $mock->checkUserHasWriteAccess(array(1, 5));
+    }
+
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $access->checkUserHasAdminAccess(array());
     }
@@ -270,7 +407,7 @@ class AccessTest extends IntegrationTestCase
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->checkUserHasViewAccess(array());
     }
 
@@ -325,13 +462,13 @@ class AccessTest extends IntegrationTestCase
 
     public function testReloadAccessWithEmptyAuth()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertFalse($access->reloadAccess(null));
     }
 
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
-        $access = new Access();
+        $access = $this->getAccess();
         $access->setSuperUserAccess(true);
         $this->assertTrue($access->reloadAccess(null));
     }
@@ -339,7 +476,7 @@ class AccessTest extends IntegrationTestCase
     public function testReloadAccess_ShouldResetTokenAuthAndLogin_IfAuthIsNotValid()
     {
         $mock = $this->createAuthMockWithAuthResult(AuthResult::SUCCESS);
-        $access = new Access();
+        $access = $this->getAccess();
 
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertSame('login', $access->getLogin());
@@ -361,7 +498,7 @@ class AccessTest extends IntegrationTestCase
 
         $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
 
-        $access = new Access();
+        $access = $this->getAccess();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->hasSuperUserAccess());
     }
@@ -457,12 +594,90 @@ class AccessTest extends IntegrationTestCase
         });
     }
 
+    public function test_getAccessForSite_whenUserHasAdminAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'admin', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasViewAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'view', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('view', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasWriteAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'write', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('write', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasNoAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('noaccess', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserIsSuperUser()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+
+        Access::getInstance()->setSuperUserAccess(true);
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    private function switchUser($user)
+    {
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, $user, 'token')));
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($mock);
+        Access::getInstance()->setSuperUserAccess(true);
+    }
+
     private function buildAdminAccessForSiteIds($siteIds)
     {
         $access = array();
 
         foreach ($siteIds as $siteId) {
             $access[] = array('access' => 'admin', 'idsite' => $siteId);
+        }
+
+        return $access;
+    }
+
+    private function buildWriteAccessForSiteIds($siteIds)
+    {
+        $access = array();
+
+        foreach ($siteIds as $siteId) {
+            $access[] = array('access' => 'write', 'idsite' => $siteId);
         }
 
         return $access;

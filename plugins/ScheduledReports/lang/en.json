@@ -46,6 +46,15 @@
         "TopLinkTooltip": "Create Email Reports to get Matomo stats delivered to your email or your customers' address automatically!",
         "TopOfReport": "Back to top",
         "UpdateReport": "Update Report",
-        "WeeklyScheduleHelp": "Weekly schedule: report will be sent on Monday of each week."
+        "WeeklyScheduleHelp": "Weekly schedule: report will be sent on Monday of each week.",
+        "Unsubscribe": "Unsubscribe",
+        "ReportUnsubscribe": "Unsubscribe a report",
+        "UnsubscribeReportConfirmation": "Are you sure you would like to unsubscribe from the report %1$s?",
+        "SuccessfullyUnsubscribed": "You have been successfully unsubscribed from the report %1$s.",
+        "UnsubscribeFooter": "To unsubscribe from this report please follow this link: %1$s",
+        "NoTokenProvided": "No token was provided in the URL",
+        "NoSubscriptionFound": "No subscription found. Maybe the report was already unsubscribed or removed.",
+        "EvolutionGraphsShowForEachInPeriod": "Evolution graphs show the evolution for %1$seach day%2$s in the last %3$s",
+        "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s"
     }
 }

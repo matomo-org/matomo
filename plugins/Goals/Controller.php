@@ -72,13 +72,12 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->translator = $translator;
 
-        $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->goals = API::getInstance()->getGoals($this->idSite);
+        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
     }
 
     public function manage()
     {
-        Piwik::checkUserHasAdminAccess($this->idSite);
+        Piwik::checkUserHasWriteAccess($this->idSite);
 
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
@@ -145,17 +144,16 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkSitePermission();
 
         $idGoal = Common::getRequestVar('idGoal', '', 'string');
-        $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $conversions = new Conversions();
 
         Json::sendHeaderJSON();
 
-        $numConversions = $conversions->getConversionForGoal($idGoal, $idSite, $period, $date);
+        $numConversions = $conversions->getConversionForGoal($idGoal, $this->idSite, $period, $date);
 
         return json_encode($numConversions > 0);
     }
@@ -349,7 +347,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function setGoalOptions(View $view)
     {
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
             'manually' => Piwik::translate('Goals_Manually')

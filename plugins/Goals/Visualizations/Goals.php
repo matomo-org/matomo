@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
@@ -15,6 +16,8 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
@@ -48,7 +51,7 @@ class Goals extends HtmlTable
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
-                array('<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer"  target="_blank">', '</a>'));
+                array('<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer noopener" target="_blank">', '</a>'));
         }
 
         parent::beforeRender();
@@ -171,7 +174,7 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = APIGoals::getInstance()->getGoals($idSite);
+            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
             foreach ($siteGoals as &$goal) {
                 $goal['name'] = Common::sanitizeInputValue($goal['name']);

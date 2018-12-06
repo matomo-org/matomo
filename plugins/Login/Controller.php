@@ -12,7 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Cookie;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -39,9 +39,14 @@ class Controller extends \Piwik\Plugin\Controller
     protected $auth;
 
     /**
-     * @var SessionInitializer
+     * @var \Piwik\Session\SessionInitializer
      */
     protected $sessionInitializer;
+
+    /**
+     * @var PasswordVerifier
+     */
+    protected $passwordVerify;
 
     /**
      * Constructor.
@@ -49,8 +54,9 @@ class Controller extends \Piwik\Plugin\Controller
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
+     * @param PasswordVerifier $passwordVerify
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null)
     {
         parent::__construct();
 
@@ -64,8 +70,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $this->auth = $auth;
 
+        if (empty($passwordVerify)) {
+            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerifier');
+        }
+        $this->passwordVerify = $passwordVerify;
+
         if (empty($sessionInitializer)) {
-            $sessionInitializer = new SessionInitializer();
+            $sessionInitializer = new \Piwik\Session\SessionInitializer();
         }
         $this->sessionInitializer = $sessionInitializer;
     }
@@ -100,9 +111,8 @@ class Controller extends \Piwik\Plugin\Controller
                 $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
 
                 $password = $form->getSubmitValue('form_password');
-                $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
                 try {
-                    $this->authenticateAndRedirect($login, $password, $rememberMe);
+                    $this->authenticateAndRedirect($login, $password);
                 } catch (Exception $e) {
                     $messageNoAccess = $e->getMessage();
                 }
@@ -149,6 +159,51 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nonce = Nonce::getNonce('Login.login');
     }
 
+    public function confirmPassword()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        if (!$this->passwordVerify->hasPasswordVerifyBeenRequested()) {
+            throw new Exception('Not available');
+        }
+
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot confirm password with untrusted hostname!");
+        }
+
+        $nonceKey = 'confirmPassword';
+        $messageNoAccess = '';
+        if (!empty($_POST)) {
+            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
+                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            } elseif ($this->verifyPasswordCorrect()) {
+                $this->passwordVerify->setPasswordVerifiedCorrectly();
+                return;
+            } else {
+                $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
+            }
+        }
+
+        return $this->renderTemplate('confirmPassword', array(
+            'nonce' => Nonce::getNonce($nonceKey),
+            'AccessErrorString' => $messageNoAccess
+        ));
+    }
+
+    private function verifyPasswordCorrect()
+    {
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+        return $authResult->wasAuthenticationSuccessful();
+    }
+
     /**
      * Form-less login
      * @see how to use it on http://piwik.org/faq/how-to/#faq_30
@@ -166,14 +221,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         $currentUrl = 'index.php';
 
-        if (($idSite = Common::getRequestVar('idSite', false, 'int')) !== false) {
-            $currentUrl .= '?idSite=' . $idSite;
+        if ($this->idSite) {
+            $currentUrl .= '?idSite=' . $this->idSite;
         }
 
         $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
-        $this->authenticateAndRedirect($login, $password, false, $urlToRedirect, $passwordHashed = true);
+        $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
     }
 
     /**
@@ -201,12 +256,11 @@ class Controller extends \Piwik\Plugin\Controller
      *
      * @param string $login user name
      * @param string $password plain-text or hashed password
-     * @param bool $rememberMe Remember me?
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
      * @return string failure message if unable to authenticate
      */
-    protected function authenticateAndRedirect($login, $password, $rememberMe, $urlToRedirect = false, $passwordHashed = false)
+    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
     {
         Nonce::discardNonce('Login.login');
 
@@ -217,10 +271,23 @@ class Controller extends \Piwik\Plugin\Controller
             $this->auth->setPasswordHash($password);
         }
 
-        $this->sessionInitializer->initSession($this->auth, $rememberMe);
+        $this->sessionInitializer->initSession($this->auth);
 
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
+
+        if (empty($urlToRedirect)) {
+            $referrer = Url::getReferrer();
+            $module = Common::getRequestVar('module', '', 'string');
+            // when module is login, we redirect to home...
+            if ($module !== 'Login' && $module !== Piwik::getLoginPluginName() && $referrer) {
+                $host = Url::getHostFromUrl($referrer);
+                // we only redirect to a trusted host
+                if ($host && Url::isValidHost($host)) {
+                    $urlToRedirect = $referrer;
+                }
+            }
+        }
 
         if (empty($urlToRedirect)) {
             $urlToRedirect = Url::getCurrentUrlWithoutQueryString();
@@ -231,7 +298,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getMessageExceptionNoAccess()
     {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('https://matomo.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
+        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
 
         $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
 
@@ -250,7 +317,7 @@ class Controller extends \Piwik\Plugin\Controller
         if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
             $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
                     array(
-                        '<a href="?module=Proxy&action=redirect&url=' . urlencode('<a href="https://matomo.org/faq/how-to/faq_91/">') . '">',
+                        '<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_91/">',
                         '</a>',
                         'config/config.ini.php',
                         '<pre>force_ssl=1</pre>',
@@ -357,14 +424,12 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * Clear session information
      *
-     * @param none
      * @return void
      */
     public static function clearSession()
     {
-        $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        $cookie = new Cookie($authCookieName);
-        $cookie->delete();
+        $sessionFingerprint = new Session\SessionFingerprint();
+        $sessionFingerprint->clear();
 
         Session::expireSessionCookie();
     }

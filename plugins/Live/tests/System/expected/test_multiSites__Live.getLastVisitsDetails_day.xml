@@ -16,6 +16,8 @@
 				<pageId>1</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title</title>
+				<subtitle>http://example.org/foo/dir/page</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -58,6 +60,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -132,6 +136,8 @@
 				<pageId>2</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title 0</title>
+				<subtitle>http://example.org/my/dir/page0</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -174,6 +180,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>

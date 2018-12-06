@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Live\ProfileSummary;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\View;
@@ -37,7 +38,7 @@ class Summary extends ProfileSummaryAbstract
     {
         $idSite            = Common::getRequestVar('idSite', null, 'int');
         $view              = new View('@Live/_profileSummary.twig');
-        $view->goals       = APIGoals::getInstance()->getGoals($idSite);
+        $view->goals       = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         $view->visitorData = $this->profile;
         return $view->render();
     }

@@ -41,14 +41,14 @@ class WidgetsListTest extends IntegrationTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'Dashboard_Dashboard' => 1,
-            'General_Actions' => 15,
-            'General_Visitors' => 35,
+            'General_Actions' => 21,
+            'General_Generic' => 1,
+            'General_Visitors' => 31,
             'SEO' => 2,
             'Goals_Goals' => 3,
-            'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
-            'Referrers_Referrers' => 9,
+            'Referrers_Referrers' => 10,
             'About Matomo' => 10,
         );
         // number of main categories

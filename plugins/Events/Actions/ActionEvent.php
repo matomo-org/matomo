@@ -27,7 +27,7 @@ class ActionEvent extends Action
         $url = $request->getParam('url');
 
         $this->setActionUrl($url);
-        $this->eventValue = trim($request->getParam('e_v'));
+        $this->eventValue = self::getEventValue($request);
     }
 
     public static function shouldHandle(Request $request)
@@ -36,6 +36,11 @@ class ActionEvent extends Action
         $eventAction   = $request->getParam('e_a');
 
         return (strlen($eventCategory) > 0 && strlen($eventAction) > 0);
+    }
+
+    public static function getEventValue(Request $request)
+    {
+        return trim($request->getParam('e_v'));
     }
 
     public function getEventAction()

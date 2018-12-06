@@ -283,8 +283,9 @@ class ActionTest extends IntegrationTestCase
                                     'type' => Action::TYPE_PAGE_URL),
             ),
             array(
-                'request'  => array('url' => 'http://example.org/CATEGORY/TEST', 'action_name' => 'Example.org / Category / test /'),
-                'expected' => array('name' => 'Example.org/Category/test',
+                'request'  => array('url' => 'http://example.org/CATEGORY/TEST',
+                                    'action_name' => 'Example.org / Category / test /'),
+                'expected' => array('name' => 'Example.org / Category / test /',
                                     'url'  => 'http://example.org/CATEGORY/TEST',
                                     'type' => Action::TYPE_PAGE_URL),
             ),
@@ -309,14 +310,14 @@ class ActionTest extends IntegrationTestCase
             array(
                 'request'  => array('url'         => 'http://example.org/category/',
                                     'action_name' => 'custom name with/one delimiter/two delimiters/'),
-                'expected' => array('name' => 'custom name with/one delimiter/two delimiters',
+                'expected' => array('name' => 'custom name with/one delimiter/two delimiters/',
                                     'url'  => 'http://example.org/category/',
                                     'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url'         => 'http://example.org/category/',
                                     'action_name' => 'http://custom action name look like url/'),
-                'expected' => array('name' => 'http:/custom action name look like url',
+                'expected' => array('name' => 'http://custom action name look like url/',
                                     'url'  => 'http://example.org/category/',
                                     'type' => Action::TYPE_PAGE_URL),
             ),
