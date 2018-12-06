@@ -301,7 +301,7 @@ class Visualization extends ViewDataTable
     {
         $request = $this->request->getRequestArray() + $_GET + $_POST;
 
-        $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
+        $idSite  = Common::getRequestVar('idSite', null, 'int', $request);
         $module  = $this->requestConfig->getApiModuleToRequest();
         $action  = $this->requestConfig->getApiMethodToRequest();
 

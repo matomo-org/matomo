@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\CustomDimensions;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -22,6 +23,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public $idSite = 1;
     public $dateTime = '2010-01-03 01:22:33';
     public $nextDay = null;
+    public $customDimensionId;
 
     public function __construct()
     {
@@ -31,6 +33,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
+        $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
+
         $this->setMockLocationProvider();
         $this->trackVisits();
 
@@ -128,7 +132,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->trackOrders($t);
     }
 
-    private function trackActions($t, &$visitorCounter, $actionType, $userAgents, $resolutions,
+    private function trackActions(\PiwikTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
                                   $referrers = null, $customVars = null)
     {
         for ($i = 0; $i != 5; ++$i, ++$visitorCounter) {
@@ -145,6 +149,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $t->setUrl("http://piwik.net/$visitorCounter/");
             $t->setUrlReferrer(null);
             $t->setForceVisitDateTime($visitDate->getDatetime());
+            $t->setCustomTrackingParameter('dimension' . $this->customDimensionId, $i * 5);
             $this->trackAction($t, $actionType, $visitorCounter, null);
 
             for ($j = 0; $j != 4; ++$j) {

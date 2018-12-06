@@ -57,9 +57,9 @@ class APITest extends IntegrationTestCase
 
     public function test_addGoal_ShouldSucceed_IfAllFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true);
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true, 'desc', true);
 
-        $this->assertGoal($idGoal, 'MyName', '', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
+        $this->assertGoal($idGoal, 'MyName', 'desc', 'url', 'http://www.test.de', 'exact', 1, 50, 1, 1);
     }
 
     public function test_addGoal_ShouldSucceed_IfExactPageTitle()
@@ -246,6 +246,7 @@ class APITest extends IntegrationTestCase
             'allow_multiple' => '0',
             'revenue' => '0',
             'deleted' => '0',
+            'event_value_as_revenue' => '0',
         ), $goal);
     }
 
@@ -261,7 +262,8 @@ class APITest extends IntegrationTestCase
         $this->assertEmpty($goals);
     }
 
-    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0)
+    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0,
+                                $eventAsRevenue = 0)
     {
         $expected = array($idGoal => array(
             'idsite' => $this->idSite,
@@ -274,7 +276,8 @@ class APITest extends IntegrationTestCase
             'case_sensitive' => $caseSenstive,
             'allow_multiple' => $allowMultiple,
             'revenue' => $revenue,
-            'deleted' => 0
+            'deleted' => 0,
+            'event_value_as_revenue' => $eventAsRevenue,
         ));
 
         $goals = $this->getGoals();

@@ -21,9 +21,11 @@ use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -40,6 +42,8 @@ use Piwik\Tracker\Cache;
 class API extends \Piwik\Plugin\API
 {
     const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+
+    public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
 
     /**
      * @var Model
@@ -70,6 +74,8 @@ class API extends \Piwik\Plugin\API
      * @var Access\CapabilitiesProvider
      */
     private $capabilityProvider;
+
+    private $twoFaPluginActivated;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -323,7 +329,6 @@ class API extends \Piwik\Plugin\API
 
         $users = $this->enrichUsers($users);
         $users = $this->enrichUsersWithLastSeen($users);
-        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -343,7 +348,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
+        if (!is_string($userLogins)) {
+            throw new \Exception('Parameter userLogins needs to be a string containing a comma separated list of users');
+        }
+
         $logins = array();
+
         if (!empty($userLogins)) {
             $logins = explode(',', $userLogins);
         }
@@ -351,9 +361,6 @@ class API extends \Piwik\Plugin\API
         $users = $this->model->getUsers($logins);
         $users = $this->userFilter->filterUsers($users);
         $users = $this->enrichUsers($users);
-
-        // Non Super user can only access login & alias
-        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         return $users;
     }
@@ -754,15 +761,51 @@ class API extends \Piwik\Plugin\API
         return $users;
     }
 
+    private function isTwoFactorAuthPluginEnabled()
+    {
+        if (!isset($this->twoFaPluginActivated)) {
+            $this->twoFaPluginActivated = Plugin\Manager::getInstance()->isPluginActivated('TwoFactorAuth');
+        }
+        return $this->twoFaPluginActivated;
+    }
+
     private function enrichUser($user)
     {
-        if (!empty($user)) {
-            unset($user['token_auth']);
-            unset($user['password']);
-            unset($user['ts_password_modified']);
+        if (empty($user)) {
+            return $user;
         }
 
-        return $user;
+        unset($user['token_auth']);
+        unset($user['password']);
+        unset($user['ts_password_modified']);
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
+            unset($user['twofactor_secret']);
+            return $user;
+        }
+
+        $newUser = array('login' => $user['login']);
+        if (isset($user['alias'])) {
+            $newUser['alias'] = $user['alias'];
+        }
+
+        if ($user['login'] === Piwik::getCurrentUserLogin() || !empty($user['superuser_access'])) {
+            $newUser['email'] = $user['email'];
+        }
+
+        if (isset($user['role'])) {
+            $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
+        }
+        if (isset($user['capabilities'])) {
+            $newUser['capabilities'] = $user['capabilities'];
+        }
+
+        if (isset($user['superuser_access'])) {
+            $newUser['superuser_access'] = $user['superuser_access'];
+        }
+
+        return $newUser;
     }
 
     /**
@@ -790,26 +833,31 @@ class API extends \Piwik\Plugin\API
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *
-     * If the password changes and the user has an old token_auth (legacy MD5 format) associated,
-     * the token will be regenerated. This could break a user's API calls.
+     * If password or email changes, it is required to also specify the password of the current user needs to be specified
+     * to confirm this change.
      *
      * @see addUser() for all the parameters
      */
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
-                               $_isPasswordHashed = false)
+                               $_isPasswordHashed = false, $passwordConfirmation = false)
     {
+        $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
+        self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
 
         $userInfo   = $this->model->getUser($userLogin);
         $token_auth = $userInfo['token_auth'];
+        $changeShouldRequirePasswordConfirmation = false;
 
         $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
             $password = false;
         } else {
+            $changeShouldRequirePasswordConfirmation = true;
             $password = Common::unsanitizeInputValue($password);
 
             if (!$_isPasswordHashed) {
@@ -837,6 +885,18 @@ class API extends \Piwik\Plugin\API
 
         if ($email != $userInfo['email']) {
             $this->checkEmail($email);
+            $changeShouldRequirePasswordConfirmation = true;
+        }
+
+        if ($changeShouldRequirePasswordConfirmation && $requirePasswordConfirmation) {
+            if (empty($passwordConfirmation)) {
+                throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
+            }
+
+            $loginCurrentUser = Piwik::getCurrentUserLogin();
+            if (!$this->verifyPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+            }
         }
 
         $alias = $this->getCleanAlias($alias, $userLogin);
@@ -853,6 +913,18 @@ class API extends \Piwik\Plugin\API
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
+    }
+
+    private function verifyPasswordCorrect($userLogin, $password)
+    {
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin($userLogin);
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword($password);
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**
@@ -1259,27 +1331,11 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($this->password->needsRehash($user['password'])) {
-            $this->updateUser($userLogin, $this->password->hash($md5Password));
+            $userUpdater = new UserUpdater();
+            $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
         }
 
         return $user['token_auth'];
-    }
-
-    private function removeUserInfoForNonSuperUsers($users)
-    {
-        if (!Piwik::hasUserSuperUserAccess()) {
-            foreach ($users as $key => $user) {
-                $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
-                if (isset($user['role'])) {
-                    $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
-                }
-                if (isset($user['capabilities'])) {
-                    $newUser['capabilities'] = $user['capabilities'];
-                }
-                $users[$key] = $newUser;
-            }
-        }
-        return $users;
     }
 
     private function isUserHasAdminAccessTo($idSite)

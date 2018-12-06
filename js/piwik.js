@@ -4,7 +4,7 @@
  * JavaScript tracking client
  *
  * @link https://piwik.org
- * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
+ * @source https://github.com/matomo-org/matomo/blob/master/js/piwik.js
  * @license https://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
@@ -957,7 +957,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global unescape */
 /*global ActiveXObject */
 /*global Blob */
-/*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
+/*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
@@ -997,7 +997,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
+    requests, timeout, sendRequests, queueRequest,
     setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1053,7 +1054,7 @@ if (typeof _paq !== 'object') {
 
 // Piwik singleton and namespace
 if (typeof window.Piwik !== 'object') {
-    window.Piwik = (function () {
+    window.Matomo = window.Piwik = (function () {
         'use strict';
 
         /************************************************************
@@ -1097,6 +1098,8 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+
+            trackerIdCounter = 0,
 
             isPageUnloading = false;
 
@@ -2877,7 +2880,10 @@ if (typeof window.Piwik !== 'object') {
                 trackerUrl   = trackerUrl.slice(0, posQuery);
             }
 
-            if (stringEndsWith(trackerUrl, 'piwik.php')) {
+            if (stringEndsWith(trackerUrl, 'matomo.php')) {
+                // if eg without domain or path "matomo.php" => ''
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'matomo.php'.length);
+            } else if (stringEndsWith(trackerUrl, 'piwik.php')) {
                 // if eg without domain or path "piwik.php" => ''
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
             } else if (stringEndsWith(trackerUrl, '.php')) {
@@ -3232,7 +3238,10 @@ if (typeof window.Piwik !== 'object') {
                 configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
-                consentRequestsQueue = [];
+                consentRequestsQueue = [],
+
+                // a unique ID for this tracker during this request
+                uniqueTrackerId = trackerIdCounter++;
 
             // Document title
             try {
@@ -5113,10 +5122,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the goal with the server
              */
-            function logGoal(idGoal, customRevenue, customData) {
+            function logGoal(idGoal, customRevenue, customData, callback) {
                 var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5609,6 +5618,58 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
+
+            var requestQueue = {
+                requests: [],
+                timeout: null,
+                sendRequests: function () {
+                    var requestsToTrack = this.requests;
+                    this.requests = [];
+                    if (requestsToTrack.length === 1) {
+                        sendRequest(requestsToTrack[0]);
+                    } else {
+                        sendBulkRequest(requestsToTrack);
+                    }
+                },
+                push: function (requestUrl) {
+                    if (!requestUrl) {
+                        return;
+                    }
+                    if (isPageUnloading) {
+                        // we don't queue as we need to ensure the request will be sent when the page is unloading...
+                        trackerInstance.trackRequest(requestUrl);
+                        return;
+                    }
+
+                    this.requests.push(requestUrl);
+
+                    if (this.timeout) {
+                        clearTimeout(this.timeout);
+                        this.timeout = null;
+                    }
+                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    this.timeout = setTimeout(function () {
+                        requestQueue.timeout = null;
+                        requestQueue.sendRequests();
+                    }, 1750);
+
+                    var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
+                    if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
+                        // we setup one unload handler per tracker...
+                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // JSLint happy.
+                        plugins[trackerQueueId] = {
+                            unload: function () {
+                                if (requestQueue.timeout) {
+                                    clearTimeout(requestQueue.timeout);
+                                }
+                                requestQueue.sendRequests();
+                            }
+                        };
+                    }
+                }
+            };
+
             /*</DEBUG>*/
 
             /************************************************************
@@ -6797,10 +6858,11 @@ if (typeof window.Piwik !== 'object') {
              * @param int|string idGoal
              * @param int|float customRevenue
              * @param mixed customData
+             * @param function callback
              */
-            this.trackGoal = function (idGoal, customRevenue, customData) {
+            this.trackGoal = function (idGoal, customRevenue, customData, callback) {
                 trackCallback(function () {
-                    logGoal(idGoal, customRevenue, customData);
+                    logGoal(idGoal, customRevenue, customData, callback);
                 });
             };
 
@@ -7230,6 +7292,23 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
+                });
+            };
+
+            /**
+             * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
+             * along with other tracking requests in one go. This can reduce the number of requests send to your server.
+             * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
+             * requests will be sent immediately so that no tracking request gets lost.
+             * Note: Any queued request may not be possible to be replayed in case a POST request is sent. Only queue
+             * requests that don't have to be replayed.
+             *
+             * @param request eg. "param=value&param2=value2"
+             */
+            this.queueRequest = function (request) {
+                trackCallback(function () {
+                    var fullRequest = getRequest(request);
+                    requestQueue.push(fullRequest);
                 });
             };
 
@@ -7686,7 +7765,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
-             * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
+             * matomo.js is not writable then there is a chance that first matomo.js is loaded and later the plugin.
              * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
              * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
@@ -7708,6 +7787,7 @@ if (typeof window.Piwik !== 'object') {
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
             define('piwik', [], function () { return Piwik; });
+            define('matomo', [], function () { return Piwik; });
         }
 
         return Piwik;
@@ -7759,7 +7839,7 @@ if (typeof window.Piwik !== 'object') {
                     // needed to write it this way for jslint
                     var consoleType = typeof console;
                     if (consoleType !== 'undefined' && console && console.error) {
-                        console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                        console.error('_paq.push() was used but Matomo tracker was not initialized before the matomo.js file was loaded. Make sure to configure the tracker via _paq.push before loading matomo.js. Alternatively, you can create a tracker via Matomo.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                     }
                 }};
         }

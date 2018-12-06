@@ -28,6 +28,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $this->trustedHostnames = $this->createTrustedHostnames();
         $this->trustedHostnames->setIsWritableByCurrentUser($isWritable);
+
+        $isWritable = Piwik::hasUserSuperUserAccess();
         $this->corsDomains = $this->createCorsDomains();
         $this->corsDomains->setIsWritableByCurrentUser($isWritable);
     }

@@ -38,7 +38,8 @@ class ThreeVisitsWithCustomEvents extends Fixture
             // These two goals are to check events don't trigger for URL or Title matching
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'url', 'webradio', 'contains');
             APIGoals::getInstance()->addGoal($this->idSite, 'triggered js', 'title', 'Music', 'contains');
-            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal($this->idSite, 'event matching', 'event_category', 'CategoryTriggersGoal', 'contains');
+            $idGoalTriggeredOnEventCategory = APIGoals::getInstance()->addGoal($this->idSite, 'event matching', 'event_category', 'CategoryTriggersGoal', 'contains', false,
+                8, true, '', true);
 
             $this->assertEquals($idGoalTriggeredOnEventCategory, self::$idGoalTriggeredOnEventCategory);
         }
@@ -91,7 +92,19 @@ class ThreeVisitsWithCustomEvents extends Fixture
     {
         $url = $vis->pageUrl;
         $vis->setUrl('');
-        self::checkResponse($vis->doTrackEvent('CategoryTriggersGoal here', 'This is an event without a URL'));
+
+        // no value, use default revenue
+        $this->moveTimeForward($vis, 1);
+        self::checkResponse($vis->doTrackEvent('CategoryTriggersGoal here', 'This is an event without a URL', $name = false));
+
+        // event value
+        $this->moveTimeForward($vis, 2);
+        self::checkResponse($vis->doTrackEvent('CategoryTriggersGoal here', 'This is an event without a URL', $name = false, $value = 23));
+
+        // event value is 0, use 0
+        $this->moveTimeForward($vis, 3);
+        self::checkResponse($vis->doTrackEvent('CategoryTriggersGoal here', 'This is an event without a URL', $name = false, $value = 0));
+
         $vis->setUrl($url);
     }
 

@@ -487,6 +487,208 @@ class ApiTest extends IntegrationTestCase
         $this->assertNotContains('id="UserCountry_getCountry"', $result);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid evolutionPeriodFor value
+     */
+    public function test_addReport_validatesEvolutionPeriodForParam()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'garbage'
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Evolution period amount must be a positive number
+     */
+    public function test_addReport_validatesEvolutionPeriodNParam()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'prev',
+            -5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
+     */
+    public function test_addReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'each',
+            5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid evolutionPeriodFor value
+     */
+    public function test_updateReport_validatesEvolutionPeriodForParam()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'garbage'
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Evolution period amount must be a positive number
+     */
+    public function test_updateReport_validatesEvolutionPeriodNParam()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'prev',
+            -5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
+     */
+    public function test_updateReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'each',
+            5
+        );
+    }
+
     private function assertReportsEqual($report, $data)
     {
         foreach ($data as $key => $value) {

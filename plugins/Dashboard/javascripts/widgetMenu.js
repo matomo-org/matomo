@@ -272,7 +272,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 for (var widgetCategory in availableWidgets) {
-                    $('.' + settings.categorylistClass, widgetPreview).append('<li>' + widgetCategory + '</li>');
+                    $('.' + settings.categorylistClass, widgetPreview).append($('<li>').text(widgetCategory));
                 }
 
                 return $('.' + settings.categorylistClass, widgetPreview);

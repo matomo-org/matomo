@@ -72,7 +72,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->translator = $translator;
 
-        $this->idSite = Common::getRequestVar('idSite', null, 'int');
         $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
     }
 
@@ -145,17 +144,16 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkSitePermission();
 
         $idGoal = Common::getRequestVar('idGoal', '', 'string');
-        $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $conversions = new Conversions();
 
         Json::sendHeaderJSON();
 
-        $numConversions = $conversions->getConversionForGoal($idGoal, $idSite, $period, $date);
+        $numConversions = $conversions->getConversionForGoal($idGoal, $this->idSite, $period, $date);
 
         return json_encode($numConversions > 0);
     }

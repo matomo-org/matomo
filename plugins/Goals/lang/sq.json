@@ -43,7 +43,7 @@
         "DaysToConv": "Ditë për Shndërrim",
         "Details": "Hollësi objektivi",
         "DefaultGoalConvertedOncePerVisit": "(parazgjedhje) Objektivi mund të shndërrohet një herë për vizitë",
-        "DefaultRevenue": "E ardhura parazgjedhje e objektivit është",
+        "DefaultRevenueLabel": "Të ardhura parazgjedhje objektivi",
         "DefaultRevenueHelp": "Për shembull, një Formular Kontakti parashtruar nga një vizitor mund të vlejë mesatarisht 10 euro. Matomo do t’ju ndihmojë të kuptoni se si shtresëzohen segmentet e vizitorëve tuaj.",
         "DeleteGoalConfirm": "Jeni i sigurt se doni të fshihet Objektivi %s?",
         "DocumentationRevenueGeneratedByProductSales": "Shitje produkti. Pa taksa, dërgesë dhe zbritje çmimi",
@@ -110,6 +110,10 @@
         "WhenVisitors": "kur vizitorët",
         "WhereThe": "kur",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Faqja e vizituar lypset të përmbajë një thirrje të metodës JavaScript 'trackGoal' (%1$smësoni më tepër%2$s)",
-        "YouCanEnableEcommerceReports": "Për këtë sajt mund të aktivizoni %1$s te faqja %2$s."
+        "YouCanEnableEcommerceReports": "Për këtë sajt mund të aktivizoni %1$s te faqja %2$s.",
+        "UseEventValueAsRevenue": "Përdore vlerën e veprimtarisë (në pastë) si të ardhur shndërrimi objektivi.",
+        "GoalRevenue": "Të ardhura Objektivi",
+        "EventValueAsRevenueHelp": "Nëse veprimtaria për të cilën keni përputhje ka të ardhura, dhe këto të ardhura ndiqen si vlera e veprimtarisë, mund ta aktivizoni këtë mundësi për të regjistruar vlerën e veprimtarisë si të ardhura shndërrimi objektivi. Nëse të ardhurat e objektivit tuaja nuk ndryshojnë sipas shndërrimesh, mund ta shpërfillni këtë mundësi dhe thjesht të caktoni më sipër një të ardhur parazgjedhje.",
+        "EventValueAsRevenueHelp2": "Shënim: Nëse janë caktuar si e ardhura parazgjedhje e objektivit, ashtu edhe vlera e veprimtarisë, do të përdoret vlera e veprimtarisë. Nëse kjo mundësi është e aktivizuar dhe në një kërkesë nuk është dërguar vlerë veprimtarie, do të përdoret vlera parazgjedhje (në pastë të caktuar një të tillë)."
     }
 }

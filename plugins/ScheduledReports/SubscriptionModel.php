@@ -157,7 +157,7 @@ class SubscriptionModel
 
     private function removeSubscription($token)
     {
-        $this->getDb()->query('UPDATE ' . $this->table . ' SET token = "", ts_unsubscribed = NOW() WHERE token = ?', [$token]);
+        $this->getDb()->query('UPDATE ' . $this->table . ' SET token = NULL, ts_unsubscribed = NOW() WHERE token = ?', [$token]);
     }
 
     private function generateToken($email)

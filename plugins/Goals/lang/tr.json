@@ -43,7 +43,7 @@
         "DaysToConv": "Hedef Tutturmaya Kalan Gün",
         "Details": "Hedef ayrıntıları",
         "DefaultGoalConvertedOncePerVisit": "(varsayılan) Hedef bir ziyarette yalnız bir kez tutturulabilir",
-        "DefaultRevenue": "Varsayılan hedef geliri",
+        "DefaultRevenueLabel": "Varsayılan hedef geliri",
         "DefaultRevenueHelp": "Örneğin bir ziyaretçi tarafından bir bilgi formunun gönderilmesi ortalama $10 değerinde olabilir. Matomo ziyaretçi dilimlerinizin başarımını anlamanıza yardımcı olur.",
         "DeleteGoalConfirm": "%s hedefini silmek istediğinize emin misiniz?",
         "DocumentationRevenueGeneratedByProductSales": "Ürün satışları. Vergi, kargo ve indirimler hariç",
@@ -110,6 +110,10 @@
         "WhenVisitors": "ziyaretçiler şunu yaptığında",
         "WhereThe": "şuraya",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Hedef izlemek için ziyaret edilen sayfada 'trackGoal' işlevini çağıran bir JavaScript kodu bulunmalıdır (%1$sayrıntılı bilgi alın%2$s)",
-        "YouCanEnableEcommerceReports": "Bu web sitesi için %2$s sayfasında %1$s kullanabilirsiniz."
+        "YouCanEnableEcommerceReports": "Bu web sitesi için %2$s sayfasında %1$s kullanabilirsiniz.",
+        "UseEventValueAsRevenue": "Hedef dönüşümü geliri olarak etkinlik değeri (varsa) kullanılsın.",
+        "GoalRevenue": "Hedef Geliri",
+        "EventValueAsRevenueHelp": "Eşleşen etkinliğin bir geliri varsa ve bu gelir etkinlik değeri olarak izleniyorsa, bu seçeneği etkinleştirerek etkinlik değerinin hedef dönüşüm değeri olarak kaydedilmesini sağlayabilirsiniz. Hedef geliriniz dönüşümlere göre değişmiyorsa bu seçeneği yok sayarak yukarıdaki varsayılan geliri ayarlayabilirsiniz.",
+        "EventValueAsRevenueHelp2": "Not: Hem varsayılan hedef geliri hem de etkinlik değeri belirtilmiş ise etkinlik değeri kullanılır. Bu seçenek etkinleştirilmiş olduğu halde bir istekte herhangi bir etkinlik değeri gönderilmemiş ise (belirtilmiş ise) varsayılan gelir kullanılır."
     }
 }

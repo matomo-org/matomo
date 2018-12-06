@@ -14,6 +14,6 @@ class LocationsSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'UserCountry_SubmenuLocations';
-    protected $order = 40;
+    protected $order = 10;
 
 }

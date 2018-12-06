@@ -11,6 +11,8 @@
         "EventCategory": "Categoría del evento",
         "EventName": "Nombre del evento",
         "EventNames": "Nombres de los eventos",
+        "EventUrl": "URL del evento",
+        "EventUrls": "URLs del evento",
         "Events": "Eventos",
         "EventsWithValue": "Eventos con un valor",
         "EventsWithValueDocumentation": "Numero de eventos en los que se estableció un valor",

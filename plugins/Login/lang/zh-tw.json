@@ -13,7 +13,6 @@
         "LoginPasswordNotCorrect": "使用者名稱 & 密碼不正確。",
         "LostYourPassword": "密碼遺失了？",
         "ChangeYourPassword": "變更你的密碼",
-        "MailPasswordChangeBody": "%1$s，你好：\n\n這裡有個來自 %2$s 的密碼變更要求。要確認這個密碼變更並使用新密碼登入，請點擊以下連結：\n\n%3$s\n\n注意：變更密碼後也會變更你的 API 驗證 Token，你可以在個人設定中查看新的 API 驗證 Token。\n\n如果你在其他應用程式或彙整中使用了你的 API 驗證 Token，請記得要更新它否則工作將會失敗。\n\n注意：此連結將於 24 小時候失效。\n\n感謝你使用 Matomo！",
         "MailTopicPasswordChange": "確認密碼變更",
         "NewPassword": "新密碼",
         "NewPasswordRepeat": "新密碼（重覆）",

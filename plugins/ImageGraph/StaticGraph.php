@@ -57,9 +57,9 @@ abstract class StaticGraph extends BaseFactory
     protected $colors;
     protected $font;
     protected $fontSize;
-    protected $textColor;
-    protected $backgroundColor;
-    protected $gridColor;
+    protected $textColor = [];
+    protected $backgroundColor = [];
+    protected $gridColor = [];
     protected $legendFontSize;
     protected $width;
     protected $height;
@@ -368,7 +368,7 @@ abstract class StaticGraph extends BaseFactory
                 'B' => hexdec($matches[3])
             );
         } else {
-            return false;
+            return [];
         }
     }
 }

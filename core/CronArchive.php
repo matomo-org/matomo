@@ -864,7 +864,7 @@ class CronArchive
         }
 
         $content = $this->request($url);
-        $daysResponse = @unserialize($content);
+        $daysResponse = Common::safe_unserialize($content);
 
         if (empty($content)
             || !is_array($daysResponse)
@@ -1015,7 +1015,7 @@ class CronArchive
             $success = $success && $this->checkResponse($content, $url);
 
             if ($noSegmentUrl == $url && $success) {
-                $stats = @unserialize($content);
+                $stats = Common::safe_unserialize($content);
 
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);

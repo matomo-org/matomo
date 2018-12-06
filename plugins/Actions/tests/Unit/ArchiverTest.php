@@ -80,15 +80,15 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'params'   => array('name' => 'Category / Subcategory', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('Category', ' Subcategory'),
+                'expected' => array('Category / Subcategory'),
             ),
             array(
                 'params'   => array('name' => '/path/index.php?var=test', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('path', ' index.php?var=test'),
+                'expected' => array('/path/index.php?var=test'),
             ),
             array(
                 'params'   => array('name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Action::TYPE_PAGE_TITLE),
-                'expected' => array('path', ' Default.aspx#anchor'),
+                'expected' => array('http://example.org/path/Default.aspx#anchor'),
             ),
             array(
                 'params'   => array('name' => '', 'type' => Action::TYPE_PAGE_TITLE),
