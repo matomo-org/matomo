@@ -43,6 +43,7 @@ Piwik.addPlugin('testPlugin', {
 				'_isSameCrossDomainDevice: isSameCrossDomainDevice,' +
 				'_replaceHrefForCrossDomainLink: replaceHrefForCrossDomainLink,' +
 				'_isLinkToDifferentDomainButSamePiwikWebsite: isLinkToDifferentDomainButSamePiwikWebsite,' +
+				'_arrayChunk : arrayChunk,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
 				'_titleFixup : titleFixup,' +
