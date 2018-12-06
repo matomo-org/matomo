@@ -177,7 +177,9 @@ class Flattener extends DataTableManipulator
             if ($origLabel !== false) {
                 foreach ($subTable->getRows() as $subRow) {
                     foreach ($row->getMetadata() as $name => $value) {
-                        $subRow->setMetadata($name, $value);
+                        if ($subRow->getMetadata($name) === false) {
+                            $subRow->setMetadata($name, $value);
+                        }
                     }
 
                     $subRow->setMetadata($dimensionName, $origLabel);
