@@ -3,7 +3,7 @@ return array(
     'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, \Interop\Container\ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\SystemSettings $settings */
 
-        \Piwik\Piwik::doAsSuperUser(function () use ($settings, $c) {
+        \Piwik\Access::doAsSuperUser(function () use ($settings, $c) {
             if ($c->get('test.vars.bruteForceBlockIps')) {
                 $settings->blacklistedBruteForceIps->setValue(array('10.2.3.4'));
             } else {
