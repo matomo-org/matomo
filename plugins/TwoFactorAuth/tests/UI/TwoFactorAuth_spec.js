@@ -92,7 +92,7 @@ describe("TwoFactorAuth", function () {
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', function (done) {
         captureScreen(done, 'widgetized_no_verify', function (page) {
-            page.load('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
+            page.load('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&date=2018-03-04&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
         });
     });
 
