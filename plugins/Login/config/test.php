@@ -3,11 +3,13 @@ return array(
     'Piwik\Plugins\Login\SystemSettings' => DI\decorate(function ($settings, \Interop\Container\ContainerInterface $c) {
         /** @var \Piwik\Plugins\Login\SystemSettings $settings */
 
-        if ($c->get('test.vars.bruteForceBlockIps')) {
-            $settings->blacklistedBruteForceIps->setValue(array('10.2.3.4'));
-        } else {
-            $settings->blacklistedBruteForceIps->setValue(array());
-        }
+        \Piwik\Piwik::doAsSuperUser(function () use ($settings, $c) {
+            if ($c->get('test.vars.bruteForceBlockIps')) {
+                $settings->blacklistedBruteForceIps->setValue(array('10.2.3.4'));
+            } else {
+                $settings->blacklistedBruteForceIps->setValue(array());
+            }
+        });
 
         return $settings;
     }),
