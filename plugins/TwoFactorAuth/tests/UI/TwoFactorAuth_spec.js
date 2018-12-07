@@ -174,6 +174,9 @@ describe("TwoFactorAuth", function () {
         captureScreen(done, 'twofa_setup_step2', function (page) {
             page.click('.setupTwoFactorAuthentication .backupRecoveryCode:first');
             page.click('.setupTwoFactorAuthentication .goToStep2');
+            page.evaluate(function () {
+                $('#qrcode').hide();
+            });
         });
     });
 
