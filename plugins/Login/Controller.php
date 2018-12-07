@@ -197,11 +197,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $nonceKey = 'confirmPassword';
         $messageNoAccess = '';
+
         if (!empty($_POST)) {
             $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            $password = Common::getRequestVar('password', null, 'string', $_POST);
             if (!Nonce::verifyNonce($nonceKey, $nonce)) {
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
-            } elseif ($this->verifyPasswordCorrect()) {
+            } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
             } else {
@@ -213,25 +215,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'nonce' => Nonce::getNonce($nonceKey),
             'AccessErrorString' => $messageNoAccess
         ));
-    }
-
-    private function verifyPasswordCorrect()
-    {
-        /** @var \Piwik\Auth $authAdapter */
-        $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
-        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
-        $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
-        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
-        $authResult = $authAdapter->authenticate();
-        if ($authResult->wasAuthenticationSuccessful()) {
-            return true;
-        }
-        /**
-         * @ignore
-         */
-        Piwik::postEvent('Login.recordFailedLoginAttempt');
-        return false;
     }
 
     /**

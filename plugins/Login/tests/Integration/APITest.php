@@ -50,9 +50,9 @@ class APITest extends IntegrationTestCase
     public function test_unblockBruteForceIPs_removesBlockedIps()
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-        $bruteForce->addFailedLoginAttempt('127.2.3.4');
+        $bruteForce->addFailedAttempt('127.2.3.4');
         for ($i = 0; $i < 22; $i++) {
-            $bruteForce->addFailedLoginAttempt('127.2.3.5');
+            $bruteForce->addFailedAttempt('127.2.3.5');
         }
         $this->assertCount(23, $bruteForce->getAll());
         $this->api->unblockBruteForceIPs();

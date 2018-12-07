@@ -67,7 +67,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertTrue($this->detection->isEnabled());
     }
 
-    public function test_addFailedLoginAttempt_addsEntries()
+    public function test_addFailedAttempt_addsEntries()
     {
         $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('2001:0db8:85a3:0000:0000:8a2e:0370:7334', 2);
@@ -115,8 +115,8 @@ class BruteForceDetectionTest extends IntegrationTestCase
 
         // those should not be touched
         $this->detection->setNow($now->subDay(20));
-        $this->detection->addFailedLoginAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
-        $this->detection->addFailedLoginAttempt('10.1.2.3');
+        $this->detection->addFailedAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
+        $this->detection->addFailedAttempt('10.1.2.3');
 
         $this->detection->setNow($now);
         $this->assertCount(5, $this->detection->getAll());
@@ -152,12 +152,12 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->addFailedLoginInPast('10.1.2.3', 2);
 
         $this->detection->setNow($now->subDay(5));
-        $this->detection->addFailedLoginAttempt('10.1.2.6');
+        $this->detection->addFailedAttempt('10.1.2.6');
 
         // those should be cleaned up
         $this->detection->setNow($now->subDay(10));
-        $this->detection->addFailedLoginAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
-        $this->detection->addFailedLoginAttempt('10.1.2.4');
+        $this->detection->addFailedAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
+        $this->detection->addFailedAttempt('10.1.2.4');
 
         $this->detection->setNow($now);
         $this->assertCount(5, $this->detection->getAll());
@@ -192,11 +192,11 @@ class BruteForceDetectionTest extends IntegrationTestCase
 
     public function test_getCurrentlyBlockedIps_noIpBlockedWhenOnlyRecentOnesAdded()
     {
-        $this->detection->addFailedLoginAttempt('127.0.0.1');
-        $this->detection->addFailedLoginAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
-        $this->detection->addFailedLoginAttempt('10.1.2.3');
-        $this->detection->addFailedLoginAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
-        $this->detection->addFailedLoginAttempt('10.1.2.3');
+        $this->detection->addFailedAttempt('127.0.0.1');
+        $this->detection->addFailedAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
+        $this->detection->addFailedAttempt('10.1.2.3');
+        $this->detection->addFailedAttempt('2001:0db8:85a3:0000:0000:8a2e:0370:7334');
+        $this->detection->addFailedAttempt('10.1.2.3');
 
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
     }
@@ -253,7 +253,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
     {
         $now = $this->detection->getNow();
         $this->detection->setNow($now->subPeriod($minutes, 'minute'));
-        $this->detection->addFailedLoginAttempt($ipAddress);
+        $this->detection->addFailedAttempt($ipAddress);
         $this->detection->setNow($now);
     }
 

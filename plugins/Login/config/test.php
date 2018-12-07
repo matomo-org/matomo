@@ -17,12 +17,12 @@ return array(
         if ($c->get('test.vars.bruteForceBlockIps')) {
             for ($i = 0; $i < 30; $i++) {
                 // we block a random IP
-                $detection->addFailedLoginAttempt('10.55.66.77');
+                $detection->addFailedAttempt('10.55.66.77');
             }
         } else if ($c->get('test.vars.bruteForceBlockThisIp')) {
             for ($i = 0; $i < 30; $i++) {
                 // we block this IP
-                $detection->addFailedLoginAttempt(\Piwik\IP::getIpFromHeader());
+                $detection->addFailedAttempt(\Piwik\IP::getIpFromHeader());
             }
         }
 

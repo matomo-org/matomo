@@ -39,7 +39,7 @@ class BruteForceDetection {
         return $this->settings->enableBruteForceDetection->getValue();
     }
 
-    public function addFailedLoginAttempt($ipAddress)
+    public function addFailedAttempt($ipAddress)
     {
         $now = $this->getNow()->getDatetime();
         $db = Db::get();

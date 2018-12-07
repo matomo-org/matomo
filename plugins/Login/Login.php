@@ -32,7 +32,6 @@ class Login extends \Piwik\Plugin
      */
     public function registerEvents()
     {
-        $plugin = Piwik::getLoginPluginName();
         $hooks = array(
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
@@ -54,11 +53,25 @@ class Login extends \Piwik\Plugin
             'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
             'API.UsersManager.updateUser.failed' => 'beforeLoginCheckBruteForce',
-            'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.beforeLoginCheckAllowed'  => 'beforeLoginCheckBruteForce', // record any failed attempt in UI
             'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
+
+        $loginPlugin = Piwik::getLoginPluginName();
+
+        if ($loginPlugin && $loginPlugin !== 'Login') {
+            $hooks['Controller.'.$loginPlugin.'.logme']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin. '.']               = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.index']           = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.confirmResetPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.confirmPassword'] = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.resetPassword']   = 'beforeLoginCheckBruteForce';
+            $hooks['Controller.'.$loginPlugin.'.login']           = 'beforeLoginCheckBruteForce';
+        }
+
         return $hooks;
     }
 
@@ -91,7 +104,7 @@ class Login extends \Piwik\Plugin
         // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$this->hasAddedFailedAttempt) {
-            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
+            $bruteForce->addFailedAttempt(IP::getIpFromHeader());
             // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
             // if eg API is called etc.
             $this->hasAddedFailedAttempt = true;
