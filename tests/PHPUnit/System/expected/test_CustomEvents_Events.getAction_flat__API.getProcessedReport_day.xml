@@ -416,10 +416,10 @@
 		<nb_uniq_visitors>61</nb_uniq_visitors>
 		<nb_visits>64</nb_visits>
 		<nb_events>69</nb_events>
-		<nb_events_with_value>13</nb_events_with_value>
+		<nb_events_with_value>14</nb_events_with_value>
 		<sum_event_value>137.96</sum_event_value>
-		<min_event_value>60.32</min_event_value>
+		<min_event_value>37.32</min_event_value>
 		<max_event_value>62.32</max_event_value>
-		<avg_event_value>20.65</avg_event_value>
+		<avg_event_value>19.54</avg_event_value>
 	</reportTotal>
 </result>

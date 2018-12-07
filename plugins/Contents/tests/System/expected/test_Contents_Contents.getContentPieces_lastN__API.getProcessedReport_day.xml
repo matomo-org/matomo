@@ -131,8 +131,8 @@
 	<reportTotal>
 		<nb_uniq_visitors>16</nb_uniq_visitors>
 		<nb_visits>16</nb_visits>
-		<nb_impressions>16</nb_impressions>
+		<nb_impressions>18</nb_impressions>
 		<nb_interactions>6</nb_interactions>
-		<interaction_rate>37.5%</interaction_rate>
+		<interaction_rate>33.33%</interaction_rate>
 	</reportTotal>
 </result>
