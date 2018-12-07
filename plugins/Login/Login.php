@@ -32,6 +32,7 @@ class Login extends \Piwik\Plugin
      */
     public function registerEvents()
     {
+        $plugin = Piwik::getLoginPluginName();
         $hooks = array(
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
@@ -48,10 +49,13 @@ class Login extends \Piwik\Plugin
             'Controller.Login.'                => 'beforeLoginCheckBruteForce',
             'Controller.Login.index'           => 'beforeLoginCheckBruteForce',
             'Controller.Login.confirmResetPassword' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.confirmPassword' => 'beforeLoginCheckBruteForce',
             'Controller.Login.resetPassword'   => 'beforeLoginCheckBruteForce',
             'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
             'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
+            'API.UsersManager.updateUser.failed' => 'beforeLoginCheckBruteForce',
             'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'Login.recordFailedLoginAttempt'  => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
             'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
             'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );

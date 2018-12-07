@@ -224,7 +224,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
         $authAdapter->setTokenAuth(null);// ensure authentication happens on password
         $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
+        if ($authResult->wasAuthenticationSuccessful()) {
+            return true;
+        }
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Login.recordFailedLoginAttempt');
+        return false;
     }
 
     /**

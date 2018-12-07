@@ -924,7 +924,16 @@ class API extends \Piwik\Plugin\API
         $authAdapter->setPassword($password);
         $authAdapter->setTokenAuth(null);// ensure authentication happens on password
         $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
+        if ($authResult->wasAuthenticationSuccessful()) {
+
+            return true;
+        }
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Login.recordFailedLoginAttempt');
+        return false;
     }
 
     /**
