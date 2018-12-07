@@ -155,7 +155,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                 'ScheduledReports.generateReport',
                 array(
-                    'testSuffix'             => '_schedrep_in_html_tables_only',
+                    'testSuffix'             => '_schedrep_html_tables_only',
                     'date'                   => $dateTime,
                     'periods'                => array($period),
                     'format'                 => 'original',
