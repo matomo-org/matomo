@@ -142,6 +142,15 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         }, done);
     });
 
+    it("should show the totals row when the config link is clicked", function (done) {
+        expect.screenshot('totals_row').to.be.capture(function (page) {
+            page.load(url);
+            page.click('.dropdownConfigureIcon');
+            page.click('.dataTableShowTotalsRow');
+        }, done);
+    });
+
+
     it("should display a related report when related report link is clicked", function (done) {
         expect.screenshot('related_report_click').to.be.capture(function (page) {
             var newReportUrl = url.replace("=Referrers", "=DevicesDetection").replace("=getKeywords", "=getOsFamilies");
