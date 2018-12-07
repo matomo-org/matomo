@@ -1294,6 +1294,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             })
             .click(generateClickCallback('flat'));
 
+        // handle flatten
+        $('.dataTableShowTotalsRow', domElem)
+            .each(function () {
+                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
+            })
+            .click(generateClickCallback('keep_totals_row'));
+
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {
                 setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows',
@@ -1975,6 +1982,7 @@ DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceV
 DataTable.switchToGraph = function (dataTable, viewDataTable) {
     var filters = dataTable.resetAllFilters();
     dataTable.param.flat = filters.flat;
+    dataTable.param.keep_totals_row = filters.keep_totals_row;
     dataTable.param.columns = filters.columns;
 
     dataTable.param.viewDataTable = viewDataTable;
