@@ -21,7 +21,21 @@ describe("Login", function () {
         testEnvironment.save();
     });
 
+    beforeEach(function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
+        testEnvironment.save();
+    });
+
     after(function () {
+        testEnvironment.testUseMockAuth = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.bruteForceBlockThisIp;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+    });
+
+    afterEach(function () {
         testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;

@@ -26,6 +26,8 @@ return array(
                 // we block this IP
                 $detection->addFailedAttempt(\Piwik\IP::getIpFromHeader());
             }
+        } else {
+            $detection->deleteAll();
         }
 
         return $detection;
