@@ -68,6 +68,8 @@
         "TableNoData": "No data for this table.",
         "ThereIsNoDataForThisReport": "There is no data for this report.",
         "UnFlattenDataTable": "The report is flat %s Make it hierarchical",
+        "RemoveTotalsRowDataTable": "The report is showing the totals row %s Remove totals row",
+        "AddTotalsRowDataTable": "The report is not showing the totals row %s Show totals row",
         "ViewAllPiwikVideoTutorials": "View all Matomo Video Tutorials",
         "WebAnalyticsReports": "Web Analytics Reports",
         "YouAreUsingTheLatestVersion": "You are using the latest version of Matomo!",

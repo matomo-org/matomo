@@ -146,6 +146,7 @@ class Request
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
+                Common::printDebug("failed to authenticate: invalid idSite");
                 $this->isAuthenticated = false;
                 return;
             }
