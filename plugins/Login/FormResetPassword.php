@@ -31,7 +31,7 @@ class FormResetPassword extends QuickForm2
 
         $passwordBis = $this->addElement('password', 'form_password_bis');
         $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Login_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik::translate('Login_PasswordsDoNotMatch'), $password);
+        $passwordBis->addRule('eq', Piwik::translate('Login_PasswordsDoNotMatch'), ['operand' => $password]);
 
         $this->addElement('hidden', 'form_nonce');
 

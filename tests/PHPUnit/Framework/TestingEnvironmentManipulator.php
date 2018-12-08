@@ -83,6 +83,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
             }
+
+            $_SERVER['QUERY_STRING'] = http_build_query($_GET);
         }
 
         if ($this->vars->globalsOverride) {

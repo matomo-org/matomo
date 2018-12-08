@@ -1189,12 +1189,31 @@
 		<result prettyDate="Wednesday, March 10, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>62</nb_visits>
 		<nb_uniq_visitors>62</nb_uniq_visitors>
+		<nb_visits>62</nb_visits>
 		<nb_actions>62</nb_actions>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_users>0</nb_users>
+		<max_actions>31</max_actions>
+		<sum_visit_length>11315</sum_visit_length>
 		<bounce_count>62</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
 		<nb_conversions>93</nb_conversions>
 		<revenue>0</revenue>
+		<conversion_rate>0</conversion_rate>
+		<nb_actions_per_visit>31</nb_actions_per_visit>
+		<avg_time_on_site>5673</avg_time_on_site>
+		<bounce_rate>3100</bounce_rate>
 	</reportTotal>
 </result>
