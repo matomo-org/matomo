@@ -6,7 +6,7 @@ return array(
         \Piwik\Access::doAsSuperUser(function () use ($settings, $c) {
             if ($c->get('test.vars.bruteForceBlockIps')) {
                 $settings->blacklistedBruteForceIps->setValue(array('10.2.3.4'));
-            } else {
+            } elseif (\Piwik\SettingsPiwik::isPiwikInstalled()) {
                 $settings->blacklistedBruteForceIps->setValue(array());
             }
         });
