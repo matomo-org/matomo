@@ -129,6 +129,7 @@ describe("Login", function () {
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.bruteForceBlockIps;
+        testEnvironment.overrideConfig('General', 'login_whitelist_ip', []);
         testEnvironment.save();
 
         expect.screenshot("bruteforcelog_noentries").to.be.capture(function (page) {
