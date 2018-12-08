@@ -26,7 +26,8 @@ return array(
                 // we block this IP
                 $detection->addFailedAttempt(\Piwik\IP::getIpFromHeader());
             }
-        } else {
+        } elseif (\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            // prevent tests from blocking other tests
             $detection->deleteAll();
         }
 
