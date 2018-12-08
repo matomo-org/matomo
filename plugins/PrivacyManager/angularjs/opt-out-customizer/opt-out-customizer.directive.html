@@ -40,40 +40,6 @@
         </p>
     </div>
 
-    <h3>Customize opt-out text</h3>
-    <div>
-        <p>
-            <input type="radio" name="opt-out-form-mode" id="opt-out-form-mode-in" value="opted-in" ng-model="optOutCustomizer.optOutFormMode">
-            <label for="opt-out-form-mode-in"> When the user is opted-in</label>
-            <br/>
-            <input type="radio" name="opt-out-form-mode" id="opt-out-form-mode-out" value="opted-out" ng-model="optOutCustomizer.optOutFormMode">
-            <label for="opt-out-form-mode-out"> When the user is opted-out</label>
-            <br/><br/>
-        </p>
-
-        <div
-            piwik-field
-            ng-if="optOutCustomizer.optOutFormMode == 'opted-out'"
-            class="opt-out-text-field"
-            uicontrol="textarea"
-            ng-model="optOutCustomizer.optedOutText"
-            ng-change="optOutCustomizer.saveOptOutText()"
-            ng-model-options="{debounce: 200}"
-        >
-        </div>
-
-        <div
-            piwik-field
-            ng-if="optOutCustomizer.optOutFormMode == 'opted-in'"
-            class="opt-out-text-field"
-            uicontrol="textarea"
-            ng-model="optOutCustomizer.optedInText"
-            ng-change="optOutCustomizer.saveOptOutText()"
-            ng-model-options="{debounce: 200}"
-        >
-        </div>
-    </div>
-
     <h3>HTML code to embed on your website</h3>
     <pre piwik-select-on-focus>&lt;iframe
         style="border: 0; height: 200px; width: 600px;"
