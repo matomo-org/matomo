@@ -107,8 +107,19 @@ class FrontController extends Singleton
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
-            'line' => $e->getLine()
+            'line' => $e->getLine(),
         );
+
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] .= $e->getTraceAsString();
+
+        $exception = $e;
+        while ($exception = $exception->getPrevious()) {
+            $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
+            $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
+            $error['backtrace'] .= $exception->getTraceAsString();
+        }
+
         return self::generateSafeModeOutputFromError($error);
     }
 
@@ -230,6 +241,9 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+            $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                . ErrorHandler::getFatalErrorPartialBacktrace();
+
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
         }
@@ -363,6 +377,8 @@ class FrontController extends Singleton
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
             Access::getInstance()->reloadAccess($authAdapter);
+        } else {
+            $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -622,7 +638,7 @@ class FrontController extends Singleton
         return null;
     }
 
-    private function makeAuthenticator()
+    private function makeAuthenticator(SessionAuth $auth = null)
     {
         /**
          * Triggered before the user is authenticated, when the global authentication object
@@ -652,8 +668,13 @@ class FrontController extends Singleton
             throw $ex;
         }
 
-        $authAdapter->setLogin(self::DEFAULT_LOGIN);
-        $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        if ($auth) {
+            $authAdapter->setLogin($auth->getLogin());
+            $authAdapter->setTokenAuth($auth->getTokenAuth());
+        } else {
+            $authAdapter->setLogin(self::DEFAULT_LOGIN);
+            $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        }
 
         return $authAdapter;
     }

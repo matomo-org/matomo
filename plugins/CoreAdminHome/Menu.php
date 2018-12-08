@@ -36,6 +36,12 @@ class Menu extends \Piwik\Plugin\Menu
                 $this->urlForAction('trackingCodeGenerator'),
                 $order = 12);
         }
+
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $menu->addDiagnosticItem('CoreAdminHome_TrackingFailures',
+                $this->urlForAction('trackingFailures'),
+                $order = 2);
+        }
     }
 
     public function configureTopMenu(MenuTop $menu)

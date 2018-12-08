@@ -89,7 +89,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scount</segment>
-				<idsubdatatable>3339</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				<slots>
@@ -100,7 +100,7 @@
 				</slots>
 				
 				<segment>customVariableName==_pk_scat</segment>
-				<idsubdatatable>3338</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />
@@ -113,5 +113,10 @@
 	<reportTotal>
 		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>1.3</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>0%</bounce_rate>
 	</reportTotal>
 </result>

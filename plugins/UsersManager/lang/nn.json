@@ -7,7 +7,6 @@
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Matomo loggar dine vitjingar",
         "DeleteConfirm": "Er du sikker på at du vil fjerna brukar %s?",
         "Email": "Epost",
-        "ExceptionAccessValues": "Parameteren tilgang må ha ein av dei følgjande verdiane: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Brukaren '%s' kan ikkje slettast av di han ikkje finst.",
         "ExceptionEditAnonymous": "Den anonyme brukaren kan ikkje bli endra eller sletta. Den er brukt av Matomo for å definera ein brukar som ikkje hev logga inn. Til døme kan du gjera statistikken offentleg tilgjengeleg ved å gjeva lesetilgang til den anonyme brukaren.",
         "ExceptionEmailExists": "Ein bukar med eposten '%s' finst allereie.",
@@ -31,6 +30,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Når brukarar vitjar Matomo uten å vera innlogga, skal dei ha tilgang til",
         "YourUsernameCannotBeChanged": "Brukarnamnet ditt kan ikkje endrast.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine vitjingar blir ignorert av Matomo på %2$s %3$s (Informasjonskapselen frå Matomo vart funnen i din nettlesar).",
-        "YourVisitsAreNotIgnored": "%1$sDine vitjingar blir ikkje ignorert av Matomo%2$s (Informasjonskapselen frå Matomo vart ikkje funnen i din nettlesar)."
+        "YourVisitsAreNotIgnored": "%1$sDine vitjingar blir ikkje ignorert av Matomo%2$s (Informasjonskapselen frå Matomo vart ikkje funnen i din nettlesar).",
+        "Username": "Brukarnamn"
     }
 }

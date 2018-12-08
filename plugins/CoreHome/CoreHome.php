@@ -7,12 +7,14 @@
  *
  */
 namespace Piwik\Plugins\CoreHome;
+
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\SettingsServer;
 
 /**
@@ -38,8 +40,16 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'AssetManager.addStylesheets' => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
         );
+    }
+
+    public function addStylesheets(&$mergedContent)
+    {
+        $themeStyles = ThemeStyles::get();
+        $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 
     public function initAuthenticationObject()
@@ -117,6 +127,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
     }
@@ -156,7 +167,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
@@ -226,6 +236,7 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
@@ -263,6 +274,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.js";
+
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
 
@@ -274,7 +287,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
-
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
@@ -322,6 +336,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
         $translationKeys[] = 'CoreHome_Menu';
+        $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';

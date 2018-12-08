@@ -9,13 +9,16 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Session;
+use Piwik\Url;
 
 /**
  *
@@ -23,7 +26,7 @@ use Piwik\Session;
 class Login extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -65,7 +68,7 @@ class Login extends \Piwik\Plugin
     {
         $module = Common::getRequestVar('module', false);
         $action = Common::getRequestVar('action', false);
-        return $module == 'Login' && (empty($action) || $action == 'login');
+        return ($module == 'Login' || $module == 'CoreHome') && (empty($action) || $action == 'index' || $action == 'login');
     }
 
     /**

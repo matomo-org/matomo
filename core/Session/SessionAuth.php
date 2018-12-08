@@ -11,6 +11,7 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
@@ -34,6 +35,13 @@ class SessionAuth implements Auth
      */
     private $userModel;
 
+    /**
+     * Set internally so it can be queried in FrontController.
+     *
+     * @var array
+     */
+    private $user;
+
     public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
@@ -52,7 +60,7 @@ class SessionAuth implements Auth
 
     public function getLogin()
     {
-        // empty
+        return $this->user['login'];
     }
 
     public function getTokenAuthSecret()
@@ -92,15 +100,14 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
-        if (!$sessionFingerprint->isMatchingCurrentRequest()) {
-            $this->initNewBlankSession($sessionFingerprint);
-            return $this->makeAuthFailure();
-        }
-
         $tsPasswordModified = !empty($user['ts_password_modified']) ? $user['ts_password_modified'] : null;
         if ($this->isSessionStartedBeforePasswordChange($sessionFingerprint, $tsPasswordModified)) {
             $this->destroyCurrentSession($sessionFingerprint);
             return $this->makeAuthFailure();
+        }
+
+        if ($sessionFingerprint->isRemembered()) {
+            $this->updateSessionExpireTime();
         }
 
         return $this->makeAuthSuccess($user);
@@ -129,7 +136,7 @@ class SessionAuth implements Auth
 
     private function makeAuthSuccess($user)
     {
-        $this->setTokenAuth($user['token_auth']);
+        $this->user = $user;
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
@@ -137,7 +144,7 @@ class SessionAuth implements Auth
         return new AuthResult($code, $user['login'], $user['token_auth']);
     }
 
-    private function initNewBlankSession(SessionFingerprint $sessionFingerprint)
+    protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
     {
         // this user should be using a different session, so generate a new ID
         // NOTE: Zend_Session cannot be used since it will destroy the old
@@ -152,7 +159,7 @@ class SessionAuth implements Auth
         $sessionFingerprint->clear();
     }
 
-    private function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
+    protected function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
     {
         // Note: Piwik will attempt to create another session in the LoginController
         // when rendering the login form (the nonce for the form is stored in the session).
@@ -164,5 +171,16 @@ class SessionAuth implements Auth
         if ($this->shouldDestroySession) {
             Session::regenerateId();
         }
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->user['token_auth'];
+    }
+
+    private function updateSessionExpireTime()
+    {
+        $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
+        setcookie(session_name(), session_id(), time() + $sessionCookieLifetime);
     }
 }

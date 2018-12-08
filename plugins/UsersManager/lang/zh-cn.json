@@ -11,7 +11,6 @@
         "DeleteConfirm": "您确定要删除 %s 用户吗？",
         "Email": "邮箱",
         "EmailYourAdministrator": "%1$s发邮件给管理员报告问题%2$s。",
-        "ExceptionAccessValues": "参数必须包含一个下面的值: [ %s ]",
         "ExceptionDeleteDoesNotExist": "用户 '%s' 不存在，无法删除！",
         "ExceptionEditAnonymous": "anonymous 用户不能被修改或删除，因为他是被 Matomo 使用来定义一个还未登入的用户！例如，您可以把 '查看' 权限授予 'anonymous' 用户以公开您的统计资料！",
         "ExceptionEmailExists": "使用邮箱 '%s' 的用户已存在！",
@@ -45,6 +44,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "如果访客没有登录，访问 Matomo 时打开",
         "YourUsernameCannotBeChanged": "不能修改用户名。",
         "YourVisitsAreIgnoredOnDomain": "%1$s您的访问记录已在 %2$s %3$s 被 Matomo 忽略(在您的浏览器找到 Matomo 拒绝 cookie)",
-        "YourVisitsAreNotIgnored": "%1$s您的访问记录沒有被 Matomo 忽略%2$s (您的浏览器中没有 Matomo 忽略 cookie)"
+        "YourVisitsAreNotIgnored": "%1$s您的访问记录沒有被 Matomo 忽略%2$s (您的浏览器中没有 Matomo 忽略 cookie)",
+        "XtoYofN": "%1$s - %2$s of %3$s",
+        "Username": "用户名"
     }
 }

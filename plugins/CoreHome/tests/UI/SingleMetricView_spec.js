@@ -20,7 +20,7 @@ describe('SingleMetricView', function () {
             page.load(url, 5000);
             page.click('.dashboard-manager a.title');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Generic will just be highlighted
             page.mouseMove('.widgetpreview-categorylist > li:contains(Generic)');
 
             page.mouseMove('.widgetpreview-widgetlist li:contains(Metric)');
@@ -35,9 +35,18 @@ describe('SingleMetricView', function () {
         }, done);
     });
 
+    it('should handle individual goal metrics properly', function (done) {
+        expect.screenshot("goal_metric").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
+            page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
+            page.click('.jqplot-seriespicker-popover label:contains(_x)');
+        }, done);
+    });
+
     it('should handle range periods correctly', function (done) {
         expect.screenshot("range").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
             page.load(rangeUrl, 8000);
+            page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
+            page.click('.jqplot-seriespicker-popover label:contains(Revenue):eq(0)');
         }, done);
     });
 });

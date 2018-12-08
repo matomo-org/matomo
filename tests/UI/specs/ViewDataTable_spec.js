@@ -98,6 +98,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect.screenshot('11_flattened').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon');
             page.click('.dataTableFlatten');
+            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
     });
 
@@ -105,6 +106,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect.screenshot('12_aggregate_shown').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon');
             page.click('.dataTableIncludeAggregateRows');
+            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
     });
 
@@ -112,6 +114,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect.screenshot('13_make_hierarchical').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon');
             page.click('.dataTableFlatten');
+            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
     });
 
@@ -141,6 +144,15 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
             page.click('.activateExportSelection');
         }, done);
     });
+
+    it("should show the totals row when the config link is clicked", function (done) {
+        expect.screenshot('totals_row').to.be.capture(function (page) {
+            page.load(url);
+            page.click('.dropdownConfigureIcon');
+            page.click('.dataTableShowTotalsRow');
+        }, done);
+    });
+
 
     it("should display a related report when related report link is clicked", function (done) {
         expect.screenshot('related_report_click').to.be.capture(function (page) {

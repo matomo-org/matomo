@@ -62,6 +62,7 @@ class Request
 
         $toSetEventually = array(
             'filter_limit',
+            'keep_totals_row',
             'keep_summary_row',
             'filter_sort_column',
             'filter_sort_order',

@@ -185,6 +185,14 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array($isLocal = true, '127.0.0.1'),
             array($isLocal = true, '::1'),
             array($isLocal = true, '[::1]'),
+
+            // with port
+            array($isLocal = false, '172.30.1.1:80'),
+            array($isLocal = false, '3ffe:1900:4545:3:200:f8ff:fe21:67cf:1005'),
+            array($isLocal = true, 'localhost:3000'),
+            array($isLocal = true, '127.0.0.1:213424'),
+            array($isLocal = true, '::1:345'),
+            array($isLocal = true, '[::1]:443'),
         );
     }
 

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta name="robots" content="noindex,nofollow">
+    <meta name="google" content="notranslate">
 
     <link rel="stylesheet" type="text/css" href="index.php?module=CoreUpdater&action=getUpdaterCss"/>
     <script type="text/javascript" src="index.php?module=CoreUpdater&action=getUpdaterJs"></script>
@@ -17,17 +18,7 @@
 </head>
 <body id="simple" ng-app="app">
 
-
-<div class="logo">
-    {% if hasSVGLogo %}
-        <img src='{{ logoSVG }}' tabindex="3"
-             style="height: 40px;"
-             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
-             class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
-    {% else %}
-        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
-    {% endif %}
-</div>
+{% include "@CoreHome/_logo.twig" with { 'logoLink': false } %}
 
 <div class="box">
     {% block content %}

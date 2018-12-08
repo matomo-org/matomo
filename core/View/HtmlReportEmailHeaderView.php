@@ -10,10 +10,10 @@
 namespace Piwik\View;
 
 use Piwik\Date;
-use Piwik\Piwik;
+use Piwik\Mail\EmailStyles;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\Plugins\Morpheus\Emails as MorpheusEmails;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -24,6 +24,7 @@ class HtmlReportEmailHeaderView extends View
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
 
     private static $reportFrequencyTranslationByPeriod = [
+        Schedule::PERIOD_NEVER => '',
         Schedule::PERIOD_DAY   => 'General_DailyReport',
         Schedule::PERIOD_WEEK  => 'General_WeeklyReport',
         Schedule::PERIOD_MONTH => 'General_MonthlyReport',
@@ -47,10 +48,6 @@ class HtmlReportEmailHeaderView extends View
         $this->assign("idSite", $idSite);
         $this->assign("period", $period);
 
-        $customLogo = new CustomLogo();
-        $this->assign("isCustomLogo", $customLogo->isEnabled() && CustomLogo::hasUserLogo());
-        $this->assign("logoHeader", $customLogo->getHeaderLogoUrl($pathOnly = false));
-
         $date = Date::now()->setTimezone(Site::getTimezoneFor($idSite))->toString();
         $this->assign("date", $date);
 
@@ -64,50 +61,27 @@ class HtmlReportEmailHeaderView extends View
 
     public static function assignCommonParameters(View $view)
     {
-        $parameters = self::getEmailStyleParameters();
+        $themeStyles = ThemeStyles::get();
+        $emailStyles = EmailStyles::get();
 
-        $parameters['currentPath'] = SettingsPiwik::getPiwikUrl();
-        $parameters['logoHeader'] = API::getInstance()->getHeaderLogoUrl();
+        $view->currentPath = SettingsPiwik::getPiwikUrl();
+        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
 
-        foreach ($parameters as $name => $value) {
-            $view->assign($name, $value);
-        }
+        $view->themeStyles = $themeStyles;
+        $view->emailStyles = $emailStyles;
+
+        $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
+        $view->styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;';
+
+        $customLogo = new CustomLogo();
+        $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
+        $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
+
+        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
     }
 
     private static function getPeriodToFrequencyAsAdjective()
     {
         return array_map(['\Piwik\Piwik', 'translate'], self::$reportFrequencyTranslationByPeriod);
-    }
-
-    private static function getEmailStyleParameters()
-    {
-        $vars = MorpheusEmails::getDefaultEmailStyles();
-
-        /**
-         * Use this event to change the colors and fonts used in HTML email reports by setting properties in $vars.
-         *
-         * The following properties are supported:
-         * - **themeFontFamilyBase**
-         * - **themeColorBrand**
-         * - **themeColorBrandContrast**
-         * - **themeColorText**
-         * - **themeColorTextLight**
-         * - **themeColorTextLighter**
-         * - **themeColorTextContrast**
-         * - **themeColorLink**
-         * - **themeColorBaseSeries**
-         * - **themeColorHeadlineAlternative**
-         * - **themeColorHeaderBackground**
-         * - **themeColorHeaderText**
-         * - **brandNameLong**
-         *
-         * These variables have the same meaning as their LESS variable counterparts (the LESS variables in a theme w/ the "@theme-...-..." format).
-         *
-         * @param string[] &$vars
-         * @ignore
-         */
-        Piwik::postEvent('Emails.setThemeVariables', [&$vars]);
-
-        return $vars;
     }
 }

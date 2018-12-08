@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\SettingsServer;
 
 class FakePluginList extends PluginList
 {
@@ -82,11 +83,19 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
             }
+
+            $_SERVER['QUERY_STRING'] = http_build_query($_GET);
         }
 
         if ($this->vars->globalsOverride) {
             foreach ($this->vars->globalsOverride as $key => $value) {
                 $GLOBALS[$key] = $value;
+            }
+        }
+
+        if ($this->vars->environmentVariables) {
+            foreach ($this->vars->environmentVariables as $key => $value) {
+                putenv("$key=$value");
             }
         }
 
@@ -103,7 +112,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+            && !SettingsServer::isTrackerApiRequest()
+        ) { // TODO: should use testingEnvironment variable, not query param
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -134,7 +145,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraDefinitions()
     {
-        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
+        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource();
+
+        $fixturePluginsToLoad = [];
 
         $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
@@ -145,6 +158,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 // Apply DI config from the fixture
                 if (isset($testCaseClass::$fixture)) {
                     $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
+                    $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
                 }
 
                 if (method_exists($testCaseClass, 'provideContainerConfigBeforeClass')) {
@@ -160,6 +174,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
             if ($this->classExists($fixtureClass)) {
                 $fixture = new $fixtureClass();
+                $fixturePluginsToLoad = $fixture->extraPluginsToLoad;
 
                 if (method_exists($fixture, 'provideContainerConfig')) {
                     $diConfigs[] = $fixture->provideContainerConfig();
@@ -167,7 +182,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             }
         }
 
-        $plugins = $this->getPluginsToLoadDuringTest();
+        $plugins = $this->getPluginsToLoadDuringTest($fixturePluginsToLoad);
         $diConfigs[] = array(
             'observers.global' => \DI\add($this->globalObservers),
 
@@ -197,7 +212,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         return $result;
     }
 
-    private function getPluginsToLoadDuringTest()
+    private function getPluginsToLoadDuringTest($fixtureExtraPlugins = [])
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
 
@@ -210,7 +225,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
-            )
+            ),
+            $fixtureExtraPlugins
         );
 
         foreach ($extraPlugins as $pluginName) {

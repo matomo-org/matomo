@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Session;
 
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
@@ -20,7 +21,6 @@ use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class SessionAuthTest extends IntegrationTestCase
 {
-    const TEST_UA = 'test-user-agent';
     const TEST_OTHER_USER = 'testuser';
 
     /**
@@ -37,37 +37,9 @@ class SessionAuthTest extends IntegrationTestCase
         $this->testInstance = StaticContainer::get(SessionAuth::class);
     }
 
-    public function test_authenticate_ReturnsFailure_IfRequestUserAgentDiffersFromSessionUserAgent()
-    {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest('some-other-user-agent');
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
-    }
-
-    public function test_authenticate_ReturnsSuccess_IfRequestUserAgentMatchSession()
-    {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
-    }
-
-    public function test_authenticate_ReturnsSuperUserSuccess_IfRequestUserAgentMatchSession()
-    {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest(self::TEST_UA);
-
-        $result = $this->testInstance->authenticate();
-        $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $result->getCode());
-    }
-
     public function test_authenticate_ReturnsFailure_IfNoSessionExists()
     {
-        $this->initializeSession(self::TEST_UA, Fixture::ADMIN_USER_LOGIN);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(Fixture::ADMIN_USER_LOGIN);
 
         $this->destroySession();
 
@@ -77,12 +49,12 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function test_authenticate_ReturnsFailure_IfAuthenticatedSession_AndPasswordChangedAfterSessionCreated()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
 
         sleep(1);
 
-        UsersManagerAPI::getInstance()->updateUser(self::TEST_OTHER_USER, 'testpass2');
+        $userUpdater = new UserUpdater();
+        $userUpdater->updateUserWithoutCurrentPassword(self::TEST_OTHER_USER, 'testpass2');
 
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
@@ -92,8 +64,7 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function test_authenticate_ReturnsFailure_IfUsersModelReturnsIncorrectUser()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
 
         $sessionAuth = new SessionAuth(new MockUsersModel([
             'login' => 'wronguser',
@@ -105,8 +76,7 @@ class SessionAuthTest extends IntegrationTestCase
 
     public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
     {
-        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
-        $this->initializeRequest(self::TEST_UA);
+        $this->initializeSession(self::TEST_OTHER_USER);
 
         $usersModel = new UsersModel();
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
@@ -118,15 +88,10 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
-    private function initializeRequest($userAgent)
-    {
-        $_SERVER['HTTP_USER_AGENT'] = $userAgent;
-    }
-
-    private function initializeSession($userAgent, $userLogin)
+    private function initializeSession($userLogin)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $time = null, $userAgent);
+        $sessionFingerprint->initialize($userLogin);
     }
 
     protected static function configureFixture($fixture)

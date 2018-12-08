@@ -104,7 +104,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        return true;
+        return !tr.hasClass('totalsRow');
     }
 
 });

@@ -3,7 +3,7 @@
         "AddSite": "Aggiungi un nuovo sito web",
         "AddMeasurable": "Aggiungi un nuovo sito",
         "AdvancedTimezoneSupportNotFound": "Non è stato trovato nel tuo PHP il supporto avanzato dei fusi orari (supportato in PHP> = 5.2). È comunque possibile scegliere manualmente un offset UTC.",
-        "AliasUrlHelp": "È raccomandato, ma non necessario, di specificare i diversi URL che i tuoi utenti usano per accedere al sito. Gli URL alias di un sito non compariranno tra i siti Referer. Nota che non è necessario specificare gli URL con e senza 'www' in quanto Matomo li considererà; entrambi automaticamente.",
+        "AliasUrlHelp": "È raccomandato, ma non necessario, di specificare i diversi URL che i tuoi utenti usano per accedere al sito. Gli URL alias di un sito non compariranno tra i siti Referer. Nota che non è necessario specificare gli URL con e senza 'www' in quanto Matomo li considererà entrambi automaticamente.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Il cambio del fuso orario interesserà i prossimi report a partire da adesso, mentre quelli precedenti non saranno modificati.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Il simbolo della valuta verrà mostrato accanto ai ricavi dei Goal.",
@@ -32,7 +32,7 @@
         "GlobalListExcludedIps": "Lista globale di IP Esclusi",
         "GlobalListExcludedQueryParameters": "Lista globale di parametri Query URL da escludere",
         "GlobalListExcludedUserAgents": "Lista globale degli user agent da escludere",
-        "GlobalListExcludedUserAgents_Desc": "Se la stringa dello user agent del visitatore contiene una delle stringhe da te specificate, il visitatore sarà escluso da Matomo.",
+        "GlobalListExcludedUserAgents_Desc": "Se la stringa dello user agent del visitatore contiene una di quelle da te specificate, il visitatore sarà escluso da Matomo.",
         "GlobalSettings": "Impostazioni generali",
         "GlobalWebsitesSettings": "Impostazioni globali per i siti",
         "HelpExcludedIpAddresses": "Immetti un elenco di IP, uno per riga, che vuoi escludere dal tracciamento di Matomo. Puoi usare la notazione CIDR, es. %1$s oppure puoi utilizzare dei caratteri jolly, es. %2$s o %3$s",
@@ -76,7 +76,7 @@
         "SiteWithoutDataSetupTracking": "Si prega di impostare in fondo al tuo sito web o all'app mobile il %1$scodice di traccimento%2$s, se non lo hai già fatto.",
         "SiteWithoutDataMessageDisappears": "Questo messaggio scomparirà non appena dei dati di questo sito saranno raccolti.",
         "SiteWithoutDataSetupGoals": "Nel frattempo, potresti voler %1$simpostare alcuni obiettivi%2$s o apprendere altro sulle %3$sfunzionalità%4$s di Matomo in una delle nostre %5$sguide%6$s o %7$sFAQ%8$s.",
-        "SiteWithoutDataIgnoreMessage": "Non mostrare questo messaggio nella prossima ora",
+        "SiteWithoutDataIgnoreMessage": "Non mostrare questo messaggio per tutta la prossima ora",
         "SuperUserAccessCan": "Un utente con accesso Super User può anche %1$sspecificare le impostazioni globali%2$s per i nuovi siti.",
         "Timezone": "Fuso orario",
         "TrackingSiteSearch": "Tracciamento Ricerca Interna Sito",
@@ -91,6 +91,7 @@
         "XManagement": "Gestione %s",
         "ChooseMeasurableTypeHeadline": "Cosa intendi misurare",
         "YouCurrentlyHaveAccessToNWebsites": "Al momento hai accesso a %s siti.",
-        "YourCurrentIpAddressIs": "Il tuo indirizzo IP è %s"
+        "YourCurrentIpAddressIs": "Il tuo indirizzo IP è %s",
+        "DeleteSiteExplanation": "L'eliminazione di un sito web comporta la cancellazione di tutti i dati di registro che sono stati raccolti per esso. Questa azione è permanente e non può essere annullata."
     }
 }

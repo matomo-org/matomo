@@ -140,7 +140,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.6';
+            return 'python2.7';
         }
 
         return 'python';
@@ -215,6 +215,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             $testEnv->$name = $value;
         }
 
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
+        }
+
         $testEnv->save();
 
         $this->createEnvironmentInstance();
@@ -243,6 +247,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
+            DbHelper::recordInstallVersion();
 
             self::getPluginManager()->unloadPlugins();
 
@@ -346,10 +351,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 
@@ -407,6 +411,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
+        DbHelper::recordInstallVersion();
         self::getPluginManager()->loadActivatedPlugins();
     }
 
@@ -572,7 +577,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getTestRootUrl() . 'piwik.php';
+        return self::getTestRootUrl() . 'matomo.php';
     }
 
     /**
@@ -779,7 +784,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             // set-up mail report with one row evolution based png graph
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (previous default)',
                 'day',
                 0,
                 ScheduledReports::EMAIL_TYPE,
@@ -788,7 +793,39 @@ class Fixture extends \PHPUnit_Framework_Assert
                 array(
                      ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
                      ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
-                )
+                ),
+                false
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (previous10)',
+                'day',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'prev',
+                10
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (each in period)',
+                'week',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'each'
             );
         }
     }
@@ -836,7 +873,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        // run the command
+        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // and no one will know why the build fails.
+        if (SystemTestCase::isTravisCI()) {
+            $cmd = "timeout 5m $cmd";
+        }
+
         exec($cmd, $output, $result);
         if ($result !== 0
             && !$allowFailure
@@ -907,15 +949,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
-    // sometimes do sanitization ourselves.
+    /**
+     * @param $type
+     * @param bool $sanitize
+     * @deprecated Use XssTesting
+     */
     public static function makeXssContent($type, $sanitize = false)
     {
-        $result = "<script>$('body').html('$type XSS!');</script>";
-        if ($sanitize) {
-            $result = Common::sanitizeInputValue($result);
-        }
-        return $result;
+        $xssTesting = new XssTesting();
+        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)

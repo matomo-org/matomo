@@ -294,25 +294,32 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         }
     }
 
+    public function insertOtherLogTableData($idSite)
+    {
+        $idMultiplier = $idSite - 1;
+        $toAddToId = $idMultiplier * 100;
+
+        $idVisits = Db::fetchAll('SELECT idvisit FROM ' . Common::prefixTable('log_visit') . ' WHERE idsite = ? ORDER BY idvisit ASC LIMIT 2', [$idSite]);
+        $idVisits = array_column($idVisits, 'idvisit');
+
+        $this->installLogTables();
+        $logFoo = new TestLogFoo();
+        $logFoo->insertEntry(10 + $toAddToId, $idSite, $idVisits[0]);
+        $logFoo->insertEntry(21 + $toAddToId, $idSite, $idVisits[0]);
+        $logFoo->insertEntry(22 + $toAddToId, $idSite, $idVisits[1]);
+
+        $logFooBar = new TestLogFooBar();
+        $logFooBar->insertEntry(35 + $toAddToId, 10 + $toAddToId);
+        $logFooBar->insertEntry(36 + $toAddToId, 10 + $toAddToId);
+        $logFooBar->insertEntry(37 + $toAddToId, 22 + $toAddToId);
+
+        $logFooBar = new TestLogFooBarBaz();
+        $logFooBar->insertEntry(51 + $toAddToId, 35 + $toAddToId);
+        $logFooBar->insertEntry(52 + $toAddToId, 36 + $toAddToId);
+    }
+
     public function trackVisits($idSite, $numIterations)
     {
-        if ($idSite == 1) {
-            $this->installLogTables();
-            $logFoo = new TestLogFoo();
-            $logFoo->insertEntry(10, 1,1);
-            $logFoo->insertEntry(21, 1,1);
-            $logFoo->insertEntry(22, 1,2);
-
-            $logFooBar = new TestLogFooBar();
-            $logFooBar->insertEntry(35, 10);
-            $logFooBar->insertEntry(36, 10);
-            $logFooBar->insertEntry(37, 22);
-
-            $logFooBar = new TestLogFooBarBaz();
-            $logFooBar->insertEntry(51, 35);
-            $logFooBar->insertEntry(52, 36);
-        }
-
         for ($day = 0; $day < $numIterations; $day++) {
             // we track over several days to make sure we have some data to aggregate in week reports
 
@@ -372,6 +379,10 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             $this->trackVisit($userId = 211, null, $idGoal = null, $hoursAgo = 4);
             $this->trackVisit($userId = 211, null, $idGoal = 1);
             $this->doTrack();
+        }
+
+        if ($idSite == 1) {
+            $this->insertOtherLogTableData($idSite);
         }
     }
 

@@ -224,6 +224,25 @@
             endDate = endPeriod.getDateRange()[1];
         }
 
+        var firstWebsiteDate = new Date(1991, 7, 6);
+        if (startDate - firstWebsiteDate < 0) {
+            switch (childPeriodType) {
+                case 'year':
+                    startDate = new Date(1992, 0, 1);
+                    break;
+                case 'month':
+                    startDate = new Date(1991, 8, 1);
+                    break;
+                case 'week':
+                    startDate = new Date(1991, 8, 12);
+                    break;
+                case 'day':
+                default:
+                    startDate = firstWebsiteDate;
+                    break;
+            }
+        }
+
         return new RangePeriod(startDate, endDate, childPeriodType);
     };
 
@@ -327,9 +346,10 @@
         date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
         // apply piwik site timezone (if it exists)
-        date.setHours((piwik.timezoneOffset || 0) / 3600);
+        date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
 
-        // get rid of minutes/seconds/etc.
+        // get rid of hours/minutes/seconds/etc.
+        date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);

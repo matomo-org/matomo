@@ -21,11 +21,9 @@ use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
@@ -209,12 +207,12 @@ class Visualization extends ViewDataTable
         }
 
         $view = new View("@CoreHome/_dataTable");
+        $view->assign($this->templateVars);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
         }
 
-        $view->assign($this->templateVars);
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
@@ -243,8 +241,27 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $view->notifications = [];
+
+        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Visualization.onNoData', [$view]);
+        }
 
         return $view->render();
+    }
+
+    private function hasAnyData(DataTable\DataTableInterface $dataTable)
+    {
+        $hasData = false;
+        $dataTable->filter(function (DataTable $table) use (&$hasData) {
+            if ($table->getRowsCount() > 0) {
+                $hasData = true;
+            }
+        });
+        return $hasData;
     }
 
     /**
@@ -282,7 +299,7 @@ class Visualization extends ViewDataTable
     {
         $request = $this->request->getRequestArray() + $_GET + $_POST;
 
-        $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
+        $idSite  = Common::getRequestVar('idSite', null, 'int', $request);
         $module  = $this->requestConfig->getApiModuleToRequest();
         $action  = $this->requestConfig->getApiMethodToRequest();
 

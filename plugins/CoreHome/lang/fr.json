@@ -101,6 +101,7 @@
         "ExpandSubtables": "Élargir les sous-tables",
         "StandardReport": "Rapport standard",
         "FlattenReport": "Aplatir le rapport",
-        "ReportWithMetadata": "Rapport avec métadonnées"
+        "ReportWithMetadata": "Rapport avec métadonnées",
+        "SeeAvailableVersions": "Voir les versions disponibles"
     }
 }

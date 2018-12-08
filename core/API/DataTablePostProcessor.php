@@ -150,15 +150,14 @@ class DataTablePostProcessor
         $pivotBy = Common::getRequestVar('pivotBy', false, 'string', $this->request);
         if (!empty($pivotBy)) {
             $this->applyComputeProcessedMetrics($dataTable);
+            $dataTable = $this->convertSegmentValueToSegment($dataTable);
 
-            $reportId = $this->apiModule . '.' . $this->apiMethod;
             $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
 
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
-            $dataTable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
+            $dataTable->filter('PivotByDimension', array($this->report, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
         }
         return $dataTable;
     }

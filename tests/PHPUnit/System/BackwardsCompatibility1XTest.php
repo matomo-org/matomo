@@ -202,6 +202,18 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             array($reportsToCompareSeparately, $defaultOptions),
         );
     }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
+        );
+    }
 }
 
 BackwardsCompatibility1XTest::$fixture = new SqlDump();

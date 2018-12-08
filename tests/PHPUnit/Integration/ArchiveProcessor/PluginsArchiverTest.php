@@ -82,8 +82,8 @@ class PluginsArchiverTest extends IntegrationTestCase
     }
 
     /**
-     * @expectedException \Piwik\Tracker\Db\DbException
-     * @expectedExceptionMessage Failed query foo bar - caused by plugin MyPluginName
+     * @expectedException \Piwik\ArchiveProcessor\PluginsArchiverException
+     * @expectedExceptionMessage Failed query foo bar - in plugin MyPluginName
      * @expectedExceptionCode 42
      */
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()

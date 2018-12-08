@@ -17,7 +17,6 @@
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sE-mail uw beheerder over dit probleem%2$s.",
         "EnterUsernameOrEmail": "Vul een gebruikersnaam of e-mailadres in",
-        "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Gebruiker '%s' bestaat niet en kan dus niet verwijderd worden.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Verwijderen gebruiker '%s' is niet mogelijk.",
         "ExceptionEditAnonymous": "De anonieme gebruiker kan niet gewijzigd of verwijderd worden. Deze wordt door Matomo gebruikt voor gebruikers die nog niet zijn ingelogd. U kunt bijvoorbeeld uw statistieken publiekelijk maken door de 'anonieme' gebruiker 'kijkers rechten' te geven.",
@@ -72,6 +71,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wanneer gebruikers niet ingelogd zijn en Matomo bezoeken, moeten ze toegang krijgen",
         "YourUsernameCannotBeChanged": "Je gebruikersnaam kan niet worden gewijzigd.",
         "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden door Matomo op %2$s genegeerd %3$s (Matomo-negeercookie is in uw browser gevonden).",
-        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Matomo genegeerd%2$s (Matomo-negeercookie is niet in uw browser gevonden)."
+        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Matomo genegeerd%2$s (Matomo-negeercookie is niet in uw browser gevonden).",
+        "XtoYofN": "%1$s - %2$s van %3$s",
+        "Username": "Gebruikersnaam"
     }
 }

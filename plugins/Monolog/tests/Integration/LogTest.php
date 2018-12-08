@@ -258,7 +258,8 @@ class LogTest extends IntegrationTestCase
             'ini.log.log_level' => $level,
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Tests.log.allowAllHandlers' => true,
         ));
         $newEnv->init();
 

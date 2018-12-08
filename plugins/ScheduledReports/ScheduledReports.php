@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Log;
@@ -110,6 +111,8 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
         $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
+        $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForEachInPeriod";
+        $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForPreviousN";
     }
 
     /**
@@ -365,7 +368,9 @@ class ScheduledReports extends \Piwik\Plugin
             // add unsubscribe links to content
             if ($htmlContent) {
                 $link = SettingsPiwik::getPiwikUrl() . 'index.php?module=ScheduledReports&action=unsubscribe&token=' . $tokens[$email];
-                $mail->setBodyHtml($htmlContent . '<br /><br /><hr /><br />'.Piwik::translate('ScheduledReports_UnsubscribeFooter', [' <a href="' . $link . '">' . $link . '</a>']));
+                $bodyContent = str_replace(ReportRenderer\Html::UNSUBSCRIBE_LINK_PLACEHOLDER, Common::sanitizeInputValue($link), $htmlContent);
+
+                $mail->setBodyHtml($bodyContent);
             }
 
             if ($textContent) {
@@ -596,6 +601,24 @@ class ScheduledReports extends \Piwik\Plugin
             Schedule::PERIOD_WEEK  => Piwik::translate('General_Weekly'),
             Schedule::PERIOD_MONTH => Piwik::translate('General_Monthly'),
         );
+    }
+
+    public static function getPeriodFrequencyTranslations()
+    {
+        return [
+            Schedule::PERIOD_DAY   => [
+                'single' => Piwik::translate('Intl_PeriodDay'),
+                'plural' => Piwik::translate('Intl_PeriodDays'),
+            ],
+            Schedule::PERIOD_WEEK  => [
+                'single' => Piwik::translate('Intl_PeriodWeek'),
+                'plural' => Piwik::translate('Intl_PeriodWeeks'),
+            ],
+            Schedule::PERIOD_MONTH => [
+                'single' => Piwik::translate('Intl_PeriodMonth'),
+                'plural' => Piwik::translate('Intl_PeriodMonths'),
+            ],
+        ];
     }
 
     private function reportAlreadySent($report, Period $period)

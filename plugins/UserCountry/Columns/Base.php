@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
@@ -27,12 +28,14 @@ abstract class Base extends VisitDimension
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
-        if (!$request->isAuthenticated()) {
-            return false;
-        }
-
         $value = Common::getRequestVar($urlParamToOverride, false, 'string', $request->getParams());
+
         if (!empty($value)) {
+            if (!$request->isAuthenticated()) {
+                Common::printDebug("WARN: Tracker API '$urlParamToOverride' was used with invalid token_auth");
+                throw new InvalidRequestParameterException("Tracker API '$urlParamToOverride' was used, requires valid token_auth");
+            }
+
             return $value;
         }
 

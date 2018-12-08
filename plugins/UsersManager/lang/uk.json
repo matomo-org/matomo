@@ -17,7 +17,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sНапишіть вашому адміністратору про цю проблему%2$s.",
         "EnterUsernameOrEmail": "Введіть логін або адресу електронної пошти",
-        "ExceptionAccessValues": "Параметр доступу може мати тільки одне з наступних значень: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Користувача '%s' не існує, тому він не може бути видалений.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Неможливо видалити користувача '%s'",
         "ExceptionEditAnonymous": "Анонімний користувач не може бути видалений. Він необхідний системі веб-аналітики для ідентифікації користувачів, які не ввійшли в систему. Наприклад, ви можете зробити статистику публічною, надаючи право 'Перегляд' анонімному користувачу.",
@@ -77,6 +76,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Коли незареєстровані користувачі відвідують систему Matomo, вони повинні бачити",
         "YourUsernameCannotBeChanged": "Ім'я вашого користувача не може бути змінено.",
         "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Matomo в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
-        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері)."
+        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері).",
+        "XtoYofN": "%1$s - %2$s з %3$s",
+        "Username": "Ім'я користувача"
     }
 }

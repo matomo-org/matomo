@@ -11,8 +11,10 @@ namespace Piwik\Plugins\UsersManager\tests;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -136,6 +138,8 @@ class APITest extends IntegrationTestCase
     
     private $login = 'userLogin';
 
+    private $password = 'password';
+
     public function setUp()
     {
         parent::setUp();
@@ -143,12 +147,13 @@ class APITest extends IntegrationTestCase
         $this->api = API::getInstance();
         $this->model = new Model();
 
+        FakeAccess::clearAccess();
         FakeAccess::$superUser = true;
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->api->addUser($this->login, 'password', 'userlogin@password.de');
+        $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
     }
 
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
@@ -288,9 +293,13 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser()
     {
-        $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false);
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
+        $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
 
-        $user = $this->api->getUser($this->login);
+        $model = new Model();
+        $user = $model->getUser($this->login);
 
         $this->assertSame('email@example.com', $user['email']);
         $this->assertSame('newAlias', $user['alias']);
@@ -298,6 +307,31 @@ class APITest extends IntegrationTestCase
         $passwordHelper = new Password();
 
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
+    }
+
+    public function test_updateUser_doesNotChangePasswordIfFalsey()
+    {
+        $model = new Model();
+        $userBefore = $model->getUser($this->login);
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
+        $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
+
+        $user = $model->getUser($this->login);
+
+        $this->assertSame($userBefore['password'], $user['password']);
+        $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordTooLong
+     */
+    public function test_updateUser_failsIfPasswordTooLong()
+    {
+        $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', 'newAlias', false, $this->password);
     }
 
     public function test_getSitesAccessFromUser_forSuperUser()
@@ -327,6 +361,342 @@ class APITest extends IntegrationTestCase
                 'access' => 'admin'
             ),
         );
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getUsersPlusRole_shouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldIgnoreOffsetIfLimitIsNotSupplied()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusRole(1, $limit = null, $offset = 1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldNotAllowSuperuserFilter_ifUserIsNotSuperUser()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->addUserWithAccess('userLogin3', 'superuser', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldReturnAllUsersAndAccess_ifUserHasAdminAccess()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'admin', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'admin', 1);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldLimitUsersReturnedToThoseWithAccessToSitesAsCurrentUsersAdminSites_IfCurrentUserIsAdmin()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', [1, 2]);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'admin', 1);
+        $this->addUserWithAccess('userLogin5', null, [1, 2]);
+        $this->api->setUserAccess('userLogin5', 'view', 2);
+        $this->setCurrentUser('userLogin2', 'admin', [1, 2]);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => [], 'superuser_access' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldReturnAllUsersAndAccess_ifUserHasSuperuserAccess()
+    {
+        $this->addUserWithAccess('userLogin2', 'superuser', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldFilterUsersByAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'admin', 1);
+        $this->addUserWithAccess('userLogin6', 'write', 1);
+        $this->setCurrentUser('userLogin2', 'admin', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'admin');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+        ];
+        $this->assertEquals($expected, $users);
+
+        // check new write role filtering works
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'write');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin6', 'alias' => 'userLogin6', 'role' => 'write', 'capabilities' => [], 'superuser_access' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldReturnUsersWithNoAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'noaccess', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'noaccess', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'noaccess');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => [], 'uses_2fa' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldSearchForSuperUsersCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->api->setSuperUserAccess('userLogin2', true);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldSearchByTextCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', 'superuser', 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', null, 1);
+        $this->setCurrentUser('searchTextLogin', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, 'searchText');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldApplyLimitAndOffsetCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', 'superuser', 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', null, 1);
+        $this->setCurrentUser('searchTextLogin', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusRole(1, $limit = 2, $offset = 1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getSitesAccessForUser_shouldReturnAccessForUser()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin');
+        $expected = [
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function getSitesAccessForUser_shouldIgnoreOffsetIfLimitNotSupplied()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', $limit = null, $offset = 1);
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldApplyLimitAndOffsetCorrectly()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', $limit = 2, $offset = 1);
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldSearchSitesCorrectly()
+    {
+        Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+        $this->api->setUserAccess('userLogin', 'view', [4]);
+
+        SitesManagerAPI::getInstance()->updateSite(1, 'searchTerm site');
+        SitesManagerAPI::getInstance()->updateSite(2, null, ['http://searchTerm.com']);
+        SitesManagerAPI::getInstance()->updateSite(3, null, null, null, null, null, null, null, null, null, null, 'the searchTerm group');
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'searchTerm');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldFilterByAccessCorrectly()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, null, 'view');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldLimitSitesIfUserIsAdmin()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1, 2, 3], 'userlogin2@email.com');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1, 2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $this->setCurrentUser('userLogin', 'admin', [1, 2]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'view');
+        $expected = [
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldLimitSitesIfUserIsAdmin_AndStillSelectNoAccessSitesCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1], 'userlogin2@email.com');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1, 2, 3]);
+
+        $this->setCurrentUser('userLogin', 'admin', [1, 2, 3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'noaccess');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldSelectSitesCorrectlyIfAtLeastViewRequested()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1], 'userlogin2@email.com');
+        $this->api->setUserAccess('userLogin2', 'admin', [2]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'some');
+        $expected = [
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldReportIfUserHasNoAccessToSites()
+    {
+        $access = $this->api->getSitesAccessForUser('userLogin');
+        $expected = [
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+
+        // test when search returns empty result
+        $this->api->setUserAccess('userLogin', 'view', 1);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'asdklfjds');
+        $expected = [];
         $this->assertEquals($expected, $access);
     }
 
@@ -604,5 +974,33 @@ class APITest extends IntegrationTestCase
                 }],
             ]),
         );
+    }
+
+    private function addUserWithAccess($username, $accessLevel, $idSite, $email = null, $alias = null)
+    {
+        $this->api->addUser($username, 'password', $email ?: "$username@password.de", $alias);
+        if ($accessLevel == 'superuser') {
+            $this->api->setSuperUserAccess($username, true);
+        } else if ($accessLevel) {
+            $this->api->setUserAccess($username, $accessLevel, $idSite);
+        }
+    }
+
+    public function setCurrentUser($username, $accessLevel, $idSite)
+    {
+        FakeAccess::$identity = $username;
+        FakeAccess::$superUser = $accessLevel == 'superuser';
+        if ($accessLevel == 'view') {
+            FakeAccess::$idSitesView = is_array($idSite) ? $idSite : [$idSite];
+        } else if ($accessLevel == 'admin') {
+            FakeAccess::$idSitesAdmin = is_array($idSite) ? $idSite : [$idSite];
+        }
+    }
+
+    private function cleanUsers(&$users)
+    {
+        foreach ($users as &$user) {
+            unset($user['date_registered']);
+        }
     }
 }

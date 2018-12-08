@@ -13,7 +13,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$s E-mail tới quản trị viên của bạn về vấn đề này %2$s.",
         "EnterUsernameOrEmail": "Nhập một tên người dùng hoặc địa chỉ email",
-        "ExceptionAccessValues": "Tham số truy cập phải có một trong các giá trị sau: [%s]",
         "ExceptionDeleteDoesNotExist": "Người dùng '%s' không tồn tại do đó nó không thể bị xóa.",
         "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Matomo để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \\\"xem\\\" đến người dùng 'ẩn danh'.",
         "ExceptionEmailExists": "Người dùng với email '%s' đã tồn tại.",
@@ -49,6 +48,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Matomo, họ nên truy cập",
         "YourUsernameCannotBeChanged": "Tên đăng nhập của bạn không thể thay đổi.",
         "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Matomo trên %2$s %3$s (cookie Matomo bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
-        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Matomo %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
+        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Matomo %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn).",
+        "XtoYofN": "%1$s - %2$s trên %3$s",
+        "Username": "Tên truy nhập"
     }
 }

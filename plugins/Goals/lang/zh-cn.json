@@ -39,7 +39,6 @@
         "ConversionsOverviewBy": "基于访问类型的转化概览",
         "DaysToConv": "天数转化",
         "DefaultGoalConvertedOncePerVisit": "(默认) 每次访问目标只能转化一次",
-        "DefaultRevenue": "目标默认收入是",
         "DefaultRevenueHelp": "例如，访客提交一个联系表单可能平均价值为 $10。Matomo 将帮助您了解访客的质量。",
         "DeleteGoalConfirm": "您确定要刪除目标 %s ？",
         "DocumentationRevenueGeneratedByProductSales": "产品销售额，不含税、运费和优惠。",

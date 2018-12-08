@@ -91,6 +91,7 @@
         "XManagement": "Manage %s",
         "ChooseMeasurableTypeHeadline": "What would you like to measure?",
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
-        "YourCurrentIpAddressIs": "Your current IP address is %s"
+        "YourCurrentIpAddressIs": "Your current IP address is %s",
+        "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone."
     }
 }

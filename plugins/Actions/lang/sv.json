@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Nyckelord från webbplatssökningar",
         "WidgetSearchNoResultKeywords": "Nyckelord utan resultat",
         "ActionType": "Åtgärdstyp",
-        "ActionTypes": "Typer av handlingar"
+        "ActionTypes": "Typer av handlingar",
+        "Behaviour": "Beteende"
     }
 }

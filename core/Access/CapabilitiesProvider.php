@@ -62,6 +62,8 @@ class CapabilitiesProvider
 
             $capabilities = array_values($capabilities);
 
+            $this->checkCapabilityIds($capabilities);
+
             $cache->save($cacheId, $capabilities);
             return $capabilities;
         }
@@ -103,6 +105,19 @@ class CapabilitiesProvider
         if (!$this->isValidCapability($capabilityId)) {
             $capabilities = $this->getAllCapabilityIds();
             throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $capabilities)));
+        }
+    }
+
+    /**
+     * @param Capability[] $capabilities
+     */
+    private function checkCapabilityIds($capabilities)
+    {
+        foreach ($capabilities as $capability) {
+            $id = $capability->getId();
+            if (preg_match('/[^a-zA-Z0-9_-]/', $id)) {
+                throw new \Exception("Capability with invalid ID found: '$id'. Valid characters are 'a-zA-Z0-9_-'.");
+            }
         }
     }
 }
