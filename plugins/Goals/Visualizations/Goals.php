@@ -8,8 +8,10 @@
 
 namespace Piwik\Plugins\Goals\Visualizations;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -32,6 +34,8 @@ class Goals extends HtmlTable
     {
         parent::beforeLoadDataTable();
 
+        $this->config->show_totals_row = false;
+
         if ($this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
         }
@@ -41,6 +45,7 @@ class Goals extends HtmlTable
 
     public function beforeRender()
     {
+        $this->config->show_totals_row = false;
         $this->config->show_goals = true;
         $this->config->show_goals_columns  = true;
         $this->config->datatable_css_class = 'dataTableVizGoals';

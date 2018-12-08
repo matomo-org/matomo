@@ -67,7 +67,7 @@
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  disabled="jsTrackingCode.isLoading"
                  introduction="{{ 'General_Options'|translate|e('html_attr') }}"
-                 title="{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 title="{{ ('CoreAdminHome_JSTracking_MergeSubdomains'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllSubdomainsInlineHelp">
             </div>
 
@@ -93,7 +93,7 @@
                  ng-model="jsTrackingCode.trackAllAliases"
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  disabled="jsTrackingCode.isLoading"
-                 title="{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 title="{{ ('CoreAdminHome_JSTracking_MergeAliases'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllAliasesInlineHelp">
             </div>
 

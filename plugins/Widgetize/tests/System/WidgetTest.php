@@ -1016,6 +1016,14 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getSystemCheck',
                     ),
             ), array (
+                'name' => 'Tracking failures',
+                'uniqueId' => 'widgetCoreAdminHomegetTrackingFailures',
+                'parameters' =>
+                    array (
+                        'module' => 'CoreAdminHome',
+                        'action' => 'getTrackingFailures',
+                    ),
+            ), array (
                 'name' => 'System Summary',
                 'uniqueId' => 'widgetCoreHomegetSystemSummary',
                 'parameters' =>
