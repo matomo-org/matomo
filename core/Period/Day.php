@@ -91,6 +91,11 @@ class Day extends Period
         return $this->date->toString($format);
     }
 
+    public function __toString()
+    {
+        return $this->toString();
+    }
+
     public function getImmediateChildPeriodLabel()
     {
         return null;
