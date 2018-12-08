@@ -176,7 +176,7 @@ describe("Login", function () {
     });
 
     it("should show error when trying to log in through login form", function (done) {
-        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.testUseMockAuth = 0;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.queryParamOverride;
@@ -188,7 +188,7 @@ describe("Login", function () {
     });
 
     it("should show error when trying to log in through logme", function (done) {
-        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.testUseMockAuth = 0;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.queryParamOverride;
