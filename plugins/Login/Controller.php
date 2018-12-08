@@ -174,7 +174,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     protected function configureView($view)
     {
-        $this->setBasicVariablesControllerView($view);
+        $this->setBasicVariablesNoneAdminView($view);
 
         $view->linkTitle = Piwik::getRandomTitle();
 
