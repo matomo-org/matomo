@@ -63,6 +63,9 @@ class Flattener extends DataTableManipulator
     protected function manipulateDataTable($dataTable)
     {
         $newDataTable = $dataTable->getEmptyClone($keepFilters = true);
+        if ($dataTable->getTotalsRow()) {
+            $newDataTable->setTotalsRow($dataTable->getTotalsRow());
+        }
 
         // this recursive filter will be applied to subtables
         $dataTable->filter('ReplaceSummaryRowLabel');

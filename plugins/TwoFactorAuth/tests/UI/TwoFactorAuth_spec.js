@@ -30,7 +30,7 @@ describe("TwoFactorAuth", function () {
         if (typeof doAuth === 'undefined') {
             doAuth = true;
         }
-        var logMeUrl = '?module=Login&action=logme&login=' + username + '&password=240161a241087c28d92d8d7ff3b6186b'
+        var logMeUrl = '?module=Login&action=logme&login=' + username + '&password=240161a241087c28d92d8d7ff3b6186b';
         if (doAuth) {
             logMeUrl += '&authCode=123456'; // we make sure in test config this code always works
         }
@@ -50,6 +50,7 @@ describe("TwoFactorAuth", function () {
 
     before(function () {
         testEnvironment.pluginsToLoad = ['TwoFactorAuth'];
+        testEnvironment.queryParamOverride = { date: '2018-03-04' };
         testEnvironment.save();
     });
 
@@ -92,7 +93,7 @@ describe("TwoFactorAuth", function () {
 
     it('a user with 2fa can open the widgetized view by token without needing to verify', function (done) {
         captureScreen(done, 'widgetized_no_verify', function (page) {
-            page.load('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
+            page.load('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&date=2018-03-04&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
         });
     });
 
@@ -174,6 +175,9 @@ describe("TwoFactorAuth", function () {
         captureScreen(done, 'twofa_setup_step2', function (page) {
             page.click('.setupTwoFactorAuthentication .backupRecoveryCode:first');
             page.click('.setupTwoFactorAuthentication .goToStep2');
+            page.evaluate(function () {
+                $('#qrcode').hide();
+            });
         });
     });
 

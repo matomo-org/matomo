@@ -59,8 +59,9 @@
 		<result prettyDate="Monday, January 4, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>4</nb_visits>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
 		<nb_actions>5</nb_actions>
+		<nb_pages_per_search>3.5</nb_pages_per_search>
 	</reportTotal>
 </result>

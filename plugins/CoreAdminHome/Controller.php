@@ -60,6 +60,7 @@ class Controller extends ControllerAdmin
         $hasPremiumFeatures = $widgetsList->isDefined('Marketplace', 'getPremiumFeatures');
         $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
         $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
+        $hasTrackingFailures = $widgetsList->isDefined('CoreAdminHome', 'getTrackingFailures');
 
         return $this->renderTemplate('home', array(
             'isInternetEnabled' => $isInternetEnabled,
@@ -70,6 +71,7 @@ class Controller extends ControllerAdmin
             'hasDonateForm' => $hasDonateForm,
             'hasPiwikBlog' => $hasPiwikBlog,
             'hasDiagnostics' => $hasDiagnostics,
+            'hasTrackingFailures' => $hasTrackingFailures,
         ));
     }
 
@@ -77,6 +79,13 @@ class Controller extends ControllerAdmin
     {
         $this->redirectToIndex('UsersManager', 'userSettings');
         return;
+    }
+
+    public function trackingFailures()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('trackingFailures');
     }
 
     public function generalSettings()

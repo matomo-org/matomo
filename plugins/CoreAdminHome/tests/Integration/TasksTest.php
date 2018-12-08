@@ -14,12 +14,15 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Failures;
+use Piwik\Tracker\Request;
 use Psr\Log\NullLogger;
 
 /**
@@ -66,7 +69,7 @@ class TasksTest extends IntegrationTestCase
         $archivePurger->setYesterdayDate(Date::factory('2015-02-26'));
         $archivePurger->setNow(Date::factory('2015-02-27 08:00:00')->getTimestamp());
 
-        $this->tasks = new Tasks($archivePurger, new NullLogger());
+        $this->tasks = new Tasks($archivePurger, new NullLogger(), new Failures());
 
         $this->mail = null;
     }
@@ -129,6 +132,8 @@ class TasksTest extends IntegrationTestCase
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
             'optimizeArchiveTable.',
+            'cleanupTrackingFailures.',
+            'notifyTrackingFailures.',
             'updateSpammerBlacklist.',
             'checkSiteHasTrackedVisits.2',
             'checkSiteHasTrackedVisits.3',
@@ -179,6 +184,35 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals($mail->getLogin(), 'superUserLogin');
         $this->assertEquals($mail->getEmailAddress(), 'hello@example.org');
         $this->assertEquals($mail->getIdSite(), $idSite);
+    }
+
+    public function test_cleanupTrackingFailures_doesNotCauseAnyException()
+    {
+        // it is only calling one method which is already tested... no need to write complex tests for it
+        $this->tasks->cleanupTrackingFailures();
+        $this->assertTrue(true);
+    }
+
+    public function test_notifyTrackingFailures_doesNotSendAnyMailWhenThereAreNoTrackingRequests()
+    {
+        $this->tasks->notifyTrackingFailures();
+        $this->assertNull($this->mail);
+    }
+
+    public function test_notifyTrackingFailures_sendsMailWhenThereAreTrackingFailures()
+    {
+        $failures = new Failures();
+        $failures->logFailure(1, new Request(array('idsite' => 9999, 'rec' => 1)));
+        $failures->logFailure(1, new Request(array('idsite' => 9998, 'rec' => 1)));
+        Fixture::createSuperUser(false);
+        $this->tasks->notifyTrackingFailures();
+
+        /** @var TrackingFailuresEmail $mail */
+        $mail = $this->mail;
+        $this->assertInstanceOf(TrackingFailuresEmail::class, $mail);
+        $this->assertEquals('superUserLogin', $mail->getLogin());
+        $this->assertEquals('hello@example.org', $mail->getEmailAddress());
+        $this->assertEquals(2, $mail->getNumFailures());
     }
 
     /**
