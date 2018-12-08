@@ -669,6 +669,16 @@ abstract class Controller
     }
 
     /**
+     * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
+     * view. Solves a problem when a controller has regular controller and admin controller views.
+     * @param View $view
+     */
+    protected function setBasicVariablesControllerView($view)
+    {
+        self::setBasicVariablesView($view);
+    }
+
+    /**
      * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
      *
      * The following variables assigned:
