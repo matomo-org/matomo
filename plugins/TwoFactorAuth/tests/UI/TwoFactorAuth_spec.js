@@ -30,7 +30,7 @@ describe("TwoFactorAuth", function () {
         if (typeof doAuth === 'undefined') {
             doAuth = true;
         }
-        var logMeUrl = '?module=Login&action=logme&login=' + username + '&password=240161a241087c28d92d8d7ff3b6186b&date=2018-03-04';
+        var logMeUrl = '?module=Login&action=logme&login=' + username + '&password=240161a241087c28d92d8d7ff3b6186b';
         if (doAuth) {
             logMeUrl += '&authCode=123456'; // we make sure in test config this code always works
         }
@@ -50,6 +50,7 @@ describe("TwoFactorAuth", function () {
 
     before(function () {
         testEnvironment.pluginsToLoad = ['TwoFactorAuth'];
+        testEnvironment.queryParamOverride = { date: '2018-03-04' };
         testEnvironment.save();
     });
 
