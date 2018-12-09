@@ -231,3 +231,20 @@ body .ui-tooltip.Transitions_Tooltip_Small {
 .widget #Transitions_Container h3 {
     padding: 0 !important;
 }
+
+#transitions_report {
+    div[name=actionType] {
+        margin-left: -0.75rem;
+    }
+    div[name=actionName] {
+        margin-right: -0.75rem;
+    }
+}
+
+#dashboardWidgetsArea {
+    #transitions_report {
+        #Transitions_Container {
+            overflow: scroll;
+        }
+    }
+}

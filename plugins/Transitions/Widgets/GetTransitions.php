@@ -37,7 +37,11 @@ class GetTransitions extends Widget
     {
         Piwik::checkUserHasViewAccess(self::getIdSite());
 
-        return $this->renderTemplate('transitions');
+        $isWidgetized = Common::getRequestVar('widget', 0, 'int') === 1;
+
+        return $this->renderTemplate('transitions', array(
+            'isWidget' => $isWidgetized
+        ));
     }
 
 }

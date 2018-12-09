@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('TransitionSwitcherController', TransitionSwitcherController);
 
-    TransitionSwitcherController.$inject = ['piwikApi', '$filter', '$rootScope'];
+    TransitionSwitcherController.$inject = ['piwikApi', '$filter', '$rootScope', '$timeout'];
 
-    function TransitionSwitcherController(piwikApi, $filter, $rootScope) {
+    function TransitionSwitcherController(piwikApi, $filter, $rootScope, $timeout) {
         var translate = $filter('translate');
 
         var self = this;
@@ -25,25 +25,25 @@
         this.actionName = '';
         this.isEnabled = true;
 
-        this.detectActionName = function (report)
+        this.detectActionName = function (reports)
         {
             var othersLabel = translate('General_Others');
 
             var label;
-            for (var i = 0; i < 100; i++) {
+            for (var i = 0; i < reports.length; i++) {
 
-                if (report[i].label === othersLabel) {
+                if (reports[i].label === othersLabel) {
                     continue;
                 }
 
-                var key = report[i].url;
+                var key = reports[i].url;
                 if (!self.isUrlReport()) {
-                    key = report[i].label;
+                    key = reports[i].label;
                 }
 
                 if (key) {
-                    label = report[i].label + ' (' + translate('Transitions_NumPageviews', report[i].nb_hits) + ')';
-                    self.actionNameOptions.push({key: key, value: label, url: report[i].url});
+                    label = reports[i].label + ' (' + translate('Transitions_NumPageviews', reports[i].nb_hits) + ')';
+                    self.actionNameOptions.push({key: key, value: label, url: reports[i].url});
                     if (!self.actionName) {
                         self.actionName = key
                     }
@@ -137,6 +137,8 @@
             }
         });
 
-        this.fetch(this.actionType);
+        $timeout(function () {
+            self.fetch(self.actionType);
+        }, 10);
     }
 })();
