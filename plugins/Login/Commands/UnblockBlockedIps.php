@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Login\Commands;
 
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Login\API;
@@ -24,7 +25,7 @@ class UnblockBlockedIps extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        API::getInstance()->unblockBruteForceIPs();
+        Request::processRequest('Login.unblockBruteForceIPs');
         $message = sprintf('<info>%s</info>', Piwik::translate('General_Done'));
 
         $output->writeln($message);

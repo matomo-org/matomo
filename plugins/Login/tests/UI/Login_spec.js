@@ -43,6 +43,18 @@ describe("Login", function () {
         testEnvironment.save();
     });
 
+    it("should show error when trying to log in through login form", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.bruteForceBlockThisIp = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_blockedlogin").to.be.capture(function (page) {
+            page.load("");
+        }, done);
+    });
+
     it("should load correctly", function (done) {
         expect.screenshot("login_form").to.be.capture(function (page) {
             page.load("");
@@ -172,18 +184,6 @@ describe("Login", function () {
 
         expect.screenshot("bruteforcelog_blockedapi").to.be.capture(function (page) {
             page.load(apiAuthUrl);
-        }, done);
-    });
-
-    it("should show error when trying to log in through login form", function (done) {
-        testEnvironment.testUseMockAuth = 0;
-        testEnvironment.bruteForceBlockThisIp = 1;
-        delete testEnvironment.bruteForceBlockIps;
-        delete testEnvironment.queryParamOverride;
-        testEnvironment.save();
-
-        expect.screenshot("bruteforcelog_blockedlogin").to.be.capture(function (page) {
-            page.load("");
         }, done);
     });
 
