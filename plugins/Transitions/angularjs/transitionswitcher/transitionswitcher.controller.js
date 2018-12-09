@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('TransitionSwitcherController', TransitionSwitcherController);
 
-    TransitionSwitcherController.$inject = ['piwikApi', '$filter', '$rootScope', '$timeout'];
+    TransitionSwitcherController.$inject = ['piwikApi', '$filter', '$rootScope'];
 
-    function TransitionSwitcherController(piwikApi, $filter, $rootScope, $timeout) {
+    function TransitionSwitcherController(piwikApi, $filter, $rootScope) {
         var translate = $filter('translate');
 
         var self = this;
@@ -137,8 +137,6 @@
             }
         });
 
-        $timeout(function () {
-            self.fetch(self.actionType);
-        }, 10);
+        this.fetch(this.actionType);
     }
 })();
