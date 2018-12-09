@@ -65,7 +65,9 @@ function piwik_fix_lbrace($string)
 
 function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
 
-    $string = twig_escape_filter($env, $string, $strategy == 'whole_url' ? 'html_attr' : $strategy, $charset, $autoescape);
+    if ($strategy != 'whole_url') {
+        $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+    }
 
     switch ($strategy) {
         case 'html':
@@ -78,7 +80,7 @@ function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html',
             if (!UrlHelper::isLookLikeSafeUrl($string)) { // if this could be a dangerous link, replace it w/ an empty url
                 return 'javascript:;';
             }
-            return piwik_fix_lbrace($string);
+            return $string;
         case 'css':
         case 'js':
         default:

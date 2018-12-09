@@ -75,7 +75,7 @@
                             {% endif %}
 
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url|e('whole_url') }}" target="_blank">
+                            <a href="{{ action.url|e('whole_url')|e('html_attr') }}" target="_blank">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
