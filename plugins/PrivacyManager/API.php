@@ -212,8 +212,8 @@ class API extends \Piwik\Plugin\API
         $settings['delete_reports_enable'] = !empty($enableDeleteReports);
 
         $deleteReportsOlderThan = (int) $deleteReportsOlderThan;
-        if ($deleteReportsOlderThan < 3) {
-            $deleteReportsOlderThan = 3;
+        if ($deleteReportsOlderThan < 2) {
+            $deleteReportsOlderThan = 2;
         }
 
         $settings['delete_reports_older_than'] = $deleteReportsOlderThan;

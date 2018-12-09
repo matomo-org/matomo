@@ -138,7 +138,7 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
+; If set to 1, all requests to matomo.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
@@ -212,7 +212,7 @@ release_channel = "latest_stable"
 action_url_category_delimiter = /
 
 ; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
-action_title_category_delimiter = /
+action_title_category_delimiter = ""
 
 ; the maximum url category depth to track. if this is set to 2, then a url such as
 ; "example.com/blog/development/first-post" would be treated as "example.com/blog/development".
@@ -371,9 +371,9 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; by default, Matomo uses PHP's built-in file-based session save handler with lock files.
-; For clusters, use dbtable.
-session_save_handler = files
+; Matomo uses PHP's dbtable for session. As of Matomo 3.7.0 it is the only supported handler.
+; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
+session_save_handler = dbtable
 
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
@@ -904,6 +904,7 @@ Plugins[] = Feedback
 Plugins[] = Monolog
 
 Plugins[] = Login
+Plugins[] = TwoFactorAuth
 Plugins[] = UsersManager
 Plugins[] = SitesManager
 Plugins[] = Installation

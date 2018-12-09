@@ -207,7 +207,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
-            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
@@ -489,6 +489,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
+        );
+    }
+
+    public function test_piwikJs_SameAsMatomoJs()
+    {
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/matomo.js',
+            PIWIK_DOCUMENT_ROOT . '/piwik.js',
+            '/piwik.js does not match /matomo.js, please re-generate the minified files using instructions in /js/README'
         );
     }
 

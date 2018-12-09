@@ -87,6 +87,14 @@ class VisitTest extends IntegrationTestCase
         );
     }
 
+    public function test_worksWhenSiteDoesNotExist()
+    {
+        $request = new RequestAuthenticated(array('idsite' => 99999999, 'rec' => 1));
+
+        $excluded = new VisitExcluded($request);
+        $this->assertSame(false, $excluded->isExcluded());
+    }
+
     /**
      * @dataProvider getExcludedIpTestData
      */
