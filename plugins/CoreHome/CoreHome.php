@@ -287,6 +287,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
@@ -334,6 +336,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
         $translationKeys[] = 'CoreHome_Menu';
+        $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';

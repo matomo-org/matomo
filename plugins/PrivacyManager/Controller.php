@@ -58,7 +58,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // delete reports settings
         $settings['delete_reports_enable'] = Common::getRequestVar("enableDeleteReports", 0);
         $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
-        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 3 ? 3 : $deleteReportsOlderThan;
+        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 2 ? 2 : $deleteReportsOlderThan;
         $settings['delete_reports_keep_basic_metrics']   = Common::getRequestVar("keepBasic", 0);
         $settings['delete_reports_keep_day_reports']     = Common::getRequestVar("keepDay", 0);
         $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);

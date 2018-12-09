@@ -594,6 +594,12 @@ class Report
             $report['isSubtableReport'] = $this->isSubtableReport;
         }
 
+        $dimensions = $this->getDimensions();
+
+        if (count($dimensions) > 1) {
+            $report['dimensions'] = $dimensions;
+        }
+
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
@@ -746,6 +752,34 @@ class Report
     }
 
     /**
+     * Get dimensions used for current report and its subreports
+     *
+     * @return array [dimensionId => dimensionName]
+     * @ignore
+     */
+    public function getDimensions()
+    {
+        $dimensions = [];
+
+        if (!empty($this->getDimension())) {
+            $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
+            $dimensions[$dimensionId] = $this->getDimension()->getName();
+        }
+
+        if (!empty($this->getSubtableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getSubtableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
+        }
+
+        if (!empty($this->getThirdLeveltableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getThirdLeveltableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getThirdLeveltableDimension()->getName();
+        }
+
+        return $dimensions;
+    }
+
+    /**
      * Returns the order of the report
      * @return int
      * @ignore
@@ -786,6 +820,36 @@ class Report
         }
 
         return $subtableReport->getDimension();
+    }
+
+    /**
+     * Returns the Dimension instance of the subtable report of this report's subtable report.
+     *
+     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
+     *                        no dimension for the subtable report.
+     * @api
+     */
+    public function getThirdLeveltableDimension()
+    {
+        if (empty($this->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
+
+        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
+        if (empty($subtableReport) || empty($subtableReport->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subSubtableReportModule, $subSubtableReportAction) = $subtableReport->getSubtableApiMethod();
+
+        $subSubtableReport = ReportsProvider::factory($subSubtableReportModule, $subSubtableReportAction);
+        if (empty($subSubtableReport)) {
+            return null;
+        }
+
+        return $subSubtableReport->getDimension();
     }
 
     /**

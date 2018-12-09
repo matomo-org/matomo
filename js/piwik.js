@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
     rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag,
+    discardHashTag, alwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
@@ -3079,6 +3079,9 @@ if (typeof window.Piwik !== 'object') {
                 // Maximum delay to wait for web bug image to be fetched (in milliseconds)
                 configTrackerPause = 500,
 
+                // If enabled, always use sendBeacon if the browser supports it
+                configAlwaysUseSendBeacon = false,
+
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
 
@@ -3522,22 +3525,35 @@ if (typeof window.Piwik !== 'object') {
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
-            function sendPostRequestViaSendBeacon(request)
+            function supportsSendBeacon()
             {
-                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                return 'object' === typeof navigatorAlias
                     && 'function' === typeof navigatorAlias.sendBeacon
                     && 'function' === typeof Blob;
+            }
 
-                if (!supportsSendBeacon) {
+            function sendPostRequestViaSendBeacon(request)
+            {
+                var isSupported = supportsSendBeacon();
+
+                if (!isSupported) {
                     return false;
                 }
 
                 var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
                 var success = false;
 
+                var url = configTrackerUrl;
+
                 try {
                     var blob = new Blob([request], headers);
-                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
+
+                    if (request.length <= 2000) {
+                        blob = new Blob([], headers);
+                        url = url + (url.indexOf('?') < 0 ? '?' : '&') + request;
+                    }
+
+                    success = navigatorAlias.sendBeacon(url, blob);
                     // returns true if the user agent is able to successfully queue the data for transfer,
                     // Otherwise it returns false and we need to try the regular way
 
@@ -3752,6 +3768,15 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request)) {
+                            setExpireDateTime(100);
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
+                            return;
+                        }
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3777,6 +3802,23 @@ if (typeof window.Piwik !== 'object') {
                 return (requests && requests.length);
             }
 
+            function arrayChunk(theArray, chunkSize)
+            {
+                if (!chunkSize || chunkSize >= theArray.length) {
+                    return [theArray];
+                }
+
+                var index = 0;
+                var arrLength = theArray.length;
+                var chunks = [];
+
+                for (index; index < arrLength; index += chunkSize) {
+                    chunks.push(theArray.slice(index, index + chunkSize));
+                }
+
+                return chunks;
+            }
+
             /*
              * Send requests using bulk
              */
@@ -3791,10 +3833,15 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
-
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
+                    var chunks = arrayChunk(requests, 50);
+
+                    var i = 0, bulk;
+                    for (i; i < chunks.length; i++) {
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
+                        sendXmlHttpRequest(bulk, null, false);
+                    }
+
                     setExpireDateTime(delay);
                 });
             }
@@ -6640,6 +6687,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
+             * of 100ms instead of 500ms (default). This means when a user clicks for example on an outlink, the
+             * navigation to this page will happen 400ms faster.
+             * In case you are setting a callback method when issuing a tracking request, the callback method will
+             *  be executed as soon as the tracking request was sent through "sendBeacon" and not after the tracking
+             *  request finished as it is not possible to find out when the request finished.
+             * Send beacon will only be used if the browser actually supports it.
+             */
+            this.alwaysUseSendBeacon = function () {
+                configAlwaysUseSendBeacon = true;
+            };
+
+            /**
              * Add click listener to a specific link element.
              * When clicked, Piwik will log the click automatically.
              *
@@ -7484,7 +7544,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
