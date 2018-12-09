@@ -65,9 +65,7 @@ function piwik_fix_lbrace($string)
 
 function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
 
-    if ($strategy != 'whole_url') {
-        $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
-    }
+    $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
 
     switch ($strategy) {
         case 'html':
@@ -76,11 +74,6 @@ function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html',
         case 'url':
             $encoded = rawurlencode('{');
             return str_replace('{{', $encoded . $encoded, $string);
-        case 'whole_url':
-            if (!UrlHelper::isLookLikeSafeUrl($string)) { // if this could be a dangerous link, replace it w/ an empty url
-                return 'javascript:;';
-            }
-            return $string;
         case 'css':
         case 'js':
         default:
@@ -568,7 +561,7 @@ class Twig
     private function addFilter_safelink()
     {
         $safelink = new Twig_SimpleFilter('safelink', function ($url) {
-            if (!UrlHelper::isLookLikeUrl($url)) {
+            if (!UrlHelper::isLookLikeSafeUrl($url)) {
                 return '';
             }
             return $url;

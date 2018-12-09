@@ -149,7 +149,7 @@ class UrlHelper
 
     public static function isLookLikeSafeUrl($url)
     {
-        if (strpos($url, ':') === -1) {
+        if (strpos($url, ':') === false) {
             return true;
         }
 
