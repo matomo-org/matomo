@@ -23,6 +23,7 @@ class UrlHelper
         'tel',
         'sms',
         'mailto',
+        'callto',
     ];
 
     /**

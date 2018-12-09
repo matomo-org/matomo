@@ -65,19 +65,20 @@ function piwik_fix_lbrace($string)
 
 function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
 
-    $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+    $string = twig_escape_filter($env, $string, $strategy == 'whole_url' ? 'html_attr' : $strategy, $charset, $autoescape);
 
     switch ($strategy) {
         case 'html':
         case 'html_attr':
             return piwik_fix_lbrace($string);
         case 'url':
+            $encoded = rawurlencode('{');
+            return str_replace('{{', $encoded . $encoded, $string);
+        case 'whole_url':
             if (!UrlHelper::isLookLikeSafeUrl($string)) { // if this could be a dangerous link, replace it w/ an empty url
                 return 'javascript:;';
             }
-
-            $encoded = rawurlencode('{');
-            return str_replace('{{', $encoded . $encoded, $string);
+            return piwik_fix_lbrace($string);
         case 'css':
         case 'js':
         default:
