@@ -336,6 +336,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
         $translationKeys[] = 'CoreHome_Menu';
+        $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';

@@ -114,6 +114,11 @@
                     <div class="configItem dataTableFlatten"></div>
                 </li>
             {% endif %}
+            {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
+                <li>
+                    <div class="configItem dataTableShowTotalsRow"></div>
+                </li>
+            {% endif %}
             {% if properties.show_exclude_low_population %}
                 <li>
                     <div class="configItem dataTableExcludeLowPopulation"></div>
