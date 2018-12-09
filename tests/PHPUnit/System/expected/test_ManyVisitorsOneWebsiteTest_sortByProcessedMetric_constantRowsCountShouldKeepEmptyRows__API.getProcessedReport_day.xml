@@ -394,12 +394,31 @@
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>8</nb_visits>
 		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>8</nb_visits>
 		<nb_actions>24</nb_actions>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_users>0</nb_users>
+		<max_actions>5</max_actions>
+		<sum_visit_length>6484</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>8</nb_conversions>
+				<nb_visits_converted>8</nb_visits_converted>
+				<revenue>40</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>4</nb_conversions>
+				<nb_visits_converted>4</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
 		<nb_conversions>12</nb_conversions>
 		<revenue>60</revenue>
+		<conversion_rate>0%</conversion_rate>
+		<nb_actions_per_visit>3</nb_actions_per_visit>
+		<avg_time_on_site>811</avg_time_on_site>
+		<bounce_rate>50%</bounce_rate>
 	</reportTotal>
 </result>

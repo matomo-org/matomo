@@ -58,5 +58,7 @@
 	<reportTotal>
 		<nb_visits>4</nb_visits>
 		<nb_actions>5</nb_actions>
+		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<nb_pages_per_search>3.5</nb_pages_per_search>
 	</reportTotal>
 </result>
