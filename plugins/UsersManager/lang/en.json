@@ -146,6 +146,10 @@
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
         "AreYouSureChangeDetails": "Are you sure you want to change the user information for %s?",
-        "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login."
+        "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login.",
+        "GiveAccessToAll": "Give this user access to All Websites",
+        "OrManageIndividually": "Or manage this user's access to each website individually",
+        "ChangePermToAllSitesConfirm": "Are you sure you want to give the %1$s user %2$s access to every website you currently have admin access to?",
+        "ChangePermToAllSitesConfirm2": "Note: this will only affect the currently existing websites. New websites you may create will not be automatically accessible to this user."
     }
 }

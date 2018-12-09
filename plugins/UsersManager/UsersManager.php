@@ -295,5 +295,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Add';
         $translationKeys[] = 'General_Note';
         $translationKeys[] = 'UsersManager_FilterByWebsite';
+        $translationKeys[] = 'UsersManager_GiveAccessToAll';
+        $translationKeys[] = 'UsersManager_OrManageIndividually';
+        $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm';
+        $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm2';
     }
 }

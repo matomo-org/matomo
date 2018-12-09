@@ -6,24 +6,26 @@
             {{:: 'UsersManager_NoAccessWarning'|translate }}
         </div>
     </div>
-    <div class="row">
+    <div class="row to-all-websites">
         <div class="col s12">
             <div>
-                <span>Give this user access to All Websites:</span>
+                <span>{{ 'UsersManager_GiveAccessToAll'|translate }}:</span>
 
                 <div
+                    id="all-sites-access-select"
                     piwik-field
                     uicontrol="select"
                     ng-model="$ctrl.allWebsitesAccssLevelSet"
                     options="$ctrl.accessLevels"
-                    ng-change=""
                     full-width="true"
                 ></div>
 
-                <a href="" class="btn" ng-click="">{{:: 'General_Apply'|translate }}</a>
+                <a href="" class="btn" ng-class="{ disabled: $ctrl.isGivingAccessToAllSites }" ng-click="$ctrl.showChangeAccessAllSitesModal()">
+                    {{:: 'General_Apply'|translate }}
+                </a>
             </div>
             <p>&nbsp;</p>
-            <p>Or manage this user's access to each website individually:</p>
+            <p>{{ 'UsersManager_OrManageIndividually'|translate }}:</p>
         </div>
     </div>
     <div class="filters row">
@@ -173,6 +175,17 @@
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>
             <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.siteAccessToChange.role = $ctrl.previousRole; $ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = null;">{{:: 'General_No'|translate }}</a>
+        </div>
+    </div>
+
+    <div class="confirm-give-access-all-sites modal">
+        <div class="modal-content">
+            <h3 piwik-translate="UsersManager_ChangePermToAllSitesConfirm"><strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.allWebsitesAccssLevelSet) }}</strong></h3>
+            <p>{{ 'UsersManager_ChangePermToAllSitesConfirm2'|translate }}</p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.giveAccessToAllSites()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
 </div>
