@@ -39,6 +39,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 class PrivacyManager extends Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
     const OPTION_USERID_SALT = 'useridsalt';
@@ -50,6 +51,7 @@ class PrivacyManager extends Plugin
         'delete_logs_schedule_lowest_interval' => 'Deletelogs',
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
+        'delete_unused_log_actions_schedule_lowest_interval' => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
         'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
@@ -347,7 +349,7 @@ class PrivacyManager extends Plugin
         }
 
         // make sure purging should run at this time (unless this is a forced purge)
-        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS)) {
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS, 'delete_logs_schedule_lowest_interval')) {
             return false;
         }
 
@@ -381,7 +383,7 @@ class PrivacyManager extends Plugin
         }
 
         // make sure purging should run at this time
-        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS)) {
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS, 'delete_logs_schedule_lowest_interval')) {
             return false;
         }
 
@@ -393,10 +395,15 @@ class PrivacyManager extends Plugin
         $lastDeleteDate = Date::factory("today")->getTimestamp();
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
+        $shouldDeleteUnusedLogActions = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_unused_log_actions_schedule_lowest_interval');
+        if ($shouldDeleteUnusedLogActions) {
+            Option::set(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $lastDeleteDate);
+        }
+
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $logDataPurger->purgeData($settings['delete_logs_older_than']);
+        $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions);
 
         return true;
     }
@@ -555,7 +562,7 @@ class PrivacyManager extends Plugin
     /**
      * Returns true if one of the purge data tasks should run now, false if it shouldn't.
      */
-    private function shouldPurgeData($settings, $lastRanOption)
+    private function shouldPurgeData($settings, $lastRanOption, $setting)
     {
         // Log deletion may not run until it is once rescheduled (initial run). This is the
         // only way to guarantee the calculated next scheduled deletion time.
@@ -567,11 +574,12 @@ class PrivacyManager extends Plugin
 
         // Make sure, log purging is allowed to run now
         $lastDelete = Option::get($lastRanOption);
-        $deleteIntervalDays = $settings['delete_logs_schedule_lowest_interval'];
+        $deleteIntervalDays = $settings[$setting];
         $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteIntervalDays);
 
         if ($lastDelete === false ||
-            ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
+            $lastDelete === '' ||
+            ((int)$lastDelete + $deleteIntervalSeconds) <= time()
         ) {
             return true;
         } else // not time to run data purge

@@ -838,6 +838,7 @@ delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 enable_database_size_estimate = 1
+delete_unused_log_actions_schedule_lowest_interval = 30
 
 [Deletereports]
 delete_reports_enable                = 0
