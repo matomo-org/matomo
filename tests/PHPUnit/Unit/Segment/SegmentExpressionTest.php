@@ -145,4 +145,55 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
         }
         $this->fail('Expected exception not raised for:' . var_export($segment->getSql(), true));
     }
+
+    /**
+     * @dataProvider getTestDataForParseColumnsFromSqlExpr
+     */
+    public function test_parseColumnsFromSqlExpr($field, $expected)
+    {
+        $actual = SegmentExpression::parseColumnsFromSqlExpr($field);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForParseColumnsFromSqlExpr()
+    {
+        return [
+            [
+                'log_visit.column',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visitcolumn',
+                [],
+            ],
+            [
+                '`log_visit.column`',
+                ['log_visit.column'],
+            ],
+            [
+                '`log_visit`.column',
+                ['log_visit.column'],
+            ],
+            [
+                '`log_visit`.`column`',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visit.`column`',
+                ['log_visit.column'],
+            ],
+            [
+                'log_visit.column == 5 || log_link_visit_action.othercolumn <> 3',
+                ['log_visit.column', 'log_link_visit_action.othercolumn'],
+            ],
+            [
+                '(log_visit.column == 5)',
+                ['log_visit.column'],
+            ],
+            [
+                '(log_visit.column == 5) && ((HOUR(log_visit.column) == 12)) && FUNC(mytable.mycolumn) - OTHERFUNC(`myothertable`.`myothercolumn`) == LASTFUNC(mylasttable.mylastcolumn)',
+                ['log_visit.column', 'mytable.mycolumn', 'myothertable.myothercolumn', 'mylasttable.mylastcolumn'],
+            ],
+        ];
+    }
 }

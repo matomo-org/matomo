@@ -301,7 +301,7 @@ class SegmentExpression
             }
         }
 
-        $columns = $this->parseColumnsFromSqlExpr($field);
+        $columns = self::parseColumnsFromSqlExpr($field);
         foreach ($columns as $column) {
             $this->checkFieldIsAvailable($column, $availableTables);
         }
@@ -313,13 +313,15 @@ class SegmentExpression
      * @param string $field
      * @return string[]
      */
-    private function parseColumnsFromSqlExpr($field)
+    public static function parseColumnsFromSqlExpr($field)
     {
         preg_match_all('/\b`?([a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
         $result = array_map(function ($item) {
             return str_replace('`', '', $item);
         }, $result);
+        $result = array_unique($result);
+        $result = array_values($result);
         return $result;
     }
 
