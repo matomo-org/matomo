@@ -51,7 +51,7 @@ class PrivacyManager extends Plugin
         'delete_logs_schedule_lowest_interval' => 'Deletelogs',
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
-        'delete_unused_log_actions_schedule_lowest_interval' => 'Deletelogs',
+        'delete_logs_unused_actions_schedule_lowest_interval' => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
         'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
@@ -395,7 +395,7 @@ class PrivacyManager extends Plugin
         $lastDeleteDate = Date::factory("today")->getTimestamp();
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
-        $shouldDeleteUnusedLogActions = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_unused_log_actions_schedule_lowest_interval');
+        $shouldDeleteUnusedLogActions = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_logs_unused_actions_schedule_lowest_interval');
         if ($shouldDeleteUnusedLogActions) {
             Option::set(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $lastDeleteDate);
         }
