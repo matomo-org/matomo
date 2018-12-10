@@ -16,8 +16,8 @@ describe("EvolutionGraph", function () {
         return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
     });
 
-    function showDataTableFooter() {
-        return page.hover('.dataTableFeatures');
+    async function showDataTableFooter() {
+        await page.hover('.dataTableFeatures');
     }
 
     it("should load correctly", async function () {
@@ -47,6 +47,7 @@ describe("EvolutionGraph", function () {
     });
 
     it("should show multiple metrics when another metric picked", async function () {
+        await page.waitForSelector('.jqplot-seriespicker-popover input');
         const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
         await element.click();
         await page.waitForNetworkIdle();
@@ -64,7 +65,7 @@ describe("EvolutionGraph", function () {
         await page.click('#dataTableFooterExportAsImageIcon');
         await page.waitForNetworkIdle();
 
-        dialog = await page.$('.ui-dialog');
+        const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('export_image');
     });
 
@@ -171,28 +172,38 @@ describe("EvolutionGraph", function () {
 
     it("should delete annotation when delete link clicked", async function () {
         await page.click('.edit-annotation');
-        await page.click('.delete-annotation');
+        await page.waitForFunction("$('.delete-annotation:visible').length > 0");
+        await page.evaluate(function () {
+            $('.delete-annotation').click();
+        });
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotation_delete');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
 
     it("should cutout two labels so all can fit on screen", async function () {
-        page.webpage.setViewport({ width: 320, height: 320 });
+        await page.webpage.setViewport({ width: 320, height: 320 });
         await page.goto(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('label_ticks_cutout');
     });
 
-    it("should show available periods", function (done) {
-        expect.screenshot('periods_list').to.be.capture(function (page) {
-            showDataTableFooter(page);
-            page.click('.activatePeriodsSelection');
-        }, done);
+    it("should show available periods", async function () {
+        await page.webpage.setViewport({
+            width: 1350,
+            height: 768,
+        });
+        await page.reload();
+        await showDataTableFooter();
+        await page.click('.activatePeriodsSelection');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_list');
     });
-    it("should be possible to change period", function (done) {
-        expect.screenshot('periods_selected').to.be.capture(function (page) {
-            page.click('.dataTablePeriods [data-period=month]');
-        }, done);
+
+    it("should be possible to change period", async function () {
+        await page.click('.dataTablePeriods [data-period=month]');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
 });
