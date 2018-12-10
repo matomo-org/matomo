@@ -223,11 +223,11 @@ function getPageLogsString(pageLogs, indent) {
 
 // other automatically run assertions
 function performAutomaticPageChecks() {
-    checkForDangerousLinks();
+    //checkForDangerousLinks();
 }
 
 function checkForDangerousLinks() {
-    var links = pageRenderer.webpage.evaluate(function () {
+    var links = page.webpage.evaluate(() => {
         try {
             var result = [];
 
@@ -263,5 +263,5 @@ function checkForDangerousLinks() {
             return whitelistedCode.indexOf(code) !== -1;
         }
     });
-    expect(links, "found dangerous links").to.equal("[]");
+    expect(links, "found dangerous links").to.equal('{}');
 }
