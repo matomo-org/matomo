@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\OptOutManager;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 

@@ -7,7 +7,7 @@
 (function () {
     angular.module('piwikApp').controller('OptOutCustomizerController', OptOutCustomizerController);
 
-    OptOutCustomizerController.$inject = ['$scope'];
+    OptOutCustomizerController.$inject = ["$scope"];
 
     function OptOutCustomizerController($scope) {
         var vm = this;
@@ -19,7 +19,6 @@
         vm.fontColor = ''; 
         vm.fontSize = ''; 
         vm.fontFamily = '';
-        vm.optOutFormMode = 'opted-in';
         vm.updateFontSize = function () {
             if (vm.fontSize) {
                 vm.fontSizeWithUnit = vm.fontSize + vm.fontSizeUnit;
@@ -39,8 +38,9 @@
                 
             } else {
                 vm.iframeUrl = "";
-            }
-        };
+            };
+        }
+        vm.onUpdate();
 
         $scope.$watch('piwikurl', function (val, oldVal) {
             vm.onUpdate();
