@@ -30,11 +30,11 @@ class Session extends Zend_Session
      *
      * @return bool  True if file-based; false otherwise
      */
-    public static function isFileBasedSessions()
+    public static function isSessionHandler($handler)
     {
         $config = Config::getInstance();
         return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === 'files';
+        || $config->General['session_save_handler'] === $handler;
     }
 
     /**
@@ -83,7 +83,7 @@ class Session extends Zend_Session
 
         $currentSaveHandler = ini_get('session.save_handler');
 
-        if (self::isFileBasedSessions()) {
+        if (!SettingsPiwik::isPiwikInstalled()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
             // for "files", use our own folder to prevent local session file hijacking
@@ -93,15 +93,18 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif ($config->General['session_save_handler'] === 'dbtable'
+        } elseif (self::isSessionHandler('dbtable')
+            || self::isSessionHandler('files')
             || in_array($currentSaveHandler, array('user', 'mm'))
         ) {
+            // as of Matomo 3.7.0 we only support files session handler during installation
+
             // We consider these to be misconfigurations, in that:
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
             $config = array(
-                'name'           => Common::prefixTable('session'),
+                'name'           => Common::prefixTable(DbTable::TABLE_NAME),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',

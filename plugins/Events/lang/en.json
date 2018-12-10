@@ -4,6 +4,7 @@
         "AvgEventValue": "Average Event value is: %s",
         "AvgValue": "Average value",
         "AvgValueDocumentation": "The average of all values for this event",
+        "Category": "Category",
         "Event": "Event",
         "EventAction": "Event Action",
         "EventActions": "Event Actions",

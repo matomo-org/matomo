@@ -146,6 +146,7 @@ class Request
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
+                Common::printDebug("failed to authenticate: invalid idSite");
                 $this->isAuthenticated = false;
                 return;
             }
@@ -174,6 +175,8 @@ class Request
 
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
+            } else {
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
             }
         } else {
             $this->isAuthenticated = true;
@@ -513,12 +516,12 @@ class Request
             && $time > $now - 10 * 365 * 86400;
     }
 
-    public function getIdSite()
+    /**
+     * @internal
+     * @ignore
+     */
+    public function getIdSiteUnverified()
     {
-        if (isset($this->idSiteCache)) {
-            return $this->idSiteCache;
-        }
-
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -534,8 +537,26 @@ class Request
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
+        return $idSite;
+    }
+
+    public function getIdSite()
+    {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
+        $idSite = $this->getIdSiteUnverified();
 
         if ($idSite <= 0) {
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+        }
+
+        // check site actually exists, should throw UnexpectedWebsiteFoundException directly
+        $site = Cache::getCacheWebsiteAttributes($idSite);
+
+        if (empty($site)) {
+            // fallback just in case exception wasn't thrown...
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
 
@@ -862,7 +883,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            return IP::getIpFromHeader();
+            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
         }
 
         return $cip;

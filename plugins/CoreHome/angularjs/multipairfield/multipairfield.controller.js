@@ -24,7 +24,7 @@
             }
 
             return 'plugins/CorePluginsAdmin/angularjs/form-field/' + file + '.html?cb=' + piwik.cacheBuster;
-        };
+        }
 
         if ($scope.field1 && !$scope.field1.templateFile) {
             $scope.field1.templateFile = getTemplate($scope.field1);

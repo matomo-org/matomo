@@ -336,6 +336,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.preBindEventsAndApplyStyleHook(domElem);
         self.handleSort(domElem);
         self.handleLimit(domElem);
+        self.handlePeriod(domElem);
         self.handleOffsetInformation(domElem);
         self.handleAnnotationsButton(domElem);
         self.handleEvolutionAnnotations(domElem);
@@ -725,6 +726,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         else {
             $('.limitSelection', domElem).hide();
         }
+    },
+    handlePeriod: function (domElem) {
+        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
+
+        var self = this;
+        $periodSelect.click(function () {
+            var period = $(this).attr('data-period');
+            if (!period || period == self.param['period']) {
+                return;
+            }
+
+            self.param['period'] = period;
+            self.reloadAjaxDataTable();
+        });
     },
 
     // if sorting the columns is enabled, when clicking on a column,
@@ -1278,6 +1293,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 setText(this, 'flat', 'CoreHome_UnFlattenDataTable', 'CoreHome_FlattenDataTable');
             })
             .click(generateClickCallback('flat'));
+
+        // handle flatten
+        $('.dataTableShowTotalsRow', domElem)
+            .each(function () {
+                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
+            })
+            .click(generateClickCallback('keep_totals_row'));
 
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {
@@ -1960,6 +1982,7 @@ DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceV
 DataTable.switchToGraph = function (dataTable, viewDataTable) {
     var filters = dataTable.resetAllFilters();
     dataTable.param.flat = filters.flat;
+    dataTable.param.keep_totals_row = filters.keep_totals_row;
     dataTable.param.columns = filters.columns;
 
     dataTable.param.viewDataTable = viewDataTable;

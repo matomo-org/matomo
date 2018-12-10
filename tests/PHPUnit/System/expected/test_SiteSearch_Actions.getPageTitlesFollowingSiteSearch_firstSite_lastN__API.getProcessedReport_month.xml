@@ -37,12 +37,12 @@
 	<reportData>
 		<result prettyDate="January 2010">
 			<row>
-				<label> Im just a page</label>
+				<label>Im just a page</label>
 				<nb_hits>1</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
 			</row>
 			<row>
-				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
+				<label>This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_hits>2</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
 			</row>
@@ -66,5 +66,16 @@
 	<reportTotal>
 		<nb_visits>2</nb_visits>
 		<nb_hits>3</nb_hits>
+		<sum_time_spent>252</sum_time_spent>
+		<nb_hits_following_search>2</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>84</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
 	</reportTotal>
 </result>

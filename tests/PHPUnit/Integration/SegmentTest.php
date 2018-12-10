@@ -462,6 +462,7 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+
     public function test_getSelectQuery_whenJoiningManyCustomTablesItShouldKeepTheOrderAsDefined()
     {
         $actionType = 3;
@@ -522,24 +523,24 @@ class SegmentTest extends IntegrationTestCase
         $logVisitTable = Common::prefixTable('log_visit');
 
         $expected = array(
-            "sql"  => "
-             SELECT log_link_visit_action.custom_dimension_1,
-                    log_action.name as url,
-                    sum(log_link_visit_action.time_spent) as `13`,
-                    sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action 
-             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
-             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit 
-             LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit 
-             LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit 
-             LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
-             WHERE ( log_link_visit_action.server_time >= ?
-                 AND log_link_visit_action.server_time <= ?
-                 AND log_link_visit_action.idsite = ? )
-                 AND ( log_action.type = ? )",
+            "sql" => "
+            SELECT log_link_visit_action.custom_dimension_1,
+                   log_action.name as url,
+                   sum(log_link_visit_action.time_spent) as `13`,
+                   sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+            FROM log_link_visit_action AS log_link_visit_action
+            LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
+            LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit
+            LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit
+            LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit
+            LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
+            WHERE ( log_link_visit_action.server_time >= ?
+                AND log_link_visit_action.server_time <= ?
+                AND log_link_visit_action.idsite = ? )
+                AND ( log_action.type = ? )",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -644,8 +645,7 @@ class SegmentTest extends IntegrationTestCase
             "sql"  => "
                 SELECT
                     log_inner.*
-                FROM
-                    (
+                FROM (
                 SELECT
                     log_visit.*
                 FROM
@@ -653,15 +653,15 @@ class SegmentTest extends IntegrationTestCase
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                     LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
-                     log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
-                      AND (
-                            log_link_visit_action.idaction_url IS NOT NULL
-                            AND log_link_visit_action.idaction_url <> ''
-                            AND log_link_visit_action.idaction_url <> '0'
-                            )
+                    log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
+                    AND (
+                          log_link_visit_action.idaction_url IS NOT NULL
+                          AND log_link_visit_action.idaction_url <> ''
+                          AND log_link_visit_action.idaction_url <> '0'
+                          )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
-                    ) AS log_inner",
+                     ) AS log_inner",
             "bind" => array(1, 12, 'Test'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -742,14 +742,15 @@ class SegmentTest extends IntegrationTestCase
                     actionAlias.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case visitAlias.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action 
-             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
-             LEFT JOIN $logVisitTable AS visitAlias ON visitAlias.idvisit = log_link_visit_action.idvisit 
+             FROM $logLinkVisitActionTable AS log_link_visit_action
+             LEFT JOIN $logVisitTable AS visitAlias ON visitAlias.idvisit = log_link_visit_action.idvisit
              LEFT JOIN $logActionTable AS actionAlias ON log_link_visit_action.idaction_url = actionAlias.idaction
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
                  AND ( log_action.type = ? )",
+
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -990,16 +991,16 @@ class SegmentTest extends IntegrationTestCase
 
         $expected = array(
             "sql"  => "
-                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted' 
-                FROM ( 
-                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted 
-                  FROM $logVisitTable AS log_visit 
-                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
-                  LEFT JOIN $logActionTable AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction 
+                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted'
+                FROM (
+                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted
+                  FROM $logVisitTable AS log_visit
+                  LEFT JOIN $logActionTable AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction
+                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                   LEFT JOIN $logActionTable AS log_action_idaction_event_action ON log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction
-                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 ) 
-                AS log_inner 
-                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f 
+                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 )
+                AS log_inner
+                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f
                 ORDER BY nb_uniq_visits, log_inner.name02fd90a35677a359ea5611a4bc456a6f",
             "bind" => array(1));
 
@@ -1527,7 +1528,7 @@ log_visit.visit_total_actions
                           AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
-                AS log_inner GROUP BY log_inner.idgoal",
+                 AS log_inner GROUP BY log_inner.idgoal",
             "bind" => $expectedBind);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1617,19 +1618,17 @@ log_visit.visit_total_actions
                 SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`
                 FROM (
                     SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
-                    FROM $logConversionTable AS log_conversion
+                    FROM log_conversion AS log_conversion
                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
                        LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
-                        AND ( (log_visit.visitor_returning = ?
-                        OR log_visit.visitor_returning = ?)
+                        AND ( (log_visit.visitor_returning = ? OR log_visit.visitor_returning = ?)
                         AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
-                    ORDER BY NULL )
-                AS log_inner
-                GROUP BY log_inner.idgoal",
+                    ORDER BY NULL ) AS log_inner
+                    GROUP BY log_inner.idgoal",
             "bind" => $expectedBind);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));

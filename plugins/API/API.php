@@ -90,6 +90,23 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Get PHP version
+     * @return array
+     */
+    public function getPhpVersion()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        return array(
+            'version' => PHP_VERSION,
+            'major' => PHP_MAJOR_VERSION,
+            'minor' => PHP_MINOR_VERSION,
+            'release' => PHP_RELEASE_VERSION,
+            'versionId' => PHP_VERSION_ID,
+            'extra' => PHP_EXTRA_VERSION,
+        );
+    }
+
+    /**
      * Get Matomo version
      * @return string
      * @deprecated

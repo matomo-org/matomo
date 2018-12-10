@@ -91,11 +91,6 @@ class Day extends Period
         return $this->date->toString($format);
     }
 
-    /**
-     * Returns the current period as a string
-     *
-     * @return string
-     */
     public function __toString()
     {
         return $this->toString();
