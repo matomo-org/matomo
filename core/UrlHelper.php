@@ -154,7 +154,7 @@ class UrlHelper
         }
 
         $protocol = explode(':', $url, 2)[0];
-        return preg_match('/^' . implode('|', self::$validLinkProtocols) . '/i', $protocol);
+        return preg_match('/^(' . implode('|', self::$validLinkProtocols) . ')$/i', $protocol);
     }
 
     /**

@@ -101,6 +101,7 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('VBscrIpt://alert', false),
             array('dAtA://example.com/test', false),
             array('data://tel.org/http', false),
+            array('smstest:456543', false),
         ];
     }
 
