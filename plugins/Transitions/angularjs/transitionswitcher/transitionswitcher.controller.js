@@ -59,6 +59,7 @@
         this.fetch = function (type) {
             this.isLoading = true;
             this.actionNameOptions = [];
+            this.actionName = '';
 
             piwikApi.fetch({
                 method: type,
@@ -93,6 +94,10 @@
         };
 
         this.onActionNameChange = function (actionName) {
+            if (!actionName) {
+                return;
+            }
+
             var type = 'url';
             if (!this.isUrlReport()) {
                 type = 'title';
