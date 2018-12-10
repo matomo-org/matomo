@@ -85,11 +85,6 @@
         "ShowInEmbeddedWidgets": "Show in embedded widgets",
         "ShowInEmbeddedWidgetsDescription": "If checked, a link to your Privacy Policy and your Terms & Conditions will be displayed at the bottom of embedded widgets.",
         "PrivacyPolicy": "Privacy Policy",
-        "TermsAndConditions": "Terms & Conditions",
-        "OptOutFormText": "Opt-out form text",
-        "WhenUserOptedIn": "when user is opted in",
-        "WhenUserOptedOut": "when user is opted out",
-        "OptOutFormOptedInTextDescription": "The text displayed in the opt-out form when the user is opted-in.",
-        "OptOutFormOptedOutTextDescription": "The text displayed in the opt-out form when the user is opted-out."
+        "TermsAndConditions": "Terms & Conditions"
     }
 }
