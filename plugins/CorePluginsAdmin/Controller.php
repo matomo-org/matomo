@@ -304,10 +304,9 @@ class Controller extends Plugin\ControllerAdmin
                         . '</strong><br/>'
                         . $suffix;
                 } else {
-                    $description = '<strong>'
-                        . $this->translator->translate('CorePluginsAdmin_PluginNotFound',
+                    $description = $this->translator->translate('CorePluginsAdmin_PluginNotFound',
                             array($pluginName))
-                        . '</strong><br/>'
+                        . "\n"
                         . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
                 }
                 $plugin['info'] = array(
