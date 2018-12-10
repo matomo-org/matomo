@@ -23,7 +23,7 @@
 	<row>
 		<label>Video Ad</label>
 		<nb_visits>2</nb_visits>
-		<nb_impressions>2</nb_impressions>
+		<nb_impressions>4</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<interaction_rate>0%</interaction_rate>

@@ -16,6 +16,8 @@
 				<pageId>1</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title!</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>

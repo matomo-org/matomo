@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Referrers_Website>Others</Referrers_Website>
 	</row>
 	<row>
 		<label>whatever0.com/ - Others</label>
@@ -22,6 +23,8 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>Others</url>
+		<Referrers_Website>whatever0.com</Referrers_Website>
+		<Referrers_WebsitePage> - Others</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>whatever0.com/index</label>
@@ -34,6 +37,8 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://whatever0.com/0</url>
+		<Referrers_Website>whatever0.com</Referrers_Website>
+		<Referrers_WebsitePage>index</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>whatever1.com/2</label>
@@ -46,6 +51,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://whatever1.com/2</url>
+		<Referrers_Website>whatever1.com</Referrers_Website>
+		<Referrers_WebsitePage>2</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>whatever1.com/index</label>
@@ -58,5 +65,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://whatever1.com/0</url>
+		<Referrers_Website>whatever1.com</Referrers_Website>
+		<Referrers_WebsitePage>index</Referrers_WebsitePage>
 	</row>
 </result>

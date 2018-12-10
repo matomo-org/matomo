@@ -57,8 +57,9 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
-	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
+	Name:  matomo.js & piwik.js - JavaScript tracker
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/matomo.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
@@ -270,7 +271,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload") in plugins/Morpheus/fonts
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 

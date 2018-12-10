@@ -129,7 +129,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsBadConfigFileError($output)
     {
-        $this->assertRegExp("/Unable to read INI file \\{.*\\/piwik.php\\}:/", $output);
+        $this->assertRegExp("/Unable to read INI file \\{.*\\/matomo.php\\}:/", $output);
         $this->assertRegExp("/Your host may have disabled parse_ini_file\\(\\)/", $output);
     }
 
@@ -158,11 +158,11 @@ class EnvironmentValidationTest extends SystemTestCase
         $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
 
         if ($fileName == 'global.ini.php') {
-            $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/matomo.php';
         } else if ($fileName == 'common.config.ini.php') {
-            $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/matomo.php';
         } else {
-            $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/matomo.php';
         }
 
         $testingEnvironment->save();
@@ -192,7 +192,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function sendRequestToTracker()
     {
-        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&action_name=something');
 
         // Check Tracker requests return 200
         $this->assertEquals(200, $info["http_code"], 'Ok response');

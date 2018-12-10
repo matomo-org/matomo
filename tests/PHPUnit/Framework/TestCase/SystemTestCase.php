@@ -155,7 +155,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                 'ScheduledReports.generateReport',
                 array(
-                    'testSuffix'             => '_scheduled_report_in_html_tables_only',
+                    'testSuffix'             => '_schedrep_html_tables_only',
                     'date'                   => $dateTime,
                     'periods'                => array($period),
                     'format'                 => 'original',
@@ -175,7 +175,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                 'ScheduledReports.generateReport',
                 array(
-                    'testSuffix'             => '_scheduled_report_in_csv',
+                    'testSuffix'             => '_schedrep_in_csv',
                     'date'                   => $dateTime,
                     'periods'                => array($period),
                     'format'                 => 'original',
@@ -197,7 +197,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_pdf_tables_only',
+                         'testSuffix'             => '_schedrep_in_pdf_tables_only',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
@@ -218,7 +218,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                  'ScheduledReports.generateReport',
                  array(
-                     'testSuffix'             => '_scheduled_report_via_sms_one_site',
+                     'testSuffix'             => '_schedrep_via_sms_one_site',
                      'date'                   => $dateTime,
                      'periods'                => array($period),
                      'format'                 => 'original',
@@ -237,7 +237,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                  'ScheduledReports.generateReport',
                  array(
-                     'testSuffix'             => '_scheduled_report_via_sms_all_sites',
+                     'testSuffix'             => '_schedrep_via_sms_all_sites',
                      'date'                   => $dateTime,
                      'periods'                => array($period),
                      'format'                 => 'original',
@@ -257,7 +257,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_html_tables_and_graph',
+                         'testSuffix'             => '_schedrep_html_tables_and_graph',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
@@ -277,7 +277,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_html_row_evolution_graph',
+                         'testSuffix'             => '_schedrep_html_row_evolution_graph',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
@@ -296,7 +296,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                     'ScheduledReports.generateReport',
                     array(
-                        'testSuffix'             => '_scheduled_report_in_html_row_evolution_prevCustomN',
+                        'testSuffix'             => '_schedrep_html_row_evolution_prevCustomN',
                         'date'                   => $dateTime,
                         'periods'                => array($period),
                         'format'                 => 'original',
@@ -315,7 +315,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                     'ScheduledReports.generateReport',
                     array(
-                        'testSuffix'             => '_scheduled_report_in_html_row_evolution_overEachInPeriod',
+                        'testSuffix'             => '_schedrep_html_row_evolution_overEach',
                         'date'                   => $dateTime,
                         'periods'                => array($period),
                         'format'                 => 'original',
@@ -754,7 +754,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     if (is_null($value)) {
                         $values[] = 'NULL';
                     } else {
-                        $isNumeric = preg_match('/^[1-9][0-9]*$/', $value);
+                        // is_numeric cannot be used here since some strings will look like floating point numbers (eg 3e456)
+                        $isNumeric = preg_match('/^\d+(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
                         } else if (!ctype_print($value)) {

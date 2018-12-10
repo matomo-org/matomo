@@ -22,7 +22,7 @@ class JsProxyTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 02:03:04');
     }
 
-    public function testPiwikJs()
+    public function testMatomoJs()
     {
         $curlHandle = curl_init();
         curl_setopt($curlHandle, CURLOPT_URL, $this->getStaticSrvUrl() . '/js/');
@@ -33,7 +33,7 @@ class JsProxyTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
 
-        $piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
+        $piwik_js = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/matomo.js');
         $this->assertEquals($piwik_js, $fullResponse, 'script content');
     }
 
@@ -48,7 +48,7 @@ class JsProxyTest extends IntegrationTestCase
 
         $this->assertEquals(200, $responseInfo["http_code"], 'Ok response');
 
-        $piwikJs = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/piwik.js');
+        $piwikJs = file_get_contents(PIWIK_PATH_TEST_TO_ROOT . '/matomo.js');
         $piwikNoCommentJs = substr($piwikJs, strpos($piwikJs, "*/\n") + 3);
         $this->assertEquals($piwikNoCommentJs, trim($fullResponse), 'script content (if comment shows, $byteStart value in /js/tracker.php)');
     }

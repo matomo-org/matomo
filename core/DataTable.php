@@ -197,6 +197,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /** The original label of the Summary Row. */
     const LABEL_SUMMARY_ROW = -1;
+    const LABEL_TOTALS_ROW = -2;
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
@@ -302,6 +303,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $summaryRow = null;
 
     /**
+     * @var \Piwik\DataTable\Row
+     */
+    protected $totalsRow = null;
+
+    /**
      * Table metadata. Read [this](#class-desc-the-basics) to learn more.
      *
      * Any data that describes the data held in the table's rows should go here.
@@ -400,6 +406,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 }
             }
         }
+    }
+
+    public function setTotalsRow(Row $totalsRow)
+    {
+        $this->totalsRow = $totalsRow;
+    }
+
+    public function getTotalsRow()
+    {
+        return $this->totalsRow;
     }
 
     /**
@@ -1866,6 +1882,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function clearQueuedFilters()
     {
         $this->queuedFilters = array();
+    }
+
+    public function getQueuedFilters()
+    {
+        return $this->queuedFilters;
     }
 
     /**

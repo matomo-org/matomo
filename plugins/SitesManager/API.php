@@ -101,13 +101,14 @@ class API extends \Piwik\Plugin\API
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
                                      $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false)
+                                     $crossDomain = false, $forceMatomoEndpoint = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -124,6 +125,10 @@ class API extends \Piwik\Plugin\API
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
 
         $generator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $generator->forceMatomoEndpoint();
+        }
+
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
@@ -139,9 +144,10 @@ class API extends \Piwik\Plugin\API
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The HTML tracking code.
      */
-    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
+    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false, $forceMatomoEndpoint = false)
     {
         $urlParams = array('idsite' => $idSite, 'rec' => 1);
 
@@ -168,7 +174,13 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
-        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php?' . Url::getQueryStringFromParameters($urlParams);
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $trackerCodeGenerator->forceMatomoEndpoint();
+        }
+        $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
 <img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";

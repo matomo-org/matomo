@@ -164,4 +164,16 @@ describe("EvolutionGraph", function () {
             page.load(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
         }, done);
     });
+
+    it("should show available periods", function (done) {
+        expect.screenshot('periods_list').to.be.capture(function (page) {
+            showDataTableFooter(page);
+            page.click('.activatePeriodsSelection');
+        }, done);
+    });
+    it("should be possible to change period", function (done) {
+        expect.screenshot('periods_selected').to.be.capture(function (page) {
+            page.click('.dataTablePeriods [data-period=month]');
+        }, done);
+    });
 });

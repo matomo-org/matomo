@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use Piwik\Db;
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Settings\Plugin\UserSetting;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 /**
@@ -20,7 +20,7 @@ use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 class CoreAdminHome extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -30,8 +30,22 @@ class CoreAdminHome extends \Piwik\Plugin
             'UsersManager.deleteUser'         => 'cleanupUser',
             'API.DocumentationGenerator.@hideExceptForSuperUser' => 'displayOnlyForSuperUser',
             'Template.jsGlobalVariables' => 'addJsGlobalVariables',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'System.addSystemSummaryItems' => 'addSystemSummaryItems',
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $failures = Request::processRequest('CoreAdminHome.getTrackingFailures', [], []);
+            $numFailures = count($failures);
+            $icon = 'icon-error';
+            if ($numFailures === 0) {
+                $icon = 'icon-ok';
+            }
+            $systemSummary[] = new SystemSummary\Item($key = 'trackingfailures', Piwik::translate('CoreAdminHome_NTrackingFailures', $numFailures), $value = null, array('module' => 'CoreAdminHome', 'action' => 'trackingFailures'), $icon, $order = 9);
+        }
     }
 
     public function cleanupUser($userLogin)
@@ -45,6 +59,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -82,5 +97,23 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'UserCountryMap_None';
+        $translationKeys[] = 'Actions_ColumnPageURL';
+        $translationKeys[] = 'General_Date';
+        $translationKeys[] = 'General_Measurable';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'CoreHome_ClickToSeeFullInformation';
+        $translationKeys[] = 'CoreAdminHome_LearnMore';
+        $translationKeys[] = 'CoreAdminHome_ConfirmDeleteAllTrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_ConfirmDeleteThisTrackingFailure';
+        $translationKeys[] = 'CoreAdminHome_DeleteAllFailures';
+        $translationKeys[] = 'CoreAdminHome_NTrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_Problem';
+        $translationKeys[] = 'CoreAdminHome_Solution';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresIntroduction';
+        $translationKeys[] = 'CoreAdminHome_TrackingURL';
+        $translationKeys[] = 'CoreAdminHome_NoKnownFailures';
     }
 }

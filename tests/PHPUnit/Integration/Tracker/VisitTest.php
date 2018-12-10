@@ -34,6 +34,7 @@ class VisitTest extends IntegrationTestCase
         // setup the access layer
         FakeAccess::$superUser = true;
 
+        Fixture::createSuperUser(true);
         Manager::getInstance()->loadTrackerPlugins();
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';
@@ -84,6 +85,14 @@ class VisitTest extends IntegrationTestCase
             )),
             // add some ipv6 addresses!
         );
+    }
+
+    public function test_worksWhenSiteDoesNotExist()
+    {
+        $request = new RequestAuthenticated(array('idsite' => 99999999, 'rec' => 1));
+
+        $excluded = new VisitExcluded($request);
+        $this->assertSame(false, $excluded->isExcluded());
     }
 
     /**

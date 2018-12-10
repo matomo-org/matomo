@@ -33,8 +33,7 @@ abstract class DataTableManipulator
     protected $apiModule;
     protected $apiMethod;
     protected $request;
-
-    private $apiMethodForSubtable;
+    protected $apiMethodForSubtable;
 
     /**
      * Constructor
@@ -144,7 +143,7 @@ abstract class DataTableManipulator
      * @throws Exception
      * @return string
      */
-    private function getApiMethodForSubtable($request)
+    protected function getApiMethodForSubtable($request)
     {
         if (!$this->apiMethodForSubtable) {
             if (!empty($request['idSite'])) {
