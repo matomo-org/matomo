@@ -22,7 +22,7 @@
         ];
         this.isLoading = false;
         this.transitions = null;
-        this.actionName = '';
+        this.actionName = null;
         this.isEnabled = true;
 
         this.detectActionName = function (reports)
@@ -59,7 +59,7 @@
         this.fetch = function (type) {
             this.isLoading = true;
             this.actionNameOptions = [];
-            this.actionName = '';
+            this.actionName = null;
 
             piwikApi.fetch({
                 method: type,
@@ -70,7 +70,7 @@
             }).then(function (report) {
                 self.isLoading = false;
                 self.actionNameOptions = [];
-                self.actionName = '';
+                self.actionName = null;
 
                 if (report && report.length) {
                     self.isEnabled = true;
@@ -78,9 +78,9 @@
                     self.onActionNameChange(self.actionName);
                 }
 
-                if (!self.actionName || self.actionNameOptions.length === 0) {
+                if (null === self.actionName || self.actionNameOptions.length === 0) {
                     self.isEnabled = false;
-                    self.actionName = '';
+                    self.actionName = null;
                     self.actionNameOptions.push({key: '', value: translate('CoreHome_ThereIsNoDataForThisReport')});
                 }
             }, function () {
@@ -94,7 +94,7 @@
         };
 
         this.onActionNameChange = function (actionName) {
-            if (!actionName) {
+            if (actionName === null) {
                 return;
             }
 

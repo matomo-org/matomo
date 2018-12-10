@@ -56,14 +56,14 @@ describe("Transitions", function () {
     it('should show report in reporting ui with data', function (done) {
         expect.screenshot('transitions_report_with_data_report').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
-            page.wait(3000);
+            page.wait(1000);
         }, done);
     });
 
     it('should show report in widget ui in selector', function (done) {
         expect.screenshot('transitions_report_with_data_widget').to.be.captureSelector('body', function (page) {
             page.load("?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Transitions&actionToWidgetize=getTransitions&"+generalParams+"&disableLink=1&widget=1");
-            page.wait(3000);
+            page.wait(1000);
         }, done);
     });
 
