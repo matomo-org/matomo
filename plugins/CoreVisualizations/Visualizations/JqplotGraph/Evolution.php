@@ -35,6 +35,7 @@ class Evolution extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
