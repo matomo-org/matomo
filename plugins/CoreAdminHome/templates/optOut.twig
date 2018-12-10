@@ -38,9 +38,13 @@
     {% endif %}
 
     {% if not trackVisits %}
-        {{ optedOutText|raw }}
+        <p>
+        {{ 'CoreAdminHome_OptOutComplete'|translate }}
+
+        {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+        </p>
     {% else %}
-        {{ optedInText|raw }}
+        <p>{{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}</p>
     {% endif %}
 
     {% if showConfirmOnly %}</noscript>{% endif %}
