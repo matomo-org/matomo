@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 * When changing the email address or the password through the `UsersManager.updateUser` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 * The output type "save on disk" in the API method `ScheduledReport.generateReport` has been replaced by the download output type.
+* The method `Piwik\Piwik::doAsSuperUser` has been deprecated and will be removed in Matomo 4. Use `Piwik\Access::doAsSuperUser` instead.
 
 ### New APIs
 

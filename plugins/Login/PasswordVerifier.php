@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Login;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Session\SessionNamespace;
@@ -35,6 +36,34 @@ class PasswordVerifier
     private function getLoginSession()
     {
         return new SessionNamespace('Login');
+    }
+
+    public function isPasswordCorrect($userLogin, $password)
+    {
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Login.beforeLoginCheckAllowed');
+
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin($userLogin);
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword($password);
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+
+        if ($authResult->wasAuthenticationSuccessful()) {
+            return true;
+        }
+
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Login.recordFailedLoginAttempt');
+        return false;
     }
 
     public function hasPasswordVerifyBeenRequested()

@@ -34,8 +34,15 @@ class Updates_3_8_0_b4 extends PiwikUpdates
                   'request_url' => 'MEDIUMTEXT NOT NULL'),
             array('idsite', 'idfailure'));
 
+        $columns = array(
+            'id_brute_force_log' => 'bigint(11) NOT NULL AUTO_INCREMENT',
+            'ip_address' => 'VARCHAR(60) DEFAULT NULL',
+            'attempted_at' => 'datetime NOT NULL',
+        );
         return array(
-            $trackingFailureTable
+            $trackingFailureTable,
+            $this->migration->db->createTable('brute_force_log', $columns, 'id_brute_force_log'),
+            $this->migration->db->addIndex('brute_force_log', 'ip_address', 'index_ip_address'),
         );
     }
 

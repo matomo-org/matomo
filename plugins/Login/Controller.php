@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
 use Piwik\QuickForm2;
 use Piwik\Session;
@@ -26,7 +27,7 @@ use Piwik\View;
  * Login controller
  * @api
  */
-class Controller extends \Piwik\Plugin\Controller
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * @var PasswordResetter
@@ -44,6 +45,16 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
+     * @var BruteForceDetection
+     */
+    protected $bruteForceDetection;
+
+    /**
+     * @var SystemSettings
+     */
+    protected $systemSettings;
+
+    /*
      * @var PasswordVerifier
      */
     protected $passwordVerify;
@@ -53,10 +64,12 @@ class Controller extends \Piwik\Plugin\Controller
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
-     * @param SessionInitializer $authenticatedSessionFactory
+     * @param SessionInitializer $sessionInitializer
      * @param PasswordVerifier $passwordVerify
+     * @param BruteForceDetection $bruteForceDetection
+     * @param SystemSettings $systemSettings
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null, $bruteForceDetection = null, $systemSettings = null)
     {
         parent::__construct();
 
@@ -79,6 +92,16 @@ class Controller extends \Piwik\Plugin\Controller
             $sessionInitializer = new \Piwik\Session\SessionInitializer();
         }
         $this->sessionInitializer = $sessionInitializer;
+
+        if (empty($bruteForceDetection)) {
+            $bruteForceDetection = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+        }
+        $this->bruteForceDetection = $bruteForceDetection;
+
+        if (empty($systemSettings)) {
+            $systemSettings = StaticContainer::get('Piwik\Plugins\Login\SystemSettings');
+        }
+        $this->systemSettings = $systemSettings;
     }
 
     /**
@@ -151,7 +174,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function configureView($view)
     {
-        $this->setBasicVariablesView($view);
+        $this->setBasicVariablesNoneAdminView($view);
 
         $view->linkTitle = Piwik::getRandomTitle();
 
@@ -174,11 +197,13 @@ class Controller extends \Piwik\Plugin\Controller
 
         $nonceKey = 'confirmPassword';
         $messageNoAccess = '';
+
         if (!empty($_POST)) {
             $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            $password = Common::getRequestVar('password', null, 'string', $_POST);
             if (!Nonce::verifyNonce($nonceKey, $nonce)) {
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
-            } elseif ($this->verifyPasswordCorrect()) {
+            } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
             } else {
@@ -190,18 +215,6 @@ class Controller extends \Piwik\Plugin\Controller
             'nonce' => Nonce::getNonce($nonceKey),
             'AccessErrorString' => $messageNoAccess
         ));
-    }
-
-    private function verifyPasswordCorrect()
-    {
-        /** @var \Piwik\Auth $authAdapter */
-        $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
-        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
-        $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
-        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
-        $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**
@@ -229,6 +242,16 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
+    }
+
+    public function bruteForceLog()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('bruteForceLog', array(
+            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps(),
+            'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+        ));
     }
 
     /**
