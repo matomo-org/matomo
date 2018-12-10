@@ -30,7 +30,8 @@ describe("BarGraph", function () {
     });
 
     it("should display multiple metrics when another metric picked", async function () {
-        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        await page.waitForSelector('.jqplot-seriespicker-popover input');
+        var element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
         await element.click();
         await page.waitForNetworkIdle();
         await page.waitFor(500);
