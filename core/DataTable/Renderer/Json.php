@@ -73,7 +73,28 @@ class Json extends Renderer
         // silence "Warning: json_encode(): Invalid UTF-8 sequence in argument"
         $str = @json_encode($array);
 
+        if ($str === false && json_last_error() === JSON_ERROR_UTF8) {
+            $str = @json_encode(self::makeArrayUtf8($array));
+        }
+
         return $str;
+    }
+
+    private static function makeArrayUtf8($array)
+    {
+        if (!function_exists('mb_convert_encoding')) {
+            return $array;
+        }
+
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $array[$key] = self::makeArrayUtf8($value);
+            }
+        } elseif (is_string($array)) {
+            return mb_convert_encoding($array, 'UTF-8', 'UTF-8');
+        }
+
+        return $array;
     }
 
     public static function sendHeaderJSON()
