@@ -74,7 +74,7 @@ class Json extends Renderer
         $str = @json_encode($array);
 
         if ($str === false && json_last_error() === JSON_ERROR_UTF8) {
-            $str = @json_encode(self::makeArrayUtf8($array));
+            $str = json_encode(self::makeArrayUtf8($array));
         }
 
         return $str;
