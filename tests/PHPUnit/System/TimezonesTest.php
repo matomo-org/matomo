@@ -29,10 +29,15 @@ class TimezonesTest extends SystemTestCase
         parent::setUp();
 
         self::$fixture->setMockNow();
+
+        $this->markTestSkipped("NOTE: currently timezone handling is broken in Date, so this doesn't work as expected.\n"
+            . "see https://github.com/matomo-org/matomo/issues/13829 for more info.");
     }
 
     public function getApiForTesting()
     {
+        // NOTE: currently timezone handling is broken in Date, so this doesn't work as expected.
+        //
         return array(
             // should have 1 visit per site
             array('Live.getLastVisitsDetails', array('idSite' => 'all',
