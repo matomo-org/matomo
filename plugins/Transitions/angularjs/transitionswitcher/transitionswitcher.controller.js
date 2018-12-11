@@ -24,26 +24,34 @@
         this.transitions = null;
         this.actionName = null;
         this.isEnabled = true;
+        var noDataKey = '_____ignore_____';
 
         this.detectActionName = function (reports)
         {
             var othersLabel = translate('General_Others');
 
-            var label;
+            var label, report;
             for (var i = 0; i < reports.length; i++) {
-
-                if (reports[i].label === othersLabel) {
+                if (!reports[i]) {
                     continue;
                 }
 
-                var key = reports[i].url;
-                if (!self.isUrlReport()) {
-                    key = reports[i].label;
+                report = reports[i];
+
+                if (report.label === othersLabel) {
+                    continue;
+                }
+
+                var key = null;
+                if (self.isUrlReport()) {
+                    key = report.url
+                } else {
+                    key = report.label;
                 }
 
                 if (key) {
-                    label = reports[i].label + ' (' + translate('Transitions_NumPageviews', reports[i].nb_hits) + ')';
-                    self.actionNameOptions.push({key: key, value: label, url: reports[i].url});
+                    label = report.label + ' (' + translate('Transitions_NumPageviews', report.nb_hits) + ')';
+                    self.actionNameOptions.push({key: key, value: label, url: report.url});
                     if (!self.actionName) {
                         self.actionName = key
                     }
@@ -80,8 +88,8 @@
 
                 if (null === self.actionName || self.actionNameOptions.length === 0) {
                     self.isEnabled = false;
-                    self.actionName = null;
-                    self.actionNameOptions.push({key: '', value: translate('CoreHome_ThereIsNoDataForThisReport')});
+                    self.actionName = noDataKey;
+                    self.actionNameOptions.push({key: noDataKey, value: translate('CoreHome_ThereIsNoDataForThisReport')});
                 }
             }, function () {
                 self.isLoading = false;
@@ -94,7 +102,7 @@
         };
 
         this.onActionNameChange = function (actionName) {
-            if (actionName === null) {
+            if (actionName === null || actionName === noDataKey) {
                 return;
             }
 
