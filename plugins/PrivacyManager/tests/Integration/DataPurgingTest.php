@@ -526,7 +526,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertTrue($this->unusedIdAction > 0);
 
         // purge data
-        $purger->purgeData($this->settings['delete_logs_older_than'], $this->settings['delete_logs_max_rows_per_query']);
+        $purger->purgeData($this->settings['delete_logs_older_than'], true);
 
         // check that actions were purged
         $contentsNotPurged = 3;
