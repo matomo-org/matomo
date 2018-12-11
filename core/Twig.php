@@ -561,7 +561,7 @@ class Twig
     private function addFilter_safelink()
     {
         $safelink = new Twig_SimpleFilter('safelink', function ($url) {
-            if (!UrlHelper::isLookLikeUrl($url)) {
+            if (!UrlHelper::isLookLikeSafeUrl($url)) {
                 return '';
             }
             return $url;

@@ -85,6 +85,7 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         // THIS IS A REMINDER FOR PIWIK 4: We need to rename getColumnType() to getDbColumnType() and $columnType to $dbColumnType
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Columns\Dimension', 'getType');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\SettingsPiwik', 'isPiwikInstalled');
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Piwik', 'doAsSuperUser');
     }
 
 

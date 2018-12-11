@@ -429,7 +429,13 @@ class Request
          * @param string $token_auth The value of the **token_auth** query parameter.
          */
         Piwik::postEvent('API.Request.authenticate', array($tokenAuth));
-        Access::getInstance()->reloadAccess();
+        if (!Access::getInstance()->reloadAccess() && $tokenAuth && $tokenAuth !== 'anonymous') {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('API.Request.authenticate.failed');
+        }
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 

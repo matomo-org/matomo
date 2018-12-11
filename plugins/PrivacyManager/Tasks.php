@@ -64,6 +64,10 @@ class Tasks extends \Piwik\Plugin\Tasks
         $privacyManager->deleteReportData();
     }
 
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\PrivacyManager\Tasks.deleteLogData"`
+     */
     public function deleteLogData()
     {
         $privacyManager = new PrivacyManager();
