@@ -105,6 +105,34 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>General_Actions.Transitions_Transitions</uniqueId>
+		<category>
+			<id>General_Actions</id>
+			<name>Behaviour</name>
+			<order>10</order>
+			<icon>icon-reporting-actions</icon>
+		</category>
+		<subcategory>
+			<id>Transitions_Transitions</id>
+			<name>Transitions</name>
+			<order>46</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Transitions</name>
+				<module>Transitions</module>
+				<action>getTransitions</action>
+				<order>99</order>
+				<parameters>
+					<module>Transitions</module>
+					<action>getTransitions</action>
+				</parameters>
+				<uniqueId>widgetTransitionsgetTransitions</uniqueId>
+				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>General_Actions.General_Downloads</uniqueId>
 		<category>
 			<id>General_Actions</id>

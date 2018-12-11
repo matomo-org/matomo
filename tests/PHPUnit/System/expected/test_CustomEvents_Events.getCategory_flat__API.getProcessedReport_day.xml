@@ -9,6 +9,10 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<dimensions>
+			<Events_EventCategory>Event Category</Events_EventCategory>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -368,8 +372,150 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventCategory>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>CategoryTriggersGoal here</Events_EventCategory>
+				<Events_EventAction>This is an event without a URL</Events_EventAction>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playTrailer</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>Search</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventCategory>
+				<Events_EventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>clickBuyNow</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>playStart</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>Purchase</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Movie</Events_EventCategory>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play25%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play50%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>play75%</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>playEnd</Events_EventAction>
+			</row>
+			<row>
+				<Events_EventCategory>Music</Events_EventCategory>
+				<Events_EventAction>rating</Events_EventAction>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />

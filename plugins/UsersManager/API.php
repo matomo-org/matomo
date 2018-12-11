@@ -22,6 +22,7 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -75,6 +76,11 @@ class API extends \Piwik\Plugin\API
      */
     private $capabilityProvider;
 
+    /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerifier;
+
     private $twoFaPluginActivated;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
@@ -82,7 +88,7 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null, PasswordVerifier $passwordVerifier = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
@@ -90,6 +96,7 @@ class API extends \Piwik\Plugin\API
         $this->access = $access ?: StaticContainer::get(Access::class);
         $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
         $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
+        $this->passwordVerifier = $passwordVerifier ?: StaticContainer::get(PasswordVerifier::class);
     }
 
     /**
@@ -894,7 +901,7 @@ class API extends \Piwik\Plugin\API
             }
 
             $loginCurrentUser = Piwik::getCurrentUserLogin();
-            if (!$this->verifyPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+            if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
                 throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
             }
         }
@@ -913,18 +920,6 @@ class API extends \Piwik\Plugin\API
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
-    }
-
-    private function verifyPasswordCorrect($userLogin, $password)
-    {
-        /** @var \Piwik\Auth $authAdapter */
-        $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin($userLogin);
-        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
-        $authAdapter->setPassword($password);
-        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
-        $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**
@@ -1326,7 +1321,13 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        if (!$this->password->verify($md5Password, $user['password'])) {
+        if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+
             return md5($userLogin . microtime(true) . Common::generateUniqId());
         }
 

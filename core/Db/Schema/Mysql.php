@@ -292,6 +292,16 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`name`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+
+            'brute_force_log'        => "CREATE TABLE {$prefixTables}brute_force_log (
+                                      `id_brute_force_log` bigint(11) NOT NULL AUTO_INCREMENT,
+                                      `ip_address` VARCHAR(60) DEFAULT NULL,
+                                      `attempted_at` datetime NOT NULL,
+                                        INDEX index_ip_address(ip_address),
+                                      PRIMARY KEY(`id_brute_force_log`)
+                                      ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
             'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
                                       `idsite` BIGINT(20) UNSIGNED NOT NULL ,
                                       `idfailure` SMALLINT UNSIGNED NOT NULL ,

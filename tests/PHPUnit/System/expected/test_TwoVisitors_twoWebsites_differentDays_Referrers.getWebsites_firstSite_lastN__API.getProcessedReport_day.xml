@@ -10,6 +10,10 @@
 		<action>getWebsites</action>
 		<dimension>Website</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<dimensions>
+			<Referrers_Website>Website</Referrers_Website>
+			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

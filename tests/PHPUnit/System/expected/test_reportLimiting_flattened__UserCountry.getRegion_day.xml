@@ -11,6 +11,7 @@
 		<bounce_count>35</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<UserCountry_Region>Others</UserCountry_Region>
 	</row>
 	<row>
 		<label>Ontario, Canada</label>
@@ -28,6 +29,7 @@
 		<country_name>Canada</country_name>
 		<region_name>Ontario</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<UserCountry_Region>Ontario, Canada</UserCountry_Region>
 	</row>
 	<row>
 		<label>Provence-Alpes-Côte-d’Azur, France</label>
@@ -45,5 +47,6 @@
 		<country_name>France</country_name>
 		<region_name>Provence-Alpes-Côte-d’Azur</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<UserCountry_Region>Provence-Alpes-Côte-d’Azur, France</UserCountry_Region>
 	</row>
 </result>
