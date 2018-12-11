@@ -40,7 +40,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function schedule()
     {
         $this->daily('deleteReportData', null, self::LOW_PRIORITY);
-        $this->daily('deleteLogData', null, self::LOW_PRIORITY);
+        $this->hourly('deleteLogData', null, self::LOW_PRIORITY);
         $this->hourly('anonymizePastData', null, self::LOW_PRIORITY);
         $this->weekly('deleteLogDataForDeletedSites', null, self::LOW_PRIORITY);
     }
