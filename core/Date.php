@@ -167,6 +167,51 @@ class Date
     }
 
     /**
+     * Returns Date w/ UTC timestamp of time $dateString/$timezone.
+     *
+     * @param $dateString
+     * @param $timezone
+     * @return Date
+     * @ignore
+     */
+    public static function factoryInTimezone($dateString, $timezone)
+    {
+        if ($dateString == 'now') {
+            return self::nowInTimezone($timezone);
+        } else if ($dateString == 'today') {
+            return self::todayInTimezone($timezone);
+        } else if ($dateString == 'yesterday') {
+            return self::yesterdayInTimezone($timezone);
+        } else if ($dateString == 'yesterdaySameTime') {
+            return self::yesterdaySameTimeInTimezone($timezone);
+        } else {
+            return Date::factory($dateString, $timezone);
+        }
+    }
+
+    private static function nowInTimezone($timezone)
+    {
+        $now = self::getNowTimestamp();
+        $now = self::adjustForTimezone($now, $timezone);
+        return new Date($now);
+    }
+
+    private static function todayInTimezone($timezone)
+    {
+        return self::nowInTimezone($timezone)->getStartOfDay();
+    }
+
+    private static function yesterdayInTimezone($timezone)
+    {
+        return self::todayInTimezone($timezone)->subDay(1);
+    }
+
+    private static function yesterdaySameTimeInTimezone($timezone)
+    {
+        return self::nowInTimezone($timezone)->subDay(1);
+    }
+
+    /**
      * Returns the current timestamp as a string with the following format: `'YYYY-MM-DD HH:MM:SS'`.
      *
      * @return string
@@ -498,7 +543,7 @@ class Date
      */
     public static function now()
     {
-        return new Date(time());
+        return new Date(self::getNowTimestamp());
     }
 
     /**
