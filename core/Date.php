@@ -168,6 +168,7 @@ class Date
 
     /**
      * Returns Date w/ UTC timestamp of time $dateString/$timezone.
+     * (Only applies to special strings, like 'now','today','yesterday','yesterdaySameTime'.
      *
      * @param $dateString
      * @param $timezone
@@ -185,7 +186,7 @@ class Date
         } else if ($dateString == 'yesterdaySameTime') {
             return self::yesterdaySameTimeInTimezone($timezone);
         } else {
-            return Date::factory($dateString, $timezone);
+            throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
         }
     }
 

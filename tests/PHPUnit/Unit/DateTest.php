@@ -454,4 +454,22 @@ class DateTest extends \PHPUnit_Framework_TestCase
             ['yesterdaySameTime', 'Antarctica/Mawson', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
         ];
     }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
+     */
+    public function test_factoryInTimezone_doesNotWorkWithNormalDates()
+    {
+        Date::factoryInTimezone('2012-02-03', 'America/Toronto');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
+     */
+    public function test_factoryInTimezone_doesNotWorkWithTimestamps()
+    {
+        Date::factoryInTimezone(time(), 'America/Toronto');
+    }
 }
