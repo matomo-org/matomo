@@ -17,48 +17,48 @@ describe("CampaignBuilder", function () {
         testEnvironment.save();
     });
 
-    function captureUrlBuilder(done, screenshotName, theTest)
+    async function captureUrlBuilder(screenshotName, theTest)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('.campaignUrlBuilder', theTest, done);
+        await theTest();
+        expect(await page.screenshotSelector('.campaignUrlBuilder')).to.matchImage(screenshotName);
     }
 
-    function ensureHighlightEffectIsGone(page)
+    async function ensureHighlightEffectIsGone()
     {
-        page.wait(2000);
+        await page.waitFor(2000);
     }
 
-    function generateUrl(page)
+    async function generateUrl()
     {
-        page.click('.generateCampaignUrl');
-        ensureHighlightEffectIsGone(page);
+        await page.click('.generateCampaignUrl');
+        await ensureHighlightEffectIsGone();
     }
 
-    it('should load the url builder', function (done) {
-        expect.screenshot('loaded').to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it('should load the url builder', async function () {
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded');
     });
 
-    it('generate simple url with url and campaign name', function (done) {
-        captureUrlBuilder(done, 'generate_url_nokeyword', function (page) {
-            page.sendKeys('#websiteurl', 'https://www.example.com/foo/bar?x=1&y=2#foobarbaz');
-            page.sendKeys('#campaignname', 'My2018Campaign-Test');
-            generateUrl(page);
+    it('generate simple url with url and campaign name', async function () {
+        await captureUrlBuilder('generate_url_nokeyword', async function () {
+            await page.type('#websiteurl', 'https://www.example.com/foo/bar?x=1&y=2#foobarbaz');
+            await page.type('#campaignname', 'My2018Campaign-Test');
+            await generateUrl();
         });
     });
 
-    it('can reset form', function (done) {
-        captureUrlBuilder(done, 'generate_url_reset', function (page) {
-            page.click('.resetCampaignUrl');
+    it('can reset form', async function () {
+        await captureUrlBuilder('generate_url_reset', async function () {
+            await page.click('.resetCampaignUrl');
         });
     });
 
-    it('generate simple url with url and campaign name and keyword', function (done) {
-        captureUrlBuilder(done, 'generate_url_withkeyword', function (page) {
-            page.sendKeys('#websiteurl', 'www.example.com');
-            page.sendKeys('#campaignname', 'MyAwesome&#2<&§Name');
-            page.sendKeys('#campaignkeyword', 'MyAwesome&#2<&§Keyword');
-            generateUrl(page);
+    it('generate simple url with url and campaign name and keyword', async function () {
+        await captureUrlBuilder('generate_url_withkeyword', async function () {
+            await page.type('#websiteurl', 'www.example.com');
+            await page.type('#campaignname', 'MyAwesome&#2<&§Name');
+            await page.type('#campaignkeyword', 'MyAwesome&#2<&§Keyword');
+            await generateUrl();
         });
     });
 });
