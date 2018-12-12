@@ -310,7 +310,7 @@ default_period = day
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; This setting is overriden in the UI, under "General Settings".
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
-time_before_today_archive_considered_outdated = 150
+time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
 ; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
