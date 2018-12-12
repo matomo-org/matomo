@@ -212,7 +212,7 @@ function getPageLogsString(pageLogs, indent) {
     var result = "";
     if (pageLogs.length) {
         result = "\n\n" + indent + "Rendering logs:\n";
-        pageLogs.forEach(function (message) {
+        pageLogs.slice(1, 5).forEach(function (message) {
             result += indent + "  " + message.replace(/\n/g, "\n" + indent + "  ") + "\n";
         });
         result = result.substring(0, result.length - 1);

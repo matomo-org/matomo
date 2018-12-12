@@ -86,7 +86,7 @@ describe("TwoFactorAuth", function () {
         await loginUser('with2FA', false);
         expect(await page.screenshotSelector('.loginSection')).to.matchImage('logme_not_verified');
     });
-
+return;
     it('when logging in and providing wrong code an error is shown', async function () {
         await page.type('.loginTwoFaForm #login_form_authcode', '555555');
         await page.evaluate(function(){
