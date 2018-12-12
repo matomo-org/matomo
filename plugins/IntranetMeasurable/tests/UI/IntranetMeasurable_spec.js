@@ -18,34 +18,35 @@ describe("IntranetMeasurable", function () {
         testEnvironment.save();
     });
 
-    function assertScreenshotEquals(screenshotName, done, test, selector)
-    {
-        expect.screenshot(screenshotName).to.be.captureSelector(selector, test, done);
-    }
+    it("should show intranet selection", async function () {
+        await page.goto(url);
+        await (await page.jQuery('.SitesManager .addSite:first')).click();
+        await page.waitFor(500);
 
-    it("should show intranet selection", function (done) {
-        assertScreenshotEquals("add_new_dialog", done, function (page) {
-            page.load(url);
-            page.click('.SitesManager .addSite:first');
-        }, '.modal.open');
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('add_new_dialog');
     });
 
-    it("should load intranet specific fields", function (done) {
-        assertScreenshotEquals("intranet_create", done, function (page) {
-            page.click('.modal.open .btn:contains(Intranet)');
-            page.evaluate(function () {
-                $('.form-help:contains(UTC time is)').hide();
-            });
-            page.wait(250);
-        }, '.editingSite');
+    it("should load intranet specific fields", async function () {
+        await (await page.jQuery('.modal.open .btn:contains(Intranet)')).click();
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
+
+        await page.evaluate(function () {
+            $('.form-help:contains(UTC time is)').hide();
+        });
+
+        pageWrap = await page.$('.editingSite');
+        expect(await pageWrap.screenshot()).to.matchImage('intranet_create');
     });
 
-    it("should load intranet specific fields", function (done) {
-        assertScreenshotEquals("intranet_created", done, function (page) {
-            page.sendKeys('.editingSite [placeholder="Name"]', 'My intranet');
-            page.sendKeys('.editingSite [name="urls"]', 'https://www.example.com');
-            page.click('.editingSiteFooter input.btn');
-        }, '.site[type=intranet]');
+    it("should load intranet specific fields", async function () {
+        await page.type('.editingSite [placeholder="Name"]', 'My intranet');
+        await page.type('.editingSite [name="urls"]', 'https://www.example.com');
+        await page.click('.editingSiteFooter input.btn');
+        await page.waitForNetworkIdle();
+
+        pageWrap = await page.$('.site[type=intranet]');
+        expect(await pageWrap.screenshot()).to.matchImage('intranet_created');
     });
 
 });
