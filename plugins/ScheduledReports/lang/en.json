@@ -55,6 +55,7 @@
         "NoTokenProvided": "No token was provided in the URL",
         "NoSubscriptionFound": "No subscription found. Maybe the report was already unsubscribed or removed.",
         "EvolutionGraphsShowForEachInPeriod": "Evolution graphs show the evolution for %1$seach day%2$s in the last %3$s",
-        "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s"
+        "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s",
+        "ReportPeriod": "Report Period"
     }
 }

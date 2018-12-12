@@ -32,13 +32,19 @@
             </div>
         {% endif %}
 
+        <div piwik-field uicontrol="select" name="report_period"
+             options="{{ paramPeriods|json_encode }}"
+             ng-model="manageScheduledReport.report.periodParam"
+             title="{{ 'ScheduledReports_ReportPeriod'|translate|e('html_attr') }}">
+        </div>
+
         <div id="emailScheduleInlineHelp" class="inline-help-node">
             {{ 'ScheduledReports_WeeklyScheduleHelp'|translate }}
             <br/>
             {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
         </div>
 
-        <div piwik-field uicontrol="select" name="report_period"
+        <div piwik-field uicontrol="select" name="report_schedule"
              options="{{ periods|json_encode }}"
              ng-model="manageScheduledReport.report.period"
              title="{{ 'ScheduledReports_EmailSchedule'|translate|e('html_attr') }}"
