@@ -179,12 +179,12 @@ class Visualization extends ViewDataTable
 
         try {
             $this->beforeLoadDataTable();
-            $this->loadDataTableFromAPI();
+            $request = $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
 
-            $this->applyFilters();
+            $this->applyFilters($request);
             $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
             $this->beforeRender();
@@ -293,6 +293,8 @@ class Visualization extends ViewDataTable
         $response->disableDataTablePostProcessor();
 
         $this->dataTable = $response->getResponse($dataTable, $module, $method);
+
+        return $request;
     }
 
     private function getReportMetadata()
@@ -432,9 +434,9 @@ class Visualization extends ViewDataTable
         }
     }
 
-    private function applyFilters()
+    private function applyFilters($request)
     {
-        $postProcessor = $this->makeDataTablePostProcessor(); // must be created after requestConfig is final
+        $postProcessor = $this->makeDataTablePostProcessor($request); // must be created after requestConfig is final
         $self = $this;
 
         $postProcessor->setCallbackBeforeGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self, $postProcessor) {
@@ -700,9 +702,8 @@ class Visualization extends ViewDataTable
         // eg $this->config->showFooterColumns = true;
     }
 
-    private function makeDataTablePostProcessor()
+    private function makeDataTablePostProcessor($request)
     {
-        $request = $this->buildApiRequestArray();
         $module  = $this->requestConfig->getApiModuleToRequest();
         $method  = $this->requestConfig->getApiMethodToRequest();
 

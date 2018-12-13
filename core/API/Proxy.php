@@ -136,10 +136,10 @@ class Proxy extends Singleton
      * @return mixed|null
      * @throws Exception|\Piwik\NoAccessException
      */
-    public function call($className, $methodName, $parametersRequest)
+    public function call($className, $methodName, &$parametersRequest)
     {
         // Temporarily sets the Request array to this API call context
-        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
+        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, &$parametersRequest) {
             $returnedValue = null;
 
             $this->registerClass($className);
@@ -217,7 +217,7 @@ class Proxy extends Singleton
              * @param string $methodName The name of the API method that will be called.
              * @param array $parametersRequest The query parameters for this request.
              */
-            Piwik::postEvent('API.Request.intercept', [&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest]);
+            Piwik::postEvent('API.Request.intercept', [&$returnedValue, $finalParameters, $pluginName, $methodName, &$parametersRequest]);
 
             $apiParametersInCorrectOrder = array();
 

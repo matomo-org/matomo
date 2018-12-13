@@ -218,12 +218,6 @@ class Request
 
         $disablePostProcessing = $this->shouldDisablePostProcessing();
 
-        // create the response
-        $response = new ResponseBuilder($outputFormat, $this->request);
-        if ($disablePostProcessing) {
-            $response->disableDataTablePostProcessor();
-        }
-
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
 
@@ -261,6 +255,12 @@ class Request
 
             // call the method
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
+
+            // create the response (created after calling so events can modify $this->request)
+            $response = new ResponseBuilder($outputFormat, $this->request);
+            if ($disablePostProcessing) {
+                $response->disableDataTablePostProcessor();
+            }
 
             // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
             // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
