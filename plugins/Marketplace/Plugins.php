@@ -172,7 +172,6 @@ class Plugins
     }
 
     /**
-     * @param bool $themesOnly
      * @return array
      */
     public function getPluginsHavingUpdate()

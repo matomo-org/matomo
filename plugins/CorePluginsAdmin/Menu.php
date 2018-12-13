@@ -67,7 +67,10 @@ class Menu extends \Piwik\Plugin\Menu
         if ($hasSuperUserAcess) {
             $menu->addSystemItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
                 $this->urlForAction('plugins', array('activated' => '')),
-                $order = 20);
+                $order = 18);
+            $menu->addSystemItem(Piwik::translate('CorePluginsAdmin_Themes'),
+                $this->urlForAction('themes'),
+                $order = 19);
         }
     }
 
