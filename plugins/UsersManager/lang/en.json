@@ -150,6 +150,12 @@
         "GiveAccessToAll": "Give this user access to All Websites",
         "OrManageIndividually": "Or manage this user's access to each website individually",
         "ChangePermToAllSitesConfirm": "Are you sure you want to give the %1$s user %2$s access to every website you currently have admin access to?",
-        "ChangePermToAllSitesConfirm2": "Note: this will only affect the currently existing websites. New websites you may create will not be automatically accessible to this user."
+        "ChangePermToAllSitesConfirm2": "Note: this will only affect the currently existing websites. New websites you may create will not be automatically accessible to this user.",
+        "CapabilitiesHelp": "Capabilities are individual abilities that users can be granted. Roles may, by default, grant certain capabilities. For example, the Admin role will automatically allow users to edit tags in the Tag Manager. For less powerful users, however, you can explicitly give users capabilities.",
+        "Capabilities": "Capabilities",
+        "AreYouSureAddCapability": "Are you sure you want to give %1$s the %2$s capability for %3$s?",
+        "AreYouSureRemoveCapability": "Are you sure you want to remove the %1$s capability from %2$s for %3$s?",
+        "IncludedInUsersRole": "Included in this user's role.",
+        "Capability": "Capability"
     }
 }

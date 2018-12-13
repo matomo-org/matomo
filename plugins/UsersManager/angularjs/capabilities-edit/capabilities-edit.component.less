@@ -1,0 +1,45 @@
+.capabilitiesEdit {
+  display: inline-block;
+
+  > span {
+    margin-right: 12px;
+    display: inline-block;
+
+    label {
+      padding-left: 25px;
+      padding-right: 5px;
+      color: @theme-color-text-contrast;
+
+      height: .8rem;
+      line-height: 1em;
+      font-size: .8rem;
+      margin-bottom: 4px;
+
+      &::before {
+        height: .9rem;
+        width: .9rem;
+        margin-top: -1px;
+      }
+    }
+
+    [type="checkbox"]:checked+label:before {
+      height: .9rem;
+      width: .6em;
+      left: 0;
+      top: -2px;
+      margin-top: -1px;
+    }
+  }
+
+  &.busy {
+    opacity: 0.5;
+  }
+
+  .confirmCapabilityToggle {
+    .modal-no {
+      float: right;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
+  }
+}

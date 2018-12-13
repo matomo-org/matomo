@@ -90,6 +90,13 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
 
+        $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
+        foreach ($capabilities as $capability) {
+            $view->filterAccessLevels[] = [
+                'key' => $capability['id'], 'value' => Piwik::translate('UsersManager_Capability') . ': ' . $capability['name'],
+            ];
+        }
+
         $this->setBasicVariablesView($view);
 
         return $view->render();

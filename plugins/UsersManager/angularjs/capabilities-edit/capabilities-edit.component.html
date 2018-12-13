@@ -1,0 +1,33 @@
+<div class="capabilitiesEdit" ng-class="{ busy: $ctrl.isBusy }">
+    <span
+        ng-repeat="capability in $ctrl.availableCapabilities"
+        title="{{ capability.description }} {{ ($ctrl.isIncludedInRole(capability) ? ('<br/><br/>' + ('UsersManager_IncludedInUsersRole'|translate)): '') }}"
+    >
+        <input
+            class="capability-checkbox"
+            type="checkbox"
+            ng-attr-id="capa_edit_{{ capability.id }}_{{ $ctrl.idsite }}_{{ $ctrl.userLogin }}"
+            ng-model="$ctrl.capabilitiesSet[capability.id]"
+            ng-change="$ctrl.onToggleCapability(capability)"
+            ng-disabled="$ctrl.isBusy || $ctrl.isIncludedInRole(capability)"
+        />
+        <label ng-attr-for="capa_edit_{{ capability.id }}_{{ $ctrl.idsite }}_{{ $ctrl.userLogin }}">{{ capability.name }}</label>
+    </span>
+
+    <div class="ui-confirm confirmCapabilityToggle modal">
+        <div class="modal-content">
+            <h2 ng-if="$ctrl.isAddingCapability" piwik-translate="UsersManager_AreYouSureAddCapability">
+                <strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.capabilityToAdd.name }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
+            </h2>
+            <h2 ng-if="!$ctrl.isAddingCapability" piwik-translate="UsersManager_AreYouSureRemoveCapability">
+                <strong>{{ $ctrl.capabilityToAdd.name }}</strong>::<strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
+            </h2>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleCapability()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.capabilitiesSet[$ctrl.capabilityToAdd.id] = !$ctrl.capabilitiesSet[$ctrl.capabilityToAdd.id]">
+                {{:: 'General_No'|translate }}
+            </a>
+        </div>
+    </div>
+</div>
