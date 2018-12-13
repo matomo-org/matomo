@@ -146,6 +146,7 @@ class Request
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
+                Common::printDebug("failed to authenticate: invalid idSite");
                 $this->isAuthenticated = false;
                 return;
             }
@@ -215,6 +216,12 @@ class Request
         }
 
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Tracker.Request.authenticate.failed');
 
         return false;
     }

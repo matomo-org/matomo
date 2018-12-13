@@ -5925,6 +5925,8 @@ if (typeof window.Piwik !== 'object') {
 
                 asyncTrackers.push(tracker);
 
+                Piwik.trigger('TrackerAdded', [this]);
+
                 return tracker;
             };
 
@@ -7577,6 +7579,8 @@ if (typeof window.Piwik !== 'object') {
 
             // replace initialization array with proxy object
             _paq = new TrackerProxy();
+
+            Piwik.trigger('TrackerAdded', [this]);
 
             return tracker;
         }

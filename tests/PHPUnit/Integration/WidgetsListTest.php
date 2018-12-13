@@ -41,7 +41,7 @@ class WidgetsListTest extends IntegrationTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'Dashboard_Dashboard' => 1,
-            'General_Actions' => 21,
+            'General_Actions' => 22,
             'General_Generic' => 1,
             'General_Visitors' => 31,
             'SEO' => 2,
