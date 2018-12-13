@@ -972,7 +972,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
     min, round, random, floor,
-    exec, success,
+    exec, success, trackerUrl,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
@@ -3521,12 +3521,12 @@ if (typeof window.Piwik !== 'object') {
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') {
-                        callback({request: request, success: true});
+                        callback({request: request, trackerUrl: configTrackerUrl, success: true});
                     }
                 };
                 image.onerror = function () {
                     if (typeof callback === 'function') {
-                        callback({request: request, success: false});
+                        callback({request: request, trackerUrl: configTrackerUrl, success: false});
                     }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
@@ -3569,7 +3569,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (success && typeof callback === 'function') {
-                    callback({request: request, success: true});
+                    callback({request: request, trackerUrl: configTrackerUrl, success: true});
                 }
 
                 return success;
@@ -3623,12 +3623,12 @@ if (typeof window.Piwik !== 'object') {
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
                                 } else if (typeof callback === 'function') {
-                                    callback({request: request, success: false});
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: false});
                                 }
 
                             } else {
                                 if (this.readyState === 4 && (typeof callback === 'function')) {
-                                    callback({request: request, success: true});
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: true});
                                 }
                             }
                         };
@@ -3641,7 +3641,7 @@ if (typeof window.Piwik !== 'object') {
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
                         } else if (typeof callback === 'function') {
-                            callback({request: request, success: false});
+                            callback({request: request, trackerUrl: configTrackerUrl, success: false});
                         }
                     }
                 }, 50);
