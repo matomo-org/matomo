@@ -972,7 +972,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
     min, round, random, floor,
-    exec, success, trackerUrl,
+    exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
@@ -3569,7 +3569,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (success && typeof callback === 'function') {
-                    callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                    callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
                 }
 
                 return success;
@@ -3623,12 +3623,12 @@ if (typeof window.Piwik !== 'object') {
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
                                 } else if (typeof callback === 'function') {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: false, xhr: this});
                                 }
 
                             } else {
                                 if (this.readyState === 4 && (typeof callback === 'function')) {
-                                    callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: true, xhr: this});
                                 }
                             }
                         };
