@@ -134,7 +134,12 @@ class Session extends Zend_Session
 			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer noopener' target='_blank'>enable database session storage</a>.";
             }
 
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
+            if (SettingsPiwik::isPiwikInstalled()) {
+                $pathToSessions = '';
+            } else {
+                $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
+            }
+		
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,

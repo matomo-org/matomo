@@ -371,7 +371,7 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session. As of Matomo 3.7.0 it is the only supported handler.
+; Matomo uses PHP's dbtable for session. As of Matomo 3.8.0 it is the only supported handler.
 ; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
 session_save_handler = dbtable
 
