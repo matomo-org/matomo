@@ -174,6 +174,10 @@ Application.prototype.loadTestModules = function () {
             }
 
             // remove existing diffs
+            if (!fs.existsSync(suite.diffDir)) {
+                fs.mkdirSync(suite.diffDir);
+            }
+
             fs.readdirSync(suite.diffDir).forEach(function (item) {
                 var file = path.join(suite.diffDir, item);
                 if (fs.exists(file)
