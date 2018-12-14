@@ -1200,9 +1200,4 @@ class UsersManagerTest extends IntegrationTestCase
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
     }
-
-    public function testName()
-    {
-
-    }
 }
