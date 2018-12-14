@@ -215,6 +215,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     private function getPluginsToLoadDuringTest($fixtureExtraPlugins = [])
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
+        $plugins[] = 'TagManager';
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge(
