@@ -493,32 +493,6 @@ class RequestTest extends UnitTestCase
         $this->assertSame('00:00:00', $request->getLocalTime());
     }
 
-    public function test_getIdSite()
-    {
-        $request = $this->buildRequest(array('idsite' => '14'));
-        $this->assertSame(14, $request->getIdSite());
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '0'));
-        $request->getIdSite();
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '-1'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '-1'));
-        $request->getIdSite();
-    }
-
     public function test_getIpString_ShouldDefaultToServerAddress()
     {
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
