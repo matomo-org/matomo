@@ -18,6 +18,22 @@ use Piwik\Translate;
  */
 class DateTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        Date::$now = null;
+        date_default_timezone_set('UTC');
+    }
+
+    public function tearDown()
+    {
+        Date::$now = null;
+        date_default_timezone_set('UTC');
+
+        parent::tearDown();
+    }
+
     /**
      * create today object check that timestamp is correct (midnight)
      *
@@ -385,5 +401,75 @@ class DateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
         Translate::reset();
+    }
+
+    /**
+     * @dataProvider getTestDataForFactoryInTimezone
+     */
+    public function test_factoryInTimezone($dateString, $timezone, $expectedDatetime, $now)
+    {
+        Date::$now = strtotime($now);
+
+        $date = Date::factoryInTimezone($dateString, $timezone);
+        $this->assertEquals($expectedDatetime, $date->getDatetime());
+    }
+
+    public function getTestDataForFactoryInTimezone()
+    {
+        return [
+            // UTC-5
+            ['now', 'America/Toronto', '2012-12-31 20:00:00', '2013-01-01 01:00:00'],
+            ['now', 'UTC-5', '2012-12-31 20:00:00', '2013-01-01 01:00:00'],
+            ['now', 'UTC-5', '2013-01-01 01:00:00', '2013-01-01 06:00:00'],
+            ['now', 'America/Toronto', '2013-01-01 01:00:00', '2013-01-01 06:00:00'],
+            ['today', 'America/Toronto', '2012-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['today', 'UTC-5', '2012-12-31 00:00:00', '2013-01-01 01:00:00'],
+            ['today', 'UTC-5', '2013-01-01 00:00:00', '2013-01-01 06:00:00'],
+            ['today', 'America/Toronto', '2013-01-01 00:00:00', '2013-01-01 06:00:00'],
+            ['yesterday', 'America/Toronto', '2012-12-30 00:00:00', '2013-01-01 01:00:00'],
+            ['yesterday', 'UTC-5', '2012-12-30 00:00:00', '2013-01-01 01:00:00'],
+            ['yesterday', 'UTC-5', '2012-12-31 00:00:00', '2013-01-01 06:00:00'],
+            ['yesterday', 'America/Toronto', '2012-12-31 00:00:00', '2013-01-01 06:00:00'],
+            ['yesterdaySameTime', 'America/Toronto', '2012-12-30 20:00:00', '2013-01-01 01:00:00'],
+            ['yesterdaySameTime', 'UTC-5', '2012-12-30 20:00:00', '2013-01-01 01:00:00'],
+            ['yesterdaySameTime', 'UTC-5', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
+            ['yesterdaySameTime', 'America/Toronto', '2012-12-31 01:00:00', '2013-01-01 06:00:00'],
+
+            // UTC+5
+            ['now', 'Antarctica/Mawson', '2012-12-31 19:00:00', '2012-12-31 14:00:00'],
+            ['now', 'UTC+5', '2012-12-31 19:00:00', '2012-12-31 14:00:00'],
+            ['now', 'UTC+5', '2013-01-01 01:00:00', '2012-12-31 20:00:00'],
+            ['now', 'Antarctica/Mawson', '2013-01-01 01:00:00', '2012-12-31 20:00:00'],
+            ['today', 'Antarctica/Mawson', '2012-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['today', 'UTC+5', '2012-12-31 00:00:00', '2012-12-31 14:00:00'],
+            ['today', 'UTC+5', '2013-01-01 00:00:00', '2012-12-31 19:00:00'],
+            ['today', 'Antarctica/Mawson', '2013-01-01 00:00:00', '2012-12-31 19:00:00'],
+            ['yesterday', 'Antarctica/Mawson', '2012-12-30 00:00:00', '2012-12-31 14:00:00'],
+            ['yesterday', 'UTC+5', '2012-12-30 00:00:00', '2012-12-31 14:00:00'],
+            ['yesterday', 'UTC+5', '2012-12-31 00:00:00', '2012-12-31 19:00:00'],
+            ['yesterday', 'Antarctica/Mawson', '2012-12-31 00:00:00', '2012-12-31 19:00:00'],
+            ['yesterdaySameTime', 'Antarctica/Mawson', '2012-12-30 19:00:00', '2012-12-31 14:00:00'],
+            ['yesterdaySameTime', 'UTC+5', '2012-12-30 19:00:00', '2012-12-31 14:00:00'],
+            ['yesterdaySameTime', 'UTC+5', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
+            ['yesterdaySameTime', 'Antarctica/Mawson', '2012-12-31 01:00:00', '2012-12-31 20:00:00'],
+        ];
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
+     */
+    public function test_factoryInTimezone_doesNotWorkWithNormalDates()
+    {
+        Date::factoryInTimezone('2012-02-03', 'America/Toronto');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date::factoryInTimezone() should not be used with
+     */
+    public function test_factoryInTimezone_doesNotWorkWithTimestamps()
+    {
+        Date::factoryInTimezone(time(), 'America/Toronto');
     }
 }
