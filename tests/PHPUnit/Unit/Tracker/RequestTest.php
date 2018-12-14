@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
-use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -492,6 +491,30 @@ class RequestTest extends UnitTestCase
 
         $request = $this->buildRequest(array('h' => '-26', 'm' => '-60', 's' => '-333'));
         $this->assertSame('00:00:00', $request->getLocalTime());
+    }
+
+    public function test_getIpString_ShouldDefaultToServerAddress()
+    {
+        $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
+    }
+
+    public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
+    {
+        $request = $this->buildRequest(array('cip' => '192.192.192.192'));
+        $this->assertEquals($_SERVER['REMOTE_ADDR'], $request->getIpString());
+    }
+
+    public function test_getIpString_ShouldReturnCustomIp_IfAuthenticated()
+    {
+        $request = $this->buildRequest(array('cip' => '192.192.192.192'));
+        $request->setIsAuthenticated();
+        $this->assertEquals('192.192.192.192', $request->getIpString());
+    }
+
+    public function test_getIp()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
     }
 
     public function test_getCookieName_ShouldReturnConfigValue()
