@@ -889,7 +889,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
+            return IP::getIpFromHeader();
         }
 
         return $cip;
