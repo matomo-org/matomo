@@ -92,9 +92,11 @@ class Controller extends ControllerAdmin
 
         $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
         foreach ($capabilities as $capability) {
-            $view->filterAccessLevels[] = [
+            $capabilityEntry = [
                 'key' => $capability['id'], 'value' => Piwik::translate('UsersManager_Capability') . ': ' . $capability['name'],
             ];
+            $view->accessLevels[] = $capabilityEntry;
+            $view->filterAccessLevels[] = $capabilityEntry;
         }
 
         $this->setBasicVariablesView($view);

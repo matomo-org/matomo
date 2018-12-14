@@ -143,7 +143,7 @@ class API extends \Piwik\Plugin\API
                 'id' => $role->getId(),
                 'name' => $role->getName(),
                 'description' => $role->getDescription(),
-                'helpUrl' => $role->getHelpUrl()
+                'helpUrl' => $role->getHelpUrl(),
             );
         }
 
@@ -166,7 +166,8 @@ class API extends \Piwik\Plugin\API
                 'name' => $capability->getName(),
                 'description' => $capability->getDescription(),
                 'helpUrl' => $capability->getHelpUrl(),
-                'includedInRoles' => $capability->getIncludedInRoles()
+                'includedInRoles' => $capability->getIncludedInRoles(),
+                'category' => $capability->getCategory(),
             );
         }
 

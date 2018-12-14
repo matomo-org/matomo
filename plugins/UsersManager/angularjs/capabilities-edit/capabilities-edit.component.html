@@ -1,31 +1,46 @@
 <div class="capabilitiesEdit" ng-class="{ busy: $ctrl.isBusy }">
-    <span
+    <div
+        class="chip"
         ng-repeat="capability in $ctrl.availableCapabilities"
-        title="{{ capability.description }} {{ ($ctrl.isIncludedInRole(capability) ? ('<br/><br/>' + ('UsersManager_IncludedInUsersRole'|translate)): '') }}"
+        ng-if="$ctrl.capabilitiesSet[capability.id]"
     >
-        <input
-            class="capability-checkbox"
-            type="checkbox"
-            ng-attr-id="capa_edit_{{ capability.id }}_{{ $ctrl.idsite }}_{{ $ctrl.userLogin }}"
-            ng-model="$ctrl.capabilitiesSet[capability.id]"
-            ng-change="$ctrl.onToggleCapability(capability)"
-            ng-disabled="$ctrl.isBusy || $ctrl.isIncludedInRole(capability)"
-        />
-        <label ng-attr-for="capa_edit_{{ capability.id }}_{{ $ctrl.idsite }}_{{ $ctrl.userLogin }}">{{ capability.name }}</label>
-    </span>
+        <span
+            class="capability-name"
+            title="{{ capability.description }} {{ ($ctrl.isIncludedInRole(capability) ? ('<br/><br/>' + ('UsersManager_IncludedInUsersRole'|translate)): '') }}"
+        >
+            {{ capability.category }}: {{ capability.name }}
+        </span>
+        <span
+            class="icon-close"
+            ng-if="!$ctrl.isIncludedInRole(capability)"
+            ng-click="$ctrl.capabilityToAddOrRemove = capability; $ctrl.onToggleCapability(fakse)"
+        ></span>
+    </div>
+
+    <div piwik-field uicontrol="expandable-select"
+         name="add_capability"
+         full-width="true"
+         ng-change="$ctrl.onToggleCapability(true)"
+         ng-model="$ctrl.capabilityToAddOrRemoveId"
+         options="$ctrl.availableCapabilitiesGrouped"
+         disabled="$ctrl.isBusy"
+         ng-if="$ctrl.availableCapabilitiesGrouped.length"
+         class="addCapability"
+    >
+    </div>
 
     <div class="ui-confirm confirmCapabilityToggle modal">
         <div class="modal-content">
             <h2 ng-if="$ctrl.isAddingCapability" piwik-translate="UsersManager_AreYouSureAddCapability">
-                <strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.capabilityToAdd.name }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
+                <strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.capabilityToAddOrRemove.name }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
             </h2>
             <h2 ng-if="!$ctrl.isAddingCapability" piwik-translate="UsersManager_AreYouSureRemoveCapability">
-                <strong>{{ $ctrl.capabilityToAdd.name }}</strong>::<strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
+                <strong>{{ $ctrl.capabilityToAddOrRemove.name }}</strong>::<strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.siteName }}</strong>
             </h2>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleCapability()">{{:: 'General_Yes'|translate }}</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.capabilitiesSet[$ctrl.capabilityToAdd.id] = !$ctrl.capabilitiesSet[$ctrl.capabilityToAdd.id]">
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.capabilityToAddOrRemove = null; $ctrl.capabilityToAddOrRemoveId = null">
                 {{:: 'General_No'|translate }}
             </a>
         </div>

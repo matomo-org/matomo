@@ -30,10 +30,13 @@
 
         vm.isBusy = false;
         vm.availableCapabilities = [];
+        vm.availableCapabilitiesGrouped = [];
+        vm.capabilitiesSet = {};
 
         // intermediate state
         vm.isAddingCapability = false;
-        vm.capabilityToAdd = null;
+        vm.capabilityToAddOrRemoveId = null;
+        vm.capabilityToAddOrRemove = null;
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
@@ -50,7 +53,7 @@
         }
 
         function $onChanges() {
-            setCapabilitiesSet(vm.capabilities);
+            setCapabilitiesSet();
         }
 
         function isIncludedInRole(capability) {
@@ -61,6 +64,8 @@
             permissionsMetadataService.getAllCapabilities()
                 .then(function (capabilities) {
                     vm.availableCapabilities = capabilities;
+                    setCapabilitiesSet();
+                    setAvailableCapabilitiesDropdown();
                 });
         }
 
@@ -78,27 +83,59 @@
                 return user.capabilities;
             }).then(function (capabilities) {
                 vm.capabilities = capabilities;
-                setCapabilitiesSet(capabilities);
+                setCapabilitiesSet();
+                setAvailableCapabilitiesDropdown();
             })['finally'](function () {
                 vm.isBusy = false;
             });
         }
 
-        function setCapabilitiesSet(capabilities) {
+        function setCapabilitiesSet() {
             vm.capabilitiesSet = {};
-            capabilities.forEach(function (capability) {
+            (vm.capabilities || []).forEach(function (capability) {
                 vm.capabilitiesSet[capability] = true;
             });
-            vm.availableCapabilities.forEach(function (capability) {
+            (vm.availableCapabilities || []).forEach(function (capability) {
                 if (vm.isIncludedInRole(capability)) {
-                    vm.capabilitiesSet[capability] = true;
+                    vm.capabilitiesSet[capability.id] = true;
                 }
             });
         }
 
-        function onToggleCapability(capability) {
-            vm.capabilityToAdd = capability;
-            vm.isAddingCapability = vm.capabilitiesSet[capability.id];
+        function setAvailableCapabilitiesDropdown() {
+            var availableCapabilitiesGrouped = [];
+            vm.availableCapabilities.forEach(function (capability) {
+                if (vm.capabilitiesSet[capability.id]) {
+                    return;
+                }
+
+                availableCapabilitiesGrouped.push({
+                    group: capability.category,
+                    key: capability.id,
+                    value: capability.name,
+                    tooltip: capability.description,
+                });
+            });
+            vm.availableCapabilitiesGrouped = availableCapabilitiesGrouped;
+            vm.availableCapabilitiesGrouped.sort(function (lhs, rhs) {
+                if (lhs.group === rhs.group) {
+                    if (lhs.value === rhs.value) {
+                        return 0;
+                    }
+                    return lhs.value < rhs.value ? -1 : 1;
+                }
+                return lhs.group < rhs.group ? -1 : 1;
+            });
+        }
+
+        function onToggleCapability(isAdd) {
+            vm.isAddingCapability = isAdd;
+
+            vm.availableCapabilities.forEach(function (capability) {
+                if (capability.id === vm.capabilityToAddOrRemoveId) {
+                    vm.capabilityToAddOrRemove = capability;
+                }
+            });
 
             $element.find('.confirmCapabilityToggle').openModal({
                 dismissible: false,
@@ -109,9 +146,9 @@
 
         function toggleCapability() {
             if (vm.isAddingCapability) {
-                addCapability(vm.capabilityToAdd);
+                addCapability(vm.capabilityToAddOrRemove);
             } else {
-                removeCapability(vm.capabilityToAdd);
+                removeCapability(vm.capabilityToAddOrRemove);
             }
         }
 
@@ -127,8 +164,13 @@
                 vm.onCapabilitiesChange.call({
                     capabilities: getCapabilitiesList(),
                 });
+
+                setCapabilitiesSet();
+                setAvailableCapabilitiesDropdown();
             })['finally'](function () {
                 vm.isBusy = false;
+                vm.capabilityToAddOrRemove = null;
+                vm.capabilityToAddOrRemoveId = null;
             });
         }
 
@@ -144,14 +186,19 @@
                 vm.onCapabilitiesChange.call({
                     capabilities: getCapabilitiesList(),
                 });
+
+                setCapabilitiesSet();
+                setAvailableCapabilitiesDropdown();
             })['finally'](function () {
                 vm.isBusy = false;
+                vm.capabilityToAddOrRemove = null;
+                vm.capabilityToAddOrRemoveId = null;
             });
         }
 
         function getCapabilitiesList() {
             var result = [];
-            Object.keys(vm.availableCapabilities).forEach(function (capability) {
+            vm.availableCapabilities.forEach(function (capability) {
                 if (vm.isIncludedInRole(capability)) {
                     return;
                 }

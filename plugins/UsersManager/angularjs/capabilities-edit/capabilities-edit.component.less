@@ -1,33 +1,64 @@
 .capabilitiesEdit {
   display: inline-block;
+  margin-bottom: -8px;
 
-  > span {
-    margin-right: 12px;
+  > div.chip {
+    margin-right: 8px;
     display: inline-block;
+    margin-bottom: 8px;
 
-    label {
-      padding-left: 25px;
-      padding-right: 5px;
-      color: @theme-color-text-contrast;
+    span.capability-name {
+      padding-right: .4rem;
+    }
 
-      height: .8rem;
-      line-height: 1em;
-      font-size: .8rem;
-      margin-bottom: 4px;
+    > span.icon-close {
+      font-size: .6rem;
+      float: right;
+      margin-top: 1.4em;
+      cursor: pointer;
+    }
+  }
 
-      &::before {
-        height: .9rem;
-        width: .9rem;
-        margin-top: -1px;
+  .addCapability {
+    display: inline-block;
+    margin-bottom: 8px;
+    vertical-align: bottom;
+
+    .input-field {
+      margin-top: 0;
+      .caret {
+        right: -25px;
+        top: 16px;
+        z-index: 9;
+        cursor: pointer;
+      }
+      .select-dropdown {
+        margin-top: 8px;
+        margin-bottom: 0;
+        border: 0;
+        background: #e4e4e4;
+        display: inline-block;
+        height: 32px;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(0,0,0,0.6);
+        line-height: 32px;
+        border-radius: 3em;
+        padding-left: 12px;
+        padding-right: 30px;
       }
     }
 
-    [type="checkbox"]:checked+label:before {
-      height: .9rem;
-      width: .6em;
-      left: 0;
-      top: -2px;
-      margin-top: -1px;
+    .select-wrapper {
+      transform: scale(.89) translate(-.6rem);
+      margin-top: -0.55rem;
+      max-width: 160px;
+
+      input {
+        margin-bottom: 0;
+        height: 2rem;
+        line-height: 2rem;
+      }
     }
   }
 
