@@ -14,6 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
+* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback recevies an event parameter to determine which request was sent and whether the request was sent successfully.
 * Added new event `Metrics.getEvolutionUnit` which lets you set the unit for a metric used in evolution charts and row evolution.
 
 ### New Features

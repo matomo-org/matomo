@@ -128,17 +128,15 @@ class Session extends Zend_Session
         } catch (Exception $e) {
             Log::error('Unable to start session: ' . $e->getMessage());
 
-            $enableDbSessions = '';
-            if (DbHelper::isInstalled()) {
-                $enableDbSessions = "<br/>If you still experience issues after trying these changes,
-			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer noopener' target='_blank'>enable database session storage</a>.";
+            if (SettingsPiwik::isPiwikInstalled()) {
+                $pathToSessions = '';
+            } else {
+                $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
-
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
-            $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
+            
+            $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
-                $enableDbSessions,
                 $e->getMessage()
             );
 

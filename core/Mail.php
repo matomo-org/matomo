@@ -141,7 +141,7 @@ class Mail extends Zend_Mail
         /**
          * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
          * the subject/body, changing the from address, etc.
-         * TODO: changelog
+         *
          * @param Mail $this The Mail instance that is about to be sent.
          */
         Piwik::postEvent('Mail.send', [$mail]);
@@ -219,7 +219,7 @@ class Mail extends Zend_Mail
 
         /**
          * This event is posted before sending an email. You can use it to abort sending a specific email, if you want.
-         * TODO: changelog
+         *
          * @param bool &$shouldSendMail Whether to send this email or not. Set to false to skip sending.
          * @param Mail $mail The Mail instance that will be sent.
          */

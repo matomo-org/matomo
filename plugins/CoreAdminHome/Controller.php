@@ -17,6 +17,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -245,6 +246,7 @@ class Controller extends ControllerAdmin
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
+        $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         if ($view->isGeneralSettingsAdminEnabled) {
             $this->displayWarningIfConfigFileNotWritable();
         }

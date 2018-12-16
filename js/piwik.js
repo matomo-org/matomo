@@ -972,7 +972,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
     min, round, random, floor,
-    exec,
+    exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
@@ -3520,7 +3520,14 @@ if (typeof window.Piwik !== 'object') {
                 var image = new Image(1, 1);
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') { callback(); }
+                    if (typeof callback === 'function') {
+                        callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                    }
+                };
+                image.onerror = function () {
+                    if (typeof callback === 'function') {
+                        callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                    }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
@@ -3532,7 +3539,7 @@ if (typeof window.Piwik !== 'object') {
                     && 'function' === typeof Blob;
             }
 
-            function sendPostRequestViaSendBeacon(request)
+            function sendPostRequestViaSendBeacon(request, callback)
             {
                 var isSupported = supportsSendBeacon();
 
@@ -3561,6 +3568,10 @@ if (typeof window.Piwik !== 'object') {
                     return false;
                 }
 
+                if (success && typeof callback === 'function') {
+                    callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
+                }
+
                 return success;
             }
 
@@ -3572,7 +3583,7 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
                     return;
                 }
 
@@ -3587,7 +3598,7 @@ if (typeof window.Piwik !== 'object') {
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
 
-                    if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
                         return;
                     }
                     var sentViaBeacon;
@@ -3607,13 +3618,18 @@ if (typeof window.Piwik !== 'object') {
                         // fallback on error
                         xhr.onreadystatechange = function () {
                             if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
 
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
+                                } else if (typeof callback === 'function') {
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: false, xhr: this});
                                 }
+
                             } else {
-                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                                if (this.readyState === 4 && (typeof callback === 'function')) {
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: true, xhr: this});
+                                }
                             }
                         };
 
@@ -3621,9 +3637,11 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.send(request);
                     } catch (e) {
-                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
+                        } else if (typeof callback === 'function') {
+                            callback({request: request, trackerUrl: configTrackerUrl, success: false});
                         }
                     }
                 }, 50);
@@ -3769,11 +3787,8 @@ if (typeof window.Piwik !== 'object') {
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
 
-                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request)) {
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback)) {
                             setExpireDateTime(100);
-                            if (typeof callback === 'function') {
-                                callback();
-                            }
                             return;
                         }
 
@@ -5910,6 +5925,8 @@ if (typeof window.Piwik !== 'object') {
 
                 asyncTrackers.push(tracker);
 
+                Piwik.trigger('TrackerAdded', [this]);
+
                 return tracker;
             };
 
@@ -7562,6 +7579,8 @@ if (typeof window.Piwik !== 'object') {
 
             // replace initialization array with proxy object
             _paq = new TrackerProxy();
+
+            Piwik.trigger('TrackerAdded', [tracker]);
 
             return tracker;
         }

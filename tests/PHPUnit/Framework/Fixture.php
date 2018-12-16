@@ -366,6 +366,7 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function clearInMemoryCaches()
     {
+        Date::$now = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
