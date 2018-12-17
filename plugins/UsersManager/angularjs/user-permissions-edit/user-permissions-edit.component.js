@@ -47,6 +47,7 @@
         // other state
         vm.hasAccessToAtLeastOneSite = true;
         vm.isRoleHelpToggled = false;
+        vm.isCapabilitiesHelpToggled = false;
         vm.isGivingAccessToAllSites = false;
 
         // intermediate state

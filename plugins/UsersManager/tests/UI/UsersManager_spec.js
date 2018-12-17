@@ -294,10 +294,20 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             page.evaluate(function () {
-                $('.userPermissionsEdit tr select:eq(0)').val('string:admin').change();
+                $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
             });
 
             page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
+        }, done);
+    });
+
+    it('should set a capability to single site when capability checkbox is clicked', function (done) {
+        expect.screenshot("permissions_capability_single_site").to.be.captureSelector('.admin#content', function (page) {
+            page.evaluate(function () {
+                $('.capability-checkbox:not(:checked):not(:disabled):eq(0)').click();
+            });
+
+            page.click('.confirmCapabilityToggle .modal-close:not(.modal-no)');
         }, done);
     });
 
