@@ -8,15 +8,10 @@
         "DBPurged": "DB purgado.",
         "DeleteDataInterval": "Borrar antigua información cada",
         "DeleteLogDescription2": "Cuando habilite la eliminación automática de registros, debe comprobar que todos los reportes diarios previos han sido procesados, de modo que ningún dato es perdido.",
-        "DeleteLogInfo": "Registros de las siguientes tablas serán eliminados: %s",
         "DeleteLogsOlderThan": "Eliminar registros más antiguos que",
         "DeleteMaxRows": "Número máximo de filas que serán eliminadas por cada ejecución",
         "DeleteMaxRowsNoLimit": "sin límites",
         "DeleteReportsConfirm": "Está disponiendo el borrado de datos de informes. Si un informe antiguo es borrado, tendrá que reprocesarlos nuevamente para visualizarlos. Está seguro que quiere hacer esto?",
-        "DeleteReportsDetailedInfo": "Registro desde las tablas numéricas de los archivos de la base de datos (%1$s) y borradores de archivos de tablas (%2$s) serán borrados.",
-        "DeleteReportsInfo": "Si es habilitado, todos los antiguos reportes serán borrados. %1$sRecomendamos habilitarlo solo cuando el espacio de la base de datos sea limitado.%2$s",
-        "DeleteReportsInfo2": "Si no ha habilitado \"%s\", los antiguos reportes serán recreados automáticamente cuando sean solicitados.",
-        "DeleteReportsInfo3": "Si lo ha habilitado \"%s\", la información será borrada de forma permanente.",
         "DeleteReportsOlderThan": "Borrar informes mayores que",
         "DeleteDataSettings": "Borrar los registros y reportes de los visitantes antiguos",
         "DoNotTrack_Description": "Do Not Track es una tecnología y una propuesta política que permite a los usuarios decidir no ser rastreados por sitios de internet que no visitan, tales como servicios analíticos, redes de publicidad y plataformas sociales.",
@@ -46,7 +41,6 @@
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
         "UseAnonymizeIp": "Hacer anónimas las direcciones IP de los visitantes",
-        "UseDeleteLog": "Eliminar registros antiguos de la base de datos regularmente",
         "UseDeleteReports": "Regularmente borre los reportes antiguos de la base de datos"
     }
 }

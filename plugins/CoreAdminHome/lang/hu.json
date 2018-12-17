@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "Kattintson ide a kikapcsoláshoz.",
         "CustomLogoFeedbackInfo": "A Matomo logó konfigurálása esetén érdekes lehet a felső menüben található %1$s link eltávolítása is. Ehhez a %2$sBővítmények%3$s oldalon ki kell kapcsolni a Feedback bővítményt.",
         "CustomLogoHelpText": "A felhasználói felületen és az e-mail jelentésekben megjelenő Matomo logó testreszabható.",
-        "DevelopmentProcess": "Annak ellenére, hogy a %1$sfejlesztési folyamat%2$s során több ezer automatizált teszt hajtódik végre, a Beta tesztelők kulcsfontosságú szerepet töltenek be, hogy a \"Nincs hiba irányelv\" tartható legyen.",
         "EmailServerSettings": "E-mail szerver beállítások",
         "ForBetaTestersOnly": "Csak béta tesztelőknek",
         "ImageTracking": "Kép Követés",

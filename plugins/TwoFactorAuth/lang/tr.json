@@ -1,0 +1,18 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "İki aşamalı kimlik doğrulama",
+        "TwoFAShort": "İki Aşamalı Kimlik Doğrulama",
+        "TwoFactorAuthenticationIsEnabled": "İki aşamalı kimlik doğrulaması etkin.",
+        "TwoFactorAuthenticationIsDisabled": "İki aşamalı kimlik doğrulaması devre dışı.",
+        "TwoFactorAuthenticationRequired": "İki aşamalı kimlik doğrulama özelliğinin herkes için etkinleştirilmiş olması gerekir, devre dışı bırakamazsınız.",
+        "ConfigureDifferentDevice": "Farklı bir aygıt yapılandır",
+        "SetUpTwoFactorAuthentication": "İki aşamalı kimlik doğrulamasını kur",
+        "RequiredToSetUpTwoFactorAuthentication": "Oturum açmadan önce iki aşamalı kimlik doğrulamasını kurmanız gerekir",
+        "AuthenticationCode": "Kimlik doğrulama kodu",
+        "Verify": "Doğrula",
+        "StepX": "%s. Adım",
+        "MissingAuthCodeAPI": "Lütfen iki aşamalı kimlik doğrulama kodunu yazın.",
+        "InvalidAuthCode": "İki aşamalı kimlik doğrulama kodu doğru değil.",
+        "RequiredAuthCodeNotConfiguredAPI": "İki aşamalı kimlik doğrulamasını kurmanız gerekiyor. Lütfen hesabınızla oturum açın."
+    }
+}

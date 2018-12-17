@@ -4,6 +4,7 @@
         "AvgEventValue": "Ortalama etkinlik değeri: %s",
         "AvgValue": "Ortalama değer",
         "AvgValueDocumentation": "Bu etkinlik için tüm değerlerin ortalaması",
+        "Category": "Kategori",
         "Event": "Etkinlik",
         "EventAction": "Etkinlik İşlemi",
         "EventActions": "Etkinlik İşlemi",

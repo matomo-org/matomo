@@ -13,7 +13,7 @@
         "ContentTarget": "コンテンツターゲット",
         "ContentTargets": "コンテンツターゲット",
         "Contents": "コンテンツ",
-        "InteractionsMetricDocumentation": "コンテンツブロックが操作された回数（バナーや広告の「クリック」など）。",
+        "InteractionsMetricDocumentation": "コンテンツブロックが操作された回数（バナーや広告の ' クリック ' など）。",
         "ImpressionsMetricDocumentation": "広告やバナーなどのコンテンツブロックがページに表示された回数。",
         "InteractionRateMetricDocumentation": "インタラクションに対するコンテンツインプレッションの比率。"
     }

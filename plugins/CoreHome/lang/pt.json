@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
         "ChangeVisualization": "Alterar visualização",
+        "ChangePeriod": "Alterar período",
         "CheckForUpdates": "Procurar por atualizações",
         "CheckPiwikOut": "Experimente o Matomo!",
         "ClickToEditX": "Clique para editar %s",
@@ -67,6 +68,8 @@
         "TableNoData": "Sem dados para esta tabela.",
         "ThereIsNoDataForThisReport": "Não existem dados para este relatório.",
         "UnFlattenDataTable": "O relatório está nivelado %s Torná-lo hierarquizado",
+        "RemoveTotalsRowDataTable": "O relatório está a apresentar a linha dos totais %s Remover a linha de totais",
+        "AddTotalsRowDataTable": "O relatório não está a apresentar a linha dos totais %s Mostrar a linha de totais",
         "ViewAllPiwikVideoTutorials": "Ver todos os tutoriais vídeo do Matomo",
         "WebAnalyticsReports": "Relatórios de Web Analytics",
         "YouAreUsingTheLatestVersion": "Está a utilizar a última versão do Matomo!",

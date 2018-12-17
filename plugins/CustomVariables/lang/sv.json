@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Anpassat variabelvärde",
         "CustomVariables": "Anpassade variabler",
         "CustomVariablesReportDocumentation": "Denna rapport innehåller information om din anpassade variabler. Klicka på ett variabelnamn för att se fördelningen av värdena. %1$s För mer information om anpassade variabler i allmänhet, läs %2$sdokumentationen om anpassade variabler på piwik.org%3$s",
-        "PluginDescription": "Anpassade Variabler är (namn, värde) par som du kan tilldela genom Javascript API't till besökare eller någon av deras händelser. Matomo kommer sedan rapportera hur många besök, sidor, konverteringar för varje anpassat namn och värde. Kolla de detaljerade Anpassade Variablerna för varje användare och händelse i Besöksloggen.<br \/>Detta kräver att du använder <a href=\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">E-handelsspårningen<\/a> feature!",
         "ScopePage": "omfattning sida",
         "ScopeVisit": "omfattning besök",
         "ScopeConversion": "Omfattning av konvertering",

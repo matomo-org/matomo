@@ -1,5 +1,10 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "Usa l'autenticazione a due fattori",
+        "TwoFactorAuthentication": "Autenticazione a due fattori",
+        "ResetTwoFactorAuthentication": "Reimposta l'autenticazione a due fattori",
+        "ResetTwoFactorAuthenticationInfo": "Se l'utente non può più accedere a causa di codici di ripristino persi o di un dispositivo di autenticazione perso, è possibile ripristinare l'autenticazione a due fattori per l'utente in modo che possa accedere nuovamente.",
         "AddUser": "Aggiungi un nuovo utente",
         "AddExistingUser": "Aggiungi un utente esistente",
         "AddNewUser": "Aggiungi un nuovo utente",
@@ -52,6 +57,9 @@
         "GiveViewAccessTitle": "Dai a un utente esistente l'accesso per vedere i report per %s",
         "GiveViewAccessInstructions": "Per dare a un utente esistente l'accesso in visione per %s inserisci il nome utente o l'indirizzo email di un utente esistente",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se vuoi cambiare la password scrivine qui una nuova. Altrimenti lascia pure in bianco.",
+        "YourCurrentPassword": "Password attuale",
+        "CurrentPasswordNotCorrect": "La password attuale inserita non è corretta.",
+        "ConfirmWithPassword": "Si prega di inserire la tua password per confermare questo cambio.",
         "InjectedHostCannotChangePwd": "Al momento stai navigando da un host sconosciuto (%1$s). Non è possibile modificare la password fino a quando questo problema non verrà risolto.",
         "LastSeen": "Visto l'ultima volta",
         "MainDescription": "Decidi quali utenti devono avere accesso ai tuoi siti web. Puoi anche dare l'accesso a tutti i siti web in una volta sola scegliendo \"Applica a tutti i siti web\" nel selettore dei siti web.",
@@ -80,9 +88,7 @@
         "TheLoginScreen": "La schermata di login",
         "ThereAreCurrentlyNRegisteredUsers": "Al momento ci sono %s utenti registrati.",
         "TokenAuth": "Token Autenticazione API",
-        "TokenRegenerateConfirm": "Cambiando il token di autenticazione API verrà invalidato l'attuale token degli utenti. Se un utente è in questo momento loggato, gli potrebbe essere richiesto di accedere nuovamente. Vuoi veramente continuare?",
-        "TokenRegenerateConfirmSelf": "Il cambiamento del token di autenticazione API invaliderà il tuo token. Ti potrebbe essere chiesto di effettuare nuovamente l'accesso, se procedi. Vuoi veramente cambiare il tuo token di autenticazione?",
-        "TokenRegenerateLogoutWarning": "Quando rigeneri il tuo token verrai disconnesso e dovrai accedere nuovamente.",
+        "TokenRegenerateConfirmSelf": "Il cambiamento del token di autenticazione API invaliderà il tuo. Se il token attuale è in uso, devi aggiornare tutti i client API con il token generato ex novo. Vuoi veramente cambiare il tuo token di autenticazione?",
         "TokenRegenerateTitle": "Rigenera",
         "TypeYourPasswordAgain": "Scrivi di nuovo la tua nuova password.",
         "User": "Utente",
@@ -127,6 +133,8 @@
         "DeleteUsers": "Elimina Utenti",
         "UserSearch": "Ricerca utente",
         "FilterByAccess": "Filtra per tipo di accesso",
+        "FilterByWebsite": "Filtra per sito web",
+        "ShowAll": "Mostra tutto",
         "Username": "Nome utente",
         "RoleFor": "Ruolo per",
         "TheDisplayedUsersAreSelected": "I %1$s utenti visualizzati sono selezionati.",
@@ -137,7 +145,11 @@
         "DeleteUserConfirmMultiple": "Sei sicuro di voler eliminare i %1$s utenti selezionati?",
         "DeleteUserPermConfirmSingle": "Sei sicuro di voler cambiare il ruolo di %1$s in %2$s per %3$s?",
         "DeleteUserPermConfirmMultiple": "Sei sicuro di voler cambiare il ruolo dei %1$s utenti selezionati in %2$s per %3$s?",
-        "AreYouSureChangePassword": "Sei sicuro di voler cambiare la password per %s?",
-        "AnonymousUserRoleChangeWarning": "Assegnando all'utente %1$s il ruolo di %2$s renderà pubblici e disponibili a tutti i dati di questo sito Web, anche se non hanno un login Matomo."
+        "AreYouSureChangeDetails": "Sei sicuro di voler cambiare le informazioni utente per %s?",
+        "AnonymousUserRoleChangeWarning": "Assegnando all'utente %1$s il ruolo di %2$s renderà pubblici e disponibili a tutti i dati di questo sito Web, anche se non hanno un login Matomo.",
+        "GiveAccessToAll": "Concedi a questo utente l'accesso a tutti i siti",
+        "OrManageIndividually": "O tratta l'accesso di questo utente per ogni singolo sito web",
+        "ChangePermToAllSitesConfirm": "Sei sicuro di voler concedere all'%1$sutente%2$s l'accesso a ogni sito web al quale hai attualmente l'accesso come amministratore?",
+        "ChangePermToAllSitesConfirm2": "Nota: ciò influenzerà solo i siti web attualmente esistenti. I nuovi siti web che potresti creare non saranno automaticamente accessibili a questo utente."
     }
 }

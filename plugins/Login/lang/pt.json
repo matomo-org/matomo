@@ -20,6 +20,8 @@
         "PasswordChanged": "A sua palavra-passe foi alterada.",
         "PasswordRepeat": "Palavra-passe (repetir)",
         "PasswordsDoNotMatch": "As palavras-passe não coincidem.",
+        "WrongPasswordEntered": "Por favor, introduza a sua palavra-passe correta.",
+        "ConfirmPasswordToContinue": "Confirme a sua palavra-passe para prosseguir",
         "PluginDescription": "Fornece autenticação via nome de utilizador e palavra-passe bem como a funcionalidade de reposição de palavra-passe. O método de autenticação pode ser alterado utilizando outra extensão de autenticação, como o LoginLdap disponível na loja.",
         "RememberMe": "Recordar-me"
     }

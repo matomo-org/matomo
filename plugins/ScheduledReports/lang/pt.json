@@ -53,6 +53,8 @@
         "SuccessfullyUnsubscribed": "A sua subscrição do relatório %1$s foi anulada com sucesso.",
         "UnsubscribeFooter": "Para anular a subscrição neste relatório, por favor siga a seguinte ligação: %1$s",
         "NoTokenProvided": "Não foi fornecido nenhum código neste endereço",
-        "NoSubscriptionFound": "Não foi encontrada nenhuma subscrição. Talvez a subscrição neste relatório já tenha sido anulada ou removida."
+        "NoSubscriptionFound": "Não foi encontrada nenhuma subscrição. Talvez a subscrição neste relatório já tenha sido anulada ou removida.",
+        "EvolutionGraphsShowForEachInPeriod": "Os gráficos de evolução mostram a evolução para %1$scada dia%2$s nós últimos %3$s",
+        "EvolutionGraphsShowForPreviousN": "Os gráficos de evolução mostram a evolução durante os últimos N %s"
     }
 }

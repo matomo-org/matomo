@@ -10,6 +10,7 @@
         "InvalidUsernameEmail": "Ungültiger Benutzername und\/oder E-Mail-Adresse",
         "LogIn": "Anmelden",
         "LoginOrEmail": "Benutzername oder E-Mail",
+        "CurrentlyBlockedIPs": "Aktuell geblockte IP-Adressen",
         "LoginPasswordNotCorrect": "Benutzername und Passwort sind nicht korrekt",
         "LostYourPassword": "Passwort vergessen?",
         "ChangeYourPassword": "Ändern Sie ihr Passwort",
@@ -20,6 +21,8 @@
         "PasswordChanged": "Das Passwort wurde geändert.",
         "PasswordRepeat": "Passwort (wiederholen)",
         "PasswordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
+        "WrongPasswordEntered": "Bitte geben Sie das korrekte Passwort ein.",
+        "ConfirmPasswordToContinue": "Bitte bestätigen Sie Ihr Passwort um fortzufahren",
         "PluginDescription": "Unterstützt Authentifizierung via Benutzername und Passwort sowie Password Reset Funktionalität. Die Authentifizierungsmethode kann durch ein anderes Login Plugin wie LoginLdap (verfügbar im Marketplace) geändert werden.",
         "RememberMe": "Angemeldet bleiben"
     }

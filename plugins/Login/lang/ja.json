@@ -10,7 +10,7 @@
         "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
         "LogIn": "サインイン",
         "LoginOrEmail": "ユーザー名または電子メール",
-        "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません",
+        "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません。",
         "LostYourPassword": "パスワードをお忘れですか？",
         "ChangeYourPassword": "パスワードを変更してください",
         "MailPasswordChangeBody2": "こんにちは %1$s\n\nパスワードリセット要求が%2$sから受信されました。 このパスワードの変更を確認して新しい資格情報でログインできるようにするには、ブラウザに次のリンクをコピーして貼り付けてください：\n\n%3$s\n\n注：このリンクの有効期限は24時間です。\n\nマトモのご利用、ありがとうございます！",

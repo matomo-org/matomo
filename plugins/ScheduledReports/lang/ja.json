@@ -14,7 +14,7 @@
         "DisplayFormat_TablesOnly": "表のみを表示 ( グラフは表示しない )",
         "EmailHello": "こんにちは！",
         "EmailReports": "メールレポート",
-        "EmailSchedule": "メールのスケジュール",
+        "EmailSchedule": "メールスケジュール",
         "EvolutionGraph": "トップの %s 値の履歴グラフを表示",
         "FrontPage": "表紙",
         "PersonalEmailReports": "個人のメール レポート",
@@ -53,6 +53,8 @@
         "SuccessfullyUnsubscribed": "あなたはレポート%1$sからの登録を解除されました。",
         "UnsubscribeFooter": "このレポートの登録を解除するには、次のリンクをクリックしてください：%1$s",
         "NoTokenProvided": "URL にトークンが指定されていません",
-        "NoSubscriptionFound": "サブスクリプションが見つかりませんでした。レポートはすでに解除されていたか、削除された可能性があります。"
+        "NoSubscriptionFound": "サブスクリプションが見つかりませんでした。レポートはすでに解除されていたか、削除された可能性があります。",
+        "EvolutionGraphsShowForEachInPeriod": "進化グラフは、最新の%3$s中の%1$s各日%2$sの進化を示しています",
+        "EvolutionGraphsShowForPreviousN": "進化のグラフは、以前の N %s"
     }
 }

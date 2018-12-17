@@ -2,7 +2,6 @@
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Anonimizē apmeklētāju IP adrešu pēdējo baitu(s). Nepieciešamību nosaka Jūsu vietējie privātuma likumi\/pavadlīnijas.",
         "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
-        "DeleteLogInfo": "Tiks dzēsti žurnāli no sekojošām tabulām: %s",
         "DeleteLogsOlderThan": "Dzēst vecākus žurnālus par",
         "DeleteMaxRows": "Maksimālais rindu skaits ko dzēst vienā reizē:",
         "LastDelete": "Pēdējā dzēšana notika",
@@ -10,7 +9,6 @@
         "MenuPrivacySettings": "Privātums",
         "NextDelete": "Nākošā dzēšana paredzēta",
         "TeaserHeadline": "Privātuma iestatījumi",
-        "UseAnonymizeIp": "Anonimizēt apmeklētāju IP adreses",
-        "UseDeleteLog": "Regulāri dzēst no datubāzes vecus apmeklētāju žurnālus"
+        "UseAnonymizeIp": "Anonimizēt apmeklētāju IP adreses"
     }
 }

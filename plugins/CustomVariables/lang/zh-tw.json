@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "自訂變數值",
         "CustomVariables": "自訂變數",
         "CustomVariablesReportDocumentation": "這份報表包含你的自訂變數資訊。點擊變數名稱來查看分配的值。%1$s更多關於自訂變數的資訊請查看 %2$spiwik.org 上的自訂變數說明文件%3$s",
-        "PluginDescription": "自訂變數是透過 Javascript API 為訪客或他們的活動以 [名稱 => 值] 來配對。Matomo 接著會報告這些自訂名稱與值有多少訪問、頁面及轉換。在訪客紀錄中查看每位使用者和活動的自定變數詳情。<br \/>必須要使用<a href=\"https:\/\/piwik.org\/docs\/ecommerce-analytics\/\">電子商務分析<\/a>功能！",
         "ScopePage": "網頁範圍",
         "ScopeVisit": "訪客範圍",
         "ScopeConversion": "範圍轉換",
