@@ -80,7 +80,6 @@
         "ExecuteDbUpgrade": "En databasuppgradering krävs. Vill du köra uppdateringen nu?",
         "DryRun": "OBS! Detta är en testkörning",
         "DryRunEnd": "Testkörning har slutförts",
-        "ConsoleCommandDescription": "Utlöser uppgraderingar. Använd det efter att Matomo-kärnan eller något plugins filer har uppdaterats.",
         "ConsoleParameterDescription": "Utför uppdateringen direkt utan att att be om bekräftelse",
         "VerifyingUnpackedFiles": "Kontrollerar uppackage filer",
         "WarningMessages": "Varningsmeddelande:",

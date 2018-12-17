@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Keine Daten in dieser Kategorie. Probieren Sie \"Gesamte Daten einbeziehen\"",
         "ChangeVisualization": "Visualisierung ändern",
+        "ChangePeriod": "Zeitraum ändern",
         "CheckForUpdates": "Nach Aktualisierungen suchen",
         "CheckPiwikOut": "Sieh dir Matomo an!",
         "ClickToEditX": "Klicken Sie, um %s zu bearbeiten",

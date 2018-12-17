@@ -1,5 +1,10 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "Utiliza a autenticação de dois fatores",
+        "TwoFactorAuthentication": "Autenticação de dois fatores",
+        "ResetTwoFactorAuthentication": "Repor a autenticação de dois fatores",
+        "ResetTwoFactorAuthenticationInfo": "Se o utilizador não conseguir iniciar sessão devido à perda de códigos de recuperação ou do dispositivo de autenticação, é possível repor a autenticação de dois fatores do utilizador para que este possa iniciar sessão novamente.",
         "AddUser": "Adicionar um novo utilizador",
         "AddExistingUser": "Adicionar um utilizador existente",
         "AddNewUser": "Adicionar um novo utilizador",
@@ -52,6 +57,9 @@
         "GiveViewAccessTitle": "Dê a um utilizador existente acesso para visualizar relatórios para %s",
         "GiveViewAccessInstructions": "Para dar acesso de visualização a um utilizador existente para %s introduza o nome de utilizador ou endereço de e-mail de um utilizador existente",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se deseja alterar a sua palavra-passe, introduza uma nova. Caso contrário deixe isto em branco.",
+        "YourCurrentPassword": "A sua palavra-passe atual",
+        "CurrentPasswordNotCorrect": "A palavra-passe atual que introduziu não está correta.",
+        "ConfirmWithPassword": "Por favor, introduza a sua palavra-passe para confirmar esta alteração.",
         "InjectedHostCannotChangePwd": "Atualmente está a visitar com um servidor desconhecido (%1$s). Não pode alterar a sua palavra-passe até este problema estar resolvido.",
         "LastSeen": "Última vez visto",
         "MainDescription": "Decida que utilizadores têm acesso os seus sites. Pode também dar acesso a todos os sites de uma vez, escolhendo \"Aplicar a todos os sites\" no seletor de site.",
@@ -80,9 +88,7 @@
         "TheLoginScreen": "O ecrã de autenticação",
         "ThereAreCurrentlyNRegisteredUsers": "Neste momento, existem %s utilizadores registados.",
         "TokenAuth": "Código de autenticação na API",
-        "TokenRegenerateConfirm": "Alterar o código de autenticação na API irá invalidar o código atual do utilizador. Se o utilizador estiver autenticado, pode ser necessário iniciar novamente a sessão. Quer mesmo continuar?",
-        "TokenRegenerateConfirmSelf": "Alterar o código de autenticação na API irá invalidar o seu próprio código. Pode ser necessário iniciar novamente a sessão se continuar. Quer mesmo alterar o seu código de autenticação?",
-        "TokenRegenerateLogoutWarning": "Quando gera novamente o seu código, a sua sessão será terminada e terá de iniciar sessão novamente.",
+        "TokenRegenerateConfirmSelf": "Alterar o código de autenticação na API irá invalidar o seu próprio código. Se o código atual estiver em uso, terá de atualizar todos os clientes da API com o novo código gerado. Tem a certeza que deseja alterar o seu código de autenticação?",
         "TokenRegenerateTitle": "Gerar novamente",
         "TypeYourPasswordAgain": "Introduza novamente a sua nova palavra-passe.",
         "User": "Utilizador",
@@ -127,6 +133,7 @@
         "DeleteUsers": "Eliminar utilizadores",
         "UserSearch": "Pesquisa de utilizadores",
         "FilterByAccess": "Filtrar por acesso",
+        "ShowAll": "Mostrar tudo",
         "Username": "Nome de utilizador",
         "RoleFor": "Papel para",
         "TheDisplayedUsersAreSelected": "Os %1$s utilizadores apresentados estão selecionados.",
@@ -137,7 +144,7 @@
         "DeleteUserConfirmMultiple": "Tem a certeza que deseja eliminar os %1$s utilizadores selecionados?",
         "DeleteUserPermConfirmSingle": "Tem a certeza que pretende alterar o papel de %1$s para %2$s para %3$s?",
         "DeleteUserPermConfirmMultiple": "Tem a certeza que pretende alterar o papel dos %1$s utilizadores selecionados para %2$s para %3$s?",
-        "AreYouSureChangePassword": "Tem a certeza que deseja alterar a palavra-passe para %s?",
+        "AreYouSureChangeDetails": "Tem a certeza que pretende alterar a informação do utilizador para %s?",
         "AnonymousUserRoleChangeWarning": "Atribuir ao utilizador %1$s o papel de %2$s irá tornar público e disponibilizar para todos os dados deste site, mesmo que não tenham uma conta no Matomo."
     }
 }

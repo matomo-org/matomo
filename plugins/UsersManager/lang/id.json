@@ -45,6 +45,7 @@
         "YourVisitsAreIgnoredOnDomain": "%1$sKunjungan Anda diabaikan oleh Matomo dalam %2$s %3$s (kuki pengecualian ditemukan dalam peramban Anda).",
         "YourVisitsAreNotIgnored": "%1$sKunjungan Anda tidak diabaikan oleh Matomo%2$s (kuki pengecualian tidak ditemukan dalam peramban Anda).",
         "XtoYofN": "%1$s - %2$s dari %3$s",
+        "ShowAll": "Tampilkan semua",
         "Username": "Nama-Id"
     }
 }

@@ -35,6 +35,7 @@
         "YourUsernameCannotBeChanged": "ชื่อผู้ใช้ของคุณไม่สามารถเปลี่ยนแปลงได้",
         "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Matomo บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
         "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
+        "ShowAll": "แสดงทั้งหมด",
         "Username": "ชื่อผู้ใช้"
     }
 }

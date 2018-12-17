@@ -11,7 +11,7 @@
         "CorsDomainsHelp": "http:\/\/example.com や http:\/\/stats.example.com のようなドメインやサブドメインを定義することができます。 または、すべてのドメインに対してクロスドメイン要求を許可するには、単純に * を追加します",
         "CustomLogoFeedbackInfo": "Matomo ロゴをカスタマイズする場合は、トップメニューの%1$sリンクを非表示にすることもできます。 これを行うには、%2$sプラグインの管理ページ%3$sでフィードバックプラグインを無効にします。",
         "CustomLogoHelpText": "Matomo のロゴをカスタマイズして、ユーザーインターフェース画面とEメールリポートに表示できます。",
-        "DevelopmentProcess": "%1$s開発プロセス%2$sには何千もの自動テストが含まれていますが、Beta Testers は Matomo の「バグなしポリシー」を達成するために重要な役割を果たします。",
+        "DevelopmentProcess": "我々の開発プロセスには何千もの自動テストが含まれていますが、ベータテスター は Matomo の「バグなしポリシー」を達成するために重要な役割を果たします。",
         "EmailServerSettings": "メールサーバの設定",
         "ForBetaTestersOnly": "ベータテスターのみ",
         "ImageTracking": "画像トラッキング",
@@ -108,6 +108,7 @@
         "MissingTrackingCodeEmailSubject": "Matola Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
         "JsTrackingCodeMissingEmail1": "数日前にあなたはサイト '%s' を matomo 解析に追加しました。チェックしましたが、あなたの matomo はまだいかなるトラフィックも記録していません。",
         "JsTrackingCodeMissingEmail2": "データのトラッキングを開始してユーザーの洞察を得るには、ウェブサイトやモバイルアプリでトラッキングを設定する必要があります。 ウェブサイトでは、%s タグの直前にトラッキングコードを埋め込むだけです。",
-        "JsTrackingCodeMissingEmail3": "トラッキングコードを検索してカスタマイズするには、%1$sここをクリック%2$sしてください（または%3$sJavaScript トラッキングクライアントガイド%4$sをご覧ください）。"
+        "JsTrackingCodeMissingEmail3": "トラッキングコードを検索してカスタマイズするには、%1$sここをクリック%2$sしてください（または%3$sJavaScript トラッキングクライアントガイド%4$sをご覧ください）。",
+        "LearnMore": "もっと詳しく知る"
     }
 }

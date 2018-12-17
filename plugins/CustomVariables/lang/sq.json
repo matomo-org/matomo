@@ -4,7 +4,7 @@
         "ColumnCustomVariableValue": "Vlerë Ndryshoreje Vetjake",
         "CustomVariables": "Ndryshore Vetjake",
         "CustomVariablesReportDocumentation": "Ky raport përmban të dhëna rreth Ndryshoreve tuaja Vetjake. Klikoni mbi një emër ndryshoreje që të shihni shpërndarjen e vlerave. %1$s Për më tepër të dhëna rreth Ndryshoresh Vetjake në përgjithësi, lexoni %2$sdokumentimin e Ndryshoreve Vetjake te piwik.org%3$s",
-        "PluginDescription": "Ndryshoret Vetjake janë çifte (emër, vlerë) që duke përdorur API-n Javascript mund t’ua përshoqëroni vizitorëve apo cilitdo veprimi të tyre. Matomo mandej do të raportojë sa vizita, faqe, shndërrime për secilin nga këto emra dhe vlera. Shihni në hollësi Ndryshore Vetjake për çdo përdorues dhe veprim te Regjistri i Vizitorëve.<br \/>E domosdoshme për të përdorur veçorinë <a href=\\\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">Analiza Etregtie<\/a>!",
+        "PluginDescription": "Ndryshoret Vetjake janë çifte (emër, vlerë) që duke përdorur API-n Javascript mund t’ua përshoqëroni vizitorëve apo cilitdo veprimi të tyre. Matomo mandej do të raportojë sa vizita, faqe, shndërrime ka patur për secilin nga këto emra dhe vlera. Shihni në hollësi Ndryshore Vetjake për çdo përdorues dhe veprim te Regjistri i Vizitorëve. Kjo shtojcë është e domosdoshme për të përdorur veçorinë Analiza Etregtie!",
         "ScopePage": "faqe me qëllim",
         "ScopeVisit": "vizitë me qëllim",
         "ScopeConversion": "shndërrim me qëllim",

@@ -53,6 +53,8 @@
         "SuccessfullyUnsubscribed": "hai cancellato con successo l'iscrizione al report %1$s.",
         "UnsubscribeFooter": "Per cancellare l'iscrizione a questo report, segui questo link: %1$s",
         "NoTokenProvided": "Nell'URL non è stato fornito alcun token",
-        "NoSubscriptionFound": "Non è stata trovata alcuna iscrizione. Forse è già stata cancellata o il report rimosso."
+        "NoSubscriptionFound": "Non è stata trovata alcuna iscrizione. Forse è già stata cancellata o il report rimosso.",
+        "EvolutionGraphsShowForEachInPeriod": "I grafici dell'evoluzione mostrano l'evoluzione per %1$sciascun giorno%2$s negli ultimi %3$s",
+        "EvolutionGraphsShowForPreviousN": "I grafici dell'evoluzione mostrano l'evoluzione sui precedenti N %s"
     }
 }

@@ -11,7 +11,6 @@
         "LastHours": "Sidste %s timer",
         "LastMinutes": "Sidste %s minutter",
         "LastVisit": "Seneste besøg",
-        "LinkVisitorLog": "Vis detaljeret besøgslog",
         "LoadMoreVisits": "Indlæs flere besøg",
         "MorePagesNotDisplayed": "yderligere sider vises ikke for denne besøgende",
         "NbVisitor": "1 besøgende",
@@ -27,15 +26,9 @@
         "ViewVisitorProfile": "Vis besøgendes profil",
         "VisitedPages": "Besøgte sider",
         "RevisitedPages": "Sider vist mere end én gang",
-        "VisitorLog": "Besøgslog",
         "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%1$s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %2$s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
-        "VisitorsInRealTime": "Besøgende her og nu",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
-        "VisitsFrom": "%1$s%2$s besøg %3$s fra",
-        "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
-        "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
-        "RowActionTooltipTitle": "Åben segmenteret besøgslog",
-        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %1$s er \"%2$s\""
+        "VisitsFrom": "%1$s%2$s besøg %3$s fra"
     }
 }

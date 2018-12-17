@@ -11,7 +11,7 @@
         "CorsDomainsHelp": "Sie können Domänen oder Subdomänen wie http:\/\/example.com oderr http:\/\/stats.example.com definieren. Oder fügen Sie einfach * hinzu, um cross domain requests für alle Domänen zu erlauben",
         "CustomLogoFeedbackInfo": "Wenn Sie das Matomo-Logo anpassen, ist sicher auch das Verstecken des %1$s-Links in der Navigation von Interesse. Bitte dazu das Feedback Plugin auf der %2$sPlugins verwalten%3$s Seite deaktivieren.",
         "CustomLogoHelpText": "Hier kann das Matomo-Logo angepasst werden, das in der Benutzeroberfläche sowie in E-Mail-Berichten verwendet wird.",
-        "DevelopmentProcess": "Auch wenn unser %1$sEntwicklungsprozess%2$s tausende an automatisierten Tests beinhaltet, haben Beta-Tester eine Schlüsselrolle um die \"No Bug Policy\" in Matomo zu gewährleisten.",
+        "DevelopmentProcess": "Auch wenn unser Entwicklungsprozess tausende an automatisierten Tests beinhaltet, haben Beta-Tester eine Schlüsselrolle um die \"No Bug Policy\" in Matomo zu gewährleisten.",
         "EmailServerSettings": "E-Mail-Server-Einstellungen",
         "ForBetaTestersOnly": "Nur für Beta-Tester",
         "ImageTracking": "Tracking mit Hilfe eines Bildes",
@@ -108,6 +108,7 @@
         "MissingTrackingCodeEmailSubject": "Kein Traffic für %s in Matomo Analytics aufgezeichnet, jetzt starten",
         "JsTrackingCodeMissingEmail1": "Sie haben vor ein paar Tagen die Webseite '%s' zu Ihrer Matomo Analytics Installation hinzugefügt. Wir haben soeben nachgeschaut und Ihr Matomo scheint keinen Traffic für diese Webseite aufgezeichnet zu haben.",
         "JsTrackingCodeMissingEmail2": "Um damit zu beginnen, Daten aufzuzeichnen und Einblicke in das Benutzerverhalten zu bekommen, müssen Sie das Tracking in Ihrer Webseite oder mobilen App installieren. Für Webseiten betten Sie direkt vor dem %s Tag den Tracking Code ein.",
-        "JsTrackingCodeMissingEmail3": "Um Ihren Tracking Code zu finden und zu personalisieren, %1$shier klicken%2$s (oder schauen Sie sich die %3$sJavaScript Tracking Client Anleitung%4$s an)."
+        "JsTrackingCodeMissingEmail3": "Um Ihren Tracking Code zu finden und zu personalisieren, %1$shier klicken%2$s (oder schauen Sie sich die %3$sJavaScript Tracking Client Anleitung%4$s an).",
+        "LearnMore": "Mehr dazu"
     }
 }

@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Log Forza Bruta",
         "ConfirmationLinkSent": "Un link di conferma è stato inviato alla tua casella di posta. Controlla la tua e-mail e visita questo link per autorizzare la richiesta di modifica della password.",
         "ContactAdmin": "Possibile motivo: il tuo host potrebbe avere disattivato la funzione mail(). <br \/>Contatta il tuo amministratore di Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utente con accesso Super User non può essere autenticato utilizzando il sistema '%s'.",
@@ -10,6 +11,21 @@
         "InvalidUsernameEmail": "Nome utente e\/o indirizzo e-mail non validi",
         "LogIn": "Accedi",
         "LoginOrEmail": "Nome utente o Email",
+        "HelpIpRange": "Inserisci un indirizzo IP o un intervallo di IP per riga. Puoi utilizzare la notazione CIDR, es. %1$s o puoi utilizzare delle wildcard, es. %2$s o %3$s",
+        "SettingBruteForceEnable": "Abilita il Rilevamento Forza Bruta",
+        "SettingBruteForceEnableHelp": "Il Rilevamento Forza Bruta è un'importante funzione di sicurezza utilizzata per proteggere i tuoi dati da accessi non autorizzati. Invece di consentire a qualsiasi utente di provare migliaia o milioni di combinazioni di password in un tempo molto breve, consentirà solo una quantità specifica di accessi non riusciti entro un breve periodo di tempo. Se si verificano troppi accessi non riusciti in tale intervallo di tempo, l'utente non sarà in grado di accedere finché non è trascorso un certo tempo. Si noti che se un IP è bloccato, anche tutti gli utenti che utilizzano quell'IP verranno bloccati dal login.",
+        "SettingBruteForceWhitelistIp": "Non bloccare mai l'accesso a questi IP",
+        "SettingBruteForceBlacklistIp": "Non bloccare mai l'accesso a questi IP",
+        "SettingBruteForceMaxFailedLogins": "Numero di tentativi di accesso permessi nell'intervallo di tempo",
+        "SettingBruteForceMaxFailedLoginsHelp": "Se viene registrato più di questo numero di accessi non riusciti nell'intervallo di tempo configurato di seguito, bloccare l'IP.",
+        "SettingBruteForceTimeRange": "Conta i tentativi di accesso entro questo intervallo di tempo in minuti",
+        "SettingBruteForceTimeRangeHelp": "Inserisci un numero di minuti.",
+        "LoginNotAllowedBecauseBlocked": "Al momento non sei autorizzato ad accedere perché hai avuto troppi accessi non riusciti, riprova più tardi.",
+        "CurrentlyBlockedIPs": "IP attualmente bloccati",
+        "IPsAlwaysBlocked": "Questi IP sono sempre bloccati",
+        "UnblockAllIPs": "Sblocca tutti gli IP attualmente bloccati",
+        "CurrentlyBlockedIPsUnblockInfo": "È possibile sbloccare gli IP che sono attualmente bloccati in modo che possano accedere nuovamente nel caso in cui siano stati falsamente segnalati e devono essere in grado di accedere nuovamente.",
+        "CurrentlyBlockedIPsUnblockConfirm": "Sei sicuro di voler sbloccare tutti gli IP attualmente bloccati?",
         "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
         "LostYourPassword": "Hai perso la password?",
         "ChangeYourPassword": "Cambia password",
@@ -20,6 +36,8 @@
         "PasswordChanged": "La tua password è stata cambiata.",
         "PasswordRepeat": "Password (ripeti)",
         "PasswordsDoNotMatch": "La password non corrisponde.",
+        "WrongPasswordEntered": "Si prega di inserire la tua password corretta.",
+        "ConfirmPasswordToContinue": "Conferma la tua password per continuare",
         "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",
         "RememberMe": "Ricordami"
     }
