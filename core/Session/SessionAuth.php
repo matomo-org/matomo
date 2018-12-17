@@ -180,7 +180,10 @@ class SessionAuth implements Auth
 
     private function updateSessionExpireTime()
     {
+        $sessionParams = session_get_cookie_params();
+
         $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
-        setcookie(session_name(), session_id(), time() + $sessionCookieLifetime);
+        setcookie(session_name(), session_id(), time() + $sessionCookieLifetime, $sessionParams['path'],
+            $sessionParams['domain'], $sessionParams['secure'], $sessionParams['httponly']);
     }
 }
