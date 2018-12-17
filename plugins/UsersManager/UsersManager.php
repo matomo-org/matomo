@@ -130,6 +130,8 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/permissions-metadata/permissions-metadata.service.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.js";
     }
 
     /**
@@ -143,6 +145,7 @@ class UsersManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
+        $stylesheets[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.less";
     }
 
     /**
@@ -299,5 +302,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_OrManageIndividually';
         $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm';
         $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm2';
+        $translationKeys[] = 'UsersManager_CapabilitiesHelp';
+        $translationKeys[] = 'UsersManager_Capabilities';
+        $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
+        $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
+        $translationKeys[] = 'UsersManager_IncludedInUsersRole';
     }
 }

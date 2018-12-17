@@ -98,7 +98,15 @@
     </div>
 
     <div piwik-notification context="info" type="persistent" noclear="true" ng-if="$ctrl.isRoleHelpToggled" class="roles-help-notification">
-        {{:: 'UsersManager_RolesHelp'|translate:"<a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>":"</a>":"<a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>":"</a>" }}
+        <span piwik-translate="UsersManager_RolesHelp">
+            <a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>::</a>::<a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>::</a>
+        </span>
+    </div>
+
+    <div piwik-notification context="info" type="persistent" noclear="true" ng-if="$ctrl.isCapabilitiesHelpToggled" class="capabilities-help-notification">
+        <span piwik-translate="UsersManager_CapabilitiesHelp">
+            TODO
+        </span>
     </div>
 
     <table piwik-content-table id="sitesForPermission">
@@ -114,6 +122,12 @@
             <th class="role_header">
                 <span>{{:: 'UsersManager_Role'|translate }}</span>
                 <a href="" class="helpIcon" ng-click="$ctrl.isRoleHelpToggled = !$ctrl.isRoleHelpToggled" ng-class="{ sticky: $ctrl.isRoleHelpToggled }">
+                    <span class="icon-help"></span>
+                </a>
+            </th>
+            <th class="capabilities_header">
+                <span>{{:: 'UsersManager_Capabilities'|translate }}</span>
+                <a href="" class="helpIcon" ng-click="$ctrl.isCapabilitiesHelpToggled = !$ctrl.isCapabilitiesHelpToggled" ng-class="{ sticky: $ctrl.isCapabilitiesHelpToggled }">
                     <span class="icon-help"></span>
                 </a>
             </th>
@@ -150,7 +164,20 @@
                     ng-model="entry.role"
                     options="$ctrl.accessLevels"
                     ng-change="$ctrl.previousRole = '{{ entry.role }}'; $ctrl.roleToChangeTo = entry.role; $ctrl.siteAccessToChange = entry; $ctrl.showChangeAccessConfirm();"
+                    full-width="true"
+                    class="role-select"
                 ></div>
+            </td>
+            <td>
+                <piwik-capabilities-edit
+                    idsite="entry.idsite"
+                    site-name="entry.site_name"
+                    user-login="$ctrl.userLogin"
+                    user-role="entry.role"
+                    capabilities="entry.capabilities"
+                    on-capabilities-change="$ctrl.fetchAccess()"
+                >
+                </piwik-capabilities-edit>
             </td>
         </tr>
         </tbody>

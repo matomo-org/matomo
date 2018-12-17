@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         if (!Controller::isGeneralSettingsAdminEnabled()) {
-            throw new Exception('General settings admin is ont enabled');
+            throw new Exception('General settings admin is not enabled');
         }
 
         Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
@@ -91,7 +91,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         if (!Controller::isGeneralSettingsAdminEnabled()) {
-            throw new Exception('General settings admin is ont enabled');
+            throw new Exception('General settings admin is not enabled');
         }
 
         if (!empty($trustedHosts)) {

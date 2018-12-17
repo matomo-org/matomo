@@ -142,7 +142,7 @@ class CliMulti
             if ($shouldStart === Request::ABORT) {
                 // output is needed to ensure same order of url to response
                 $output = new Output($cmdId);
-                $output->write('Skipped');
+                $output->write(serialize(array('aborted' => '1')));
                 $this->outputs[] = $output;
             } else {
                 $this->executeUrlCommand($cmdId, $url);

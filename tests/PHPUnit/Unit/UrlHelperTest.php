@@ -102,6 +102,8 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('dAtA://example.com/test', false),
             array('data://tel.org/http', false),
             array('smstest:456543', false),
+            array(urldecode('javascript://%0D%0Aalert(1)'), false),
+            array(urldecode('http://%0D%0Aalert(1)'), false),
         ];
     }
 

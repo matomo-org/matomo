@@ -91,16 +91,6 @@ class RequestTest extends IntegrationTestCase
         $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
     }
 
-    /**
-     * @expectedException \Piwik\Exception\InvalidRequestParameterException
-     * @expectedException requires valid token_auth
-     */
-    public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
-    {
-        $request = $this->buildRequest(array('cip' => '192.192.192.192'));
-        $this->assertEquals($_SERVER['REMOTE_ADDR'], $request->getIpString());
-    }
-
     public function test_getCustomVariablesInVisitScope_ShouldReturnNoCustomVars_IfNoWerePassedInParams()
     {
         $this->assertEquals(array(), $this->request->getCustomVariablesInVisitScope());
