@@ -94,21 +94,13 @@ class HtmlTable extends Visualization
         if ($this->isPivoted()) {
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
-    }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
-    {
-        if ($this->isPivoted()) {
-            $this->config->columns_to_display = $this->dataTable->getColumns();
-
-            $this->dataTable->applyQueuedFilters();
-        }
-
+        // Note: This needs to be done right before rendering, as otherwise some plugins might change the columns to display again
         if ($this->isFlattened()) {
             $dimensions = $this->dataTable->getMetadata('dimensions');
 
             if (is_array($dimensions) && count($dimensions) > 1) {
-                $this->dataTable->filter(function($dataTable) use($dimensions) {
+                $this->dataTable->filter(function($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();
                     foreach ($rows as $row) {
@@ -123,22 +115,40 @@ class HtmlTable extends Visualization
                 $this->dataTable->filter('ColumnDelete', array('label'));
                 $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
 
-                if (empty($this->config->columns_to_display)) {
-                    $columns = $this->dataTable->getColumns();
-                    $hasNbVisits       = in_array('nb_visits', $columns);
-                    $hasNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
+                $properties = $this->config;
 
-                    $this->config->setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors);
-                }
+                $this->dataTable->filter(function (DataTable $dataTable) use ($properties, $dimensions) {
+                    if (empty($properties->columns_to_display)) {
+                        $columns           = $dataTable->getColumns();
+                        $hasNbVisits       = in_array('nb_visits', $columns);
+                        $hasNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
 
-                $label = array_search('label', $this->config->columns_to_display);
-                if ($label !== false) {
-                    unset($this->config->columns_to_display[$label]);
-                }
-                $this->config->columns_to_display = array_merge($dimensions, $this->config->columns_to_display);
-                array_unshift($this->config->columns_to_display, 'label');
+                        $properties->setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors);
+                    }
+
+                    $label = array_search('label', $properties->columns_to_display);
+                    if ($label !== false) {
+                        unset($properties->columns_to_display[$label]);
+                    }
+
+                    foreach ($dimensions as $dimension) {
+                        array_unshift($properties->columns_to_display, $dimension);
+                    }
+
+                    array_unshift($properties->columns_to_display, 'label');
+                });
             }
         }
+    }
+
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        if ($this->isPivoted()) {
+            $this->config->columns_to_display = $this->dataTable->getColumns();
+
+            $this->dataTable->applyQueuedFilters();
+        }
+
 
         parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
