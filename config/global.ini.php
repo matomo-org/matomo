@@ -93,7 +93,13 @@ log_writers[] = screen
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
 ; ERROR, WARN, INFO, DEBUG
+; this setting will apply to every log writer, if there is no
 log_level = WARN
+
+; you can also set specific log levels for different writers, by appending the writer name to log_level_, like so:
+; this allows you to log more information to one backend vs another.
+; log_level_screen =
+; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
