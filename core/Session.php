@@ -103,6 +103,10 @@ class Session extends Zend_Session
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
+            if (@ini_get('session.serialize_handler') !== 'php_serialize') {
+                @ini_set('session.serialize_handler', 'php_serialize');
+            }
+
             $config = array(
                 'name'           => Common::prefixTable(DbTable::TABLE_NAME),
                 'primary'        => 'id',
