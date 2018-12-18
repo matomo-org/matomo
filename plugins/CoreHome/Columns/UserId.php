@@ -103,6 +103,7 @@ class UserId extends VisitDimension
             'idSite' => $idSite,
             'period' => $period,
             'date' => $date,
+            'segment' => false,
         ], $default = []);
 
         return $this->hasDataTableUsers($result);
