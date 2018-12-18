@@ -64,6 +64,9 @@ class FrontController extends Singleton
     const DEFAULT_LOGIN = 'anonymous';
     const DEFAULT_TOKEN_AUTH = 'anonymous';
 
+    // public for tests
+    public static $requestId = null;
+
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -265,6 +268,8 @@ class FrontController extends Singleton
         if ($this->initialized) {
             return;
         }
+
+        self::setRequestIdHeader();
 
         $this->initialized = true;
 
@@ -677,5 +682,19 @@ class FrontController extends Singleton
         }
 
         return $authAdapter;
+    }
+
+    public static function getUniqueRequestId()
+    {
+        if (self::$requestId === null) {
+            self::$requestId = substr(Common::generateUniqId(), 0, 5);
+        }
+        return self::$requestId;
+    }
+
+    private static function setRequestIdHeader()
+    {
+        $requestId = self::getUniqueRequestId();
+        header("X-Matomo-Request-Id: $requestId");
     }
 }
