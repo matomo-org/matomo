@@ -35,6 +35,7 @@ class UrlsFromWebsiteId extends BaseFilter
             return htmlspecialchars_decode($label);
         }));
         $table->queueFilter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
+        $table->queueFilter('GroupBy', array('label'));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
