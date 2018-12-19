@@ -248,7 +248,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
 
-        if (isset(self::$requestId)) {
+        if (!empty($lastError) && isset(self::$requestId)) {
             $lastError['request_id'] = self::$requestId;
         }
 
