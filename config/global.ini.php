@@ -394,7 +394,7 @@ login_cookie_name = piwik_auth
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; (DEPRECATED) has no effect
+; Sets the session cookie path
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email

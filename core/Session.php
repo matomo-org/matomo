@@ -81,6 +81,8 @@ class Session extends Zend_Session
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
+        @ini_set('session.cookie_path', empty($config->General['login_cookie_path']) ? '/' : $config->General['login_cookie_path']);
+
         $currentSaveHandler = ini_get('session.save_handler');
 
         if (!SettingsPiwik::isPiwikInstalled()) {
