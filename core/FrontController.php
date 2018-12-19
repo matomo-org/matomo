@@ -113,6 +113,10 @@ class FrontController extends Singleton
             'line' => $e->getLine(),
         );
 
+        if (isset(self::$requestId)) {
+            $error['request_id'] = self::$requestId;
+        }
+
         $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
         $error['backtrace'] .= $e->getTraceAsString();
 
@@ -243,6 +247,11 @@ class FrontController extends Singleton
     public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
+
+        if (isset(self::$requestId)) {
+            $lastError['request_id'] = self::$requestId;
+        }
+
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
             $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
@@ -695,6 +704,6 @@ class FrontController extends Singleton
     private static function setRequestIdHeader()
     {
         $requestId = self::getUniqueRequestId();
-        header("X-Matomo-Request-Id: $requestId");
+        Common::sendHeader("X-Matomo-Request-Id: $requestId");
     }
 }
