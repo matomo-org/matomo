@@ -249,7 +249,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->AccessErrorString = $accessErrorString;
         $view->isAlreadyUsing2fa = $this->twoFa->isUserUsingTwoFactorAuthentication($login);
         $view->newSecret = $secret;
-        $view->authImage = $this->getQRUrl($view->description, $view->gatitle);
+        $view->twoFaBarCodeSetupUrl = $this->getTwoFaBarCodeSetupUrl($secret);
         $view->codes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin($login);
         $view->standalone = $standalone;
 
@@ -294,15 +294,8 @@ class Controller extends \Piwik\Plugin\Controller
         ));
     }
 
-    public function showQrCode()
+    private function getTwoFaBarCodeSetupUrl($secret)
     {
-        $this->validator->checkCanUseTwoFa();
-
-        $session = $this->make2faSession();
-        $secret = $session->secret;
-        if (empty($secret)) {
-            throw new Exception('Not available');
-        }
         $title = $this->settings->twoFactorAuthTitle->getValue();
         $descr = Piwik::getCurrentUserLogin();
 
@@ -311,10 +304,7 @@ class Controller extends \Piwik\Plugin\Controller
             $url .= '&issuer='.urlencode($title);
         }
 
-        $qrCode = new QrCode($url);
-
-        header('Content-Type: '.$qrCode->getContentType());
-        echo $qrCode->get();
+        return $url;
     }
 
     protected function getQRUrl($description, $title)
