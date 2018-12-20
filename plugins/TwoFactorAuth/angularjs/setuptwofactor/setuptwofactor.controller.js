@@ -39,8 +39,9 @@
         $timeout(function () {
 
             var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: window.twoFaBarCodeSetupUrl
-        });
+                    text: window.twoFaBarCodeSetupUrl,
+                    correctLevel: QRCode.CorrectLevel.M
+            });
 
             angular.element('.backupRecoveryCode').click(function () {
                 self.hasDownloadedRecoveryCode = true;
