@@ -156,7 +156,7 @@ class RequestConfig
      *
      * Default value: false
      */
-    public $totals = true;
+    public $totals = false;
 
     /**
      * If set to true, the returned data will contain the first level results, as well as all sub-tables.

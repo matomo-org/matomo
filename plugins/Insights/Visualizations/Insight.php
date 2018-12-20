@@ -36,8 +36,6 @@ class Insight extends Visualization
             $this->requestConfig->filter_limit = 10;
         }
 
-        $this->requestConfig->totals = 0;
-
         $report = $this->requestConfig->apiMethodToRequestDataTable;
         $report = str_replace('.', '_', $report);
 
