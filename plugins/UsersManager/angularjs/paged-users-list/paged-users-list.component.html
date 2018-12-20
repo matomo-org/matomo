@@ -157,7 +157,7 @@
                             ng-model="user.role"
                             options="user.login != 'anonymous' ? $ctrl.accessLevels : $ctrl.anonymousAccessLevels"
                             ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
-                            disabled="user.role == 'superuser'"
+                            data-disabled="user.role == 'superuser'"
                         ></div>
                     </td>
                     <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{ user.email }}</td>
