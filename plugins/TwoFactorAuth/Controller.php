@@ -152,9 +152,6 @@ class Controller extends \Piwik\Plugin\Controller
     public function onLoginSetupTwoFactorAuth()
     {
         // called when 2fa is required, but user has not yet set up 2fa
-        $this->validator->checkCanUseTwoFa();
-        $this->validator->check2FaNotEnabled();
-        $this->validator->check2FaIsRequired();
 
         return $this->setupTwoFactorAuth($standalone = true);
     }

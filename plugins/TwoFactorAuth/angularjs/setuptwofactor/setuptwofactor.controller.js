@@ -41,6 +41,7 @@
             var qrcode = new QRCode(document.getElementById("qrcode"), {
                 text: window.twoFaBarCodeSetupUrl
             });
+            angular.element('#qrcode').attr('title', ''); // do not show secret on hover
 
             angular.element('.backupRecoveryCode').click(function () {
                 self.hasDownloadedRecoveryCode = true;
