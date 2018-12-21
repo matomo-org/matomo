@@ -38,7 +38,7 @@ class DataSubjects
         $idSitesLogTable = array_column($idSitesLogTable, 'idsite');
         $idSitesLogTable = array_map('intval', $idSitesLogTable);
         $idSitesLogTable = array_filter($idSitesLogTable, function ($idSite) use ($maxIdSite) {
-            return !empty($idSite) && $idSite = $maxIdSite;
+            return !empty($idSite) && $idSite <= $maxIdSite;
         });
         return $idSitesLogTable;
     }
@@ -51,7 +51,6 @@ class DataSubjects
 
         $allExistingIdSites = array_map('intval', $allExistingIdSites);
         $maxIdSite = max($allExistingIdSites);
-
         $results = [];
 
         $idSitesLogVisit = $this->getDistinctIdSitesInTable('log_visit', $maxIdSite);
