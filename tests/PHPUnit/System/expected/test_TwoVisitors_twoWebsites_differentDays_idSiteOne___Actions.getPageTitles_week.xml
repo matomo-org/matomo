@@ -2,7 +2,7 @@
 <results>
 	<result date="2009-12-28,2010-01-03">
 		<row>
-			<label>first page view</label>
+			<label> first page view</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
@@ -30,7 +30,7 @@
 	</result>
 	<result date="2010-01-04,2010-01-10">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>6</nb_visits>
 			<nb_hits>6</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
@@ -51,7 +51,7 @@
 			<avg_time_generation>0.452</avg_time_generation>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>6</nb_visits>
 			<nb_hits>6</nb_hits>
 			<sum_time_spent>2160</sum_time_spent>
@@ -75,7 +75,7 @@
 			<avg_time_generation>0.323</avg_time_generation>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>6</nb_visits>
 			<nb_hits>6</nb_hits>
 			<sum_time_spent>3240</sum_time_spent>
@@ -94,7 +94,7 @@
 			<avg_time_generation>0.173</avg_time_generation>
 		</row>
 		<row>
-			<label>Page Name not defined</label>
+			<label> Page Name not defined</label>
 			<nb_visits>1</nb_visits>
 			<nb_hits>1</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
@@ -115,7 +115,7 @@
 	</result>
 	<result date="2010-01-11,2010-01-17">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>0</sum_time_spent>
@@ -136,7 +136,7 @@
 			<avg_time_generation>0.452</avg_time_generation>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>720</sum_time_spent>
@@ -160,7 +160,7 @@
 			<avg_time_generation>0.323</avg_time_generation>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>2</nb_visits>
 			<nb_hits>2</nb_hits>
 			<sum_time_spent>1080</sum_time_spent>
