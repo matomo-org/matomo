@@ -83,9 +83,9 @@ class ReportsProvider
         $lazyCacheId = CacheId::pluginAware($cacheKey);
 
         $cache = PiwikCache::getLazyCache();
-        if ($cache->contains($lazyCacheId)) {
-            $mapApiToReport = $cache->fetch($lazyCacheId);
-        } else {
+        $mapApiToReport = $cache->fetch($lazyCacheId);
+
+        if (empty($mapApiToReport)) {
             $reports = new static();
             $reports = $reports->getAllReports();
 
