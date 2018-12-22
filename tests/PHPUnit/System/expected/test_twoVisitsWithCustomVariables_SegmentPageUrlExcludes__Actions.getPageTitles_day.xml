@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Homepage</label>
+		<label> Homepage</label>
 		<nb_visits>2</nb_visits>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>

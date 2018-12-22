@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Liberate Web Analytics - Analytics - Piwik</label>
+		<label> Liberate Web Analytics - Analytics - Piwik</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>34</sum_time_spent>
@@ -27,7 +27,7 @@
 		<avg_time_generation>0.177</avg_time_generation>
 	</row>
 	<row>
-		<label>301/URL = http://example.hello.com/Topic/hw43061</label>
+		<label> 301/URL = http://example.hello.com/Topic/hw43061</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -53,7 +53,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>404/URL = http://hello.example.com/hello/world/6,681965</label>
+		<label> 404/URL = http://hello.example.com/hello/world/6,681965</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -79,7 +79,7 @@
 		<avg_time_generation>0.359</avg_time_generation>
 	</row>
 	<row>
-		<label>Log Analytics - Analytics - Piwik</label>
+		<label> Log Analytics - Analytics - Piwik</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -105,7 +105,7 @@
 		<avg_time_generation>0.145</avg_time_generation>
 	</row>
 	<row>
-		<label>302/URL = http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</label>
+		<label> 302/URL = http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>240</sum_time_spent>
@@ -131,7 +131,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>307/URL = http://piwik.net/temp-redirect</label>
+		<label> 307/URL = http://piwik.net/temp-redirect</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -152,7 +152,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>404/URL = http://piwik.net/this/is/not/the/page/i/am/looking/for/</label>
+		<label> 404/URL = http://piwik.net/this/is/not/the/page/i/am/looking/for/</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -178,7 +178,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>500/URL = http://piwik.net/to-an-error</label>
+		<label> 500/URL = http://piwik.net/to-an-error</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -204,7 +204,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>Contact the Piwik team - Analytics - Piwik</label>
+		<label> Contact the Piwik team - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -225,7 +225,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
+		<label> demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -251,7 +251,7 @@
 		<avg_time_generation>0.413</avg_time_generation>
 	</row>
 	<row>
-		<label>Download - Analytics - Piwik</label>
+		<label> Download - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>7</sum_time_spent>
@@ -272,7 +272,7 @@
 		<avg_time_generation>0.113</avg_time_generation>
 	</row>
 	<row>
-		<label>Hello Installing Piwik - Analytics - Piwik</label>
+		<label> Hello Installing Piwik - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -298,7 +298,7 @@
 		<avg_time_generation>0.134</avg_time_generation>
 	</row>
 	<row>
-		<label>incredible title!</label>
+		<label> incredible title!</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -324,7 +324,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>Integrate Piwik into your Rails Application - Analytics - Piwik</label>
+		<label> Integrate Piwik into your Rails Application - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -350,7 +350,7 @@
 		<avg_time_generation>0.391</avg_time_generation>
 	</row>
 	<row>
-		<label>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
+		<label> Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -376,7 +376,7 @@
 		<avg_time_generation>0.119</avg_time_generation>
 	</row>
 	<row>
-		<label>Piwik Forums</label>
+		<label> Piwik Forums</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -402,7 +402,7 @@
 		<avg_time_generation>0</avg_time_generation>
 	</row>
 	<row>
-		<label>What is Piwik? - Analytics - Piwik</label>
+		<label> What is Piwik? - Analytics - Piwik</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>

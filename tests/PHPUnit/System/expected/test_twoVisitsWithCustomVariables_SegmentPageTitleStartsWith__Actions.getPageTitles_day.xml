@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Profile page</label>
+		<label> Profile page</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -16,7 +16,7 @@
 		<exit_rate>0%</exit_rate>
 	</row>
 	<row>
-		<label>Profile page for user *_)%</label>
+		<label> Profile page for user *_)%</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
