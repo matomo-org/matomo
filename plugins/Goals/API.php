@@ -23,6 +23,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -537,7 +538,7 @@ class API extends \Piwik\Plugin\API
                     $extraProcessedMetrics = array();
                 }
                 foreach ($this->getGoals($idSite) as $aGoal) {
-                    $metric = new \Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate($idSite, $aGoal['idgoal']);
+                    $metric = new GoalConversionRate($idSite, $aGoal['idgoal']);
                     $extraProcessedMetrics[] = $metric;
                     $allMetrics[] = $metric->getName();
                 }
