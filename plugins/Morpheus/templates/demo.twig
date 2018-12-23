@@ -307,7 +307,7 @@
 </div>
 <div piwik-field uicontrol="text" name="alias"
      title="Disabeld text field"
-     disabled="true"
+     data-disabled="true"
      placeholder="This value cannot be changed"
      inline-help="#complexHelpText">
 </div>
@@ -420,7 +420,7 @@
 <div piwik-save-button></div>
 <div piwik-save-button
      onconfirm="myController.save()"
-     disabled="myController.isDisabled"
+     data-disabled="myController.isDisabled"
      value="Changed button text"
      saving="myController.isLoading">
 </div>
@@ -653,7 +653,8 @@
                         'segment'
                     ],
                     'Visitors': [
-                        'visitor-profile'
+                        'visitor-profile',
+                        'segmented-visits-log'
                     ],
                     'Lock': [
                         'locked',

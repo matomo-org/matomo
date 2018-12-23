@@ -56,6 +56,7 @@ describe("ActionsDataTable", function () {
         expect.screenshot('unflattened').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon span');
             page.click('.dataTableFlatten');
+            page.mouseMove({x: -10, y: -10}); // mae sure no row is highlighted
         }, done);
     });
 

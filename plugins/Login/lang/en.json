@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Brute Force Log",
         "ConfirmationLinkSent": "A confirmation link has been sent to your inbox. Check your e-mail and visit this link to authorize your password change request.",
         "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with Super User access cannot be authenticated using the '%s' mechanism.",
@@ -10,6 +11,21 @@
         "InvalidUsernameEmail": "Invalid username or e-mail address.",
         "LogIn": "Sign in",
         "LoginOrEmail": "Username or Email",
+        "HelpIpRange": "Enter one IP address or one IP range per line. You can use CIDR notation eg. %1$s or you can use wildcards, eg. %2$s or %3$s",
+        "SettingBruteForceEnable": "Enable Brute Force Detection",
+        "SettingBruteForceEnableHelp": "Brute Force Detection is an important security feature used to protect your data from unauthorized access. Instead of allowing any user to try thousands, or millions of password combinations within a very short time, it will only allow a specific amount of failed logins within a short period of time. If too many failed logins occur in that time range, the user won't be able to log in until some time has passed. Please note that if an IP is blocked, every user that uses that IP will be blocked from logging in as well.",
+        "SettingBruteForceWhitelistIp": "Never block these IPs from logging in",
+        "SettingBruteForceBlacklistIp": "Always block these IPs from logging in",
+        "SettingBruteForceMaxFailedLogins": "Number of allowed login retries within time range",
+        "SettingBruteForceMaxFailedLoginsHelp": "If more than this number of failed logins are recorded within the time range configured below, block the IP.",
+        "SettingBruteForceTimeRange": "Count login retries within this time range in minutes",
+        "SettingBruteForceTimeRangeHelp": "Enter a number in minutes.",
+        "LoginNotAllowedBecauseBlocked": "You are currently not allowed to log in because you had too many failed logins, try again later.",
+        "CurrentlyBlockedIPs": "Currently blocked IPs",
+        "IPsAlwaysBlocked": "These IPs are always blocked",
+        "UnblockAllIPs": "Unblock all currently blocked IPs",
+        "CurrentlyBlockedIPsUnblockInfo": "You can unblock IPs that are currently blocked so they can log in again in case they were falsely flagged and need to be able to log in again.",
+        "CurrentlyBlockedIPsUnblockConfirm": "Are you sure you want to unblock all currently blocked IPs?",
         "LoginPasswordNotCorrect": "Wrong Username and password combination.",
         "LostYourPassword": "Lost your password?",
         "ChangeYourPassword": "Change your password",
@@ -20,6 +36,8 @@
         "PasswordChanged": "Your password has been changed.",
         "PasswordRepeat": "Password (repeat)",
         "PasswordsDoNotMatch": "Passwords do not match.",
+        "WrongPasswordEntered": "Please enter your correct password.",
+        "ConfirmPasswordToContinue": "Confirm your password to continue",
         "PluginDescription": "Provides authentication via username and password as well as password reset functionality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",
         "RememberMe": "Remember Me"
     }

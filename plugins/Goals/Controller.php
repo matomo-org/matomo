@@ -342,6 +342,17 @@ class Controller extends \Piwik\Plugin\Controller
     private function setEditGoalsViewVariables($view)
     {
         $goals = $this->goals;
+
+        // unsanitize goal names and other text data (not done in API so as not to break
+        // any other code/cause security issues)
+        foreach ($goals as &$goal) {
+            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
+            $goal['description'] = Common::unsanitizeInputValue($goal['description']);
+            if (isset($goal['pattern'])) {
+                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
+            }
+        }
+
         $view->goals = $goals;
 
         $idGoal = Common::getRequestVar('idGoal', 0, 'int');
@@ -350,15 +361,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->idGoal = $idGoal;
         }
 
-        // unsanitize goal names and other text data (not done in API so as not to break
-        // any other code/cause security issues)
-
-        foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-        }
         $view->goalsJSON = json_encode($goals);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }

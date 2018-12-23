@@ -2,7 +2,7 @@
 <results>
 	<result idSite="1">
 		<row>
-			<label> Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>

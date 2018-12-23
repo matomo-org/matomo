@@ -47,10 +47,14 @@
                 // piwik-dashboard widget, we can let the piwik-dashboard widget render the page. We need to find
                 // a proper solution for this. A workaround for now could be an event or something to let other
                 // components render a specific page.
-                $scope.loading = false;
+                $scope.loading = true;
                 var element = $('[piwik-dashboard]');
                 var scope = angular.element(element).scope();
-                scope.fetchDashboard(parseInt(subcategory, 10));
+                scope.fetchDashboard(parseInt(subcategory, 10)).then(function () {
+                    $scope.loading = false;
+                }, function () {
+                    $scope.loading = false;
+                });
                 return;
             }
 

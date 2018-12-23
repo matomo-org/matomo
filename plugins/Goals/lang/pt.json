@@ -65,6 +65,8 @@
         "GoalName": "Nome do objetivo",
         "Goals": "Objetivos",
         "NGoals": "%s objetivos",
+        "NRevenue": "%s de rendimento",
+        "NItems": "%s itens",
         "ManageGoals": "Gerir objetivos",
         "GoalsOverview": "Vista geral dos objetivos",
         "GoalsOverviewDocumentation": "Esta é uma visão geral das suas conversões de objetivos. Inicialmente, o gráfico mostra a soma de todas as conversões. %s Abaixo do gráfico, você pode ver relatórios de conversão para cada um dos seus objetivos. Os gráficos Sparkline podem ser ampliados clicando sobre os mesmos.",

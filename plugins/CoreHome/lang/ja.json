@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "このカテゴリのデータはありません。 「すべての人口を含める」ようにしてください。",
         "ChangeVisualization": "ビジュアルの変更",
+        "ChangePeriod": "期間を変更する",
         "CheckForUpdates": "アップデートの確認",
         "CheckPiwikOut": "Matomo をチェックしてください！",
         "ClickToEditX": "クリックして %s を編集",
@@ -90,7 +91,7 @@
         "CssDidntLoad": "あなたのブラウザはこのページのスタイルを読み込めませんでした。",
         "JsDidntLoad": "あなたのブラウザはこのページのスクリプトを読み込めませんでした。",
         "AdblockIsMaybeUsed": "広告ブロッカーを使用している場合には、Matomo が問題なく動作することを確認するために、このサイトでそれを無効にしてください。",
-        "ChangeCurrentWebsite": "ウェブサイトを選ぶ　現在選択されているWebサイト：%s",
+        "ChangeCurrentWebsite": "ウェブサイトを選ぶ　現在選択されている Web サイト：%s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "あなたのプライバシーを尊重するオープンな分析プラットフォームです。",
         "MacPageUp": "Fn + 左矢印",
         "MacPageDown": "Fn + 右矢印",

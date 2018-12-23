@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "Eine Datenbankaktualisierung ist nötig. Update ausführen?",
         "DryRun": "Hinweis: Dies ist ein Testlauf",
         "DryRunEnd": "Ende des Testlaufs",
-        "ConsoleCommandDescription": "Impulse werden aktualisiert. Benutzen Sie sie, nachdem der Matomo Kern oder ein Plugin aktualisiert wurde.",
+        "ConsoleCommandDescription": "Löst das Update aus. Benutze es nachdem Matomo oder ein Plugin aktualisert wurde. Hänge --yes an um Rückfragen automatisch zu bestätigen.",
         "ConsoleParameterDescription": "Das Update ohne weitere Rückfragen direkt ausführen",
         "VerifyingUnpackedFiles": "Die entpackten Dateien werden überprüft",
         "WarningMessages": "Warnhinweise:",

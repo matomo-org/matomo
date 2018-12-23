@@ -4,6 +4,7 @@
         "AvgEventValue": "Vlera mesatare e Akteve është: %s",
         "AvgValue": "Vlerë mesatare",
         "AvgValueDocumentation": "Mesatarja e krejt vlerave për këtë akt",
+        "Category": "Kategori",
         "Event": "Akt",
         "EventAction": "Veprim Akti",
         "EventActions": "Veprime Akti",

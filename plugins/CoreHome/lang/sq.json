@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Pa të dhëna për këtë kategori. Provoni të \"Përfshini tërë popullatën\".",
         "ChangeVisualization": "Ndryshoni vizualizimin",
+        "ChangePeriod": "Ndryshoni periudhën",
         "CheckForUpdates": "Kontrollo për përditësime",
         "CheckPiwikOut": "Provojeni Matomo-s!",
         "ClickToEditX": "Klikoni që të përpunoni %s",
@@ -67,6 +68,8 @@
         "TableNoData": "S’ka të dhëna për këtë tabelë.",
         "ThereIsNoDataForThisReport": "Nuk ka të dhëna për këtë raport.",
         "UnFlattenDataTable": "Raporti është i sheshtë %s Bëjeni hierarkik",
+        "RemoveTotalsRowDataTable": "Raporti shfaq rreshtin e tërësoreve %s Hiqe rreshtin e tërësoreve",
+        "AddTotalsRowDataTable": "Raporti s’shfaq rreshtin e tërësoreve %s Shfaqe rreshtin e tërësoreve",
         "ViewAllPiwikVideoTutorials": "Shihini krejt Përkujdesoret Video për Matomo-n",
         "WebAnalyticsReports": "Raporte Analizash Web",
         "YouAreUsingTheLatestVersion": "Po përdorni versionin më të ri të Matomo-s!",

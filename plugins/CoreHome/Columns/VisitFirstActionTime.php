@@ -37,7 +37,7 @@ class VisitFirstActionTime extends VisitDimension
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return $value;
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
     }
 
     /**

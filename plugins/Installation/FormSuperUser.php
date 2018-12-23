@@ -46,7 +46,7 @@ class FormSuperUser extends QuickForm2
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));
         $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), $password);
+        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), ['operand' => $password]);
 
         $email = $this->addElement('text', 'email')
             ->setLabel(Piwik::translate('Installation_Email'));

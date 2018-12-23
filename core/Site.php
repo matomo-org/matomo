@@ -45,6 +45,14 @@ class Site
 {
     const DEFAULT_SITE_TYPE = "website";
 
+    private static $intProperties = [
+        'idsite',
+        'ecommerce',
+        'sitesearch',
+        'exclude_unknown_urls',
+        'keep_url_fragment',
+    ];
+
     /**
      * @var int|null
      */
@@ -82,6 +90,11 @@ class Site
         self::setSiteFromArray($this->id, $site);
 
         $this->site = $site;
+
+        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the int props stay ints
+        foreach (self::$intProperties as $propertyName) {
+            $this->site[$propertyName] = (int)$this->site[$propertyName];
+        }
     }
 
     /**

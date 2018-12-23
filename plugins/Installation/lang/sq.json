@@ -118,7 +118,7 @@
         "SystemCheckSummaryThereWereWarnings": "Ka disa probleme me sistemin tuaj. Matomo do të funksionojë, por mund të hasni ca probleme të vockla.",
         "SystemCheckTimeLimitHelp": "Në sajt me shumë trafik, përmbushja e procesit të arkivimit mund të dojë më tepër kohë se sa i është dhënë tani. Në u dashtë, ndryshojeni parametrin max_execution_time te kartela juaj php.ini.",
         "SystemCheckTracker": "Gjendje gjurmuesi",
-        "SystemCheckTrackerHelp": "Kërkesa GET te piwik.php dështoi. Provoni ta kaloni këtë URL si një të lejuar nga Mirëfilltësimi HTTP dhe çaktivizoni mod_security (mund t’ju duhet t’i kërkoni ndihmë strehuesit tuaj web).Për më tepër të dhëna mbi gabimin, shihni kartelën e regjistrimit të gabimeve të shërbyesit tuaj web.",
+        "SystemCheckTrackerHelp": "Kërkesa GET te matomo.php dështoi. Provoni ta kaloni këtë URL si një të lejuar nga Mirëfilltësimi HTTP dhe çaktivizoni mod_security (mund t’ju duhet t’i kërkoni ndihmë strehuesit tuaj web). Për më tepër të dhëna mbi gabimin, shihni kartelën e regjistrimit të gabimeve të shërbyesit tuaj web.",
         "SystemCheckWarnDomHelp": "Do të duhej të aktivizonit zgjerimin \"dom\" (p.sh., instaloni paketën \"php-dom\" dhe\/ose \"php-xml\").",
         "SystemCheckWarning": "Matomo do të punojë normalisht por mund t’i mungojnë disa veçori",
         "SystemCheckWarnJsonHelp": "Do të duhej të aktivizonit zgjerimin \"json\" (p.sh., instaloni paketën \"php-json\") për punim më të mirë.",

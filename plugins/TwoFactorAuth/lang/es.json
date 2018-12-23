@@ -1,0 +1,25 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "Autenticación de dos factores",
+        "TwoFAShort": "2FA",
+        "TwoFactorAuthenticationIsEnabled": "Autenticación de dos factores está actualmente habilitada.",
+        "TwoFactorAuthenticationIsDisabled": "Autenticación de dos factores está actualmente deshabilitada.",
+        "ConfigureDifferentDevice": "Configurar un dispositivo diferente",
+        "SetUpTwoFactorAuthentication": "Configurar autenticación de dos factores (2FA)",
+        "AuthenticationCode": "Código de autenticación",
+        "Verify": "Verificar",
+        "StepX": "Paso %s",
+        "MissingAuthCodeAPI": "Por favor especifique un código de autenticación de dos factores",
+        "InvalidAuthCode": "El código de autenticación de dos factores no es correcto.",
+        "DontHaveYourMobileDevice": "No posee su dispositivo móvil?",
+        "EnterRecoveryCodeInstead": "Ingrese uno de sus códigos de recuperación",
+        "SetupIntroFollowSteps": "Por favor siga los siguientes pasos para configurar la autenticación en dos factores:",
+        "SetupFinishedTitle": "Felicitaciones! Su cuenta ahora es más segura.",
+        "ShowRecoveryCodes": "Mostrar códigos de recuperación",
+        "ConfirmSetup": "Confirmar configuración",
+        "DisableTwoFA": "Deshabilitar la autenticación de dos factores",
+        "EnableTwoFA": "Habilitar la autenticación de dos factores",
+        "RecoveryCodes": "Códigos de recuperación",
+        "GenerateNewRecoveryCodes": "Generar nuevos códigos de recuperación"
+    }
+}

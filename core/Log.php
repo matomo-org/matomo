@@ -244,4 +244,13 @@ class Log extends Singleton
                 return Logger::EMERGENCY;
         }
     }
+
+    public static function getMonologLevelIfValid($level)
+    {
+        $level = strtoupper($level);
+        if (!empty($level) && defined('Piwik\Log::'.strtoupper($level))) {
+            return self::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
+        }
+        return null;
+    }
 }

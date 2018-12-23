@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "È richiesto un aggiornamento del database. Eseguo l'aggiornamento?",
         "DryRun": "Nota: questo è un Funzionamento Test",
         "DryRunEnd": "Termina Funzionamento Test",
-        "ConsoleCommandDescription": "Attiva gli aggiornamenti. Usalo dopo che il core di Matomo o altri file dei plugin sono stati aggiornati.",
+        "ConsoleCommandDescription": "Trigger aggiornamenti. Usalo dopo il core di Matomo o eventuali file di plugin sono stati aggiornati. Aggiungi --yes per l'aggiornamento senza conferma.",
         "ConsoleParameterDescription": "Esegui direttamente l'aggiornamento senza richiedere conferma",
         "VerifyingUnpackedFiles": "Sto verificando i file scompattati",
         "WarningMessages": "Messaggi di Allerta:",

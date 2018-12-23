@@ -33,6 +33,8 @@ class RequestsTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        Fixture::createWebsite('2014-01-02 03:04:05');
+
         $this->requests = new Requests();
     }
 

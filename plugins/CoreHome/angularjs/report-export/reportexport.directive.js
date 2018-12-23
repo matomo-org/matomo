@@ -44,7 +44,7 @@
                     var params = scope.requestParams;
 
                     if (params && typeof params == "string") {
-                        params = JSON.parse(params)
+                        params = JSON.parse(params);
                     } else {
                         params = {};
                     }

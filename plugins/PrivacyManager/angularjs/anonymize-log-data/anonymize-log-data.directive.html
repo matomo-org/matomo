@@ -130,7 +130,7 @@
     <div piwik-save-button
          class="anonymizePastData"
          onconfirm="anonymizeLogData.scheduleAnonymization()"
-         disabled="!anonymizeLogData.anonymizeIp && !anonymizeLogData.anonymizeLocation && !anonymizeLogData.selectedVisitColumns && !anonymizeLogData.selectedActionColumns"
+         data-disabled="!anonymizeLogData.anonymizeIp && !anonymizeLogData.anonymizeLocation && !anonymizeLogData.selectedVisitColumns && !anonymizeLogData.selectedActionColumns"
          value="Anonymize past data for the selected site and time">
     </div>
 

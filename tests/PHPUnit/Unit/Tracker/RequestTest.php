@@ -37,18 +37,6 @@ class RequestTest extends UnitTestCase
         $this->request = $this->buildRequest(array('idsite' => '1'));
     }
 
-    public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()
-    {
-        $this->assertSame($this->time, $this->request->getCurrentTimestamp());
-    }
-
-    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfTimestampIsInvalid()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . 5));
-        $request->setIsAuthenticated();
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Custom timestamp is 86500 seconds old
@@ -85,6 +73,18 @@ class RequestTest extends UnitTestCase
         $request->setIsAuthenticated();
         $this->assertNotSame($this->time, $request->getCurrentTimestamp());
         $this->assertNotEmpty($request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()
+    {
+        $this->assertSame($this->time, $this->request->getCurrentTimestamp());
+    }
+
+    public function test_getCurrentTimestamp_ShouldReturnTheCurrentTimestamp_IfTimestampIsInvalid()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . 5));
+        $request->setIsAuthenticated();
+        $this->assertSame($this->time, $request->getCurrentTimestamp());
     }
 
     public function test_isEmptyRequest_ShouldReturnTrue_InCaseNoParamsSet()
@@ -491,32 +491,6 @@ class RequestTest extends UnitTestCase
 
         $request = $this->buildRequest(array('h' => '-26', 'm' => '-60', 's' => '-333'));
         $this->assertSame('00:00:00', $request->getLocalTime());
-    }
-
-    public function test_getIdSite()
-    {
-        $request = $this->buildRequest(array('idsite' => '14'));
-        $this->assertSame(14, $request->getIdSite());
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '0'));
-        $request->getIdSite();
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '-1'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
-    {
-        $request = $this->buildRequest(array('idsite' => '-1'));
-        $request->getIdSite();
     }
 
     public function test_getIpString_ShouldDefaultToServerAddress()

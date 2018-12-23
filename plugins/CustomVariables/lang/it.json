@@ -4,7 +4,7 @@
         "ColumnCustomVariableValue": "Valore Variabile Personalizzata",
         "CustomVariables": "Variabile Personalizzata",
         "CustomVariablesReportDocumentation": "Questo report contiene le informazioni sulle variabili personalizzate. Clicca su un nome di variabile per visualizzarne la distribuzione dei valori. %1$s Per ulteriori informazioni sulle variabili personalizzate in generale, leggere la %2$sDocumentazione Variabili Personalizzate su piwik.org%3$s",
-        "PluginDescription": "Le Variabili Personalizzate sono delle coppie (nome, valore) che puoi assegnare ai visitatori o a qualunque loro azione utilizzando le API JavaScript. Matomo riporterà visite, pagine, conversioni per ciascuno di questi nomi e valori. Guarda in dettaglio le Variabili Personalizzate per ciascun utente e azione nel Log Visitatori.<br \/>È richiesta la funzionalità <a href=\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">Ecommerce Analytics<\/a>!",
+        "PluginDescription": "Le Variabili Personalizzate sono coppie (nome, valore) che è possibile assegnare utilizzando l'API di Javascript ai visitatori o una qualsiasi delle loro azioni. Matomo segnalerà quindi quante visite, pagine, conversioni per ciascuno di questi nomi e valori personalizzati. Visualizza le variabili personalizzate dettagliate per ogni utente e azione nel Registro Visitatori. Questo plug-in è necessario per utilizzare la funzione di Analisi Ecommerce!",
         "ScopePage": "ambito pagina",
         "ScopeVisit": "ambito visita",
         "ScopeConversion": "conversione scope",

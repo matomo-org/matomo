@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "No hay datos en esta categoría. Intente \"Incluir toda la población\".",
         "ChangeVisualization": "Cambiar visualización",
+        "ChangePeriod": "Cambiar período",
         "CheckForUpdates": "Comprobar actualizaciones",
         "CheckPiwikOut": "Compruebe a Matomo ahora!",
         "ClickToEditX": "Clic para editar %s",
@@ -67,6 +68,8 @@
         "TableNoData": "Sin datos para esta tabla.",
         "ThereIsNoDataForThisReport": "No hay datos para este informe.",
         "UnFlattenDataTable": "Este informe es plano %s Hazlo jerárquico",
+        "RemoveTotalsRowDataTable": "El informe está mostrando la fila de totales %s Eliminar fila de totales",
+        "AddTotalsRowDataTable": "El informe no está mostrando la fila de totales %s Mostrar fila de totales",
         "ViewAllPiwikVideoTutorials": "Ver todos los video tutoriales de Matomo",
         "WebAnalyticsReports": "Informes de análisis de internet",
         "YouAreUsingTheLatestVersion": "¡Está utilizando la última versión de Matomo!",

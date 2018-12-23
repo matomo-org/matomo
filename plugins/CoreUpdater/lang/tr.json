@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "Veritabanının güncellenmesi gerekli. Güncellensin mi?",
         "DryRun": "Not: Bu işlem deneme amacıyla yapılan Kuru Çalışmadır",
         "DryRunEnd": "Kuru Çalışmanın Sonu",
-        "ConsoleCommandDescription": "Güncellemeleri tetikler. Bu işlemi Matomo çekirdek ya da uygulama eki dosyaları güncellendikten sonra yapın.",
+        "ConsoleCommandDescription": "Güncellemeleri tetikler. Bu işlemi Matomo çekirdek ya da uygulama eki dosyaları güncellendikten sonra yapın. Onay gerekmeden güncelleme yapılması için --yes seçeneğini ekleyin.",
         "ConsoleParameterDescription": "Onay beklenmeden güncelleme doğrudan yapılsın",
         "VerifyingUnpackedFiles": "Ayıklanan dosyalar doğrulanıyor",
         "WarningMessages": "Uyarı iletileri:",

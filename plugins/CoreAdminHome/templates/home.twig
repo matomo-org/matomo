@@ -21,9 +21,14 @@
             <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
                 <div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>
             </div>
-            {% if hasDiagnostics %}
+            {% if hasDiagnostics or hasTrackingFailures %}
                 <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
+                    {% if hasDiagnostics %}
                     <div piwik-widget-loader='{"module":"Installation","action":"getSystemCheck"}'></div>
+                    {% endif %}
+                    {% if hasTrackingFailures %}
+                    <div piwik-widget-loader='{"module":"CoreAdminHome","action":"getTrackingFailures"}'></div>
+                    {% endif %}
                 </div>
             {% endif %}
             {% if isFeedbackEnabled %}

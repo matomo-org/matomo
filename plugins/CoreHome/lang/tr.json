@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Bu kategoride henüz bir veri yok. \"Tüm dağılımlar katılsın\" seçeneğini deneyin.",
         "ChangeVisualization": "Görselleştirmeyi değiştir",
+        "ChangePeriod": "Zaman aralığını değiştir",
         "CheckForUpdates": "Güncellemeleri denetle",
         "CheckPiwikOut": "Matomo uygulamasına göz atın!",
         "ClickToEditX": "%s ögesini düzenlemek için tıklayın",

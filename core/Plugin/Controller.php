@@ -669,27 +669,11 @@ abstract class Controller
     }
 
     /**
-     * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
-     *
-     * The following variables assigned:
-     *
-     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
-     * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
-     *                          false if otherwise.
-     * **isCustomLogo** - The value of the `branding_use_custom_logo` option.
-     * **logoHeader** - The header logo URL to use.
-     * **logoLarge** - The large logo URL to use.
-     * **logoSVG** - The SVG logo URL to use.
-     * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
-     * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
-     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
-     *
-     * Also calls {@link setHostValidationVariablesView()}.
-     *
+     * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
+     * view. Solves a problem when a controller has regular controller and admin controller views.
      * @param View $view
-     * @api
      */
-    protected function setBasicVariablesView($view)
+    protected function setBasicVariablesNoneAdminView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
@@ -724,13 +708,39 @@ abstract class Controller
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
-                || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
         $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
 
         self::setHostValidationVariablesView($view);
+    }
+
+    /**
+     * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
+     *
+     * The following variables assigned:
+     *
+     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
+     * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
+     *                          false if otherwise.
+     * **isCustomLogo** - The value of the `branding_use_custom_logo` option.
+     * **logoHeader** - The header logo URL to use.
+     * **logoLarge** - The large logo URL to use.
+     * **logoSVG** - The SVG logo URL to use.
+     * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
+     * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
+     *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
+     *
+     * Also calls {@link setHostValidationVariablesView()}.
+     *
+     * @param View $view
+     * @api
+     */
+    protected function setBasicVariablesView($view)
+    {
+        $this->setBasicVariablesNoneAdminView($view);
     }
 
     protected function addCustomLogoInfo($view)

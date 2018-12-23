@@ -8,7 +8,7 @@
                   (counts.note|e('html_attr')))|raw }}
 {{ 'Annotations_ClickToEditOrAdd'|translate }}"
               {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
-            <img src="plugins/Morpheus/images/{% if counts.starred > 0 %}annotations_starred.png{% else %}annotations.png{% endif %}" width="16" height="16"/>
+            <span class="icon-annotation {% if counts.starred > 0 %}starred{% endif %}"/>
         </span>
     {% endfor %}
 </div>

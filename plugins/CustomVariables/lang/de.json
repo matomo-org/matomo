@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Wert der benutzerdefinierten Variable",
         "CustomVariables": "Benutzerdefinierte Variablen",
         "CustomVariablesReportDocumentation": "Dieser Bericht enthält Informationen über Ihre benutzerdefinierten Variablen. Klicken Sie auf einen Variablennamen, um die Verteilung der Werte zu sehen. %1$s Für mehr Informationen über benutzerdefinierte Variablen, lesen Sie die %2$sDokumentation auf piwik.org%3$s",
-        "PluginDescription": "Benutzerdefinierte Variablen sind (Name, Wert)-Paare, welche Sie mit Hilfe der Javascript API Besuchern oder deren Aktionen zuweisen können. Matomo wird dann Besuche, Seiten, Konversionen für jede dieser benutzerdefinierten Namen und Werte protokollieren. Die detaillierten benutzerdefinierten Variablen lassen sich für jeden Benutzer und jede Aktion im Besucher Log anzeigen.<br \/>Wird benötigt, um das <a href=\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">Ecommerce Analytics<\/a> Feature nutzen zu können!",
         "ScopePage": "Anwendungsbereich Seite",
         "ScopeVisit": "Anwendungsbereich Besuch",
         "ScopeConversion": "Anwendungsbereichkonversion",

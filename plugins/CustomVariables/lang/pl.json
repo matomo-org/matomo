@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Wartość Zmiennej Niestandardowej",
         "CustomVariables": "Zmienne Niestandardowe",
         "CustomVariablesReportDocumentation": "Raport ten zawiera informacje na temat Zmiennych Niestandardowych. Kliknij na nazwę zmiennej, aby zobaczyć rozkład wartości. %1$sAby uzyskać więcej informacji na temat Zmiennych Niestandardowych, przeczytaj dokumentację %2$sZmienne Niestandardowe na piwik.org%3$s",
-        "PluginDescription": "Zmienne Niestandardowe są parami (nazwa, wartość), którym możesz przypisywać do użytkowników lub dowolnej ich akcji przy pomocy JavaScript API. Matomo na tej podstawie zaraportuje liczbę odwiedzin, stron, konwersji dla każdej z tych nazw i wartości. Przeglądaj szczegóły Zmiennych Niestandardowych dla każdego użytkownika i akcji w Logu Odwiedzających.<br \/>Do działania wymaga funkcjonalności <a href=\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">Analityki Ecommerce<\/a>!",
         "ScopePage": "zakres stron",
         "ScopeVisit": "zakres wizyt",
         "ScopeConversion": "zakres konwersji",

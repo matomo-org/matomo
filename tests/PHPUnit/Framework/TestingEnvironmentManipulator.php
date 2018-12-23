@@ -83,6 +83,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
             }
+
+            $_SERVER['QUERY_STRING'] = http_build_query($_GET);
         }
 
         if ($this->vars->globalsOverride) {
@@ -110,7 +112,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+            && !SettingsServer::isTrackerApiRequest()
+        ) { // TODO: should use testingEnvironment variable, not query param
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -211,6 +215,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     private function getPluginsToLoadDuringTest($fixtureExtraPlugins = [])
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
+        $plugins[] = 'TagManager';
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge(

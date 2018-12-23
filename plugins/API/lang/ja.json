@@ -6,7 +6,7 @@
         "LoadedAPIs": "%s API が正常に読み込まれました",
         "MoreInformation": "Matomo API の詳細については、%1$sMatomo API 入門%2$sと%3$s Matomo API リファレンス%4$sをご覧ください。",
         "PluginDescription": "Matomo のすべてのデータは、シンプルな API を介して利用できます。 このプラグインは、xml、json、php、csv などで Web Analytics データを取得するために呼び出すことのできる Web サービスのエントリポイントです。",
-        "ReportingApiReference": "APIリファレンスレポート",
+        "ReportingApiReference": "API リファレンスレポート",
         "TopLinkTooltip": "jsopn、xml 等シンプルな API を介して、プログラムで Web Analytics データにアクセスできます。",
         "UserAuthentication": "ユーザー認証",
         "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",

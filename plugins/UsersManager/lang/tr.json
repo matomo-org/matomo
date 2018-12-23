@@ -1,5 +1,10 @@
 {
     "UsersManager": {
+        "2FA": "İki Aşamalı Kimlik Doğrulama",
+        "UsesTwoFactorAuthentication": "İki aşamalı kimlik doğrulamasını kullanır",
+        "TwoFactorAuthentication": "İki aşamalı kimlik doğrulama",
+        "ResetTwoFactorAuthentication": "İki aşamalı kimlik doğrulamasını sıfırla",
+        "ResetTwoFactorAuthenticationInfo": "Kullanıcı kurtarma kodlarını ya da kimlik doğrulama aygıtını kaybettiği için oturum açamıyorsa, kullanıcının iki aşamalı kimlik doğrulamasını sıfırlanarak yeniden oturum açması sağlanabilir.",
         "AddUser": "Yeni kullanıcı ekle",
         "AddExistingUser": "Var olan bir kullanıcı ekle",
         "AddNewUser": "Yeni kullanıcı ekle",
@@ -35,6 +40,7 @@
         "ExceptionInvalidEmail": "E-posta biçimi geçersiz.",
         "ExceptionInvalidLoginFormat": "Kullanıcı adı %1$s ile %2$s karakter arasında olmalı ve yalnız harf, rakam ve '_ - . @ +' karakterlerini içermelidir.",
         "ExceptionInvalidPassword": "Parola %1$s karakterden uzun olmalıdır.",
+        "ExceptionInvalidPasswordTooLong": "Parola %1$s karakterden kısa olmalıdır.",
         "ExceptionLoginExists": "%s",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth işlevi MD5 karmalı bir parola bekliyor (32 karakter uzunluğunda bir dizge). Bu işlevi çağırmadan önce parola üzerinde md5() işlevini çağırın.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "'%s' kullanıcısından Süper Kullanıcı izinleri kaldırılamaz.",
@@ -51,6 +57,9 @@
         "GiveViewAccessTitle": "%s için var olan bir kullanıcıya rapor görüntüleme izni ver",
         "GiveViewAccessInstructions": "%s için var olan bir kullanıcıya görüntüleme izni vermek için var olan kullanıcının kullanıcı adını ya da e-posta adresini yazın",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Parolanızı değiştirmek isterseniz yeni bir parola yazın yoksa boş bırakın.",
+        "YourCurrentPassword": "Geçerli parolanız",
+        "CurrentPasswordNotCorrect": "Yazdığınız geçerli parola doğru değil.",
+        "ConfirmWithPassword": "Bu değişikliği onaylamak için parolanızı yazın.",
         "InjectedHostCannotChangePwd": "Şu anda ziyaretinizi bilinmeyen bir sunucu üzerinden yapıyorsunuz (%1$s). Bu sorun çözülene kadar parolanızı değiştiremezsiniz.",
         "LastSeen": "Son görülme",
         "MainDescription": "Web sitelerinize erişim izni vereceğiniz kullanıcıları seçin. Tüm web sitelerine birden izin vermek için web sitesi seçicisinden 'Tüm web sitelerine uygula' seçeneğini seçin.",
@@ -79,9 +88,7 @@
         "TheLoginScreen": "Oturum açma ekranı",
         "ThereAreCurrentlyNRegisteredUsers": "Şu anda kayıtlı %s kullanıcı var.",
         "TokenAuth": "API Kimlik Doğrulama Kodu",
-        "TokenRegenerateConfirm": "API kimlik doğrulama kodu değiştirildiğinde kullanıcının geçerli kodu da geçersiz olur ve kullanıcı oturum açmış ise yeniden oturum açması gerekir. Kimlik doğrulama kodunu gerçekten değiştirmek istiyor musunuz?",
-        "TokenRegenerateConfirmSelf": "API kimlik doğrulama kodu değiştirildiğinde kendi kodunuz da geçersiz olur ve devam ederseniz yeniden oturum açmanız gerekir. Kimlik doğrulama kodunu gerçekten değiştirmek istiyor musunuz?",
-        "TokenRegenerateLogoutWarning": "Kodu yeniden oluşturduğunuzda oturumunuz kapatılacak ve yeniden oturum açmanız gerekecek.",
+        "TokenRegenerateConfirmSelf": "API kimlik doğrulama kodunuzu değiştirirseniz, kendi kodunuz geçersiz olur. Geçerli kod kullanılıyorsa, tüm API istemcilerini yeni koda göre güncellemeniz gerekir. Kimlik doğrulama kodunuzu değiştirmek istediğinize emin misiniz?",
         "TokenRegenerateTitle": "Yeniden oluştur",
         "TypeYourPasswordAgain": "Yeni parolanızı yeniden yazın.",
         "User": "Kullanıcı",
@@ -126,6 +133,7 @@
         "DeleteUsers": "Kullanıcıları Sil",
         "UserSearch": "Kullanıcı arama",
         "FilterByAccess": "İzinlere göre süz",
+        "ShowAll": "Tümünü görüntüle",
         "Username": "Kullanıcı Adı",
         "RoleFor": "Şunun rolü",
         "TheDisplayedUsersAreSelected": "Görüntülenen %1$s kullanıcı seçildi.",
@@ -136,7 +144,7 @@
         "DeleteUserConfirmMultiple": "%1$s seçilmiş kullanıcıyı silmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmSingle": "%1$s kullanıcısının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
-        "AreYouSureChangePassword": "%s parolasını değiştirmek istediğinize emin misiniz?",
+        "AreYouSureChangeDetails": "%s için kullanıcı bilgilerini değiştirmek istediğinize emin misiniz?",
         "AnonymousUserRoleChangeWarning": "%1$s kullanıcısına %2$s rolünü atamak web sitesinin verilerini Matomo oturumu açmamış bile olsalar herkese açık hale getirir."
     }
 }

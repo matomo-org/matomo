@@ -118,7 +118,7 @@
         "SystemCheckSummaryThereWereWarnings": "Existem alguns problemas com o seu sistema. O Matomo irá funcionar, mas poderá deparar-se com alguns pequenos problemas.",
         "SystemCheckTimeLimitHelp": "Num site com tráfego elevado, executar o processo de arquivamento pode exigir mais tempo do que atualmente permitido. Se necessário, altere a diretiva max_execution_time no seu ficheiro php.ini.",
         "SystemCheckTracker": "Estado do acompanhamento",
-        "SystemCheckTrackerHelp": "O pedido GET para o piwik.php falhou. Tente autorizar e excluir este endereço da autenticação HTTP e desativar o mod_security (poderá ter de solicitar isto ao seu alojamento web). Para mais informação sobre o erro, consulte o ficheiro de registo de erros do seu servidor.",
+        "SystemCheckTrackerHelp": "O pedido GET para o matomo.php falhou. Tente autorizar este endereço na autenticação HTTP e desative o mod_security (pode ter de solicitar à entidade responsável pelo alojamento). Para mais informação sobre o erro, consulte o ficheiro dp registo de erros do servidor web.",
         "SystemCheckWarnDomHelp": "Deve ativar a extensão \"dom\" (por exemplo, instalar o pacote \"php-dom\" e\/ou \"php-xml\").",
         "SystemCheckWarning": "O Matomo vai funcionar normalmente mas podem faltar algumas funcionalidades",
         "SystemCheckWarnJsonHelp": "Deve ativar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",

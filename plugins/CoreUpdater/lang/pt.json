@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "É necessária uma atualização da base de dados. Executar atualização?",
         "DryRun": "Nota: isto é uma simulação",
         "DryRunEnd": "Fim da simulação",
-        "ConsoleCommandDescription": "Atualizações de acionadores. Utilize depois dos ficheiros de base ou de qualquer extensão estarem atualizados.",
+        "ConsoleCommandDescription": "Atualizações de acionadores. Utilize depois do núcleo do Matomo ou qualquer um dos ficheiros de extensões ter sido atualizado. Adicione --yes para atualizar sem confirmação.",
         "ConsoleParameterDescription": "Executar a atualização diretamente sem solicitar confirmação",
         "VerifyingUnpackedFiles": "A verificar os ficheiros extraídos",
         "WarningMessages": "Mensagens de aviso:",

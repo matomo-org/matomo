@@ -632,4 +632,9 @@ class ArchiveProcessor
         $archiveLoader = new ArchiveProcessor\Loader($parameters);
         $archiveLoader->prepareArchive($plugin);
     }
+
+    public function getArchiveWriter()
+    {
+        return $this->archiveWriter;
+    }
 }
