@@ -481,10 +481,7 @@ class API extends \Piwik\Plugin\API
 
         $allMetrics = Goals::getGoalColumns($idGoal);
 
-        if ($idGoal === false
-            && !Request::isRootRequestApiRequest()
-            && Piwik::getAction() === 'getEvolutionGraph') {
-            // we only allow those metrics for the overview evolution graph
+        if ($idGoal === false) {
             foreach ($this->getGoals($idSite) as $aGoal) {
                 foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
                     $allMetrics[] = (int) $aGoal['idgoal'] . '_' . $goalColumn;
@@ -530,6 +527,20 @@ class API extends \Piwik\Plugin\API
                     $extraProcessedMetrics = array();
                 }
                 $extraProcessedMetrics[] = new AverageOrderRevenue();
+                $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            });
+        }
+        if ($idGoal === false) {
+            $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics) {
+                $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                if (empty($extraProcessedMetrics)) {
+                    $extraProcessedMetrics = array();
+                }
+                foreach ($this->getGoals($idSite) as $aGoal) {
+                    $metric = new \Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\ConversionRate($idSite, $aGoal['idgoal']);
+                    $extraProcessedMetrics[] = $metric;
+                    $allMetrics[] = $metric->getName();
+                }
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }
