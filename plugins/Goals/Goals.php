@@ -45,6 +45,19 @@ class Goals extends \Piwik\Plugin
         return $dimensionsByGroup;
     }
 
+    public static function getGoalIdFromGoalColumn($columnName)
+    {
+        if (strpos($columnName, 'goal_') === 0) {
+            $column = str_replace(array('goal_'), '', $columnName);
+            return (int) $column;
+        }
+    }
+
+    public static function makeGoalColumn($idGoal, $column)
+    {
+        return 'goal_'. (int)$idGoal . '_' . $column;
+    }
+
     public static function getGoalColumns($idGoal)
     {
         $columns = array(

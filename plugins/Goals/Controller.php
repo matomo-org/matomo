@@ -202,7 +202,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($idGoal === '') {
             foreach ($this->goals as $aGoal) {
                 foreach ($goalSelectableColumns as $goalColumn) {
-                    $goalMetricName = (int) $aGoal['idgoal'] . '_' . $goalColumn;
+                    $goalMetricName = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
                     $selectableColumns[] = $goalMetricName;
                     $columnTranslation = $this->getColumnTranslation($nameToLabel, $goalColumn, $aGoal['idgoal']);
                     $view->config->addTranslation($goalMetricName, $columnTranslation);

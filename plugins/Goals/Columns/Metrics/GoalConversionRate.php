@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\Columns\Metrics;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -25,7 +26,7 @@ class GoalConversionRate extends GoalSpecificProcessedMetric
 
     public function getName()
     {
-        return $this->getColumnPrefix() . '_conversion_rate';
+        return Goals::makeGoalColumn($this->idGoal, 'conversion_rate');
     }
 
     public function getTranslatedName()
@@ -40,7 +41,7 @@ class GoalConversionRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('nb_visits', $this->idGoal . '_nb_conversions');
+        return array('nb_visits', Goals::makeGoalColumn($this->idGoal, 'nb_conversions'));
     }
 
     public function format($value, Formatter $formatter)
@@ -51,7 +52,7 @@ class GoalConversionRate extends GoalSpecificProcessedMetric
     public function compute(Row $row)
     {
         $nbVisits = $this->getMetric($row, 'nb_visits');
-        $conversions = $this->getMetric($row, $this->idGoal . '_nb_conversions');
+        $conversions = $this->getMetric($row, Goals::makeGoalColumn($this->idGoal, 'nb_conversions'));
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
     }

@@ -485,7 +485,7 @@ class API extends \Piwik\Plugin\API
         if ($idGoal === false) {
             foreach ($this->getGoals($idSite) as $aGoal) {
                 foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
-                    $allMetrics[] = (int) $aGoal['idgoal'] . '_' . $goalColumn;
+                    $allMetrics[] = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
                 }
             }
         }
@@ -503,10 +503,24 @@ class API extends \Piwik\Plugin\API
             $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
         }
 
+        if ($idGoal === false && !empty($requestedColumns)) {
+            foreach ($requestedColumns as $requestedColumn) {
+                if (strpos($requestedColumn, '_conversion_rate') !== false) {
+                    $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
+                    if ($columnIdGoal) {
+                        $goalConversionRate = new GoalConversionRate($idSite, $columnIdGoal);
+                        $metricsToAdd = $goalConversionRate->getDependentMetrics();
+                        $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
+                    }
+                }
+            }
+        }
+
         $report = ReportsProvider::factory('Goals', 'getMetrics');
         $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
 
         $inDbMetricNames = array_map(function ($name) use ($idGoal) {
+            $name = str_replace('goal_', '', $name);
             return $name == 'nb_visits' ? $name : Archiver::getRecordName($name, $idGoal);
         }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
