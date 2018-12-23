@@ -546,13 +546,16 @@ class API extends \Piwik\Plugin\API
             });
         }
         if ($idGoal === false) {
-            $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics) {
+            $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics, $requestedColumns) {
                 $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
                 if (empty($extraProcessedMetrics)) {
                     $extraProcessedMetrics = array();
                 }
                 foreach ($this->getGoals($idSite) as $aGoal) {
                     $metric = new GoalConversionRate($idSite, $aGoal['idgoal']);
+                    if (!empty($requestedColumns) && !in_array($metric->getName(), $requestedColumns)) {
+                        continue;
+                    }
                     $extraProcessedMetrics[] = $metric;
                     $allMetrics[] = $metric->getName();
                 }
