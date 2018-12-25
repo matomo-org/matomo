@@ -41,7 +41,8 @@ class Model
             'period' => $period,
             'date'   => $date,
             'filter_limit' => 1000,
-            'showColumns'  => $metric
+            'showColumns'  => $metric,
+            'totals' => 0
         );
 
         if (!empty($segment)) {
