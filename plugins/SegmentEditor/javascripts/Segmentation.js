@@ -854,8 +854,8 @@ $(document).ready(function() {
         this.changeSegmentList = function () {};
 
         var cleanupSegmentDefinition = function(definition) {
-            definition = definition.replace("'", "%27");
-            definition = definition.replace("&", "%26");
+            definition = definition.replace(/'/g, "%27");
+            definition = definition.replace(/&/g, "%26");
             return definition;
         };
 
