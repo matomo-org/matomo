@@ -9,6 +9,7 @@
 
 namespace Piwik\View;
 
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Mail\EmailStyles;
 use Piwik\Plugin\ThemeStyles;
@@ -77,7 +78,13 @@ class HtmlReportEmailHeaderView extends View
         $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
         $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
 
-        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
+        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel')
+            && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('WhiteLabel')
+            && \Piwik\Plugin\Manager::getInstance()->isPluginInFilesystem('WhiteLabel');
+
+        $view->idSite = Common::getRequestVar('idSite', false);
+        $view->period = Common::getRequestVar('period', false);
+        $view->date = Common::getRequestVar('date', false);
     }
 
     private static function getPeriodToFrequencyAsAdjective()

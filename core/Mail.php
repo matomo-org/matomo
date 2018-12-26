@@ -54,7 +54,11 @@ class Mail extends Zend_Mail
         $this->setFrom($fromEmailAddress, $fromEmailName);
     }
 
-    public function setWrappedHtmlBody(View $body)
+    /**
+     * @param View|string $body
+     * @throws \DI\NotFoundException
+     */
+    public function setWrappedHtmlBody($body)
     {
         $contentGenerator = StaticContainer::get(ContentGenerator::class);
         $bodyHtml = $contentGenerator->generateHtmlContent($body);
