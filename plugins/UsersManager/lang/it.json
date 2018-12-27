@@ -150,6 +150,12 @@
         "GiveAccessToAll": "Concedi a questo utente l'accesso a tutti i siti",
         "OrManageIndividually": "O tratta l'accesso di questo utente per ogni singolo sito web",
         "ChangePermToAllSitesConfirm": "Sei sicuro di voler concedere all'%1$sutente%2$s l'accesso a ogni sito web al quale hai attualmente l'accesso come amministratore?",
-        "ChangePermToAllSitesConfirm2": "Nota: ciò influenzerà solo i siti web attualmente esistenti. I nuovi siti web che potresti creare non saranno automaticamente accessibili a questo utente."
+        "ChangePermToAllSitesConfirm2": "Nota: ciò influenzerà solo i siti web attualmente esistenti. I nuovi siti web che potresti creare non saranno automaticamente accessibili a questo utente.",
+        "CapabilitiesHelp": "Le capacità sono delle possibilità individuali che gli utenti possono ottenere. I ruoli possono, per impostazione predefinita, garantire determinate capacità. Ad esempio, il ruolo di amministratore consentirà automaticamente agli utenti di modificare i tag in Tag Manager. Per utenti meno potenti, tuttavia, è possibile concedere loro esplicitamente delle funzionalità.",
+        "Capabilities": "Capacità",
+        "AreYouSureAddCapability": "Sei sicuro di voler concedere a %1$s la capacità %2$s per %3$s?",
+        "AreYouSureRemoveCapability": "Sei sicuro di voler togliere la capacità %1$s da %2$s per %3$s?",
+        "IncludedInUsersRole": "Comprese nel ruolo di questo utente.",
+        "Capability": "Capacità"
     }
 }

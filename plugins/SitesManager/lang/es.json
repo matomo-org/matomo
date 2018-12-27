@@ -35,6 +35,7 @@
         "GlobalListExcludedUserAgents_Desc": "Si la cadena del usuario agente de determinado visitante contiene alguna de las cadenas que ha especificado, el visitante será excluido de Matomo.",
         "GlobalSettings": "Ajustes globales",
         "GlobalWebsitesSettings": "Configuraciónes globales de los sitios de internet",
+        "HelpExcludedIpAddresses": "Ingrese la lista de IPs, una por línea, que desea excluir de ser rastreada por Matomo. Puede utilizar notación CIDR por ejemplo %1$s o puede usar comodines, por ejemplo %2$s o %3$s",
         "JsTrackingTagHelp": "Aquí está el código de rastreo JavaScript a incluir en todas sus páginas",
         "KeepURLFragments": "Rastreo de fragmentos de la URL de página",
         "KeepURLFragmentsHelp": "Si la casilla a continuación no está marcada, los fragmentos de URL de página (todo aquello después de %1$s) será eliminado durante el rastreo: %2$s se rastrearán como %3$s",
@@ -90,6 +91,7 @@
         "XManagement": "Administrar %s",
         "ChooseMeasurableTypeHeadline": "Qué le gustaría medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Actualmente posee acceso a %s sitios de internet.",
-        "YourCurrentIpAddressIs": "Su dirección IP actual es %s"
+        "YourCurrentIpAddressIs": "Su dirección IP actual es %s",
+        "DeleteSiteExplanation": "Eliminando un sitio web eliminará todos los datos de registro que se hayan recopilado para el mismo. Esta acción es permanente y no se puede deshacer."
     }
 }

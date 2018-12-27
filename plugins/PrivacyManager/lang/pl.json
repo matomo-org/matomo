@@ -11,6 +11,7 @@
         "CurrentDBSize": "Obecny rozmiar bazy danych",
         "DBPurged": "Baza danych wyczyszczona.",
         "DeleteBothConfirm": "Zamierzasz włączyć kasowanie nieobrobionych danych i raportów. To na zawsze pozbawi Cię możliwości przeglądania archiwalnych danych. Czy na pewno chcesz to zrobić?",
+        "DeleteDataDescription": "Matomo pozwala Ci skonfigurować regularne kasowanie starych surowych wpisów i\/lub wygenerowanych raportów, co pozwoli Ci zachować mały rozmiar bazy danych lub spełnić wymogi regulacji dotyczących prywatności takich jak RODO.",
         "DeleteDataInterval": "Usuń archiwalne dane co",
         "DeleteOldVisitorLogs": "Usuń archiwalne logi odwiedzin",
         "DeleteLogDescription2": "Po włączeniu automatycznego usuwania logów należy się upewnić, że wszystkie poprzednie raporty dzienne zostały przetworzone, tak że żadne dane nie zostaną utracone.",
@@ -19,6 +20,8 @@
         "DeleteMaxRows": "Maksymalna liczba wierszy, aby usunąć w jednym przebiegu:",
         "DeleteMaxRowsNoLimit": "bez limitu",
         "DeleteReportsConfirm": "Zamierzasz aktywować usuwanie raportów. Po usunięciu archiwalnych raportów, konieczne będzie ponowne przetworzenie logów, w celu uzyskania ponownego wglądu w raporty. Kontynuować?",
+        "DeleteReportsInfo2": "Skasowane stare raporty mogą na żądanie zostać odtworzone z surowych wpisów.",
+        "DeleteReportsInfo3": "Jeśli dodatkowo włączysz \"%s\", usunięcie danych raportów całkowicie usunie dane dotyczące odwiedzin.",
         "DeleteReportsOlderThan": "Usuń raporty starsze niż",
         "DeleteSchedulingSettings": "Zaplanuj usuwanie starych danych",
         "DeleteDataSettings": "Usuń stare logi odwiedzin i raporty",
@@ -66,6 +69,7 @@
         "UseAnonymizeUserId": "Anonimizuj ID użytkownika",
         "PseudonymizeUserId": "Zamień ID użytkownika na pseudonim",
         "UseAnonymizeOrderId": "Anonimizuj ID zamówienia",
+        "UseDeleteLog": "Regularnie kasuj stare nieprzetworzone dane z bazy",
         "UseDeleteReports": "Regularnie usuwaj stare raporty z bazy danych",
         "UsersOptOut": "Rezygnacja ze śledzenia"
     }
