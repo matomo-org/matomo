@@ -76,8 +76,7 @@ class RssRenderer
                 $output .= '<li><a class="rss-title" title="" target="_blank" rel="noreferrer noopener" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '">' . $title . '</a>' .
                     '<span class="rss-date">' . $date . '</span>';
                 if ($this->showDescription) {
-                    $descriptionParts = explode('<p>The post', $post->description); // remove "appeared first on" appendix
-                    $output .= '<div class="rss-description">' . $descriptionParts[0] . '</div>';
+                    $output .= '<div class="rss-description">' . $post->description . '</div>';
                 }
 
                 if ($this->showContent) {
