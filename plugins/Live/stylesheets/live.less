@@ -115,8 +115,9 @@
 }
 
 ol.visitorLog {
-  counter-reset: item;
   list-style-type: none;
+  margin-left: 8px;
+  padding-left: 8px;
 }
 
 .truncated-text-line {
@@ -131,12 +132,35 @@ ol.visitorLog {
 ol.visitorLog > li {
     margin-bottom: 7px;
     line-height: 20px;
+    position: relative;
 
   &:before {
-    content: counter(item) " ";
-    counter-increment: item;
-    padding-right: 5px;
     vertical-align: top;
+    background-color: #000;
+    border: 5px solid #000;
+    border-radius: 50%;
+    line-height: 0;
+    font-size: 0;
+    content: " ";
+    top: 10px;
+    position: relative;
+    box-shadow: 0 0 0 7px #fff;
+    left: -14px;
+    z-index: 2;
+  }
+
+  &:after {
+    content: " ";
+    border-left: 2px solid #000;
+    position: absolute;
+    left: -10px;
+    height: 100%;
+    margin-top: 20px;
+    z-index: 1;
+  }
+
+  &:last-child:after {
+    border-left: none;
   }
 
   &.duplicate {
@@ -202,6 +226,10 @@ ol.visitorLog > li {
     display: block;
     margin: 5px 5px 5px 0;
     float: left;
+    background-color: #fff;
+    position: absolute;
+    left: -15px;
+    z-index: 3;
 
     &.icon-refresh:before {
       padding-right: 2px;
@@ -337,9 +365,13 @@ a.visitor-log-visitor-profile-link {
     display: inline;
     margin: 2px 3px 0 0;
     max-height: 16px;
+    position: absolute;
+    left: -16px;
+    background-color: #fff;
+    z-index: 3;
 
     &.outlink {
-      margin: 7px 3px 0 0;
+      border: 3px solid #fff;
     }
 }
 
