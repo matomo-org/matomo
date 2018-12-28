@@ -133,6 +133,7 @@ ol.visitorLog > li {
     margin-bottom: 7px;
     line-height: 20px;
     position: relative;
+    min-height: 25px;
 
   &:before {
     vertical-align: top;
@@ -151,7 +152,7 @@ ol.visitorLog > li {
 
   &:after {
     content: " ";
-    border-left: 2px solid #000;
+    border-left: 2px solid #a2a2a2;
     position: absolute;
     left: -10px;
     height: 100%;
@@ -183,6 +184,7 @@ ol.visitorLog > li {
 
 #visitsLive img {
     vertical-align: middle;
+    height: 16px;
 }
 
 .visitorRank img {
@@ -363,16 +365,11 @@ a.visitor-log-visitor-profile-link {
 
 .action-list-action-icon {
     display: inline;
-    margin: 2px 3px 0 0;
-    max-height: 16px;
+    max-height: 18px;
     position: absolute;
-    left: -16px;
+    left: -18px;
     background-color: #fff;
     z-index: 3;
-
-    &.outlink {
-      border: 3px solid #fff;
-    }
 }
 
 .action-list-url {
