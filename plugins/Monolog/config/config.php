@@ -30,7 +30,26 @@ return array(
         $writers = array();
         foreach ($writerNames as $writerName) {
             if (isset($classes[$writerName])) {
-                $writers[$writerName] = $c->get($classes[$writerName]);
+                /** @var \Monolog\Handler\HandlerInterface $handler */
+                $handler = $c->get($classes[$writerName]);
+                if (method_exists($handler, 'getLevel')
+                    && (!\Piwik\Common::isPhpCliMode()
+                        || \Piwik\SettingsServer::isArchivePhpTriggered())
+                ) {
+                    // if we can, wrap the handler in FingersCrossedHandler
+                    $passthruLevel = $handler->getLevel();
+                    $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
+                        $bubble = true, $stopBuffering = true, $passthruLevel);
+                }
+                /*
+                tests (w/ error & w/o):
+                - web request
+                - cli command
+                - core:archive cli command (superficial)
+                - core:archive cli command (deep archiving)
+                */
+
+                $writers[$writerName] = $handler;
             }
         }
         return array_values($writers);
