@@ -108,6 +108,10 @@ class FrontController extends Singleton
      */
     private static function generateSafeModeOutputFromException($e)
     {
+        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+            'exception' => $e,
+        ]);
+
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
@@ -257,8 +261,8 @@ class FrontController extends Singleton
             $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
 
-            StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {ex}', [
-                'ex' => $lastError['message'],
+            StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {exception}', [
+                'exception' => $lastError,
             ]);
 
             $message = self::generateSafeModeOutputFromError($lastError);

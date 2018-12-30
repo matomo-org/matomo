@@ -33,6 +33,10 @@ return array(
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
         foreach ($writerNames as $writerName) {
+            if ($writerName === 'screen' && \Piwik\Common::isPhpCliMode()) {
+                continue; // screen writer is only valid for web requests
+            }
+
             if (isset($classes[$writerName])) {
                 // wrap the handler in FingersCrossedHandler if we can and this isn't the screen handler
 
