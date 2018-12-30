@@ -104,6 +104,14 @@ log_level = WARN
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
 
+; if set to 1, will enable monolog's FingersCrossedHandler, which buffers all logs and flushes them if a warning or error
+; log is seen. so the logs will contain debug logs, but only for requests where an error occurred. does not support the screen log writer
+enable_fingers_crossed_handler = 0
+
+; if enable_fingers_crossed_handler is set to 1, and this is set to 1, then the FingersCrossedHandler will stop buffering
+; on the first warning/error. if another one occurs later in the request, there will be no extra debug logs for them.
+fingers_crossed_stop_buffering_on_activation = 0
+
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
 ; 'array' will cache data only during one request

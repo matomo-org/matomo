@@ -17,7 +17,7 @@ return array(
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
     ),
-    'log.handlers' => DI\factory(function (ContainerInterface $c) {
+    'log.handlers' => DI\factory(function (\DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -26,28 +26,32 @@ return array(
 
         $classes = $c->get('log.handler.classes');
 
+        $config = $c->get(\Piwik\Config::class);
+        $enableFingersCrossed = $config->log['enable_fingers_crossed_handler'] == 1;
+        $fingersCrossedStopBuffering = $config->log['fingers_crossed_stop_buffering_on_activation'] == 1;
+
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
         foreach ($writerNames as $writerName) {
             if (isset($classes[$writerName])) {
+                // wrap the handler in FingersCrossedHandler if we can and this isn't the screen handler
+
                 /** @var \Monolog\Handler\HandlerInterface $handler */
-                $handler = $c->get($classes[$writerName]);
-                if (method_exists($handler, 'getLevel')
+                $handler = $c->make($classes[$writerName]);
+                if ($enableFingersCrossed
+                    && $writerName !== 'screen'
+                    && $handler instanceof \Monolog\Handler\AbstractHandler
                     && (!\Piwik\Common::isPhpCliMode()
-                        || \Piwik\SettingsServer::isArchivePhpTriggered())
+                        || \Piwik\SettingsServer::isArchivePhpTriggered()
+                        || \Piwik\CliMulti::isCliMultiRequest())
                 ) {
-                    // if we can, wrap the handler in FingersCrossedHandler
                     $passthruLevel = $handler->getLevel();
+
+                    $handler->setLevel(Logger::DEBUG);
+
                     $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
-                        $bubble = true, $stopBuffering = true, $passthruLevel);
+                        $bubble = true, $fingersCrossedStopBuffering, $passthruLevel);
                 }
-                /*
-                tests (w/ error & w/o):
-                - web request
-                - cli command
-                - core:archive cli command (superficial)
-                - core:archive cli command (deep archiving)
-                */
 
                 $writers[$writerName] = $handler;
             }

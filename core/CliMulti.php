@@ -447,4 +447,9 @@ class CliMulti
         $minutes = floor($elapsed / 60);
         return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
     }
+
+    public static function isCliMultiRequest()
+    {
+        return Common::getRequestVar('pid', false) !== false;
+    }
 }
