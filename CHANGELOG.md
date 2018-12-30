@@ -20,6 +20,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New Features
 * The log importer now supports the `--tracker-endpoint-path` parameter which allows you to use a different tracker endpoint than `/piwik.php`, if desired.
 * It is now possible to define different log levels for different log writers via INI config. Set log_level_file, for example, to set the log level for the file writer, or log_level_screen for the screen writer.
+* It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
 
 ### Internal change
 * New Matomo installation will now use by default "matomo.js" and "matomo.php" as tracking endpoints. From Matomo 4.0 all installations will use "matomo.js" and "matomo.php" by default. We recommend you ensure those files can be accessed through the web and are not blocked.
