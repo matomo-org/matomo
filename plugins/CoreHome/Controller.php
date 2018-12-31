@@ -277,8 +277,21 @@ class Controller extends \Piwik\Plugin\Controller
                 unset($parameters[$name]);
             }
         }
+        $paypalParameters = [
+            "cmd" => "_s-xclick"
+        ];
+        if (empty($parameters["onetime"]) || $parameters["onetime"] != "true") {
+            $paypalParameters["hosted_button_id"] = "DVKLY73RS7JTE";
+            $paypalParameters["currency_code"] = "USD";
+            $paypalParameters["on0"] = "Piwik Supporter";
+            if (!empty($parameters["os0"])) {
+                $paypalParameters["os0"] = $parameters["os0"];
+            }
+        } else {
+            $paypalParameters["hosted_button_id"] = "RPL23NJURMTFA";
+        }
 
-        $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($parameters);
+        $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($paypalParameters);
 
         Url::redirectToUrl($url);
         exit;
