@@ -19,6 +19,7 @@ use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\View;
+use Piwik\Plugin\Manager;
 
 class HtmlReportEmailHeaderView extends View
 {
@@ -78,9 +79,11 @@ class HtmlReportEmailHeaderView extends View
         $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
         $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
 
-        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel')
-            && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('WhiteLabel')
-            && \Piwik\Plugin\Manager::getInstance()->isPluginInFilesystem('WhiteLabel');
+        $pluginManager = Manager::getInstance();
+
+        $view->hasWhiteLabel = $pluginManager->isPluginLoaded('WhiteLabel')
+            && $pluginManager->isPluginActivated('WhiteLabel')
+            && $pluginManager->isPluginInFilesystem('WhiteLabel');
 
         $view->idSite = Common::getRequestVar('idSite', false);
         $view->period = Common::getRequestVar('period', false);
