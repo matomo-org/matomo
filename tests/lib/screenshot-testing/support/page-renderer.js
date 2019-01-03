@@ -286,13 +286,10 @@ PageRenderer.prototype._setupWebpageEvents = function () {
             if ($) {
                 $('html').addClass('uiTest');
                 $.fx.off = true;
-
-                var css = document.createElement('style');
-                css.type = 'text/css';
-                css.innerHTML = '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }';
-                document.body.appendChild(css);
             }
         });
+
+        this.webpage.addStyleTag({content: '* { caret-color: transparent !important; -webkit-transition: none !important; transition: none !important; -webkit-animation: none !important; animation: none !important; }'});
     });
 
     this.webpage._client.on('Page.lifecycleEvent', (event) => {
