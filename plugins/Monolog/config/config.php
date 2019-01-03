@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
+use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
 return array(
 
@@ -29,6 +30,11 @@ return array(
         $config = $c->get(\Piwik\Config::class);
         $enableFingersCrossed = $config->log['enable_fingers_crossed_handler'] == 1;
         $fingersCrossedStopBuffering = $config->log['fingers_crossed_stop_buffering_on_activation'] == 1;
+        $enableLogCaptureHandler = $config->log['enable_log_capture_handler'] == 1;
+
+        $isLogBufferingAllowed = !\Piwik\Common::isPhpCliMode()
+            || \Piwik\SettingsServer::isArchivePhpTriggered()
+            || \Piwik\CliMulti::isCliMultiRequest();
 
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
@@ -45,9 +51,7 @@ return array(
                 if ($enableFingersCrossed
                     && $writerName !== 'screen'
                     && $handler instanceof \Monolog\Handler\AbstractHandler
-                    && (!\Piwik\Common::isPhpCliMode()
-                        || \Piwik\SettingsServer::isArchivePhpTriggered()
-                        || \Piwik\CliMulti::isCliMultiRequest())
+                    && $isLogBufferingAllowed
                 ) {
                     $passthruLevel = $handler->getLevel();
 
@@ -60,6 +64,13 @@ return array(
                 $writers[$writerName] = $handler;
             }
         }
+
+        if ($enableLogCaptureHandler
+            && $isLogBufferingAllowed
+        ) {
+            $writers[] = $c->get(LogCaptureHandler::class);
+        }
+
         return array_values($writers);
     }),
 

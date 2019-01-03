@@ -112,6 +112,9 @@ enable_fingers_crossed_handler = 0
 ; on the first warning/error. if another one occurs later in the request, there will be no extra debug logs for them.
 fingers_crossed_stop_buffering_on_activation = 0
 
+; if enabled, all logs will be retained in memory for each request for programmatic use
+enable_log_capture_handler = 0
+
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
 ; 'array' will cache data only during one request
