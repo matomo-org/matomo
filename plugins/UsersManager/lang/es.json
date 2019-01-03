@@ -151,7 +151,7 @@
         "OrManageIndividually": "O gestionar individualmente el acceso de este usuario a cada uno de los sitios web",
         "ChangePermToAllSitesConfirm": "¿Está seguro que desea otorgar al %1$susuario%2$s acceso a cada sitio web que actualmente usted tiene atributos de administrador?",
         "ChangePermToAllSitesConfirm2": "Nota: esto solo afectará a los sitios web actualmente existentes. El usuario no podrá acceder automáticamente a los nuevos sitios web que pueda crear.",
-        "CapabilitiesHelp": "Las capacidades son habilidades individuales que los usuarios pueden otorgar. Los roles pueden, por defecto, otorgar ciertas capacidades. Por ejemplo, el rol de administrador permitirá automáticamente a los usuarios editar etiquetas en el Administrador de etiquetas. Sin embargo, para usuarios menos poderosos, puede dar explícitamente capacidades a los usuarios.",
+        "CapabilitiesHelp": "Las capacidades son habilidades individuales que los usuarios pueden otorgar. Los roles pueden, por defecto, otorgar ciertas capacidades. Por ejemplo, el rol de administrador permitirá automáticamente a los usuarios editar identificadores en el Tag Manager. Sin embargo, para usuarios menos poderosos, puede otorgar explícitamente capacidades a sus usuarios.",
         "Capabilities": "Facultades",
         "AreYouSureAddCapability": "¿Está seguro que desea otorgarle %1$sla%2$sfacultad de %3$s?",
         "AreYouSureRemoveCapability": "¿Está seguro que desea quitar la %1$sfacultad de %2$s para %3$s?",

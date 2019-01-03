@@ -133,6 +133,7 @@
         "DeleteUsers": "Kullanıcıları Sil",
         "UserSearch": "Kullanıcı arama",
         "FilterByAccess": "İzinlere göre süz",
+        "FilterByWebsite": "Web sitesine göre süz",
         "ShowAll": "Tümünü görüntüle",
         "Username": "Kullanıcı Adı",
         "RoleFor": "Şunun rolü",
@@ -145,6 +146,16 @@
         "DeleteUserPermConfirmSingle": "%1$s kullanıcısının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
         "AreYouSureChangeDetails": "%s için kullanıcı bilgilerini değiştirmek istediğinize emin misiniz?",
-        "AnonymousUserRoleChangeWarning": "%1$s kullanıcısına %2$s rolünü atamak web sitesinin verilerini Matomo oturumu açmamış bile olsalar herkese açık hale getirir."
+        "AnonymousUserRoleChangeWarning": "%1$s kullanıcısına %2$s rolünü atamak web sitesinin verilerini Matomo oturumu açmamış bile olsalar herkese açık hale getirir.",
+        "GiveAccessToAll": "Bu kullanıcıya Tüm Web Siterleri için erişim izni verin",
+        "OrManageIndividually": "Ya da her web sitesi için bu kullanıcının erişim izinlerini ayarlayın",
+        "ChangePermToAllSitesConfirm": "%1$sKullanıcıya%2$s yönetici erişiminiz olan tüm web siteleri için erişim izni vermek istediğinizden emin misiniz?",
+        "ChangePermToAllSitesConfirm2": "Not: Bu ayar yalnız var olan web siteleri için geçerli olur. Eklenebilecek yeni web siteleri için bu kullanıcıya erişim izni otomatik olarak verilmez.",
+        "CapabilitiesHelp": "Yeterlikler kullanıcıya verilen bireysel izinlerdir. Roller, varsayılan olarak belirli yeterlikler için izin verir. Örneğin, Yönetici rolündeki kullanıcılara Etiket Yöneticisi üzerindeki etiketleri düzenleme izni otomatik olarak verilir. Yetkileri daha az olan kullanıcılara ek yeterlikler verebilirsiniz.",
+        "Capabilities": "Yeterlikler",
+        "AreYouSureAddCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısına vermek istediğinize emin misiniz?",
+        "AreYouSureRemoveCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısından kaldırmak istediğinize emin misiniz?",
+        "IncludedInUsersRole": "Bu kullanıcının rolünde bulunuyor",
+        "Capability": "Yeterlik"
     }
 }

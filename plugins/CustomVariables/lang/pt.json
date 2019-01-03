@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Nome da variável ​​personalizada",
         "ColumnCustomVariableValue": "Valor da variável ​​personalizada",
         "CustomVariables": "Variáveis ​​personalizadas",
-        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as Variáveis ​​personalizadas. Clique no nome de uma variável para ver a distribuição dos valores. %1$s Para mais informações sobre Variáveis ​​personalizadas em geral, deve consultar a %2$sdocumentação sobre Variáveis personalizadas em piwik.org %3$s",
+        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as Variáveis ​​personalizadas. Clique no nome de uma variável para ver a distribuição dos valores. %1$s Para mais informações sobre Variáveis ​​personalizadas em geral, deve consultar a %2$sdocumentação sobre Variáveis personalizadas em matomo.org %3$s",
         "ScopePage": "âmbito da página",
         "ScopeVisit": "âmbito da visita",
         "ScopeConversion": "âmbito da conversão",

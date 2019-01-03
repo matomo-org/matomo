@@ -501,7 +501,7 @@
         "Advanced": "Të mëtejshme",
         "AnonymousAccess": "Hyrje anonime",
         "AnonymousTracking": "Gjurmim anonim",
-        "AskForAnonymousTrackingPermission": "Po u aktivizua, Matomo për Celular do të dërgojë te piwik.org të dhëna anonime përdorimi. Synimi është të përdoren këto të dhëna për të ndihmuar zhvilluesit e Matomo-s për Celular të kuptojnë më mirë se si përdoret aplikacioni. Të dhënat që dërgohen janë: menu dhe rregullime të klikuara, emër dhe version OS-i, çfarëdo gabimi i shfaqur në Matomo-n për Celular. NUK do të gjurmojmë ndonjë të dhënë të statistikave tuaja. Këto të dhëna të anonime nuk do të bëhen kurrë publike. Ndjekjen anonime mund ta aktivizoni\/çaktivizoni kur të doni, te Rregullimet.",
+        "AskForAnonymousTrackingPermission": "Po u aktivizua, Matomo për Celular do të dërgojë te matomo.org të dhëna anonime përdorimi. Synimi është të përdoren këto të dhëna për të ndihmuar zhvilluesit e Matomo-s për Celular të kuptojnë më mirë se si përdoret aplikacioni. Të dhënat që dërgohen janë: menu dhe rregullime të klikuara, emër dhe version OS-i, çfarëdo gabimi i shfaqur në Matomo-n për Celular. NUK do të gjurmojmë ndonjë të dhënë të statistikave tuaja. Këto të dhëna anonime nuk do të bëhen kurrë publike. Ndjekjen anonime mund ta aktivizoni\/çaktivizoni kur të doni, te Rregullimet.",
         "ChooseHttpTimeout": "Zgjidhni vlerë mbarimi kohe për HTTP-në",
         "ChooseMetric": "Zgjidhni vlerë",
         "ChooseReport": "Zgjidhni një raport",

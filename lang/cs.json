@@ -473,7 +473,7 @@
         "Advanced": "Rozšířené",
         "AnonymousAccess": "Anonymní přístup",
         "AnonymousTracking": "Anonymní sledování",
-        "AskForAnonymousTrackingPermission": "Pokud je povoleno, Matomo mobile bude odesílat anonymní data o používání piwik.org. Účelem je pomoci vývojářům lépe pochopit, jak je aplikace používána. Jsou odesílány položky menu a nastavení na které bylo kliknuto, operační systém a jeho verze a zobrazené chyby v Matomo mobile. Nebudeme sledovat vaše analytická data. Tyto údaje nebudou nikdy zveřejněny. Odesílání dat můžete kdykoliv povolit a zakázat v nastavení.",
+        "AskForAnonymousTrackingPermission": "Pokud je povoleno, Matomo mobile bude odesílat anonymní data o používání matomo.org. Účelem je pomoci vývojářům lépe pochopit, jak je aplikace používána. Jsou odesílány položky menu a nastavení na které bylo kliknuto, operační systém a jeho verze a zobrazené chyby v Matomo mobile. Nebudeme sledovat vaše analytická data. Tyto údaje nebudou nikdy zveřejněny. Odesílání dat můžete kdykoliv povolit a zakázat v nastavení.",
         "ChooseHttpTimeout": "Zvolte časový limit HTTP",
         "ChooseMetric": "Zvolte měření",
         "ChooseReport": "Vyberte hlášení",

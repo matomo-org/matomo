@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "自訂變數名稱",
         "ColumnCustomVariableValue": "自訂變數值",
         "CustomVariables": "自訂變數",
-        "CustomVariablesReportDocumentation": "這份報表包含你的自訂變數資訊。點擊變數名稱來查看分配的值。%1$s更多關於自訂變數的資訊請查看 %2$spiwik.org 上的自訂變數說明文件%3$s",
+        "CustomVariablesReportDocumentation": "這份報表包含你的自訂變數資訊。點擊變數名稱來查看分配的值。%1$s更多關於自訂變數的資訊請查看 %2$smatomo.org 上的自訂變數說明文件%3$s",
         "ScopePage": "網頁範圍",
         "ScopeVisit": "訪客範圍",
         "ScopeConversion": "範圍轉換",
