@@ -420,9 +420,10 @@ class API extends \Piwik\Plugin\API
      * @param bool $segment
      * @param bool|int $idGoal
      * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
+     * @param bool $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
      * @return DataTable
      */
-    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -446,6 +447,7 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
+                'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
             ));
 
@@ -471,10 +473,12 @@ class API extends \Piwik\Plugin\API
      * @deprecated
      * @internal
      */
-    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
+
+        $showAllGoalSpecificMetrics = $showAllGoalSpecificMetrics && $idGoal === false;
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
@@ -482,7 +486,7 @@ class API extends \Piwik\Plugin\API
 
         $allMetrics = Goals::getGoalColumns($idGoal);
 
-        if ($idGoal === false) {
+        if ($showAllGoalSpecificMetrics) {
             foreach ($this->getGoals($idSite) as $aGoal) {
                 foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
                     $allMetrics[] = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
@@ -504,7 +508,7 @@ class API extends \Piwik\Plugin\API
             $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
         }
 
-        if ($idGoal === false && !empty($requestedColumns)) {
+        if ($showAllGoalSpecificMetrics && !empty($requestedColumns)) {
             foreach ($requestedColumns as $requestedColumn) {
                 if (strpos($requestedColumn, '_conversion_rate') !== false) {
                     $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
@@ -546,7 +550,7 @@ class API extends \Piwik\Plugin\API
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }
-        if ($idGoal === false) {
+        if ($showAllGoalSpecificMetrics) {
             $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics, $requestedColumns) {
                 $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
                 if (empty($extraProcessedMetrics)) {

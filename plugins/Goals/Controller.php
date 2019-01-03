@@ -176,6 +176,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
         $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
+        $view->requestConfig->request_parameters_to_modify['showAllGoalSpecificMetrics'] = 1;
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
