@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use DeviceDetector\Parser\Client\Browser;
 use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -17,11 +18,22 @@ class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
     protected $columnType = 'VARCHAR(10) NULL';
-    protected $segmentName = 'browserCode';
+    protected $segmentName = 'browserName';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
     protected $namePlural = 'DevicesDetection_Browsers';
-    protected $acceptValues = 'FF, IE, CH, SF, OP, etc.';
+    protected $acceptValues = 'FireFox, Internet Explorer, Chrome, Safari, Opera etc.';
     protected $type = self::TYPE_TEXT;
+
+    public function __construct()
+    {
+        $this->sqlFilterValue = function ($val) {
+            $oss = Browser::getAvailableBrowsers();
+            return array_search($val, $oss);
+        };
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return array_values(Browser::getAvailableBrowsers());
+        };
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

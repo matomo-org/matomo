@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use DeviceDetector\Parser\OperatingSystem;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Tracker\Request;
@@ -19,11 +20,22 @@ class Os extends Base
 {
     protected $columnName = 'config_os';
     protected $columnType = 'CHAR(3) NULL';
-    protected $segmentName = 'operatingSystemCode';
+    protected $segmentName = 'operatingSystemName';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
     protected $namePlural = 'DevicesDetection_OperatingSystems';
-    protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
+    protected $acceptValues = 'Windows, Linux, Mac, Android, iOS, ...';
     protected $type = self::TYPE_TEXT;
+
+    public function __construct()
+    {
+        $this->sqlFilterValue = function ($val) {
+            $oss = OperatingSystem::getAvailableOperatingSystems();
+            return array_search($val, $oss);
+        };
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return array_values(OperatingSystem::getAvailableOperatingSystems());
+        };
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
