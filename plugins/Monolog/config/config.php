@@ -27,10 +27,10 @@ return array(
 
         $classes = $c->get('log.handler.classes');
 
-        $config = $c->get(\Piwik\Config::class);
-        $enableFingersCrossed = $config->log['enable_fingers_crossed_handler'] == 1;
-        $fingersCrossedStopBuffering = $config->log['fingers_crossed_stop_buffering_on_activation'] == 1;
-        $enableLogCaptureHandler = $config->log['enable_log_capture_handler'] == 1;
+        $logConfig = $c->get(\Piwik\Config::class)->log;
+        $enableFingersCrossed = isset($logConfig['enable_fingers_crossed_handler']) && $logConfig['enable_fingers_crossed_handler'] == 1;
+        $fingersCrossedStopBuffering = isset($logConfig['fingers_crossed_stop_buffering_on_activation']) && $logConfig['fingers_crossed_stop_buffering_on_activation'] == 1;
+        $enableLogCaptureHandler = isset($logConfig['enable_log_capture_handler']) && $logConfig['enable_log_capture_handler'] == 1;
 
         $isLogBufferingAllowed = !\Piwik\Common::isPhpCliMode()
             || \Piwik\SettingsServer::isArchivePhpTriggered()

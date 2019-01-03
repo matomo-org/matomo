@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Interop\Container\Exception\ContainerException;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
@@ -146,8 +147,12 @@ class ExceptionHandler
 
     private static function logException($exception)
     {
-        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
-            'exception' => $exception,
-        ]);
+        try {
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                'exception' => $exception,
+            ]);
+        } catch (ContainerException $ex) {
+            // ignore (occurs if exception is thrown when resolving DI entries)
+        }
     }
 }
