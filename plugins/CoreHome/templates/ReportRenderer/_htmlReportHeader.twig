@@ -27,7 +27,7 @@
         </h2>
         <ul>
             {% for metadata in reportMetadata %}
-                <li>
+                <li style="{{ styleParagraphText }}">
                     <a href="#{{ metadata.uniqueId }}" style="text-decoration:none; color: {{ emailStyles.reportTextColor }};">
                         {{ metadata.name }}
                     </a>

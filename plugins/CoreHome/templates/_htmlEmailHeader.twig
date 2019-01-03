@@ -23,7 +23,7 @@
         </td>
         <td align="right">
             {% if idSite|default is not empty %}
-            <a style="{{ fontStyle|raw }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText|e('html_attr') }}" {% if websiteName|default is not empty %}title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}"{% endif %} target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'index', 'idSite': idSite, 'period': period, 'date': date, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
+            <a style="{{ fontStyle|raw }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText|e('html_attr') }}" {% if websiteName|default is not empty %}title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}"{% endif %} target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'redirectToCoreHomeIndex', 'idSite': idSite, 'period': period|default, 'date': date|default, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
                 {{ 'Dashboard_Dashboard'|translate }}
             </a>
             {% endif %}

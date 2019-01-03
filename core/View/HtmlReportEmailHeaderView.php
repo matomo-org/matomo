@@ -73,7 +73,8 @@ class HtmlReportEmailHeaderView extends View
         $view->emailStyles = $emailStyles;
 
         $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
-        $view->styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;';
+        $view->styleParagraphText = 'font-size:15px;line-height:24px;';
+        $view->styleParagraph = $view->styleParagraphText . 'margin:0 0 16px;';
 
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
@@ -86,8 +87,6 @@ class HtmlReportEmailHeaderView extends View
             && $pluginManager->isPluginInFilesystem('WhiteLabel');
 
         $view->idSite = Common::getRequestVar('idSite', false);
-        $view->period = Common::getRequestVar('period', false);
-        $view->date = Common::getRequestVar('date', false);
     }
 
     private static function getPeriodToFrequencyAsAdjective()
