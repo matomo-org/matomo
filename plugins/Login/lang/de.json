@@ -11,6 +11,7 @@
         "LogIn": "Anmelden",
         "LoginOrEmail": "Benutzername oder E-Mail",
         "CurrentlyBlockedIPs": "Aktuell geblockte IP-Adressen",
+        "IPsAlwaysBlocked": "Diese IP-Adressen sind dauerhaft blockiert",
         "LoginPasswordNotCorrect": "Benutzername und Passwort sind nicht korrekt",
         "LostYourPassword": "Passwort vergessen?",
         "ChangeYourPassword": "Ändern Sie ihr Passwort",

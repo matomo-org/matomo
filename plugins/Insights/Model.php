@@ -42,7 +42,7 @@ class Model
             'date'   => $date,
             'filter_limit' => 1000,
             'showColumns'  => $metric,
-            'totals' => 0
+            'totals' => 1,
         );
 
         if (!empty($segment)) {

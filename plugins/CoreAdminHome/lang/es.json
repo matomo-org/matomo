@@ -82,6 +82,7 @@
         "PluginSettingsValueNotAllowed": "El valor del campo \"%1$s\" del complemento \"%2$s\" no es permitido",
         "PluginSettingsSaveFailed": "Error al guardar la configuración del complemento",
         "PluginSettingsSaveSuccess": "Ajustes del complemento actualizado.",
+        "TrackingFailures": "Fallas de seguimiento",
         "SettingsSaveSuccess": "Ajustes actualizados.",
         "SendPluginUpdateCommunication": "Envíe un correo electrónico cuando la actualización del complemento esté disponible",
         "SendPluginUpdateCommunicationHelp": "Se enviará un correo electrónico a los Super Usuarios cuando haya disponible una nueva versión de un complemento.",
@@ -116,7 +117,11 @@
         "LearnMore": "Aprender más",
         "DeleteAllFailures": "Eliminar todas las fallas",
         "NTrackingFailures": "%s fallas de seguimiento",
+        "ViewAllTrackingFailures": "Ver todas las fallas de seguimiento",
         "TrackingFailureInvalidSiteProblem": "Este sitio no existe.",
-        "ConfirmDeleteAllTrackingFailures": "Está seguro que desea eliminar todos los fallos de seguimiento?"
+        "ConfirmDeleteAllTrackingFailures": "Está seguro que desea eliminar todos los fallos de seguimiento?",
+        "ConfirmDeleteThisTrackingFailure": "¿Está seguro que desea eliminar esta falla de seguimiento?",
+        "TrackingFailuresEmailSubject": "Fallas de seguimiento en su Matomo Analytics",
+        "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s."
     }
 }
