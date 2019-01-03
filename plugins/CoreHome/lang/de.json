@@ -68,6 +68,8 @@
         "TableNoData": "Keine Daten für diese Tabelle.",
         "ThereIsNoDataForThisReport": "Es stehen keine Daten für diesen Bericht zur Verfügung.",
         "UnFlattenDataTable": "Der Bericht ist flach %s Hierarchisch anzeigen",
+        "RemoveTotalsRowDataTable": "Der Bericht zeigt die Totalzeile %s Entferne Totalzeile",
+        "AddTotalsRowDataTable": "Der Bericht zeigt die Totalzeile%s nicht Zeige Totalzeile",
         "ViewAllPiwikVideoTutorials": "Zeige alle Matomo Video Tutorials an",
         "WebAnalyticsReports": "Webanalytik-Berichte",
         "YouAreUsingTheLatestVersion": "Sie verwenden die aktuelle Version von Matomo!",

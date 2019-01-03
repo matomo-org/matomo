@@ -4,7 +4,7 @@
         "MobileReport_AdditionalPhoneNumbers": "Puede agregar más números telefónicos accediendo",
         "MobileReport_MobileMessagingSettingsLink": "página de configuraciones de mensajería móvil",
         "MobileReport_NoPhoneNumbers": "Por favor, active al menos un número telefónico accediendo",
-        "MultiSites_Must_Be_Activated": "Para generar mensajes de texto (SMS) de las estadísticas de su sitio, por favor, habilite la extensión MultiSites en Matomo.",
+        "MultiSites_Must_Be_Activated": "Para generar mensajes de texto (SMS) de las estadísticas de su sitio, por favor, habilite el complemento MultiSites en Matomo.",
         "PhoneNumbers": "Números telefónicos",
         "PluginDescription": "Cree informes personalizados y descárguelos vía SMS a su teléfono móvil de forma diaria, semanal o mensual.",
         "Settings_APIKey": "Clave API",

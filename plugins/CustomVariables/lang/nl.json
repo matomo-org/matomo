@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Naam aangepaste variabele",
         "ColumnCustomVariableValue": "Waarde aangepaste variabele",
         "CustomVariables": "Aangepaste variabelen",
-        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %1$s voor meer informatie over aangepaste variabelen in het algemeen, lees de %2$sCustom variabelen documentatie over piwik.org%3$s",
+        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %1$s voor meer informatie over aangepaste variabelen in het algemeen, lees de %2$sCustom variabelen documentatie over matomo.org%3$s",
         "ScopePage": "omvang pagina",
         "ScopeVisit": "omvang bezoek",
         "ManageDescription": "Dit overzicht toont alle slots van custom variabelen en het gebruik voor websites '%s'. De namen in elk slot zijn gesorteerd op hoe vaak ze in totaal zijn gebruikt.",

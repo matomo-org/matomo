@@ -146,6 +146,16 @@
         "DeleteUserPermConfirmSingle": "Sind Sie sicher, dass Sie %1$s's Rolle nach %2$s für %3$s ändern wollen?",
         "DeleteUserPermConfirmMultiple": "Sind Sie sicher, dass Sie die Berechtigung der %1$s gewählten Benutzer für %3$s auf %2$s ändern möchten?",
         "AreYouSureChangeDetails": "Sind Sie sicher dass Sie die Benutzerinformationen für %s ändern möchten?",
-        "AnonymousUserRoleChangeWarning": "Dem Benutzer %1$s die Rolle %2$s zu geben wird die Daten dieser Website für alle öffentlich sichtbar machen, auch wenn diese kein Matomo Login haben."
+        "AnonymousUserRoleChangeWarning": "Dem Benutzer %1$s die Rolle %2$s zu geben wird die Daten dieser Website für alle öffentlich sichtbar machen, auch wenn diese kein Matomo Login haben.",
+        "GiveAccessToAll": "Gib diesem Benutzer Zugriff auf alle Websites",
+        "OrManageIndividually": "Oder verwalte die Zugriffsrechte dieses Benutzers für jede Website individuell.",
+        "ChangePermToAllSitesConfirm": "Sind Sie sicher, dass Sie dem %1$sBenutzer%2$s Zugriff auf jede Website geben möchten, welche Sie aktuell Hauptadministratorenzugriff haben?",
+        "ChangePermToAllSitesConfirm2": "Hinweis: Das wird nur die aktuell existierenden Websites bereffen, Bei neuen Websites welche Sie kreieren werden dem Benutzer nicht automatisch Zugriffsrechte vergeben.",
+        "CapabilitiesHelp": "Fähigkeiten sind individuelle Befähigungen welche dem Benutzer gewährt werden können. Rollen werden standardmässig bestimmte Fähigkeiten erlauben. Zum Beispiel wird die Administrator-Rolle automatisch allen Benutzern erlauben, Tags im Tag Manager zu ändern. Für Benutzer mit tiefer gestufen Berechtigungen können Sie explizite Fähigkeiten vergeben.",
+        "Capabilities": "Fähigkeiten",
+        "AreYouSureAddCapability": "Sind Sie sicher, dass Sie %1$s die %2$s Fähigkeit für %3$s geben wollen?",
+        "AreYouSureRemoveCapability": "Sind Sie sicher, dass Sie die %1$s Fähigkeit von %2$s für %3$s entziehen wollen?",
+        "IncludedInUsersRole": "In dieser Benutzerrolle miteinbezogen.",
+        "Capability": "Fähigkeit"
     }
 }

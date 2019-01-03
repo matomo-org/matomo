@@ -26,13 +26,24 @@
         "ShowRecoveryCodes": "Wiederherstellungscodes anzeigen",
         "ConfirmSetup": "Bestätigen Sie die Einrichtung.",
         "NotPossibleToLogIn": "Anmeldung bei Matomo Analytics nicht möglich",
+        "LostAuthenticationDevice": "Hallo,%1$sIch habe die Zwei-Faktor-Authentisierung aktiviert und mein Authentisierungsgerät verloren. Können Sie bitte die Zwei-Faktor-Authentisierung für meinen Benutzernamen %5$s zurücksetzen? Sie finden die Instruktionen dafür hier: %6$s. %2$sDie Matomo URL lautet %3$s.%4$sDanke",
         "WrongAuthCodeTryAgain": "Falschen Authentifizierungs-Code eingegeben. Bitte erneut versuchen.",
         "DisableTwoFA": "Zwei-Faktor-Authentifizierung deaktivieren",
         "EnableTwoFA": "Zwei-Faktor-Authentifizierung aktivieren",
+        "ConfirmDisableTwoFA": "Sind Sie sicher, dass Sie die Zwei-Faktor-Authentisierung für Ihr Benutzerkonto deaktivieren wollen? Zwei-Faktor-Authentisierung zu haben erhöht die Sicherheit Ihres Benutzerkontos.",
+        "VerifyAuthCodeIntro": "Bitte geben Sie den sechsstelligen Code von Ihrer Authentisierungs-App unten ein um zu bestätigen dass Sie Ihr Gerät erfolgreich eingerichtet haben.",
+        "VerifyAuthCodeHelp": "Bitte geben Sie den sechsstelligen Code ein, der auf Ihrem mobilen Gerät nach dem scannen des Bar-Codes generiert wurde.",
         "Your2FaAuthSecret": "Ihr Zwei-Faktor-Authentifizierungsgeheimnis",
         "SetupAuthenticatorOnDevice": "Richten Sie den Authentifikator auf Ihrem Gerät ein",
         "SetupAuthenticatorOnDeviceStep1": "Installieren Sie eine App zur Authentifizierung, zum Beispiel:",
+        "SetupAuthenticatorOnDeviceStep2": "Als nächstes öffnen Sie die App und scannen Sie den untenstehenden Barcode mit der Zwei-Faktor-Authentisierung App auf Ihrem Gerät. Wenn Sie den Barcode nicht scannen können, geben Sie stattdessen %1$sdiesen Code ein%2$s.",
+        "SetupBackupRecoveryCodes": "Bitte sichern Sie Ihre Recovery Codes, in dem Sie eine der untenstehenden Methoden verwenden, bevor Sie mit der Installation für die Zwei-Faktor-Authentisierung fortfahren.",
         "RecoveryCodes": "Wiederherstellungscodes",
-        "GenerateNewRecoveryCodes": "Einen neuen Wiederherstellungscode generieren"
+        "RecoveryCodesExplanation": "Sie können Recovery Codes verwenden um auf Ihr Benutzerkonto zuzugreiffen wenn Sie die Zwei-Faktor-Authentisierung Codes nicht erhalten, zum Beispiel wenn Sie Ihr mobiles Gerät nicht dabei haben.",
+        "RecoveryCodesSecurity": "Bitte behandeln Sie Ihre Recovery Codes mit derselben Sicherheitsintensität wie Sie Ihr Passwort behanden.",
+        "RecoveryCodesAllUsed": "Alle Recovery Codes wurden verwendet, es wird wärmstens empfohlen Ihre Recovery Codes zu regenerieren.",
+        "RecoveryCodesRegenerated": "Recovery Codes wurden regeneriert. Stellen Sie sicher, dass die neu generierten Codes heruntergeladen oder ausgedruckt werden.",
+        "GenerateNewRecoveryCodes": "Einen neuen Wiederherstellungscode generieren",
+        "GenerateNewRecoveryCodesInfo": "Wenn Sie neue Recovery Codes generieren, werden Ihre alten nicht mehr funktionieren. Stellen Sie sicher dass Sie die neuen Codes herunterladen oder ausdrucken."
     }
 }

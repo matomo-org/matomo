@@ -474,7 +474,7 @@
         "Advanced": "高级",
         "AnonymousAccess": "匿名访问",
         "AnonymousTracking": "匿名跟踪",
-        "AskForAnonymousTrackingPermission": "启用后，Matomo Mobile会发送匿名使用者的数据到 piwik.org，这些数据用于帮助Matomo Mobile开发者更好了解软件的使用情况。发送的数据包括: 点击的菜单和设置，操作系统名称和版本，Matomo Mobile中的错误信息。我们不会跟踪您的任何分析数据，匿名数据永远不会公开。您可以在任何时候到管理设置中禁用\/启用 匿名跟踪。",
+        "AskForAnonymousTrackingPermission": "启用后，Matomo Mobile会发送匿名使用者的数据到 matomo.org，这些数据用于帮助Matomo Mobile开发者更好了解软件的使用情况。发送的数据包括: 点击的菜单和设置，操作系统名称和版本，Matomo Mobile中的错误信息。我们不会跟踪您的任何分析数据，匿名数据永远不会公开。您可以在任何时候到管理设置中禁用\/启用 匿名跟踪。",
         "ChooseHttpTimeout": "请选择HTTP超时值",
         "ChooseMetric": "选择指标",
         "ChooseReport": "选择报表",
