@@ -488,6 +488,7 @@ class API extends \Piwik\Plugin\API
                     $allMetrics[] = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
                 }
             }
+            $allMetrics[] = 'nb_visits';
         }
 
         $columnsToShow = Piwik::getArrayFromApiParameter($columns);
