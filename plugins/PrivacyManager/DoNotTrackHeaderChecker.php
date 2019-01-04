@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Tracker\Request;
 
@@ -72,6 +73,13 @@ class DoNotTrackHeaderChecker
 
         $request = new Request($_REQUEST);
         $userAgent = $request->getUserAgent();
+        $shouldIgnore = false;
+
+        Piwik::postEvent('PrivacyManager.shouldIgnoreDnt', array(&$shouldIgnore));
+        if($shouldIgnore) {
+            Common::printDebug("DoNotTrack header ignored by Matomo because of a plugin");
+            return false;
+        }
 
         Common::printDebug("DoNotTrack header found!");
         return true;
