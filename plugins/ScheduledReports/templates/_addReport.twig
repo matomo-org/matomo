@@ -6,13 +6,13 @@
     <form id='addEditReport' piwik-form ng-submit="manageScheduledReport.submitReport()">
 
         <div piwik-field uicontrol="text" name="website"
-             title="{{ 'General_Website'|translate|e('html_attr') }}"
+             data-title="{{ 'General_Website'|translate|e('html_attr') }}"
              data-disabled="true"
              value="{{ siteName|rawSafeDecoded }}">
         </div>
 
         <div piwik-field uicontrol="textarea" name="report_description"
-             title="{{ 'General_Description'|translate|e('html_attr') }}"
+             data-title="{{ 'General_Description'|translate|e('html_attr') }}"
              ng-model="manageScheduledReport.report.description"
              inline-help="{{ 'ScheduledReports_DescriptionOnFirstPage'|translate|e('html_attr') }}">
         </div>
@@ -27,7 +27,7 @@
             <div piwik-field uicontrol="select" name="report_segment"
                  ng-model="manageScheduledReport.report.idsegment"
                  options="{{ savedSegmentsById|json_encode }}"
-                 title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}"
+                 data-title="{{ 'SegmentEditor_ChooseASegment'|translate|e('html_attr') }}"
                  inline-help="#reportSegmentInlineHelp">
             </div>
         {% endif %}
@@ -41,7 +41,7 @@
         <div piwik-field uicontrol="select" name="report_period"
              options="{{ periods|json_encode }}"
              ng-model="manageScheduledReport.report.period"
-             title="{{ 'ScheduledReports_EmailSchedule'|translate|e('html_attr') }}"
+             data-title="{{ 'ScheduledReports_EmailSchedule'|translate|e('html_attr') }}"
              inline-help="#emailScheduleInlineHelp">
         </div>
 
@@ -50,7 +50,7 @@
              ng-change="manageScheduledReport.updateReportHourUtc()"
              ng-model="manageScheduledReport.report.hour"
              {% if timezoneOffset != 0 %}inline-help="#reportHourHelpText"{% endif %}
-             title="{{ 'ScheduledReports_ReportHour'|translate('X')|e('html_attr') }}">
+             data-title="{{ 'ScheduledReports_ReportHour'|translate('X')|e('html_attr') }}">
         </div>
 
         {% if timezoneOffset != 0 %}
@@ -64,7 +64,7 @@
              ng-model="manageScheduledReport.report.type"
              ng-change="manageScheduledReport.changedReportType()"
              {% if reportTypes|length == 1 %}disabled="true"{% endif %}
-             title="{{ 'ScheduledReports_ReportType'|translate|e('html_attr') }}">
+             data-title="{{ 'ScheduledReports_ReportType'|translate|e('html_attr') }}">
         </div>
 
         {% for reportType, reportFormats in reportFormatsByReportTypeOptions %}
@@ -73,7 +73,7 @@
                  ng-model="manageScheduledReport.report.format{{ reportType }}"
                  ng-show="manageScheduledReport.report.type == '{{ reportType }}'"
                  options="{{ reportFormats|json_encode }}"
-                 title="{{ 'ScheduledReports_ReportFormat'|translate|e('html_attr') }}">
+                 data-title="{{ 'ScheduledReports_ReportFormat'|translate|e('html_attr') }}">
             </div>
         {% endfor %}
 
@@ -90,7 +90,7 @@
                  class="report_evolution_graph"
                  ng-model="manageScheduledReport.report.evolutionGraph"
                  ng-show="manageScheduledReport.report.displayFormat == '2' || manageScheduledReport.report.displayFormat == '3'"
-                 title="{{ 'ScheduledReports_EvolutionGraph'|translate(5)|e('html_attr') }}">
+                 data-title="{{ 'ScheduledReports_EvolutionGraph'|translate(5)|e('html_attr') }}">
             </div>
 
             <div

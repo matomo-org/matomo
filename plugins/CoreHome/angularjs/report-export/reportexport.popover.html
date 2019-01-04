@@ -2,7 +2,7 @@
 
     <div class="col l6">
         <div piwik-field uicontrol="radio" name="format"
-             title="{{ 'CoreHome_ExportFormat'|translate }}"
+             data-title="{{ 'CoreHome_ExportFormat'|translate }}"
              ng-model="$parent.reportFormat"
              full-width="true"
              value="XML"
@@ -10,16 +10,16 @@
         </div>
 
         <div piwik-field uicontrol="checkbox" name="option_flat"
-             title="{{ 'CoreHome_FlattenReport'|translate }}"
+             data-title="{{ 'CoreHome_FlattenReport'|translate }}"
              ng-model="$parent.optionFlat" ng-show="$parent.hasSubtables">
         </div>
         <div piwik-field uicontrol="checkbox" name="option_expanded"
-             title="{{ 'CoreHome_ExpandSubtables'|translate }}"
+             data-title="{{ 'CoreHome_ExpandSubtables'|translate }}"
              ng-model="$parent.optionExpanded" ng-show="$parent.hasSubtables && !$parent.optionFlat"
         >
         </div>
         <div piwik-field uicontrol="checkbox" name="option_format_metrics"
-             title="{{ 'CoreHome_FormatMetrics'|translate }}"
+             data-title="{{ 'CoreHome_FormatMetrics'|translate }}"
              ng-model="$parent.optionFormatMetrics"
         >
         </div>
@@ -27,7 +27,7 @@
 
     <div class="col l6">
         <div piwik-field uicontrol="radio" name="filter_type"
-             title="{{ 'CoreHome_ReportType'|translate }}"
+             data-title="{{ 'CoreHome_ReportType'|translate }}"
              ng-model="$parent.reportType"
              full-width="true"
              options="availableReportTypes">
@@ -35,7 +35,7 @@
 
         <div class="filter_limit">
             <div piwik-field uicontrol="radio" name="filter_limit_all"
-                 title="{{ 'CoreHome_RowLimit'|translate }}"
+                 data-title="{{ 'CoreHome_RowLimit'|translate }}"
                  ng-model="$parent.reportLimitAll"
                  full-width="false"
                  options="limitAllOptions">
