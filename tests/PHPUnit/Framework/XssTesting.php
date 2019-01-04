@@ -160,6 +160,8 @@ JS;
             'angular-(From Europe segment)',
             'twig-(dashboard name0)',
             'angular-(dashboard name1)',
+            'angular-(datatablerow)',
+            'twig-(datatablerow)',
         ];
 
         $actualEntries = $this->getXssEntries();

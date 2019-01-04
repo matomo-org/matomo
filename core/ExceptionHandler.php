@@ -153,6 +153,8 @@ class ExceptionHandler
             ]);
         } catch (ContainerException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)
+        } catch (ContainerDoesNotExistException $ex) {
+            // ignore
         }
     }
 }
