@@ -435,12 +435,12 @@ class PasswordResetter
         $mail = new Mail();
         $mail->addTo($email, $login);
         $mail->setSubject(Piwik::translate('Login_MailTopicPasswordChange'));
-        $bodyText = str_replace(
-                '\n',
-                "\n",
-                Piwik::translate('Login_MailPasswordChangeBody2', [$login, $ip, $url])
-            ) . "\n";
-        $mail->setBodyText($bodyText);
+        $bodyText = '<p>' . str_replace(
+                "\n\n",
+                "</p><p>",
+                Piwik::translate('Login_MailPasswordChangeBody2', [Common::sanitizeInputValue($login), $ip, $url])
+            ) . "</p>";
+        $mail->setWrappedHtmlBody($bodyText);
 
         $mail->setFrom($this->emailFromAddress, $this->emailFromName);
 
