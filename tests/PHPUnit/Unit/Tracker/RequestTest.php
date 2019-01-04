@@ -181,7 +181,7 @@ class RequestTest extends UnitTestCase
 
     public function test_getDaysSinceFirstVisit_IfTimestampIsNotValidShouldIgnoreParam()
     {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 15 * 365))));
+        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 25 * 365))));
         $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 
