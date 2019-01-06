@@ -457,13 +457,27 @@ class PasswordResetter
      * @param string $login The user login for whom a password change was requested.
      * @param string $newPassword The new password to set.
      * @param string $keySuffix The suffix used in generating a token.
+     *
+     * @throws Exception if a password reset was already requested within one hour
      */
     private function savePasswordResetInfo($login, $newPassword, $keySuffix)
     {
         $optionName = $this->getPasswordResetInfoOptionName($login);
+
+        $existingResetInfo = Option::get($optionName);
+
+        if ($existingResetInfo) {
+            $existingResetInfo = json_decode($existingResetInfo, true);
+
+            if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time()-3600) {
+                throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
+            }
+        }
+
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
+            'timestamp' => time()
         ];
         $optionData = json_encode($optionData);
 
