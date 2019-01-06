@@ -15,6 +15,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\UpdateCheck;
 use Piwik\Version;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\View;
 
 /**
  * @group Plugins
@@ -69,20 +70,23 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function test_sendNotifications_shouldSentCorrectEmail()
     {
         $rootUrl = Fixture::getTestRootUrl();
-        $message = "ScheduledReports_EmailHello
+        $message = "<p>ScheduledReports_EmailHello</p>
 
-CoreUpdater_ThereIsNewVersionAvailableForUpdate
+<p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
-CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
+<p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+</p>
 
-CoreUpdater_ViewVersionChangelog
-https://matomo.org/changelog/matomo-33-0-0/
+<p>
+    CoreUpdater_ViewVersionChangelog
+    <br/>
+    https://matomo.org/changelog/matomo-33-0-0/
+</p>
 
-CoreUpdater_ReceiveEmailBecauseIsSuperUser
-
-CoreUpdater_FeedbackRequest
-https://matomo.org/contact/";
+<p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
+<p>CoreUpdater_FeedbackRequest<br/>https://matomo.org/contact/</p>
+";
 
         $this->assertEmailForVersion('33.0.0', $message);
     }
@@ -90,17 +94,18 @@ https://matomo.org/contact/";
     public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
     {
         $rootUrl = Fixture::getTestRootUrl();
-        $message = "ScheduledReports_EmailHello
+        $message = "<p>ScheduledReports_EmailHello</p>
 
-CoreUpdater_ThereIsNewVersionAvailableForUpdate
+<p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
-CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
+<p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+</p>
 
-CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
-CoreUpdater_FeedbackRequest
-https://matomo.org/contact/";
+<p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
+<p>CoreUpdater_FeedbackRequest<br/>https://matomo.org/contact/</p>
+";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);
     }
@@ -114,7 +119,10 @@ https://matomo.org/contact/";
         $mock = $this->getCommunicationMock(array('sendEmailNotification'));
         $mock->expects($this->once())
             ->method('sendEmailNotification')
-            ->with($this->equalTo($subject), $this->equalTo($expectedMessage));
+            ->with($this->equalTo($subject), $this->callback(function (View $view) use ($expectedMessage) {
+                $this->assertEquals($expectedMessage, $view->render());
+                return true;
+            }));
         $mock->sendNotificationIfUpdateAvailable();
     }
 
