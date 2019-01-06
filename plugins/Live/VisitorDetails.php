@@ -89,7 +89,6 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view                 = new View($template);
-        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
