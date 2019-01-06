@@ -88,7 +88,11 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
+        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+
         $view                 = new View($template);
+        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
+        $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
