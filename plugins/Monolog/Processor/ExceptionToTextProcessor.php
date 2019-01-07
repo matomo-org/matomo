@@ -25,13 +25,19 @@ class ExceptionToTextProcessor
         /** @var \Exception $exception */
         $exception = $record['context']['exception'];
 
-        $record['message'] = sprintf(
+        $exceptionStr = sprintf(
             "%s(%d): %s\n%s",
             $exception instanceof \Exception ? $exception->getFile() : $exception['file'],
             $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
             $this->getMessage($exception),
             $this->getStackTrace($exception)
         );
+
+        if (strpos($record['message'], '{exception}') === false) {
+            $record['message'] = $exceptionStr;
+        } else {
+            $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
+        }
 
         return $record;
     }

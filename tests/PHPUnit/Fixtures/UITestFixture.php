@@ -440,9 +440,8 @@ class UITestFixture extends SqlDump
             ]),
             Proxy::class => \DI\get(CustomApiProxy::class),
             'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
-                return [
-                    $c->get(WebNotificationHandler::class),
-                ];
+                $previous[] = $c->get(WebNotificationHandler::class);
+                return $previous;
             }),
         ];
     }

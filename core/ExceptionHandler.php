@@ -150,6 +150,7 @@ class ExceptionHandler
         try {
             StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
                 'exception' => $exception,
+                'ignoreInScreenWriter' => true,
             ]);
         } catch (ContainerException $ex) {
             // ignore (occurs if exception is thrown when resolving DI entries)

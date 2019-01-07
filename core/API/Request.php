@@ -273,6 +273,7 @@ class Request
         } catch (Exception $e) {
             StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
                 'exception' => $e,
+                'ignoreInScreenWriter' => true,
             ]);
 
             $toReturn = $response->getResponseException($e);

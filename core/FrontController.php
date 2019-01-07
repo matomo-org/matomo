@@ -110,6 +110,7 @@ class FrontController extends Singleton
     {
         StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
             'exception' => $e,
+            'ignoreInScreenWriter' => true,
         ]);
 
         $error = array(
@@ -263,6 +264,7 @@ class FrontController extends Singleton
 
             StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {exception}', [
                 'exception' => $lastError,
+                'ignoreInScreenWriter' => true,
             ]);
 
             $message = self::generateSafeModeOutputFromError($lastError);
