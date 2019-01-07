@@ -8,7 +8,7 @@
         "LocationProviderDesc_ServerModule": "Diese Art der Standortbestimmung verwendet das GeoIP2-Modul das auf ihrem HTTP-Server installiert ist. Diese ist am schnellsten und genauesten, aber %1$skann nur bei normalem Browser-Tracking benutzt werden%2$s",
         "LocationProviderDesc_ServerModule2": "Falls Sie Protokolldateien oder andere Dinge importieren welche IP-Adressen enthalten sollten Sie die %3$sPHP GeoIP 2 Implementierung%4$s nutzen und die %1$smaxminddb Erweiterung%2$s installieren.",
         "ServerBasedVariablesConfiguration": "Einstellungen für die Servervariablen die vom GeoIP 2 HTTP-Server-Modul benutzt werden.",
-        "GeoIPVariablesConfigurationHere": "Sie können benutze Servervariablen %1$shier%2$skonfigurieren.",
+        "GeoIPVariablesConfigurationHere": "Sie können benutze Servervariablen %1$shier%2$s konfigurieren.",
         "ServerVariableFor": "Servervariable für %s"
     }
 }
