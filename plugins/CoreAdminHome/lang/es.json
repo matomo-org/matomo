@@ -24,7 +24,7 @@
         "InvalidPluginsWarning": "Los siguientes complementos no son compatibles con %1$s y podrían no ser cargados: %2$s.",
         "InvalidPluginsYouCanUninstall": "Puede actualizar o desinstalar estos complementos en la página %1$sGestionar Complementos%2$s.",
         "JavaScriptTracking": "Seguimiento con JavaScript",
-        "HttpTrackingApi": "API de rastreo HTTP",
+        "HttpTrackingApi": "API de seguimiento HTTP",
         "HttpTrackingApiDescription": "La %1$sHTTP Tracking API%2$s le permite rastrear todo. Puede ser útil si está utilizando un lenguaje de programación el cual no posee aun un SDK. Lo mismo ocurre cuando desea rastrear dispositivos o aplicaciones de una manera especial.",
         "JSTracking_CampaignKwdParam": "Parámetro palabra clave de la campaña",
         "JSTracking_CampaignNameParam": "Parámetro Nombre de la campaña",
