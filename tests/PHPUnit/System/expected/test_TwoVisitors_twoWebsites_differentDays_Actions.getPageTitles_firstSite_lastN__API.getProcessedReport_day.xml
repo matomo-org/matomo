@@ -224,13 +224,71 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
-		<result prettyDate="Tuesday, January 5, 2010" />
-		<result prettyDate="Wednesday, January 6, 2010" />
-		<result prettyDate="Thursday, January 7, 2010" />
-		<result prettyDate="Friday, January 8, 2010" />
-		<result prettyDate="Saturday, January 9, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<segment>pageTitle==first+page+view</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<segment>pageTitle==Page+Name+not+defined</segment>
+			</row>
+		</result>
+		<result prettyDate="Tuesday, January 5, 2010">
+			<row>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
+			</row>
+		</result>
+		<result prettyDate="Wednesday, January 6, 2010">
+			<row>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
+			</row>
+		</result>
+		<result prettyDate="Thursday, January 7, 2010">
+			<row>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
+			</row>
+		</result>
+		<result prettyDate="Friday, January 8, 2010">
+			<row>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
+			</row>
+		</result>
+		<result prettyDate="Saturday, January 9, 2010">
+			<row>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
+			</row>
+			<row>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
+			</row>
+		</result>
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>18</nb_visits>

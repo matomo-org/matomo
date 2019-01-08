@@ -80,8 +80,28 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<segment>siteSearchKeyword==Search+1</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Search+2</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<segment>siteSearchKeyword==Final+t%C3%BCte+Keyword+Searched+for+now</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
 		<result prettyDate="Thursday, January 7, 2010" />
