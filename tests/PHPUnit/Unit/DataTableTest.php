@@ -43,6 +43,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
                  DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 200))
             )
         );
+        $table->setTotalsRow(new Row(array(Row::COLUMNS => array('label' => 'Total', 'count' => 200))));
         return $table;
     }
 
@@ -50,9 +51,11 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     {
         $table = $this->_getSimpleTestDataTable();
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
+        $this->assertEquals(200, $table->getTotalsRow()->getColumn('count'));
         $table->renameColumn('count', 'renamed');
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('renamed'));
+        $this->assertEquals(200, $table->getTotalsRow()->getColumn('renamed'));
     }
 
     public function testDeleteColumn()
@@ -61,6 +64,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(10, 90, 100, 200), $table->getColumn('count'));
         $table->deleteColumn('count');
         $this->assertEquals(array(false, false, false, false), $table->getColumn('count'));
+        $this->assertEquals(false, $table->getTotalsRow()->getColumn('count'));
     }
 
     public function testDeleteRow()
