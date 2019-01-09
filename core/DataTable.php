@@ -1069,7 +1069,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow', 'metadata');
+        return array('rows', 'summaryRow', 'metadata', 'totalsRow');
     }
 
     /**
