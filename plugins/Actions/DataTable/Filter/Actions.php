@@ -53,7 +53,7 @@ class Actions extends BaseFilter
                 $label = $row->getColumn('label');
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
-                } else if ($this->isPageTitleType && $label != -1) {
+                } else if ($this->isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
                     $row->setMetadata('segmentValue', trim(urldecode($label)));
                 }
 
