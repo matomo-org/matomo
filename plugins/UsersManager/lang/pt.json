@@ -133,6 +133,7 @@
         "DeleteUsers": "Eliminar utilizadores",
         "UserSearch": "Pesquisa de utilizadores",
         "FilterByAccess": "Filtrar por acesso",
+        "FilterByWebsite": "Filtrar por site",
         "ShowAll": "Mostrar tudo",
         "Username": "Nome de utilizador",
         "RoleFor": "Papel para",
@@ -145,6 +146,16 @@
         "DeleteUserPermConfirmSingle": "Tem a certeza que pretende alterar o papel de %1$s para %2$s para %3$s?",
         "DeleteUserPermConfirmMultiple": "Tem a certeza que pretende alterar o papel dos %1$s utilizadores selecionados para %2$s para %3$s?",
         "AreYouSureChangeDetails": "Tem a certeza que pretende alterar a informação do utilizador para %s?",
-        "AnonymousUserRoleChangeWarning": "Atribuir ao utilizador %1$s o papel de %2$s irá tornar público e disponibilizar para todos os dados deste site, mesmo que não tenham uma conta no Matomo."
+        "AnonymousUserRoleChangeWarning": "Atribuir ao utilizador %1$s o papel de %2$s irá tornar público e disponibilizar para todos os dados deste site, mesmo que não tenham uma conta no Matomo.",
+        "GiveAccessToAll": "Dar acesso a todos os sites a este utilizador",
+        "OrManageIndividually": "Ou gerir o acesso deste utilizador a cada site individualmente",
+        "ChangePermToAllSitesConfirm": "Tem a certeza de que pretende dar acesso de %1$s utilizador %2$s a cada um dos sites aos quais tenha acesso de administração?",
+        "ChangePermToAllSitesConfirm2": "Nota: isto apenas afeta os sites que existam neste momento. Os novos sites que possa vir a criar não serão acessíveis de forma automática a este utilizador.",
+        "CapabilitiesHelp": "Os privilégios são permissões individuais que os podem ser atribuídos a utilizadores. Os papéis podem, por predefinição, atribuir determinados privilégios. Por exemplo, o papel de Administração pode permitir que os utilizadores possam editar tags no Gestor de tags. Para utilizadores com menos permissões pode, no entanto, atribuir privilégios de forma explícita.",
+        "Capabilities": "Privilégios",
+        "AreYouSureAddCapability": "Tem a certeza que pretende atribuir o privilégio %2$s a %1$s para %3$s?",
+        "AreYouSureRemoveCapability": "Tem a certeza que pretende remover o privilégio %2$s a %1$s para %3$s?",
+        "IncludedInUsersRole": "Incluído no papel do utilizador",
+        "Capability": "Privilégio"
     }
 }

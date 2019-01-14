@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Brute Force ログ",
         "ConfirmationLinkSent": "確認リンクが送信されました。 電子メールを確認し、このリンクにアクセスしてパスワード変更要求を承認してください。",
         "ContactAdmin": "考えられる理由：ホストが mail（）関数を無効にしている可能性があります。 <br \/>Matomo 管理者に連絡してください。",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "スーパーユーザーアクセス権を持つユーザーは、'%s' のメカニズムを使用して、認証することはできません。",
@@ -10,6 +11,7 @@
         "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
         "LogIn": "サインイン",
         "LoginOrEmail": "ユーザー名または電子メール",
+        "SettingBruteForceEnable": "Brute Force 検出を有効にする",
         "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません。",
         "LostYourPassword": "パスワードをお忘れですか？",
         "ChangeYourPassword": "パスワードを変更してください",
@@ -20,6 +22,8 @@
         "PasswordChanged": "パスワードが変更されました。",
         "PasswordRepeat": "パスワード（再入力）",
         "PasswordsDoNotMatch": "パスワードが一致しません。",
+        "WrongPasswordEntered": "正しいパスワードを入力してください。",
+        "ConfirmPasswordToContinue": "続行するにはパスワードを確認してください",
         "PluginDescription": "パスワードリセットの機能と同様にユーザ名とパスワードで認証を提供します。 Marketplace で利用可能な LoginLdap など別の Login プラグインを使用することによって、認証方法を変えることができます。",
         "RememberMe": "次回の入力を省略"
     }

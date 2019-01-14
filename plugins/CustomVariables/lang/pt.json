@@ -4,6 +4,7 @@
         "ColumnCustomVariableValue": "Valor da variável ​​personalizada",
         "CustomVariables": "Variáveis ​​personalizadas",
         "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as Variáveis ​​personalizadas. Clique no nome de uma variável para ver a distribuição dos valores. %1$s Para mais informações sobre Variáveis ​​personalizadas em geral, deve consultar a %2$sdocumentação sobre Variáveis personalizadas em matomo.org %3$s",
+        "PluginDescription": "As variáveis personalizadas são pares (nome, valor) que pode, com recurso à API JavaScript, atribuir a visitantes ou qualquer uma das suas ações. O Matomo irá depois reportar quantas visitas, páginas, conversões para cada um destes nomes e valores personalizados. Consulte os detalhes das Variáveis personalizadas para cada utilizar e ação no Registo de visitantes. Esta extensão é necessária para utilizar a funcionalidade de Análise de comércio eletrónico!",
         "ScopePage": "âmbito da página",
         "ScopeVisit": "âmbito da visita",
         "ScopeConversion": "âmbito da conversão",
