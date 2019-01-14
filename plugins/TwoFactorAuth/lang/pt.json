@@ -22,6 +22,7 @@
         "SetupIntroFollowSteps": "Por favor, siga estes passos para configurar a autenticação de dois fatores:",
         "SetupFinishedTitle": "Parabéns! A sua conta está agora ainda mais protegida.",
         "SetupFinishedSubtitle": "A autenticação de dois fatores foi configurada com sucesso. Da próxima vez que iniciar sessão, terá também de introduzir o código de autenticação. Certifique-se que tem consigo o seu dispositivo móvel ou os seus códigos de segurança.",
+        "WarningChangingConfiguredDevice": "Está prestes a alterar o dispositivo de autenticação de dois fatores configurado. Isto irá invalidar qualquer dispositivo configurado anteriormente.",
         "ShowRecoveryCodes": "Mostrar códigos de recuperação",
         "ConfirmSetup": "Confirmar configuração",
         "NotPossibleToLogIn": "Não é possível iniciar sessão no Matomo Analytics",

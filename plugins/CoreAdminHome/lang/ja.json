@@ -109,6 +109,9 @@
         "JsTrackingCodeMissingEmail1": "数日前にあなたはサイト '%s' を matomo 解析に追加しました。チェックしましたが、あなたの matomo はまだいかなるトラフィックも記録していません。",
         "JsTrackingCodeMissingEmail2": "データのトラッキングを開始してユーザーの洞察を得るには、ウェブサイトやモバイルアプリでトラッキングを設定する必要があります。 ウェブサイトでは、%s タグの直前にトラッキングコードを埋め込むだけです。",
         "JsTrackingCodeMissingEmail3": "トラッキングコードを検索してカスタマイズするには、%1$sここをクリック%2$sしてください（または%3$sJavaScript トラッキングクライアントガイド%4$sをご覧ください）。",
+        "Problem": "問題",
+        "Solution": "ソリューション",
+        "TrackingURL": "トラッキングURL",
         "LearnMore": "もっと詳しく知る"
     }
 }

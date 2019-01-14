@@ -1,5 +1,9 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "2ファクター認証を使用する",
+        "TwoFactorAuthentication": "2ファクター認証",
+        "ResetTwoFactorAuthentication": "2ファクター認証をリセットする",
         "AddUser": "新しいユーザーの追加",
         "AddExistingUser": "既存のユーザーを追加",
         "AddNewUser": "新しいユーザーを追加",
@@ -54,6 +58,7 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "パスワードを変更したい場合は、新しいパスワードを入力します。 変更しない場合は、空欄のままにします。",
         "YourCurrentPassword": "あなたの現在のパスワード",
         "CurrentPasswordNotCorrect": "入力した現在のパスワードが正しくありません。",
+        "ConfirmWithPassword": "この変更を確認するには、パスワードを入力してください。",
         "InjectedHostCannotChangePwd": "現在未知のホスト (%1$s) で訪問しています。この問題が解決するまで、パスワードの変更ができません。",
         "LastSeen": "最終表示",
         "MainDescription": "どのユーザーがあなたのウェブサイトにアクセスできるかを決めます。また、ウェブサイトセレクタの ” すべてのウェブサイトに適用 ” を選択すると、すべてのウェブサイトに一度にアクセスできます。",
@@ -139,6 +144,8 @@
         "DeleteUserPermConfirmSingle": "%1$s の役割を %3$s の %2$s に変更してもよろしいですか？",
         "DeleteUserPermConfirmMultiple": "選択した %1$s ユーザのロールを %3$s の %2$s に変更してもよろしいですか？",
         "AreYouSureChangeDetails": "%s のユーザー情報を変更してもよろしいですか？",
-        "AnonymousUserRoleChangeWarning": "%2$s の役割を %1$s ユーザーに与えることで、このウェブサイトのデータは、Matomo のログイン情報を持たなくても、誰もが利用できるようになります。"
+        "AnonymousUserRoleChangeWarning": "%2$s の役割を %1$s ユーザーに与えることで、このウェブサイトのデータは、Matomo のログイン情報を持たなくても、誰もが利用できるようになります。",
+        "Capabilities": "機能",
+        "Capability": "機能"
     }
 }
