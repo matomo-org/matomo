@@ -16,7 +16,12 @@
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
         $scope.activeSiteId = piwik.idSite;
 
-        $scope.switchSite = function (site) {
+        $scope.switchSite = function (site, $event) {
+            if ($event && $event.ctrlKey && $event.target && $event.target.href) {
+                window.open($event.target.href, '_blank');
+                return;
+            }
+
             $scope.selectedSite = {id: site.idsite, name: site.name};
 
             if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {
