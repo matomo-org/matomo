@@ -57,6 +57,11 @@ class AddSegmentByRangeLabel extends BaseFilter
                 return;
             }
 
+            if ($label == 'General_NewVisits') {
+                $row->setMetadata('segment', 'visitorType==new');
+                continue;
+            }
+
             // if there's more than one element, handle as a range w/ an upper bound
             if (strpos($label, "-") !== false) {
                 // get the range
