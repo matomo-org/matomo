@@ -18,9 +18,13 @@ return array(
         }
     }),
 
-    'log.handler.classes' => DI\decorate(function ($previous) {
-        if (isset($previous['screen'])) {
+    'log.handler.classes' => DI\decorate(function ($previous, ContainerInterface $c) {
+        if (isset($previous['screen'])
+            && isTrackerDebugEnabled($c)
+        ) {
             $previous['screen'] = 'Piwik\Plugins\Monolog\Handler\EchoHandler';
+        } else {
+            unset($previous['screen']);
         }
 
         return $previous;
