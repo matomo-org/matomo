@@ -10,14 +10,6 @@ function isTrackerDebugEnabled(ContainerInterface $c)
 
 return array(
 
-    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
-        if (isTrackerDebugEnabled($c)) {
-            return $previous;
-        } else {
-            return new \Psr\Log\NullLogger();
-        }
-    }),
-
     'log.handler.classes' => DI\decorate(function ($previous, ContainerInterface $c) {
         if (isset($previous['screen'])
             && isTrackerDebugEnabled($c)
