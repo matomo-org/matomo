@@ -17,8 +17,12 @@
         $scope.activeSiteId = piwik.idSite;
 
         $scope.switchSite = function (site, $event) {
-            if ($event && $event.ctrlKey && $event.target && $event.target.href) {
-                window.open($event.target.href, '_blank');
+
+            // for Mac OS cmd key needs to be pressed, ctrl key on other systems
+            var controlKey = navigator.userAgent.indexOf("Mac OS X") !== -1 ? $event.metaKey : $event.ctrlKey;
+
+            if ($event && controlKey && $event.target && $event.target.href) {
+                window.open($event.target.href, "_blank");
                 return;
             }
 
