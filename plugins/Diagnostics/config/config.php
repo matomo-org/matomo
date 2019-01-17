@@ -1,5 +1,7 @@
 <?php
 
+use Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingLastRunCheck;
+
 return array(
     // Diagnostics for everything that is required for Piwik to run
     'diagnostics.required' => array(
@@ -27,6 +29,7 @@ return array(
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
+        DI\get(CronArchivingLastRunCheck::class),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
