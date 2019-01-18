@@ -698,12 +698,14 @@ class API extends \Piwik\Plugin\API
      * @param string   $userLogin          the user login.
      * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
      *                                     access.
+     * @param string $passwordConfirmation the current user's password.
      * @throws \Exception
      */
-    public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
+    public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation)
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
+        $this->confirmCurrentUserPassword($passwordConfirmation);
         $this->checkUserExists($userLogin);
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
