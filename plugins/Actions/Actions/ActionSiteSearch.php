@@ -132,8 +132,20 @@ class ActionSiteSearch extends Action
         $keywordParameters = isset($website['sitesearch_keyword_parameters'])
             ? $website['sitesearch_keyword_parameters']
             : array();
-        $queryString = (!empty($parsedUrl['query']) ? $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? $separator . $parsedUrl['fragment'] : '');
-        $parametersRaw = UrlHelper::getArrayFromQueryString($queryString);
+        $queryString = !empty($parsedUrl['query']) ? $parsedUrl['query'] : '';
+        $fragment = !empty($parsedUrl['fragment']) ? $parsedUrl['fragment'] : '';
+
+        // check if fragment contains a separate query (beginning with ?) otherwise assume complete fragment as query
+        if ($fragment && strpos($fragment, '?') !== false &&
+            (strpos($fragment, '&') === false || strpos($fragment, '?') < strpos($fragment, '&'))) {
+            $fragmentBeforeQuery = substr($fragment, 0, strpos($fragment, '?'));
+            $fragmentQuery = substr($fragment, strpos($fragment, '?')+1);
+        } else {
+            $fragmentQuery = $fragment;
+            $fragmentBeforeQuery = '';
+        }
+
+        $parametersRaw = UrlHelper::getArrayFromQueryString($queryString.$separator.$fragmentQuery);
 
         // strtolower the parameter names for smooth site search detection
         $parameters = array();
@@ -183,7 +195,7 @@ class ActionSiteSearch extends Action
                 $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
             }
             if (isset($parsedUrl['fragment'])) {
-                $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
+                $parsedUrl['fragment'] = ($fragmentBeforeQuery ? $fragmentBeforeQuery.'?' : '') . UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($fragmentQuery), $parametersToExclude);
             }
         }
         $url = UrlHelper::getParseUrlReverse($parsedUrl);
