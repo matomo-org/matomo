@@ -68,6 +68,10 @@ class CoreTranslations extends ValidateAbstract
         $allLanguages = $languageDataProvider->getLanguageList();
         $allCountries = $regionDataProvider->getCountryList();
 
+        if ('eo.UTF-8' === $translations['General']['Locale']) {
+            return true;
+        }
+
         if (!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $translations['General']['Locale'], $matches)) {
             $this->message = self::ERRORSTATE_LOCALEINVALID;
             return false;
