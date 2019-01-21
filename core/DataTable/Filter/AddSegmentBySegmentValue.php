@@ -62,6 +62,8 @@ class AddSegmentBySegmentValue extends BaseFilter
             return;
         }
 
+        $this->enableRecursive(true);
+
         /** @var \Piwik\Plugin\Segment $segment */
         $segment     = reset($segments);
         $segmentName = $segment->getSegment();
@@ -73,6 +75,8 @@ class AddSegmentBySegmentValue extends BaseFilter
             if ($value !== false && $filter === false) {
                 $row->setMetadata('segment', sprintf('%s==%s', $segmentName, urlencode($value)));
             }
+
+            $this->filterSubTable($row);
         }
     }
 }
