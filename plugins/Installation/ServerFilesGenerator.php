@@ -54,7 +54,9 @@ class ServerFilesGenerator
         $noCachePreview = "
 # do not cache preview container files
 <Files  ~ \"^container_.*_preview\.js$\">
+<IfModule mod_headers.c>
 Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
+</IfModule>
 </Files>";
 
         $directoriesToProtect = array(
