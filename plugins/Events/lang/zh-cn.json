@@ -1,8 +1,11 @@
 {
     "Events": {
+        "AvgValue": "平均值",
+        "Event": "事件",
         "EventAction": "事件行为",
         "EventCategory": "事件分类",
         "EventName": "事件名字",
+        "EventNames": "事件名称",
         "Events": "事件"
     }
 }

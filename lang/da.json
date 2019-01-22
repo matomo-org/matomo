@@ -458,7 +458,7 @@
         "Advanced": "Avanceret",
         "AnonymousAccess": "Anonym adgang",
         "AnonymousTracking": "Anonym sporing",
-        "AskForAnonymousTrackingPermission": "Når aktiveret, vil Matomo Mobile sende anonyme data om brugen til Matomo.org. Formålet er at bruge disse data til at hjælpe Matomo Mobile udviklerne, med at få et indblik i hvordan applikationen bruges. Information som sendes: klik i menuen og på indstillinger, styresystemets navn og version, enhver fejl som vises i Matomo Mobile. Vi sender INGEN af dine analyse data. Disse anonyme data vil aldrig blive offentliggjort. Du kan deaktivere\/aktivere anonym sporing i Indstillinger til enhver tid.",
+        "AskForAnonymousTrackingPermission": "Når aktiveret, vil Matomo Mobile sende anonyme data om brugen til matomo.org. Formålet er at bruge disse data til at hjælpe Matomo Mobile udviklerne, med at få et indblik i hvordan applikationen bruges. Information som sendes: klik i menuen og på indstillinger, styresystemets navn og version, enhver fejl som vises i Matomo Mobile. Vi sender INGEN af dine analyse data. Disse anonyme data vil aldrig blive offentliggjort. Du kan deaktivere\/aktivere anonym sporing i Indstillinger til enhver tid.",
         "ChooseHttpTimeout": "Vælg HTTP-timeoutværdi",
         "ChooseMetric": "Vælg målinger",
         "ChooseReport": "Vælg en rapport",

@@ -77,7 +77,7 @@ class CoreArchiver extends ConsoleCommand
 * This script should be executed every hour via crontab, or as a daemon.
 * You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
   but it is recommended to run it via command line/CLI instead.
-* If you have any suggestion about this script, please let the team know at feedback@piwik.org
+* If you have any suggestion about this script, please let the team know at feedback@matomo.org
 * Enjoy!");
         $command->addOption('url', null, InputOption::VALUE_REQUIRED,
             "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"

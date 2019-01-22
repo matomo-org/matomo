@@ -22,6 +22,7 @@
         "SetupIntroFollowSteps": "Si prega di seguire questi step per impostare l'autenticazione a due fattori:",
         "SetupFinishedTitle": "Congratulazioni! Ora il tuo account è più sicuro.",
         "SetupFinishedSubtitle": "Hai impostato con successo l'autenticazione a due fattori. La prossima volta che effettui il login, dovrai inserire anche il codice di autenticazione. Assicurati di avere con te il tuo dispositivo mobile o il backup dei tuoi codici.",
+        "WarningChangingConfiguredDevice": "Stai per cambiare il dispositivo di autenticazione a due fattori configurato. Ciò invaliderà qualsiasi dispositivo precedentemente configurato.",
         "ShowRecoveryCodes": "Mostra codici di ripristino",
         "ConfirmSetup": "Conferma impostazione",
         "NotPossibleToLogIn": "Impossibile accedere a Matomo Analytics",

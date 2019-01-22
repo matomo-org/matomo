@@ -374,7 +374,7 @@
         "Advanced": "Avansat",
         "AnonymousAccess": "Acces anonim",
         "AnonymousTracking": "Urmărire anonim",
-        "AskForAnonymousTrackingPermission": "Când este activat, Matomo Mobile va trimite date anonime de utilizare pe piwik.org. Intenția este de a folosi aceste date pentru a ajuta dezvoltatorii Matomo mobile a înțelege mai bine modul în care este utilizat app. Informațiile trimise sunt: meniuri și setări clic pe, nume de sistem de operare și versiune, orice eroare afișate în Matomo Mobile. Nu vom urmări datele dvs. Google Analytics. Aceste date anonime nu vor fi făcute publice. Puteți dezactiva \/ activa urmărirea anonim în Setări, în orice moment",
+        "AskForAnonymousTrackingPermission": "Când este activat, Matomo Mobile va trimite date anonime de utilizare pe matomo.org. Intenția este de a folosi aceste date pentru a ajuta dezvoltatorii Matomo mobile a înțelege mai bine modul în care este utilizat app. Informațiile trimise sunt: meniuri și setări clic pe, nume de sistem de operare și versiune, orice eroare afișate în Matomo Mobile. Nu vom urmări datele dvs. Google Analytics. Aceste date anonime nu vor fi făcute publice. Puteți dezactiva \/ activa urmărirea anonim în Setări, în orice moment",
         "ChooseHttpTimeout": "Alegeți HTTP valoare timeout",
         "ChooseMetric": "Alege Metrica",
         "ChooseReport": "Alege raportul",

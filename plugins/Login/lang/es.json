@@ -15,7 +15,7 @@
         "SettingBruteForceEnable": "Habiitar la detección de Fuerza bruta",
         "SettingBruteForceEnableHelp": "La Detección de Fuerza bruta es una característica de seguridad importante que se utiliza para proteger sus datos de accesos no autorizados. En lugar de permitir que cualquier usuario intente miles o millones de combinaciones de contraseñas en un tiempo muy corto, solo permitirá una cantidad específica de inicios de sesión fallidos en un corto período de tiempo. Si se producen demasiados inicios de sesión fallidos en ese intervalo de tiempo, el usuario no podrá iniciar sesión hasta que haya pasado algún tiempo. Tenga en cuenta que si se bloquea una IP, también se bloqueará el inicio de sesión a todos los usuarios que usen esa IP.",
         "SettingBruteForceWhitelistIp": "Nunca bloquee estas direcciones IPs de iniciar sesión",
-        "SettingBruteForceBlacklistIp": "Nunca bloquee estas direcciones IPs de iniciar sesión",
+        "SettingBruteForceBlacklistIp": "Bloquee siempre estas direcciones IPs de iniciar sesión",
         "SettingBruteForceMaxFailedLogins": "Número de reintentos permitidos de inicio de sesión dentro del rango de tiempo",
         "SettingBruteForceMaxFailedLoginsHelp": "Si se registra más de este número de inicios de sesión fallidos dentro del rango de tiempo configurado a continuación, bloquear la IP.",
         "SettingBruteForceTimeRange": "Contar reintentos de inicio de sesión dentro de este rango de tiempo en minutos",

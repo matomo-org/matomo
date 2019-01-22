@@ -447,6 +447,7 @@
         "Advanced": "Avanzado",
         "AnonymousAccess": "Acceso anónimo",
         "AnonymousTracking": "Rastreo anónimo",
+        "AskForAnonymousTrackingPermission": "Cuando está activado, Piwik Mobile enviará los datos de uso anónimos a matomo.org. La intención es utilizar esta información para ayudar a los desarrolladores de Piwik Mobile a entender mejor cómo se utiliza la aplicación. La información enviada es: menús y configuraciones en las que se ha hecho clic, nombre y versión del sistema operativo, cualquier error mostrado en Piwik Mobile. No vamos a rastrear NINGUNO de los datos analíticos. Estos datos anónimos nunca se harán públicos. Podés habilitar\/deshabilitar el rastreo anónimo en la configuración en cualquier momento.",
         "ChooseHttpTimeout": "Elegí el valor de tiempo de espera HTTP",
         "ChooseMetric": "Elegir medición",
         "ChooseReport": "Elegí un informe",

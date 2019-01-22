@@ -502,7 +502,7 @@
         "Advanced": "Avanzate",
         "AnonymousAccess": "Accesso anonimo",
         "AnonymousTracking": "Tracciamento anonimo",
-        "AskForAnonymousTrackingPermission": "Quando abilitato, Matomo Mobile invierà dati anonimi di utilizzo a piwik.org. L'intento è quello di utilizzare questi dati per aiutare gli sviluppatori di Matomo Mobile a capire meglio come si utilizza l'applicazione. Le informazioni inviate sono: i menu e le impostazioni su cui si è cliccato, nome e versione del sistema operativo, qualsiasi errore visualizzato in Matomo Mobile. Noi NON tracceremo i vostri dati. Questi non verranno mai resi pubblici. È possibile disattivare\/attivare in qualsiasi momento il tracking anonimo in Impostazioni.",
+        "AskForAnonymousTrackingPermission": "Se abilitato, Matomo Mobile invierà dati di utilizzo anonimi a matomo.org. L'intento è quello di utilizzare questi dati per aiutare gli sviluppatori di Matomo Mobile a capire meglio come viene utilizzata l'app. Le informazioni inviate sono: menù e impostazioni cliccati, nome e versione del sistema operativo, eventuali errori visualizzati in Matomo Mobile. NON tracciamo nessuno dei tuoi dati di analisi. Questi dati anonimi non saranno mai resi pubblici. Puoi disabilitare\/abilitare il tracciamento anonimo nelle Impostazioni in qualsiasi momento.",
         "ChooseHttpTimeout": "Scegliere il valore di timeout HTTP",
         "ChooseMetric": "Scegli metrica",
         "ChooseReport": "Scegli report",

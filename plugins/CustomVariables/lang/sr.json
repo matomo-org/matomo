@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Ime dodatnog parametra",
         "ColumnCustomVariableValue": "Vrednost dodatnog parametra",
         "CustomVariables": "Dodatni parametri",
-        "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %1$s Za više informacija o dodatnim parametrima pogledajte %2$sCustom Variables na piwik.org%3$s",
+        "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %1$s Za više informacija o dodatnim parametrima pogledajte %2$sCustom Variables na matomo.org%3$s",
         "ScopePage": "oblast strana",
         "ScopeVisit": "oblast poseta",
         "ManageDescription": "Ovaj pregled prikazuje sve dodatne parametre i njihovu upotrebu za sajt '%s'. Nazivi su poređani po tome koliko često je koja upotrebljena.",

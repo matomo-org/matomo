@@ -322,7 +322,7 @@ class API extends \Piwik\Plugin\API
             'period' => $period,
             'format' => 'original',
             'reportUniqueId' => $reportId,
-            'totals' => 0
+            'totals' => 0,
         );
 
         if (!empty($segment)) {

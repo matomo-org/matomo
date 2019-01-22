@@ -55,6 +55,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/user/profile</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fuser%2Fprofile</segment>
 			</row>
 		</subtable>
 	</row>

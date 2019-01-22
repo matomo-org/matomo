@@ -6,6 +6,7 @@
         "InvalidOrExpiredToken": "凭证无效或已经过期。",
         "InvalidUsernameEmail": "用户名或邮件地址不正确",
         "LogIn": "登录",
+        "LoginOrEmail": "用户名或邮件地址",
         "LoginPasswordNotCorrect": "用户名或密码不正确！",
         "LostYourPassword": "忘记密码了?",
         "MailTopicPasswordChange": "密码修改确认",

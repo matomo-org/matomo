@@ -22,6 +22,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</url>
+				<segment>outlinkUrl==https%3A%2F%2Foutlinks.org%2F%23%21outlink-with-fragment-%26lt%3Bscript%26gt%3B</segment>
 			</row>
 			<row>
 				<label>/other_outlink#fragment&amp;pk_campaign=Open partnership</label>
@@ -34,6 +35,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</url>
+				<segment>outlinkUrl==http%3A%2F%2Foutlinks.org%2Fother_outlink%23fragment%26amp%3Bpk_campaign%3DOpen+partnership</segment>
 			</row>
 		</subtable>
 	</row>
@@ -59,6 +61,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://dev.piwik.org/svn</url>
+				<segment>outlinkUrl==http%3A%2F%2Fdev.piwik.org%2Fsvn</segment>
 			</row>
 		</subtable>
 	</row>

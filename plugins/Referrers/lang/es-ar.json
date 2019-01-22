@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.",
         "Campaigns": "Campañas",
         "CampaignsDocumentation": "Visitantes que visitan su sitio de internet como resultado de una campaña. %1$s Vea el %2$s informe para mayores detalles.",
-        "CampaignsReportDocumentation": "Este reporte muestra qué campaña llevó visitantes a su sitio de internet. %1$s Para una mayor información acerca del rastreo de las campañas, lea la documentación %2$scampañas en piwik.org%3$s",
+        "CampaignsReportDocumentation": "Este reporte muestra qué campaña llevó visitantes a su sitio de internet. %1$s Para una mayor información acerca del rastreo de las campañas, lea la documentación %2$scampañas en matomo.org%3$s",
         "ColumnCampaign": "Campaña",
         "ColumnSearchEngine": "Motores de búsqueda",
         "ColumnSocial": "Red social",

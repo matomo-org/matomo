@@ -87,7 +87,17 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<segment>pageTitle==Im+just+a+page</segment>
+			</row>
+			<row>
+				<segment>pageTitle==Pageview%2C+not+search</segment>
+			</row>
+			<row>
+				<segment>pageTitle==This+is+a+pageview%2C+not+a+Search+-+IS_FOLLOWING_SEARCH+ONCE</segment>
+			</row>
+		</result>
 		<result prettyDate="Monday, January 4, 2010" />
 		<result prettyDate="Tuesday, January 5, 2010" />
 		<result prettyDate="Wednesday, January 6, 2010" />
