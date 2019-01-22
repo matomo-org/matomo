@@ -671,15 +671,30 @@ class GoalManager
             }
 
             // If multiple Goal conversions per visit, set a cache buster
-            $conversion['buster'] = $convertedGoal['allow_multiple'] == 0
-                ? '0'
-                : $visitProperties->getProperty('visit_last_action_time');
+            if ($convertedGoal['allow_multiple'] == 0) {
+                $conversion['buster'] = 0;
+            } else {
+                $lastActionTime = $visitProperties->getProperty('visit_last_action_time');
+                if (empty($lastActionTime)) {
+                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(10);
+                } else {
+                    $conversion['buster'] = $this->makeRandomMySqlUnsignedInt(2) . Common::mb_substr($visitProperties->getProperty('visit_last_action_time'), 2);
+                }
+            }
 
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
             $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action, $convertedGoal);
         }
+    }
+    
+    private function makeRandomMySqlUnsignedInt($length)
+    {
+        // mysql int unsgined max value is 4294967295 so we want to allow max 39999...
+        $randomInt = Common::getRandomString(1, '123');
+        $randomInt .= Common::getRandomString($length - 1, '0123456789');
+        return $randomInt;
     }
 
     /**
