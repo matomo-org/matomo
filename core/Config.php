@@ -137,10 +137,17 @@ class Config
     {
         // Remove any port number to get actual hostname
         $hostname = Url::getHostSanitized($hostname);
-        $perHostFilename  = $hostname . '.config.ini.php';
+        $standardConfigName = 'config.ini.php';
+        $perHostFilename  = $hostname . '.' . $standardConfigName;
         $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
+        $pathDomainMiscUser = PIWIK_USER_PATH . '/misc/user/' . $hostname . '/' . $standardConfigName;
 
-        return array('file' => $perHostFilename, 'path' => $pathDomainConfig);
+        $locations = array(
+            array('file' => $perHostFilename, 'path' => $pathDomainConfig),
+            array('file' => $standardConfigName, 'path' => $pathDomainMiscUser)
+        );
+
+        return $locations;
     }
 
     public function getConfigHostnameIfSet()
@@ -180,13 +187,15 @@ class Config
     public static function getByDomainConfigPath()
     {
         $host       = self::getHostname();
-        $hostConfig = self::getLocalConfigInfoForHostname($host);
-
-        if (Filesystem::isValidFilename($hostConfig['file'])
-            && file_exists($hostConfig['path'])
-        ) {
-            return $hostConfig['path'];
+        $hostConfigs = self::getLocalConfigInfoForHostname($host);
+        foreach ($hostConfigs as $hostConfig) {
+            if (Filesystem::isValidFilename($hostConfig['file'])
+                && file_exists($hostConfig['path'])
+            ) {
+                return $hostConfig['path'];
+            }
         }
+
         return false;
     }
 
@@ -221,22 +230,27 @@ class Config
      */
     public function forceUsageOfLocalHostnameConfig($hostname)
     {
-        $hostConfig = self::getLocalConfigInfoForHostname($hostname);
+        $hostConfigs = self::getLocalConfigInfoForHostname($hostname);
+        $fileNames = '';
 
-        $filename = $hostConfig['file'];
-        if (!Filesystem::isValidFilename($filename)) {
-            throw new Exception('Matomo domain is not a valid looking hostname (' . $filename . ').');
+        foreach ($hostConfigs as $hostConfig) {
+            $filename = $hostConfig['file'];
+            $fileNames .= $filename . ' ';
+
+            if (Filesystem::isValidFilename($filename)) {
+                $pathLocal = $hostConfig['path'];
+
+                try {
+                    $this->reload($pathLocal);
+                } catch (Exception $ex) {
+                    // pass (not required for local file to exist at this point)
+                }
+
+                return $pathLocal;
+            }
         }
 
-        $pathLocal = $hostConfig['path'];
-
-        try {
-            $this->reload($pathLocal);
-        } catch (Exception $ex) {
-            // pass (not required for local file to exist at this point)
-        }
-
-        return $pathLocal;
+        throw new Exception('Matomo domain is not a valid looking hostname (' . trim($fileNames) . ').');
     }
 
     /**
