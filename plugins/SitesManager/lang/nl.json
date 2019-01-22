@@ -26,6 +26,7 @@
         "ExcludedIps": "Uitgesloten IP's",
         "ExcludedParameters": "Uitgesloten parameters",
         "ExcludedUserAgents": "Uitgesloten gebruikersagenten",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Voeg de lijst met user agents toe welke uitgesloten moeten worden voor het meten door Matomo.",
         "GlobalExcludedUserAgentHelp2": "Je kunt dit gebruiken om sommige ots uit te sluiten zodat ze niet worden gevolgd.",
         "GlobalListExcludedIps": "Globale lijst met uitgesloten IP's",

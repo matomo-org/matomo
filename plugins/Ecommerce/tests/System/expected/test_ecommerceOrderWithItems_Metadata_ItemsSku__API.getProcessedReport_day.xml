@@ -78,8 +78,15 @@
 	</reportData>
 	<reportMetadata />
 	<reportTotal>
-		<nb_visits>6</nb_visits>
+		<revenue>3111.22</revenue>
+		<quantity>10</quantity>
+		<price>2111.22</price>
+		<orders>4</orders>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>6</nb_visits>
 		<nb_actions>11</nb_actions>
+		<avg_price>527.81</avg_price>
+		<avg_quantity>2.5</avg_quantity>
+		<conversion_rate>66.67%</conversion_rate>
 	</reportTotal>
 </result>

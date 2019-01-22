@@ -108,12 +108,28 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         };
         $screenshots = array_map($cleanPath, $screenshots);
 
-        $storedLfsFiles = explode("\n", `git lfs ls-files`);
+        $lfsFiles = `git lfs ls-files`;
+        $submodules = `git submodule | awk '{ print $2 }'`;
+        $submodules = explode("\n", $submodules);
+        $storedLfsFiles = explode("\n", $lfsFiles);
         $cleanRevision  = function ($value) {
             $parts = explode(' ', $value);
             return array_pop($parts);
         };
         $storedLfsFiles = array_map($cleanRevision, $storedLfsFiles);
+
+        foreach ($submodules as $submodule) {
+            $submodule = trim(trim($submodule), './');
+            $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT.'/'.$submodule . ' && git lfs ls-files');
+            if (!empty($pluginLfsFiles)) {
+                $pluginLfsFiles = explode("\n", $pluginLfsFiles);
+                $pluginLfsFiles = array_map($cleanRevision, $pluginLfsFiles);
+                $pluginLfsFiles = array_map(function ($val) use ($submodule) {
+                    return $submodule . '/' . $val;
+                }, $pluginLfsFiles);
+                $storedLfsFiles = array_merge($storedLfsFiles, $pluginLfsFiles);
+            }
+        }
 
         $diff = array_diff($screenshots, $storedLfsFiles);
         $this->assertEmpty($diff, 'Some Screenshots are not stored in LFS: ' . implode("\n", $diff));
@@ -124,7 +140,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
         $this->_checkEqual(array('Debug' => 'always_archive_data_period'), '0');
         $this->_checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
-        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '150');
+        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '900');
         $this->_checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
         $this->_checkEqual(array('General' => 'default_language'), 'en');
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
@@ -191,7 +207,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
-            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
@@ -476,6 +492,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_piwikJs_SameAsMatomoJs()
+    {
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/matomo.js',
+            PIWIK_DOCUMENT_ROOT . '/piwik.js',
+            '/piwik.js does not match /matomo.js, please re-generate the minified files using instructions in /js/README'
+        );
+    }
+
     public function testTmpDirectoryContainsGitKeep()
     {
         $this->assertFileExists(PIWIK_DOCUMENT_ROOT . '/tmp/.gitkeep');
@@ -558,7 +583,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 50;
+        $maximumTotalFilesizesExpectedInMb = 51;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 

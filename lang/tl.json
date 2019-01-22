@@ -316,7 +316,7 @@
         "Advanced": "Advanced",
         "AnonymousAccess": "Anonymous access",
         "AnonymousTracking": "Anonymous tracking",
-        "AskForAnonymousTrackingPermission": "Kapag gumana na ang Matomo Mobile magpapadala ng hindi nakikilalang data ng paggamit sa piwik.org. Ang intensyon ng paraang ito ay upang matulungan ang Matomo Mobile Developers na mas lalong maunawaan kung paano ginagamit ang app na ito. Ang informasyon na pinapadala ay: mga menu at mga setting ng nag-click sa pangalan ng OS at version ng kahit anong error ipapakita ng Matomo Mobile. HINDI namin susubaybayan ang kahit na anumang sa iyong analytikong datus. Ang lahat ng hindi nakikilalang data ay hindi ipapasa publiko. Maaari mong huwag paganahin \/ paganahin ang mga hindi kilalang pagsubaybay sa Mga Setting anumang oras.",
+        "AskForAnonymousTrackingPermission": "Kapag gumana na ang Matomo Mobile magpapadala ng hindi nakikilalang data ng paggamit sa matomo.org. Ang intensyon ng paraang ito ay upang matulungan ang Matomo Mobile Developers na mas lalong maunawaan kung paano ginagamit ang app na ito. Ang informasyon na pinapadala ay: mga menu at mga setting ng nag-click sa pangalan ng OS at version ng kahit anong error ipapakita ng Matomo Mobile. HINDI namin susubaybayan ang kahit na anumang sa iyong analytikong datus. Ang lahat ng hindi nakikilalang data ay hindi ipapasa publiko. Maaari mong huwag paganahin \/ paganahin ang mga hindi kilalang pagsubaybay sa Mga Setting anumang oras.",
         "ChooseHttpTimeout": "Pumili ng HTTP timout value",
         "ChooseMetric": "Pumili ng sukatan",
         "ChooseReport": "Pumili ng ulat",

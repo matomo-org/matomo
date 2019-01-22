@@ -428,6 +428,7 @@ class ProcessedReport
         $columns = @$reportMetadata['metrics'] ?: array();
 
         if ($hasDimension) {
+
             $columns = array_merge(
                 array('label' => $reportMetadata['dimension']),
                 $columns

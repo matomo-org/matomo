@@ -92,7 +92,7 @@
                         </div>
                         <div class="addNumber left valign-wrapper">
                             <div piwik-save-button
-                                 disabled="!managePhoneNumber.canAddNumber || managePhoneNumber.isAddingPhonenumber"
+                                 data-disabled="!managePhoneNumber.canAddNumber || managePhoneNumber.isAddingPhonenumber"
                                  onconfirm="managePhoneNumber.addPhoneNumber()"
                                  class="valign" value='{{ 'General_Add'|translate }}'></div>
                         </div>
@@ -130,14 +130,14 @@
                                 <div piwik-save-button
                                      ng-hide="managePhoneNumber.isActivated[{{ loop.index }}]"
                                      value='{{ 'MobileMessaging_Settings_ValidatePhoneNumber'|translate }}'
-                                     disabled="!managePhoneNumber.validationCode[{{ loop.index }}] || managePhoneNumber.isChangingPhoneNumber"
+                                     data-disabled="!managePhoneNumber.validationCode[{{ loop.index }}] || managePhoneNumber.isChangingPhoneNumber"
                                      onconfirm='managePhoneNumber.validateActivationCode({{ phoneNumber|json_encode }}, {{ loop.index }})'
                                      ></div>
                             {% endif %}
 
                             <div piwik-save-button
                                  value='{{ 'General_Remove'|translate }}'
-                                 disabled="managePhoneNumber.isChangingPhoneNumber"
+                                 data-disabled="managePhoneNumber.isChangingPhoneNumber"
                                  onconfirm="managePhoneNumber.removePhoneNumber({{ phoneNumber|json_encode }})"
                                  ></div>
                         </div>

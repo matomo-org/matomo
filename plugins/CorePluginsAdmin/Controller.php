@@ -20,9 +20,11 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
@@ -144,8 +146,53 @@ class Controller extends Plugin\ControllerAdmin
         $this->redirectToIndex('Marketplace', 'overview', null, null, null, array('show' => 'themes'));
     }
 
+    public function tagManagerTeaser()
+    {
+        $this->dieIfPluginsAdminIsDisabled();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
+
+        if (!$tagManagerTeaser->shouldShowTeaser()) {
+            $this->redirectToIndex('CoreHome', 'index');
+            return;
+        }
+
+        $nonce = '';
+        if (Piwik::hasUserSuperUserAccess()) {
+            $nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
+        }
+
+        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
+        $emails = implode(',', array_column($superUsers, 'email'));
+
+        $view = new View('@CorePluginsAdmin/tagManagerTeaser');
+        $this->setGeneralVariablesView($view);
+        $view->superUserEmails = $emails;
+        $view->nonce = $nonce;
+        return $view->render();
+    }
+
+    public function disableActivateTagManagerPage()
+    {
+        $this->dieIfPluginsAdminIsDisabled();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $tagManagerTeaser->disableGlobally();
+        } else {
+            $tagManagerTeaser->disableForUser();
+        }
+
+        $date = Common::getRequestVar('date', false);
+        $this->redirectToIndex('CoreHome', 'index', $websiteId = null, $defaultPeriod = null, $date);
+    }
+
     private function dieIfPluginsAdminIsDisabled()
     {
+        Piwik::checkUserIsNotAnonymous();
         if (!CorePluginsAdmin::isPluginsAdminEnabled()) {
             throw new \Exception('Enabling, disabling and uninstalling plugins has been disabled by Piwik admins.
             Please contact your Piwik admins with your request so they can assist you.');
@@ -257,10 +304,9 @@ class Controller extends Plugin\ControllerAdmin
                         . '</strong><br/>'
                         . $suffix;
                 } else {
-                    $description = '<strong>'
-                        . $this->translator->translate('CorePluginsAdmin_PluginNotFound',
+                    $description = $this->translator->translate('CorePluginsAdmin_PluginNotFound',
                             array($pluginName))
-                        . '</strong><br/>'
+                        . "\n"
                         . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
                 }
                 $plugin['info'] = array(
@@ -301,12 +347,14 @@ class Controller extends Plugin\ControllerAdmin
         
         $this->tryToRepairPiwik();
 
-        if (empty($lastError)) {
+        if (empty($lastError) && defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             $lastError = array(
                 'message' => Common::getRequestVar('error_message', null, 'string'),
                 'file'    => Common::getRequestVar('error_file', null, 'string'),
                 'line'    => Common::getRequestVar('error_line', null, 'integer')
             );
+        } elseif (empty($lastError)) {
+            throw new Exception('Safemode not available');
         }
 
         $outputFormat = Common::getRequestVar('format', 'html', 'string');
@@ -316,7 +364,9 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
-            if (!empty($lastError['backtrace'])) {
+            if (!empty($lastError['backtrace'])
+                && \Piwik_ShouldPrintBackTraceWithMessage()
+            ) {
                 $errorMessage .= $lastError['backtrace'];
             }
 
@@ -333,6 +383,11 @@ class Controller extends Plugin\ControllerAdmin
         if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
+
+        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
+            unset($lastError['backtrace']);
+        }
+
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
@@ -388,6 +443,8 @@ class Controller extends Plugin\ControllerAdmin
             $redirectTo = Common::getRequestVar('redirectTo', '', 'string');
             if (!empty($redirectTo) && $redirectTo === 'marketplace') {
                 $this->redirectToIndex('Marketplace', 'overview');
+            } elseif (!empty($redirectTo) && $redirectTo === 'tagmanager') {
+                $this->redirectToIndex('TagManager', 'gettingStarted');
             } elseif (!empty($redirectTo) && $redirectTo === 'referrer') {
                 $this->redirectAfterModification($redirectAfter);
             } else {
@@ -442,7 +499,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function showLicense()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
+
+        if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
+            throw new Exception('Invalid plugin');
+        }
 
         $metadata = new Plugin\MetadataLoader($pluginName);
         $license_file = $metadata->getPathToLicenseFile();

@@ -124,6 +124,8 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue(Site::isSiteSearchEnabledFor($idsite));
         $this->assertEquals($expectedWebsiteType, $siteInfo['type']);
         $this->assertEquals($expectedWebsiteType, Site::getTypeFor($idsite));
+        $this->assertEquals('superUserLogin', $siteInfo['creator_login']);
+        $this->assertEquals('superUserLogin', Site::getCreatorLoginFor($idsite));
 
         $this->assertEquals($searchKeywordParameters, $siteInfo['sitesearch_keyword_parameters']);
         $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);

@@ -5,6 +5,6 @@
         {% set value = 'customVariablePageValue' ~ id %}
 
         {# line break above is important #}
-        - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
+        - {{ customVariable[name]|rawSafeDecoded }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|rawSafeDecoded }}{% endif %}
     {% endfor %}
 {% endif -%}

@@ -35,6 +35,7 @@
         "YourUsernameCannotBeChanged": "Felhasználói nevedet nem lehet megváltoztatni",
         "YourVisitsAreIgnoredOnDomain": "%1$sLátogatásaidat nem veszi figyelembe a Matomo itt: %2$s %3$s (a Matomo megfelelő sütijét megtaláltuk a böngésződben lementve).",
         "YourVisitsAreNotIgnored": "%1$sLátogatásaid nem kerültek ignorálásra a Matomo által%2$s (Az ehhez szükséges süti nem volt megtalálható a böngésződben.)",
+        "ShowAll": "Összes mutatása",
         "Username": "Felhasználónév"
     }
 }

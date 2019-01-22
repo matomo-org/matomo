@@ -24,9 +24,10 @@ class TestingEnvironmentVariables
         $this->reload();
     }
 
-    public function __get($key)
+    public function &__get($key)
     {
-        return isset($this->behaviorOverrideProperties[$key]) ? $this->behaviorOverrideProperties[$key] : null;
+        $result =& $this->behaviorOverrideProperties[$key];
+        return $result;
     }
 
     public function __set($key, $value)

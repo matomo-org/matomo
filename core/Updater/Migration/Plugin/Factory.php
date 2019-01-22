@@ -43,4 +43,19 @@ class Factory
             'pluginName' => $pluginName
         ));
     }
+
+    /**
+     * Deactivates the given plugin during an update.
+     *
+     * If the plugin is already deactivated or if any other error occurs it will be ignored.
+     *
+     * @param string $pluginName
+     * @return Deactivate
+     */
+    public function deactivate($pluginName)
+    {
+        return $this->container->make('Piwik\Updater\Migration\Plugin\Deactivate', array(
+            'pluginName' => $pluginName
+        ));
+    }
 }

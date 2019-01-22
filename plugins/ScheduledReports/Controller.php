@@ -8,12 +8,15 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Faker\Provider\Image;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -43,6 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->reportTypeOptions = $reportTypeOptions;
         $view->defaultReportType = self::DEFAULT_REPORT_TYPE;
         $view->defaultReportFormat = ScheduledReports::DEFAULT_REPORT_FORMAT;
+        $view->defaultEvolutionPeriodN = ImageGraph::getDefaultGraphEvolutionLastPeriods();
         $view->displayFormats = ScheduledReports::getDisplayFormats();
 
         $reportsByCategoryByType = array();
@@ -76,6 +80,9 @@ class Controller extends \Piwik\Plugin\Controller
         if (!Piwik::isUserIsAnonymous()) {
             $reports = API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
             foreach ($reports as &$report) {
+                $report['evolutionPeriodFor'] = $report['evolution_graph_within_period'] ? 'each' : 'prev';
+                $report['evolutionPeriodN'] = (int) $report['evolution_graph_period_n'] ?: ImageGraph::getDefaultGraphEvolutionLastPeriods();
+
                 $report['recipients'] = API::getReportRecipients($report);
                 $reportsById[$report['idreport']] = $report;
             }
@@ -88,6 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->periods = ScheduledReports::getPeriodToFrequency();
         $view->defaultPeriod = ScheduledReports::DEFAULT_PERIOD;
         $view->defaultHour = ScheduledReports::DEFAULT_HOUR;
+        $view->periodTranslations = ScheduledReports::getPeriodFrequencyTranslations();
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 

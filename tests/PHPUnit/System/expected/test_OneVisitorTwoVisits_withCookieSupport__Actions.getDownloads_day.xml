@@ -22,6 +22,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://piwik.org/path/again/latest.zip</url>
+				<segment>downloadUrl==http%3A%2F%2Fpiwik.org%2Fpath%2Fagain%2Flatest.zip</segment>
 			</row>
 		</subtable>
 	</row>

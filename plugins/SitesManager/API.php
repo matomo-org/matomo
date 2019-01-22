@@ -101,13 +101,14 @@ class API extends \Piwik\Plugin\API
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
                                      $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false)
+                                     $crossDomain = false, $forceMatomoEndpoint = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -124,6 +125,10 @@ class API extends \Piwik\Plugin\API
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
 
         $generator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $generator->forceMatomoEndpoint();
+        }
+
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
@@ -139,9 +144,10 @@ class API extends \Piwik\Plugin\API
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The HTML tracking code.
      */
-    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
+    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false, $forceMatomoEndpoint = false)
     {
         $urlParams = array('idsite' => $idSite, 'rec' => 1);
 
@@ -168,7 +174,13 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
-        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php?' . Url::getQueryStringFromParameters($urlParams);
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $trackerCodeGenerator->forceMatomoEndpoint();
+        }
+        $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
         $html = "<!-- Matomo Image Tracker-->
 <img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
@@ -191,7 +203,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -272,7 +284,7 @@ class API extends \Piwik\Plugin\API
             $return[$site['idsite']] = $site;
         }
 
-        Site::setSitesFromArray($return);
+        $return = Site::setSitesFromArray($return);
 
         return $return;
     }
@@ -343,7 +355,7 @@ class API extends \Piwik\Plugin\API
                 $this->enrichSite($site);
             }
 
-            Site::setSitesFromArray($sites);
+            $sites = Site::setSitesFromArray($sites);
         }
 
         if ($fetchAliasUrls) {
@@ -472,7 +484,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }
@@ -547,6 +559,11 @@ class API extends \Piwik\Plugin\API
         $name = Piwik::translate($key);
 
         $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
+
+        // don't want to expose other user logins here
+        if (!Piwik::hasUserSuperUserAccess()) {
+            unset($site['creator_login']);
+        }
     }
 
     /**
@@ -647,6 +664,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $bind['group'] = "";
         }
+
+        $bind['creator_login'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
@@ -1621,6 +1640,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
+
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }

@@ -34,6 +34,7 @@ class Controller extends \Piwik\Plugin\Controller
         
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
+        $view->isWidgetized = Common::getRequestVar('widget', 0, 'int');
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
         $view->visitors = $this->getLastVisitsStart();
@@ -96,9 +97,19 @@ class Controller extends \Piwik\Plugin\Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment, array('visits', 'actions'));
+        $last30min = Request::processRequest('Live.getCounters', [
+            'idSite' => $this->idSite,
+            'lastMinutes' => 30,
+            'segment' => $segment,
+            'showColumns' => 'visits,actions',
+        ], $default = []);
         $last30min = $last30min[0];
-        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment, array('visits', 'actions'));
+        $today = Request::processRequest('Live.getCounters', [
+            'idSite' => $this->idSite,
+            'lastMinutes' => 24 * 60,
+            'segment' => $segment,
+            'showColumns' => 'visits,actions',
+        ], $default = []);
         $today = $today[0];
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
@@ -121,7 +132,7 @@ class Controller extends \Piwik\Plugin\Controller
         
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $this->idSite;
-        $view->goals = APIGoals::getInstance()->getGoals($this->idSite);
+        $view->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
         $view->visitorData = $visitorData;
         $view->exportLink = $this->getVisitorProfileExportLink();
 
@@ -152,6 +163,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getVisitList()
     {
+        $this->checkSitePermission();
         Piwik::checkUserHasViewAccess($this->idSite);
         
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
@@ -170,14 +182,12 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                 'date'                    => false
                                                                            ));
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
         if (empty($nextVisits)) {
             return '';
         }
 
         $view = new View('@Live/getVisitList.twig');
-        $view->idSite = $idSite;
+        $view->idSite = $this->idSite;
         $view->startCounter = $startCounter < count($nextVisits) ? count($nextVisits) : $startCounter;
         $view->visits = $nextVisits;
         return $view->render();

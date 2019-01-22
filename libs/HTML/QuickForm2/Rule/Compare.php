@@ -84,6 +84,20 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     */
     protected $operators = array('==', '!=', '===', '!==', '<', '<=', '>', '>=');
 
+    protected function doOperation($a, $b, $operator)
+    {
+        switch ($operator) {
+            case "==": return $a == $b;
+            case "!=": return $a != $b;
+            case "===": return $a === $b;
+            case "!==": return $a !== $b;
+            case ">": return $a > $b;
+            case "<=": return $a <= $b;
+            case "<": return $a < $b;
+            case ">=": return $a >= $b;
+            default: return true;
+        }
+    }
 
    /**
     * Validates the owner element
@@ -94,17 +108,22 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     {
         $value  = $this->owner->getValue();
         $config = $this->getConfig();
-        if (!in_array($config['operator'], array('===', '!=='))) {
-            $compareFn = create_function(
-                '$a, $b', 'return floatval($a) ' . $config['operator'] . ' floatval($b);'
-            );
+
+        if ($config['operand'] instanceof HTML_QuickForm2_Node) {
+            $b = $config['operand']->getValue();
         } else {
-            $compareFn = create_function(
-                '$a, $b', 'return strval($a) ' . $config['operator'] . ' strval($b);'
-            );
+            $b = $config['operand'];
         }
-        return $compareFn($value, $config['operand'] instanceof HTML_QuickForm2_Node
-                                  ? $config['operand']->getValue(): $config['operand']);
+
+        if (!in_array($config['operator'], array('===', '!=='))) {
+            $a = floatval($value);
+            $b = floatval($b);
+        } else {
+            $a = strval($value);
+            $b = strval($b);
+        }
+
+        return $this->doOperation($a, $b, $config['operator']);
     }
 
     protected function getJavascriptCallback()
@@ -156,10 +175,10 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     public static function mergeConfig($localConfig, $globalConfig)
     {
         $config = null;
-        if (0 < count($globalConfig)) {
+        if (is_array($globalConfig) && 0 < count($globalConfig)) {
             $config = self::toCanonicalForm($globalConfig, 'operator');
         }
-        if (0 < count($localConfig)) {
+        if (is_array($localConfig) && 0 < count($localConfig)) {
             $config = (isset($config)? $config: array())
                       + self::toCanonicalForm($localConfig);
         }

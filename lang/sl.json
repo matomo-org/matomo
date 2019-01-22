@@ -417,7 +417,6 @@
         "Advanced": "Napredno",
         "AnonymousAccess": "Anonimni dostop",
         "AnonymousTracking": "Anonimno sledenje",
-        "AskForAnonymousTrackingPermission": "Če omogočite, bo Matomo Mobile poslal podatke o anonimni uporabi na piwik.org.",
         "ChooseHttpTimeout": "Izberi vrednost za HTTP timeout",
         "ChooseMetric": "Izberi metriko",
         "ChooseReport": "Izberi poročilo",

@@ -9,8 +9,10 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
+use Piwik\View\HtmlReportEmailHeaderView;
 use Zend_Mail;
 
 /**
@@ -45,11 +47,22 @@ class Mail extends Zend_Mail
         if (empty($fromEmailName) && $customLogo->isEnabled()) {
             $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
         } elseif (empty($fromEmailName)) {
-            $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
+            $fromEmailName = $translator->translate('TagManager_MatomoTagName');
         }
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
         $this->setFrom($fromEmailAddress, $fromEmailName);
+    }
+
+    /**
+     * @param View|string $body
+     * @throws \DI\NotFoundException
+     */
+    public function setWrappedHtmlBody($body)
+    {
+        $contentGenerator = StaticContainer::get(ContentGenerator::class);
+        $bodyHtml = $contentGenerator->generateHtmlContent($body);
+        $this->setBodyHtml($bodyHtml);
     }
 
     /**
@@ -123,7 +136,25 @@ class Mail extends Zend_Mail
 
     public function send($transport = null)
     {
+        if (!$this->shouldSendMail()) {
+            return $this;
+        }
+
+        $mail = $this;
+
+        /**
+         * This event is posted right before an email is sent. You can use it to customize the email by, for example, replacing
+         * the subject/body, changing the from address, etc.
+         *
+         * @param Mail $this The Mail instance that is about to be sent.
+         */
+        Piwik::postEvent('Mail.send', [$mail]);
+
         if (defined('PIWIK_TEST_MODE')) { // hack
+            /**
+             * @ignore
+             * @deprecated
+             */
             Piwik::postTestEvent("Test.Mail.send", array($this));
         } else {
             return parent::send($transport);
@@ -182,5 +213,26 @@ class Mail extends Zend_Mail
         $replace = array('-', '\'');
         $string = str_replace($search, $replace, $string);
         return $string;
+    }
+
+    private function shouldSendMail()
+    {
+        if (!Config::getInstance()->General['emails_enabled']) {
+            return false;
+        }
+
+        $shouldSendMail = true;
+
+        $mail = $this;
+
+        /**
+         * This event is posted before sending an email. You can use it to abort sending a specific email, if you want.
+         *
+         * @param bool &$shouldSendMail Whether to send this email or not. Set to false to skip sending.
+         * @param Mail $mail The Mail instance that will be sent.
+         */
+        Piwik::postEvent('Mail.shouldSend', [&$shouldSendMail, $mail]);
+
+        return $shouldSendMail;
     }
 }

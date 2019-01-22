@@ -107,7 +107,6 @@
         "SystemCheckSummaryThereWereWarnings": "Det er noen problemer med systemet ditt. Matomo vil kjøre, men du kan oppleve noen mindre problemer.",
         "SystemCheckTimeLimitHelp": "På en høyt trafikkert webside, kan arkiveringsprossessen kreve mer tid enn det som nå er tillatt.<br \/>Se på max_execution_time i din php.ini fil hvis nødvendig.",
         "SystemCheckTracker": "Tracker-status",
-        "SystemCheckTrackerHelp": "GET-spørringen til piwik.php feilet. Prøv å hviteliste denne URLen fra HTTP Authentication og deaktiver mod_security (du må kanskje spørre din webadmin). For mer informasjon om feilen, fjekk din webservers feillogg.",
         "SystemCheckWarnDomHelp": "Du bør aktivere «dom»-utvidelsen (ved å installere «php-dom»- og\/eller «php-xml»-pakken).",
         "SystemCheckWarning": "Matomo vil virke normalt, men noen tjenester vil kanskje mangle",
         "SystemCheckWarnJsonHelp": "Du bør aktivere «json»-utvidelsen (ved å installere «php-json»-pakken) for bedre ytelse.",

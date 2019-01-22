@@ -14,6 +14,7 @@
         "OpenFullScreen": "Ir a pantalla completa (sin barras laterales)",
         "Overlay": "Superposición de página",
         "PluginDescription": "Vea su información analítica como una superposición en su actual sitio de internet. Vea cuántas veces sus usuarios han hecho clic en cada enlace. Nota: Requiere el complemento Transitions habilitado.",
+        "RedirectUrlError": "Está intentando abrir Page Overlay de la URL \"%1$s\". %2$s Ninguno de los dominios apuntados en lla configuración de Matomo coincide con el enlace.",
         "RedirectUrlErrorAdmin": "Puede agregar el dominio como una URL %1$sen la configuración%2$s.",
         "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
     }

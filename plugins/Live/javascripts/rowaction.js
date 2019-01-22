@@ -67,6 +67,10 @@
     DataTable_RowActions_SegmentVisitorLog.prototype.trigger = function (tr, e, subTableLabel) {
         var segment = getRawSegmentValueFromRow(tr);
 
+        if (this.dataTable.param.segment) {
+            segment = decodeURIComponent(this.dataTable.param.segment) + ';' + segment;
+        }
+
         this.performAction(segment, tr, e);
     };
 
@@ -111,7 +115,7 @@
 
         name: actionName,
 
-        dataTableIcon: 'icon-visitor-profile',
+        dataTableIcon: 'icon-segmented-visits-log',
 
         order: 30,
 

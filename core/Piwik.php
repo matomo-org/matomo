@@ -321,7 +321,7 @@ class Piwik
     {
         $currentUserLogin = Piwik::getCurrentUserLogin();
         $isSuperUser = self::hasUserSuperUserAccess();
-        return !$isSuperUser && $currentUserLogin == 'anonymous';
+        return !$isSuperUser && $currentUserLogin && strtolower($currentUserLogin) == 'anonymous';
     }
 
     /**
@@ -833,23 +833,10 @@ class Piwik
      * @return mixed The result of `$function`.
      * @throws Exception rethrows any exceptions thrown by `$function`.
      * @api
+     * @deprecated since Matomo 3.8.0 use `Piwik\Access::doAsSuperUser` instead
      */
     public static function doAsSuperUser($function)
     {
-        $isSuperUser = self::hasUserSuperUserAccess();
-
-        self::setUserHasSuperUserAccess();
-
-        try {
-            $result = $function();
-        } catch (Exception $ex) {
-            self::setUserHasSuperUserAccess($isSuperUser);
-
-            throw $ex;
-        }
-
-        self::setUserHasSuperUserAccess($isSuperUser);
-
-        return $result;
+        return Access::doAsSuperUser($function);
     }
 }

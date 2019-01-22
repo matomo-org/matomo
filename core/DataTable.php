@@ -197,6 +197,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /** The original label of the Summary Row. */
     const LABEL_SUMMARY_ROW = -1;
+    const LABEL_TOTALS_ROW = -2;
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
@@ -302,13 +303,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $summaryRow = null;
 
     /**
+     * @var \Piwik\DataTable\Row
+     */
+    protected $totalsRow = null;
+
+    /**
      * Table metadata. Read [this](#class-desc-the-basics) to learn more.
      *
      * Any data that describes the data held in the table's rows should go here.
      *
+     * Note: this field is protected so derived classes will serialize it.
+     *
      * @var array
      */
-    private $metadata = array();
+    protected $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
@@ -398,6 +406,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 }
             }
         }
+    }
+
+    public function setTotalsRow(Row $totalsRow)
+    {
+        $this->totalsRow = $totalsRow;
+    }
+
+    public function getTotalsRow()
+    {
+        return $this->totalsRow;
     }
 
     /**
@@ -1051,7 +1069,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow', 'metadata');
+        return array('rows', 'summaryRow', 'metadata', 'totalsRow');
     }
 
     /**
@@ -1072,6 +1090,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         if (!is_null($this->summaryRow)) {
             $this->summaryRow->renameColumn($oldName, $newName);
+        }
+        if (!is_null($this->totalsRow)) {
+            $this->totalsRow->renameColumn($oldName, $newName);
         }
     }
 
@@ -1095,6 +1116,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!is_null($this->summaryRow)) {
             foreach ($names as $name) {
                 $this->summaryRow->deleteColumn($name);
+            }
+        }
+        if (!is_null($this->totalsRow)) {
+            foreach ($names as $name) {
+                $this->totalsRow->deleteColumn($name);
             }
         }
     }
@@ -1334,7 +1360,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function unserializeRows($serialized)
     {
         $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
-        $rows = unserialize($serialized);
+        $rows = Common::safe_unserialize($serialized, [
+            Row::class,
+            DataTableSummaryRow::class,
+            \Piwik_DataTable_SerializedRow::class
+        ]);
 
         if ($rows === false) {
             throw new Exception("The unserialization has failed!");
@@ -1860,6 +1890,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function clearQueuedFilters()
     {
         $this->queuedFilters = array();
+    }
+
+    public function getQueuedFilters()
+    {
+        return $this->queuedFilters;
     }
 
     /**

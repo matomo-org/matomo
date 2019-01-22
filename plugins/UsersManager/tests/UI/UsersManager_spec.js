@@ -294,10 +294,20 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             page.evaluate(function () {
-                $('.userPermissionsEdit tr select:eq(0)').val('string:admin').change();
+                $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
             });
 
             page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
+        }, done);
+    });
+
+    it('should set a capability to single site when capability checkbox is clicked', function (done) {
+        expect.screenshot("permissions_capability_single_site").to.be.captureSelector('.admin#content', function (page) {
+            page.evaluate(function () {
+                $('.capability-checkbox:not(:checked):not(:disabled):eq(0)').click();
+            });
+
+            page.click('.confirmCapabilityToggle .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -362,7 +372,28 @@ describe("UsersManager", function () {
         expect.screenshot("edit_user_form").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('button.edituser:eq(0)');
+            page.click('button.edituser:eq(1)');
+        }, done);
+    });
+
+    it('should ask for password confirmation when trying to change email', function (done) {
+        expect.screenshot("edit_user_basic_asks_confirmation").to.be.captureSelector('.modal.open', function (page) {
+            page.setViewportSize(1250);
+
+            page.evaluate(function () {
+                $('.userEditForm #user_email').val('testlogin3@example.com').change();
+            });
+
+            page.click('.userEditForm .basic-info-tab [piwik-save-button] .btn');
+        }, done);
+    });
+
+    it('should show error when wrong password entered', function (done) {
+        expect.screenshot("edit_user_basic_confirmed_wrong_password").to.be.captureSelector('.admin#content,#notificationContainer', function (page) {
+            page.setViewportSize(1250);
+
+            page.sendKeys('.modal.open #currentUserPassword', 'test123456');
+            page.click('.change-password-modal .modal-close:not(.modal-no)');
         }, done);
     });
 

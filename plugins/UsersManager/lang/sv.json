@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "TwoFactorAuthentication": "Tvåfaktorsautentisering",
         "AddUser": "Lägg till en ny användare",
         "AddExistingUser": "Lägg till en befintlig användare",
         "AddNewUser": "Lägg till en ny användare",
@@ -79,9 +81,6 @@
         "TheLoginScreen": "Inloggningsrutan",
         "ThereAreCurrentlyNRegisteredUsers": "Det finns just nu %s registrerade användare.",
         "TokenAuth": "API-autentiseringstoken",
-        "TokenRegenerateConfirm": "Ändring av API-autentiseringstoken kommer att ogiltigförklara användarens nuvarande token. Om användaren är inloggad kan de behöva logga in igen. Vill du verkligen fortsätta?",
-        "TokenRegenerateConfirmSelf": "Ändring av API-autentiseringstoken kommer att ogiltiggöra din egen token. Du kan behöva logga in igen om du fortsätter. Vill du verkligen ändra din autentiseringstoken?",
-        "TokenRegenerateLogoutWarning": "När du återskapar din token kommer du att loggas ut och måste logga in igen.",
         "TokenRegenerateTitle": "Återskapa",
         "TypeYourPasswordAgain": "Bekräfta lösenordet genom att skriva in det igen.",
         "User": "Användare",
@@ -126,6 +125,7 @@
         "DeleteUsers": "Ta bort användare",
         "UserSearch": "Sök användare",
         "FilterByAccess": "Filtrera på rättighet",
+        "ShowAll": "Visa alla",
         "Username": "Användarnamn",
         "RoleFor": "Roll för",
         "TheDisplayedUsersAreSelected": "De %1$s visade användarna är markerade.",

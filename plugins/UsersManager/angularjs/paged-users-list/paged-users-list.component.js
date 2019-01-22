@@ -48,7 +48,7 @@
         vm.userToChange = null;
         vm.roleToChangeTo = null;
         vm.previousRole = null;
-        vm.accessLevelFilter = '';
+        vm.accessLevelFilter = null;
 
         // other state
         vm.isRoleHelpToggled = false;
@@ -80,9 +80,14 @@
             };
 
             vm.bulkActionAccessLevels = [];
+            vm.anonymousAccessLevels = [];
             vm.accessLevels.forEach(function (entry) {
                 if (entry.key !== 'noaccess' && entry.key !== 'superuser') {
                     vm.bulkActionAccessLevels.push(entry);
+                }
+
+                if (entry.key === 'noaccess' || entry.key === 'view') {
+                    vm.anonymousAccessLevels.push(entry);
                 }
             });
         }

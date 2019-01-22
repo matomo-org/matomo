@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\MultiSites;
 
 use Piwik\API\DataTablePostProcessor;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Config;
 use Piwik\Metrics\Formatter;
@@ -47,9 +48,20 @@ class Dashboard
      */
     public function __construct($period, $date, $segment)
     {
-        $sites = API::getInstance()->getAll($period, $date, $segment, $_restrictSitesToLogin = false,
-                                            $enhanced = true, $searchTerm = false,
-                                            $this->displayedMetricColumns);
+        $sites = Request::processRequest('MultiSites.getAll', [
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+            'enhanced' => '1',
+            // NOTE: have to select everything since with queued filters disabled some metrics won't be renamed to
+            // their display name, and so showColumns will end up removing those.
+            'showColumns' => '',
+            'disable_queued_filters' => '1',
+            'filter_limit' => '-1',
+            'filter_offset' => '0',
+            'totals' => 0
+        ], $default = []);
+
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
         /** @var DataTable $pastData */

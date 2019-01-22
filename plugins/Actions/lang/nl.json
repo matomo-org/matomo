@@ -59,7 +59,7 @@
         "SiteSearchKeyword": "Sleutelwoord (zoeken via site)",
         "SiteSearchKeywords": "Sleutelwoorden (zoeken via site)",
         "SiteSearchKeywordsDocumentation": "Dit rapport toont een lijst met sleutelwoorden waarop bezoekers hebben gezocht met de interne zoekoptie van uw website.",
-        "SiteSearchKeywordsNoResultDocumentation": "Dit rapport toon een lijst met sleutelwoorden waarop door uw website geen zoekresultaten werden gegeven. Wellicht kan het zoekalgorithm worden verbeterd of misschien wordt gezocht op content dat (nog) niet beschikbaar is op uw website.",
+        "SiteSearchKeywordsNoResultDocumentation": "Dit rapport toon een lijst met sleutelwoorden waarop door uw website geen zoekresultaten werden gegeven. Wellicht kan het zoekalgoritme worden verbeterd of misschien wordt gezocht op content dat (nog) niet beschikbaar is op uw website.",
         "SubmenuPagesEntry": "Binnenkomstpagina's",
         "SubmenuPagesExit": "Vertrekpagina's",
         "SubmenuPageTitles": "Paginatitels",
@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Zoektermen lokale zoekopdracht",
         "WidgetSearchNoResultKeywords": "Zoekwoorden zonder resultaten",
         "ActionType": "Soort actie",
-        "ActionTypes": "Soorten acties"
+        "ActionTypes": "Soorten acties",
+        "Behaviour": "Gedrag"
     }
 }

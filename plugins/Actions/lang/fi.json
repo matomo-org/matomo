@@ -22,6 +22,7 @@
         "ColumnSearchCategory": "Haun kategoria",
         "ColumnSearches": "Haut",
         "ColumnSearchesDocumentation": "Käynnit, joilla haettiin tällä hakusanalla.",
+        "ColumnSearchExits": "%% poistumista hausta",
         "ColumnSearchExitsDocumentation": "Osuus käynneistä jotka päättyivät tämän hakusanan hakemiseen sivun hakukoneella.",
         "ColumnSearchResultsCount": "Hakutulosten määrä",
         "ColumnSiteSearchKeywords": "Uniikkeja hakusanoja",
@@ -30,10 +31,14 @@
         "ColumnUniqueDownloads": "Uniikit lataukset",
         "ColumnUniqueOutlinks": "Yksilölliset lähtevät linkit",
         "ColumnIdPageview": "Sivukatselun ID",
+        "ColumnInteractionPosition": "Interaktion paikka",
+        "ActionsInVisit": "Toimintoja käynnin aikana",
         "DownloadsReportDocumentation": "Tässä raportissa näet, mitä tiedostoja kävijät ovat ladanneet. %s Matomo laskee lataukseksi latauslinkin klikkaamisen. Matomo ei tiedä, valmistuiko lataus.",
+        "EntryPagesReportDocumentation": "Tämä raportti sisältää tietoa saapumissivuista, joita on käytetty annetulla aikavälillä. Saapumissivu on ensimmäinen sivu, jota käyttäjä on katsonut käyntinsä aikana. %s Saapumis-URL:t näytetään kansiorakenteena.",
         "EntryPageTitles": "Saapumissivujen otsikot",
         "EntryPageTitlesReportDocumentation": "Tämä raportti sisältää tietoa saapumissivujen otsikoista annetulla aikavälillä.",
-        "ExitPageTitles": "Lähtösivujen otsikot",
+        "ExitPagesReportDocumentation": "Tämä raportti sisältää tietoa poistumissivuista annetulla aikavälillä. Poistumissivu on viimeinen sivu, jota käyttäjä on katsonut käyntinsä aikana. %s Poistumis-URL:t näytetään kansiorakenteena.",
+        "ExitPageTitles": "Poistumissivujen otsikot",
         "ExitPageTitlesReportDocumentation": "Tämä raportti sisältää tietoa poistumissivujen otsikoista annetulla aikavälillä.",
         "LearnMoreAboutSiteSearchLink": "Opi lisää sivujesi hakukoneen käytöstä",
         "OneSearch": "1 haku",
@@ -42,6 +47,7 @@
         "PagesReportDocumentation": "Tämä raportti sisältää tietoa sivuista, joilla on käyty. %s Taulukko on organisoitu hierarkisesti, URL:t näytetään puurakenteena.",
         "PageTitlesReportDocumentation": "Tämä raportti sisältää tietoa käytyjen sivujen otsikoista. %1$s Sivun otsikko on HTML:n %2$s-tagi, jonka useimmat selaimet näyttävät ikkunan otsikossa.",
         "PageUrls": "Sivujen URL:t",
+        "PageViewsByVisitor": "Kuinka monta kertaa tämä kävijä on katsonut sivua kaikkien käyntiensä aikana",
         "PluginDescription": "Raportoi sivukatselut ja sivujen otsikot. Mahdollistaa sivun sisäisen hakukoneen mittaamisen. Seuraa automaattisesti ulospäin suuntautuvia linkkejä ja latauksia.",
         "RevisitedPages": "Sivut, joita on katsottu useita kertoja",
         "SiteSearchCategories1": "Tämä raportti listaa kategoriat jotka kävijät valitsivat.",
@@ -69,6 +75,7 @@
         "WidgetSearchKeywords": "Sivuhaun hakusanat",
         "WidgetSearchNoResultKeywords": "Hakusanat ilman tuloksia",
         "ActionType": "Toiminnon tyyppi",
-        "ActionTypes": "Toimintotyypit"
+        "ActionTypes": "Toimintotyypit",
+        "Behaviour": "Käyttäytyminen"
     }
 }

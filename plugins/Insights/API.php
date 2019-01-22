@@ -317,12 +317,12 @@ class API extends \Piwik\Plugin\API
     private function requestApiMethod($method, $idSite, $period, $date, $reportId, $segment, $additionalParams)
     {
         $params = array(
-            'method' => 'Insights.' . $method,
             'idSite' => $idSite,
             'date'   => $date,
             'period' => $period,
             'format' => 'original',
             'reportUniqueId' => $reportId,
+            'totals' => 0,
         );
 
         if (!empty($segment)) {
@@ -335,8 +335,7 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $request = new ApiRequest($params);
-        return $request->process();
+        return ApiRequest::processRequest('Insights.' . $method, $params, $default = []);
     }
 
 }

@@ -346,9 +346,10 @@
         date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
         // apply piwik site timezone (if it exists)
-        date.setHours((piwik.timezoneOffset || 0) / 3600);
+        date.setHours(date.getHours() + ((piwik.timezoneOffset || 0) / 3600));
 
-        // get rid of minutes/seconds/etc.
+        // get rid of hours/minutes/seconds/etc.
+        date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);

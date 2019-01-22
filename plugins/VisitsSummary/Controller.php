@@ -59,6 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getEvolutionGraph()
     {
+        $this->checkSitePermission();
         $columns = Common::getRequestVar('columns', false);
         if (false !== $columns) {
             $columns = Piwik::getArrayFromApiParameter($columns);
@@ -102,8 +103,7 @@ class Controller extends \Piwik\Plugin\Controller
             'avg_time_generation'
         );
 
-        $idSite = Common::getRequestVar('idSite');
-        $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
+        $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
 
         if ($displaySiteSearch) {
             $selectableColumns[] = 'nb_searches';

@@ -156,7 +156,8 @@
              ng-model="brandingSettings.enabled"
              ng-change="brandingSettings.toggleCustomLogo()"
              title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
-             value="{% if branding.use_custom_logo == 1 %}1{% endif %}" inline-help="{{ help|e('html_attr') }}">
+             value="{% if branding.use_custom_logo == 1 %}1{% endif %}"
+             {% if isPluginsAdminEnabled %}inline-help="{{ help|e('html_attr') }}"{% endif %}>
         </div>
 
         <div id="logoSettings" ng-show="brandingSettings.enabled">
@@ -217,7 +218,7 @@
 
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
             <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
                 {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ 'PrivacyManager_DeleteDataSettings'|translate ~ "'") }}

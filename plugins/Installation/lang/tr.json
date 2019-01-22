@@ -118,7 +118,7 @@
         "SystemCheckSummaryThereWereWarnings": "Sisteminizde bazı sorunlar var. Matomo çalışabilir ancak bazı küçük sorunlar yaşayabilirsiniz.",
         "SystemCheckTimeLimitHelp": "Trafiği yüksek olan bir web sitesinde arşivleme işlemini yürütmek normal olarak izin verilen süreden daha uzun zaman alabilir. Gerekiyorsa php.ini yapılandırma dosyasındaki max_execution_time seçeneğinin değerini değiştirin.",
         "SystemCheckTracker": "İzleyici durumu",
-        "SystemCheckTrackerHelp": "piwik.php GET isteği tamamlanamadı. Bu adresi HTTP Kimlik Doğrulaması bölümünden beyaz listeye almayı ve mod_security modülünü devre dışı bırakmayı deneyin (web hizmeti sağlayıcınızdan istemeniz gerekebilir). Bu sorun hakkında ayrıntılı bilgi almak için web sunucusu hata günlüğü dosyasını denetleyin.",
+        "SystemCheckTrackerHelp": "matomo.php GET isteği tamamlanamadı. Bu adresi HTTP Kimlik Doğrulaması bölümünden beyaz listeye almayı ve mod_security modülünü devre dışı bırakmayı deneyin (web hizmeti sağlayıcınızdan istemeniz gerekebilir). Bu sorun hakkında ayrıntılı bilgi almak için web sunucusu hata günlüğü dosyasını denetleyin.",
         "SystemCheckWarnDomHelp": "\"dom\" eklentisini etkinleştirmelisiniz (örneğin \"php-dom\" ve\/veya \"php-xml\" paketini kurun).",
         "SystemCheckWarning": "Matomo normal olarak çalışır ancak bazı özellikler eksik kalır",
         "SystemCheckWarnJsonHelp": "Daha iyi başarım için \"json\" eklentisini etkinleştirmelisiniz (örneğin \"php-json\" paketini kurun).",

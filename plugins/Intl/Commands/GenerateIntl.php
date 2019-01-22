@@ -17,6 +17,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -34,6 +35,7 @@ class GenerateIntl extends ConsoleCommand
     protected function configure()
     {
         $this->setName('translations:generate-intl-data')
+            ->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'language that should be fetched')
             ->setDescription('Generates Intl-data for Piwik');
     }
 
@@ -58,7 +60,11 @@ class GenerateIntl extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $piwikLanguages = \Piwik\Plugins\LanguagesManager\API::getInstance()->getAvailableLanguages();
+        $matomoLanguages = \Piwik\Plugins\LanguagesManager\API::getInstance()->getAvailableLanguages();
+
+        if ($input->getOption('language')) {
+            $matomoLanguages = [$input->getOption('language')];
+        }
 
         $aliasesUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-core/master/supplemental/aliases.json';
         $aliasesData = Http::fetchRemoteFile($aliasesUrl);
@@ -69,7 +75,7 @@ class GenerateIntl extends ConsoleCommand
 
         $writePath = Filesystem::getPathToPiwikRoot() . '/plugins/Intl/lang/%s.json';
 
-        foreach ($piwikLanguages AS $langCode) {
+        foreach ($matomoLanguages AS $langCode) {
 
             if ($langCode == 'dev') {
                 continue;

@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.
@@ -67,6 +68,10 @@ class API extends \Piwik\Plugin\API
     public function getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
                                     $idSubtable = false, $expanded = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $this->checkSingleSite($idSite, 'getReferrerType');
+
         // if idSubtable is supplied, interpret idSubtable as referrer type and return correct report
         if ($idSubtable !== false) {
             $result = false;
@@ -122,11 +127,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    private function checkSingleSite($idSite, $method)
+    {
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        if (count($idSites) > 1) {
+            throw new Exception("Referrers.$method with multiple sites is not supported (yet).");
+        }
+    }
+
     /**
      * Returns a report that shows
      */
     public function getAll($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $this->checkSingleSite($idSite, 'getAll');
         $dataTable = $this->getReferrerType($idSite, $period, $date, $segment, $typeReferrer = false, $idSubtable = false, $expanded = true);
 
         if ($dataTable instanceof DataTable\Map) {
@@ -142,6 +159,8 @@ class API extends \Piwik\Plugin\API
 
     public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
         if ($flat) {
@@ -227,6 +246,7 @@ class API extends \Piwik\Plugin\API
 
     public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $keywords  = $this->getKeywords($idSite, $period, $date, $segment);
         $keyword   = $keywords->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
@@ -240,6 +260,7 @@ class API extends \Piwik\Plugin\API
 
     public function getSearchEngines($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = Archive::createDataTableFromArchive(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
         if ($flat) {
@@ -258,6 +279,7 @@ class API extends \Piwik\Plugin\API
 
     public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
         // get the search engine and create the URL to the search result page
@@ -274,6 +296,7 @@ class API extends \Piwik\Plugin\API
 
     public function getCampaigns($idSite, $period, $date, $segment = false, $expanded = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
         $dataTable->filter('AddSegmentByLabel', array('referrerName'));
@@ -284,6 +307,7 @@ class API extends \Piwik\Plugin\API
 
     public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $campaigns = $this->getCampaigns($idSite, $period, $date, $segment);
         $campaigns->applyQueuedFilters();
         $campaign  = $campaigns->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
@@ -296,6 +320,7 @@ class API extends \Piwik\Plugin\API
 
     public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
 
         if ($flat) {
@@ -309,6 +334,7 @@ class API extends \Piwik\Plugin\API
 
     public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
         $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
@@ -330,6 +356,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getSocials($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($name) {
@@ -430,6 +458,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getUrlsForSocial($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
 
         if (!$idSubtable) {

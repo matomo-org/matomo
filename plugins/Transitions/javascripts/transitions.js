@@ -183,15 +183,29 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 };
 
 /** Open the popover */
-Piwik_Transitions.prototype.showPopover = function () {
+Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
+    this.showEmbeddedInReport = showEmbeddedInReport;
 
-    this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    $('#transitions_report .popoverContainer').hide();
+
+    if (showEmbeddedInReport) {
+        this.popover = $('#transitions_report');
+        $('#Transitions_Error_Container').hide();
+        $('#transitions_inline_loading').show();
+    } else {
+        this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
+        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    }
 
     var bothLoaded = function () {
-        Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
-
+        if (!showEmbeddedInReport) {
+            Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+        } else {
+            $('#transitions_inline_loading').hide();
+            $('#transitions_report .popoverContainer').html(Piwik_Transitions.popoverHtml);
+            $('#transitions_report .popoverContainer').show();
+        }
         self.preparePopover();
         self.model.htmlLoaded();
 
@@ -566,11 +580,26 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         var isOthers = (label == 'Others');
         var onClick = false;
         if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
-            onClick = (function (url) {
-                return function () {
-                    self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
-                };
-            })(label);
+
+            if (this.showEmbeddedInReport) {
+                onClick = (function (url) {
+                    return function () {
+                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                        if ($rootScope) {
+                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
+                                url:url
+                            });
+                        }
+                    };
+                })(label);
+            } else {
+                onClick = (function (url) {
+                    return function () {
+                        self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                    };
+                })(label);
+            }
+
         } else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
             onClick = label
         }
@@ -1516,7 +1545,25 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     }
 
                     errorMessage = sprintf(errorMessage, '<br />');
-                    Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    var inlineErrorNode = $('#Transitions_Error_Container');
+                    if (inlineErrorNode.length) {
+                        // viewing it as report, not popover
+                        inlineErrorNode.html('');
+                        var theContentNode = $(document.createElement('div')).addClass('Piwik_Popover_Error');
+
+                        var p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Title');
+                        theContentNode.append(p.html(errorTitle));
+
+                        if (errorMessage) {
+                            p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
+                            theContentNode.append(p.html(errorMessage));
+                        }
+                        inlineErrorNode.append(theContentNode);
+                        inlineErrorNode.show();
+                        $('#transitions_report .popoverContainer').hide();
+                    } else {
+                        Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    }
                 };
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {

@@ -10,7 +10,6 @@
         "LastHours": "آخرین %s ساعات",
         "LastMinutes": "آخرین %s دقایق",
         "LastVisit": "اخرین بازدید",
-        "LinkVisitorLog": "مشاهده جزئیات لاگ بازدید کننده",
         "LoadMoreVisits": "نمایش بازدیدهای بیشتر",
         "MorePagesNotDisplayed": "صفحات بیشتر به این بازدید کننده ها نشان داده نمی شود",
         "NbVisitor": "یک ویزیتور",
@@ -25,9 +24,8 @@
         "SimpleRealTimeWidget_Message": "%1$s و %2$s در اخرین %3$s",
         "ViewVisitorProfile": "مشاهده نمایه دیدن کننده",
         "VisitedPages": "صفحات بازدید شده",
-        "VisitorLog": "لاگ بازدیدکننده",
+        "RevisitedPages": "صحات بیش از یک بار مشاهده شده‌اند",
         "VisitorProfile": "مشخصات بازدید کننده",
-        "VisitorsInRealTime": "بازدیدهای زنده",
         "VisitorsLastVisit": "بازدید گذشته ی این بازدیدکننده %s روز پیش بوده است.",
         "VisitsFrom": "%1$s%2$s بازدیدکننده%3$s از",
         "OnClickStart": "%s متوقف شد, اینجا کلیک کنید"

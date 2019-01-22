@@ -4,6 +4,7 @@
         "AvgEventValue": "Η μέση τιμή του γεγονότος είναι: %s",
         "AvgValue": "Μέση τιμή",
         "AvgValueDocumentation": "Ο μέσος όρος τιμών για το γεγονός",
+        "Category": "Κατηγορία",
         "Event": "Γεγονός",
         "EventAction": "Ενέργεια Συμβάντος",
         "EventActions": "Ενέργειες Συμβάντος",

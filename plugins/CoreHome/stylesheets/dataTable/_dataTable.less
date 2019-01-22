@@ -20,6 +20,13 @@
   }
 }
 
+table.dataTable .totalsRow {
+  font-weight: bold;
+  .ratio {
+    display: none;
+  }
+}
+
 table.dataTable td.label,
 table.subDataTable td.label {
   width: 100%;
@@ -66,7 +73,7 @@ table.dataTable th {
 // for dataTables in exported widgets ( we do not want to apply this for widgets in dashboard )
 body>.widget table.dataTable {
   th {
-    background: @theme-color-background-tinyContrast;
+    background: @theme-color-background-base;
   }
 }
 
@@ -76,7 +83,9 @@ body>.widget table.dataTable {
   width: ~"calc(100% + 40px)";
 
   th {
-    background: @theme-color-background-tinyContrast;
+    background: @theme-color-background-base !important;
+    border-radius: 0;
+    color: @theme-color-text-contrast;
 
     &:first-child {
       padding-left: 20px;
@@ -492,7 +501,7 @@ table.dataTable td.label img {
 tr td.label img.plusMinus {
   margin-left: -3px;
   margin-right: 3px;
-  margin-top: -3px;
+  margin-top: 0;
 }
 
 .pk-emptyDataTable {
@@ -576,10 +585,12 @@ td.cellSubDataTable .loadingPiwik {
     vertical-align: middle;
     text-decoration: none !important;
     text-align: center;
-    color: #adadad;
     font-size: 16px;
+    color: @theme-color-brand !important;
+    opacity: 0.7;
     &:hover {
-      color: #333;
+      color: @theme-color-brand !important;
+      opacity: 1;
       background-color: @theme-color-background-base;
       text-decoration: none !important;
     }

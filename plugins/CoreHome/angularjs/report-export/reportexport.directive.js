@@ -44,7 +44,7 @@
                     var params = scope.requestParams;
 
                     if (params && typeof params == "string") {
-                        params = JSON.parse(params)
+                        params = JSON.parse(params);
                     } else {
                         params = {};
                     }
@@ -159,7 +159,7 @@
                         if (label.length > 1) {
                             exportUrlParams.label = label;
                         } else {
-                            exportUrlParams.label = encodeURIComponent(label[0]);
+                            exportUrlParams.label = label[0];
                         }
                     }
 
@@ -185,10 +185,10 @@
                     scope.reportType          = 'default';
                     scope.reportLimit         = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
                     scope.reportLimitAll      = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
-                    scope.optionFlat          = dataTable.param.flat;
+                    scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
                     scope.optionExpanded      = 1;
                     scope.optionFormatMetrics = 0;
-                    scope.hasSubtables        = dataTable.param.flat == 1 || dataTable.numberOfSubtables > 0;
+                    scope.hasSubtables        = scope.optionFlat || dataTable.numberOfSubtables > 0;
 
                     scope.availableReportFormats = {
                         default: formats,
@@ -219,7 +219,7 @@
                     }
 
                     $compile(elem)(scope, function (compiled){
-                        Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
+                        Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + piwikHelper.htmlEntities(scope.reportTitle));
                         Piwik_Popover.setContent(compiled);
 
                         if (popoverParamBackup != '') {

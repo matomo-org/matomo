@@ -11,11 +11,34 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Cache\Cache;
 use Piwik\Db;
 use Piwik\NoAccessException;
+use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+class TestCustomCap extends Access\Capability {
+
+    const ID = 'testcustomcap';
+    public function getId() {
+        return self::ID;
+    }
+    public function getName() {
+        return 'customcap';
+    }
+    public function getCategory() {
+        return 'test';
+    }
+    public function getDescription() {
+        return 'lorem ipsum';
+    }
+    public function getIncludedInRoles() {
+        return array(Access\Role\Admin::ID);
+    }
+
+}
 
 /**
  * @group Core
@@ -33,6 +56,51 @@ class AccessTest extends IntegrationTestCase
     private function getAccess()
     {
         return new Access(new Access\RolesProvider(), new Access\CapabilitiesProvider());
+    }
+
+    public function test_loadSitesIfNeeded_automaticallyAssignsCapabilityWhenIncludedInRole()
+    {
+        Piwik::addAction('Access.Capability.addCapabilities', function (&$cap) {
+            $cap[] = new TestCustomCap();
+        });
+        \Piwik\Cache::flushAll();
+
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'admin', $idSite);
+
+        $this->switchUser('testuser');
+
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(false);
+        $this->assertEquals('admin', $access->getRoleForSite($idSite));
+        $access->checkUserHasCapability($idSite, TestCustomCap::ID);
+        $this->assertTrue(true);
+    }
+
+    public function test_loadSitesIfNeeded_doesNotAutomaticallyAssignCapabilityWhenNotIncludedInRole()
+    {
+        Piwik::addAction('Access.Capability.addCapabilities', function (&$cap) {
+            $cap[] = new TestCustomCap();
+        });
+
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'write', $idSite);
+
+        $this->switchUser('testuser');
+
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(false);
+        $this->assertEquals('write', $access->getRoleForSite($idSite));
+
+        try {
+
+            $access->checkUserHasCapability($idSite, TestCustomCap::ID);
+            $this->fail('an expected exception has not been triggered');
+        } catch (NoAccessException $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function testGetTokenAuthWithEmptyAccess()

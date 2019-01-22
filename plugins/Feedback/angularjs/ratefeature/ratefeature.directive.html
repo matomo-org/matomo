@@ -1,4 +1,4 @@
-<div title="{{ 'Feedback_RateFeatureTitle'|translate:rateFeature.title }}" class="ratefeature">
+<div title="{{ 'Feedback_RateFeatureTitle'|translate:(rateFeature.title|escape) }}" class="ratefeature">
 
     <div class="iconContainer"
          ng-mouseenter="view.expanded=true;"

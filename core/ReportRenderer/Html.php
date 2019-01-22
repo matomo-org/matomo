@@ -22,6 +22,7 @@ class Html extends ReportRenderer
 
     const HTML_CONTENT_TYPE = 'text/html';
     const HTML_FILE_EXTENSION = 'html';
+    const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
 
     protected $renderImageInline = false;
 
@@ -74,7 +75,9 @@ class Html extends ReportRenderer
 
     private function epilogue()
     {
-        $view = new View\HtmlEmailFooterView();
+        // the unsubscribe link is specific to the email address the report is sent to, so we can't generate it here.
+        // instead we use a placeholder value, and replace it with the correct value in ScheduledReports::sendReport().
+        $view = new View\HtmlEmailFooterView(self::UNSUBSCRIBE_LINK_PLACEHOLDER);
         $this->rendering .= $view->render();
     }
 

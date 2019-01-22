@@ -363,7 +363,7 @@ class Model
             }
 
             $dateString = $date;
-            if ($period == 'range') {
+            if ($period == 'range' || Period::isMultiplePeriod($date, $period)) {
                 $processedPeriod = new Range('range', $date);
                 if ($parsedDate = Range::parseDateRange($date)) {
                     $dateString = $parsedDate[2];

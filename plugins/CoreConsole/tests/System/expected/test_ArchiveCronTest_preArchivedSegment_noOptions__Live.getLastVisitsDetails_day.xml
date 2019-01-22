@@ -7,17 +7,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>9</goalPageId>
-				
-				<url>http://piwik.net/docs/manage-users/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/docs/manage-users/</url>
 				<pageTitle />
@@ -27,6 +16,8 @@
 				<pageId>9</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/docs/manage-users/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -36,6 +27,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>9</goalPageId>
+				
+				<url>http://piwik.net/docs/manage-users/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -127,17 +131,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>8</goalPageId>
-				
-				<url>http://piwik.net/docs/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/docs/</url>
 				<pageTitle />
@@ -147,6 +140,8 @@
 				<pageId>8</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/docs/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -156,6 +151,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>8</goalPageId>
+				
+				<url>http://piwik.net/docs/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -247,17 +255,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>7</goalPageId>
-				
-				<url>http://piwik.net/translations/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/translations/</url>
 				<pageTitle />
@@ -267,6 +264,8 @@
 				<pageId>7</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/translations/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -276,6 +275,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>7</goalPageId>
+				
+				<url>http://piwik.net/translations/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -367,17 +379,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>6</goalPageId>
-				
-				<url>http://piwik.net/download/counter/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/download/counter/</url>
 				<pageTitle />
@@ -387,6 +388,8 @@
 				<pageId>6</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/download/counter/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -396,6 +399,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>6</goalPageId>
+				
+				<url>http://piwik.net/download/counter/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -487,17 +503,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>5</goalPageId>
-				
-				<url>http://piwik.net/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/</url>
 				<pageTitle />
@@ -507,6 +512,8 @@
 				<pageId>5</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -516,6 +523,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>5</goalPageId>
+				
+				<url>http://piwik.net/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -607,17 +627,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>4</goalPageId>
-				
-				<url>http://piwik.net/docs/manage-websites/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/docs/manage-websites/</url>
 				<pageTitle />
@@ -627,6 +636,8 @@
 				<pageId>4</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -636,6 +647,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>4</goalPageId>
+				
+				<url>http://piwik.net/docs/manage-websites/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -727,17 +751,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>3</goalPageId>
-				
-				<url>http://piwik.net/blog/category/community/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/blog/category/community/</url>
 				<pageTitle />
@@ -747,6 +760,8 @@
 				<pageId>3</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/community/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -756,6 +771,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>3</goalPageId>
+				
+				<url>http://piwik.net/blog/category/community/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -847,17 +875,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>2</goalPageId>
-				
-				<url>http://piwik.net/faq/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/faq/</url>
 				<pageTitle />
@@ -867,6 +884,8 @@
 				<pageId>2</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/faq/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -876,6 +895,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>2</goalPageId>
+				
+				<url>http://piwik.net/faq/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -967,17 +999,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>81</goalPageId>
-				
-				<url>http://www.included4.com/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://www.included4.com/blog/category/meta/</url>
 				<pageTitle />
@@ -987,6 +1008,8 @@
 				<pageId>81</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://www.included4.com/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -996,6 +1019,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>81</goalPageId>
+				
+				<url>http://www.included4.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -1087,17 +1123,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>83</goalPageId>
-				
-				<url>http://www.included2.com/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://www.included2.com/blog/category/meta/</url>
 				<pageTitle />
@@ -1107,6 +1132,8 @@
 				<pageId>83</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://www.included2.com/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1116,6 +1143,19 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>83</goalPageId>
+				
+				<url>http://www.included2.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

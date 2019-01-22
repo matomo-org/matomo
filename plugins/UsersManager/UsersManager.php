@@ -25,6 +25,7 @@ use Piwik\SettingsPiwik;
 class UsersManager extends \Piwik\Plugin
 {
     const PASSWORD_MIN_LENGTH = 6;
+    const PASSWORD_MAX_LENGTH = 200;
 
     /**
      * @see \Piwik\Plugin::registerEvents
@@ -129,6 +130,8 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/permissions-metadata/permissions-metadata.service.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.js";
     }
 
     /**
@@ -142,6 +145,7 @@ class UsersManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
+        $stylesheets[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.less";
     }
 
     /**
@@ -186,6 +190,9 @@ class UsersManager extends \Piwik\Plugin
         if (!self::isValidPasswordString($password)) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
         }
+        if (Common::mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
+        }
     }
 
     public static function getPasswordHash($password)
@@ -224,6 +231,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_PrivAdmin";
         $translationKeys[] = "UsersManager_PrivView";
         $translationKeys[] = "UsersManager_RemoveUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmWithPassword";
+        $translationKeys[] = "UsersManager_YourCurrentPassword";
         $translationKeys[] = "UsersManager_UserHasPermission";
         $translationKeys[] = "UsersManager_UserHasNoPermission";
         $translationKeys[] = "UsersManager_PrivNone";
@@ -238,6 +247,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SetPermission';
         $translationKeys[] = 'UsersManager_RolesHelp';
         $translationKeys[] = 'UsersManager_Role';
+        $translationKeys[] = 'UsersManager_2FA';
+        $translationKeys[] = 'UsersManager_UsesTwoFactorAuthentication';
         $translationKeys[] = 'General_Actions';
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
         $translationKeys[] = 'UsersManager_ClickToSelectAll';
@@ -271,6 +282,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_DeleteUserConfirmMultiple';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmSingle';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmMultiple';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
+        $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_AddNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
         $translationKeys[] = 'UsersManager_CreateUser';
@@ -278,7 +292,20 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Email';
         $translationKeys[] = 'UsersManager_LastSeen';
         $translationKeys[] = 'UsersManager_SuperUserAccess';
+        $translationKeys[] = 'UsersManager_AreYouSureChangeDetails';
+        $translationKeys[] = 'UsersManager_AnonymousUserRoleChangeWarning';
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_Add';
+        $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'UsersManager_FilterByWebsite';
+        $translationKeys[] = 'UsersManager_GiveAccessToAll';
+        $translationKeys[] = 'UsersManager_OrManageIndividually';
+        $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm';
+        $translationKeys[] = 'UsersManager_ChangePermToAllSitesConfirm2';
+        $translationKeys[] = 'UsersManager_CapabilitiesHelp';
+        $translationKeys[] = 'UsersManager_Capabilities';
+        $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
+        $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
+        $translationKeys[] = 'UsersManager_IncludedInUsersRole';
     }
 }

@@ -64,6 +64,9 @@ class FrontController extends Singleton
     const DEFAULT_LOGIN = 'anonymous';
     const DEFAULT_TOKEN_AUTH = 'anonymous';
 
+    // public for tests
+    public static $requestId = null;
+
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -107,11 +110,21 @@ class FrontController extends Singleton
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
-            'line' => $e->getLine()
+            'line' => $e->getLine(),
         );
 
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        if (isset(self::$requestId)) {
+            $error['request_id'] = self::$requestId;
+        }
+
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] .= $e->getTraceAsString();
+
+        $exception = $e;
+        while ($exception = $exception->getPrevious()) {
+            $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
+            $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
+            $error['backtrace'] .= $exception->getTraceAsString();
         }
 
         return self::generateSafeModeOutputFromError($error);
@@ -234,11 +247,14 @@ class FrontController extends Singleton
     public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
+
+        if (!empty($lastError) && isset(self::$requestId)) {
+            $lastError['request_id'] = self::$requestId;
+        }
+
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
-                    . ErrorHandler::getFatalErrorPartialBacktrace();
-            }
+            $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                . ErrorHandler::getFatalErrorPartialBacktrace();
 
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
@@ -261,6 +277,8 @@ class FrontController extends Singleton
         if ($this->initialized) {
             return;
         }
+
+        self::setRequestIdHeader();
 
         $this->initialized = true;
 
@@ -673,5 +691,19 @@ class FrontController extends Singleton
         }
 
         return $authAdapter;
+    }
+
+    public static function getUniqueRequestId()
+    {
+        if (self::$requestId === null) {
+            self::$requestId = substr(Common::generateUniqId(), 0, 5);
+        }
+        return self::$requestId;
+    }
+
+    private static function setRequestIdHeader()
+    {
+        $requestId = self::getUniqueRequestId();
+        Common::sendHeader("X-Matomo-Request-Id: $requestId");
     }
 }
