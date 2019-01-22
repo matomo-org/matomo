@@ -5,6 +5,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>2</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -81,6 +82,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -157,6 +159,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -233,6 +236,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -309,6 +313,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -385,6 +390,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -461,6 +467,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>0</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>
@@ -540,6 +547,7 @@
 			<row>
 				<label>New visits</label>
 				<nb_visits>1</nb_visits>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<label>0 days</label>

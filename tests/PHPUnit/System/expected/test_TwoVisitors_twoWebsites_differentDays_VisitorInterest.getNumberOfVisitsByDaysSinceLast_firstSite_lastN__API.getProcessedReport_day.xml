@@ -463,6 +463,7 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -509,6 +510,7 @@
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -555,6 +557,7 @@
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -601,6 +604,7 @@
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -647,6 +651,7 @@
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -693,6 +698,7 @@
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
@@ -739,6 +745,7 @@
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
+				<segment>visitorType==new</segment>
 			</row>
 			<row>
 				<segment>daysSinceLastVisit==0</segment>
