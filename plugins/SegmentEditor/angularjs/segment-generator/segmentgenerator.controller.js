@@ -228,7 +228,8 @@
                         subSegmentStr += ","; // OR operator
                     }
 
-                    subSegmentStr += orCondition.segment + orCondition.matches +  encodeURIComponent(orCondition.value);
+                    // one encode for urldecode on value, one encode for urldecode on condition
+                    subSegmentStr += orCondition.segment + orCondition.matches + encodeURIComponent(encodeURIComponent(orCondition.value));
                 });
 
                 if (segmentStr !== '') {
@@ -238,7 +239,7 @@
                 segmentStr += subSegmentStr;
             });
 
-            return segmentStr
+            return segmentStr;
         };
 
         this.setSegmentString = function (segmentStr) {

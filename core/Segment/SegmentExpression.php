@@ -104,7 +104,7 @@ class SegmentExpression
                 . '){1}(.*)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
-                throw new Exception('The segment \'' . $operand . '\' is not valid.');
+                throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
             }
 
             $leftMember = $matches[1];
