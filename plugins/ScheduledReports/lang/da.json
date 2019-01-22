@@ -24,6 +24,7 @@
         "PiwikReports": "Matomo rapporter",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
         "ReportFormat": "Rapport format",
+        "ReportHour": "Send rapport kl. %s",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",
         "ReportSent": "Rapport afsent",
         "ReportsIncluded": "Statikker inkluderet",

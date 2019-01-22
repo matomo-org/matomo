@@ -1,12 +1,17 @@
 {
     "Login": {
+        "BruteForceLog": "Toistuvien kirjautumisyritysten loki",
         "ConfirmationLinkSent": "Varmistusviesti on lähetetty sähköpostiisi. Sähköpostista löydät aktivointilinkin.",
+        "ContactAdmin": "Mahdollinen syy: palvelimelta on poistettu mail() -funktio käytöstä. <br \/>Ota yhteys Matomon ylläpitäjään.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Käyttäjää, jolla on Superkäyttäjäoikeudet, ei voida todentaa käyttämällä '%s' mekanismia.",
         "ExceptionPasswordMD5HashExpected": "Salasanaparametrin kuuluu olla MD5-tiiviste salasanasta.",
         "InvalidNonceOrHeadersOrReferrer": "Lomakkeen turvatarkastus epäonnistui. Lataa lomake uudelleen, ja tarkista että evästeet on sallittu. Jos käytät välityspalvelinta, sinun täytyy %1$s säätää Matomo sallimaan välityspalvelimen otsake %2$s joka välittää Host-otsakkeen. Tarkista, että \\\"Referer\\\"-otsake lähetetään oikein.",
         "InvalidOrExpiredToken": "Virheellinen tai vanhentunut tunnistautuminen",
         "InvalidUsernameEmail": "Virheellinen käyttäjätunnus ja\/tai sähköpostiosoite",
         "LogIn": "Kirjaudu sisään",
+        "LoginOrEmail": "Käyttäjätunnus tai sähköpostiosoite",
+        "HelpIpRange": "Syötä yksi IP-osoite tai IP-osoiteväli riville. Voit käyttää CIDR-notaatiota, esim. %1$s, tai jokerimerkkejä, esim. %2$s tai %3$s",
+        "SettingBruteForceEnable": "Ota käyttöön toistuvien kirjautumisyritysten seuranta",
         "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin",
         "LostYourPassword": "Unohtuiko salasana?",
         "ChangeYourPassword": "Vaihda salasanasi",
