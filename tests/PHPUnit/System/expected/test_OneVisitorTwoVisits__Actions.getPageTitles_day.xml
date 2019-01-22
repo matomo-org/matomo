@@ -42,6 +42,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
+				<segment>pageTitle==Purchasing...</segment>
 			</row>
 		</subtable>
 	</row>

@@ -3,6 +3,7 @@
 	<row>
 		<label>New visits</label>
 		<nb_visits>5</nb_visits>
+		<segment>visitorType==new</segment>
 	</row>
 	<row>
 		<label>0 days</label>
