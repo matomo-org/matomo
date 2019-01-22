@@ -36,6 +36,11 @@ class BruteForceDetection {
 
     public function isEnabled()
     {
+        $module = Common::getRequestVar('module', false);
+        if ($module == 'CoreUpdater') {
+            return false; // do not enable the brute force check during update
+        }
+
         return $this->settings->enableBruteForceDetection->getValue();
     }
 
