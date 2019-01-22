@@ -61,6 +61,7 @@
         "YourVisitsAreIgnoredOnDomain": "%1$sDine besøg ignoreres af Matomo på %2$s %3$s (Matomo ignorer cookie blev fundet i netlæseren).",
         "YourVisitsAreNotIgnored": "%1$sDine besøg bliver ikke ignoreret af Matomo%2$s (Matomos ignorer-cookie blev ikke fundet i browseren).",
         "XtoYofN": "%1$s - %2$s af %3$s",
+        "ShowAll": "Vis alle",
         "Username": "Brugernavn"
     }
 }

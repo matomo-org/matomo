@@ -44,7 +44,7 @@
                         ng-model="$ctrl.user.login"
                         title="Username"
                         maxlength="100"
-                        disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
+                        data-disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
                 >
                 </div>
 
@@ -54,7 +54,7 @@
                         name="user_password"
                         ng-model="$ctrl.user.password"
                         title="Password"
-                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
 
@@ -65,7 +65,7 @@
                         ng-model="$ctrl.user.email"
                         title="Email"
                         maxlength="100"
-                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                         ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
                 >
                 </div>
@@ -76,7 +76,7 @@
                         name="user_site"
                         ng-model="$ctrl.firstSiteAccess"
                         title="First website permission"
-                        disabled="$ctrl.isSavingUserInfo"
+                        data-disabled="$ctrl.isSavingUserInfo"
                         ng-if="$ctrl.isAdd"
                         ui-control-attributes="{ onlySitesWithAdminAccess: true }"
                         ng-attr-inline-help="{{:: 'UsersManager_FirstSiteInlineHelp'|translate }}"
@@ -87,7 +87,7 @@
                      saving="$ctrl.isSavingUserInfo"
                      onconfirm="$ctrl.saveUserInfo()"
                      ng-value="$ctrl.getSaveButtonLabel()"
-                     disabled="$ctrl.isAdd && (!$ctrl.firstSiteAccess || !$ctrl.firstSiteAccess.id)"
+                     data-disabled="$ctrl.isAdd && (!$ctrl.firstSiteAccess || !$ctrl.firstSiteAccess.id)"
                      ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
                 ></div>
 
@@ -123,7 +123,7 @@
                     ng-model="$ctrl.user.superuser_access"
                     ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
                     ng-click="$ctrl.confirmSuperUserChange()"
-                    disabled="$ctrl.isSavingUserInfo"
+                    data-disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 

@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Тип",
         "Device": "Устройство",
         "DeviceBrand": "Фирма-производитель устройства",
+        "DeviceBrands": "Фирмы-производители устройства",
         "DeviceDetection": "Определение устройств",
         "DeviceModel": "Модель устройства",
+        "DeviceModels": "Модели устройства",
         "DevicesDetection": "Устройства посетителей",
         "DeviceType": "Тип устройства",
+        "DeviceTypes": "Типы устройства",
         "FeaturePhone": "Особенность телефона",
         "OperatingSystemFamilies": "Семейства операционных систем",
         "OperatingSystemFamily": "Тип операционной системы",
@@ -34,11 +37,14 @@
         "Smartphone": "Смартфон",
         "PortableMediaPlayer": "Портативный медиа-плеер",
         "Devices": "Устройства",
+        "GenericDevice": "Общий %s",
+        "MobileDevice": "Мобильное устройство",
         "Tablet": "Планшет",
         "Phablet": "Фаблет",
         "TV": "ТВ",
         "UserAgent": "User-Agent",
-        "WidgetBrowsers": "Браузеры посетителей",
-        "WidgetBrowsersDocumentation": "Этот отчет содержит информацию по браузерам, которые используют ваши посетители. Каждая версия браузера отображается отдельно."
+        "XVisitsFromDevices": "%1$s посещений с %2$s устройств",
+        "WidgetBrowsers": "Браузер посетителя",
+        "WidgetBrowsersDocumentation": "Этот отчёт содержит информацию по браузерам, которые используют ваши посетители. Каждая версия браузера отображается отдельно."
     }
 }

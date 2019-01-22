@@ -79,9 +79,6 @@
         "TheLoginScreen": "L'interface de connexion",
         "ThereAreCurrentlyNRegisteredUsers": "Il y a actuellement %s utilisateurs enregistrés.",
         "TokenAuth": "Jeton d'authentification à l'API",
-        "TokenRegenerateConfirm": "Modifier le jeton d'authentification à l'API va rendre le jeton courant de l'utilisateur invalide. Si l'utilisateur est authentifié en ce moment, il est possible qu'il doive de ré-identifier. Souhaitez-vous vraiment continuer?",
-        "TokenRegenerateConfirmSelf": "Modifier le jeton d'authentification à l'API va rendre invalide votre jeton. Il est possible que vous deviez vous ré-authentifier. Voulez-vous vraiment poursuivre?",
-        "TokenRegenerateLogoutWarning": "Lorsque vous regénérez votre jeton vous serez déconnecté(e) et devrez vous ré-authentifier.",
         "TokenRegenerateTitle": "Regénérer",
         "TypeYourPasswordAgain": "Tapez à nouveau votre nouveau mot de passe.",
         "User": "Utilisateur",
@@ -126,6 +123,7 @@
         "DeleteUsers": "Supprimer les utilisateurs",
         "UserSearch": "Recherche utilisateur",
         "FilterByAccess": "Filtrer par accès",
+        "ShowAll": "Afficher tout",
         "Username": "Nom d'utilisateur",
         "RoleFor": "Rôle de",
         "TheDisplayedUsersAreSelected": "Les %1$s utilisateurs affichés sont sélectionnés.",
@@ -135,7 +133,6 @@
         "DeleteUserConfirmSingle": "Etes vous sûr(e) de vouloir supprimer %1$s ?",
         "DeleteUserConfirmMultiple": "Etes vous sûr(e) de vouloir supprimer les %1$s utilisateurs sélectionnés?",
         "DeleteUserPermConfirmSingle": "Etes vous sûr(e) de vouloir changer le rôle de %1$s de %2$s à %3$s ?",
-        "DeleteUserPermConfirmMultiple": "Etes vous sûr(e) de vouloir changer le rôle des %1$s utilisateurs sélectionnés de %2$s à %3$s ?",
-        "AreYouSureChangePassword": "Etes vous sûr(e) de vouloir changer le mot de passe de %s ?"
+        "DeleteUserPermConfirmMultiple": "Etes vous sûr(e) de vouloir changer le rôle des %1$s utilisateurs sélectionnés de %2$s à %3$s ?"
     }
 }

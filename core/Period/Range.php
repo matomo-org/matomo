@@ -508,7 +508,7 @@ class Range extends Period
 
         if (strpos($endDate, '-') === false) {
             // eg today, yesterday, ... needs the timezone
-            $endDate = Date::factory($endDate, $timezone);
+            $endDate = Date::factoryInTimezone($endDate, $timezone);
         } else {
             $endDate = Date::factory($endDate);
         }

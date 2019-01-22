@@ -3592,7 +3592,7 @@ if ($mysql) {
     });
 
     test("tracking with sendBeacon", function() {
-        expect(6);
+        expect(9);
 
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
@@ -3603,10 +3603,17 @@ if ($mysql) {
         var shortTitle = 'CustomShortTitleTest';
         var longTitle = "CustomLongTitleTest" + (Array(2500).join('f'));
         tracker.trackPageView(shortTitle);
-        tracker.trackPageView(longTitle);
+        var callbackCalled = false;
+        tracker.trackPageView(longTitle, null, function (event) {
+            callbackCalled = true;
+            ok(event.success, 'succeeded');
+            ok(event.request.indexOf('action_name=') === 0, 'contains request');
+        });
 
         stop();
         setTimeout(function() {
+            ok(callbackCalled, 'called the callback');
+
             var xhr = makeXhr();
             xhr.open("GET", "matomo.php?requests=" + getAlwaysUseSendBeaconToken(), false);
             xhr.send(null);
@@ -3623,7 +3630,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(155);
+        expect(157);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3784,7 +3791,10 @@ if ($mysql) {
         tracker.trackPageView();
 
         var trackLinkCallbackFired = false;
-        var trackLinkCallback = function () {
+        var trackLinkCallback = function (event) {
+            ok(event.success, 'successful event callback');
+            ok(event.request.indexOf('link=http') === 0, 'contains request')
+
             trackLinkCallbackFired = true;
         };
         tracker.trackLink("http://example.ca", "link", { "token" : getToken() }, trackLinkCallback);
@@ -4968,7 +4978,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
  
 <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/foo/tests/javascript', 'index.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
     foreach ($files as $file) {
         include_once $file;
     }

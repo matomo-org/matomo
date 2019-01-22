@@ -81,6 +81,8 @@ class Session extends Zend_Session
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
+        @ini_set('session.cookie_path', empty($config->General['login_cookie_path']) ? '/' : $config->General['login_cookie_path']);
+
         $currentSaveHandler = ini_get('session.save_handler');
 
         if (!SettingsPiwik::isPiwikInstalled()) {
@@ -102,6 +104,10 @@ class Session extends Zend_Session
             // We consider these to be misconfigurations, in that:
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
+
+            if (@ini_get('session.serialize_handler') !== 'php_serialize') {
+                @ini_set('session.serialize_handler', 'php_serialize');
+            }
 
             $config = array(
                 'name'           => Common::prefixTable(DbTable::TABLE_NAME),
@@ -128,17 +134,15 @@ class Session extends Zend_Session
         } catch (Exception $e) {
             Log::error('Unable to start session: ' . $e->getMessage());
 
-            $enableDbSessions = '';
-            if (DbHelper::isInstalled()) {
-                $enableDbSessions = "<br/>If you still experience issues after trying these changes,
-			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer noopener' target='_blank'>enable database session storage</a>.";
+            if (SettingsPiwik::isPiwikInstalled()) {
+                $pathToSessions = '';
+            } else {
+                $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             }
-
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
-            $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
+            
+            $message = sprintf("Error: %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
-                $enableDbSessions,
                 $e->getMessage()
             );
 

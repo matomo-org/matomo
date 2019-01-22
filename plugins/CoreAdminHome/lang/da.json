@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "Klik her for at fravælge.",
         "CustomLogoFeedbackInfo": "Hvis du tilpasser Matomo logoet, kan du også være interesseret i at skjule %1$s linket i topmenuen. For at gøre dette, kan du deaktivere tilbagemeldingsmodulet på %2$sUdvidelsesmodul administration%3$s siden.",
         "CustomLogoHelpText": "Du kan tilpasse Matomo logo, der bliver vist i brugergrænsefladen og e-mail rapporter.",
-        "DevelopmentProcess": "Mens vores %1$sudviklingsproces%2$s omfatter tusindvis af automatiske tests, spiller betatestere en nøglerolle i at opnå \"ingen fejl politikken\" i Matomo.",
         "EmailServerSettings": "E-mailserverindstillinger",
         "ForBetaTestersOnly": "Kun for beta testere",
         "ImageTracking": "Sporing vha. et billede",

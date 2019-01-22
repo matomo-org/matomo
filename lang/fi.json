@@ -479,7 +479,7 @@
         "YearlyReports": "Vuosiraportit",
         "YearsDays": "%1$s vuotta %2$s päivää",
         "Yes": "Kyllä",
-        "YouAreCurrentlyUsing": "Käytät Matomo %s:ää",
+        "YouAreCurrentlyUsing": "Käytät Matomo-versiota %s",
         "YouAreViewingDemoMessage": "Katselet %1$sMatomo%2$s -demoa.",
         "YouMustBeLoggedIn": "Sinun täytyy kirjautua sisään ennen tämän toiminnallisuuden käyttämistä.",
         "YourChangesHaveBeenSaved": "Muutokset on tallennettu"
@@ -494,7 +494,7 @@
         "Advanced": "Lisäasetukset",
         "AnonymousAccess": "Anonyymi pääsy",
         "AnonymousTracking": "Anonyymi seuranta",
-        "AskForAnonymousTrackingPermission": "Kun tämä on käytössä, Matomo Mobile lähettää anonyymiä käyttötietoa piwik.orgiin. Tiedoilla yritetään oppia, miten tätä ohjelmaa käytetään. Seuraavia tietoja lähetetään: menujen ja asetusten valinnat, käyttöjärjestelmän nimi ja versio, sekä kaikki virheet, joita Matomo Mobile lähettää. Mitään analytiikkatietoja ei lähetetä. Lähetettyjä tietoja ei ikinä julkaista. Voit vaihtaa tätä asetusta Asetukset-valikosta koska tahansa.",
+        "AskForAnonymousTrackingPermission": "Kun tämä on käytössä, Matomo Mobile lähettää anonyymiä käyttötietoa matomo.orgiin. Tiedoilla yritetään oppia, miten tätä ohjelmaa käytetään. Seuraavia tietoja lähetetään: menujen ja asetusten valinnat, käyttöjärjestelmän nimi ja versio, sekä kaikki virheet, joita Matomo Mobile lähettää. Mitään analytiikkatietoja ei lähetetä. Lähetettyjä tietoja ei ikinä julkaista. Voit vaihtaa tätä asetusta Asetukset-valikosta koska tahansa.",
         "ChooseHttpTimeout": "Valitse HTTP:n aikakatkaisun pituus",
         "ChooseMetric": "Valitse metriikka",
         "ChooseReport": "Valitse raportti",

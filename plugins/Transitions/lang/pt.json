@@ -2,11 +2,16 @@
     "Transitions": {
         "BouncesInline": "%s ressaltos",
         "DirectEntries": "Entradas diretas",
+        "Transitions": "Transições",
         "ErrorBack": "Voltar à ação anterior",
         "ExitsInline": "%s saídas",
         "NumPageviews": "%s visualizações de páginas",
         "NumDownloads": "%s transferências",
         "NumOutlinks": "%s ligações de saída",
+        "TopX": "%s principais etiquetas",
+        "FeatureDescription": "As Transições fornecem-lhe um relatório que mostra as coisas que os seus visitantes fizeram diretamente antes e depois de ver uma determinada página. Esta página irá explicar como aceder, compreender e utilizar o poderoso relatório das Transições.",
+        "AvailableInOtherReports": "Sabia que? As transições também estão disponíveis como uma ação de linha nos seguintes relatórios:",
+        "AvailableInOtherReports2": "Simplesmente desloque o rato sob uma linha em qualquer um destes relatórios e clique no ícone de transição %s para a mostrar.",
         "FromCampaigns": "De campanhas",
         "FromPreviousPages": "De páginas internas",
         "FromPreviousPagesInline": "%s de páginas internas",
@@ -27,6 +32,7 @@
         "ToFollowingSiteSearches": "Pesquisas internas",
         "ToFollowingSiteSearchesInline": "%s pesquisas internas",
         "XOfAllPageviews": "%s de todas as visualizações desta página",
-        "XOutOfYVisits": "%1$s (de %2$s)"
+        "XOutOfYVisits": "%1$s (de %2$s)",
+        "PageURLTransitions": "Endereços de páginas de transição"
     }
 }

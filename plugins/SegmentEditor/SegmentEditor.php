@@ -97,7 +97,9 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // don't do check during cron archiving
-        if (SettingsServer::isArchivePhpTriggered()) {
+        if (SettingsServer::isArchivePhpTriggered()
+            || Common::isPhpCliMode()
+        ) {
             return null;
         }
 

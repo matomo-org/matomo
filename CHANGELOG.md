@@ -14,10 +14,12 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
+* When specifying a callback in the JavaScript tracker in a tracker method, we now make sure to execute the callback even in error cases or when sentBeacon is used. The callback recevies an event parameter to determine which request was sent and whether the request was sent successfully.
 * Added new event `Metrics.getEvolutionUnit` which lets you set the unit for a metric used in evolution charts and row evolution.
 
 ### New Features
 * The log importer now supports the `--tracker-endpoint-path` parameter which allows you to use a different tracker endpoint than `/piwik.php`, if desired.
+* It is now possible to define different log levels for different log writers via INI config. Set log_level_file, for example, to set the log level for the file writer, or log_level_screen for the screen writer.
 
 ### Internal change
 * New Matomo installation will now use by default "matomo.js" and "matomo.php" as tracking endpoints. From Matomo 4.0 all installations will use "matomo.js" and "matomo.php" by default. We recommend you ensure those files can be accessed through the web and are not blocked.

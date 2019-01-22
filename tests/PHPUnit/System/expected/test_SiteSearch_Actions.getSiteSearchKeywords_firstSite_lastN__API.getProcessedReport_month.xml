@@ -73,7 +73,23 @@
 		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
+		<result prettyDate="January 2010">
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Search+1</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Search+2</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Final+t%C3%BCte+Keyword+Searched+for+now</segment>
+			</row>
+			<row>
+				<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>
+			</row>
+		</result>
 		<result prettyDate="February 2010" />
 		<result prettyDate="March 2010" />
 		<result prettyDate="April 2010" />

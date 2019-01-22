@@ -31,22 +31,47 @@ class DataSubjects
         $this->logTablesProvider = $logTablesProvider;
     }
 
+    private function getDistinctIdSitesInTable($tableName, $maxIdSite)
+    {
+        $tableName = Common::prefixTable($tableName);
+        $idSitesLogTable = Db::fetchAll('SELECT DISTINCT idsite FROM ' . $tableName);
+        $idSitesLogTable = array_column($idSitesLogTable, 'idsite');
+        $idSitesLogTable = array_map('intval', $idSitesLogTable);
+        $idSitesLogTable = array_filter($idSitesLogTable, function ($idSite) use ($maxIdSite) {
+            return !empty($idSite) && $idSite <= $maxIdSite;
+        });
+        return $idSitesLogTable;
+    }
+
     public function deleteDataSubjectsForDeletedSites($allExistingIdSites)
     {
         if (empty($allExistingIdSites)) {
             return array();
         }
 
+        $allExistingIdSites = array_map('intval', $allExistingIdSites);
+        $maxIdSite = max($allExistingIdSites);
         $results = [];
 
-        $logTables = $this->getLogTablesToDeleteFrom();
-        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($allExistingIdSites) {
-            return $this->getWhereToChooseVisitsForOtherSites($tableToSelectFrom, $allExistingIdSites);
-        }, function ($tableToSelectFrom) {
-            return 'LEFT JOIN ' . Common::prefixTable('site') . ' site ON site.idsite = ' . $tableToSelectFrom . '.idsite';
-        });
+        $idSitesLogVisit = $this->getDistinctIdSitesInTable('log_visit', $maxIdSite);
+        $idSitesLogVisitAction = $this->getDistinctIdSitesInTable('log_link_visit_action', $maxIdSite);
+        $idSitesLogConversion = $this->getDistinctIdSitesInTable('log_conversion', $maxIdSite);
+        $idSitesUsed = array_unique(array_merge($idSitesLogVisit, $idSitesLogVisitAction, $idSitesLogConversion));
 
-        $results = array_merge($results, $deleteCounts);
+        $idSitesNoLongerExisting = array_diff($idSitesUsed, $allExistingIdSites);
+
+        if (empty($idSitesNoLongerExisting)) {
+            // nothing to be deleted... if there is no entry for that table in log_visit or log_link_visit_action
+            // then there shouldn't be anything to be deleted in other tables either
+            return array();
+        }
+
+        $logTables = $this->getLogTablesToDeleteFrom();
+        $results = array_merge($results, $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($idSitesNoLongerExisting) {
+            $idSitesNoLongerExisting = array_map('intval', $idSitesNoLongerExisting);
+            return [$tableToSelectFrom . '.idsite in ('. implode(',', $idSitesNoLongerExisting).')', []];
+        }));
+
         krsort($results); // make sure test results are always in same order
         return $results;
     }
@@ -108,7 +133,7 @@ class DataSubjects
      * @param callable $generateWhere
      * @throws \Zend_Db_Statement_Exception
      */
-    private function deleteLogDataFrom($logTables, callable $generateWhere, callable $generateExtraJoins = null)
+    private function deleteLogDataFrom($logTables, callable $generateWhere)
     {
         $results = [];
         foreach ($logTables as $logTable) {
@@ -123,12 +148,7 @@ class DataSubjects
 
             list($where, $bind) = $generateWhere($tableToSelect);
 
-            $extraJoins = '';
-            if ($generateExtraJoins) {
-                $extraJoins = $generateExtraJoins($tableToSelect);
-            }
-
-            $sql = "DELETE $logTableName FROM " . $this->makeFromStatement($from) . ' ' . $extraJoins . " WHERE $where";
+            $sql = "DELETE $logTableName FROM " . $this->makeFromStatement($from) . " WHERE $where";
 
             $result = Db::query($sql, $bind)->rowCount();
 
@@ -398,15 +418,6 @@ class DataSubjects
         $where = implode(' OR ', $where);
 
         return array($where, $bind);
-    }
-
-    private function getWhereToChooseVisitsForOtherSites($tableToSelect, $idSites)
-    {
-        // we also make sure we don't delete sites greater than the max idSite. this way if a site is added during
-        // an ongoing delete, the new valid data won't be deleted.
-        $maxIdSite = max($idSites);
-        $where = "site.idsite IS NULL AND $tableToSelect.idsite <= ?";
-        return [$where, [$maxIdSite]];
     }
 
     private function joinNonCoreTable(LogTable $logTable, &$from)

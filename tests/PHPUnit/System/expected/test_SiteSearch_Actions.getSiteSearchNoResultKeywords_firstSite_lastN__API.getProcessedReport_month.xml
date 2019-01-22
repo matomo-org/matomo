@@ -45,7 +45,11 @@
 		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
+		<result prettyDate="January 2010">
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+		</result>
 		<result prettyDate="February 2010" />
 		<result prettyDate="March 2010" />
 		<result prettyDate="April 2010" />

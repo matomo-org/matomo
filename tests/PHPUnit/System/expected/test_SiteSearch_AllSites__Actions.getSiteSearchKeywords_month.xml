@@ -16,6 +16,7 @@
 				<avg_time_on_page>144</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 			</row>
 			<row>
 				<label>Search 1</label>
@@ -31,6 +32,7 @@
 				<avg_time_on_page>78</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==Search+1</segment>
 			</row>
 			<row>
 				<label>Search 2</label>
@@ -47,6 +49,7 @@
 				<avg_time_on_page>36</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>50%</exit_rate>
+				<segment>siteSearchKeyword==Search+2</segment>
 			</row>
 			<row>
 				<label>Final tüte Keyword Searched for now</label>
@@ -63,6 +66,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<segment>siteSearchKeyword==Final+t%C3%BCte+Keyword+Searched+for+now</segment>
 			</row>
 			<row>
 				<label>Keyword - Tracking API</label>
@@ -78,6 +82,7 @@
 				<avg_time_on_page>27</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>
 			</row>
 		</result>
 		<result date="2010-02" />
@@ -104,6 +109,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 			</row>
 			<row>
 				<label>SHOULD be a Search with no result!</label>
@@ -119,6 +125,7 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==SHOULD+be+a+Search+with+no+result%21</segment>
 			</row>
 			<row>
 				<label>You can use Piwik in: አማርኛ, العربية, Беларуская, Български, Català, Česky, Dansk, Deutsch, Ελληνικά, English, Español, Eesti keel, Euskara, فارسی, Suomi, Français, Galego, עברית, Magyar, Bahasa Indonesia, Íslenska, Italiano, 日本語, ქართული, 한국어, Lietuvių, Latviešu, Norsk (bokmål), Nederlands, Norsk (nynorsk), Polski, Português brasileiro, Português, Română, Русский, Slovensky%</label>
@@ -134,6 +141,7 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<segment>siteSearchKeyword==You+can+use+Piwik+in%3A+%E1%8A%A0%E1%88%9B%E1%88%AD%E1%8A%9B%2C+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9%2C+%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D0%BA%D0%B0%D1%8F%2C+%D0%91%D1%8A%D0%BB%D0%B3%D0%B0%D1%80%D1%81%D0%BA%D0%B8%2C+Catal%C3%A0%2C+%C4%8Cesky%2C+Dansk%2C+Deutsch%2C+%CE%95%CE%BB%CE%BB%CE%B7%CE%BD%CE%B9%CE%BA%CE%AC%2C+English%2C+Espa%C3%B1ol%2C+Eesti+keel%2C+Euskara%2C+%D9%81%D8%A7%D8%B1%D8%B3%DB%8C%2C+Suomi%2C+Fran%C3%A7ais%2C+Galego%2C+%D7%A2%D7%91%D7%A8%D7%99%D7%AA%2C+Magyar%2C+Bahasa+Indonesia%2C+%C3%8Dslenska%2C+Italiano%2C+%E6%97%A5%E6%9C%AC%E8%AA%9E%2C+%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%A3%E1%83%9A%E1%83%98%2C+%ED%95%9C%EA%B5%AD%EC%96%B4%2C+Lietuvi%C5%B3%2C+Latvie%C5%A1u%2C+Norsk+%28bokm%C3%A5l%29%2C+Nederlands%2C+Norsk+%28nynorsk%29%2C+Polski%2C+Portugu%C3%AAs+brasileiro%2C+Portugu%C3%AAs%2C+Rom%C3%A2n%C4%83%2C+%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%2C+Slovensky%25</segment>
 			</row>
 		</result>
 		<result date="2010-02" />

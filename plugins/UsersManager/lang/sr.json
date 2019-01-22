@@ -63,9 +63,6 @@
         "TheLoginScreen": "Stranica za prijavu",
         "ThereAreCurrentlyNRegisteredUsers": "Trenutno registrovanih korisnika: %s",
         "TokenAuth": "Token za API autentifikaciju",
-        "TokenRegenerateConfirm": "Promena tokena za API autentifikaciju će učiniti nevažećim trenutne korisničke tokene. Ukoliko je korisnik prijavljen, moraće ponovo da se prijavi. Da li ste sigurni da želite da nastavite?",
-        "TokenRegenerateConfirmSelf": "Promena tokena za API autentifikaciju će učiniti nevažećim vaš token. Moraćete ponovo da se prijavite za nastavak. Da li ste sigurni da želite da promenite vaš token za autentifikaciju?",
-        "TokenRegenerateLogoutWarning": "Kada budete regenerisali vaš token, bićete odjavljeni i moraćete da se prijavite ponovo.",
         "TokenRegenerateTitle": "Regenerisanje",
         "TypeYourPasswordAgain": "Upišite novu lozinku ponovo",
         "User": "Korisnik",
@@ -78,6 +75,7 @@
         "YourVisitsAreIgnoredOnDomain": "%1$s Matomo ignoriše vaše posete %2$s %3$s (pronađen je specijalni kolačić u vašem brauzeru).",
         "YourVisitsAreNotIgnored": "%1$s Matomo ne ignoriše vaše posete%2$s (nije pronađen kolačić u vašem brauzeru).",
         "XtoYofN": "%1$s - %2$s od %3$s",
+        "ShowAll": "Prikaži sve",
         "Username": "Korisničko ime"
     }
 }

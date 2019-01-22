@@ -24,10 +24,10 @@
         <p>{{ 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep1'|translate }} <a rel="noreferrer noopener" href="https://github.com/andOTP/andOTP#downloads">andOTP</a>, <a rel="noreferrer noopener" href="https://authy.com/guides/github/">Authy</a>, <a rel="noreferrer noopener" href="https://support.1password.com/one-time-passwords/">1Password</a>, <a rel="noreferrer noopener" href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/">LastPass Authenticator</a>, {{ 'General_Or'|translate }} <a rel="noreferrer noopener" href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>.
         </p>
         <p>{{ 'TwoFactorAuth_SetupAuthenticatorOnDeviceStep2'|translate('<a href="javascript:void(0)" onclick="piwikHelper.modalConfirm(\'#setupTwoFAsecretConfirm\')">', '</a>')|raw }}<br/>
-        <img id="qrcode" src="{{ authImage|raw }}">
-        <br />
-        <button ng-show="setup2fa.step == 2" ng-click="setup2fa.nextStep()" class="btn goToStep3">{{ 'General_Next'|translate }}</button>
-    </p>
+            <div id="qrcode" title=""></div>
+            <br />
+            <button ng-show="setup2fa.step == 2" ng-click="setup2fa.nextStep()" class="btn goToStep3">{{ 'General_Next'|translate }}</button>
+        </p>
     </div>
 
     <a name="twoFactorStep3" id="twoFactorStep3" style="opacity: 0"></a>
@@ -65,6 +65,9 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    window.twoFaBarCodeSetupUrl = {{ twoFaBarCodeSetupUrl|json_encode|raw }};
+</script>
 
 <div id="setupTwoFAsecretConfirm" class="ui-confirm">
     <h2>{{ 'TwoFactorAuth_Your2FaAuthSecret'|translate }}</h2>

@@ -50,8 +50,11 @@ class Actions extends BaseFilter
 
             foreach ($dataTable->getRows() as $row) {
                 $url = $row->getMetadata('url');
+                $label = $row->getColumn('label');
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
+                } else if ($this->isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
+                    $row->setMetadata('segmentValue', trim(urldecode($label)));
                 }
 
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter

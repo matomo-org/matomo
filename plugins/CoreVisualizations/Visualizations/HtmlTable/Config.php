@@ -88,7 +88,7 @@ class Config extends VisualizationConfig
     public $highlight_summary_row = false;
 
     /**
-     * If true, the totals row will be hidden
+     * If true, the totals row will be shown
      *
      * Default value: false
      */

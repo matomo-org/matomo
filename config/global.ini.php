@@ -93,7 +93,13 @@ log_writers[] = screen
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
 ; ERROR, WARN, INFO, DEBUG
+; this setting will apply to every log writer, if there is no specific log level defined for a writer.
 log_level = WARN
+
+; you can also set specific log levels for different writers, by appending the writer name to log_level_, like so:
+; this allows you to log more information to one backend vs another.
+; log_level_screen =
+; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
@@ -371,7 +377,7 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session. As of Matomo 3.7.0 it is the only supported handler.
+; Matomo uses PHP's dbtable for session. As of Matomo 3.8.0 it is the only supported handler.
 ; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
 session_save_handler = dbtable
 
@@ -388,7 +394,7 @@ login_cookie_name = piwik_auth
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; (DEPRECATED) has no effect
+; Sets the session cookie path
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
@@ -443,6 +449,9 @@ noreply_email_address = "noreply@{DOMAIN}"
 
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
+
+; set to 0 to disable sending of all emails. useful for testing.
+emails_enabled = 1
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"

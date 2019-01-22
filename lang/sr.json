@@ -442,7 +442,7 @@
         "Advanced": "Za napredne korisnike",
         "AnonymousAccess": "Anonimni pristup",
         "AnonymousTracking": "Anonimno praćenje",
-        "AskForAnonymousTrackingPermission": "Ako je ova opcija uključena, Mobilni Matomo će slati anonimne podatke o upotrebi na piwik.org. Svrha ovoga je pomoć razvojnom timu koji radi na projektu kako bi bolje razumeo kako se koristi aplikacija. Informacije koje se šalju su: meniji i podešavanja na koja se klikće, naziv i verzija operativnog sistema, prikazane greške. Matomo tim NEĆE pratiti vaše analitičke podatke. Ovi anonimni podaci nikada neće postati javni. U bilo kom trenutku možete uključiti i isključiti ovu opciju preko podešavanja.",
+        "AskForAnonymousTrackingPermission": "Ako je ova opcija uključena, Mobilni Matomo će slati anonimne podatke o upotrebi na matomo.org. Svrha ovoga je pomoć razvojnom timu koji radi na projektu kako bi bolje razumeo kako se koristi aplikacija. Informacije koje se šalju su: meniji i podešavanja na koja se klikće, naziv i verzija operativnog sistema, prikazane greške. Matomo tim NEĆE pratiti vaše analitičke podatke. Ovi anonimni podaci nikada neće postati javni. U bilo kom trenutku možete uključiti i isključiti ovu opciju preko podešavanja.",
         "ChooseHttpTimeout": "Izaberite vrednost za HTTP tajmaut",
         "ChooseMetric": "Izaberite metriku",
         "ChooseReport": "Izaberite izveštaj",

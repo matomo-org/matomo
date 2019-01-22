@@ -13,8 +13,6 @@ use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Request;
@@ -35,7 +33,6 @@ abstract class Base extends VisitDimension
                 Common::printDebug("WARN: Tracker API '$urlParamToOverride' was used with invalid token_auth");
                 throw new InvalidRequestParameterException("Tracker API '$urlParamToOverride' was used, requires valid token_auth");
             }
-
             return $value;
         }
 

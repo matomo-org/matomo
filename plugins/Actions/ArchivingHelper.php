@@ -447,7 +447,7 @@ class ArchivingHelper
             if ($name === '' || $name === false || $name === null || trim($name) === '') {
                 $name = self::getUnknownActionName($type);
             }
-            return array(trim($name));
+            return array(' ' . trim($name));
         }
 
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);

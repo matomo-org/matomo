@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "点这里主动退出。",
         "CustomLogoFeedbackInfo": "如果您定制了 Matomo 图标，那您可能也想在顶部菜单隐藏 %1$s 链接。在 %2$s管理插件%3$s 页面禁用反馈（Feedback）插件就可以了。",
         "CustomLogoHelpText": "您可以定制 Matomo 图标，它会显示在用户界面和报表邮件中。",
-        "DevelopmentProcess": "虽然我们的%1$s开发过程%2$s已包含上千个自动测试，但 Beta 测试者依然是 Matomo 达成“无 Bug 策略”的关键角色。",
         "EmailServerSettings": "邮件服务器设置",
         "ForBetaTestersOnly": "仅限 Beta 测试者",
         "ImageTracking": "图片追踪",

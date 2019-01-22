@@ -519,7 +519,7 @@ class Request
         }
 
         return $time <= $now
-            && $time > $now - 10 * 365 * 86400;
+            && $time > $now - 20 * 365 * 86400;
     }
 
     /**
@@ -889,7 +889,7 @@ class Request
 
         if (!$this->isAuthenticated()) {
             Common::printDebug("WARN: Tracker API 'cip' was used with invalid token_auth");
-            throw new InvalidRequestParameterException("Tracker API 'cip' was used, requires valid token_auth");
+            return IP::getIpFromHeader();
         }
 
         return $cip;

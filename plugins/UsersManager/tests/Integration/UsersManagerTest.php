@@ -1153,21 +1153,24 @@ class UsersManagerTest extends IntegrationTestCase
                 'name' => 'UsersManager_PrivWrite',
                 'description' => 'TagManager_CapabilityWriteDescription',
                 'helpUrl' => '',
-                'includedInRoles' => array ('write', 'admin')
+                'includedInRoles' => array ('write', 'admin'),
+                'category' => 'TagManager_TagManager',
             ),
             1 => array (
                 'id' => 'tagmanager_publish_live_container',
                  'name' => 'TagManager_CapabilityPublishLiveContainer',
                 'description' => 'TagManager_CapabilityPublishLiveContainerDescription',
                 'helpUrl' => '',
-                'includedInRoles' => array ('admin')
+                'includedInRoles' => array ('admin'),
+                'category' => 'TagManager_TagManager',
             ),
             2 => array (
                 'id' => 'tagmanager_use_custom_templates',
                 'name' => 'TagManager_CapabilityUseCustomTemplates',
                 'description' => 'TagManager_CapabilityUseCustomTemplateDescription',
                 'helpUrl' => '',
-                'includedInRoles' => array ('admin')
+                'includedInRoles' => array ('admin'),
+                'category' => 'TagManager_TagManager',
             )
         ), $this->api->getAvailableCapabilities());
     }
@@ -1199,10 +1202,5 @@ class UsersManagerTest extends IntegrationTestCase
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
-    }
-
-    public function testName()
-    {
-
     }
 }
