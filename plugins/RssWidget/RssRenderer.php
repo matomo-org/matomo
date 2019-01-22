@@ -76,11 +76,11 @@ class RssRenderer
                 $output .= '<li><a class="rss-title" title="" target="_blank" rel="noreferrer noopener" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '">' . $title . '</a>' .
                     '<span class="rss-date">' . $date . '</span>';
                 if ($this->showDescription) {
-                    $output .= '<div class="rss-description">' . $post->description . '</div>';
+                    $output .= '<div class="rss-description">' . $this->addTargetBlankAndNoReferrerToLinks($post->description) . '</div>';
                 }
 
                 if ($this->showContent) {
-                    $output .= '<div class="rss-content">' . $post->content . '</div>';
+                    $output .= '<div class="rss-content">' . $this->addTargetBlankAndNoReferrerToLinks($post->content) . '</div>';
                 }
                 $output .= '</li>';
 
@@ -93,5 +93,10 @@ class RssRenderer
             $this->cache->save($cacheId, $output, 60 * 60 * 24);
         }
         return $output;
+    }
+
+    private function addTargetBlankAndNoReferrerToLinks($content)
+    {
+        return str_replace('<a ', '<a target="_blank" rel="noreferrer noopener"', $content);
     }
 }
