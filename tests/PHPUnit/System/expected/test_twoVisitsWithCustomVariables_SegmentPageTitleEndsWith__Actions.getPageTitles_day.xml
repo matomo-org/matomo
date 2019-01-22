@@ -21,6 +21,7 @@
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>50%</exit_rate>
+		<segment>pageTitle==Homepage</segment>
 	</row>
 	<row>
 		<label> Profile page</label>
@@ -36,5 +37,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>pageTitle==Profile+page</segment>
 	</row>
 </result>

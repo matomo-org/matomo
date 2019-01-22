@@ -27,6 +27,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.138</avg_time_generation>
+				<segment>pageTitle==first+page+view</segment>
 			</row>
 		</result>
 		<result date="2010-01-04,2010-01-10">
@@ -50,6 +51,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.452</avg_time_generation>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 			</row>
 			<row>
 				<label> second visitor/two days later/a new visit</label>
@@ -74,6 +76,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.323</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view</label>
@@ -93,6 +96,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.173</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 			</row>
 			<row>
 				<label> Page Name not defined</label>
@@ -112,6 +116,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.223</avg_time_generation>
+				<segment>pageTitle==Page+Name+not+defined</segment>
 			</row>
 		</result>
 		<result date="2010-01-11,2010-01-17">
@@ -135,6 +140,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.452</avg_time_generation>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 			</row>
 			<row>
 				<label> second visitor/two days later/a new visit</label>
@@ -159,6 +165,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.323</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 			</row>
 			<row>
 				<label> second visitor/two days later/second page view</label>
@@ -178,6 +185,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.173</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 			</row>
 		</result>
 		<result date="2010-01-18,2010-01-24" />
@@ -206,6 +214,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.353</avg_time_generation>
+				<segment>pageTitle==Page+Name+not+defined</segment>
 			</row>
 			<row>
 				<label> Website 2 page view</label>
@@ -232,6 +241,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.193</avg_time_generation>
+				<segment>pageTitle==Website+2+page+view</segment>
 			</row>
 		</result>
 		<result date="2010-01-11,2010-01-17" />
