@@ -86,6 +86,7 @@ return array(
         'favicon.ico',
         'robots.txt',
         '.bowerrc',
+        '.lfsconfig',
         '.phpstorm.meta.php',
         'config/config.ini.php',
         'config/config.php',
