@@ -54,6 +54,13 @@ class ActionSiteSearchTest extends IntegrationTestCase
             [$defaultWebsite, 'http://example.org/index.htm#anchor?cat=test&otherparam=1&q=keyword', ['http://example.org/index.htm#anchor?otherparam=1', 'keyword', 'test', false]],
             [$defaultWebsite, 'http://example.org/index.htm?cat=test&otherparam=1&q=kw#?q=keyword', ['http://example.org/index.htm?otherparam=1', 'keyword', 'test', false]],
             [$defaultWebsite, 'http://example.org/index.htm?k=keyword&cc=cat', ['http://example.org/index.htm', 'keyword', 'cat', false]],
+            [$defaultWebsite, '#?q=keyword', ['', 'keyword', '', false]],
+            [$defaultWebsite, 'http://example.org/index.html?a=b#?&&&q=keyword', ['http://example.org/index.html?a=b', 'keyword', '', false]],
+            [$defaultWebsite, 'http://example.org/#&?q=keyword', ['http://example.org/#&', 'keyword', '', false]],
+
+            // some invalid/incorrect urls that aren't detected as site search
+            [$defaultWebsite, 'http://example.org/index.html?a=b#?&&&?q=keyword', false],
+            [$defaultWebsite, 'http://example.org/#&?var=val?q=keyword', false],
         ];
     }
 }

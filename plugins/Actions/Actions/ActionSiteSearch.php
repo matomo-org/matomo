@@ -135,11 +135,12 @@ class ActionSiteSearch extends Action
         $queryString = !empty($parsedUrl['query']) ? $parsedUrl['query'] : '';
         $fragment = !empty($parsedUrl['fragment']) ? $parsedUrl['fragment'] : '';
 
+        $parsedFragment = parse_url($fragment);
+
         // check if fragment contains a separate query (beginning with ?) otherwise assume complete fragment as query
-        if ($fragment && strpos($fragment, '?') !== false &&
-            (strpos($fragment, '&') === false || strpos($fragment, '?') < strpos($fragment, '&'))) {
-            $fragmentBeforeQuery = substr($fragment, 0, strpos($fragment, '?'));
-            $fragmentQuery = substr($fragment, strpos($fragment, '?')+1);
+        if ($fragment && strpos($fragment, '?') !== false && !empty($parsedFragment['query'])) {
+            $fragmentBeforeQuery = !empty($parsedFragment['path']) ? $parsedFragment['path'] : '';
+            $fragmentQuery = $parsedFragment['query'];
         } else {
             $fragmentQuery = $fragment;
             $fragmentBeforeQuery = '';
@@ -195,7 +196,14 @@ class ActionSiteSearch extends Action
                 $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
             }
             if (isset($parsedUrl['fragment'])) {
-                $parsedUrl['fragment'] = ($fragmentBeforeQuery ? $fragmentBeforeQuery.'?' : '') . UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($fragmentQuery), $parametersToExclude);
+                $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($fragmentQuery), $parametersToExclude);
+                if ($fragmentBeforeQuery) {
+                    if ($parsedUrl['fragment']) {
+                        $parsedUrl['fragment'] = $fragmentBeforeQuery.'?'.$parsedUrl['fragment'];
+                    } else {
+                        $parsedUrl['fragment'] = $fragmentBeforeQuery;
+                    }
+                }
             }
         }
         $url = UrlHelper::getParseUrlReverse($parsedUrl);
