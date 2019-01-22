@@ -140,7 +140,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
         $this->_checkEqual(array('Debug' => 'always_archive_data_period'), '0');
         $this->_checkEqual(array('Debug' => 'enable_sql_profiler'), '0');
-        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '150');
+        $this->_checkEqual(array('General' => 'time_before_today_archive_considered_outdated'), '900');
         $this->_checkEqual(array('General' => 'enable_browser_archiving_triggering'), '1');
         $this->_checkEqual(array('General' => 'default_language'), 'en');
         $this->_checkEqual(array('Tracker' => 'record_statistics'), '1');
