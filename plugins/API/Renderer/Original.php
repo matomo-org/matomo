@@ -50,12 +50,12 @@ class Original extends ApiRenderer
 
     public function renderScalar($scalar)
     {
-        return $scalar;
+        return $this->serializeIfNeeded($scalar);
     }
 
     public function renderObject($object)
     {
-        return $object;
+        return $this->serializeIfNeeded($object);
     }
 
     public function renderResource($resource)
