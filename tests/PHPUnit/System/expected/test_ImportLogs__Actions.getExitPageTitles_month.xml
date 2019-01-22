@@ -25,6 +25,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==301%2FURL+%3D+http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</segment>
 	</row>
 	<row>
 		<label> 404/URL = http://hello.example.com/hello/world/6,681965</label>
@@ -51,6 +52,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.359</avg_time_generation>
+		<segment>exitPageTitle==404%2FURL+%3D+http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</segment>
 	</row>
 	<row>
 		<label> 302/URL = http://piwik.net/Citrix/XenApp/Wan/auth/login.jsp</label>
@@ -77,6 +79,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==302%2FURL+%3D+http%3A%2F%2Fpiwik.net%2FCitrix%2FXenApp%2FWan%2Fauth%2Flogin.jsp</segment>
 	</row>
 	<row>
 		<label> 307/URL = http://piwik.net/temp-redirect</label>
@@ -98,6 +101,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==307%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 	</row>
 	<row>
 		<label> 404/URL = http://piwik.net/this/is/not/the/page/i/am/looking/for/</label>
@@ -124,6 +128,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==404%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
 	</row>
 	<row>
 		<label> 500/URL = http://piwik.net/to-an-error</label>
@@ -150,6 +155,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==500%2FURL+%3D+http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 	</row>
 	<row>
 		<label> incredible title!</label>
@@ -176,6 +182,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==incredible+title%21</segment>
 	</row>
 	<row>
 		<label> Piwik Forums</label>
@@ -202,5 +209,6 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==Piwik+Forums</segment>
 	</row>
 </result>

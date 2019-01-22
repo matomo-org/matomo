@@ -380,7 +380,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
             array('en', false, '2000-01-01 16:05:52', '16:05:52'),
             array('de', false, '2000-01-01 16:05:52', '16:05:52'),
             array('en', true, '2000-01-01 16:05:52', '4:05:52 PM'),
-            array('de', true, '2000-01-01 04:05:52', '4:05:52 vorm.'),
+            array('de', true, '2000-01-01 04:05:52', '4:05:52 AM'),
             array('zh-tw', true, '2000-01-01 04:05:52', '上午4:05:52'),
             array('lt', true, '2000-01-01 16:05:52', '04:05:52 popiet'),
             array('ar', true, '2000-01-01 04:05:52', '4:05:52 ص'),

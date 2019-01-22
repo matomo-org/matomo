@@ -47,14 +47,18 @@ class Mail extends Zend_Mail
         if (empty($fromEmailName) && $customLogo->isEnabled()) {
             $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
         } elseif (empty($fromEmailName)) {
-            $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
+            $fromEmailName = $translator->translate('TagManager_MatomoTagName');
         }
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
         $this->setFrom($fromEmailAddress, $fromEmailName);
     }
 
-    public function setWrappedHtmlBody(View $body)
+    /**
+     * @param View|string $body
+     * @throws \DI\NotFoundException
+     */
+    public function setWrappedHtmlBody($body)
     {
         $contentGenerator = StaticContainer::get(ContentGenerator::class);
         $bodyHtml = $contentGenerator->generateHtmlContent($body);

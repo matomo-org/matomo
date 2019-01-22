@@ -8,6 +8,7 @@
         "ChooseASegment": "选择一个分段",
         "DefaultAllVisits": "所有的访问",
         "DragDropCondition": "拖拉条件",
+        "HideMessageInFuture": "不再显示此消息",
         "LoadingSegmentedDataMayTakeSomeTime": "正在处理分段访客数据，可能需要几分钟 ...",
         "OperatorAND": "和",
         "OperatorOR": "或",

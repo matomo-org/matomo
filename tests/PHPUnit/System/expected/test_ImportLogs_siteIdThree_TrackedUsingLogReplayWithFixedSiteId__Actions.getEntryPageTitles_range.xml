@@ -25,6 +25,7 @@
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<avg_time_generation>0.177</avg_time_generation>
+		<segment>entryPageTitle==Liberate+Web+Analytics+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Log Analytics - Analytics - Piwik</label>
@@ -51,6 +52,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.145</avg_time_generation>
+		<segment>entryPageTitle==Log+Analytics+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Changelog Archive - Analytics - Piwik</label>
@@ -75,6 +77,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>entryPageTitle==Changelog+Archive+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
@@ -101,6 +104,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.413</avg_time_generation>
+		<segment>entryPageTitle==demo.piwik.org%2FPiwik+Forums+-+Piwik+%E2%80%BA+Web+Analytics+Reports</segment>
 	</row>
 	<row>
 		<label> Hello Installing Piwik - Analytics - Piwik</label>
@@ -127,6 +131,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>entryPageTitle==Hello+Installing+Piwik+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> incredible title!</label>
@@ -153,6 +158,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>entryPageTitle==incredible+title%21</segment>
 	</row>
 	<row>
 		<label> Integrate Piwik into your Rails Application - Analytics - Piwik</label>
@@ -179,6 +185,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.391</avg_time_generation>
+		<segment>entryPageTitle==Integrate+Piwik+into+your+Rails+Application+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Looking at Electronics &amp; Cameras page with a page level custom variable</label>
@@ -205,6 +212,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>entryPageTitle==Looking+at+Electronics+%26amp%3B+Cameras+page+with+a+page+level+custom+variable</segment>
 	</row>
 	<row>
 		<label> Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
@@ -231,6 +239,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.119</avg_time_generation>
+		<segment>entryPageTitle==Piwik+2.1+%E2%80%94+Massive+Performance+and+Reliability+Improvements+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Piwik Forums</label>
@@ -257,5 +266,6 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>entryPageTitle==Piwik+Forums</segment>
 	</row>
 </result>

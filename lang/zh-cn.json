@@ -269,6 +269,7 @@
         "NbSearches": "内部搜索次数",
         "NeedMoreHelp": "需要更多帮助？",
         "Never": "从不",
+        "New": "新",
         "NewReportsWillBeProcessedByCron": "当 Matomo 不是通过浏览器触发处理时，新的报表将通过 crontab 处理。",
         "NewUpdatePiwikX": "最新更新: Matomo %s",
         "NewVisitor": "新访客",
