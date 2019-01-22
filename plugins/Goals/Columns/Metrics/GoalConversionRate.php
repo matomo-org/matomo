@@ -1,17 +1,15 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific;
+namespace Piwik\Plugins\Goals\Columns\Metrics;
 
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
 use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
@@ -23,8 +21,9 @@ use Piwik\Tracker\GoalManager;
  * The goal's nb_conversions is calculated by the Goal archiver and nb_visits
  * by the core archiving process.
  */
-class ConversionRate extends GoalSpecificProcessedMetric
+class GoalConversionRate extends GoalSpecificProcessedMetric
 {
+
     public function getName()
     {
         return Goals::makeGoalColumn($this->idGoal, 'conversion_rate');
@@ -42,7 +41,7 @@ class ConversionRate extends GoalSpecificProcessedMetric
 
     public function getDependentMetrics()
     {
-        return array('goals');
+        return array('nb_visits', Goals::makeGoalColumn($this->idGoal, 'nb_conversions'));
     }
 
     public function format($value, Formatter $formatter)
@@ -52,12 +51,8 @@ class ConversionRate extends GoalSpecificProcessedMetric
 
     public function compute(Row $row)
     {
-        $mappingFromNameToIdGoal = Metrics::getMappingFromNameToIdGoal();
-
-        $goalMetrics = $this->getGoalMetrics($row);
-
         $nbVisits = $this->getMetric($row, 'nb_visits');
-        $conversions = $this->getMetric($goalMetrics, 'nb_conversions', $mappingFromNameToIdGoal);
+        $conversions = $this->getMetric($row, Goals::makeGoalColumn($this->idGoal, 'nb_conversions'));
 
         return Piwik::getQuotientSafe($conversions, $nbVisits, GoalManager::REVENUE_PRECISION + 2);
     }
