@@ -9,6 +9,7 @@
 
 namespace Piwik\View;
 
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Mail\EmailStyles;
 use Piwik\Plugin\ThemeStyles;
@@ -18,12 +19,14 @@ use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\View;
+use Piwik\Plugin\Manager;
 
 class HtmlReportEmailHeaderView extends View
 {
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
 
     private static $reportFrequencyTranslationByPeriod = [
+        Schedule::PERIOD_NEVER => '',
         Schedule::PERIOD_DAY   => 'General_DailyReport',
         Schedule::PERIOD_WEEK  => 'General_WeeklyReport',
         Schedule::PERIOD_MONTH => 'General_MonthlyReport',
@@ -70,13 +73,20 @@ class HtmlReportEmailHeaderView extends View
         $view->emailStyles = $emailStyles;
 
         $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
-        $view->styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;';
+        $view->styleParagraphText = 'font-size:15px;line-height:24px;';
+        $view->styleParagraph = $view->styleParagraphText . 'margin:0 0 16px;';
 
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
         $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
 
-        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
+        $pluginManager = Manager::getInstance();
+
+        $view->hasWhiteLabel = $pluginManager->isPluginLoaded('WhiteLabel')
+            && $pluginManager->isPluginActivated('WhiteLabel')
+            && $pluginManager->isPluginInFilesystem('WhiteLabel');
+
+        $view->idSite = Common::getRequestVar('idSite', false);
     }
 
     private static function getPeriodToFrequencyAsAdjective()

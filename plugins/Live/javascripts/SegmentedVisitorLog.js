@@ -96,7 +96,7 @@ var SegmentedVisitorLog = function() {
     function show(apiMethod, segment, extraParams) {
 
         // open the popover
-        var box = Piwik_Popover.showLoading('Segmented Visitor Log');
+        var box = Piwik_Popover.showLoading('Segmented Visit Log');
         box.addClass('segmentedVisitorLogPopover');
 
 

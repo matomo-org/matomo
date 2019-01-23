@@ -15,6 +15,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Period\PeriodValidator;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\ReportsProvider;
 
@@ -323,6 +325,16 @@ class   Config
     public $show_search = true;
 
     /**
+     * Controls whether the period selector under the datatable is shown.
+     */
+    public $show_periods = false;
+
+    /**
+     * Controls which periods can be selected when the period selector is enabled
+     */
+    public $selectable_periods = [];
+
+    /**
      * Controls whether the export feature under the datatable is shown.
      *
      * @api since Piwik 3.2.0
@@ -515,6 +527,12 @@ class   Config
             Metrics::getDefaultProcessedMetrics()
         );
 
+        $periodValidator = new PeriodValidator();
+        $this->selectable_periods = $periodValidator->getPeriodsAllowedForUI();
+        $this->selectable_periods = array_diff($this->selectable_periods, array('range'));
+        foreach ($this->selectable_periods as $period) {
+            $this->translations[$period] = ucfirst(Piwik::translate('Intl_Period' . ucfirst($period)));
+        }
         $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');
     }
 

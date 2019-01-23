@@ -4,6 +4,7 @@
         "AvgEventValue": "イベントの平均値: %s",
         "AvgValue": "平均値",
         "AvgValueDocumentation": "このイベントのすべての値の平均値",
+        "Category": "カテゴリ",
         "Event": "イベント",
         "EventAction": "イベントのアクション",
         "EventActions": "イベントのアクション",

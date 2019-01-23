@@ -47,11 +47,6 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
         $this->idGoal = $idGoal;
     }
 
-    protected function getColumnPrefix()
-    {
-        return 'goal_' . $this->idGoal;
-    }
-
     protected function getGoalMetrics(Row $row)
     {
         $allGoalMetrics = $this->getMetric($row, 'goals');

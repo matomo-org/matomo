@@ -59,6 +59,7 @@ class Dashboard
             'disable_queued_filters' => '1',
             'filter_limit' => '-1',
             'filter_offset' => '0',
+            'totals' => 0
         ], $default = []);
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);

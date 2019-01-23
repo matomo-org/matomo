@@ -50,6 +50,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage%2Findex.htm%3Fwhatever%3D%EC%E5%F8%EA%EE%E2%FB%E5</segment>
 			</row>
 		</subtable>
 	</row>

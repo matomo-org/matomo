@@ -179,6 +179,7 @@ class Twig
         $this->addFilter_nonce();
         $this->addFilter_md5();
         $this->addFilter_onlyDomain();
+        $this->addFilter_safelink();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -555,5 +556,16 @@ class Twig
         if ($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR) {
             $value = $path . "/$value";
         }
+    }
+
+    private function addFilter_safelink()
+    {
+        $safelink = new Twig_SimpleFilter('safelink', function ($url) {
+            if (!UrlHelper::isLookLikeSafeUrl($url)) {
+                return '';
+            }
+            return $url;
+        });
+        $this->twig->addFilter($safelink);
     }
 }

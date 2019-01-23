@@ -10,7 +10,9 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Version;
 
 class DbHelperTest extends IntegrationTestCase
 {
@@ -20,6 +22,52 @@ class DbHelperTest extends IntegrationTestCase
 
         DbHelper::dropDatabase('newdb; create database anotherdb;');
         DbHelper::dropDatabase('testdb');
+    }
+
+    public function test_getInstallVersion_isCurrentVersion()
+    {
+        $this->assertSame(Version::VERSION, DbHelper::getInstallVersion());
+    }
+
+    public function test_recordInstallVersion_setsCurrentVersion()
+    {
+        Option::delete(Db\Schema\Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        $this->assertNull(DbHelper::getInstallVersion());
+
+        DbHelper::recordInstallVersion();
+        $this->assertSame(Version::VERSION, DbHelper::getInstallVersion());
+    }
+
+    public function test_recordInstallVersion_doesNotOverwritePreviouslySetVersion()
+    {
+        $this->setInstallVersion('2.1.0');
+        DbHelper::recordInstallVersion();
+        DbHelper::recordInstallVersion();
+        DbHelper::recordInstallVersion();
+        $this->assertSame('2.1.0', DbHelper::getInstallVersion());
+    }
+
+    public function test_wasMatomoInstalledBeforeVersion_sameVersion()
+    {
+        $this->setInstallVersion('2.1.0');
+        $this->assertFalse(DbHelper::wasMatomoInstalledBeforeVersion('2.1.0'));
+    }
+
+    public function test_wasMatomoInstalledBeforeVersion_whenUsedNewerVersion()
+    {
+        $this->setInstallVersion('2.1.0');
+        $this->assertFalse(DbHelper::wasMatomoInstalledBeforeVersion('2.0.0'));
+    }
+
+    public function test_wasMatomoInstalledBeforeVersion_whenWasInstalledBeforeThatVersion()
+    {
+        $this->setInstallVersion('2.1.0');
+        $this->assertTrue(DbHelper::wasMatomoInstalledBeforeVersion('2.2.0'));
+    }
+
+    private function setInstallVersion($version)
+    {
+        Option::set(Db\Schema\Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION, $version);
     }
 
     public function test_createDatabase_escapesInputProperly()

@@ -18,5 +18,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.333</avg_time_generation>
+		<segment>pageTitle==%40one%40</segment>
 	</row>
 </result>

@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>60</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Configuration>Others</Resolution_Configuration>
 	</row>
 	<row>
 		<label>GNU/Linux / Firefox / 1920x1080</label>
@@ -21,6 +22,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>10</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Configuration>LIN;FF;1920x1080</Resolution_Configuration>
 	</row>
 	<row>
 		<label>Android / Chrome / 1280x1024</label>
@@ -32,5 +34,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Configuration>AND;CH;1280x1024</Resolution_Configuration>
 	</row>
 </result>

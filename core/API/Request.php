@@ -321,6 +321,16 @@ class Request
     }
 
     /**
+     * @ignore
+     * @internal
+     * @return string current Api Method if it is an api request
+     */
+    public static function getRootApiRequestMethod()
+    {
+        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+    }
+
+    /**
      * Detect if the root request (the actual request) is an API request or not. To detect whether an API is currently
      * request within any request, have a look at {@link isApiRequest()}.
      *
@@ -419,7 +429,13 @@ class Request
          * @param string $token_auth The value of the **token_auth** query parameter.
          */
         Piwik::postEvent('API.Request.authenticate', array($tokenAuth));
-        Access::getInstance()->reloadAccess();
+        if (!Access::getInstance()->reloadAccess() && $tokenAuth && $tokenAuth !== 'anonymous') {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('API.Request.authenticate.failed');
+        }
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 

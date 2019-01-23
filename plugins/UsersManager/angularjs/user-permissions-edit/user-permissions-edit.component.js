@@ -35,6 +35,7 @@
         vm.accessLevelFilter = 'some';
         vm.siteNameFilter = '';
         vm.isLoadingAccess = false;
+        vm.allWebsitesAccssLevelSet = 'view';
 
         // row selection state
         vm.isAllCheckboxSelected = false;
@@ -46,6 +47,8 @@
         // other state
         vm.hasAccessToAtLeastOneSite = true;
         vm.isRoleHelpToggled = false;
+        vm.isCapabilitiesHelpToggled = false;
+        vm.isGivingAccessToAllSites = false;
 
         // intermediate state
         vm.roleToChangeTo = null;
@@ -66,6 +69,32 @@
         vm.showChangeAccessConfirm = showChangeAccessConfirm;
         vm.getRoleDisplay = getRoleDisplay;
         vm.showAddExistingUserModal = showAddExistingUserModal;
+        vm.giveAccessToAllSites = giveAccessToAllSites;
+        vm.showChangeAccessAllSitesModal = showChangeAccessAllSitesModal;
+
+        function giveAccessToAllSites() {
+            vm.isGivingAccessToAllSites = true;
+            piwikApi.fetch({
+                method: 'SitesManager.getSitesWithAdminAccess',
+            }).then(function (allSites) {
+                var idSites = allSites.map(function (s) { return s.idsite; });
+                return piwikApi.post({
+                    method: 'UsersManager.setUserAccess'
+                }, {
+                    userLogin: vm.userLogin,
+                    access: vm.allWebsitesAccssLevelSet,
+                    'idSites[]': idSites,
+                });
+            }).then(function () {
+                return vm.fetchAccess();
+            })['finally'](function () {
+                vm.isGivingAccessToAllSites = false;
+            });
+        }
+
+        function showChangeAccessAllSitesModal() {
+            $element.find('.confirm-give-access-all-sites').openModal({ dismissible: false });
+        }
 
         function $onInit() {
             vm.limit = vm.limit || 10;

@@ -9,7 +9,7 @@
         <div piwik-save-button
              class="valign"
              onconfirm="licenseController.updateLicense()"
-             disabled="!licenseController.enableUpdate"
+             data-disabled="!licenseController.enableUpdate"
              value="{% if hasLicenseKey %}{{ 'CoreUpdater_UpdateTitle'|translate|e('html_attr') }}{% else %}{{ 'Marketplace_ActivateLicenseKey'|translate|e('html_attr') }}{% endif %}"
              id="submit_license_key"></div>
 {% endset %}

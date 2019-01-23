@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "Lypset një përmirësim i bazës së të dhënave. Të kryhet përditësimi?",
         "DryRun": "Shënim: kjo është një Dry Run",
         "DryRunEnd": "Fund i Dry Run-it",
-        "ConsoleCommandDescription": "Përmirësime shkaktuesish. Përdorini pasi të jenë përditësuar kartela të bazës së Matomo-s ose të çfarëdo shtojce.",
+        "ConsoleCommandDescription": "Përmirësime shkaktuesish. Përdorini pasi të jenë përditësuar kartela të bazës së Matomo-s ose të çfarëdo shtojce. Shtojini --yes që përmirësimi të kryhet pa kërkuar ripohim.",
         "ConsoleParameterDescription": "Kryeje drejtpërsëdrejti përditësimin, pa kërkuar ripohim",
         "VerifyingUnpackedFiles": "Po verifikohen kartelat e shpaketuara",
         "WarningMessages": "Mesazhe sinjalizimi:",

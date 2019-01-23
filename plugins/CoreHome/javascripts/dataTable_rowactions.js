@@ -97,14 +97,11 @@ DataTable_RowActions_Registry.register({
         return (
             typeof dataTableParams.disable_row_evolution == 'undefined'
                 || dataTableParams.disable_row_evolution == "0"
-            ) && (
-            typeof dataTableParams.flat == 'undefined'
-                || dataTableParams.flat == "0"
             );
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        return true;
+        return !tr.hasClass('totalsRow');
     }
 
 });
@@ -297,6 +294,10 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     // check if abandonedCarts is in the dataTable params and if so, propagate to row evolution request
     if (this.dataTable.param.abandonedCarts !== undefined) {
         extraParams['abandonedCarts'] = this.dataTable.param.abandonedCarts;
+    }
+
+    if (this.dataTable.param.flat !== undefined) {
+        extraParams['flat'] = this.dataTable.param.flat;
     }
 
     var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;

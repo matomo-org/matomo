@@ -11,7 +11,9 @@ describe("Login", function () {
     this.timeout(0);
 
     var md5Pass = "0adcc0d741277f74c64c8abab7330d1c", // md5("smarty-pants")
-        formlessLoginUrl = "?module=Login&action=logme&login=oliverqueen&password=" + md5Pass;
+        formlessLoginUrl = "?module=Login&action=logme&login=oliverqueen&password=" + md5Pass,
+        bruteForceLogUrl = "?module=Login&action=bruteForceLog",
+        apiAuthUrl = "?module=API&method=UsersManager.getTokenAuth&format=json&userLogin=ovliverqueen&md5Password=" + md5Pass;
 
     before(function () {
         testEnvironment.testUseMockAuth = 0;
@@ -19,10 +21,38 @@ describe("Login", function () {
         testEnvironment.save();
     });
 
+    beforeEach(function () {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
+        testEnvironment.save();
+    });
+
     after(function () {
         testEnvironment.testUseMockAuth = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
+    });
+
+    afterEach(function () {
+        testEnvironment.testUseMockAuth = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.bruteForceBlockThisIp;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+    });
+
+    it("should show error when trying to log in through login form", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.bruteForceBlockThisIp = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_blockedlogin").to.be.capture(function (page) {
+            page.load("");
+        }, done);
     });
 
     it("should load correctly", function (done) {
@@ -117,6 +147,55 @@ describe("Login", function () {
             testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
             testEnvironment.save();
             page.load('');
+        }, done);
+    });
+
+    it("should show brute force log url when there are no entries", function (done) {
+        testEnvironment.testUseMockAuth = 1;
+        delete testEnvironment.queryParamOverride;
+        delete testEnvironment.bruteForceBlockThisIp;
+        delete testEnvironment.bruteForceBlockIps;
+        testEnvironment.overrideConfig('General', 'login_whitelist_ip', []);
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_noentries").to.be.capture(function (page) {
+            page.load(bruteForceLogUrl);
+        }, done);
+    });
+
+    it("should show brute force log url when there are entries", function (done) {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.bruteForceBlockIps = 1;
+        delete testEnvironment.bruteForceBlockThisIp;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_withentries").to.be.capture(function (page) {
+            page.load(bruteForceLogUrl);
+        }, done);
+    });
+
+    it("should show error when trying to attempt a log in through API", function (done) {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.bruteForceBlockThisIp = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_blockedapi").to.be.capture(function (page) {
+            page.load(apiAuthUrl);
+        }, done);
+    });
+
+    it("should show error when trying to log in through logme", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.bruteForceBlockThisIp = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_blockedlogme").to.be.capture(function (page) {
+            page.load(formlessLoginUrl);
         }, done);
     });
 });

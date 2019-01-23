@@ -38,6 +38,8 @@ class VisitTest extends IntegrationTestCase
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';
         $pluginNames[] = 'WebsiteMeasurable';
+        $pluginNames[] = 'TagManager';// needed because we create a site in Tracker mode...
+        $pluginNames[] = 'API'; // needed because we create a site in Tracker mode...
         Manager::getInstance()->loadPlugins($pluginNames);
         Visit::$dimensions = null;
     }
@@ -82,6 +84,14 @@ class VisitTest extends IntegrationTestCase
             )),
             // add some ipv6 addresses!
         );
+    }
+
+    public function test_worksWhenSiteDoesNotExist()
+    {
+        $request = new RequestAuthenticated(array('idsite' => 99999999, 'rec' => 1));
+
+        $excluded = new VisitExcluded($request);
+        $this->assertSame(false, $excluded->isExcluded());
     }
 
     /**

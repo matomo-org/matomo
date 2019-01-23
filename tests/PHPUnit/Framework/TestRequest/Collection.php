@@ -29,6 +29,7 @@ class Collection
         'Dashboard',
         'UsersManager',
         'SitesManager',
+        'TagManager',
         'ExampleUI',
         'Overlay',
         'Live',
@@ -48,6 +49,8 @@ class Collection
         'CustomAlerts',
         'Insights',
         'LogViewer',
+        'Referrers.getKeywordNotDefinedString',
+        'CorePluginsAdmin.getSystemSettings',
     );
 
     /**
@@ -338,6 +341,7 @@ class Collection
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
+                                            'API.getPhpVersion',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {

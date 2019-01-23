@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
-use Piwik\Metrics\Formatter;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -241,6 +240,21 @@ class Metrics
             'revenue' => Site::getCurrencySymbolFor($idSite),
             '_time_'  => 's'
         );
+
+        $unit = null;
+
+        /**
+         * Use this event to define units for custom metrics used in evolution graphs and row evolution only.
+         *
+         * @param string $unit should hold the unit (e.g. %, €, s or empty string)
+         * @param string $column name of the column to determine
+         * @param string $idSite id of the current site
+         */
+        Piwik::postEvent('Metrics.getEvolutionUnit', [&$unit, $column, $idSite]);
+
+        if (!empty($unit)) {
+            return $unit;
+        }
 
         foreach ($nameToUnit as $pattern => $type) {
             if (strpos($column, $pattern) !== false) {

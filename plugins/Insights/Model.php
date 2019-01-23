@@ -36,13 +36,13 @@ class Model
         $report = $this->getReportByUniqueId($idSite, $reportUniqueId);
 
         $params = array(
-            'method' => $report['module'] . '.' . $report['action'],
             'format' => 'original',
             'idSite' => $idSite,
             'period' => $period,
             'date'   => $date,
             'filter_limit' => 1000,
-            'showColumns'  => $metric
+            'showColumns'  => $metric,
+            'totals' => 1,
         );
 
         if (!empty($segment)) {
@@ -53,9 +53,7 @@ class Model
             $params = array_merge($params, $report['parameters']);
         }
 
-        $request = new ApiRequest($params);
-        $table   = $request->process();
-
+        $table = ApiRequest::processRequest($report['module'] . '.' . $report['action'], $params, $default = []);
         return $table;
     }
 

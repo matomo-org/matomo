@@ -442,7 +442,7 @@
         "Advanced": "Tingkat lanjut",
         "AnonymousAccess": "Akses Anonim",
         "AnonymousTracking": "Pelcakan Anonim",
-        "AskForAnonymousTrackingPermission": "Bila diaktifkan, Matomo Bergerak akan mengirim data penggunaan anomim ke piwik.org. Bertujuan agar data ini membantu pengembang Matomo Bergerak lebih memahami bagaimana aplikasi digunakan. Informasi yang dikirim adalah: menu dan pengaturan pengeklikan, nama dan versi sistem operasi, segala galat yang tampil di Matomo Bergerak. Kami TIDAK akan melacak data analisi Anda. Data anonim ini tidak akan ditampilkan secara umum. Anda dapat mematikan\/mengaktifkan pelacakan anonim di Pengaturan kapanpun.",
+        "AskForAnonymousTrackingPermission": "Bila diaktifkan, Matomo Bergerak akan mengirim data penggunaan anomim ke matomo.org. Bertujuan agar data ini membantu pengembang Matomo Bergerak lebih memahami bagaimana aplikasi digunakan. Informasi yang dikirim adalah: menu dan pengaturan pengeklikan, nama dan versi sistem operasi, segala galat yang tampil di Matomo Bergerak. Kami TIDAK akan melacak data analisi Anda. Data anonim ini tidak akan ditampilkan secara umum. Anda dapat mematikan\/mengaktifkan pelacakan anonim di Pengaturan kapanpun.",
         "ChooseHttpTimeout": "Pilih nilai habis waktu HTTP",
         "ChooseMetric": "Pilih Metrik",
         "ChooseReport": "Pilih sebuah laporan",

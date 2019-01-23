@@ -16,8 +16,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
-use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -31,7 +29,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * views, time spent, etc.
  *
  * Whether a visit is NEW or KNOWN we also save the action in the DB.
- * One request to the piwik.php script is associated to one action.
+ * One request to the matomo.php script is associated to one action.
  *
  */
 class Visit implements VisitInterface
@@ -87,6 +85,19 @@ class Visit implements VisitInterface
         $this->request = $request;
     }
 
+    private function checkSiteExists(Request $request)
+    {
+        try {
+            $this->request->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
+            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
+            // this problem in tracking failures
+            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
+            throw $e;
+        }
+    }
+
     /**
      *    Main algorithm to handle the visit.
      *
@@ -109,6 +120,8 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
+        $this->checkSiteExists($this->request);
+
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 

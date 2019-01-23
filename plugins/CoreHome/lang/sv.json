@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Det finns ingen data i denna kategori. Försök att \"Inkludera alla träffar\".",
         "ChangeVisualization": "Byt visualisering",
+        "ChangePeriod": "Ändra period",
         "CheckForUpdates": "Sök efter uppdateringar",
         "CheckPiwikOut": "Kolla in Matomo!",
         "ClickToEditX": "Klicka för att redigera %s",

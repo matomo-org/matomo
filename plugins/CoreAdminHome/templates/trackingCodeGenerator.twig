@@ -65,9 +65,9 @@
             <div piwik-field uicontrol="checkbox" name="javascript-tracking-all-subdomains"
                  ng-model="jsTrackingCode.trackAllSubdomains"
                  ng-change="jsTrackingCode.updateTrackingCode()"
-                 disabled="jsTrackingCode.isLoading"
+                 data-disabled="jsTrackingCode.isLoading"
                  introduction="{{ 'General_Options'|translate|e('html_attr') }}"
-                 title="{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 title="{{ ('CoreAdminHome_JSTracking_MergeSubdomains'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllSubdomainsInlineHelp">
             </div>
 
@@ -79,7 +79,7 @@
             <div piwik-field uicontrol="checkbox" name="javascript-tracking-group-by-domain"
                  ng-model="jsTrackingCode.groupByDomain"
                  ng-change="jsTrackingCode.updateTrackingCode()"
-                 disabled="jsTrackingCode.isLoading"
+                 data-disabled="jsTrackingCode.isLoading"
                  title="{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate|e('html_attr') }}"
                  value="" inline-help="#jsTrackGroupByDomainInlineHelp">
             </div>
@@ -92,15 +92,15 @@
             <div piwik-field uicontrol="checkbox" name="javascript-tracking-all-aliases"
                  ng-model="jsTrackingCode.trackAllAliases"
                  ng-change="jsTrackingCode.updateTrackingCode()"
-                 disabled="jsTrackingCode.isLoading"
-                 title="{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 data-disabled="jsTrackingCode.isLoading"
+                 title="{{ ('CoreAdminHome_JSTracking_MergeAliases'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllAliasesInlineHelp">
             </div>
 
             <div piwik-field uicontrol="checkbox" name="javascript-tracking-noscript"
                  ng-model="jsTrackingCode.trackNoScript"
                  ng-change="jsTrackingCode.updateTrackingCode()"
-                 disabled="jsTrackingCode.isLoading"
+                 data-disabled="jsTrackingCode.isLoading"
                  title="{{ 'CoreAdminHome_JSTracking_TrackNoScript'|translate|e('html_attr') }}"
                  value="" inline-help="">
             </div>
@@ -122,7 +122,7 @@
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-visitor-cv-check"
                      ng-model="jsTrackingCode.trackCustomVars"
                      ng-change="jsTrackingCode.updateTrackingCode()"
-                     disabled="jsTrackingCode.isLoading"
+                     data-disabled="jsTrackingCode.isLoading"
                      title="{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate|e('html_attr') }}"
                      value="" inline-help="{{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate|e('html_attr') }}">
                 </div>
@@ -169,7 +169,7 @@
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-cross-domain"
                      ng-model="jsTrackingCode.crossDomain"
                      ng-change="jsTrackingCode.updateTrackingCode();jsTrackingCode.onCrossDomainToggle();"
-                     disabled="jsTrackingCode.isLoading || !jsTrackingCode.hasManySiteUrls"
+                     data-disabled="jsTrackingCode.isLoading || !jsTrackingCode.hasManySiteUrls"
                      title="{{ 'CoreAdminHome_JSTracking_EnableCrossDomainLinking'|translate|e('html_attr') }}"
                      value="" inline-help="#jsCrossDomain">
                 </div>
@@ -186,7 +186,7 @@
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-do-not-track"
                      ng-model="jsTrackingCode.doNotTrack"
                      ng-change="jsTrackingCode.updateTrackingCode() "
-                     disabled="jsTrackingCode.isLoading"
+                     data-disabled="jsTrackingCode.isLoading"
                      title="{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate|e('html_attr') }}"
                      value="" inline-help="#jsDoNotTrackInlineHelp">
                 </div>
@@ -194,7 +194,7 @@
                 {# disable all cookies options #}
                 <div piwik-field uicontrol="checkbox" name="javascript-tracking-disable-cookies"
                      ng-model="jsTrackingCode.disableCookies"
-                     disabled="jsTrackingCode.isLoading"
+                     data-disabled="jsTrackingCode.isLoading"
                      ng-change="jsTrackingCode.updateTrackingCode()"
                      title="{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate|e('html_attr') }}"
                      value="" inline-help="{{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate|e('html_attr') }}">
@@ -207,7 +207,7 @@
 
                 <div piwik-field uicontrol="checkbox" name="custom-campaign-query-params-check"
                      ng-model="jsTrackingCode.useCustomCampaignParams"
-                     disabled="jsTrackingCode.isLoading"
+                     data-disabled="jsTrackingCode.isLoading"
                      ng-change="jsTrackingCode.updateTrackingCode()"
                      title="{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate|e('html_attr') }}"
                      value="" inline-help="#jsTrackCampaignParamsInlineHelp">
@@ -219,7 +219,7 @@
                             <div piwik-field uicontrol="text" name="custom-campaign-name-query-param"
                                  ng-model="jsTrackingCode.customCampaignName"
                                  ng-change="jsTrackingCode.updateTrackingCode()"
-                                 disabled="jsTrackingCode.isLoading"
+                                 data-disabled="jsTrackingCode.isLoading"
                                  title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate|e('html_attr') }}"
                                  value="">
                             </div>
@@ -230,7 +230,7 @@
                             <div piwik-field uicontrol="text" name="custom-campaign-keyword-query-param"
                                  ng-model="jsTrackingCode.customCampaignKeyword"
                                  ng-change="jsTrackingCode.updateTrackingCode()"
-                                 disabled="jsTrackingCode.isLoading"
+                                 data-disabled="jsTrackingCode.isLoading"
                                  title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate|e('html_attr') }}"
                                  value="">
                             </div>
@@ -280,7 +280,7 @@
         <div piwik-field uicontrol="text" name="image-tracker-action-name"
              ng-model="imageTrackingCode.pageName"
              ng-change="imageTrackingCode.updateTrackingCode()"
-             disabled="imageTrackingCode.isLoading"
+             data-disabled="imageTrackingCode.isLoading"
              introduction="{{ 'General_Options'|translate|e('html_attr') }}"
              title="{{ 'Actions_ColumnPageName'|translate|e('html_attr') }}"
              value="">
@@ -290,7 +290,7 @@
         <div piwik-field uicontrol="checkbox" name="image-tracking-goal-check"
              ng-model="imageTrackingCode.trackGoal"
              ng-change="imageTrackingCode.updateTrackingCode()"
-             disabled="imageTrackingCode.isLoading"
+             data-disabled="imageTrackingCode.isLoading"
              title="{{ 'CoreAdminHome_TrackAGoal'|translate|e('html_attr') }}"
              value="">
         </div>
@@ -301,7 +301,7 @@
                 <div class="col s12 m6">
                     <div piwik-field uicontrol="select" name="image-tracker-goal"
                          options="imageTrackingCode.allGoals"
-                         disabled="imageTrackingCode.isLoading"
+                         data-disabled="imageTrackingCode.isLoading"
                          ng-model="imageTrackingCode.trackIdGoal"
                          full-width="true"
                          ng-change="imageTrackingCode.updateTrackingCode()"
@@ -312,7 +312,7 @@
                     <div piwik-field uicontrol="text" name="image-revenue"
                          ng-model="imageTrackingCode.revenue"
                          ng-change="imageTrackingCode.updateTrackingCode()"
-                         disabled="imageTrackingCode.isLoading"
+                         data-disabled="imageTrackingCode.isLoading"
                          full-width="true"
                          title="{{ 'CoreAdminHome_WithOptionalRevenue'|translate|e('html_attr') }} <span class='site-currency'></span>"
                          value="">

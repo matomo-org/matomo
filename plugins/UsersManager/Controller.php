@@ -9,13 +9,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
-use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -84,6 +81,7 @@ class Controller extends ControllerAdmin
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
         ];
         $view->filterAccessLevels = [
+            ['key' => '', 'value' => Piwik::translate('UsersManager_ShowAll')],
             ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
             ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
@@ -91,6 +89,15 @@ class Controller extends ControllerAdmin
             ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
+
+        $capabilities = Request::processRequest('UsersManager.getAvailableCapabilities', [], []);
+        foreach ($capabilities as $capability) {
+            $capabilityEntry = [
+                'key' => $capability['id'], 'value' => $capability['category'] . ': ' . $capability['name'],
+            ];
+            $view->accessLevels[] = $capabilityEntry;
+            $view->filterAccessLevels[] = $capabilityEntry;
+        }
 
         $this->setBasicVariablesView($view);
 
@@ -174,7 +181,6 @@ class Controller extends ControllerAdmin
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
-
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
 
         $userPreferences = new UserPreferences();
@@ -414,40 +420,36 @@ class Controller extends ControllerAdmin
     private function processPasswordChange($userLogin)
     {
         $email = Common::getRequestVar('email');
-        $newPassword = false;
-
         $password = Common::getRequestvar('password', false);
         $passwordBis = Common::getRequestvar('passwordBis', false);
-        if (!empty($password)
-            || !empty($passwordBis)
-        ) {
+        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
+
+        $newPassword = false;
+        if (!empty($password) || !empty($passwordBis)) {
             if ($password != $passwordBis) {
                 throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
             }
             $newPassword = $password;
         }
 
-        // UI disables password change on invalid host, but check here anyway
-        if (!Url::isValidHost()
-            && $newPassword !== false
-        ) {
-            throw new Exception("Cannot change password with untrusted hostname!");
+        if ($newPassword !== false && !Url::isValidHost()) {
+            throw new Exception("Cannot change password or email with untrusted hostname!");
         }
 
+        // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,
             'email' => $email,
+            'passwordConfirmation' => $passwordCurrent
         ], $default = []);
 
         if ($newPassword !== false) {
+            // logs the user in with the new password
             $newPassword = Common::unsanitizeInputValue($newPassword);
-        }
-
-        // logs the user in with the new password
-        if ($newPassword !== false) {
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
+            $auth->setTokenAuth(null); // ensure authenticated through password
             $auth->setLogin($userLogin);
             $auth->setPassword($newPassword);
             $sessionInitializer->initSession($auth);

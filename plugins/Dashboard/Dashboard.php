@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -47,7 +48,7 @@ class Dashboard extends \Piwik\Plugin
         if (Piwik::isUserIsAnonymous()) {
             $this->addDefaultDashboard($widgets);
         } else {
-            $dashboards = API::getInstance()->getDashboards();
+            $dashboards = $this->getDashboards();
 
             if (empty($dashboards)) {
                 $this->addDefaultDashboard($widgets);
@@ -64,6 +65,14 @@ class Dashboard extends \Piwik\Plugin
                 }
             }
         }
+    }
+
+    private function getDashboards()
+    {
+        return Request::processRequest('Dashboard.getDashboards',
+            ['filter_limit' => '-1', 'filter_offset' => 0],
+            []
+        );
     }
 
     private function addDefaultDashboard(&$widgets)
@@ -83,7 +92,7 @@ class Dashboard extends \Piwik\Plugin
         if (Piwik::isUserIsAnonymous()) {
             $this->addDefaultSubcategory($subcategories);
         } else {
-            $dashboards = API::getInstance()->getDashboards();
+            $dashboards = $this->getDashboards();
 
             if (empty($dashboards)) {
                 $this->addDefaultSubcategory($subcategories);

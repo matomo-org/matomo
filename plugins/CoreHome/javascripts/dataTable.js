@@ -175,6 +175,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'disable_generic_filters',
             'columns',
             'flat',
+            'totals',
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
@@ -336,6 +337,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.preBindEventsAndApplyStyleHook(domElem);
         self.handleSort(domElem);
         self.handleLimit(domElem);
+        self.handlePeriod(domElem);
         self.handleOffsetInformation(domElem);
         self.handleAnnotationsButton(domElem);
         self.handleEvolutionAnnotations(domElem);
@@ -629,11 +631,17 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var tableRowLimits = piwik.config.datatable_row_limits,
         evolutionLimits =
         {
-            day: [8, 30, 60, 90, 180, 365, 500],
-            week: [4, 12, 26, 52, 104, 500],
+            day: [8, 30, 60, 90, 180],
+            week: [4, 12, 26, 52, 104],
             month: [3, 6, 12, 24, 36, 120],
             year: [3, 5, 10]
         };
+
+        // only allow big evolution limits for non flattened reports
+        if (!parseInt(this.param.flat)) {
+            evolutionLimits.day.push(365, 500);
+            evolutionLimits.week.push(500);
+        }
 
         var self = this;
         if (typeof self.parentId != "undefined" && self.parentId != '') {
@@ -725,6 +733,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         else {
             $('.limitSelection', domElem).hide();
         }
+    },
+    handlePeriod: function (domElem) {
+        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
+
+        var self = this;
+        $periodSelect.click(function () {
+            var period = $(this).attr('data-period');
+            if (!period || period == self.param['period']) {
+                return;
+            }
+
+            self.param['period'] = period;
+            self.reloadAjaxDataTable();
+        });
     },
 
     // if sorting the columns is enabled, when clicking on a column,
@@ -1278,6 +1300,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 setText(this, 'flat', 'CoreHome_UnFlattenDataTable', 'CoreHome_FlattenDataTable');
             })
             .click(generateClickCallback('flat'));
+
+        // handle flatten
+        $('.dataTableShowTotalsRow', domElem)
+            .each(function () {
+                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
+            })
+            .click(generateClickCallback('keep_totals_row'));
 
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {
@@ -1931,6 +1960,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.filter_sort_column;
     delete dataTable.param.filter_sort_order;
     delete dataTable.param.columns;
+    delete dataTable.param.totals;
     dataTable.reloadAjaxDataTable();
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
@@ -1960,6 +1990,7 @@ DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceV
 DataTable.switchToGraph = function (dataTable, viewDataTable) {
     var filters = dataTable.resetAllFilters();
     dataTable.param.flat = filters.flat;
+    dataTable.param.keep_totals_row = filters.keep_totals_row;
     dataTable.param.columns = filters.columns;
 
     dataTable.param.viewDataTable = viewDataTable;
