@@ -1,7 +1,7 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Checking for new plugin updates",
-        "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries that will get executed",
+        "ClickHereToViewSqlQueries": "Click here to view and copy the list of SQL queries and console commands that will get executed",
         "CriticalErrorDuringTheUpgradeProcess": "Critical Error during the update process:",
         "DatabaseUpgradeRequired": "Database Upgrade Required",
         "DisablingIncompatiblePlugins": "Disabling incompatible plugins: %s",

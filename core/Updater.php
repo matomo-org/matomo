@@ -221,7 +221,7 @@ class Updater
     /**
      * Returns the list of SQL queries that would be executed during the update
      *
-     * @return Sql[] of SQL queries
+     * @return Migration[] of SQL queries
      * @throws \Exception
      */
     public function getSqlQueriesToExecute()
@@ -249,10 +249,7 @@ class Updater
                 $migrationsForComponent = $update->getMigrations($this);
                 foreach ($migrationsForComponent as $index => $migration) {
                     $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
-
-                    if ($migration instanceof Migration\Db) {
-                        $queries[] = $migration;
-                    }
+                    $queries[] = $migration;
                 }
                 $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
