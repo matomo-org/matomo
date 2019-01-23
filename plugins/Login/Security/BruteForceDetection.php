@@ -45,7 +45,7 @@ class BruteForceDetection {
     public function isEnabled()
     {
         $dbSchemaVersion = $this->updater->getCurrentComponentVersion('core');
-        if (version_compare($dbSchemaVersion, '3.8.0') == -1) {
+        if ($dbSchemaVersion && version_compare($dbSchemaVersion, '3.8.0') == -1) {
             return false; // do not enable brute force detection before the tables exist
         }
 
