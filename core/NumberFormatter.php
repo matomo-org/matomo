@@ -62,6 +62,11 @@ class NumberFormatter
      */
     public function __construct(Translator $translator)
     {
+        $this->setTranslator($translator);
+    }
+
+    public function setTranslator(Translator $translator)
+    {
         $this->patternNumber = $translator->translate('Intl_NumberFormatNumber');
         $this->patternCurrency = $translator->translate('Intl_NumberFormatCurrency');
         $this->patternPercent = $translator->translate('Intl_NumberFormatPercent');
