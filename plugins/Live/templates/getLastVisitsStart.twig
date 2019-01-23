@@ -85,7 +85,7 @@
 {{ action.serverTimePretty }}
 {% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
 {%- endset %}
-                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{ action.url|e('html_attr') }}&mdash;{{- title -}}"/>
+                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{ action.url|truncate(120)|e('html_attr') }}<br/>{{- title -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
