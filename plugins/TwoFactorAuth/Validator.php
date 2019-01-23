@@ -27,6 +27,11 @@ class Validator
 
     public function canUseTwoFa()
     {
+        if (Common::isPhpCliMode() && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
+            // eg when archiving or executing other commands
+            return false;
+        }
+
         if (!SettingsPiwik::isPiwikInstalled()) {
             return false;
         }
