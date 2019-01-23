@@ -4,8 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "58af620cb0a5851205adfedd960f5c59",
+    "content-hash": "c55b34f7e7a42a8670a831bcaf31972e",
     "packages": [
+        {
+            "name": "JShrink",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink",
+                "reference": "v1.3.1"
+            },
+            "require": {
+                "php": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedious/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ]
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.1.3",
@@ -716,7 +749,7 @@
                 "archive",
                 "tar"
             ],
-            "time": "2016-02-25T10:30:39+00:00"
+            "time": "2017-06-11T17:28:11+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -1708,47 +1741,6 @@
                 "qrcode"
             ],
             "time": "2018-10-16T17:24:05+00:00"
-        },
-        {
-            "name": "tedivm/jshrink",
-            "version": "v0.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink.git",
-                "reference": "4b48e3d051cf0ab145db9df20d3292d91485bb60"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/4b48e3d051cf0ab145db9df20d3292d91485bb60",
-                "reference": "4b48e3d051cf0ab145db9df20d3292d91485bb60",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedivm/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ],
-            "time": "2014-01-14T22:23:53+00:00"
         },
         {
             "name": "twig/twig",
@@ -3228,6 +3220,47 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2015-07-26T08:59:42+00:00"
+        },
+        {
+            "name": "tedivm/jshrink",
+            "version": "v0.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink.git",
+                "reference": "4b48e3d051cf0ab145db9df20d3292d91485bb60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/4b48e3d051cf0ab145db9df20d3292d91485bb60",
+                "reference": "4b48e3d051cf0ab145db9df20d3292d91485bb60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedivm/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ],
+            "time": "2014-01-14T22:23:53+00:00"
         },
         {
             "name": "webmozart/assert",
