@@ -109,7 +109,7 @@
                             var title = $(this).attr('title');
                             return piwikHelper.escape(title.replace(/\n/g, '<br />'));
                         },
-                        show: {delay: 700, duration: 200},
+                        show: {delay: 100, duration: 200},
                         hide: false
                     });
 
