@@ -70,8 +70,26 @@ class Sparkline implements ViewInterface
             }
             $values[] = $value;
         }
-        $sparkline->setData($values);
 
+        $hasFloat = false;
+        foreach ($values as $value) {
+            if (is_float($value)) {
+                $hasFloat = true;
+                break;
+            }
+        }
+
+        // the sparkline lib used converts everything to integers (see the FormatTrait.php file) which means float
+        // numbers that are close to 1.0 or 0.0 will get floored. this can happen in the average page generation time
+        // report, and cause some values which are, eg, around ~.9 to appear as 0 in the sparkline. to workaround this, we
+        // scale the values.
+        if ($hasFloat) {
+            $values = array_map(function ($x) {
+                return $x * 1000.0;
+            }, $values);
+        }
+
+        $sparkline->setData($values);
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
         $this->setSparklineColors($sparkline);
