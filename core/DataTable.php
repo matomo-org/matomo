@@ -192,6 +192,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
+    /**
+     * Name for metadata that stores array of generic filters that should not be run on the table.
+     */
+    const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
+
     /** The ID of the Summary Row. */
     const ID_SUMMARY_ROW = -1;
 
