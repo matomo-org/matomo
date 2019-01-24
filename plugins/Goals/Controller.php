@@ -236,10 +236,13 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        if (!empty($idGoal) && isset($this->goals[$idGoal])) {
+        if (!empty($idGoal)
+            && isset($this->goals[$idGoal])
+        ) {
             $goalName = $this->goals[$idGoal]['name'];
             $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
         }
+
         return $columnTranslation;
     }
 
