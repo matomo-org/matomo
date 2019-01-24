@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Session\SessionFingerprint;
 use Exception;
