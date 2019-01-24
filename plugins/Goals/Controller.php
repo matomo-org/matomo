@@ -240,13 +240,6 @@ class Controller extends \Piwik\Plugin\Controller
             && isset($this->goals[$idGoal])
         ) {
             $goalName = $this->goals[$idGoal]['name'];
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            $goalName = $this->translator->translate('Goals_EcommerceOrder');
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-            $goalName = $this->translator->translate('Goals_AbandonedCart');
-        }
-
-        if (isset($goalName)) {
             $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
         }
 
