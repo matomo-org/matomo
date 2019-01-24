@@ -30,9 +30,9 @@
         vm.onUpdate = function () {
             if (vm.piwikurl) {
                 if (vm.backgroundColor === '' && vm.fontColor !== '' && vm.nearlyWhite(vm.fontColor.substr(1))) {
-                    vm.backgroundColor = '#4d4d4d';
+                    $('#previewIframe').addClass('withBg');
                 } else {
-                    vm.backgroundColor = '';
+                    $('#previewIframe').removeClass('withBg');
                 }
                 var value = vm.piwikurl + "index.php?module=CoreAdminHome&action=optOut&language=" + vm.language + "&backgroundColor=" + vm.backgroundColor.substr(1) + "&fontColor=" + vm.fontColor.substr(1) + "&fontSize=" + vm.fontSizeWithUnit + "&fontFamily=" + encodeURIComponent(vm.fontFamily);
                 var isAnimationAlreadyRunning = $('.optOutCustomizer pre').queue('fx').length > 0;
