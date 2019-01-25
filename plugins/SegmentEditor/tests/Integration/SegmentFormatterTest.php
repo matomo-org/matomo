@@ -104,7 +104,7 @@ class SegmentFormatterTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage The segment 'pageUrl=!1.0' is not valid.
+     * @expectedExceptionMessage The segment condition 'pageUrl=!1.0' is not valid.
      */
     public function test_getHumanReadable_ShouldThrowAnException_IfSegmentCannotBeParsedBecauseOfInvalidFormat()
     {
