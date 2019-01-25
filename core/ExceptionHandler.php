@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 
 /**
@@ -65,6 +66,10 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
+        if ($exception instanceof HttpCodeException) {
+            http_response_code($exception->getCode());
+        }
+
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
         try {

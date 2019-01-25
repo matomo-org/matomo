@@ -15,6 +15,7 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
+use Piwik\Http\HttpCodeException;
 
 /**
  */
@@ -133,6 +134,10 @@ class ResponseBuilder
     {
         $e       = $this->decorateExceptionWithDebugTrace($e);
         $message = $this->formatExceptionMessage($e);
+
+        if ($this->sendHeader && $e instanceof HttpCodeException) {
+            http_response_code($e->getCode());
+        }
 
         $this->sendHeaderIfEnabled();
 

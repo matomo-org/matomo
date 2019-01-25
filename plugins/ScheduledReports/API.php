@@ -21,6 +21,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\NoAccessException;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -299,7 +300,7 @@ class API extends \Piwik\Plugin\API
      * @param string $date YYYY-MM-DD
      * @param bool|false|string $language If not passed, will use default language.
      * @param bool|false|int $outputType 1 = download report, 3 = output report in browser, 4 = return report content to caller, defaults to download
-     * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
+     * @param bool|false|string $period If not specified, will default to the report's period set when creating the report
      * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the ScheduledReports.getReportFormats hook
      * @param bool|false|array $parameters array of parameters
      * @return array|void
@@ -334,6 +335,8 @@ class API extends \Piwik\Plugin\API
         if (empty($period)) {
             $period = $report['period'];
         }
+
+        $this->checkSinglePeriod($period, $date);
 
         // override report format
         if (!empty($reportFormat)) {
@@ -1022,6 +1025,13 @@ class API extends \Piwik\Plugin\API
             || !in_array($idSite, $idSitesUserHasAccess)
         ) {
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'view'")));
+        }
+    }
+
+    private function checkSinglePeriod($period, $date)
+    {
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new Http\BadRequestException("This API method does not support multiple periods.");
         }
     }
 }
