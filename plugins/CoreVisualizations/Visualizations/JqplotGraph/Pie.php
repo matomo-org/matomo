@@ -34,6 +34,8 @@ class Pie extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->checkRequestIsNotForMultiplePeriods();
+
         $this->config->show_all_ticks = true;
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }

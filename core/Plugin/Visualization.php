@@ -17,10 +17,12 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -251,6 +253,26 @@ class Visualization extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    protected function checkRequestIsNotForMultiplePeriods()
+    {
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new BadRequestException("The '" . static::ID . "' visualization does not support multiple periods.");
+        }
+    }
+
+    protected function checkRequestIsOnlyForMultiplePeriods()
+    {
+        try {
+            $this->checkRequestIsNotForMultiplePeriods();
+
+            throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
+        } catch (BadRequestException $ex) {
+            // ignore
+        }
     }
 
     private function hasAnyData(DataTable\DataTableInterface $dataTable)

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Visualization;
@@ -34,6 +35,11 @@ class HtmlTable extends Visualization
     public static function getDefaultRequestConfig()
     {
         return new HtmlTable\RequestConfig();
+    }
+
+    public function beforeLoadDataTable()
+    {
+        $this->checkRequestIsNotForMultiplePeriods();
     }
 
     public function beforeRender()
