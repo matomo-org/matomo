@@ -1,6 +1,6 @@
 {
     "Feedback": {
-        "DoYouHaveBugReportOrFeatureRequest": "Keni ndonjë të metë që ta raportoni apo kërkesë për veçori të reja?",
+        "DoYouHaveBugReportOrFeatureRequest": "Keni ndonjë të metë për ta njoftuar, apo kërkesë për veçori të reja?",
         "HowToCreateTicket": "Ju lutemi, lexoni rekomandimet se si të shkruhet si duhet një %1$snjoftim të metash%2$s apo %3$skërkesë për veçori%4$s. Mandej regjistrohuni ose bëni hyrjen te %5$sndjekësi ynë i çështjeve%6$s dhe krijoni një %7$sçështje të re%8$s.",
         "IWantTo": "Dua të:",
         "LearnWaysToParticipate": "Njihuni me krejt mënyrat përmes të cilave mund të %1$s merrni pjesë%2$s",
@@ -16,7 +16,7 @@
         "ThankYou": "Faleminderit që na ndihmoni ta bëjmë më të mirë Matomo-n!",
         "TopLinkTooltip": "Na thoni se ç’mendim keni, ose kërkoni Asistencë Profesionale.",
         "ViewAnswersToFAQ": "Shihni përgjigjet te %1$sPyetje të Bëra Shpesh%2$s",
-        "ViewUserGuides": "Mësoni përmes %1$sudhërrëfyesit tonë për përdoruesit%2$s se si ta formësoni Matomo-n dhe si të analizoni me efektshmëri të dhënat tuaja",
+        "ViewUserGuides": "Mësoni përmes %1$sudhërrëfyesit tonë për përdoruesit%2$s se si ta formësoni Matomo-n dhe si të analizoni me efikasitet të dhënat tuaja",
         "CommunityHelp": "Ndihmë nga Bashkësia",
         "ProfessionalHelp": "Ndihmë Profesionale",
         "ProfessionalServicesIntro": "Rrjeti ynë mbarëbotëror i konsulentëve profesionalë për Matomo ofron asistencë për klientë që kanë të instaluar Matomo-n në infrastrukturën e tyre.",

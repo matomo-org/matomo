@@ -53,6 +53,7 @@
         "NoUsersExist": "還沒有任何使用者。",
         "PluginDescription": "使用者管理讓你可以新增、編輯現有使用者和給他們訪問或管理網站的權限。",
         "PrivAdmin": "管理員",
+        "PrivWrite": "編輯",
         "PrivNone": "無法存取",
         "PrivView": "檢視",
         "RemoveUserAccess": "移除「%1$s」在 %2$s 中的權限。",
@@ -77,6 +78,7 @@
         "YourVisitsAreNotIgnored": "%1$s你的訪問紀錄沒有被 Matomo 忽略%2$s（在你的瀏覽器中找不到忽略 Matomo 的 cookie）",
         "XtoYofN": "第 %1$s - %2$s 項，共 %3$s 項",
         "ShowAll": "顯示全部",
-        "Username": "使用者名稱"
+        "Username": "使用者名稱",
+        "RoleFor": "網站角色設定"
     }
 }

@@ -132,7 +132,6 @@
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo non può utilizzare HTTPS per l'aggiornamento, esso tornerà al non sicuro aggiornamento HTTP. Controlla che CURL o allow_url_fopen siano supportati e che sia installata l'estensione PHP openssl: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "non supportato",
         "Tables": "Sto creando le tabelle",
         "TablesCreatedSuccess": "Tabelle create con successo!",
