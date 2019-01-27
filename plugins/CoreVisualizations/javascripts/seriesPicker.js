@@ -106,6 +106,8 @@
                             return;
                         }
 
+                        rows = rows.map(encodeURIComponent);
+
                         $(self).trigger('seriesPicked', [columns, rows]);
 
                         // inform dashboard widget about changed parameters (to be restored on reload)
