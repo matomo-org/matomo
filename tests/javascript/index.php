@@ -2243,6 +2243,7 @@ function PiwikTest() {
         equal( typeof tracker.logAllContentBlocksOnPage, 'function', 'logAllContentBlocksOnPage' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
+        equal( typeof tracker.getEcommerceItems, 'function', 'getEcommerceItems' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
         equal( typeof tracker.removeEcommerceItem, 'function', 'removeEcommerceItem' );
         equal( typeof tracker.clearEcommerceCart, 'function', 'clearEcommerceCart' );
@@ -3630,7 +3631,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(157);
+        expect(158);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3963,6 +3964,49 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
         tracker3.addEcommerceItem("SKU ONLY" );
         tracker3.removeEcommerceItem("SKU TO REMOVE");
+
+        var cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {
+            "SKU NO PRICE NO QUANTITY": [
+                "SKU NO PRICE NO QUANTITY",
+                "PRODUCT NAME 3",
+                "CATEGORY",
+                "",
+                ""
+            ],
+            "SKU ONLY": [
+                "SKU ONLY",
+                null,
+                null,
+                null,
+                null
+            ],
+            "SKU ONLY NAME": [
+                "SKU ONLY NAME",
+                "PRODUCT NAME 2",
+                "",
+                "",
+                null
+            ],
+            "SKU ONLY SKU": [
+                "SKU ONLY SKU",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "SKU PRODUCT": [
+                "SKU PRODUCT",
+                "random",
+                "random PRODUCT CATEGORY",
+                11.1111,
+                2
+            ]
+        });
+
+        // test that changing the cart object does not change the internal ecommerceItems var
+        cart["SKU PRODUCT"][3] = 5;
+
         tracker3.trackEcommerceCartUpdate( 555.55 );
 
         tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
