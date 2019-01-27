@@ -115,9 +115,19 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-    e.preventDefault();
-    broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-    return false;
+$(function () {
+    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
+        e.preventDefault();
+        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+    }).tooltip({
+        track: true,
+        content: function() {
+            var title = $(this).attr('title');
+            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+        },
+        show: {delay: 100, duration: 0},
+        hide: false
+    });
 });
 </script>
