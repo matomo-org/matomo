@@ -7250,6 +7250,8 @@ if (typeof window.Piwik !== 'object') {
              * The returned value is read-only, modifications will not change what will be tracked. Use
              * addEcommerceItem/removeEcommerceItem/clearEcommerceCart to modify what items will be tracked.
              *
+             * Note: the cart will be cleared after an order.
+             *
              * @returns array
              */
             this.getEcommerceItems = function () {
