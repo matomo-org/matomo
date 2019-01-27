@@ -125,6 +125,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function login($messageNoAccess = null, $infoMessage = false)
     {
+        if (!Session::isIniConfigCookiePathSameAsPhpCookiePath()) {
+            Session::clearExistingSessionCookie();
+        }
+
         $form = new FormLogin();
         $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {

@@ -26,6 +26,11 @@ class Session extends Zend_Session
     protected static $sessionStarted = false;
 
     /**
+     * @var string
+     */
+    private static $originalCookiePath;
+
+    /**
      * Are we using file-based session store?
      *
      * @return bool  True if file-based; false otherwise
@@ -81,6 +86,7 @@ class Session extends Zend_Session
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
+        self::$originalCookiePath = ini_get('session.cookie_path');
         @ini_set('session.cookie_path', empty($config->General['login_cookie_path']) ? '/' : $config->General['login_cookie_path']);
 
         $currentSaveHandler = ini_get('session.save_handler');
@@ -171,5 +177,16 @@ class Session extends Zend_Session
     public static function isSessionStarted()
     {
         return self::$sessionStarted;
+    }
+
+    public static function isIniConfigCookiePathSameAsPhpCookiePath()
+    {
+        return Config::getInstance()->General['login_cookie_path'] == self::$originalCookiePath;
+    }
+
+    public static function clearExistingSessionCookie()
+    {
+        $cookie = new Cookie(self::SESSION_NAME, $expire = null, self::$originalCookiePath);
+        $cookie->delete();
     }
 }
