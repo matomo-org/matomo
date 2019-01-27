@@ -999,7 +999,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, sendRequests, queueRequest,
-    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
+    setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -7243,6 +7243,19 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 customVariablesPage[4] = ['_pkn', name];
+            };
+
+            /**
+             * Returns the list of ecommerce items that will be sent when a cart update or order is tracked.
+             * The returned value is read-only, modifications will not change what will be tracked. Use
+             * addEcommerceItem/removeEcommerceItem/clearEcommerceCart to modify what items will be tracked.
+             *
+             * Note: the cart will be cleared after an order.
+             *
+             * @returns array
+             */
+            this.getEcommerceItems = function () {
+                return JSON.parse(JSON.stringify(ecommerceItems));
             };
 
             /**
