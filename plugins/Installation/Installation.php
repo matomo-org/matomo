@@ -107,8 +107,10 @@ class Installation extends \Piwik\Plugin
 
         $action = Common::getRequestVar('action', 'welcome', 'string');
 
-        if ($this->isAllowedAction($action)) {
+        if ($this->isAllowedAction($action) && (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH)) {
             echo FrontController::getInstance()->dispatch('Installation', $action, array($message));
+        } elseif (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
+            return;
         } else {
             Piwik::exitWithErrorMessage($this->getMessageToInviteUserToInstallPiwik($message));
         }
