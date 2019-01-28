@@ -148,6 +148,10 @@ class FrontController extends Singleton
             return;
         }
 
+        if (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
+            return;
+        }
+
         $filter = new Router();
         $redirection = $filter->filterUrl(Url::getCurrentUrl());
         if ($redirection !== null) {
