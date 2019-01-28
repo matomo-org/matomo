@@ -181,7 +181,7 @@ class Session extends Zend_Session
 
     public static function isIniConfigCookiePathSameAsPhpCookiePath()
     {
-        return Config::getInstance()->General['login_cookie_path'] == self::$originalCookiePath;
+        return ini_get('session.cookie_path') == self::$originalCookiePath;
     }
 
     public static function clearExistingSessionCookie()
