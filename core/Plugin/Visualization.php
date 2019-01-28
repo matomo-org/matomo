@@ -220,7 +220,6 @@ class Visualization extends ViewDataTable
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
         $view->reportMetdadata = $this->getReportMetadata();
-        $view->hasMultipleDimensions = is_array($this->dataTable->getMetadata('dimensions')) && count($this->dataTable->getMetadata('dimensions')) > 1;
 
         if (null === $this->dataTable) {
             $view->dataTable = null;

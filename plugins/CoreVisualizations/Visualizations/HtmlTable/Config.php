@@ -136,15 +136,6 @@ class Config extends VisualizationConfig
             'highlight_summary_row',
             'show_dimensions',
         ));
-
-        foreach (Dimension::getAllDimensions() as $dimension) {
-            $dimensionId = str_replace('.', '_', $dimension->getId());
-            $dimensionName = $dimension->getName();
-
-            if (!empty($dimensionId) && !empty($dimensionName)) {
-                $this->translations[$dimensionId] = $dimensionName;
-            }
-        }
     }
 
 }

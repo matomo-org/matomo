@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -96,10 +97,23 @@ class HtmlTable extends Visualization
         }
 
         // Note: This needs to be done right before rendering, as otherwise some plugins might change the columns to display again
-        if ($this->isFlattened() && $this->config->show_dimensions) {
+        if ($this->isFlattened()) {
             $dimensions = $this->dataTable->getMetadata('dimensions');
 
-            if (is_array($dimensions) && count($dimensions) > 1) {
+            $hasMultipleDimensions = is_array($dimensions) && count($dimensions) > 1;
+            $this->assignTemplateVar('hasMultipleDimensions', $hasMultipleDimensions);
+
+            if ($this->config->show_dimensions && $hasMultipleDimensions) {
+
+                foreach (Dimension::getAllDimensions() as $dimension) {
+                    $dimensionId = str_replace('.', '_', $dimension->getId());
+                    $dimensionName = $dimension->getName();
+
+                    if (!empty($dimensionId) && !empty($dimensionName) && in_array($dimensionId, $dimensions)) {
+                        $this->config->translations[$dimensionId] = $dimensionName;
+                    }
+                }
+
                 $this->dataTable->filter(function($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();
