@@ -557,7 +557,6 @@ class   Config
         foreach ($this->selectable_periods as $period) {
             $this->translations[$period] = ucfirst(Piwik::translate('Intl_Period' . ucfirst($period)));
         }
-
         $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');
     }
 

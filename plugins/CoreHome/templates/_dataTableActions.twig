@@ -125,9 +125,11 @@
                     <li>
                         <div class="configItem dataTableIncludeAggregateRows"></div>
                     </li>
-                    <li>
-                        <div class="configItem dataTableShowDimensions"></div>
-                    </li>
+                    {% if hasMultipleDimensions|default %}
+                        <li>
+                            <div class="configItem dataTableShowDimensions"></div>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 <li>
                     <div class="configItem dataTableFlatten"></div>
