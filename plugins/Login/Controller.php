@@ -125,7 +125,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function login($messageNoAccess = null, $infoMessage = false)
     {
-        if (!Session::isIniConfigCookiePathSameAsPhpCookiePath()) {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST'
+            && !Session::isIniConfigCookiePathSameAsPhpCookiePath()
+        ) {
             Session::clearExistingSessionCookie();
         }
 
