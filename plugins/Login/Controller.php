@@ -201,6 +201,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (!empty($_POST)) {
             $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
             $password = Common::getRequestVar('password', null, 'string', $_POST);
+            if ($password) {
+                $password = Common::unsanitizeInputValue($password);
+            }
             if (!Nonce::verifyNonce($nonceKey, $nonce)) {
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
             } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
