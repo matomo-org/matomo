@@ -73,8 +73,9 @@ class Sparkline implements ViewInterface
 
         $hasFloat = false;
         foreach ($values as $value) {
-            $value = $value + 0; // coerce to int/float type
-            if (is_float($value)) {
+            if (is_numeric($value)
+                && is_float($value + 0) // coerce to int/float type before checking
+            ) {
                 $hasFloat = true;
                 break;
             }
