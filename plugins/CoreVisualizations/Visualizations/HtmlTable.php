@@ -96,7 +96,7 @@ class HtmlTable extends Visualization
         }
 
         // Note: This needs to be done right before rendering, as otherwise some plugins might change the columns to display again
-        if ($this->isFlattened()) {
+        if ($this->isFlattened() && $this->config->show_dimensions) {
             $dimensions = $this->dataTable->getMetadata('dimensions');
 
             if (is_array($dimensions) && count($dimensions) > 1) {

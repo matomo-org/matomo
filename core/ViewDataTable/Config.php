@@ -10,7 +10,6 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
-use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -557,15 +556,6 @@ class   Config
         $this->selectable_periods = array_diff($this->selectable_periods, array('range'));
         foreach ($this->selectable_periods as $period) {
             $this->translations[$period] = ucfirst(Piwik::translate('Intl_Period' . ucfirst($period)));
-        }
-
-        foreach (Dimension::getAllDimensions() as $dimension) {
-            $dimensionId = str_replace('.', '_', $dimension->getId());
-            $dimensionName = $dimension->getName();
-
-            if (!empty($dimensionId) && !empty($dimensionName)) {
-                $this->translations[$dimensionId] = $dimensionName;
-            }
         }
 
         $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');

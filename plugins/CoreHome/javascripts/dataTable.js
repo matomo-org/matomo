@@ -1322,6 +1322,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
+        $('.dataTableShowDimensions', domElem)
+            .each(function () {
+                setText(this, 'show_dimensions', 'CoreHome_DataTableCombineDimensions',
+                    'CoreHome_DataTableShowDimensions');
+            })
+            .click(generateClickCallback('show_dimensions'));
+
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
             .each(function () {
