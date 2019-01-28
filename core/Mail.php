@@ -100,37 +100,7 @@ class Mail extends Zend_Mail
      */
     private function initSmtpTransport()
     {
-        $mailConfig = Config::getInstance()->mail;
-
-        if (empty($mailConfig['host'])
-            || $mailConfig['transport'] != 'smtp'
-        ) {
-            return;
-        }
-
-        $smtpConfig = array();
-        if (!empty($mailConfig['type'])) {
-            $smtpConfig['auth'] = strtolower($mailConfig['type']);
-        }
-
-        if (!empty($mailConfig['username'])) {
-            $smtpConfig['username'] = $mailConfig['username'];
-        }
-
-        if (!empty($mailConfig['password'])) {
-            $smtpConfig['password'] = $mailConfig['password'];
-        }
-
-        if (!empty($mailConfig['encryption'])) {
-            $smtpConfig['ssl'] = $mailConfig['encryption'];
-        }
-        
-        if (!empty($mailConfig['port'])) {
-            $smtpConfig['port'] = $mailConfig['port'];
-        }
-
-        $host = trim($mailConfig['host']);
-        $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
+        $tr = StaticContainer::get('Zend_Mail_Transport_Abstract');
         Mail::setDefaultTransport($tr);
     }
 
