@@ -435,7 +435,7 @@ class Controller extends ControllerAdmin
         if ($newPassword !== false && !Url::isValidHost()) {
             throw new Exception("Cannot change password or email with untrusted hostname!");
         }
-
+        
         // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
