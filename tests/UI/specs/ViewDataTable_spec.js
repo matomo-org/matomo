@@ -109,6 +109,13 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('12_aggregate_shown');
     });
 
+    it("should show dimensions separately when option is clicked", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_columns');
+    });
+
     it("should make the report hierarchical when the flatten link is clicked again", async function () {
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableFlatten');

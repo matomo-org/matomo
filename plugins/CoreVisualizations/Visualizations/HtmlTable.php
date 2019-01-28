@@ -163,7 +163,6 @@ class HtmlTable extends Visualization
             $this->dataTable->applyQueuedFilters();
         }
 
-
         parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
 
