@@ -32,6 +32,8 @@ class LatestStableInstall extends Fixture
 
     public function setUp()
     {
+        $this->removeLatestStableInstall();
+
         // create new package from git contents
         $this->generateMatomoPackageFromGit();
 
@@ -39,6 +41,21 @@ class LatestStableInstall extends Fixture
         $this->downloadAndUnzipLatestStable();
         $tokenAuth = $this->installSubdirectoryInstall();
         $this->verifyInstall($tokenAuth);
+    }
+
+    private function removeLatestStableInstall()
+    {
+        $installSubdirectory = $this->getInstallSubdirectoryPath();
+        Filesystem::mkdir($installSubdirectory);
+
+        if (file_exists($installSubdirectory)) {
+            Filesystem::unlinkRecursive($installSubdirectory, true);
+        }
+
+        $latestStableZip = $this->getArchiveDestPath();
+        if (file_exists($latestStableZip)) {
+            unlink($latestStableZip);
+        }
     }
 
     private function downloadAndUnzipLatestStable()
@@ -51,10 +68,6 @@ class LatestStableInstall extends Fixture
 
         $installSubdirectory = $this->getInstallSubdirectoryPath();
         Filesystem::mkdir($installSubdirectory);
-
-        if (file_exists($installSubdirectory)) {
-            Filesystem::unlinkRecursive($installSubdirectory, true);
-        }
 
         $archive = Unzip::factory('PclZip', $archiveFile);
         $archiveFiles = $archive->extract($installSubdirectory);
@@ -71,8 +84,14 @@ class LatestStableInstall extends Fixture
     private function installSubdirectoryInstall()
     {
         $installScript = PIWIK_INCLUDE_PATH . '/tests/resources/install-matomo.php';
-        $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . addslashes($this->getDbConfigJson()) . '" '
-            . parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+
+        $host = parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
+        $port = parse_url(Fixture::getRootUrl(), PHP_URL_PORT);
+        if (!empty($port)) {
+            $host .= ':' . $port;
+        }
+
+        $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . addslashes($this->getDbConfigJson()) . '" ' . $host;
 
         $output = shell_exec($command);
         $lines = explode("\n", $output);
@@ -134,15 +153,20 @@ class LatestStableInstall extends Fixture
 
     private function runMatomoPackage()
     {
+        $matomoBuildPath = PIWIK_INCLUDE_PATH . '/matomo-build.zip';
+        if (file_exists($matomoBuildPath)) {
+            unlink($matomoBuildPath);
+        }
+
         $command = 'cd "' . PIWIK_INCLUDE_PATH . '/../matomo-package" && ';
-        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" matomo false true';
+        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" piwik false true';
 
         exec($command, $output, $returnCode);
         if ($returnCode != 0) {
             throw new \Exception("matomo-package failed: " . implode("\n", $output));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/matomo-build.zip';
-        rename($path, PIWIK_INCLUDE_PATH . '/matomo-build.zip');
+        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/piwik-build.zip';
+        rename($path, $matomoBuildPath);
     }
 }
