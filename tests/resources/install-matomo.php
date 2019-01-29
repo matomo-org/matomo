@@ -11,6 +11,7 @@ use Piwik\Access;
 use Piwik\Application\Environment;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
@@ -23,6 +24,7 @@ use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Updater;
+use Piwik\Plugins\CoreUpdater;
 
 $subdir = $argv[1];
 $dbConfig = json_decode($argv[2], $isAssoc = true);
@@ -130,7 +132,16 @@ function createWebsite($dateTime)
     Site::clearCache();
     Cache::deleteCacheWebsiteAttributes($idSite);
 
-    return $idSite;}
+    return $idSite;
+}
+
+function getTokenAuth()
+{
+    $model = new \Piwik\Plugins\UsersManager\Model();
+    $user  = $model->getUser('superUserLogin');
+
+    return $user['token_auth'];
+}
 
 $_SERVER['HTTP_HOST'] = $host;
 $dbConfig['dbname'] = 'latest_stable';
@@ -200,6 +211,16 @@ createWebsite('2017-01-01 00:00:00');
 
 print "created website\n";
 
+// copy custom release channel
+copy(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php',
+    PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/ReleaseChannel/GitCommitReleaseChannel.php');
+
+$settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
+$settings->releaseChannel->setValue('git_commit');
+$settings->releaseChannel->save();
+
+print "set release channel\n";
+
 // print token auth (on last line so it can be easily parsed)
-$tokenAuth = \Piwik\Tests\Framework\Fixture::getTokenAuth();
+$tokenAuth = getTokenAuth();
 print "$tokenAuth";

@@ -10,38 +10,11 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel\LatestStable;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Unzip;
-use Piwik\UpdateCheck\ReleaseChannel;
-use Piwik\Url;
-use Piwik\Plugins\CoreUpdater;
-
-class GitCommitReleaseChannel extends ReleaseChannel
-{
-    public function getId()
-    {
-        return 'git_commit';
-    }
-
-    public function getName()
-    {
-        return 'Test Release Channel';
-    }
-
-    public function getUrlToCheckForLatestAvailableVersion()
-    {
-        return Fixture::getRootUrl() . '/tests/resources/one-click-update-version.php';
-    }
-
-    public function getDownloadUrlWithoutScheme($version)
-    {
-        return '://' . Url::getHost(false) . '/matomo-build.zip';
-    }
-}
 
 class LatestStableInstall extends Fixture
 {
@@ -61,7 +34,6 @@ class LatestStableInstall extends Fixture
     {
         // create new package from git contents
         $this->generateMatomoPackageFromGit();
-        $this->setTestReleaseChannel();
 
         // install latest stable
         $this->downloadAndUnzipLatestStable();
@@ -99,8 +71,8 @@ class LatestStableInstall extends Fixture
     private function installSubdirectoryInstall()
     {
         $installScript = PIWIK_INCLUDE_PATH . '/tests/resources/install-matomo.php';
-        $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . escapeshellarg($this->getDbConfigJson()) . '" '
-            . Url::getHost(false);
+        $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . addslashes($this->getDbConfigJson()) . '" '
+            . parse_url(Fixture::getRootUrl(), PHP_URL_HOST);
 
         $output = shell_exec($command);
         $lines = explode("\n", $output);
@@ -142,8 +114,7 @@ class LatestStableInstall extends Fixture
     private function generateMatomoPackageFromGit()
     {
         $this->cloneMatomoPackageRepo();
-        $gitCommit = $this->getGitCommit();
-        $this->runMatomoPackage($gitCommit);
+        $this->runMatomoPackage();
     }
 
     private function cloneMatomoPackageRepo()
@@ -161,44 +132,17 @@ class LatestStableInstall extends Fixture
         }
     }
 
-    private function getGitCommit()
-    {
-        $result = `git rev-parse --short HEAD`;
-        if (strlen($result) > 32) {
-            throw new \Exception('Failed to get current short git commit: ' . $result);
-        }
-        return $result;
-    }
-
-    private function runMatomoPackage($gitCommit)
+    private function runMatomoPackage()
     {
         $command = 'cd "' . PIWIK_INCLUDE_PATH . '/../matomo-package" && ';
-        $command .= './scripts/build-package.sh ' . $gitCommit . ' matomo false true';
+        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" matomo false true';
 
         exec($command, $output, $returnCode);
         if ($returnCode != 0) {
             throw new \Exception("matomo-package failed: " . implode("\n", $output));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/matomo-' . $gitCommit . '.zip';
+        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/matomo-build.zip';
         rename($path, PIWIK_INCLUDE_PATH . '/matomo-build.zip');
-    }
-
-    private function setTestReleaseChannel()
-    {
-        $settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
-        $settings->releaseChannel->setValue('git_commit');
-        $settings->releaseChannel->save();
-    }
-
-    public function provideContainerConfig()
-    {
-        return [
-            'observers.global' => [
-                ['ReleaseChannels.getAllReleaseChannels', function (&$channels) {
-                    $channels[] = new GitCommitReleaseChannel();
-                }],
-            ],
-        ];
     }
 }

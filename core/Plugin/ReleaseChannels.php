@@ -10,6 +10,7 @@ namespace Piwik\Plugin;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\UpdateCheck\ReleaseChannel;
 
 /**
