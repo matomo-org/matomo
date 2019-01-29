@@ -58,14 +58,14 @@ class LatestStableInstall extends Fixture
 
     public function setUp()
     {
+        // create new package from git contents
+        $this->generateMatomoPackageFromGit();
+        $this->setTestReleaseChannel();
+
         // install latest stable
         $this->downloadAndUnzipLatestStable();
         $tokenAuth = $this->installSubdirectoryInstall();
         $this->verifyInstall($tokenAuth);
-
-        // create new package from git contents
-        $this->generateMatomoPackageFromGit();
-        $this->setTestReleaseChannel();
     }
 
     private function downloadAndUnzipLatestStable()
