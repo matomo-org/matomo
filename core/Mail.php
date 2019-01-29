@@ -101,6 +101,10 @@ class Mail extends Zend_Mail
     private function initSmtpTransport()
     {
         $tr = StaticContainer::get('Zend_Mail_Transport_Abstract');
+        if (empty($tr)) {
+            return;
+        }
+
         Mail::setDefaultTransport($tr);
     }
 
