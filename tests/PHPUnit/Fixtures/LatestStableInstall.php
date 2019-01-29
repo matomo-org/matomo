@@ -39,13 +39,14 @@ class GitCommitReleaseChannel extends ReleaseChannel
 
     public function getDownloadUrlWithoutScheme($version)
     {
-        return '://' . Url::getHost(false) . '/matomo-package/matomo-build.zip';
+        return '://' . Url::getHost(false) . '/matomo-build.zip';
     }
 }
 
 class LatestStableInstall extends Fixture
 {
     const DOWNLOAD_TIMEOUT = 900;
+
     /**
      * @var string
      */
@@ -100,7 +101,7 @@ class LatestStableInstall extends Fixture
         $installScript = PIWIK_INCLUDE_PATH . '/tests/resources/install-matomo.php';
         $command = "php " . $installScript . " " . $this->subdirToInstall . ' "' . escapeshellarg($this->getDbConfigJson()) . '" '
             . Url::getHost(false);
-        print $command . "\n";
+
         $output = shell_exec($command);
         $lines = explode("\n", $output);
         $tokenAuth = trim(end($lines));
@@ -147,7 +148,12 @@ class LatestStableInstall extends Fixture
 
     private function cloneMatomoPackageRepo()
     {
-        $command = 'git clone git@github.com:matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . PIWIK_INCLUDE_PATH . '/../matomo-package"';
+        $pathToMatomoPackage = PIWIK_INCLUDE_PATH . '/../matomo-package';
+        if (file_exists($pathToMatomoPackage)) {
+            Filesystem::unlinkRecursive($pathToMatomoPackage, true);
+        }
+
+        $command = 'git clone git@github.com:matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . $pathToMatomoPackage . '"';
         exec($command, $output, $returnCode);
 
         if ($returnCode != 0) {
@@ -175,7 +181,7 @@ class LatestStableInstall extends Fixture
         }
 
         $path = PIWIK_INCLUDE_PATH . '/../matomo-package/matomo-' . $gitCommit . '.zip';
-        rename($path, 'matomo-build.zip');
+        rename($path, PIWIK_INCLUDE_PATH . '/matomo-build.zip');
     }
 
     private function setTestReleaseChannel()
