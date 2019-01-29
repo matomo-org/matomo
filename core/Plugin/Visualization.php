@@ -268,11 +268,11 @@ class Visualization extends ViewDataTable
     {
         try {
             $this->checkRequestIsNotForMultiplePeriods();
-
-            throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
         } catch (BadRequestException $ex) {
-            // ignore
+            return; // ignore
         }
+
+        throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
     }
 
     private function hasAnyData(DataTable\DataTableInterface $dataTable)

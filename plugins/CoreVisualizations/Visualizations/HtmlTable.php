@@ -10,7 +10,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Visualization;
