@@ -160,12 +160,6 @@ class Plugin
         }
     }
 
-    public function getPluginPath()
-    {
-        $class_info = new \ReflectionClass($this);
-        return dirname($class_info->getFileName());
-    }
-
     private function hasDefinedPluginInformationInPluginClass()
     {
         $myClassName = get_class();
