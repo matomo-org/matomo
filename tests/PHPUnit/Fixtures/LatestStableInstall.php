@@ -147,7 +147,7 @@ class LatestStableInstall extends Fixture
 
     private function cloneMatomoPackageRepo()
     {
-        $command = 'git clone git@github.com:matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . PIWIK_INCLUDE_PATH . '/matomo-package"';
+        $command = 'git clone git@github.com:matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . PIWIK_INCLUDE_PATH . '/../matomo-package"';
         exec($command, $output, $returnCode);
 
         if ($returnCode != 0) {
@@ -166,7 +166,7 @@ class LatestStableInstall extends Fixture
 
     private function runMatomoPackage($gitCommit)
     {
-        $command = 'cd "' . PIWIK_INCLUDE_PATH . '/matomo-package" && ';
+        $command = 'cd "' . PIWIK_INCLUDE_PATH . '/../matomo-package" && ';
         $command .= './scripts/build-package.sh ' . $gitCommit . ' matomo false true';
 
         exec($command, $output, $returnCode);
@@ -174,7 +174,7 @@ class LatestStableInstall extends Fixture
             throw new \Exception("matomo-package failed: " . implode("\n", $output));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/matomo-package/matomo-' . $gitCommit . '.zip';
+        $path = PIWIK_INCLUDE_PATH . '/../matomo-package/matomo-' . $gitCommit . '.zip';
         rename($path, 'matomo-build.zip');
     }
 
