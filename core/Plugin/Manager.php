@@ -330,6 +330,8 @@ class Manager
             }
         }
 
+        sort($result);
+
         return $result;
     }
 
