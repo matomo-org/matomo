@@ -353,7 +353,8 @@ class Manager
     }
 
     /**
-     * Gets the path to a specific plugin.
+     * Gets the path to a specific plugin. If the plugin does not exist in any plugins folder, the default plugins
+     * folder will be assumed.
      *
      * @param $pluginName
      * @return mixed|string
@@ -371,6 +372,9 @@ class Manager
                 return $path;
             }
         }
+
+        // assume default directory when plugin does not exist just yet
+        return self::getPluginsDirectory() . $pluginName;
     }
 
     /**

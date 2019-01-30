@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Translate;
 use Piwik\Widget\WidgetsList;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,7 +46,7 @@ class GenerateWidget extends GeneratePluginBase
         $widgetMethod = $this->getWidgetMethodName($widgetName);
         $widgetClass  = ucfirst($widgetMethod);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $exampleFolder  = Manager::getPluginDirectory('ExamplePlugin');
         $replace        = array('ExamplePlugin'   => $pluginName,
                                 'MyExampleWidget' => $widgetClass,
                                 'Example Widget Name' => $this->makeTranslationIfPossible($pluginName, $widgetName),
