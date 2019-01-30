@@ -336,11 +336,11 @@ class Manager
     public static function getPluginsDirectories()
     {
         $dirs = array(PIWIK_INCLUDE_PATH . '/plugins/');
-        if (!empty($GLOBALS['PLUGIN_DIRS'])) {
-            $GLOBALS['PLUGIN_DIRS'] = array_map(function ($dir) {
+        if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
+            $GLOBALS['MATOMO_PLUGIN_DIRS'] = array_map(function ($dir) {
                 return rtrim($dir, '/') . '/';
-            }, $GLOBALS['PLUGIN_DIRS']);
-            $dirs = array_merge($dirs, $GLOBALS['PLUGIN_DIRS']);
+            }, $GLOBALS['MATOMO_PLUGIN_DIRS']);
+            $dirs = array_merge($dirs, $GLOBALS['MATOMO_PLUGIN_DIRS']);
         }
         return $dirs;
     }
