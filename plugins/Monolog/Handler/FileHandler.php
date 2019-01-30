@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Monolog\Handler;
 
 use Monolog\Handler\StreamHandler;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 
 /**
@@ -23,9 +24,11 @@ class FileHandler extends StreamHandler
         try {
             parent::write($record);
         } catch (\UnexpectedValueException $e) {
-            throw new \Exception(
+            $ex = new MissingFilePermissionException(
                 Filechecks::getErrorMessageMissingPermissions($this->url)
             );
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
     }
 }

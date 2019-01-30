@@ -132,9 +132,9 @@ class Filechecks
 						You can try to execute:<br />";
         } else {
             $message .= "For example, on a GNU/Linux server if your Apache httpd user is "
-                        . self::getUser()
+                        . Common::sanitizeInputValue(self::getUser())
                         . ", you can try to execute:<br />\n"
-                        . "<code>chown -R ". self::getUserAndGroup() ." " . $path . "</code><br />";
+                        . "<code>chown -R ". Common::sanitizeInputValue(self::getUserAndGroup()) ." " . Common::sanitizeInputValue($path) . "</code><br />";
         }
 
         $message .= self::getMakeWritableCommand($path);
@@ -179,8 +179,9 @@ class Filechecks
      */
     private static function getMakeWritableCommand($realpath)
     {
+        $realpath = Common::sanitizeInputValue($realpath);
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
+            return "<code>cacls $realpath /t /g " . Common::sanitizeInputValue(self::getUser()) . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }

@@ -749,6 +749,7 @@ class Manager
         }
 
         $path = self::getPluginDirectory($pluginName);
+      
         if (!$this->isManifestFileFound($path)) {
             return true;
         }

@@ -98,6 +98,7 @@ class API extends \Piwik\Plugin\API
 
         $pluginDirectories = Manager::getPluginsDirectories();
         // merge with plugin translations if any
+
         $pluginFiles = array();
         foreach ($pluginDirectories as $pluginsDir) {
             $pluginFiles = array_merge($pluginFiles, glob(sprintf('%s*/lang/en.json', $pluginsDir)));

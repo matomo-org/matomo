@@ -539,6 +539,7 @@ class Plugin
 
         $pluginsDir = Manager::getPluginDirectory($this->pluginName);
         $baseDir = $pluginsDir . '/' . $directoryWithinPlugin;
+
         $files   = Filesystem::globr($baseDir, '*.php');
 
         foreach ($files as $file) {

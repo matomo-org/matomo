@@ -481,6 +481,7 @@ class Controller extends Plugin\ControllerAdmin
 
         if (!$uninstalled) {
             $path = Plugin\Manager::getPluginDirectory($pluginName) . '/';
+
             $messagePermissions = Filechecks::getErrorMessageMissingPermissions($path);
 
             $messageIntro = $this->translator->translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
