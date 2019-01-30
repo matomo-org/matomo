@@ -143,7 +143,7 @@ class LatestStableInstall extends Fixture
             Filesystem::unlinkRecursive($pathToMatomoPackage, true);
         }
 
-        $command = 'git clone git@github.com:matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . $pathToMatomoPackage . '"';
+        $command = 'git clone https://github.com/matomo-org/matomo-package.git --branch=one-click-test --depth=1 "' . $pathToMatomoPackage . '"';
         exec($command, $output, $returnCode);
 
         if ($returnCode != 0) {
