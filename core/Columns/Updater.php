@@ -342,11 +342,13 @@ class Updater extends \Piwik\Updates
 
     private static function getCurrentDimensionFileChanges()
     {
-        $files = Filesystem::globr(Manager::getPluginsDirectory() . '*/Columns', '*.php');
-
         $times = array();
-        foreach ($files as $file) {
-            $times[$file] = filemtime($file);
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $files = Filesystem::globr($pluginsDir . '*/Columns', '*.php');
+
+            foreach ($files as $file) {
+                $times[$file] = filemtime($file);
+            }
         }
 
         return $times;

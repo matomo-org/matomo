@@ -223,7 +223,7 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $languageFile = Manager::getPluginsDirectory() . "$pluginName/lang/$languageCode.json";
+        $languageFile = Manager::getPluginDirectory($pluginName) . "/lang/$languageCode.json";
 
         if (!file_exists($languageFile)) {
             return false;

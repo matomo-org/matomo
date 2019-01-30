@@ -129,10 +129,12 @@ class PluginInstaller
 
     private function makeSureFoldersAreWritable()
     {
-        Filechecks::dieIfDirectoriesNotWritable(array(
+        $dirs = array(
             StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD,
             Manager::getPluginsDirectory()
-        ));
+        );
+        // we do not require additional plugin directories to be writeable ({@link Manager::getPluginsDirectories()})
+        Filechecks::dieIfDirectoriesNotWritable($dirs);
     }
 
     /**

@@ -52,6 +52,8 @@ class Manager
 
     protected $doLoadPlugins = true;
 
+    protected static $pluginsToPathCache = array();
+
     private $pluginsLoadedAndActivated;
 
     /**
@@ -316,16 +318,46 @@ class Manager
      */
     public function readPluginsDirectory()
     {
-        $pluginsName = _glob(self::getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $result = array();
-        if ($pluginsName != false) {
-            foreach ($pluginsName as $path) {
-                if (self::pluginStructureLooksValid($path)) {
-                    $result[] = basename($path);
+        foreach (self::getPluginsDirectories() as $pluginsDir) {
+            $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
+            if ($pluginsName != false) {
+                foreach ($pluginsName as $path) {
+                    if (self::pluginStructureLooksValid($path)) {
+                        $result[] = basename($path);
+                    }
                 }
             }
         }
+
         return $result;
+    }
+
+    public static function getPluginsDirectories()
+    {
+        $dirs = array(PIWIK_INCLUDE_PATH . '/plugins/');
+        if (!empty($GLOBALS['PLUGIN_DIRS'])) {
+            $GLOBALS['PLUGIN_DIRS'] = array_map(function ($dir) {
+                return rtrim($dir, '/') . '/';
+            }, $GLOBALS['PLUGIN_DIRS']);
+            $dirs = array_merge($dirs, $GLOBALS['PLUGIN_DIRS']);
+        }
+        return $dirs;
+    }
+
+    public static function getPluginDirectory($pluginName)
+    {
+        if (isset(self::$pluginsToPathCache[$pluginName])) {
+            return self::$pluginsToPathCache[$pluginName];
+        }
+
+        foreach (self::getPluginsDirectories() as $dir) {
+            $path = $dir . $pluginName;
+            if (is_dir($path)) {
+                self::$pluginsToPathCache[$pluginName] = $path;
+                return $path;
+            }
+        }
     }
 
     public static function getPluginsDirectory()
@@ -459,8 +491,11 @@ class Manager
 
     public static function deletePluginFromFilesystem($plugin)
     {
-        $pluginDir = self::getPluginsDirectory();
-        Filesystem::unlinkRecursive($pluginDir . $plugin, $deleteRootToo = true);
+        $pluginDir = self::getPluginDirectory($plugin);
+        if (strpos($pluginDir, PIWIK_INCLUDE_PATH) === 0) {
+            // only delete files for plugins within matomo directory...
+            Filesystem::unlinkRecursive($pluginDir, $deleteRootToo = true);
+        }
     }
 
     /**
@@ -633,7 +668,7 @@ class Manager
                     'uninstallable'   => true,
                 );
             } else {
-                $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
+                $translator->addDirectory(self::getPluginDirectory($pluginName) . '/lang');
                 $this->loadPlugin($pluginName);
                 $info = array(
                     'activated'       => $this->isPluginActivated($pluginName),
@@ -694,7 +729,7 @@ class Manager
             return true;
         }
 
-        $path = self::getPluginsDirectory() . $pluginName;
+        $path = self::getPluginDirectory($pluginName);
         if (!$this->isManifestFileFound($path)) {
             return true;
         }
@@ -1013,7 +1048,7 @@ class Manager
             throw new \Exception(sprintf("The plugin filename '%s' is not a valid plugin name", $pluginFileName));
         }
 
-        $path = self::getPluginsDirectory() . $pluginFileName;
+        $path = self::getPluginDirectory($pluginFileName);
 
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
@@ -1470,7 +1505,7 @@ class Manager
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
         foreach ($this->getAllPluginsNames() as $pluginName) {
-            $translator->addDirectory(self::getPluginsDirectory() . $pluginName . '/lang');
+            $translator->addDirectory(self::getPluginDirectory($pluginName) . '/lang');
         }
     }
 }

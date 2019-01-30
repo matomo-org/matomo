@@ -28,7 +28,6 @@ class Updater
     const INDEX_NEW_VERSION = 1;
 
     private $pathUpdateFileCore;
-    private $pathUpdateFilePlugins;
     private $hasMajorDbUpdate = false;
     private $updatedClasses = array();
     private $componentsWithNewVersion = array();
@@ -63,7 +62,6 @@ class Updater
     public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, Columns\Updater $columnsUpdater = null)
     {
         $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
-        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: Manager::getPluginsDirectory() . '%s/Updates/';
         $this->columnsUpdater = $columnsUpdater ?: new Columns\Updater();
 
         self::$activeInstance = $this;
@@ -348,7 +346,7 @@ class Updater
             } elseif (ColumnUpdater::isDimensionComponent($name)) {
                 $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updater.php'] = $newVersion;
             } else {
-                $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
+                $pathToUpdates = Manager::getPluginDirectory($name) . '/Updates/*.php';
             }
 
             if (!empty($pathToUpdates)) {
