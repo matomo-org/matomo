@@ -523,7 +523,7 @@ class Twig
 
         foreach ($plugins as $name) {
             $pluginsDir = Manager::getPluginDirectory($name);
-            $path = sprintf("%s/%s/templates/", $pluginsDir, $name);
+            $path = sprintf("%s/templates/", $pluginsDir);
             if (is_dir($path)) {
                 $loader->addPath(rtrim($path, '/'), $name);
             }

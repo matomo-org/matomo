@@ -1041,14 +1041,14 @@ class Manager
      */
     protected function makePluginClass($pluginName)
     {
-        $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
         $pluginClassName = $pluginName;
 
         if (!$this->isValidPluginName($pluginName)) {
-            throw new \Exception(sprintf("The plugin filename '%s' is not a valid plugin name", $pluginFileName));
+            throw new \Exception(sprintf("The plugin name '%s' is not a valid plugin name", $pluginName));
         }
 
-        $path = self::getPluginDirectory($pluginFileName);
+        $path = self::getPluginDirectory($pluginName);
+        $path = sprintf('%s/%s.php', $path, $pluginName);
 
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
