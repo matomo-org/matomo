@@ -96,11 +96,17 @@ class API extends \Piwik\Plugin\API
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
         $englishTranslation = json_decode($data, true);
 
+        $pluginDirectories = Manager::getPluginsDirectories();
         // merge with plugin translations if any
-        $pluginFiles = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
-        foreach ($pluginFiles as $file) {
+        $pluginFiles = array();
+        foreach ($pluginDirectories as $pluginsDir) {
+            $pluginFiles = array_merge($pluginFiles, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
 
-            preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+        foreach ($pluginFiles as $file) {
+            $fileWithoutPluginDir = str_replace($pluginDirectories, '', $file);
+
+            preg_match('/([^\/]+)\/lang/i', $fileWithoutPluginDir, $matches);
             $plugin = $matches[1];
 
             if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
@@ -117,10 +123,15 @@ class API extends \Piwik\Plugin\API
             $translations = json_decode($data, true);
 
             // merge with plugin translations if any
-            $pluginFiles = glob(sprintf('%s*/lang/%s.json', Manager::getPluginsDirectory(), $filename));
-            foreach ($pluginFiles as $file) {
+            $pluginFiles = array();
+            foreach ($pluginDirectories as $pluginsDir) {
+                $pluginFiles = array_merge($pluginFiles, glob(sprintf('%s*/lang/%s.json', $pluginsDir, $filename)));
+            }
 
-                preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+            foreach ($pluginFiles as $file) {
+                $fileWithoutPluginDir = str_replace($pluginDirectories, '', $file);
+
+                preg_match('/([^\/]+)\/lang/i', $fileWithoutPluginDir, $matches);
                 $plugin = $matches[1];
 
                 if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {

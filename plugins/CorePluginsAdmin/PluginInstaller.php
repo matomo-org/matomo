@@ -134,6 +134,7 @@ class PluginInstaller
             Manager::getPluginsDirectory()
         );
         // we do not require additional plugin directories to be writeable ({@link Manager::getPluginsDirectories()})
+        // as we only upload to core plugins directory anyway
         Filechecks::dieIfDirectoriesNotWritable($dirs);
     }
 

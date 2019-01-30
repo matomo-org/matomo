@@ -335,6 +335,11 @@ class Manager
         return $result;
     }
 
+    /**
+     * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
+     * All paths have a trailing slash '/'.
+     * @return array
+     */
     public static function getPluginsDirectories()
     {
         $dirs = array(PIWIK_INCLUDE_PATH . '/plugins/');
@@ -347,6 +352,12 @@ class Manager
         return $dirs;
     }
 
+    /**
+     * Gets the path to a specific plugin.
+     *
+     * @param $pluginName
+     * @return mixed|string
+     */
     public static function getPluginDirectory($pluginName)
     {
         if (isset(self::$pluginsToPathCache[$pluginName])) {
@@ -362,6 +373,12 @@ class Manager
         }
     }
 
+    /**
+     * Returns the path to the directory where core plugins are located. Please note since Matomo 3.9
+     * plugins may also be located in other directories and therefore this method has been deprecated.
+     * @deprecated since Matomo 3.9.0 use {@link (getPluginsDirectories())} or {@link getPluginDirectory($pluginName)} instead
+     * @return string
+     */
     public static function getPluginsDirectory()
     {
         return PIWIK_INCLUDE_PATH . '/plugins/';
