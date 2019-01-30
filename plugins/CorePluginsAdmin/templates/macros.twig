@@ -2,9 +2,18 @@
 {% macro tablePluginUpdates(pluginsHavingUpdate, updateNonce, isMultiServerEnvironment) %}
     {% import '@Marketplace/macros.twig' as marketplaceMacro %}
 
+    <div>
+        <a id="update-selected-plugins" href="javascript:" class="btn">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
+    </div>
     <table piwik-content-table>
         <thead>
         <tr>
+            <th>
+                <span class="checkbox-container">
+                    <input type="checkbox" id="select-plugin-all" />
+                    <label for="select-plugin-all"></label>
+                </span>
+            </th>
             <th>{{ 'General_Plugin'|translate }}</th>
             <th class="num">{{ 'CorePluginsAdmin_Version'|translate }}</th>
             <th>{{ 'General_Description'|translate }}</th>
@@ -15,6 +24,12 @@
         <tbody id="plugins">
         {% for name,plugin in pluginsHavingUpdate %}
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
+                <td class="select-cell">
+                    <span class="checkbox-container">
+                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" />
+                        <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
+                    </span>
+                </td>
                 <td class="name">
                     <a href="javascript:void(0);" piwik-plugin-name="{{ plugin.name|e('html_attr') }}" class="plugin-details">
                         {{ plugin.name }}
@@ -56,6 +71,34 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        $(function () {
+            $('#update-selected-plugins').on('click', function () {
+                var pluginsToUpdate = [];
+                $('tbody#plugins td.select-cell input').each(function () {
+                    if (!this.checked) {
+                        return;
+                    }
+
+                    var pluginName = $(this).closest('tr').find('.name .plugin-details').attr('piwik-plugin-name');
+                    pluginsToUpdate.push(pluginName);
+                });
+
+                var url = '{{ linkTo({'module':'Marketplace','action':'updatePlugin','nonce':updateNonce})|raw }}&pluginName=' + encodeURIComponent(pluginsToUpdate.join(','));
+                window.location.href = url;
+
+                $(this).prop('disabled', true);
+            });
+
+            $('#select-plugin-all').on('change', function () {
+                var self = this;
+                $('tbody#plugins td.select-cell input[type=checkbox]').each(function () {
+                    $(this).prop('checked', self.checked);
+                });
+            });
+        });
+    </script>
 
 {% endmacro %}
 
