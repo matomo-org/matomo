@@ -357,7 +357,7 @@ class Plugin
 
         $pluginsDir = Manager::getPluginDirectory($this->pluginName);
 
-        $componentFile = sprintf('%s/%s/%s.php', $pluginsDir, $this->pluginName, $componentName);
+        $componentFile = sprintf('%s/%s.php', $pluginsDir, $componentName);
 
         if ($this->cache->contains($cacheId)) {
             $classname = $this->cache->fetch($cacheId);
