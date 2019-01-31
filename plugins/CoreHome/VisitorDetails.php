@@ -56,7 +56,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function getVisitorGoalConvertedIcon()
     {
         return $this->isVisitorGoalConverted()
-            ? "plugins/Morpheus/images/goal.png"
+            ? "plugins/Morpheus/images/goal.svg"
             : null;
     }
 

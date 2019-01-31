@@ -166,6 +166,8 @@ ol.visitorLog > li {
 
   &.duplicate {
     visibility: hidden;
+    line-height: 0;
+    min-height: 0;
     height: 0;
     margin: 0;
     overflow: hidden;
@@ -229,8 +231,6 @@ ol.visitorLog > li {
     margin: 5px 5px 5px 0;
     float: left;
     background-color: #fff;
-    position: absolute;
-    left: -15px;
     z-index: 3;
 
     &.icon-refresh:before {
@@ -410,6 +410,13 @@ a.visitor-log-visitor-profile-link {
   .visitorDetails, .visitorType {
     display: block;
     margin-top: 4px;
+  }
+}
+
+.visitorType {
+  img {
+    max-height: 20px;
+    margin: auto 0;
   }
 }
 
