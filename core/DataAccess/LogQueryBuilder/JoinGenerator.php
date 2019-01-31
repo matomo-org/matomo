@@ -53,6 +53,10 @@ class JoinGenerator
             if (!$logTable->getColumnToJoinOnIdVisit()) {
                 $tableNameToJoin = $logTable->getLinkTableToBeAbleToJoinOnVisit();
 
+                if (empty($tableNameToJoin) && $logTable->getWaysToJoinToOtherLogTables()) {
+                    continue;
+                }
+
                 if ($index > 0 && !$this->tables->hasJoinedTable($tableNameToJoin)) {
                     $this->tables->addTableToJoin($tableNameToJoin);
                 }
@@ -206,6 +210,15 @@ class JoinGenerator
 
                 break;
             }
+
+            $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $column) {
+                if($availableLogTable->getName() == $joinTable) {
+                    $join = sprintf("%s.%s = %s.%s", $table, $column, $availableLogTable->getName(), $column);
+                    break;
+                }
+            }
+
         }
 
         if (!isset($join)) {
