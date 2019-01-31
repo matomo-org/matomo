@@ -61,7 +61,7 @@
         "SetupWebSiteName": "Nom du site web",
         "SetupWebsiteSetupSuccess": "Site %s créé avec succès !",
         "SetupWebSiteURL": "URL du site web",
-        "SiteSetup": "Veuillez configurer le premier site web que vous voulez suivre et analyser avc Matomo :",
+        "SiteSetup": "Veuillez configurer le premier site web que vous voulez suivre et analyser avec Matomo :",
         "SiteSetupFootnote": "Note : une fois que l'installation de Matomo est terminée, vous pourrez ajouter d'autres sites web à suivre !",
         "SuperUser": "Super Utilisateur",
         "SuperUserLogin": "Login du super utilisateur",
