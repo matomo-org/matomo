@@ -67,12 +67,6 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_OnlyOneTable()
-    {
-        $generator = $this->generate(array('log_visit'));
-        $this->assertEquals('log_visit AS log_visit', $generator->getJoinString());
-    }
-
     public function test_generate_getJoinString_OnlyOneActionTable()
     {
         $generator = $this->generate(array('log_action'));
@@ -85,6 +79,28 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $expected  = 'log_link_visit_action AS log_link_visit_action';
         $expected .= ' LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
         $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_JoinCustomVisitTable()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON log_custom.user_id = log_visit.user_id', $generator->getJoinString());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Table 'log_custom' can't be joined for segmentation
+     */
+    public function test_generate_getJoinString_CustomVisitTableCantBeJoinedWithAction()
+    {
+        $generator = $this->generate(array('log_action', 'log_custom'));
+        $generator->getJoinString();
+    }
+
+    public function test_generate_getJoinString_JoinCustomVisitTableMultiple()
+    {
+        $generator = $this->generate(array('log_visit', 'log_action', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction LEFT JOIN log_custom AS log_custom ON log_custom.user_id = log_visit.user_id', $generator->getJoinString());
     }
 
     public function test_generate_getJoinString_manuallyJoinedAlready()
