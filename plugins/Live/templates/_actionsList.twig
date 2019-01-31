@@ -1,9 +1,35 @@
 {% set previousAction = false %}
-{% for action in actionDetails %}
+{% for actionGroup in actionGroups %}
+    {% if actionGroup.pageviewAction is not empty %}
+    {{ postEvent('Live.renderAction', actionGroup.pageviewAction, previousAction, visitInfo) }}
 
-    {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+    {% set previousAction = actionGroup.pageviewAction %}
+    {% endif %}
 
-{% set previousAction = action %}
+    {% if actionGroup.actionsOnPage is not empty %}
+    {% if actionGroup.pageviewAction is not empty %}
+    <li class="pageviewActions">
+        <ol class="actionList">
+    {% endif %}
+        {% for action in actionGroup.actionsOnPage %}
+
+            {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+
+        {% set previousAction = action %}
+        {% endfor %}
+    {% if actionGroup.pageviewAction is not empty %}
+        {% if actionGroup.actionsOnPage|length > 2 %}
+        <li class="actionsForPageExpander expanded">
+            <span>
+                <a class="show-more-actions" href="javascript:" style="display:none;">Show {{ actionGroup.actionsOnPage|length - 2 }} more actions that occurred on this page...</a>
+                <a class="show-less-actions" href="javascript:">Show less actions...</a>
+            </span>
+        </li>
+        {% endif %}
+        </ol>
+    </li>
+    {% endif %}
+    {% endif %}
 {% endfor %}
 
 {% if visitInfo.truncatedActionsCount is defined %}

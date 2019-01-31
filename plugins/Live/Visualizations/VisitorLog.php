@@ -18,6 +18,7 @@ use Piwik\Plugin\Visualization;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 
+// TODO: goal conversions don't seem to be tied to the pageview where they occurred. kind of a problem.
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
  *
@@ -63,6 +64,9 @@ class VisitorLog extends Visualization
                     $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') .  ' ' . Piwik::translate('Live_VisitorLogNoDataMessagePurged', $numDaysDelete);
                 }
             }
+        };
+        $this->config->filters[] = function (DataTable $table) {
+            $this->groupActionsByPageviewId($table);
         };
     }
 
@@ -118,5 +122,48 @@ class VisitorLog extends Visualization
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
         return ($view->requestConfig->getApiModuleToRequest() === 'Live');
+    }
+
+    private function groupActionsByPageviewId(DataTable $table)
+    {
+        $previousIdPageView = null;
+
+        foreach ($table->getRows() as $row) {
+            $actionGroups = [];
+            foreach (array_values($row->getColumn('actionDetails')) as $action) {
+                if (!isset($action['idpageview'])
+                    && $action['type'] != 'goal'
+                ) {
+                    $actionGroups[] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [$action],
+                    ];
+                    continue;
+                }
+
+                if (isset($action['idpageview'])) {
+                    $idPageView = $action['idpageview'];
+                } else {
+                    // type == 'goal', sometimes it's not tied to a pageview, we want to include it in the previous one
+                    $idPageView = $previousIdPageView;
+                }
+
+                if (empty($actionGroups[$idPageView])) {
+                    $actionGroups[$idPageView] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [],
+                    ];
+                }
+
+                if ($action['type'] == 'action') {
+                    $actionGroups[$idPageView]['pageviewAction'] = $action;
+                } else {
+                    $actionGroups[$idPageView]['actionsOnPage'][] = $action;
+                }
+
+                $previousIdPageView = $idPageView;
+            }
+            $row->setColumn('actionGroups', $actionGroups);
+        }
     }
 }

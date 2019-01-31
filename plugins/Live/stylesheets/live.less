@@ -114,7 +114,7 @@
     text-decoration: none;
 }
 
-ol.visitorLog {
+ol.actionList {
   counter-reset: item;
   list-style-type: none;
 }
@@ -128,11 +128,11 @@ ol.visitorLog {
     overflow: -moz-hidden-unscrollable;
 }
 
-ol.visitorLog > li {
+ol.actionList > li:not(.pageviewActions) {
     margin-bottom: 7px;
     line-height: 20px;
 
-  &:before {
+  &:not(.actionsForPageExpander):before {
     content: counter(item) " ";
     counter-increment: item;
     padding-right: 5px;
@@ -155,6 +155,44 @@ ol.visitorLog > li {
         vertical-align: middle;
       }
   }
+
+  &.actionsForPageExpander {
+    a {
+      color: @theme-color-text;
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+
+    &.expanded:before {
+      content: "\f102";
+    }
+
+    &.collapsed:before {
+      content: "\f103";
+    }
+
+    &:before {
+      margin-top: 2px;
+      float: left;
+      margin-right: 5px;
+
+      // copied frim [class^=icon-] style
+      font-family: 'matomo' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+}
+
+li.pageviewActions {
+  margin-left: 1rem;
 }
 
 #visitsLive img {
@@ -264,7 +302,7 @@ ol.visitorLog p {
     }
   }
 
-  .visitorLog > li > div {
+  .actionList > li > div {
     width: 95%;
 
     .segmentedVisitorLogPopover & {
@@ -322,7 +360,7 @@ a.visitor-log-visitor-profile-link {
     }
 }
 
-.visitorLog {
+.actionList {
     > li > div {
       display: inline-block;
       width: 90%;

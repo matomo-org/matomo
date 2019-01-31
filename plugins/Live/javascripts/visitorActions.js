@@ -40,19 +40,20 @@ function initializeVisitorActions(elem) {
         var prevelement;
         var prevhtml;
         var counter = 0, duplicateCounter = 0;
-        $(this).find("> li").each(function () {
-            counter++;
-            $(this).val(counter);
+
+        $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander)").each(function () {
             var current = $(this).html();
 
             if (current == prevhtml) {
                 duplicateCounter++;
                 $(this).find('>div').prepend($("<span>"+(duplicateCounter+1)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
-                prevelement.addClass('duplicate');
-
+                prevelement.addClass('duplicate').val('').attr('style', '');
             } else {
                 duplicateCounter = 0;
+                counter++;
             }
+
+            $(this).css({ 'counter-reset': 'item ' + (counter - 1) }).val(counter - 1);
 
             prevhtml = current;
             prevelement = $(this);
@@ -88,5 +89,24 @@ function initializeVisitorActions(elem) {
             return false;
         });
     });
+
+    // TODO: animation
+    elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
+        e.preventDefault();
+
+        var $actions = $(e.target).closest('.actionList').find('li.action:not(.duplicate)');
+        $actions.each(function () {
+            if ($actions.index(this) >= 2) {// TODO: should be configurable
+                $(this).toggle();
+            }
+        });
+
+        $(e.target)
+            .parent().find('.show-less-actions,.show-more-actions').toggle()
+            .closest('li')
+            .toggleClass('expanded collapsed');
+    });
+
+    elem.find('.show-less-actions').click();
 }
 
