@@ -134,8 +134,8 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
-        $sql              = "SELECT
-						idvisit,
+        $sql = "SELECT
+						log_conversion.idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
@@ -147,11 +147,14 @@ class VisitorDetails extends VisitorDetailsAbstract
 						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
 						log_conversion.server_time as serverTimePretty,
-						log_conversion.idlink_va
+						log_conversion.idlink_va,
+						log_link_visit_action.idpageview
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit IN ('" . implode("','", $idVisits) . "')
+		       LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+		              ON log_link_visit_action.idlink_va = log_conversion.idlink_va
+					WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY idvisit, server_time ASC";
+					ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
         $ecommerceDetails = Db::fetchAll($sql);
         return $ecommerceDetails;
     }
