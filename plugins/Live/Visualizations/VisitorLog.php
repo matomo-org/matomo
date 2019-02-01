@@ -10,15 +10,16 @@ namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
 use Piwik\View;
 
-// TODO: goal conversions don't seem to be tied to the pageview where they occurred. kind of a problem.
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
  *
@@ -117,6 +118,8 @@ class VisitorLog extends Visualization
                 )
             )
         );
+
+        $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
@@ -126,14 +129,10 @@ class VisitorLog extends Visualization
 
     private function groupActionsByPageviewId(DataTable $table)
     {
-        $previousIdPageView = null;
-
         foreach ($table->getRows() as $row) {
             $actionGroups = [];
             foreach (array_values($row->getColumn('actionDetails')) as $action) {
-                if (!isset($action['idpageview'])
-                    && $action['type'] != 'goal'
-                ) {
+                if (!isset($action['idpageview'])) {
                     $actionGroups[] = [
                         'pageviewAction' => null,
                         'actionsOnPage' => [$action],
@@ -141,13 +140,7 @@ class VisitorLog extends Visualization
                     continue;
                 }
 
-                if (isset($action['idpageview'])) {
-                    $idPageView = $action['idpageview'];
-                } else {
-                    // type == 'goal', sometimes it's not tied to a pageview, we want to include it in the previous one
-                    $idPageView = $previousIdPageView;
-                }
-
+                $idPageView = $action['idpageview'];
                 if (empty($actionGroups[$idPageView])) {
                     $actionGroups[$idPageView] = [
                         'pageviewAction' => null,
@@ -160,8 +153,6 @@ class VisitorLog extends Visualization
                 } else {
                     $actionGroups[$idPageView]['actionsOnPage'][] = $action;
                 }
-
-                $previousIdPageView = $idPageView;
             }
             $row->setColumn('actionGroups', $actionGroups);
         }

@@ -90,14 +90,17 @@ function initializeVisitorActions(elem) {
         });
     });
 
-    // TODO: animation
     elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
         e.preventDefault();
 
+        var actionsToDisplayCollapsed = +$(e.target).closest('ol.visitorLog').attr('data-page-view-actions-to-display-collapsed');
+
         var $actions = $(e.target).closest('.actionList').find('li.action:not(.duplicate)');
         $actions.each(function () {
-            if ($actions.index(this) >= 2) {// TODO: should be configurable
-                $(this).toggle();
+            if ($actions.index(this) >= actionsToDisplayCollapsed) {
+                $(this).toggle({
+                    duration: 250
+                });
             }
         });
 
