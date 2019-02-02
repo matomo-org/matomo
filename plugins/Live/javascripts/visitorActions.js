@@ -95,7 +95,7 @@ function initializeVisitorActions(elem) {
 
         var actionsToDisplayCollapsed = +$(e.target).closest('ol.visitorLog').attr('data-page-view-actions-to-display-collapsed');
 
-        var $actions = $(e.target).closest('.actionList').find('li.action:not(.duplicate)');
+        var $actions = $(e.target).closest('.actionList').find('li:not(.duplicate):not(.actionsForPageExpander)');
         $actions.each(function () {
             if ($actions.index(this) >= actionsToDisplayCollapsed) {
                 $(this).toggle({
