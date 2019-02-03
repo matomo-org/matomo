@@ -459,7 +459,8 @@ class Manager
 
     public static function deletePluginFromFilesystem($plugin)
     {
-        Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
+        $pluginDir = self::getPluginsDirectory();
+        Filesystem::unlinkRecursive($pluginDir . $plugin, $deleteRootToo = true);
     }
 
     /**
@@ -693,7 +694,7 @@ class Manager
             return true;
         }
 
-        $path = $this->getPluginsDirectory() . $pluginName;
+        $path = self::getPluginsDirectory() . $pluginName;
         if (!$this->isManifestFileFound($path)) {
             return true;
         }

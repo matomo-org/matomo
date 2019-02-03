@@ -86,10 +86,11 @@ class Controller extends \Piwik\Plugin\Controller
             $this->idSite, $period, $date, $token_auth, true, $segment);
         $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
 
+        $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
         // some translations containing metric number
         $translations = array(
              'nb_visits'            => $this->translator->translate('General_NVisits'),
-             'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
+             'no_visit'             => $noVisitTranslation,
              'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
              'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
              'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
@@ -100,7 +101,8 @@ class Controller extends \Piwik\Plugin\Controller
         );
 
         foreach ($translations as &$translation) {
-            if (false === strpos($translation, '%s')) {
+            if (false === strpos($translation, '%s')
+                && $translation !== $noVisitTranslation) {
                 $translation = '%s ' . $translation;
             }
         }

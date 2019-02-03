@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
 
 /**
@@ -354,7 +355,9 @@ class Plugin
 
         $cacheId = 'Plugin' . $this->pluginName . $componentName . $expectedSubclass;
 
-        $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
+        $pluginsDir = Manager::getPluginsDirectory();
+
+        $componentFile = sprintf('%s%s/%s.php', $pluginsDir, $this->pluginName, $componentName);
 
         if ($this->cache->contains($cacheId)) {
             $classname = $this->cache->fetch($cacheId);
@@ -534,7 +537,8 @@ class Plugin
     {
         $components = array();
 
-        $baseDir = PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/' . $directoryWithinPlugin;
+        $pluginsDir = Manager::getPluginsDirectory();
+        $baseDir = $pluginsDir . $this->pluginName . '/' . $directoryWithinPlugin;
         $files   = Filesystem::globr($baseDir, '*.php');
 
         foreach ($files as $file) {
