@@ -39,6 +39,7 @@ class Live extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Live/stylesheets/live.less";
         $stylesheets[] = "plugins/Live/stylesheets/visitor_profile.less";
+        $stylesheets[] = "plugins/Live/angularjs/content-actions-list/content-actions-list.component.js";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -50,6 +51,7 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
+        $jsFiles[] = "plugins/Live/angularjs/content-actions-list/content-actions-list.component.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -90,6 +90,49 @@ function initializeVisitorActions(elem) {
         });
     });
 
+    // collapse adjacent content interactions
+    var $actions = $("ol.visitorLog li", elem);
+    $actions.each(function ($li, index) {
+        if (!$li.is('.content')) {
+            return;
+        }
+
+        var $collapsedContents = $li.prev('.cop');
+
+        if (!$actions[index - 1]
+            || !$actions[index - 2]
+        ) {
+            return;
+        }
+
+        // TODO
+        var $previous = $li.prev('li');
+        if (!$previous.length) {
+            return;
+        }
+
+        if ($previous.is('.content')) {
+            if (!$previous.is('.collapsed-contents')) {
+
+                $collapsedContents = $('<piwik-content-actions-list/>');
+                $collapsedContents.insertBefore($previous);
+                piwikHelper.compileAngularComponents($collapsedContents);
+                // TODO: create .collapsed-contents
+                $previous = $collapsedContents;
+            }
+
+            $collapsedContents.element().scope().addContentItem($li); // TODO
+        }
+    });
+/*
+<li class="content collapsed-contents"
+    title="{{ 'Live_ClickToSeeAllContents'|translate }}">
+    <div>
+        <span class="content-impressions"></span> content impressions <span class="conent-interactions"></span> interaction
+    </div>
+</li>
+*/
+
     elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
         e.preventDefault();
 
@@ -102,7 +145,7 @@ function initializeVisitorActions(elem) {
                     duration: 250
                 });
             }
-        });
+         });
 
         $(e.target)
             .parent().find('.show-less-actions,.show-more-actions').toggle()
