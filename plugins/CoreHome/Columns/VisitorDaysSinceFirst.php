@@ -13,6 +13,7 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
+// TODO: it would be better to save the time duration since the first visit rather than just the number of days, since that cuts of information. make matomo 4 issue?
 class VisitorDaysSinceFirst extends VisitDimension
 {
     protected $columnName = 'visitor_days_since_first';
