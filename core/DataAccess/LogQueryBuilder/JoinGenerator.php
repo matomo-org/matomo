@@ -54,6 +54,9 @@ class JoinGenerator
                 $tableNameToJoin = $logTable->getLinkTableToBeAbleToJoinOnVisit();
 
                 if (empty($tableNameToJoin) && $logTable->getWaysToJoinToOtherLogTables()) {
+                    foreach ($logTable->getWaysToJoinToOtherLogTables() as $otherLogTable => $column) {
+                        $this->tables->hasJoinedTable($otherLogTable) || $this->tables->addTableToJoin($otherLogTable);
+                    }
                     continue;
                 }
 
