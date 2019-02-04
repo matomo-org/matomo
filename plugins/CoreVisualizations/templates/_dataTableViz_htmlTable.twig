@@ -38,8 +38,8 @@
                     class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}{% if isSummaryRow %} summaryRow{% endif %}"
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
-                        {% set cellStyle = visualization.getCellStyle(row, column) %}
-                        <td {% if cellStyle is not empty %}style="{{ cellStyle|e('html_attr') }}"{% endif %}>
+                        {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
+                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}

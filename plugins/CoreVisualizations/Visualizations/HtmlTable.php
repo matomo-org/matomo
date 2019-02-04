@@ -107,13 +107,13 @@ class HtmlTable extends Visualization
     }
 
     /**
-     * Override to compute a custom cell CSS style.
+     * Override to compute a custom cell HTML attributes (such as style).
      *
      * @param Row $row
      * @param $column
-     * @return null
+     * @return array Array of name => value pairs.
      */
-    public function getCellStyle(Row $row, $column)
+    public function getCellHtmlAttributes(Row $row, $column)
     {
         return null;
     }
