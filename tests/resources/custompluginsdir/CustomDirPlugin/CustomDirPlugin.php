@@ -10,6 +10,26 @@ namespace Piwik\Plugins\CustomDirPlugin;
 
 class CustomDirPlugin extends \Piwik\Plugin
 {
+    /**
+     * @see \Piwik\Plugin::registerEvents
+     */
+    public function registerEvents()
+    {
+        return array(
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+        );
+    }
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "tests/resources/custompluginsdir/CustomDirPlugin/stylesheets/test.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "tests/resources/custompluginsdir/javascripts/test.js";
+    }
+
     public function postLoad()
     {
         // we make sure auto loading works for these directories

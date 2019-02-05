@@ -4,6 +4,16 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.9.0
+
+### New features
+
+* It is now possible to locate plugins in a custom directory by setting an environment variable `MATOMO_PLUGIN_DIRS` or a `$GLOBALS['MATOMO_PLUGIN_DIRS']` variable in `$MATOMO_ROOT/bootstrap.php`.
+
+### New APIs
+
+* New API methods `Piwik\Plugin\Manager::getPluginsDirectories()` and  `Piwik\Plugin\Manager::getPluginDirectory($pluginName)` have been added as it is now possible to locate Matomo plugins in different directories and it should be no longer assumed a plugin is located in the "/plugins" directory.
+
 ## Matomo 3.8.0
 
 ### Breaking Changes

@@ -26,7 +26,6 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\SettingsPiwik;
 use Piwik\Theme;
@@ -339,6 +338,7 @@ class Manager
      * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
      * All paths have a trailing slash '/'.
      * @return array
+     * @api
      */
     public static function getPluginsDirectories()
     {
@@ -368,6 +368,7 @@ class Manager
      *
      * @param $pluginName
      * @return mixed|string
+     * @api
      */
     public static function getPluginDirectory($pluginName)
     {
