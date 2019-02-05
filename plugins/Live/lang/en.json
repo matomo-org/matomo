@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Open segmented Visit Log",
         "SegmentedVisitorLogTitle": "Visit Log showing visits where %1$s is \"%2$s\"",
         "OnClickPause": "%s is started. Click to pause.",
-        "OnClickStart": "%s is stopped. Click to start."
+        "OnClickStart": "%s is stopped. Click to start.",
+        "ClickToSeeAllContents": "Click to see each content interaction/impression"
     }
 }

@@ -35,11 +35,69 @@ function initializeVisitorActions(elem) {
         close: function() { tooltipIsOpened = false; }
     });
 
+    // collapse adjacent content interactions
+    $("ol.visitorLog", elem).each(function () {
+        var $actions = $(this).find("li");
+        $actions.each(function (index) {
+            var $li = $(this);
+            if (!$li.is('.content')) {
+                return;
+            }
+
+            if (!$actions[index - 1]
+                || !$($actions[index - 1]).is('.content')
+                || !$actions[index - 2]
+                || !$($actions[index - 2]).is('.content')
+            ) {
+                return;
+            }
+
+            var $collapsedContents = $li;
+            while ($collapsedContents.prev().is('.content')) {
+                $collapsedContents = $collapsedContents.prev();
+            }
+
+            if (!$collapsedContents.is('.collapsed-contents')) {
+                $collapsedContents = makeCollapsedContents();
+                $collapsedContents.insertBefore($($actions[index - 2]));
+
+                addContentItem($collapsedContents, $($actions[index - 2]));
+                addContentItem($collapsedContents, $($actions[index - 1]));
+            }
+
+            addContentItem($collapsedContents, $li);
+
+            function makeCollapsedContents() {
+                var $li = $('<li/>')
+                    .attr('class', 'content collapsed-contents')
+                    .attr('title', _pk_translate('Live_ClickToSeeAllContents'));
+
+                $('<div>')
+                    .html('<span class="icon-show action-list-action-icon"></span> <span class="content-impressions">0</span> content impressions <span class="content-interactions">0</span> interactions')
+                    .appendTo($li);
+
+                return $li;
+            }
+
+            function addContentItem($collapsedContents, $otherLi) {
+                if ($otherLi.find('.content-interaction').length) {
+                    var $interactions = $collapsedContents.find('.content-interactions');
+                    $interactions.text(parseInt($interactions.text()) + 1);
+                } else {
+                    var $impressions = $collapsedContents.find('.content-impressions');
+                    $impressions.text(parseInt($impressions.text()) + 1);
+                }
+
+                $otherLi.addClass('duplicate').addClass('collapsed-content-item').val('').attr('style', '');
+            }
+        });
+    });
+
     // show refresh icon for duplicate page views in a row
     $("ol.visitorLog", elem).each(function () {
         var prevelement;
         var prevhtml;
-        var counter = 0, duplicateCounter = 0;
+        var duplicateCounter = 0;
 
         $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander)").each(function () {
             var current = $(this).html();
@@ -50,10 +108,7 @@ function initializeVisitorActions(elem) {
                 prevelement.addClass('duplicate').val('').attr('style', '');
             } else {
                 duplicateCounter = 0;
-                counter++;
             }
-
-            $(this).css({ 'counter-reset': 'item ' + (counter - 1) }).val(counter - 1);
 
             prevhtml = current;
             prevelement = $(this);
@@ -69,6 +124,16 @@ function initializeVisitorActions(elem) {
             });
 
         });
+    });
+
+    // hide expanders if content collapsing removed enough items
+    $("ol.actionList", elem).each(function () {
+        var actionsToDisplayCollapsed = +$(this).closest('ol.visitorLog').attr('data-page-view-actions-to-display-collapsed');
+
+        var $items = $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander):not(.duplicate)");
+        if ($items.length <= actionsToDisplayCollapsed) {
+            $(this).children('.actionsForPageExpander').hide();
+        }
     });
 
     $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){
@@ -90,49 +155,12 @@ function initializeVisitorActions(elem) {
         });
     });
 
-    // collapse adjacent content interactions
-    var $actions = $("ol.visitorLog li", elem);
-    $actions.each(function ($li, index) {
-        if (!$li.is('.content')) {
-            return;
-        }
-
-        var $collapsedContents = $li.prev('.cop');
-
-        if (!$actions[index - 1]
-            || !$actions[index - 2]
-        ) {
-            return;
-        }
-
-        // TODO
-        var $previous = $li.prev('li');
-        if (!$previous.length) {
-            return;
-        }
-
-        if ($previous.is('.content')) {
-            if (!$previous.is('.collapsed-contents')) {
-
-                $collapsedContents = $('<piwik-content-actions-list/>');
-                $collapsedContents.insertBefore($previous);
-                piwikHelper.compileAngularComponents($collapsedContents);
-                // TODO: create .collapsed-contents
-                $previous = $collapsedContents;
-            }
-
-            $collapsedContents.element().scope().addContentItem($li); // TODO
-        }
+    // event handler for content expander/collapser
+    elem.on('click', '.collapsed-contents', function () {
+        $(this).nextUntil(':not(.content)').toggleClass('duplicate');
     });
-/*
-<li class="content collapsed-contents"
-    title="{{ 'Live_ClickToSeeAllContents'|translate }}">
-    <div>
-        <span class="content-impressions"></span> content impressions <span class="conent-interactions"></span> interaction
-    </div>
-</li>
-*/
 
+    // event handler for action expander/collapser
     elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
         e.preventDefault();
 
@@ -153,6 +181,6 @@ function initializeVisitorActions(elem) {
             .toggleClass('expanded collapsed');
     });
 
-    elem.find('.show-less-actions').click();
+    elem.find('.show-less-actions:visible').click();
 }
 

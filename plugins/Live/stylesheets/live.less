@@ -114,7 +114,7 @@
     text-decoration: none;
 }
 
-ol.actionList {
+.visitor-log-page-list {
   counter-reset: item;
   list-style-type: none;
 }
@@ -132,9 +132,12 @@ ol.actionList > li:not(.pageviewActions) {
     margin-bottom: 7px;
     line-height: 20px;
 
+  &:not(.actionsForPageExpander):not(.duplicate) {
+    counter-increment: item;
+  }
+
   &:not(.actionsForPageExpander):before {
     content: counter(item) " ";
-    counter-increment: item;
     padding-right: 5px;
     vertical-align: top;
   }
@@ -189,6 +192,14 @@ ol.actionList > li:not(.pageviewActions) {
       -moz-osx-font-smoothing: grayscale;
     }
   }
+}
+
+li.collapsed-contents > div {
+  cursor: pointer;
+}
+
+li.collapsed-content-item {
+  margin-left: 1rem;
 }
 
 li.pageviewActions {
