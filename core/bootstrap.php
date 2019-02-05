@@ -41,6 +41,23 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 // Composer autoloader
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
 
+spl_autoload_register(function ($className) {
+    if (strpos($className, 'Piwik\Plugins\\') === 0) {
+        $pluginDirs = \Piwik\Plugin\Manager::getPluginsDirectories();
+        if (count($pluginDirs) > 1) {
+            $withoutPrefix = str_replace('Piwik\Plugins\\', '', $className);
+            $path = str_replace('\\', DIRECTORY_SEPARATOR, $withoutPrefix) . '.php';
+            foreach (\Piwik\Plugin\Manager::getPluginsDirectories() as $pluginsDirectory) {
+                if (file_exists($pluginsDirectory . $path)) {
+                    require_once $pluginsDirectory . $path;
+                }
+            }
+        }
+    }
+});
+
+
+
 /**
  * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
  * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
