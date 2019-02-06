@@ -340,7 +340,7 @@ class Manager
     {
         $envDirs = getenv('MATOMO_PLUGIN_DIRS');
         if (!empty($envDirs)) {
-            // we expect it in the format `absoluteStorageDir1;webrootPathAbsolute1;webrootDirRelativeToMatomo1:absoluteStorageDir2;webrootPathAbsolute2:webrootDirRelativeToMatomo2`
+            // we expect it in the format `absoluteStorageDir1;webrootPathRelative1:absoluteStorageDir2;webrootPathRelative1`
             if (empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
                 $GLOBALS['MATOMO_PLUGIN_DIRS'] = array();
             }

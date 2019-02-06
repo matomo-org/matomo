@@ -322,11 +322,10 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNames()
     {
-        $pluginDirs = array();
+        $pluginNames = array();
         foreach (Manager::getPluginsDirectories() as $pluginsDir) {
-            $pluginDirs = array_merge($pluginDirs, \_glob($pluginsDir . '*', GLOB_ONLYDIR));
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
 
-            $pluginNames = array();
             foreach ($pluginDirs as $pluginDir) {
                 $pluginNames[] = basename($pluginDir);
             }
@@ -337,11 +336,10 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNamesHavingNotSpecificFile($filename)
     {
-        $pluginDirs = array();
+        $pluginNames = array();
         foreach (Manager::getPluginsDirectories() as $pluginsDir) {
-            $pluginDirs = array_merge($pluginDirs, \_glob($pluginsDir . '*', GLOB_ONLYDIR));
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
 
-            $pluginNames = array();
             foreach ($pluginDirs as $pluginDir) {
                 if (!file_exists($pluginDir . '/' . $filename)) {
                     $pluginNames[] = basename($pluginDir);
