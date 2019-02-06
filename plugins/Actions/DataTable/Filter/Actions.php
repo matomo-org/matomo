@@ -35,6 +35,7 @@ class Actions extends BaseFilter
     public function filter($table)
     {
         $table->filter(function (DataTable $dataTable) {
+            $urlPrefix = $dataTable->getMetadata('site')->getMainUrl();
 
             $defaultActionName = Config::getInstance()->General['action_default_name'];
 
@@ -50,11 +51,29 @@ class Actions extends BaseFilter
 
             foreach ($dataTable->getRows() as $row) {
                 $url = $row->getMetadata('url');
+                $pageTitlePath = $row->getMetadata('page_title_path');
+                $folderUrlStart = $row->getMetadata('folder_url_start');
                 $label = $row->getColumn('label');
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
+                } else if ($folderUrlStart) {
+                    $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode($folderUrlStart)));
+                    // TODO
+                } else if ($pageTitlePath) {
+                    if ($row->getIdSubDataTable()) {
+                        $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
+                    } else {
+                        $row->setMetadata('segmentValue', trim(urldecode($pageTitlePath)));
+                    }
                 } else if ($this->isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
-                    $row->setMetadata('segmentValue', trim(urldecode($label)));
+                    // for older data w/o page_title_path metadata
+                    if ($row->getIdSubDataTable()) {
+                        $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($label)))));
+                    } else {
+                        $row->setMetadata('segmentValue', trim(urldecode($label)));
+                    }
+                } else if (!$this->isPageTitleType) { // folder for older data w/ no folder URL metadata
+                    $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
                 }
 
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
