@@ -87,9 +87,24 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON log_custom.user_id = log_visit.user_id', $generator->getJoinString());
     }
 
+    public function test_generate_getJoinString_JoinMultipleCustomVisitTable()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom_other', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON log_custom.user_id = log_visit.user_id LEFT JOIN log_custom_other AS log_custom_other ON log_custom_other.other_id = log_custom.other_id', $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_JoinMultipleCustomVisitTableWithMissingOne()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom_other'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON log_custom.user_id = log_visit.user_id LEFT JOIN log_custom_other AS log_custom_other ON log_custom_other.other_id = log_custom.other_id', $generator->getJoinString());
+    }
+
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Table 'log_custom' can't be joined for segmentation
+     * @expectedExceptionMessage Table 'log_visit' can't be joined for segmentation
+     *
+     * Note: the exception reports `log_visit` and not `log_custom` as it resolves the dependencies as so resolves
+     * from `log_custom` to `log_visit` but is then not able to find a way to join `log_visit` with `log_action`
      */
     public function test_generate_getJoinString_CustomVisitTableCantBeJoinedWithAction()
     {

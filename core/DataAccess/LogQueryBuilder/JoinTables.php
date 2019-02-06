@@ -19,6 +19,40 @@ class JoinTables extends \ArrayObject
      */
     private $logTableProvider;
 
+    // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
+    // table names are used, the joins dependencies are assumed based on how we want to order those joins.
+    // the below table list the possible dependencies of each table, and is specifically designed to enforce
+    // the following order:
+    // log_link_visit_action, log_action, log_visit, log_conversion, log_conversion_item
+    // which means if an array is supplied where log_visit comes before log_link_visitAction, it will
+    // be moved to after it.
+    private $implicitTableDependencies = [
+        'log_link_visit_action' => [
+            // empty
+        ],
+        'log_action' => [
+            'log_link_visit_action',
+            'log_conversion',
+            'log_conversion_item',
+            'log_visit',
+        ],
+        'log_visit' => [
+            'log_link_visit_action',
+            'log_action',
+        ],
+        'log_conversion' => [
+            'log_link_visit_action',
+            'log_action',
+            'log_visit',
+        ],
+        'log_conversion_item' => [
+            'log_link_visit_action',
+            'log_action',
+            'log_visit',
+            'log_conversion',
+        ],
+    ];
+
     /**
      * Tables constructor.
      * @param LogTablesProvider $logTablesProvider
@@ -125,6 +159,85 @@ class JoinTables extends \ArrayObject
         $this->exchangeArray($sorted);
     }
 
+    public function isTableJoinableOnVisit($tableToCheck)
+    {
+        $table = $this->getLogTable($tableToCheck);
+
+        if (empty($table)) {
+            return false;
+        }
+
+        if ($table->getColumnToJoinOnIdVisit()) {
+            return true;
+        }
+
+        if ($table->getColumnToJoinOnIdAction()) {
+            return false;
+        }
+
+        if ($table->getLinkTableToBeAbleToJoinOnVisit()) {
+            return true;
+        }
+
+        $otherWays = $table->getWaysToJoinToOtherLogTables();
+
+        if (empty($otherWays)) {
+            return false;
+        }
+
+        foreach ($otherWays as $logTable => $column) {
+            if ($logTable == 'log_visit' || $this->isTableJoinableOnVisit($logTable)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isTableJoinableOnAction($tableToCheck)
+    {
+        $table = $this->getLogTable($tableToCheck);
+
+        if (empty($table)) {
+            return false;
+        }
+
+        if ($table->getColumnToJoinOnIdVisit()) {
+            return false;
+        }
+
+        if ($table->getColumnToJoinOnIdAction()) {
+            return true;
+        }
+
+        if ($table->getLinkTableToBeAbleToJoinOnVisit()) {
+            return false;
+        }
+
+        $otherWays = $table->getWaysToJoinToOtherLogTables();
+
+        if (empty($otherWays)) {
+            return false;
+        }
+
+        foreach ($otherWays as $logTable => $column) {
+            if ($logTable == 'log_action' || $this->isTableJoinableOnAction($logTable)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function addTableDependency($table, $dependentTable)
+    {
+        if (!empty($this->implicitTableDependencies[$table])) {
+            return;
+        }
+
+        $this->implicitTableDependencies[$table] = [$dependentTable];
+    }
+
     private function checkTableCanBeUsedForSegmentation($tableName)
     {
         if (!is_array($tableName) && !$this->getLogTable($tableName)) {
@@ -154,39 +267,7 @@ class JoinTables extends \ArrayObject
 
     private function assumeImplicitJoinDependencies($allTablesToQuery, $table)
     {
-        // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
-        // table names are used, the joins dependencies are assumed based on how we want to order those joins.
-        // the below table list the possible dependencies of each table, and is specifically designed to enforce
-        // the following order:
-        // log_link_visit_action, log_action, log_visit, log_conversion, log_conversion_item
-        // which means if an array is supplied where log_visit comes before log_link_visitAction, it will
-        // be moved to after it.
-        $implicitTableDependencies = [
-            'log_link_visit_action' => [
-                // empty
-            ],
-            'log_action' => [
-                'log_link_visit_action',
-                'log_conversion',
-                'log_conversion_item',
-                'log_visit',
-            ],
-            'log_visit' => [
-                'log_link_visit_action',
-                'log_action',
-            ],
-            'log_conversion' => [
-                'log_link_visit_action',
-                'log_action',
-                'log_visit',
-            ],
-            'log_conversion_item' => [
-                'log_link_visit_action',
-                'log_action',
-                'log_visit',
-                'log_conversion',
-            ],
-        ];
+        $implicitTableDependencies = $this->implicitTableDependencies;
 
         $result = [];
         if (isset($implicitTableDependencies[$table])) {
