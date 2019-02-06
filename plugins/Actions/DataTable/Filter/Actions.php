@@ -57,8 +57,7 @@ class Actions extends BaseFilter
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
                 } else if ($folderUrlStart) {
-                    $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode($folderUrlStart)));
-                    // TODO
+                    $row->setMetadata('segment', 'pageUrl=^' . urlencode($folderUrlStart));
                 } else if ($pageTitlePath) {
                     if ($row->getIdSubDataTable()) {
                         $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
