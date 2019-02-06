@@ -57,6 +57,8 @@ class ArchivingHelper
                 continue;
             }
 
+            $hasRowName = !empty($row['name']) && $row['name'] != DataTable::LABEL_SUMMARY_ROW;
+
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
@@ -65,9 +67,10 @@ class ArchivingHelper
                 || $row['type'] == Action::TYPE_PAGE_TITLE
             ) {
                 $url = null;
-                $pageTitlePath = $row['name'];
-            } elseif (!empty($row['name'])
-                        && $row['name'] != DataTable::LABEL_SUMMARY_ROW) {
+                if ($hasRowName) {
+                    $pageTitlePath = $row['name'];
+                }
+            } elseif ($hasRowName) {
                 $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
