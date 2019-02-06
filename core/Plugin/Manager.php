@@ -12,11 +12,13 @@ namespace Piwik\Plugin;
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Cache;
 use Piwik\Columns\Dimension;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\EventDispatcher;
+use Piwik\Exception\Exception;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;
@@ -334,6 +336,68 @@ class Manager
         return $result;
     }
 
+    public static function initPluginDirectories()
+    {
+        $envDirs = getenv('MATOMO_PLUGIN_DIRS');
+        if (!empty($envDirs)) {
+            // we expect it in the format `absoluteStorageDir1;webrootPathAbsolute1;webrootDirRelativeToMatomo1:absoluteStorageDir2;webrootPathAbsolute2:webrootDirRelativeToMatomo2`
+            if (empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
+                $GLOBALS['MATOMO_PLUGIN_DIRS'] = array();
+            }
+
+            $envDirs = explode(':', $envDirs);
+            foreach ($envDirs as $envDir) {
+                $envDir = explode(';', $envDir);
+                $absoluteDir = rtrim($envDir[0], '/') . '/';
+                $GLOBALS['MATOMO_PLUGIN_DIRS'][] = array(
+                    'pluginsPathAbsolute' => $absoluteDir,
+                    'webrootDirRelativeToMatomo' => isset($envDir[1]) ? $envDir[1] : null,
+                );
+            }
+        }
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
+            foreach ($GLOBALS['MATOMO_PLUGIN_DIRS'] as $pluginDir => &$settings) {
+                if (!isset($settings['pluginsPathAbsolute'])) {
+                    throw new \Exception('Missing "pluginsPathAbsolute" configuration for plugin dir');
+                }
+                if (!isset($settings['webrootDirRelativeToMatomo'])) {
+                    throw new \Exception('Missing "webrootDirRelativeToMatomo" configuration for plugin dir');
+                }
+            }
+
+            $pluginDirs = self::getPluginsDirectories();
+            if (count($pluginDirs) > 1) {
+                spl_autoload_register(function ($className) use ($pluginDirs) {
+                    if (strpos($className, 'Piwik\Plugins\\') === 0) {
+                        $withoutPrefix = str_replace('Piwik\Plugins\\', '', $className);
+                        $path = str_replace('\\', DIRECTORY_SEPARATOR, $withoutPrefix) . '.php';
+                        foreach ($pluginDirs as $pluginsDirectory) {
+                            if (file_exists($pluginsDirectory . $path)) {
+                                require_once $pluginsDirectory . $path;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    public static function getAlternativeWebRootDirectories()
+    {
+        $dirs = array();
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
+            foreach ($GLOBALS['MATOMO_PLUGIN_DIRS'] as $pluginDir) {
+                $absolute = rtrim($pluginDir['pluginsPathAbsolute'], '/') . '/';
+                $relative = rtrim($pluginDir['webrootDirRelativeToMatomo'], '/') . '/';
+                $dirs[$absolute] = $relative;
+            }
+        }
+
+        return $dirs;
+    }
+
     /**
      * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
      * All paths have a trailing slash '/'.
@@ -343,22 +407,14 @@ class Manager
     public static function getPluginsDirectories()
     {
         $dirs = array(PIWIK_INCLUDE_PATH . '/plugins/');
-        
-        $envDirs = getenv('MATOMO_PLUGIN_DIRS');
-        if (!empty($envDirs)) {
-            $envDirs = explode(':', $envDirs);
-            $envDirs = array_map(function ($dir) {
-                return rtrim($dir, '/') . '/';
-            }, $envDirs);
-            $dirs = array_merge($dirs, $envDirs);
-        }
-        
+
         if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
-            $GLOBALS['MATOMO_PLUGIN_DIRS'] = array_map(function ($dir) {
-                return rtrim($dir, '/') . '/';
+            $extraDirs = array_map(function ($dir) {
+                return rtrim($dir['pluginsPathAbsolute'], '/') . '/';
             }, $GLOBALS['MATOMO_PLUGIN_DIRS']);
-            $dirs = array_merge($dirs, $GLOBALS['MATOMO_PLUGIN_DIRS']);
+            $dirs = array_merge($dirs, $extraDirs);
         }
+
         return $dirs;
     }
 

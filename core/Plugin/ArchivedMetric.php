@@ -64,6 +64,11 @@ class ArchivedMetric extends Metric
         $this->aggregation = $aggregation;
     }
 
+    public function getAggregation()
+    {
+        return $this->aggregation;
+    }
+
     public function setDimension($dimension)
     {
         $this->dimension = $dimension;

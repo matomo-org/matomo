@@ -3,6 +3,10 @@
 {% block content %}
     <strong>This is our custom plugin!</strong>
     <br/>
-
+    <span class="fooBarBazCustom">
     The answer to life is {{ answerToLife }}
+    </span>
+    <br />
+    This should be translated: {{ 'CustomDirPlugin_CustomName'|translate }}
+
 {% endblock %}

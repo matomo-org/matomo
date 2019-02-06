@@ -22,7 +22,7 @@ class CustomDirPlugin extends \Piwik\Plugin
     }
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "tests/resources/custompluginsdir/CustomDirPlugin/stylesheets/test.less";
+        $stylesheets[] = "plugins/CustomDirPlugin/stylesheets/test.less";
     }
 
     public function getJsFiles(&$jsFiles)
