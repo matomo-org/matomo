@@ -7,6 +7,16 @@
     The answer to life is {{ answerToLife }}
     </span>
     <br />
-    This should be translated: {{ 'CustomDirPlugin_CustomName'|translate }}
+    <h3>Translation test</h3>
+    <p>This should be translated: {{ 'CustomDirPlugin_CustomName'|translate }}</p>
+
+    <h3>image test</h3>
+    <p>You should see an image showing a check here: <img src="plugins/CustomDirPlugin/images/ok.png"></p>
+
+    <h3>CSS import test</h3>
+    <p class="customPluginDirImportTest">this text should appear green!</p>
+
+    <h3>CSS background image test</h3>
+    <p class="customPluginDirBackgroundTest">This should have a background image</p>
 
 {% endblock %}
