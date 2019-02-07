@@ -13,19 +13,6 @@ use Piwik\Db;
 
 class CustomDirPlugin extends \Piwik\Plugin
 {
-    public function install()
-    {
-        // tracking requests will only succeed when plugin is executed in tracking mode because of not null :)
-        $sql = 'ALTER TABLE ' . Common::prefixTable('log_visit') . ' ADD COLUMN custom_int BIGINT UNSIGNED NOT NULL;';
-        Db::exec($sql);
-    }
-
-    public function uninstall()
-    {
-        $sql = 'ALTER TABLE ' . Common::prefixTable('log_visit') . ' DROP COLUMN custom_int;';
-        Db::exec($sql);
-    }
-
     /**
      * @see \Piwik\Plugin::registerEvents
      */

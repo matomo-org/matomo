@@ -8,12 +8,15 @@
 
 namespace Piwik\Plugins\CustomDirPlugin;
 
+use Piwik\Container\StaticContainer;
+
 class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
         return $this->renderTemplate('index', array(
-            'answerToLife' => 42
+            'answerToLife' => 42,
+            'diTest' => StaticContainer::get('customDirPluginTest')
         ));
     }
 }
