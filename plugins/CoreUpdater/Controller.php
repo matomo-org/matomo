@@ -91,7 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
         Common::sendHeader('Cache-Control: max-age=' . (60 * 60));
     
         $files = array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
+            "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'libs/bower_components/materialize/dist/js/materialize.min.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',

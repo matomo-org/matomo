@@ -68,7 +68,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function getPriorityOrder()
     {
         return array(
-            'libs/bower_components/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
             'libs/',

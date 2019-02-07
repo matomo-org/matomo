@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
   "dependencies": {
+    "jquery": "^2.2.4",
     "jquery-ui-dist": "^1.12.1"
   }
 }
