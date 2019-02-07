@@ -58,12 +58,13 @@ class UITestFixture extends SqlDump
     public function setUp()
     {
         $this->extraPluginsToLoad[] = 'CustomDirPlugin';
-        
+
         parent::setUp();
 
         self::resetPluginsInstalledConfig();
         self::updateDatabase();
         self::installAndActivatePlugins($this->getTestEnvironment());
+        self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),
