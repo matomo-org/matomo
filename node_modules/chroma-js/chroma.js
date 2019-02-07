@@ -254,8 +254,39 @@
       return [this._rgb[0] / 255, this._rgb[1] / 255, this._rgb[2] / 255, this._rgb[3]];
     };
 
-    Color.prototype.luminance = function() {
-      return luminance(this._rgb);
+    Color.prototype.luminance = function(lum, mode) {
+      var cur_lum, eps, max_iter, test;
+
+      if (mode == null) {
+        mode = 'rgb';
+      }
+      if (!arguments.length) {
+        return luminance(this._rgb);
+      }
+      if (lum === 0) {
+        this._rgb = [0, 0, 0, this._rgb[3]];
+      }
+      if (lum === 1) {
+        this._rgb = [255, 255, 255, this._rgb[3]];
+      }
+      cur_lum = luminance(this._rgb);
+      eps = 1e-7;
+      max_iter = 20;
+      test = function(l, h) {
+        var lm, m;
+
+        m = l.interpolate(0.5, h, mode);
+        lm = m.luminance();
+        if (Math.abs(lum - lm) < eps || !max_iter--) {
+          return m;
+        }
+        if (lm > lum) {
+          return test(l, m);
+        }
+        return test(m, h);
+      };
+      this._rgb = (cur_lum > lum ? test(new Color('black'), this) : test(this, new Color('white'))).rgba();
+      return this;
     };
 
     Color.prototype.name = function() {
@@ -1042,6 +1073,7 @@
           c = getClass(val);
           t = c / (_numClasses - 1);
         } else {
+          t = f0 = _min !== _max ? (val - _min) / (_max - _min) : 0;
           t = f0 = (val - _min) / (_max - _min);
           t = Math.min(1, Math.max(0, t));
         }

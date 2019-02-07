@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bezier Interpolation</title>
+    <script type="text/javascript" src="../../chroma.js"></script>
+</head>
+<body>
+
+    <script type="text/javascript">
+
+    function showGradient(I, outerdiv, steps) {
+        var I = chroma.interpolate.bezier(c),
+            c = document.createElement('div'),
+            totalW = 800;
+        for (var i=0; i < steps; i++) {
+            var d = document.createElement('div');
+            d.style.display = 'inline-block';
+            d.style.width = (totalW / steps) + 'px';
+            d.style.height = '60px';
+            d.style.background = I(i/(steps-1)).hex();
+            c.appendChild(d);
+        }
+        outerdiv.appendChild(c);
+    }
+
+    var colors = [
+        ['white', 'black'],
+        ['white', 'red', 'black'],
+        ['white', 'yellow', 'red', 'black'],
+        ['red', 'white', 'blue'],
+        ['#fdfdf9', 'darkred'],
+        ['#fdfdf9', 'orange', 'darkred'],
+        ['#fdfdf9', 'yellow', 'orange', 'darkred'],
+        ['darkred', 'orange', 'snow', 'lightgreen', 'royalblue'],
+    ];
+
+    for (var c in colors) {
+        c = colors[c];
+        d = document.createElement('div');
+        d.style.position = 'relative';
+        document.body.appendChild(d);
+        d.innerHTML = "<div style='position:absolute;top:5px;left:10px;opacity:0.9;color:#000;text-shadow:-1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(255,255,255,0.3), -1px 1px 0px rgba(255,255,255,0.3), 1px -1px 0px rgba(255,255,255,0.3)'><code>" + c + "</code></div>";
+        showGradient(colors, d, 13);
+    }
+
+
+
+    </script>
+
+</body>
+</html>

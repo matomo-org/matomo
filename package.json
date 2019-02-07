@@ -31,6 +31,7 @@
     "angular-cookies": "^1.6.10",
     "angular-mocks": "^1.6.10",
     "angular-sanitize": "^1.6.10",
+    "chroma-js": "^0.6.3",
     "jquery": "^2.2.4",
     "jquery-ui-dist": "^1.12.1"
   }

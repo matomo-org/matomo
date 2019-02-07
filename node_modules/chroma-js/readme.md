@@ -47,7 +47,10 @@ You can use it in node.js, too!
 
 ### Build instructions
 
-To compile the coffee-script source files you have to run ``build.sh``.
+To compile the coffee-script source files you have to run
+
+    make clean
+    make
 
 To run the tests simply run
 

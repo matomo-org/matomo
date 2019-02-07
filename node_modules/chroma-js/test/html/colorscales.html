@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chroma.js</title>
+    <script type="text/javascript" src="../chroma.js"></script>
+</head>
+<body>
+
+    <script type="text/javascript">
+
+    function showScale(cs, outerdiv, log) {
+        cs.out('hex');
+        var c = document.createElement('div');
+        for (var i=0; i<= 1; i += 0.002) {
+            var d = document.createElement('div');
+            d.style.display = 'inline-block';
+            d.style.width = '2px';
+            d.style.height = '60px';
+            d.style.background = cs(log ? Math.pow(10, i * 3): i);
+            c.appendChild(d);
+        }
+        outerdiv.appendChild(c);
+    }
+
+    var scales = [
+        "scale(['lightyellow', 'navy'])",
+        "scale(['lightyellow', 'navy']).mode('lab')",
+        "scale(['lightyellow', 'navy']).mode('lch')",
+        "scale(['lightyellow', 'navy']).mode('hsv')",
+        "scale(['lightyellow', 'navy']).mode('hsl')",
+        "scale(['lightyellow', 'navy']).mode('hsi')",
+        "scale(['white', 'darkred']).mode('lab')",
+        "scale(['white', 'yellow', 'orange', 'darkred']).mode('lab')",
+        "scale(['darkred', 'orange', 'snow', 'lightgreen', 'royalblue']).mode('lab')",
+        "scale('RdYlGn').domain([0, 1], 9)",
+        "scale('RdYlGn')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('lab')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('lch')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('hsv')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('rgb')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('hsl')",
+        "scale(['#A50026', '#FFFFBF', '#006837']).mode('hsi')",
+        "scale(['#ffeeef', '#CD002F', '#400001']).domain([0,1], 9).mode('lab')",
+        "scale(['#ffeeef', '#CD002F', '#400001']).domain([0,1], 9).mode('lch')",
+        "scale(['#ffeeef', '#CD002F', '#400001']).domain([0,1], 9).mode('rgb')",
+        "scale(['#ffeeef', '#CD002F', '#400001']).domain([0,1], 9).mode('hsv')",
+        "scale(['#ffeeef', '#CD002F', '#400001']).domain([0,1], 9).mode('hsl')",
+        "scale(['#ffffff', '#000000']).domain([0,1], 9).mode('lab')",
+        "scale(['#ffffff', '#000000']).domain([0,1], 9).mode('lch')",
+        "scale(['#ffffff', '#000000']).domain([0,1], 9).mode('rgb')",
+        "scale(['#ffffff', '#000000']).domain([0,1], 9).mode('hsv')",
+        "scale(['#ffffff', '#000000']).domain([1,1000], 9, 'log').mode('hsl')",
+        "scale('RdYlGn').domain([0,1], 7).mode('lab')",
+        "scale(['a01','F7F7F7','25a']).domain([0, 0.14285714285714285, 0.2857142857142857, 0.42857142857142855, 0.5714285714285714, 0.7142857142857143, 0.8571428571428571, 1]).mode('lab')",
+        "scale(['a01','F7F7F7','25a']).domain([0,.05,.13,.2,.4,.6,.8,1]).mode('lab')",
+        "scale(['a01','F7F7F7','25a']).domain([0,.05,.13,.2,.4,.6,.8,1]).fixed(true).mode('lab')",
+    ];
+
+    for (var s in scales) {
+        s = scales[s];
+        d = document.createElement('div');
+        d.style.position = 'relative';
+        document.body.appendChild(d);
+        d.innerHTML = "<div style='position:absolute;top:5px;left:10px;opacity:0.9;color:#000;text-shadow:-1px -1px 0px rgba(255,255,255,0.3), 1px 1px 0px rgba(255,255,255,0.3), -1px 1px 0px rgba(255,255,255,0.3), 1px -1px 0px rgba(255,255,255,0.3)'><code>chroma." + s + "</code></div>";
+        showScale(eval("chroma." + s), d, s.indexOf("log") > 0);
+    }
+
+
+
+    </script>
+
+</body>
+</html>
