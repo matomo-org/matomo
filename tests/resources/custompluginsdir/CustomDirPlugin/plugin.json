@@ -10,7 +10,7 @@
         {
             "name": "Matomo",
             "email": "",
-            "homepage": ""
+            "homepage": "https://matomo.org"
         }
     ],
     "support": {
@@ -23,7 +23,7 @@
         "docs": "",
         "rss": ""
     },
-    "homepage": "",
+    "homepage": "https://matomo.org",
     "license": "GPL v3+",
     "keywords": []
 }

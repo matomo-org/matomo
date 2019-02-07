@@ -28,7 +28,7 @@ class Updates_0_1_0 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migration2 = $this->migration->db->sql($sqlQuery = 'SELECT "custom dir plugin";');
+        $migration2 = $this->migration->db->changeColumnType('site', 'type', 'varchar(255) NOT NULL');
 
         return array(
             $migration2
