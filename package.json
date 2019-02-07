@@ -1,0 +1,31 @@
+{
+  "name": "matomo",
+  "version": "1.0.0",
+  "description": "the leading free/libre analytics platform",
+  "main": "matomo.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matomo-org/matomo.git"
+  },
+  "keywords": [
+    "matomo",
+    "piwik",
+    "web",
+    "analytics"
+  ],
+  "author": "Matomo.org <hello@matomo.org>",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/matomo-org/matomo/issues"
+  },
+  "homepage": "https://github.com/matomo-org/matomo#readme",
+  "dependencies": {
+    "jquery-ui-dist": "^1.12.1"
+  }
+}

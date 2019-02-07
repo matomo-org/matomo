@@ -92,7 +92,8 @@ class CoreHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
+        //$stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
+        $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "libs/bower_components/materialize/dist/css/materialize.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
@@ -135,7 +136,7 @@ class CoreHome extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/bower_components/jquery/dist/jquery.min.js";
-        $jsFiles[] = "libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js";
+        $jsFiles[] = "node_modules/jquery-ui-dist/jquery-ui.min.js";
         $jsFiles[] = "libs/bower_components/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";

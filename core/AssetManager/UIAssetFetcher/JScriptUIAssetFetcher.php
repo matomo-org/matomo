@@ -69,7 +69,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     {
         return array(
             'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
+            'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
             'js/',

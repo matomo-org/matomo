@@ -519,7 +519,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $files = array(
             'libs/bower_components/jquery/dist/jquery.min.js',
-            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
+            "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'libs/bower_components/materialize/dist/js/materialize.min.js',
             'libs/bower_components/angular/angular.min.js',
             'libs/bower_components/angular-sanitize/angular-sanitize.js',
