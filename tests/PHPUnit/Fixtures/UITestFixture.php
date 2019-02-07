@@ -120,6 +120,9 @@ class UITestFixture extends SqlDump
         $this->extraTestEnvVars = array(
             'loadRealTranslations' => 1,
         );
+        $this->extraPluginsToLoad = array(
+            'CustomDirPlugin'
+        );
 
         parent::performSetUp($setupEnvironmentOnly);
 
