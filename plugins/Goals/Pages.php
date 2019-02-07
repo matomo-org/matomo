@@ -14,6 +14,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Widget\WidgetContainerConfig;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Report\ReportWidgetFactory;
@@ -156,7 +158,9 @@ class Pages
         $config->setParameters(array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
         $config->setOrder(5);
         $config->setIsNotWidgetizable();
-        $this->buildGoalByDimensionView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER, $config);
+
+        $extraParameters = [ 'segmented_visitor_log_segment_suffix' => 'visitEcommerceStatus==ordered' ];
+        $this->buildGoalByDimensionView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER, $config, $extraParameters);
 
         return array($config);
     }
@@ -253,7 +257,7 @@ class Pages
         return $config;
     }
 
-    private function buildGoalByDimensionView($idGoal, WidgetContainerConfig $container)
+    private function buildGoalByDimensionView($idGoal, WidgetContainerConfig $container, $extraParameters = [])
     {
         $container->setLayout('ByDimension');
         $ecommerce = ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
@@ -302,6 +306,7 @@ class Pages
                     $widget->setName($report['name']);
                 }
                 $widget->setParameters($params);
+                $widget->addParameters($extraParameters);
                 $widget->setCategoryId($categoryText);
                 $widget->setSubcategoryId($categoryText);
                 $widget->setOrder($order);

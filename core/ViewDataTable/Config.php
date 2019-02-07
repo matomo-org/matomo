@@ -96,6 +96,7 @@ class   Config
         'pivot_by_column',
         'pivot_dimension_name',
         'disable_all_rows_filter_limit',
+        'segmented_visitor_log_segment_suffix',
     );
 
     /**
@@ -126,7 +127,8 @@ class   Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'columns_to_display'
+        'columns_to_display',
+        'segmented_visitor_log_segment_suffix',
     );
 
     /**
@@ -501,6 +503,18 @@ class   Config
      * @var string
      */
     public $no_data_message = '';
+
+    /**
+     * Can be used to add a segment condition to the segment used to launch the segmented visitor log.
+     * This can be useful if you'd like to have this segment condition applied ONLY to the segmented visitor
+     * log, and not to the report itself.
+     *
+     * Contrast with just setting the 'segment', if done this way, the segment will be applied to the report
+     * data as well, which may not be desired.
+     *
+     * @var string
+     */
+    public $segmented_visitor_log_segment_suffix = '';
 
     /**
      * @ignore
