@@ -71,6 +71,7 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
+            'node_modules/',
             'libs/',
             'js/',
             'piwik.js',

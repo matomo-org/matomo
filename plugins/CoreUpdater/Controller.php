@@ -97,7 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
-            'libs/bower_components/angular/angular.min.js',
+            'node_modules/angular/angular.min.js',
             'libs/bower_components/angular-sanitize/angular-sanitize.js',
             'libs/bower_components/angular-animate/angular-animate.js',
             'libs/bower_components/angular-cookies/angular-cookies.js',

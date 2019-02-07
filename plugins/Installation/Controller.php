@@ -521,7 +521,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'libs/bower_components/materialize/dist/js/materialize.min.js',
-            'libs/bower_components/angular/angular.min.js',
+            'node_modules/angular/angular.min.js',
             'libs/bower_components/angular-sanitize/angular-sanitize.js',
             'libs/bower_components/angular-animate/angular-animate.js',
             'libs/bower_components/angular-cookies/angular-cookies.js',
