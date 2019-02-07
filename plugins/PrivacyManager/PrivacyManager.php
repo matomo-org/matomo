@@ -46,6 +46,7 @@ class PrivacyManager extends Plugin
         'delete_logs_schedule_lowest_interval' => 'Deletelogs',
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
+        'delete_unused_log_actions'            => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
         'delete_reports_older_than'            => 'Deletereports',
@@ -335,7 +336,7 @@ class PrivacyManager extends Plugin
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $logDataPurger->purgeData($settings['delete_logs_older_than']);
+        $logDataPurger->purgeData($settings['delete_logs_older_than'], $settings['delete_unused_log_actions']);
 
         return true;
     }

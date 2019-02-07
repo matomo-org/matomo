@@ -61,19 +61,22 @@ class LogDataPurger
      *                                 Visits and related data whose age is greater than this number
      *                                 will be purged.
      */
-    public function purgeData($deleteLogsOlderThan)
+    public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions)
     {
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
         $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
 
         $logTables = self::getDeleteTableLogTables();
 
-        // delete unused actions from the log_action table (but only if we can lock tables)
-        if (Db::isLockPrivilegeGranted()) {
-            $this->rawLogDao->deleteUnusedLogActions();
-        } else {
-            $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
-            Log::warning($logMessage);
+        // delete unused actions from the log_action table
+        if ($deleteUnusedLogActions) {
+            // only if we can lock tables)
+            if (Db::isLockPrivilegeGranted()) {
+                $this->rawLogDao->deleteUnusedLogActions();
+            } else {
+                $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
+                Log::warning($logMessage);
+            }
         }
 
         // optimize table overhead after deletion

@@ -118,6 +118,7 @@ class DataPurgingTest extends IntegrationTestCase
         // set default config
         $settings = array();
         $settings['delete_logs_enable'] = 1;
+        $settings['delete_unused_log_actions'] = 1;
 
         // purging log data from before 2012-01-24
         $settings['delete_logs_older_than'] = 35 + $daysSinceToday;
@@ -526,7 +527,7 @@ class DataPurgingTest extends IntegrationTestCase
         $this->assertTrue($this->unusedIdAction > 0);
 
         // purge data
-        $purger->purgeData($this->settings['delete_logs_older_than'], $this->settings['delete_logs_max_rows_per_query']);
+        $purger->purgeData($this->settings['delete_logs_older_than'], $this->settings['delete_unused_log_actions']);
 
         // check that actions were purged
         $contentsNotPurged = 3;
