@@ -147,9 +147,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/sprintf/dist/sprintf.min.js";
         $jsFiles[] = "libs/bower_components/mousetrap/mousetrap.min.js";
         $jsFiles[] = 'node_modules/angular/angular.min.js';
-        $jsFiles[] = "libs/bower_components/angular-sanitize/angular-sanitize.js";
-        $jsFiles[] = "libs/bower_components/angular-animate/angular-animate.js";
-        $jsFiles[] = "libs/bower_components/angular-cookies/angular-cookies.js";
+        $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
+        $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
+        $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
         $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";

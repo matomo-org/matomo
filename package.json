@@ -27,6 +27,10 @@
   "homepage": "https://github.com/matomo-org/matomo#readme",
   "dependencies": {
     "angular": "^1.6.10",
+    "angular-animate": "^1.6.10",
+    "angular-cookies": "^1.6.10",
+    "angular-mocks": "^1.6.10",
+    "angular-sanitize": "^1.6.10",
     "jquery": "^2.2.4",
     "jquery-ui-dist": "^1.12.1"
   }
