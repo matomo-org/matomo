@@ -401,12 +401,12 @@ class Manager
     /**
      * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
      * All paths have a trailing slash '/'.
-     * @return array
+     * @return string[]
      * @api
      */
     public static function getPluginsDirectories()
     {
-        $dirs = array(PIWIK_INCLUDE_PATH . '/plugins/');
+        $dirs = array(self::getPluginsDirectory());
 
         if (!empty($GLOBALS['MATOMO_PLUGIN_DIRS'])) {
             $extraDirs = array_map(function ($dir) {
@@ -432,10 +432,17 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
+        $corePluginsDir = PIWIK_INCLUDE_PATH . 'plugins/' . $pluginName;
+        if (is_dir($corePluginsDir)) {
+            // for faster performance
+            self::$pluginsToPathCache[$pluginName] = realpath($corePluginsDir);
+            return self::$pluginsToPathCache[$pluginName];
+        }
+
         foreach (self::getPluginsDirectories() as $dir) {
             $path = $dir . $pluginName;
             if (is_dir($path)) {
-                self::$pluginsToPathCache[$pluginName] = $path;
+                self::$pluginsToPathCache[$pluginName] = realpath($path);
                 return $path;
             }
         }
@@ -452,7 +459,12 @@ class Manager
      */
     public static function getPluginsDirectory()
     {
-        return PIWIK_INCLUDE_PATH . '/plugins/';
+        $path = rtrim(PIWIK_INCLUDE_PATH, '/') . '/plugins/';
+        $real = realpath($path);
+        if ($real) {
+            return $real . '/';
+        }
+        return $path;
     }
 
     /**
