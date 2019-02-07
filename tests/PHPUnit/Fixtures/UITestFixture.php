@@ -57,8 +57,6 @@ class UITestFixture extends SqlDump
 
     public function setUp()
     {
-        $this->extraPluginsToLoad[] = 'CustomDirPlugin';
-
         parent::setUp();
 
         self::resetPluginsInstalledConfig();

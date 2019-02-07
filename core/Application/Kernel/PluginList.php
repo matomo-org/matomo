@@ -42,8 +42,7 @@ class PluginList
         'ExampleReport',
         'MobileAppMeasurable',
         'Provider',
-        'TagManager',
-        'CustomDirPlugin'
+        'TagManager'
     );
 
     // Themes bundled with core package, disabled by default
