@@ -24,10 +24,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             visitorId: testEnvironment.forcedIdVisitor,
             realtimeWindow: 'false'
         };
-        testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
         testEnvironment.save();
 
         testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
+
+        testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
+        testEnvironment.save();
     });
 
     beforeEach(function () {
