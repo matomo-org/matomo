@@ -418,6 +418,21 @@ class Manager
         return $dirs;
     }
 
+    private static function getPluginRealPath($path)
+    {
+        if (strpos($path, '../') !== false) {
+            // for tests, only do it when needed re performance etc
+            $real = realpath($path);
+            if ($real && Common::stringEndsWith($path, '/')) {
+                return rtrim($real, '/') . '/';
+            }
+            if ($real) {
+                return $real;
+            }
+        }
+        return $path;
+    }
+
     /**
      * Gets the path to a specific plugin. If the plugin does not exist in any plugins folder, the default plugins
      * folder will be assumed.
@@ -435,14 +450,14 @@ class Manager
         $corePluginsDir = PIWIK_INCLUDE_PATH . 'plugins/' . $pluginName;
         if (is_dir($corePluginsDir)) {
             // for faster performance
-            self::$pluginsToPathCache[$pluginName] = realpath($corePluginsDir);
+            self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($corePluginsDir);
             return self::$pluginsToPathCache[$pluginName];
         }
 
         foreach (self::getPluginsDirectories() as $dir) {
             $path = $dir . $pluginName;
             if (is_dir($path)) {
-                self::$pluginsToPathCache[$pluginName] = realpath($path);
+                self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($path);
                 return $path;
             }
         }
@@ -460,10 +475,7 @@ class Manager
     public static function getPluginsDirectory()
     {
         $path = rtrim(PIWIK_INCLUDE_PATH, '/') . '/plugins/';
-        $real = realpath($path);
-        if ($real) {
-            return $real . '/';
-        }
+        $path = self::getPluginRealPath($path);
         return $path;
     }
 

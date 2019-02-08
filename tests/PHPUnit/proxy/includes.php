@@ -12,8 +12,8 @@ if (!defined('PIWIK_TEST_MODE')) {
 
 $GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
     array(
-        'pluginsPathAbsolute' => realpath(PIWIK_INCLUDE_PATH . '/tests/resources/custompluginsdir'),
-        'webrootDirRelativeToMatomo' => '../../tests/resources/custompluginsdir'
+        'pluginsPathAbsolute' => realpath(PIWIK_INCLUDE_PATH . 'tests/resources/custompluginsdir'),
+        'webrootDirRelativeToMatomo' => '../../resources/custompluginsdir'
     ),
 );
 

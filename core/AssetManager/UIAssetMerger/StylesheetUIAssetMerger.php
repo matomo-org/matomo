@@ -225,11 +225,17 @@ class StylesheetUIAssetMerger extends UIAssetMerger
                             if (file_exists($fileAbsolute)) {
                                 return $matches[1] . $relativePath . $fileRelative;
                             }
+                        } elseif ($matches[1] === '@import "') {
+                            $fileRelative = $baseDirectory . '/' . $matches[2];
+                            $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $baseDirectory . '/' . $matches[2];
+                            }
                         }
                     }
                 }
 
-                $publicPath   = $matches[1] . $matches[2];
+                $publicPath = $matches[1] . $matches[2];
             }
 
             return $publicPath;
