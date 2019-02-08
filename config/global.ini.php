@@ -943,6 +943,7 @@ Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs
+Plugins[] = ExampleLogTables
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
