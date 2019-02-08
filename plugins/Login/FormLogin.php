@@ -19,7 +19,7 @@ class FormLogin extends QuickForm2
 {
     function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
     {
-        $attributes = array_merge($attributes ?: [], [ 'action' => '?module=Login' ]);
+        $attributes = array_merge($attributes ?: [], [ 'action' => '?module=' . Piwik::getLoginPluginName() ]);
         parent::__construct($id, $method, $attributes, $trackSubmit);
     }
 
