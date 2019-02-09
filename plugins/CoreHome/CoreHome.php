@@ -94,7 +94,7 @@ class CoreHome extends \Piwik\Plugin
     {
         //$stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
-        $stylesheets[] = "libs/bower_components/materialize/dist/css/materialize.min.css";
+        $stylesheets[] = "node_modules/materialize-css/dist/css/materialize.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
