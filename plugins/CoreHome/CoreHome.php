@@ -140,7 +140,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/materialize/dist/js/materialize.min.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
-        $jsFiles[] = "libs/bower_components/jquery.scrollTo/jquery.scrollTo.min.js";
+        $jsFiles[] = "node_modules/jquery.scrollto/jquery.scrollTo.min.js";
         $jsFiles[] = "libs/bower_components/jScrollPane/script/jquery.jscrollpane.min.js";
         $jsFiles[] = "node_modules/jquery-mousewheel/jquery.mousewheel.js";
         $jsFiles[] = "libs/jquery/mwheelIntent.js";
