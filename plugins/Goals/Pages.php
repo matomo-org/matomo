@@ -8,14 +8,11 @@
  */
 namespace Piwik\Plugins\Goals;
 
-use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Segment;
-use Piwik\Segment\SegmentExpression;
 use Piwik\Widget\WidgetContainerConfig;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Report\ReportWidgetFactory;
