@@ -46,7 +46,7 @@
          *
          * @type {Function}
          */
-        _origHandleKey = Mousetrap.handleKey;
+        _origHandleKey = Mousetrap.prototype.handleKey;
 
     /**
      * handles a character key event
@@ -57,6 +57,13 @@
      * @returns void
      */
     function _handleKey(character, modifiers, e) {
+        var self = this;
+
+        if (!self.recording) {
+            _origHandleKey.apply(self, arguments);
+            return;
+        }
+
         // remember this character if we're currently recording a sequence
         if (e.type == 'keydown') {
             if (character.length === 1 && _recordedCharacterKey) {
@@ -157,8 +164,6 @@
         _recordedSequence = [];
         _recordedSequenceCallback = null;
         _currentRecordedKeys = [];
-
-        Mousetrap.handleKey = _origHandleKey;
     }
 
     /**
@@ -181,9 +186,20 @@
      * @param {Function} callback
      * @returns void
      */
-    Mousetrap.record = function(callback) {
-        Mousetrap.handleKey = _handleKey;
-        _recordedSequenceCallback = callback;
+    Mousetrap.prototype.record = function(callback) {
+        var self = this;
+        self.recording = true;
+        _recordedSequenceCallback = function() {
+            self.recording = false;
+            callback.apply(self, arguments);
+        };
     };
+
+    Mousetrap.prototype.handleKey = function() {
+        var self = this;
+        _handleKey.apply(self, arguments);
+    };
+
+    Mousetrap.init();
 
 })(Mousetrap);

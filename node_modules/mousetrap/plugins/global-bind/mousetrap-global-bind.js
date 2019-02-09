@@ -7,20 +7,27 @@
  * Mousetrap.bindGlobal('ctrl+s', _saveChanges);
  */
 /* global Mousetrap:true */
-Mousetrap = (function(Mousetrap) {
-    var _globalCallbacks = {},
-        _originalStopCallback = Mousetrap.stopCallback;
+(function(Mousetrap) {
+    var _globalCallbacks = {};
+    var _originalStopCallback = Mousetrap.prototype.stopCallback;
 
-    Mousetrap.stopCallback = function(e, element, combo, sequence) {
+    Mousetrap.prototype.stopCallback = function(e, element, combo, sequence) {
+        var self = this;
+
+        if (self.paused) {
+            return true;
+        }
+
         if (_globalCallbacks[combo] || _globalCallbacks[sequence]) {
             return false;
         }
 
-        return _originalStopCallback(e, element, combo);
+        return _originalStopCallback.call(self, e, element, combo);
     };
 
-    Mousetrap.bindGlobal = function(keys, callback, action) {
-        Mousetrap.bind(keys, callback, action);
+    Mousetrap.prototype.bindGlobal = function(keys, callback, action) {
+        var self = this;
+        self.bind(keys, callback, action);
 
         if (keys instanceof Array) {
             for (var i = 0; i < keys.length; i++) {
@@ -32,5 +39,5 @@ Mousetrap = (function(Mousetrap) {
         _globalCallbacks[keys] = true;
     };
 
-    return Mousetrap;
+    Mousetrap.init();
 }) (Mousetrap);
