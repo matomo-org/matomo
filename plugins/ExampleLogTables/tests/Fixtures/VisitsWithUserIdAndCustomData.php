@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\ExampleLogTables\tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
 use Piwik\Tests\Framework\Fixture;
 
@@ -27,9 +28,12 @@ class VisitsWithUserIdAndCustomData extends Fixture
         // set up database tables
         $userLog = new CustomUserLog();
         $userLog->install();
+        $groupLog = new CustomGroupLog();
+        $groupLog->install();
 
         $this->trackVisits();
         $this->insertCustomUserLogData();
+        $this->insertCustomGroupLogData();
     }
 
     private function trackVisits()
@@ -95,5 +99,12 @@ class VisitsWithUserIdAndCustomData extends Fixture
         $customLog->addUserInformation('user2', 'user', 'women');
         $customLog->addUserInformation('user3', 'admin', 'women');
         $customLog->addUserInformation('user4', '', 'men');
+    }
+    
+    private function insertCustomGroupLogData()
+    {
+        $customGroup = new CustomGroupLog();
+        $customGroup->addGroupInformation('admin', 1);
+        $customGroup->addGroupInformation('user', 0);
     }
 }

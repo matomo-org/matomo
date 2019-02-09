@@ -27,7 +27,10 @@ class CustomLogTablesTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function testNoApiReturnsError()
+    /**
+     * @dataProvider getSegmentsToTest
+     */
+    public function testNoApiReturnsError($segment)
     {
         $dateTime = self::$fixture->dateTime;
         $idSite1 = self::$fixture->idSite;
@@ -38,7 +41,7 @@ class CustomLogTablesTest extends SystemTestCase
             'periods'      => 'month',
             'setDateLastN' => false,
             'format'       => 'JSON',
-            'segment'      => 'attrgender==men',
+            'segment'      => $segment,
             'testSuffix'   => ''
         ];
 
@@ -53,6 +56,14 @@ class CustomLogTablesTest extends SystemTestCase
                 $this->fail('API returned an error when requesting ' . http_build_query($requestUrl) . "\nMessage: " . $decoded['message']);
             }
         }
+    }
+
+    public function getSegmentsToTest()
+    {
+        return [
+            ['attrgender==men'],
+            ['isadmin==1'],
+        ];
     }
 
     public function getApiForTesting()
@@ -84,6 +95,18 @@ class CustomLogTablesTest extends SystemTestCase
                 'setDateLastN' => false,
                 'segment'      => 'attrgender==women',
                 'testSuffix'   => '_women']
+            ],
+            [[
+                'Actions.get',
+                'UserId.getUsers',
+                'VisitsSummary.get'
+            ], [
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => 'month',
+                'setDateLastN' => false,
+                'segment'      => 'isadmin==1',
+                'testSuffix'   => '_admin']
             ],
             [[
                 'Actions.get',

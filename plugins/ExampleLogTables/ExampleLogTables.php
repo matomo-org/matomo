@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ExampleLogTables;
 
 use Piwik\Plugins\ExampleLogTables\Dao\CustomUserLog;
+use Piwik\Plugins\ExampleLogTables\Dao\CustomGroupLog;
 
 class ExampleLogTables extends \Piwik\Plugin
 {
@@ -17,6 +18,9 @@ class ExampleLogTables extends \Piwik\Plugin
         // Install custom log table [disabled as example only]
 
         // $userLog = new CustomUserLog();
+        // $userLog->install();
+
+        // $userLog = new CustomGroupLog();
         // $userLog->install();
     }
 }
