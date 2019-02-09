@@ -42,6 +42,7 @@
     "materialize-css": "^1.0.0",
     "mousetrap": "^1.6.2",
     "qrcodejs2": "0.0.2",
-    "sprintf-js": "^1.1.2"
+    "sprintf-js": "^1.1.2",
+    "visibilityjs": "^1.2.8"
   }
 }

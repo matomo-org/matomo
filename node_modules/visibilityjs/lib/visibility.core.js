@@ -1,6 +1,4 @@
 ;(function (global) {
-    "use strict";
-
     var lastId = -1;
 
     // Visibility.js allow you to know, that your web page is in the background

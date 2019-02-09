@@ -9,10 +9,8 @@
 // For Firefox 5–9 it will be better to use MozVisibility hack without
 // this issue. See <https://github.com/private-face/mozvisibility>.
 ;(function (document) {
-    "use strict";
-
     if ( document.visibilityState || document.webkitVisibilityState ) {
-         return;
+        return;
     }
 
     document.hidden = false;
