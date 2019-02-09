@@ -40,6 +40,7 @@
     "jquery.scrollto": "^1.4.14",
     "jscrollpane": "^2.2.1",
     "materialize-css": "^1.0.0",
-    "mousetrap": "^1.6.2"
+    "mousetrap": "^1.6.2",
+    "qrcodejs2": "0.0.2"
   }
 }
