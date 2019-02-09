@@ -235,7 +235,7 @@
                         }
 
                         $timeout(function(){
-                            popover.dialog({position: ['center', 'center']});
+                            popover.dialog();
                         }, 100);
                     });
                 });

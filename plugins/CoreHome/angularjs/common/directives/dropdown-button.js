@@ -19,6 +19,12 @@
         return {
             restrict: 'C',
             compile: function (element, attrs) {
+                // BC for materializecss 0.97 => 1.0
+                if (!element.attr('data-target')
+                    && element.attr('data-activates')
+                ) {
+                    element.attr('data-target', element.attr('data-activates'));
+                }
 
                 $(element).dropdown({
                     inDuration: 300,

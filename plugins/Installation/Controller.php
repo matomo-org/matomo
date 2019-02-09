@@ -521,6 +521,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
             'node_modules/materialize-css/dist/js/materialize.min.js',
+            "plugins/CoreHome/javascripts/materialize-bc.js",
             'node_modules/angular/angular.min.js',
             'node_modules/angular-sanitize/angular-sanitize.min.js',
             'node_modules/angular-animate/angular-animate.min.js',

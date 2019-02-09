@@ -26,7 +26,6 @@ var Piwik_Popover = (function () {
             title: title,
             modal: true,
             width: '1050px',
-            position: ['center', 'center'],
             resizable: false,
             autoOpen: true,
             open: function (event, ui) {
@@ -88,7 +87,7 @@ var Piwik_Popover = (function () {
 
     var centerPopover = function () {
         if (container !== false) {
-            container.dialog({position: ['center', 'center']});
+            container.dialog();
         }
     };
 
