@@ -65,6 +65,8 @@
         "GoalName": "Nome Goal",
         "Goals": "Goals (Obiettivi)",
         "NGoals": "%s obiettivi",
+        "NRevenue": "%s di ricavo",
+        "NItems": "%s elementi",
         "ManageGoals": "Gestione Obiettivi (Goals)",
         "GoalsOverview": "Panoramica Goal",
         "GoalsOverviewDocumentation": "Questa è una panoramica delle vostre conversioni degli obiettivi. Inizialmente il grafico mostra la somma di tutte le conversioni. %sSotto il grafico è possibile vedere i reports di conversione per ciascuno dei tuoi obiettivi. Le sparklines possono essere ingrandite cliccandoci sopra.",

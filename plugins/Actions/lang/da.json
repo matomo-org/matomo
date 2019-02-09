@@ -17,7 +17,7 @@
         "ColumnPageName": "Sidenavn",
         "ColumnPagesPerSearch": "Søgeresultatssider",
         "ColumnPagesPerSearchDocumentation": "Besøgende vil søge på hjemmesiden, og vil nogle gange klikke på \"Næste\" for at se flere resultater. Dette er det gennemsnitlige antal søgeresultatsider set for dette søgeord.",
-        "ColumnPageURL": "Side URL",
+        "ColumnPageURL": "Side-URL",
         "ColumnSearchCategory": "Søgekategori",
         "ColumnSearches": "Søgninger",
         "ColumnSearchesDocumentation": "Antal besøg, der søgte efter dette søgeord på hjemmesidens søgemaskine.",
@@ -42,7 +42,7 @@
         "OutlinksReportDocumentation": "Rapporten viser en hierarkisk liste over udgående netadresser, der blev klikket på af de besøgende",
         "PagesReportDocumentation": "Rapporten indeholder oplysninger om sidens netadresser, der er blevet besøgt. %s tabellen er arrangeret hierarkisk, netadresserne vises i en mappestruktur.",
         "PageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på de sider, der er blevet besøgt. %1$s side titel er HTML %2$s mærket, som de fleste netlæsere viser i vinduetitlen.",
-        "PageUrls": "Side URL'er",
+        "PageUrls": "Side-URL'er",
         "PageViewsByVisitor": "Antal gange den besøgende har set denne side henover alle besøg",
         "PluginDescription": "Rapporter om sidevisninger og sidetitler. Gør det muligt at måle det interne websted søgemaskine. Sporer automatisk klik på eksterne links og filhentninger.",
         "RevisitedPages": "Sider vist mere end én gang",
@@ -67,7 +67,7 @@
         "WidgetSearchCategories": "Søge kategorier",
         "WidgetSearchKeywords": "Websted søgeord",
         "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater",
-        "ActionType": "Handlings type",
+        "ActionType": "Handlingstype",
         "Behaviour": "Adfærd"
     }
 }

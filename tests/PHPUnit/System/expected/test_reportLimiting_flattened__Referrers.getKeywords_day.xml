@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Referrers_Keyword>Others</Referrers_Keyword>
 	</row>
 	<row>
 		<label>this search term - Others</label>
@@ -22,6 +23,8 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
+		<Referrers_Keyword>this search term</Referrers_Keyword>
+		<Referrers_SearchEngine>Others</Referrers_SearchEngine>
 	</row>
 	<row>
 		<label>search term 2 - Alexa</label>
@@ -35,6 +38,8 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://alexa.com/search?q=search+term+2</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/alexa.com.png</logo>
+		<Referrers_Keyword>search term 2</Referrers_Keyword>
+		<Referrers_SearchEngine>Alexa</Referrers_SearchEngine>
 	</row>
 	<row>
 		<label>search term 2 - Babylon</label>
@@ -48,6 +53,8 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://search.babylon.com/?q=search+term+2</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/search.babylon.com.png</logo>
+		<Referrers_Keyword>search term 2</Referrers_Keyword>
+		<Referrers_SearchEngine>Babylon</Referrers_SearchEngine>
 	</row>
 	<row>
 		<label>this search term - Ask</label>
@@ -61,5 +68,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://ask.com/web?q=this+search+term</url>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/ask.com.png</logo>
+		<Referrers_Keyword>this search term</Referrers_Keyword>
+		<Referrers_SearchEngine>Ask</Referrers_SearchEngine>
 	</row>
 </result>

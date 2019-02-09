@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -22,7 +21,7 @@ class Evolution extends JqplotDataGenerator
 {
     /**
      * @param DataTable|DataTable\Map $dataTable
-     * @param $visualization
+     * @param Chart $visualization
      */
     protected function initChartObjectData($dataTable, $visualization)
     {

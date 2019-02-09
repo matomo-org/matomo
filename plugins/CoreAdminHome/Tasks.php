@@ -18,14 +18,15 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
-use Piwik\Scheduler\Schedule\Daily;
-use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\SpecificTime;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\Tests\Framework\Mock\Site;
+use Piwik\Tracker\Failures;
+use Piwik\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
@@ -43,10 +44,16 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     private $logger;
 
-    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger)
+    /**
+     * @var Failures
+     */
+    private $trackingFailures;
+
+    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger, Failures $failures)
     {
         $this->archivePurger = $archivePurger;
         $this->logger = $logger;
+        $this->trackingFailures = $failures;
     }
 
     public function schedule()
@@ -58,7 +65,10 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
 
         // lowest priority since tables should be optimized after they are modified
-        $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
+        $this->monthly('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
+
+        $this->daily('cleanupTrackingFailures', null, self::LOWEST_PRIORITY);
+        $this->weekly('notifyTrackingFailures', null, self::LOWEST_PRIORITY);
 
         if(SettingsPiwik::isInternetEnabled() === true){
             $this->weekly('updateSpammerBlacklist');
@@ -137,6 +147,36 @@ class Tasks extends \Piwik\Plugin\Tasks
         $settings = $table->load();
         $settings[self::TRACKING_CODE_CHECK_FLAG] = 1;
         $table->save($settings);
+    }
+
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.cleanupTrackingFailures"`
+     *
+     * @throws \Exception
+     */
+    public function cleanupTrackingFailures()
+    {
+        // we remove possibly outdated/fixed tracking failures that have not occurred again recently
+        $this->trackingFailures->removeFailuresOlderThanDays(Failures::CLEANUP_OLD_FAILURES_DAYS);
+    }
+
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.notifyTrackingFailures"`
+     *
+     * @throws \Exception
+     */
+    public function notifyTrackingFailures()
+    {
+        $failures = $this->trackingFailures->getAllFailures();
+        if (!empty($failures)) {
+            $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+            foreach ($superUsers as $login => $email) {
+                $email = new TrackingFailuresEmail($login, $email, count($failures));
+                $email->send();
+            }
+        }
     }
 
     /**

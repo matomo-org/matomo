@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Metrics\Formatter;
+use Piwik\Plugin\Manager;
 use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
@@ -179,6 +180,7 @@ class Twig
         $this->addFilter_nonce();
         $this->addFilter_md5();
         $this->addFilter_onlyDomain();
+        $this->addFilter_safelink();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
         $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
@@ -312,7 +314,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
+                                                       sprintf("%s%s/templates/", Manager::getPluginsDirectory(), \Piwik\Plugin\Manager::DEFAULT_THEME)
                                                   ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
@@ -325,11 +327,12 @@ class Twig
      */
     protected function getCustomThemeLoader(Plugin $theme)
     {
-        if (!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))) {
+        $pluginsDir = Manager::getPluginsDirectory();
+        if (!file_exists(sprintf("%s%s/templates/", $pluginsDir, $theme->getPluginName()))) {
             return false;
         }
         $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
+                                                       sprintf("%s%s/templates/", $pluginsDir, $theme->getPluginName())
                                                   ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
@@ -518,10 +521,12 @@ class Twig
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginManager->getAllPluginsNames();
+
+        $pluginsDir = Manager::getPluginsDirectory();
         foreach ($plugins as $name) {
-            $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
+            $path = sprintf("%s%s/templates/", $pluginsDir, $name);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);
+                $loader->addPath($pluginsDir . $name . '/templates', $name);
             }
         }
     }
@@ -535,10 +540,13 @@ class Twig
     {
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginManager->getAllPluginsNames();
+
+        $pluginsDir = Manager::getPluginsDirectory();
+
         foreach ($plugins as $name) {
-            $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
+            $path = sprintf("%s%s/templates/plugins/%s/", $pluginsDir, $pluginName, $name);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name, $name);
+                $loader->addPath($pluginsDir . $pluginName . '/templates/plugins/'. $name, $name);
             }
         }
     }
@@ -555,5 +563,16 @@ class Twig
         if ($value[0] != '/' && $value[0] != DIRECTORY_SEPARATOR) {
             $value = $path . "/$value";
         }
+    }
+
+    private function addFilter_safelink()
+    {
+        $safelink = new Twig_SimpleFilter('safelink', function ($url) {
+            if (!UrlHelper::isLookLikeSafeUrl($url)) {
+                return '';
+            }
+            return $url;
+        });
+        $this->twig->addFilter($safelink);
     }
 }

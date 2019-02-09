@@ -84,28 +84,31 @@ class Controller extends \Piwik\Plugin\Controller
             $this->idSite, $period, $date, $token_auth, true, $segment);
         $config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
             $this->idSite, $period, $date, $token_auth, true, $segment);
-        $view->defaultMetric = 'nb_visits';
+        $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
 
-        // some translations
+        $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
+        // some translations containing metric number
         $translations = array(
              'nb_visits'            => $this->translator->translate('General_NVisits'),
-             'one_visit'            => $this->translator->translate('General_OneVisit'),
-             'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
+             'no_visit'             => $noVisitTranslation,
              'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
              'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
              'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
              'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
              'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
-             'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
              'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
         );
 
         foreach ($translations as &$translation) {
-            if (false === strpos($translation, '%s')) {
+            if (false === strpos($translation, '%s')
+                && $translation !== $noVisitTranslation) {
                 $translation = '%s ' . $translation;
             }
         }
+
+        $translations['one_visit'] = $this->translator->translate('General_OneVisit');
+        $translations['no_data'] = $this->translator->translate('CoreHome_ThereIsNoDataForThisReport');
 
         $view->localeJSON = json_encode($translations);
 

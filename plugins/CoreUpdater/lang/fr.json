@@ -80,7 +80,6 @@
         "ExecuteDbUpgrade": "Une mise à jour de la base de données est nécessaire. Exécuter la mise à jour?",
         "DryRun": "Note: ceci est un essai",
         "DryRunEnd": "Fin de l'essai",
-        "ConsoleCommandDescription": "Déclenche les mises à jour. Utilisez ceci lorsque un des fichiers de Matomo ou des composants a été mis à jour.",
         "ConsoleParameterDescription": "Exécute la mise à jour immédiatement sans demander de confirmation",
         "VerifyingUnpackedFiles": "Vérification des fichiers décompressés",
         "WarningMessages": "Messages d'avertissement :",

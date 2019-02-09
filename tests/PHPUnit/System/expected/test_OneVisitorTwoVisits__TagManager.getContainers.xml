@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idcontainer>mIuLeiKP</idcontainer>
+		<idsite>1</idsite>
+		<context>web</context>
+		<name>Default Container</name>
+		<description>This container was auto generated when the website was created.</description>
+		<status>active</status>
+		<created_date>today-date-removed-in-tests</created_date>
+		<updated_date>today-date-removed-in-tests</updated_date>
+		<created_date_pretty>Sep 10, 2018 04:47:52</created_date_pretty>
+		<updated_date_pretty>Sep 10, 2018 04:47:52</updated_date_pretty>
+		<versions>
+			<row>
+				<idcontainerversion>2</idcontainerversion>
+				<idcontainer>mIuLeiKP</idcontainer>
+				<idsite>1</idsite>
+				<status>active</status>
+				<revision>1</revision>
+				<name>0.1.0 - Auto generated</name>
+				<description />
+				<created_date>today-date-removed-in-tests</created_date>
+				<updated_date>today-date-removed-in-tests</updated_date>
+				<created_date_pretty>Sep 10, 2018 04:47:52</created_date_pretty>
+				<updated_date_pretty>Sep 10, 2018 04:47:52</updated_date_pretty>
+				<environments>
+				</environments>
+			</row>
+		</versions>
+		<releases>
+			<row>
+				<idcontainerrelease>1</idcontainerrelease>
+				<idcontainer>mIuLeiKP</idcontainer>
+				<idcontainerversion>1</idcontainerversion>
+				<idsite>1</idsite>
+				<status>active</status>
+				<environment>live</environment>
+				<release_login>superUserLogin</release_login>
+				<release_date>today-date-removed-in-tests</release_date>
+				<release_date_pretty>Sep 10, 2018 04:47:52</release_date_pretty>
+				<version_name />
+			</row>
+		</releases>
+		<draft>
+			<idcontainerversion>1</idcontainerversion>
+			<idcontainer>mIuLeiKP</idcontainer>
+			<idsite>1</idsite>
+			<status>active</status>
+			<revision>0</revision>
+			<name />
+			<description />
+			<created_date>today-date-removed-in-tests</created_date>
+			<updated_date>today-date-removed-in-tests</updated_date>
+			<created_date_pretty>Sep 10, 2018 04:47:52</created_date_pretty>
+			<updated_date_pretty>Sep 10, 2018 04:47:52</updated_date_pretty>
+		</draft>
+	</row>
+</result>

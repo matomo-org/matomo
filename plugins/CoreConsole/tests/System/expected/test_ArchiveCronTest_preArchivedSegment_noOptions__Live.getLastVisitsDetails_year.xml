@@ -20,6 +20,8 @@
 				<generationTimeMilliseconds>123</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -39,6 +41,8 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -55,6 +59,8 @@
 				<generationTimeMilliseconds>120</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>5</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -79,6 +85,8 @@
 				<generationTimeMilliseconds>23</generationTimeMilliseconds>
 				<generationTime>0.02s</generationTime>
 				<interactionPosition>9</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -103,6 +111,8 @@
 				<generationTimeMilliseconds>234</generationTimeMilliseconds>
 				<generationTime>0.23s</generationTime>
 				<interactionPosition>2</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/faq/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -127,6 +137,8 @@
 				<generationTimeMilliseconds>294</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>6</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/faq/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -151,6 +163,8 @@
 				<generationTimeMilliseconds>237</generationTimeMilliseconds>
 				<generationTime>0.24s</generationTime>
 				<interactionPosition>10</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/faq/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -175,6 +189,8 @@
 				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
 				<generationTime>1.32s</generationTime>
 				<interactionPosition>3</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/community/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -199,6 +215,8 @@
 				<generationTimeMilliseconds>624</generationTimeMilliseconds>
 				<generationTime>0.62s</generationTime>
 				<interactionPosition>7</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/community/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -223,6 +241,8 @@
 				<generationTimeMilliseconds>543</generationTimeMilliseconds>
 				<generationTime>0.54s</generationTime>
 				<interactionPosition>4</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -245,6 +265,8 @@
 				<generationTimeMilliseconds>343</generationTimeMilliseconds>
 				<generationTime>0.34s</generationTime>
 				<interactionPosition>8</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -354,6 +376,8 @@
 				<pageId>84</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://www.notdatefiltered.com/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -373,6 +397,8 @@
 				
 				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -474,6 +500,8 @@
 				<pageId>30</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title!</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -501,6 +529,8 @@
 				
 				<url>http://example.org/index.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -619,6 +649,8 @@
 				<pageId>28</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -638,6 +670,8 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -743,6 +777,8 @@
 				<pageId>29</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -762,6 +798,8 @@
 				
 				<url>http://piwik.net/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -869,6 +907,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>301/URL = http%3A%2F%2Fpiwik.net%2Fmoved-permanently</title>
+				<subtitle>http://piwik.net/moved-permanently</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -888,6 +928,8 @@
 				
 				<url>http://piwik.net/moved-permanently</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -900,6 +942,8 @@
 				<pageId>27</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>2</interactionPosition>
+				<title>307/URL = http%3A%2F%2Fpiwik.net%2Ftemp-redirect</title>
+				<subtitle>http://piwik.net/temp-redirect</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1016,6 +1060,8 @@
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://piwik.net/thing.js</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1038,6 +1084,8 @@
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://piwik.net/thing.css</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1058,6 +1106,8 @@
 				<bandwidth>3574</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://piwik.net/other.png</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1170,6 +1220,8 @@
 				<pageId>22</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1189,6 +1241,8 @@
 				
 				<url>http://piwik.net/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1294,6 +1348,8 @@
 				<pageId>21</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>500/URL = http%3A%2F%2Fpiwik.net%2Fto-an-error</title>
+				<subtitle>http://piwik.net/to-an-error</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1313,6 +1369,8 @@
 				
 				<url>http://piwik.net/to-an-error</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1419,6 +1477,8 @@
 				<bandwidth>4324023</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://piwik.net/19.pdf</subtitle>
 				
 				<customVariables>
 					<row>

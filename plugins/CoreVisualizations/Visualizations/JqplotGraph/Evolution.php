@@ -35,6 +35,7 @@ class Evolution extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
@@ -85,6 +86,7 @@ class Evolution extends JqplotGraph
 
         if ('range' != $period) { // show evolution limit if the period is not a range
             $this->config->show_limit_control = true;
+            $this->config->show_periods = true;
 
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) {

@@ -90,6 +90,7 @@ class RequestConfig
         'filter_column',
         'filter_offset',
         'flat',
+        'totals',
         'expanded',
         'pivotBy',
         'pivotByColumn',
@@ -111,6 +112,7 @@ class RequestConfig
         'disable_generic_filters',
         'disable_queued_filters',
         'flat',
+        'totals',
         'expanded',
         'pivotBy',
         'pivotByColumn',
@@ -147,6 +149,14 @@ class RequestConfig
      * Default value: false
      */
     public $flat = false;
+
+    /**
+     * If set to true or "1", the report may calculate totals information and show percentage values for each row in
+     * relative to the total value.
+     *
+     * Default value: 0
+     */
+    public $totals = 0;
 
     /**
      * If set to true, the returned data will contain the first level results, as well as all sub-tables.

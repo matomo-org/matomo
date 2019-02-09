@@ -94,6 +94,14 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                 ),
                 'onlyCheckUnserialize' => true,
             )),
+            array('Live.getMostRecentVisitorId', array('idSite' => $idSite,
+                'date' => $dateTime,
+                'format' => 'original',
+                'otherRequestParameters' => array(
+                    'serialize' => '1',
+                ),
+                'onlyCheckUnserialize' => true,
+            )),
 
             // test API.get (for bug that incorrectly reorders columns of CSV output)
             //   note: bug only affects rows after first
@@ -218,6 +226,18 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
         {
             // pass
         }
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
+        );
     }
 }
 

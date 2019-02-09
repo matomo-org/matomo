@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Resolution>Others</Resolution_Resolution>
 	</row>
 	<row>
 		<label>1920x1080</label>
@@ -21,6 +22,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Resolution>1920x1080</Resolution_Resolution>
 		<segment>resolution==1920x1080</segment>
 	</row>
 	<row>
@@ -33,6 +35,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<Resolution_Resolution>1280x1024</Resolution_Resolution>
 		<segment>resolution==1280x1024</segment>
 	</row>
 </result>

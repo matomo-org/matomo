@@ -1,5 +1,3 @@
-{% set fontStyle %}color:{{ themeStyles.colorText|e('html_attr') }};font-family:{{ themeStyles.fontFamilyBase|e('html_attr') }};{% endset %}
-
 <html style="background-color:#edecec">
 
 <head>
@@ -15,7 +13,7 @@
 <table style="width:100%; background-color: {{ themeStyles.colorHeaderBackground|e('html_attr') }}; color: {{ themeStyles.colorHeaderText|e('html_attr') }}; padding:10px 0; margin: 0 0 25px 0; height:64px;">
     <tr>
         <td>
-            <a style="{{ fontStyle|raw }}; font-size:16px;padding:0 15px;color: {{ themeStyles.colorHeaderText|e('html_attr') }};height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="{{ piwikUrl }}" style="lineheight:17px">
+            <a style="{{ fontStyle|raw }}; font-size:16px;padding:0 15px;color: {{ themeStyles.colorHeaderText|e('html_attr') }};height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer noopener" target="_blank" href="{{ piwikUrl }}">
                 {% if isCustomLogo and logoHeader %}
                     <img src="{{ logoHeader }}" height="20px" width="auto" />
                 {% else %}
@@ -25,7 +23,7 @@
         </td>
         <td align="right">
             {% if idSite|default is not empty %}
-            <a style="{{ fontStyle|raw }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText|e('html_attr') }}" {% if websiteName|default is not empty %}title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}"{% endif %} target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'index', 'idSite': idSite, 'period': period, 'date': date, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
+            <a style="{{ fontStyle|raw }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText|e('html_attr') }}" {% if websiteName|default is not empty %}title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}"{% endif %} target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'redirectToCoreHomeIndex', 'idSite': idSite, 'period': period|default, 'date': date|default, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
                 {{ 'Dashboard_Dashboard'|translate }}
             </a>
             {% endif %}

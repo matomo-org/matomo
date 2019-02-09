@@ -620,16 +620,24 @@ class Access
         $isSuperUser = self::getInstance()->hasSuperUserAccess();
 
         $access = self::getInstance();
+        $login = $access->getLogin();
+        $shouldResetLogin = empty($login); // make sure to reset login if a login was set by "makeSureLoginNameIsSet()"
         $access->setSuperUserAccess(true);
 
         try {
             $result = $function();
         } catch (Exception $ex) {
             $access->setSuperUserAccess($isSuperUser);
+            if ($shouldResetLogin) {
+                $access->login = null;
+            }
 
             throw $ex;
         }
 
+        if ($shouldResetLogin) {
+            $access->login = null;
+        }
         $access->setSuperUserAccess($isSuperUser);
 
         return $result;

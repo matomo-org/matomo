@@ -40,6 +40,7 @@
         "ExceptionNoValueForUsernameOrEmail": "Zadejte prosím uživatelské jméno nebo emailovou adresu.",
         "ExcludeVisitsViaCookie": "Vynechat vaše navštěvy pomocí cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Datum hlášení, které se má načíst jako výchozí pro anonymní uživatele",
+        "GiveUserAccess": "Dát '%1$s' %2$s přístup pro %3$s.",
         "GiveViewAccess": "Povolit práva prohlížení pro %1$s",
         "GiveViewAccessTitle": "Povolí existujícímu uživateli zobrazování hlášení pro %s",
         "GiveViewAccessInstructions": "Pro přiřazení práv k zobrazení %s existujícímu uživateli, zadejte jeho uživatelské jméno nebo emailovou adresu",
@@ -69,9 +70,6 @@
         "TheLoginScreen": "Přihlašovací obrazovka",
         "ThereAreCurrentlyNRegisteredUsers": "Aktuálně je %s registrovaných uživatelů.",
         "TokenAuth": "Token k autentizaci vůči API",
-        "TokenRegenerateConfirm": "Změna autentizačního tokenu pro API zneplatní uživatelův aktuální token. Pokud je přihlášen, možná se bude muset znovu přihlásit. Opravdu chcete pokračovat?",
-        "TokenRegenerateConfirmSelf": "Změna autentizačního tokenu k API zneplatní váš vlastní token. Možná se budete muset znovu přihlásit. Opravdu chcete váš autentizační token změnit?",
-        "TokenRegenerateLogoutWarning": "Po obnovení vašeho tokenu budete odhlášen a budete se muset znovu přihlásit.",
         "TokenRegenerateTitle": "Obnovit",
         "TypeYourPasswordAgain": "Zapiště vaše nové heslo znova",
         "User": "Uživatel",
@@ -91,6 +89,7 @@
         "BasicInformation": "Základní informace",
         "Permissions": "Oprávnění",
         "AreYouSure": "Jste si jisti?",
+        "ShowAll": "Zobrazit vše",
         "Username": "Uživatelské jméno"
     }
 }

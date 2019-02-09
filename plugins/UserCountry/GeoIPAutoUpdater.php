@@ -137,6 +137,11 @@ class GeoIPAutoUpdater extends Task
     {
         $url = trim($url);
 
+        if (strpos($url, 'GeoLite')) {
+            Log::info('GeoLite databases have been discontinued. Skipping download of '.$url.'. Consider switching to GeoIP 2.');
+            return;
+        }
+
         $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity

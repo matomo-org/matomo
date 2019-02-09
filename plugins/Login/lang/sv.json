@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Totalsökningslogg",
         "ConfirmationLinkSent": "En länk för bekräftelse har skickats till dig. Kontrollera din e-post och besök länken för att fullfölja begäran att ändra ditt lösenord.",
         "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br \/>Vänligen kontakta din Matomo administratör.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En användare med Superanvändaråtkomst kan inte bli autensieras vid användande av '%s' mekanism.",
@@ -10,6 +11,8 @@
         "InvalidUsernameEmail": "Felaktigt användarnamn och\/eller e-postadress",
         "LogIn": "Logga in",
         "LoginOrEmail": "Användarnamn eller e-postadress",
+        "SettingBruteForceEnable": "Aktivera totalsöknings-detektion",
+        "SettingBruteForceEnableHelp": "Totalsöknings-detektion är en viktig säkerhetsfunktion som skyddar dina data från obehörig åtkomst. Istället för att tillåta vilken användare som helst att försöka tusentals eller flera miljoner tänkbara lösenord i snabb följd, kommer den endast tillåta ett visst antal misslyckade inloggningsförsök under en viss tid. Om för många inloggningsförsök misslyckas under det tidsspannet kommer användaren inte kunna logga in tills en viss tid passerat. Observera att om en IP-adress blockeras, kommer samtliga användare med den IP-adressen nekas inloggning.",
         "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
         "LostYourPassword": "Glömt ditt lösenord?",
         "ChangeYourPassword": "Ändra ditt lösenord",

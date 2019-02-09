@@ -35,7 +35,7 @@
         "Settings_SuperAdmin": "スーパーユーザー設定",
         "Settings_SuspiciousPhoneNumber": "テキストメッセージを受け取らない場合、先頭に 0 を付けずにお試しください。例 %s",
         "Settings_UpdateOrDeleteAccount": "このアカウントを %1$supdate%2$s または %3$sdelete%4$s することも可能です。",
-        "Settings_ValidatePhoneNumber": "検証する",
+        "Settings_ValidatePhoneNumber": "検証",
         "Settings_VerificationCodeJustSent": "今この番号にコード付きの SMS を送信しました。上のコードを入力し、\"検証\" をクリックしてください。",
         "SettingsMenu": "モバイルメッセージ",
         "SMS_Content_Too_Long": "[ 長過ぎます ]",

@@ -73,9 +73,9 @@
                             {% if col >= 9 %}
                                 {% set col = 0 %}
                             {% endif %}
-			    
+
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url }}" target="_blank">
+                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
@@ -85,7 +85,7 @@
 {{ action.serverTimePretty }}
 {% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
 {%- endset %}
-                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{- title -}}"/>
+                                    <img src="plugins/Live/images/file{{ col }}.png" title="{% if action.url|trim is not empty %}{{ action.url|e('html_attr') }}<br/>{% endif %}{{- title -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
@@ -115,9 +115,19 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-    e.preventDefault();
-    broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-    return false;
+$(function () {
+    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
+        e.preventDefault();
+        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+    }).tooltip({
+        track: true,
+        content: function() {
+            var title = $(this).attr('title');
+            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+        },
+        show: {delay: 100, duration: 0},
+        hide: false
+    });
 });
 </script>

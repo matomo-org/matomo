@@ -423,6 +423,7 @@ class LogAggregator
      * @param $dimensions
      * @param $tableName
      * @param bool $appendSelectAs
+     * @param bool $parseSelectAs
      * @return mixed
      */
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
@@ -432,11 +433,15 @@ class LogAggregator
 
             if (!is_numeric($selectAs)) {
                 $selectAsString = $selectAs;
-            } else {
-                // if function, do not alias or prefix
-                if ($this->isFieldFunctionOrComplexExpression($field)) {
-                    $selectAsString = $appendSelectAs = false;
+            } else if ($this->isFieldFunctionOrComplexExpression($field)) {
+                // if complex expression has a select as, use it
+                if (!$appendSelectAs && preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
+                    $field = $matches[1];
+                    continue;
                 }
+
+                // if function w/o select as, do not alias or prefix
+                $selectAsString = $appendSelectAs = false;
             }
 
             $isKnownField = !in_array($field, array('referrer_data'));

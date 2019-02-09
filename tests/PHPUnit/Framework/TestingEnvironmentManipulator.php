@@ -83,6 +83,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
             }
+
+            $_SERVER['QUERY_STRING'] = http_build_query($_GET);
         }
 
         if ($this->vars->globalsOverride) {
@@ -110,7 +112,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+            && !SettingsServer::isTrackerApiRequest()
+        ) { // TODO: should use testingEnvironment variable, not query param
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -143,8 +147,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource();
 
-        $fixturePluginsToLoad = [];
-
         $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
@@ -154,7 +156,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 // Apply DI config from the fixture
                 if (isset($testCaseClass::$fixture)) {
                     $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
-                    $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
                 }
 
                 if (method_exists($testCaseClass, 'provideContainerConfigBeforeClass')) {
@@ -170,7 +171,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
             if ($this->classExists($fixtureClass)) {
                 $fixture = new $fixtureClass();
-                $fixturePluginsToLoad = $fixture->extraPluginsToLoad;
 
                 if (method_exists($fixture, 'provideContainerConfig')) {
                     $diConfigs[] = $fixture->provideContainerConfig();
@@ -178,7 +178,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             }
         }
 
-        $plugins = $this->getPluginsToLoadDuringTest($fixturePluginsToLoad);
+        $plugins = $this->getPluginsToLoadDuringTest();
         $diConfigs[] = array(
             'observers.global' => \DI\add($this->globalObservers),
 
@@ -208,9 +208,27 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         return $result;
     }
 
-    private function getPluginsToLoadDuringTest($fixtureExtraPlugins = [])
+    private function getPluginsToLoadDuringTest()
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
+        $plugins[] = 'TagManager';
+
+        $fixturePluginsToLoad = [];
+
+        if ($this->vars->testCaseClass) {
+            $testCaseClass = $this->vars->testCaseClass;
+            if ($this->classExists($testCaseClass)) {
+                if (isset($testCaseClass::$fixture)) {
+                    $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
+                }
+            }
+        } else if ($this->vars->fixtureClass) {
+            $fixtureClass = $this->vars->fixtureClass;
+            if ($this->classExists($fixtureClass)) {
+                $fixture = new $fixtureClass();
+                $fixturePluginsToLoad = $fixture->extraPluginsToLoad;
+            }
+        }
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge(
@@ -222,7 +240,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
             ),
-            $fixtureExtraPlugins
+            $fixturePluginsToLoad
         );
 
         foreach ($extraPlugins as $pluginName) {

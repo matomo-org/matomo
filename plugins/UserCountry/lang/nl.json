@@ -1,7 +1,7 @@
 {
     "UserCountry": {
         "AssumingNonApache": "Kan de functie apache_get_modules niet vinden, uitgegaan van non-Apache webserver.",
-        "CannotFindGeoIPDatabaseInArchive": "Kan bestand %1$s niet vinden in tar archief %2$s!",
+        "CannotFindGeoIPDatabaseInArchive": "Kan bestand %1$s niet vinden in tar-archief %2$s!",
         "CannotFindGeoIPServerVar": "De %s variabele is niet ingesteld. Je server is waarschijnlijk niet correct geconfigureerd",
         "CannotFindPeclGeoIPDb": "Land, regio, of stad database voor de GeoIP PECL module werd niet gevonden. Zorg dat je GeoIP database in %1$s staat en het de naam %2$s of %3$s heeft. Anders zal de PECL module het niet kunnen vinden.",
         "CannotListContent": "Kon geen lijst maken van de inhoud voor %1$s: %2$s",
@@ -17,7 +17,7 @@
         "country_a2": "Satellite Provider",
         "country_cat": "Catalaans-sprekende gemeenschappen",
         "country_o1": "Ander land",
-        "VisitLocation": "Bezoekers locatie",
+        "VisitLocation": "Bezoekerslocatie",
         "CurrentLocationIntro": "Volgens deze provider is je huidige locatie",
         "DefaultLocationProviderDesc1": "De standaard locatie provider gokt een bezoekers land gebaseerd op de taal die ze gebruiken.",
         "DefaultLocationProviderDesc2": "Dit is niet erg nauwkeurig, %1$swe adviseren %2$sGeoIP%3$s. te installeren en gebruiken.%4$s",

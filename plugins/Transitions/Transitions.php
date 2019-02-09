@@ -14,7 +14,7 @@ namespace Piwik\Plugins\Transitions;
 class Transitions extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -33,11 +33,17 @@ class Transitions extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
+        $jsFiles[] = 'plugins/Transitions/angularjs/transitionswitcher/transitionswitcher.controller.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'General_TransitionsRowActionTooltipTitle';
         $translationKeys[] = 'General_TransitionsRowActionTooltip';
+        $translationKeys[] = 'Actions_PageUrls';
+        $translationKeys[] = 'Actions_WidgetPageTitles';
+        $translationKeys[] = 'Transitions_NumPageviews';
+        $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
+        $translationKeys[] = 'General_Others';
     }
 }

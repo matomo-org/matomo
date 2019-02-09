@@ -65,6 +65,8 @@
         "GoalName": "Hedef Adı",
         "Goals": "Hedefler",
         "NGoals": "%s amaç",
+        "NRevenue": "%s gelir",
+        "NItems": "%s öge",
         "ManageGoals": "Hedef Yönetimi",
         "GoalsOverview": "Hedefler Özeti",
         "GoalsOverviewDocumentation": "Hedef tutturma özetleri burada görülebilir. Başlangıçta çizelgede düm tutturulan hedeflerin toplamı görüntülenir. %s Çizelgenin aşağısında her bir hedefin tutturulma oranı görülebilir. Çubuklar üzerine tıklandığında genişler.",

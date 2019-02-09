@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Singleton;
 use ReflectionClass;
 use ReflectionMethod;
@@ -215,8 +216,9 @@ class Proxy extends Singleton
              * @param array &$finalParameters List of parameters that will be passed to the API method.
              * @param string $pluginName The name of the plugin the API method belongs to.
              * @param string $methodName The name of the API method that will be called.
+             * @param array $parametersRequest The query parameters for this request.
              */
-            Piwik::postEvent(sprintf('API.Request.intercept'), [&$returnedValue, $finalParameters, $pluginName, $methodName]);
+            Piwik::postEvent('API.Request.intercept', [&$returnedValue, $finalParameters, $pluginName, $methodName, $parametersRequest]);
 
             $apiParametersInCorrectOrder = array();
 
@@ -436,7 +438,7 @@ class Proxy extends Singleton
     private function includeApiFile($fileName)
     {
         $module = self::getModuleNameFromClassName($fileName);
-        $path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
+        $path = Manager::getPluginsDirectory() . $module . '/API.php';
 
         if (is_readable($path)) {
             require_once $path; // prefixed by PIWIK_INCLUDE_PATH

@@ -58,7 +58,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // delete reports settings
         $settings['delete_reports_enable'] = Common::getRequestVar("enableDeleteReports", 0);
         $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
-        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 3 ? 3 : $deleteReportsOlderThan;
+        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 2 ? 2 : $deleteReportsOlderThan;
         $settings['delete_reports_keep_basic_metrics']   = Common::getRequestVar("keepBasic", 0);
         $settings['delete_reports_keep_day_reports']     = Common::getRequestVar("keepDay", 0);
         $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);
@@ -233,7 +233,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($settings['delete_logs_enable']) {
             /** @var LogDataPurger $logDataPurger */
             $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-            $logDataPurger->purgeData($settings['delete_logs_older_than']);
+            $logDataPurger->purgeData($settings['delete_logs_older_than'], true);
         }
         if ($settings['delete_reports_enable']) {
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());

@@ -295,6 +295,9 @@ class Pages
                 }
 
                 $widget = $this->createWidgetForReport($report['module'], $report['action']);
+                if (!$widget) {
+                    continue;
+                }
                 if (!empty($report['name'])) {
                     $widget->setName($report['name']);
                 }
@@ -342,8 +345,10 @@ class Pages
     private function createWidgetForReport($module, $action)
     {
         $report = ReportsProvider::factory($module, $action);
-        $factory = new ReportWidgetFactory($report);
-        return $factory->createWidget();
+        if ($report) {
+            $factory = new ReportWidgetFactory($report);
+            return $factory->createWidget();
+        }
     }
 
 }

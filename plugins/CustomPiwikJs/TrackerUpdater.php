@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
@@ -23,7 +24,7 @@ class TrackerUpdater
 {
     const DEVELOPMENT_PIWIK_JS = '/js/piwik.js';
     const ORIGINAL_PIWIK_JS = '/js/piwik.min.js';
-    const TARGET_PIWIK_JS = '/piwik.js';
+    const TARGET_MATOMO_JS = '/matomo.js';
 
     /**
      * @var File
@@ -48,7 +49,7 @@ class TrackerUpdater
         }
 
         if (!isset($toFile)) {
-            $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_PIWIK_JS;
+            $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_MATOMO_JS;
         }
 
         $this->setFromFile($fromFile);
@@ -138,6 +139,22 @@ class TrackerUpdater
              * @param string $absolutePath The path to the new piwik.js file.
              */
             Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
+        }
+
+        // we need to make sure to sync matomo.js / piwik.js
+        $this->updateAlternative('piwik.js', 'matomo.js', $newContent);
+        $this->updateAlternative('matomo.js', 'piwik.js', $newContent);
+    }
+
+    private function updateAlternative($fromFile, $toFile, $newContent)
+    {
+        if (Common::stringEndsWith($this->toFile->getName(), $fromFile)) {
+            $alternativeFilename = dirname($this->toFile->getPath()) . DIRECTORY_SEPARATOR . $toFile;
+            $file = new File($alternativeFilename);
+            if ($file->hasWriteAccess() && $file->getContent() !== $newContent) {
+                $file->save($newContent);
+                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$file->getPath()]);
+            }
         }
     }
 }

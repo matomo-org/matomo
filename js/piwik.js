@@ -4,7 +4,7 @@
  * JavaScript tracking client
  *
  * @link https://piwik.org
- * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
+ * @source https://github.com/matomo-org/matomo/blob/master/js/piwik.js
  * @license https://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
@@ -972,7 +972,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
     onload, src,
     min, round, random, floor,
-    exec,
+    exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
     rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag,
+    discardHashTag, alwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
@@ -997,8 +997,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
-    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
+    requests, timeout, sendRequests, queueRequest,
+    setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -1097,6 +1098,8 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+
+            trackerIdCounter = 0,
 
             isPageUnloading = false;
 
@@ -2877,7 +2880,10 @@ if (typeof window.Piwik !== 'object') {
                 trackerUrl   = trackerUrl.slice(0, posQuery);
             }
 
-            if (stringEndsWith(trackerUrl, 'piwik.php')) {
+            if (stringEndsWith(trackerUrl, 'matomo.php')) {
+                // if eg without domain or path "matomo.php" => ''
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'matomo.php'.length);
+            } else if (stringEndsWith(trackerUrl, 'piwik.php')) {
                 // if eg without domain or path "piwik.php" => ''
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
             } else if (stringEndsWith(trackerUrl, '.php')) {
@@ -3073,6 +3079,9 @@ if (typeof window.Piwik !== 'object') {
                 // Maximum delay to wait for web bug image to be fetched (in milliseconds)
                 configTrackerPause = 500,
 
+                // If enabled, always use sendBeacon if the browser supports it
+                configAlwaysUseSendBeacon = false,
+
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
 
@@ -3229,7 +3238,10 @@ if (typeof window.Piwik !== 'object') {
                 configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
-                consentRequestsQueue = [];
+                consentRequestsQueue = [],
+
+                // a unique ID for this tracker during this request
+                uniqueTrackerId = trackerIdCounter++;
 
             // Document title
             try {
@@ -3508,32 +3520,56 @@ if (typeof window.Piwik !== 'object') {
                 var image = new Image(1, 1);
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
-                    if (typeof callback === 'function') { callback(); }
+                    if (typeof callback === 'function') {
+                        callback({request: request, trackerUrl: configTrackerUrl, success: true});
+                    }
+                };
+                image.onerror = function () {
+                    if (typeof callback === 'function') {
+                        callback({request: request, trackerUrl: configTrackerUrl, success: false});
+                    }
                 };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
-            function sendPostRequestViaSendBeacon(request)
+            function supportsSendBeacon()
             {
-                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                return 'object' === typeof navigatorAlias
                     && 'function' === typeof navigatorAlias.sendBeacon
                     && 'function' === typeof Blob;
+            }
 
-                if (!supportsSendBeacon) {
+            function sendPostRequestViaSendBeacon(request, callback)
+            {
+                var isSupported = supportsSendBeacon();
+
+                if (!isSupported) {
                     return false;
                 }
 
                 var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
                 var success = false;
 
+                var url = configTrackerUrl;
+
                 try {
                     var blob = new Blob([request], headers);
-                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
+
+                    if (request.length <= 2000) {
+                        blob = new Blob([], headers);
+                        url = url + (url.indexOf('?') < 0 ? '?' : '&') + request;
+                    }
+
+                    success = navigatorAlias.sendBeacon(url, blob);
                     // returns true if the user agent is able to successfully queue the data for transfer,
                     // Otherwise it returns false and we need to try the regular way
 
                 } catch (e) {
                     return false;
+                }
+
+                if (success && typeof callback === 'function') {
+                    callback({request: request, trackerUrl: configTrackerUrl, success: true, isSendBeacon: true});
                 }
 
                 return success;
@@ -3547,7 +3583,7 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
                     return;
                 }
 
@@ -3562,7 +3598,7 @@ if (typeof window.Piwik !== 'object') {
                     // same request a second time. To avoid this, we delay the actual execution of this POST request just
                     // by 50ms which gives it usually enough time to detect the unload event in most cases.
 
-                    if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request, callback)) {
                         return;
                     }
                     var sentViaBeacon;
@@ -3582,13 +3618,18 @@ if (typeof window.Piwik !== 'object') {
                         // fallback on error
                         xhr.onreadystatechange = function () {
                             if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
 
                                 if (!sentViaBeacon && fallbackToGet) {
                                     getImage(request, callback);
+                                } else if (typeof callback === 'function') {
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: false, xhr: this});
                                 }
+
                             } else {
-                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                                if (this.readyState === 4 && (typeof callback === 'function')) {
+                                    callback({request: request, trackerUrl: configTrackerUrl, success: true, xhr: this});
+                                }
                             }
                         };
 
@@ -3596,9 +3637,11 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.send(request);
                     } catch (e) {
-                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
                         if (!sentViaBeacon && fallbackToGet) {
                             getImage(request, callback);
+                        } else if (typeof callback === 'function') {
+                            callback({request: request, trackerUrl: configTrackerUrl, success: false});
                         }
                     }
                 }, 50);
@@ -3743,6 +3786,12 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request, callback)) {
+                            setExpireDateTime(100);
+                            return;
+                        }
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3768,6 +3817,23 @@ if (typeof window.Piwik !== 'object') {
                 return (requests && requests.length);
             }
 
+            function arrayChunk(theArray, chunkSize)
+            {
+                if (!chunkSize || chunkSize >= theArray.length) {
+                    return [theArray];
+                }
+
+                var index = 0;
+                var arrLength = theArray.length;
+                var chunks = [];
+
+                for (index; index < arrLength; index += chunkSize) {
+                    chunks.push(theArray.slice(index, index + chunkSize));
+                }
+
+                return chunks;
+            }
+
             /*
              * Send requests using bulk
              */
@@ -3782,10 +3848,15 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
-
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
+                    var chunks = arrayChunk(requests, 50);
+
+                    var i = 0, bulk;
+                    for (i; i < chunks.length; i++) {
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
+                        sendXmlHttpRequest(bulk, null, false);
+                    }
+
                     setExpireDateTime(delay);
                 });
             }
@@ -4185,7 +4256,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             function generateUniqueId() {
@@ -5088,10 +5159,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the goal with the server
              */
-            function logGoal(idGoal, customRevenue, customData) {
+            function logGoal(idGoal, customRevenue, customData, callback) {
                 var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5584,6 +5655,58 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
+
+            var requestQueue = {
+                requests: [],
+                timeout: null,
+                sendRequests: function () {
+                    var requestsToTrack = this.requests;
+                    this.requests = [];
+                    if (requestsToTrack.length === 1) {
+                        sendRequest(requestsToTrack[0]);
+                    } else {
+                        sendBulkRequest(requestsToTrack);
+                    }
+                },
+                push: function (requestUrl) {
+                    if (!requestUrl) {
+                        return;
+                    }
+                    if (isPageUnloading) {
+                        // we don't queue as we need to ensure the request will be sent when the page is unloading...
+                        trackerInstance.trackRequest(requestUrl);
+                        return;
+                    }
+
+                    this.requests.push(requestUrl);
+
+                    if (this.timeout) {
+                        clearTimeout(this.timeout);
+                        this.timeout = null;
+                    }
+                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    this.timeout = setTimeout(function () {
+                        requestQueue.timeout = null;
+                        requestQueue.sendRequests();
+                    }, 1750);
+
+                    var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
+                    if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
+                        // we setup one unload handler per tracker...
+                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // JSLint happy.
+                        plugins[trackerQueueId] = {
+                            unload: function () {
+                                if (requestQueue.timeout) {
+                                    clearTimeout(requestQueue.timeout);
+                                }
+                                requestQueue.sendRequests();
+                            }
+                        };
+                    }
+                }
+            };
+
             /*</DEBUG>*/
 
             /************************************************************
@@ -5801,6 +5924,8 @@ if (typeof window.Piwik !== 'object') {
                 var tracker = new Tracker(piwikUrl, siteId);
 
                 asyncTrackers.push(tracker);
+
+                Piwik.trigger('TrackerAdded', [this]);
 
                 return tracker;
             };
@@ -6579,6 +6704,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
+             * of 100ms instead of 500ms (default). This means when a user clicks for example on an outlink, the
+             * navigation to this page will happen 400ms faster.
+             * In case you are setting a callback method when issuing a tracking request, the callback method will
+             *  be executed as soon as the tracking request was sent through "sendBeacon" and not after the tracking
+             *  request finished as it is not possible to find out when the request finished.
+             * Send beacon will only be used if the browser actually supports it.
+             */
+            this.alwaysUseSendBeacon = function () {
+                configAlwaysUseSendBeacon = true;
+            };
+
+            /**
              * Add click listener to a specific link element.
              * When clicked, Piwik will log the click automatically.
              *
@@ -6759,10 +6897,11 @@ if (typeof window.Piwik !== 'object') {
              * @param int|string idGoal
              * @param int|float customRevenue
              * @param mixed customData
+             * @param function callback
              */
-            this.trackGoal = function (idGoal, customRevenue, customData) {
+            this.trackGoal = function (idGoal, customRevenue, customData, callback) {
                 trackCallback(function () {
-                    logGoal(idGoal, customRevenue, customData);
+                    logGoal(idGoal, customRevenue, customData, callback);
                 });
             };
 
@@ -7107,6 +7246,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns the list of ecommerce items that will be sent when a cart update or order is tracked.
+             * The returned value is read-only, modifications will not change what will be tracked. Use
+             * addEcommerceItem/removeEcommerceItem/clearEcommerceCart to modify what items will be tracked.
+             *
+             * Note: the cart will be cleared after an order.
+             *
+             * @returns array
+             */
+            this.getEcommerceItems = function () {
+                return JSON.parse(JSON.stringify(ecommerceItems));
+            };
+
+            /**
              * Adds an item (product) that is in the current Cart or in the Ecommerce order.
              * This function is called for every item (product) in the Cart or the Order.
              * The only required parameter is sku.
@@ -7192,6 +7344,23 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
+                });
+            };
+
+            /**
+             * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
+             * along with other tracking requests in one go. This can reduce the number of requests send to your server.
+             * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
+             * requests will be sent immediately so that no tracking request gets lost.
+             * Note: Any queued request may not be possible to be replayed in case a POST request is sent. Only queue
+             * requests that don't have to be replayed.
+             *
+             * @param request eg. "param=value&param2=value2"
+             */
+            this.queueRequest = function (request) {
+                trackCallback(function () {
+                    var fullRequest = getRequest(request);
+                    requestQueue.push(fullRequest);
                 });
             };
 
@@ -7405,7 +7574,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
@@ -7423,6 +7592,8 @@ if (typeof window.Piwik !== 'object') {
 
             // replace initialization array with proxy object
             _paq = new TrackerProxy();
+
+            Piwik.trigger('TrackerAdded', [tracker]);
 
             return tracker;
         }
@@ -7648,7 +7819,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
-             * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
+             * matomo.js is not writable then there is a chance that first matomo.js is loaded and later the plugin.
              * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
              * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
@@ -7722,7 +7893,7 @@ if (typeof window.Piwik !== 'object') {
                     // needed to write it this way for jslint
                     var consoleType = typeof console;
                     if (consoleType !== 'undefined' && console && console.error) {
-                        console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                        console.error('_paq.push() was used but Matomo tracker was not initialized before the matomo.js file was loaded. Make sure to configure the tracker via _paq.push before loading matomo.js. Alternatively, you can create a tracker via Matomo.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                     }
                 }};
         }

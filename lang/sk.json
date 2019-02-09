@@ -442,7 +442,7 @@
         "Advanced": "Pokročilé",
         "AnonymousAccess": "Anonymný prístup",
         "AnonymousTracking": "Anonymné sledovanie",
-        "AskForAnonymousTrackingPermission": "Ak je povolené, Matomo Mobile pošle anonymné dáta o používaní na piwik.org. Zámerom je využiť tieto dáta na pomoc vývojárom Matomo Mobile lepšie pochopiť, ako je aplikácia používaná. Zaslané informácie sú: menu a nastavenia na ktoré bolo kliknuté, názov a verzia OS, každá chyba zobrazená v Matomo Mobile. NEBUDEME sledovať žiadne vaše analytické údaje. Tieto anonymné dáta nebudú nikdy zverejnené. Môžete hocikedy povoliť\/zakázať anonymné posielanie v Settings -nastavenia-.",
+        "AskForAnonymousTrackingPermission": "Ak je povolené, Matomo Mobile pošle anonymné dáta o používaní na matomo.org. Zámerom je využiť tieto dáta na pomoc vývojárom Matomo Mobile lepšie pochopiť, ako je aplikácia používaná. Zaslané informácie sú: menu a nastavenia na ktoré bolo kliknuté, názov a verzia OS, každá chyba zobrazená v Matomo Mobile. NEBUDEME sledovať žiadne vaše analytické údaje. Tieto anonymné dáta nebudú nikdy zverejnené. Môžete hocikedy povoliť\/zakázať anonymné posielanie v Settings -nastavenia-.",
         "ChooseHttpTimeout": "Vyberte hodnotu pre timeout HTTP",
         "ChooseMetric": "Vyberte metriku",
         "ChooseReport": "Vyberte report",

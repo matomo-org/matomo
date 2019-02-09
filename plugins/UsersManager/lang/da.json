@@ -1,6 +1,11 @@
 {
     "UsersManager": {
+        "UsesTwoFactorAuthentication": "Benytter tofaktorgodkendelse",
+        "TwoFactorAuthentication": "Tofaktorgodkendelse",
+        "ResetTwoFactorAuthentication": "Nulstil tofaktorgodkendelse",
+        "ResetTwoFactorAuthenticationInfo": "Hvis en bruger ikke længere kan logge ind pga. mistede genskabelseskoder eller mistet tofaktorgodkendelsesenhed, kan du nulstille tofaktorgodkendelse for brugeren, så de kan logge ind igen.",
         "AddUser": "Opret ny bruger",
+        "EditUser": "Rediger bruger",
         "Alias": "Alias",
         "AllWebsites": "Alle hjemmesider",
         "AnonymousUser": "Anonym bruger",
@@ -11,6 +16,7 @@
         "ClickHereToSetTheCookieOnDomain": "Klik her for at sætte en cookie og udeluk egne besøg på hjemmesider der spores af Matomo på %s",
         "ConfirmGrantSuperUserAccess": "Vil du at give '%s' Superbruger adgang? Advarsel: brugeren vil have adgang til alle hjemmesider og vil være i stand til at udføre administrative opgaver.",
         "ConfirmProhibitMySuperUserAccess": "%s, vil du virkelig fjerne din egen superbruger adgang? Du mister alle tilladelser og adgang til alle hjemmesider og vil blive logget ud af Matomo.",
+        "ConfirmProhibitOtherUsersSuperUserAccess": "Vil du virkelig fjerne superbrugeradgang fra '%s'? Brugeren vil miste alle retigheder og adgang til alle hjemmesider. Sørg om nødvendigt for at give adgang til relevante hjemmesider efterfølgende.",
         "DeleteConfirm": "Bekræft sletning af bruger %s?",
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sE-mail din administrator om dette problem%2$s.",
@@ -31,6 +37,7 @@
         "ExcludeVisitsViaCookie": "Udeluk egne besøg ved hjælp af en cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Standard rapport dato for anonyme brugere",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Hvis du ønsker at ændre adgangskode skriv en ny. Ellers lad være blank.",
+        "ConfirmWithPassword": "Indtast din adgangskode for at bekræfte denne ændring.",
         "InjectedHostCannotChangePwd": "Du besøger med en ukendt vært (%1$s). Du kan ikke ændre din adgangskode, før problemet er løst.",
         "LastSeen": "Sidst set",
         "MainDescription": "Bestem hvilke brugere der skal have adgang til hvilke hjemmesider. Du kan også give adgang til alle hjemmesider på én gang ved at vælge “Tilføj til alle hjemmesider” i hjemmesidevælgeren.",
@@ -60,7 +67,18 @@
         "YourUsernameCannotBeChanged": "Brugernavnet kan ikke ændres.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine besøg ignoreres af Matomo på %2$s %3$s (Matomo ignorer cookie blev fundet i netlæseren).",
         "YourVisitsAreNotIgnored": "%1$sDine besøg bliver ikke ignoreret af Matomo%2$s (Matomos ignorer-cookie blev ikke fundet i browseren).",
+        "ManageUsers": "Administer brugere",
+        "ManageUsersDesc": "Opret nye brugere eller opdater eksisterende brugere. Her kan du også angive deres rettigheder.",
+        "RemovePermissions": "Fjern rettigheder",
         "XtoYofN": "%1$s - %2$s af %3$s",
+        "BasicInformation": "Basisoplysninger",
+        "Permissions": "Rettigheder",
+        "SuperUserAccess": "Superbrugeradgang",
+        "SuperUsersPermissionsNotice": "Superbrugere har administratoradgang til alle hjemmesider, så der er ikke grund til at angive rettigheder for de enkelte hjemmesider.",
+        "SuperUserIntro2": "Brug denne funktion med omtanke.",
+        "HasSuperUserAccess": "Har superbrugeradgang",
+        "RemoveSuperuserAccessConfirm": "Når du fjerner superbrugeradgang, vil brugeren ikke længere have nogen rettigheder (dem skal du tilføje efterfølgende). Vil du fortsætte?",
+        "ShowAll": "Vis alle",
         "Username": "Brugernavn"
     }
 }
