@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		<meta name="author" content="www.frebsite.nl" />
+
+		<title>dotdotdot, advanced cross-browser ellipsis for multiple line content.</title>
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script type="text/javascript" language="javascript" src="src/jquery.dotdotdot.js"></script>
+		<script type="text/javascript" language="javascript">
+			$(function() {
+				$('#dot1').dotdotdot();
+
+				$('#dot2').dotdotdot();
+
+				$('#dot3').dotdotdot({
+					after: 'a.readmore'
+				});
+
+				$('#dot4').dotdotdot({
+					watch: 'window'
+				});
+
+				var $dot5 = $('#dot5');
+				$dot5.append( ' <a class="toggle" href="#"><span class="open">[ + ]</span><span class="close">[ - ]</span></a>' );
+
+
+				function createDots()
+				{
+					$dot5.dotdotdot({
+						after: 'a.toggle'
+					});
+				}
+				function destroyDots() {
+					$dot5.trigger( 'destroy' );
+				}
+				createDots();
+
+				$dot5.on(
+					'click',
+					'a.toggle',
+					function() {
+						$dot5.toggleClass( 'opened' );
+
+						if ( $dot5.hasClass( 'opened' ) ) {
+							destroyDots();
+						} else {
+							createDots();
+						}
+						return false;
+					}
+				);
+
+				$('#dot6 .pathname').each(function() {
+					var path = $(this).html().split( '/' );
+					if ( path.length > 1 ) {
+						var name = path.pop();
+						$(this).html( path.join( '/' ) + '<span class="filename">/' + name + '</span>' );
+						$(this).dotdotdot({
+							after: '.filename',
+							wrap: 'letter'
+						});						
+					}
+				});
+
+			});
+		</script>
+		<style type="text/css" media="all">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			body, div, p {
+				font-family: Arial, Helvetica, Verdana;
+				color: #333;
+				-webkit-text-size-adjust: none;
+			}
+			body {
+				background-color: #f3f3f3;
+			}
+			a, a:link, a:active, a:visited {
+				color: black;
+				text-decoration: underline;
+			}
+			a:hover {
+				color: blue;
+			}
+
+
+			#wrapper {
+				background-color: #fff;
+				width: 600px;
+				padding: 50px 50px 0 50px;
+				margin: 0 auto;
+				border: 1px solid #ccc;
+				box-shadow: 0 0 5px #ccc;
+			}
+			#intro {
+				margin-bottom: 60px;
+			}
+			#intro p {
+				font-size: 18px;
+			}
+
+			div.example {
+				padding: 0 0 150px 0;
+			}
+			div.example:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			div.example p {
+				margin: 0 0 10px 0;
+			}
+			div.l {
+				width: 275px;
+				float: left;
+			}
+			div.r {
+				width: 275px;
+				float: right;
+			}
+			
+			div.box {
+				border: 1px solid #ccc;
+				height: 160px;
+				padding: 15px 20px 10px 20px;
+/* 				overflow: hidden; */
+			}
+			div.resize {
+				padding-bottom: 250px;
+			}
+			div.resize div.box {
+				position: absolute;
+				width: 40%;
+				height: 100px;
+			}
+			div.resize div.box.before {
+				right: 50%;
+				margin-right: 10px;
+			}
+			div.resize div.box.after {
+				left: 50%;
+				margin-left: 10px;
+			}
+			div.box.opened
+			{
+				height: auto;
+			}
+			div.box .toggle .close,
+			div.box.opened .toggle .open
+			{
+				display: none;
+			}
+			div.box .toggle .opened,
+			div.box.opened .toggle .close
+			{
+				display: inline;
+			}
+			div.box.before {
+				background-color: #ffeeee;
+			}
+			div.box.after {
+				background-color: #eeffee;
+			}
+			p.before {
+				color: #990000;
+			}
+			p.after {
+				color: #006600;
+			}
+			div.box.pathname {
+				height: auto;
+			}
+			.pathname {
+				height: 25px;
+			}
+		</style>
+	</head>
+	<body>
+		<br />
+		<br />
+		<div id="wrapper">
+			<div id="intro">
+				<h1>jQuery.dotdotdot</h1>
+				<p>Advanced cross-browser ellipsis for multiple line content.<br />
+					Demo's and documentation: <a href="http://dotdotdot.frebsite.nl" target="_blank">dotdotdot.frebsite.nl</a></p>
+			</div>
+
+			<div class="example">
+				<p><strong>Text only:</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+ 					<div class="box after" id="dot1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Text with markup:</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">
+						<p><em>Lorem Ipsum</em> is simply dummy text of the <strong>printing</strong> and <strong>typesetting industry</strong>.</p>
+						<p><em>Lorem Ipsum</em> has been the industry's standard dummy text ever since <strong>the 1500s</strong>, when an unknown printer took a <em>galley of type</em> and scrambled it to make a type specimen book.</p>
+						<p>It has survived not only <strong>five centuries</strong>, but also the leap into <strong>electronic typesetting</strong>.</p>
+					</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after" id="dot2">
+						<p><em>Lorem Ipsum</em> is simply dummy text of the <strong>printing</strong> and <strong>typesetting industry</strong>.</p>
+						<p><em>Lorem Ipsum</em> has been the industry's standard dummy text ever since <strong>the 1500s</strong>, when an unknown printer took a <em>galley of type</em> and scrambled it to make a type specimen book.</p>
+						<p>It has survived not only <strong>five centuries</strong>, but also the leap into <strong>electronic typesetting</strong>.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>With an &quot;after&quot;-element:</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+						<a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after" id="dot3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+						<a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+			</div>
+
+			<div class="example resize">
+				<p><strong>Updating onWindowResize:</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after" id="dot4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Toggle the full story</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after" id="dot5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Truncate readable pathnames</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before pathname">
+						<div class="pathname">www.website.com/file.html</div>
+						<div class="pathname">www.website.com/with/a/long/pathname/file.html</div>
+					</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after pathname" id="dot6">
+						<div class="pathname">www.website.com/file.html</div>
+						<div class="pathname">www.website.com/with/a/long/pathname/file.html</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<br />
+		<br />
+	</body>
+</html>

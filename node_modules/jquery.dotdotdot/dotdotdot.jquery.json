@@ -1,0 +1,18 @@
+{
+	"name": "dotdotdot",
+	"version": "1.8.3",
+	"title": "jQuery dotdotdot",
+	"description": "A jQuery plugin for advanced cross-browser ellipsis on multiple line content.",
+	"homepage": "http://dotdotdot.frebsite.nl",
+	"author": {
+		"name": "Fred Heusschen",
+		"url": "http://www.frebsite.nl"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://opensource.org/licenses/MIT"
+	}],
+	"dependencies": {
+		"jquery": ">= 1.4.3"
+	}
+}
