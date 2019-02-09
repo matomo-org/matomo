@@ -93,7 +93,7 @@ class Controller extends \Piwik\Plugin\Controller
         $files = array(
             "node_modules/jquery/dist/jquery.min.js",
             "node_modules/jquery-ui-dist/jquery-ui.min.js",
-            'libs/bower_components/materialize/dist/js/materialize.min.js',
+            'node_modules/materialize-css/dist/js/materialize.min.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
