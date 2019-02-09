@@ -97,8 +97,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "libs/bower_components/materialize/dist/css/materialize.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
         $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
-        $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog.min.css";
-        $stylesheets[] = "libs/bower_components/ngDialog/css/ngDialog-theme-default.min.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/bootstrap.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base/icons.css";
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
@@ -116,7 +114,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/layout.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.less";
-        $stylesheets[] = "plugins/CoreHome/angularjs/dialogtoggler/ngdialog.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/notification/notification.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
@@ -150,7 +147,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "node_modules/angular-sanitize/angular-sanitize.min.js";
         $jsFiles[] = "node_modules/angular-animate/angular-animate.min.js";
         $jsFiles[] = "node_modules/angular-cookies/angular-cookies.min.js";
-        $jsFiles[] = "libs/bower_components/ngDialog/js/ngDialog.min.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/Morpheus/javascripts/layout.js";
@@ -230,10 +226,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-intro/content-intro.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-block/content-block.directive.js";
-
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.directive.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler.controller.js";
-        $jsFiles[] = "plugins/CoreHome/angularjs/dialogtoggler/dialogtoggler-urllistener.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";

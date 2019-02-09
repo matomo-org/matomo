@@ -9,7 +9,6 @@
         'ngSanitize',
         'ngAnimate',
         'ngCookies',
-        'ngDialog',
         'piwikApp.config',
         'piwikApp.service',
         'piwikApp.directive',

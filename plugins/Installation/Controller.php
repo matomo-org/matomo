@@ -525,7 +525,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'node_modules/angular-sanitize/angular-sanitize.min.js',
             'node_modules/angular-animate/angular-animate.min.js',
             'node_modules/angular-cookies/angular-cookies.min.js',
-            'libs/bower_components/ngDialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',
             'plugins/CoreHome/angularjs/common/filters/translate.js',
