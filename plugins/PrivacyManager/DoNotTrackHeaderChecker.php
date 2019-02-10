@@ -11,7 +11,6 @@ namespace Piwik\Plugins\PrivacyManager;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Tracker\IgnoreCookie;
-use Piwik\Tracker\Request;
 
 /**
  * Excludes visits where user agent's request contains either:
@@ -19,7 +18,6 @@ use Piwik\Tracker\Request;
  * - X-Do-Not-Track header (used by AdBlockPlus and NoScript)
  * - DNT header (used by Mozilla)
  *
- * Note: visits from Internet Explorer and other browsers that have DoNoTrack enabled by default will be tracked anyway.
  */
 class DoNotTrackHeaderChecker
 {
@@ -71,8 +69,6 @@ class DoNotTrackHeaderChecker
             return false;
         }
 
-        $request = new Request($_REQUEST);
-        $userAgent = $request->getUserAgent();
         $shouldIgnore = false;
 
         Piwik::postEvent('PrivacyManager.shouldIgnoreDnt', array(&$shouldIgnore));
