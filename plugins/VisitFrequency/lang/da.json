@@ -14,8 +14,9 @@
         "PluginDescription": "Rapporter målinger om førstegangs nye besøgende og tilbagevendende besøgende.",
         "ReturningVisitDocumentation": "Et tilbagevendende besøg (i modsætning til et nyt besøg) foretages af en person, der har besøgt hjemmesiden mindst en gang før.",
         "ReturningVisitsDocumentation": "Oversigt over tilbagevendende besøg.",
+        "ReturnVisits": "tilbagevendende besøg",
         "SubmenuFrequency": "Hyppighed",
-        "WidgetGraphReturning": "Tilbagevendende besøg",
+        "WidgetGraphReturning": "Tilbagevendende besøg over tid",
         "WidgetOverview": "Hyppighedsoversigt"
     }
 }

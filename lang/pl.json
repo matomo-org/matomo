@@ -413,6 +413,7 @@
         "ToDeleteAllDirectoriesRunThisCommand": "W celu usunięcia tych katalogów możesz użyć komendy:",
         "ToDeleteAllFilesRunThisCommand": "Aby usunąć wszystkie te pliki na raz, wywołaj to polecenie:",
         "Total": "Ogólnie",
+        "Totals": "Suma",
         "TotalRatioTooltip": "To jest %1$s wszystkich %2$s %3$s.",
         "TotalRevenue": "Dochód razem",
         "TotalVisitsPageviewsActionsRevenue": "(Razem: %1$s odwiedzin, %2$s wyświetleń strony, %3$s akcji, %4$s dochód)",

@@ -76,6 +76,8 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     {
         if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return Piwik::translate('Goals_EcommerceOrder');
+        } else if ($this->idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+            return Piwik::translate('Goals_AbandonedCart');
         }
 
         if (isset($this->idSite)) {

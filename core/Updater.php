@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Db\Sql;
@@ -62,7 +63,7 @@ class Updater
     public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, Columns\Updater $columnsUpdater = null)
     {
         $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
-        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
+        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: Manager::getPluginsDirectory() . '%s/Updates/';
         $this->columnsUpdater = $columnsUpdater ?: new Columns\Updater();
 
         self::$activeInstance = $this;

@@ -19,7 +19,7 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
-    const SESSION_NAME = 'PIWIK_SESSID';
+    const SESSION_NAME = 'MATOMO_SESSID';
 
     public static $sessionName = self::SESSION_NAME;
 

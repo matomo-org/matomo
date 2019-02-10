@@ -132,7 +132,6 @@
         "SystemCheckCronArchiveProcessCLI": "İşlemlerin komut satırından yönetilmesi",
         "SystemCheckPhpSetting": "Bazı önemli sorunları engellemek için php.ini yapılandırma dosyanızda şu ayarları yapmalısınız: %s",
         "SystemCheckUpdateHttps": "HTTPS üzerinden güncelleme",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo HTTPS bağlantısı üzerinden güncelleme yapamadığından şifrelenmemiş HTTP bağlantısı üzerine dönüyor. Bu CURL ya da allow_url_fopen seçeneklerinin desteklendiğinden ve openssl PHP eklentisinin kurulmuş olduğundan emin olun: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "desteklenmiyor",
         "Tables": "Tablolar oluşturuluyor",
         "TablesCreatedSuccess": "Tablolar oluşturuldu!",
