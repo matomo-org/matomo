@@ -24,6 +24,8 @@ use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
 {
+    const CATEGORY_COUNT = 5;
+
     public function extendVisitorDetails(&$visitor)
     {
         $ecommerceMetrics                     = $this->queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($visitor['idSite'],
@@ -165,10 +167,22 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceItemsForOrder($idVisit, $idOrder)
     {
+        $categorySelects = [];
+        $categoryJoins = [];
+        for ($i = 0; $i < self::CATEGORY_COUNT; ++$i) {
+            $suffix = $i === 0 ? '' : $i;
+            $column = $i === 0 ? 'idaction_category' : ('idaction_category' . ($i + 1));
+            $categorySelects[] = 'log_action_category' . $suffix . '.name as itemCategory' . $suffix;
+            $categoryJoins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . " AS log_action_category$suffix
+                                       ON $column = log_action_name.idaction";
+        }
+        $categorySelects = implode(',', $categorySelects);
+        $categoryJoins = implode("\n", $categoryJoins);
+
         $sql = "SELECT
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
-							log_action_category.name as itemCategory,
+							$categorySelects,
 							" . LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
 						FROM " . Common::prefixTable('log_conversion_item') . "
@@ -176,8 +190,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 							ON  idaction_sku = log_action_sku.idaction
 							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
 							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
-							ON idaction_category = log_action_category.idaction
+							$categoryJoins
 						WHERE idvisit = ?
 							AND idorder = ?
 							AND deleted = 0
@@ -186,6 +199,20 @@ class VisitorDetails extends VisitorDetailsAbstract
         $bind = array($idVisit, $idOrder);
 
         $itemsDetails = Db::fetchAll($sql, $bind);
+
+        foreach ($itemsDetails as &$item) {
+            $categories = [];
+            for ($i = 0; $i < self::CATEGORY_COUNT; ++$i) {
+                $suffix = $i === 0 ? '' : $i;
+                if (!empty($item['itemCategory' . $suffix])) {
+                    continue;
+                }
+
+                $categories[] = trim($item['itemCategory' . $suffix]);
+            }
+            $item['categories'] = array_filter($categories);
+        }
+
         return $itemsDetails;
     }
 
