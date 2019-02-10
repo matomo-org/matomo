@@ -215,6 +215,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
             PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
+            PIWIK_INCLUDE_PATH . '/node_modules/',
         );
 
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH, '*.' . $extension);
