@@ -174,7 +174,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $column = $i === 0 ? 'idaction_category' : ('idaction_category' . ($i + 1));
             $categorySelects[] = 'log_action_category' . $suffix . '.name as itemCategory' . $suffix;
             $categoryJoins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . " AS log_action_category$suffix
-                                       ON $column = log_action_name.idaction";
+                                       ON $column = log_action_category$suffix.idaction";
         }
         $categorySelects = implode(',', $categorySelects);
         $categoryJoins = implode("\n", $categoryJoins);
@@ -200,17 +200,23 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $itemsDetails = Db::fetchAll($sql, $bind);
 
+        // create categories array for each item
         foreach ($itemsDetails as &$item) {
             $categories = [];
             for ($i = 0; $i < self::CATEGORY_COUNT; ++$i) {
                 $suffix = $i === 0 ? '' : $i;
-                if (!empty($item['itemCategory' . $suffix])) {
+                if (empty($item['itemCategory' . $suffix])) {
                     continue;
                 }
 
                 $categories[] = trim($item['itemCategory' . $suffix]);
             }
             $item['categories'] = array_filter($categories);
+
+            // remove itemCategotyN properties, except 'itemCategory' property for BC
+            for ($i = 1; $i < self::CATEGORY_COUNT; ++$i) {
+                unset($item['itemCategory' . $i]);
+            }
         }
 
         return $itemsDetails;
