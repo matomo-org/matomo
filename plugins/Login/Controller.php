@@ -309,8 +309,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // when module is login, we redirect to home...
             if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
                 $host = Url::getHostFromUrl($redirect);
+                $currentHost = Url::getHost();
+                $currentHost = explode(':', $currentHost, 2)[0];
+
                 // we only redirect to a trusted host
-                if ($host == Url::getHost()
+                if ($host == $currentHost
                     && Url::isValidHost($host)
                 ) {
                     $urlToRedirect = $redirect;
