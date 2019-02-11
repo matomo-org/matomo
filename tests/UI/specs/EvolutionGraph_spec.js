@@ -49,7 +49,7 @@ describe("EvolutionGraph", function () {
 
     it("should show multiple metrics when another metric picked", function (done) {
         expect.screenshot('two_metrics').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
+            page.click('.jqplot-seriespicker-popover input:not(:checked):first');
         }, done);
     });
 

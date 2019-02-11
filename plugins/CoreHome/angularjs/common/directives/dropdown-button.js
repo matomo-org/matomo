@@ -29,7 +29,7 @@
                 $(element).dropdown({
                     inDuration: 300,
                     outDuration: 225,
-                    constrain_width: false, // Does not change width of dropdown to that of the activator
+                    constrainWidth: false, // Does not change width of dropdown to that of the activator
                     //  hover: true, // Activate on hover
                     belowOrigin: true // Displays dropdown below the button
                 });
