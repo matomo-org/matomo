@@ -63,33 +63,34 @@ describe("PeriodSelector", function () {
 
     it("should change the date when a date is clicked in week-period mode", function (done) {
         expect.screenshot("week_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_week]');
+            page.click('label:contains(week)');
             page.click('.period-date .ui-datepicker-calendar a:contains(13)');
         }, done);
     });
 
     it("should change the date when a date is clicked in month-period mode", function (done) {
         expect.screenshot("month_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_month]');
+            page.click('label:contains(month)');
             page.click('.period-date .ui-datepicker-calendar a:contains(14)');
         }, done);
     });
 
     it("should change the date when a date is clicked in year-period mode", function (done) {
         expect.screenshot("year_selected").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_year]');
+            page.click('label:contains(month)');
             page.click('.period-date .ui-datepicker-calendar a:contains(15)');
         }, done);
     });
 
     it("should display the range picker when the range radio button is clicked", function (done) {
         expect.screenshot("range_picker_displayed").to.be.captureSelector(selector, function (page) {
-            page.click('label[for=period_id_range]');
+            page.click('label:contains(year)');
         }, done);
     });
 
     it("should change from & to dates when range picker calendar dates are clicked", function (done) {
         expect.screenshot("date_range_selected").to.be.captureSelector(selector, function (page) {
+            page.click('label:contains(range)');
             page.click('#calendarFrom .ui-datepicker-calendar a:contains(10)');
             page.click('#calendarTo .ui-datepicker-calendar a:contains(18)');
             page.mouseMove('#calendarApply');
