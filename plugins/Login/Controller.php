@@ -313,8 +313,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $currentHost = explode(':', $currentHost, 2)[0];
 
                 // we only redirect to a trusted host
-                if ($host == $currentHost
-                    && Url::isValidHost($host)
+                if (!empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
                 ) {
                     $urlToRedirect = $redirect;
                 }
