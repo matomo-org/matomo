@@ -326,6 +326,40 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEmpty($numericTables, 'Archive table for future date found');
     }
 
+    public function test_noVisitsSinceLastArchiveSkipsNewArchiveCreation()
+    {
+        Date::$now = strtotime('2019-01-10 08:00:00');
+
+        $date = '2019-01-10 00:00:00';
+
+        $t = Fixture::getTracker(1, $date, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory($date)->addHour(1)->getDatetime());
+        $t->setUrl('http://site.com/index.htm');
+        Fixture::checkResponse($t->doTrackPageView('my_site'));
+
+        $result = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $date));
+        $this->assertEquals(1, $result->getFirstRow()->getColumn('nb_visits'));
+
+        $distinctIdArchives = $this->getDistinctIdArchives($idSite = 1, $date);
+        $this->assertEquals(5, $distinctIdArchives);
+
+        // make sure ts_archived is well before now
+        Db::exec("UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory($date)) . ' SET ts_archived = "2019-01-10 07:00:00";');
+
+        // initiate archiving again
+        $result = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $date));
+        $this->assertEquals(1, $result->getFirstRow()->getColumn('nb_visits'));
+
+        $distinctIdArchives = $this->getDistinctIdArchives($idSite = 1, $date);
+        $this->assertEquals(5, $distinctIdArchives);
+    }
+
+    private function getDistinctIdArchives($idSite, $date)
+    {
+        return Db::fetchOne("SELECT COUNT(DISTINCT idarchive) FROM " . ArchiveTableCreator::getNumericTable(Date::factory($date))
+            . " WHERE idsite = ?", [$idSite]);
+    }
+
     private function createManyDifferentArchiveBlobs()
     {
         $recordName1 = 'Actions_Actions';

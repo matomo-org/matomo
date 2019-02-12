@@ -117,7 +117,7 @@ class Rules
     {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
 
-        $now = time();
+        $now = Date::getNowTimestamp();
         $minimumArchiveTime = $now - $todayArchiveTimeToLive;
 
         $idSites = array($site->getId());

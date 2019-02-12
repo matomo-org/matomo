@@ -13,8 +13,10 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -179,7 +181,6 @@ class Loader
         }
 
         $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
-
         if (!$idAndVisits) {
             return $noArchiveFound;
         }
@@ -214,7 +215,7 @@ class Loader
 
     protected static function determineIfArchivePermanent(Date $dateEnd)
     {
-        $now = time();
+        $now = Date::getNowTimestamp();
         $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
 
         if ($endTimestampUTC <= $now) {

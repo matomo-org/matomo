@@ -57,7 +57,7 @@ class ArchiveSelector
 
         $minDatetimeIsoArchiveProcessedUTC = null;
         if ($minDatetimeArchiveProcessedUTC) {
-            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
+            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
         }
 
         $requestedPlugin = $params->getRequestedPlugin();
@@ -67,15 +67,28 @@ class ArchiveSelector
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
-
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags, $doneFlagValues);
         if (empty($results)) {
             return false;
         }
 
-        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+        list($idArchive, $tsArchived) = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
 
-        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
+        // if no visits since time of archive, do not create a new archive
+        if (!empty($tsArchived)
+            && !self::getModel()->hasEncounteredVisitsSinceLastArchive($tsArchived)
+        ) {
+            return [$idArchive, 0, 0];
+        }
+
+        if ($minDatetimeIsoArchiveProcessedUTC
+            && !empty($tsArchived)
+            && Date::factory($tsArchived)->getTimestamp() <= $minDatetimeIsoArchiveProcessedUTC->getTimestamp()
+        ) {
+            return false;
+        }
+
+        list($idArchiveVisitsSummary, $ignore) = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
@@ -117,6 +130,7 @@ class ArchiveSelector
     protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
     {
         $idArchive = false;
+        $tsArchived = false;
         $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
 
         foreach ($results as $result) {
@@ -124,11 +138,12 @@ class ArchiveSelector
                 && in_array($result['name'], $namesRequestedPlugin)
             ) {
                 $idArchive = $result['idarchive'];
+                $tsArchived = $result['ts_archived'];
                 break;
             }
         }
 
-        return $idArchive;
+        return [$idArchive, $tsArchived];
     }
 
     /**

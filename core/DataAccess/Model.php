@@ -221,7 +221,7 @@ class Model
 
         $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
-        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate FROM $numericTable
+        $sqlQuery = "SELECT idarchive, value, name, date1 as startDate, ts_archived FROM $numericTable
                      WHERE idsite = ?
                          AND date1 = ?
                          AND date2 = ?
@@ -331,6 +331,18 @@ class Model
             $result[] = $row['idsite'];
         }
         return $result;
+    }
+
+    /**
+     * Returns whether there is at least one visit that ended after the given timestamp.
+     *
+     * @param $tsArchived
+     * @return bool
+     */
+    public function hasEncounteredVisitsSinceLastArchive($tsArchived)
+    {
+        $rows = Db::fetchAll("SELECT idvisit FROM " . Common::prefixTable('log_visit') . " WHERE visit_last_action_time >= ? LIMIT 1", [$tsArchived]);
+        return !empty($rows);
     }
 
     /**
