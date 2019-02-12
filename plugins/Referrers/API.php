@@ -24,7 +24,6 @@ use Piwik\Site;
  * "getReferrerType" returns the Referrer overview report. "getCampaigns" returns the list of all campaigns (and all campaign keywords if the parameter &expanded=1 is set).
  *
  * The methods "getKeywordsForPageUrl" and "getKeywordsForPageTitle" are used to output the top keywords used to find a page.
- * Check out the widget <a href='http://demo.matomo.org/index.php?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&actionToWidgetize=getKeywordsForPage&idSite=7&period=day&date=2011-02-15&disableLink=1' rel='noreferrer' target='_blank'>"Top keywords used to find this page"</a> that you can easily re-use on your website.
  * @method static \Piwik\Plugins\Referrers\API getInstance()
  */
 class API extends \Piwik\Plugin\API
