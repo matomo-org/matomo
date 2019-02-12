@@ -13,10 +13,10 @@
             <span class="truncated-text-line">{{ action.siteSearchKeyword|rawSafeDecoded }}</span>
         {% endif %}
         {% if action.url is not empty %}
-            {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
-            {% if action.type == 'download' or action.type == 'outlink' %}
+            {% if action.icon is not empty %}
                 <img src='{{ action.icon }}' class="action-list-action-icon {{ action.type }}">
             {% endif %}
+            {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}<p>{% endif %}
             {% if action.url|trim|lower starts with 'javascript:' or
             action.url|trim|lower starts with 'vbscript:' or
             action.url|trim|lower starts with 'data:' %}

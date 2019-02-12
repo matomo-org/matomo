@@ -3,7 +3,7 @@
         {% if action.pageTitle|default(false) is not empty %}
             <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
         {% endif %}
-        <img src='plugins/Morpheus/images/event.png' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+        <img src='plugins/Morpheus/images/event.svg' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
         <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }}
             - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
         {% if action.url is not empty %}
