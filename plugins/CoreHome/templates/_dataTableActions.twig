@@ -103,6 +103,20 @@
             </a>
         {% endif %}
 
+        {% if properties.datatable_actions|default is not empty %}
+        {% for action in properties.datatable_actions %}
+            <a class='dataTableAction {{ action.id|e('html_attr') }}'
+               href='javascript:;' title="{{ action.title|e('html_attr') }}"
+            >
+                {% if action.icon starts with 'icon-' %}
+                    <span title="" class="{{ action.icon }}"></span>
+                {% else %}
+                    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
+                {% endif %}
+            </a>
+        {% endfor %}
+        {% endif %}
+
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}

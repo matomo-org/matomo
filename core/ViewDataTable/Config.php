@@ -503,6 +503,16 @@ class   Config
     public $no_data_message = '';
 
     /**
+     * List of extra actions to display as icons in the datatable footer.
+     *
+     * Not API yet.
+     *
+     * @var array
+     * @ignore
+     */
+    public $datatable_actions = [];
+
+    /**
      * @ignore
      */
     public $report_id = '';
