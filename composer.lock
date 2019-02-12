@@ -4,41 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c55b34f7e7a42a8670a831bcaf31972e",
+    "content-hash": "93fb13394d1cb02f14d3e74ab475702b",
     "packages": [
-        {
-            "name": "JShrink",
-            "version": "1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink",
-                "reference": "v1.3.1"
-            },
-            "require": {
-                "php": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedious/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ]
-        },
         {
             "name": "composer/ca-bundle",
             "version": "1.1.3",
@@ -407,6 +374,39 @@
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
             "time": "2014-11-24T18:39:20+00:00"
+        },
+        {
+            "name": "matomo-org/jshrink",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink",
+                "reference": "v1.3.1"
+            },
+            "require": {
+                "php": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedious/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ]
         },
         {
             "name": "matomo/referrer-spam-blacklist",

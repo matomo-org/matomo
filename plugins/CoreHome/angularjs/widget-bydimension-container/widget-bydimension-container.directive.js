@@ -55,7 +55,7 @@
 
                     scope.selectWidget = function (widget) {
                         scope.selectedWidget = angular.copy(widget); // we copy to force rerender
-                    }
+                    };
 
                     if (widgetsSorted && widgetsSorted.length) {
                         scope.selectWidget(widgetsSorted[0]);
