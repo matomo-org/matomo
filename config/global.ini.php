@@ -744,10 +744,12 @@ record_statistics = 1
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
-; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
+; The amount of time in the past to match the current visitor to a known visitor via fingerprint. Defaults to visit_standard_length.
 ; If you are looking for higher accuracy of "returning visitors" metrics, you may set this value to 86400 or more.
 ; This is especially useful when you use the Tracking API where tracking Returning Visitors often depends on this setting.
-; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length
+; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length.
+; Note: visitors with visitor IDs will be matched by visitor ID from any point in time, this is only for recognizing visitors
+; by device fingerprint.
 window_look_back_for_visitor = 0
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
