@@ -43,6 +43,7 @@
         "DaysToConv": "Dagen tot conversie",
         "Details": "Details doelstelling",
         "DefaultGoalConvertedOncePerVisit": "(standaard) De conversie van een doel is slechts éénmaal per bezoek mogelijk",
+        "DefaultRevenueLabel": "Standaard inkomsten voor doelen",
         "DefaultRevenueHelp": "Bijvoorbeeld, een contactformulier dat is verzonden door een bezoeker kan gemiddeld €10,- waard zijn. Met de doelconversies zal Matomo u helpen begrijpen hoe goed de onderdelen van uw website presteren.",
         "DeleteGoalConfirm": "Weet u zeker dat u de doelstelling %s wilt verwijderen?",
         "DocumentationRevenueGeneratedByProductSales": "Verkoop van producten. Exclusief belasting, verzendkosten en korting",
@@ -63,6 +64,9 @@
         "GoalIsTriggeredWhen": "Doelstelling wordt geactiveerd wanneer",
         "GoalName": "Naam doelstelling",
         "Goals": "Doelstellingen",
+        "NGoals": "%s doelen",
+        "NRevenue": "%s inkomsten",
+        "NItems": "%s items",
         "ManageGoals": "Doelstellingen beheren",
         "GoalsOverview": "Overzicht doelstellingen",
         "GoalsOverviewDocumentation": "Dit is een overzicht van uw doelconversies. Het eerste deel van het overzicht toont de som van alle conversies. %s Onder de grafiek ziet u de conversierapporten voor elk van uw doelen. De sparklines kunnen vergroot worden door erop te klikken.",
@@ -73,7 +77,7 @@
         "LeftInCart": "%s achtergelaten in winkelwagen",
         "Manually": "handmatig",
         "ManuallyTriggeredUsingJavascriptFunction": "Doelstelling is handmatig geactiveerd door de Javascript API trackGoal()",
-        "MatchesExpression": "Voldoet aan de expressie %s",
+        "MatchesExpression": "voldoet aan de expressie %s",
         "NewGoalIntro": "Doel Conversie tracking is één van de meest efficiënte manieren om je zaken doelen te meten en te verbeteren.",
         "NewVisitorsConversionRateIs": "Conversiepercentage nieuwe bezoekers is %s",
         "NoConversionsNoReportsMessage": "Rapporten worden niet getoond omdat er geen conversie gegevens zijn voor het geselecteerde doel en periode.",
@@ -107,6 +111,7 @@
         "WhenVisitors": "als bezoekers",
         "WhereThe": "waar de",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "De bezochte pagina dient een aanroep naar de Javascript 'trackgoal' methode te bevatten (%1$sLees meer%2$s",
-        "YouCanEnableEcommerceReports": "U kunt de functie %1$s inschakelen voor deze website in de pagina %2$s."
+        "YouCanEnableEcommerceReports": "U kunt de functie %1$s inschakelen voor deze website in de pagina %2$s.",
+        "GoalRevenue": "Doel Opbrengst"
     }
 }
