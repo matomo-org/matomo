@@ -81,6 +81,11 @@ class API extends \Piwik\Plugin\API
      */
     private $passwordVerifier;
 
+    /**
+     * @var UserEmailChanger
+     */
+    private $userEmailChanger;
+
     private $twoFaPluginActivated;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
@@ -88,7 +93,9 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null, PasswordVerifier $passwordVerifier = null)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null,
+                                Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null,
+                                PasswordVerifier $passwordVerifier = null, UserEmailChanger $userEmailChanger = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
@@ -97,6 +104,7 @@ class API extends \Piwik\Plugin\API
         $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
         $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
         $this->passwordVerifier = $passwordVerifier ?: StaticContainer::get(PasswordVerifier::class);
+        $this->userEmailChanger = $userEmailChanger ?: StaticContainer::get(UserEmailChanger::class);
     }
 
     /**
@@ -911,9 +919,14 @@ class API extends \Piwik\Plugin\API
 
         $alias = $this->getCleanAlias($alias, $userLogin);
 
-        $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
+        // NOTE: we do not change the email here, since it cannot be used until it is verified-
+        $this->model->updateUser($userLogin, $password, $userInfo['email'], $alias, $token_auth);
 
         Cache::deleteTrackerCache();
+
+        if ($email != $userInfo['email']) {
+            $this->userEmailChanger->startEmailChange($userLogin, $email);
+        }
 
         /**
          * Triggered after an existing user has been updated.
@@ -922,7 +935,7 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The user's login handle.
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
-        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $userInfo['email'], $password, $alias));
     }
 
     /**

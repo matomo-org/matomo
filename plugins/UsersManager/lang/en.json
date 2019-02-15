@@ -156,6 +156,8 @@
         "AreYouSureAddCapability": "Are you sure you want to give %1$s the %2$s capability for %3$s?",
         "AreYouSureRemoveCapability": "Are you sure you want to remove the %1$s capability from %2$s for %3$s?",
         "IncludedInUsersRole": "Included in this user's role.",
-        "Capability": "Capability"
+        "Capability": "Capability",
+        "VerifyEmailChangeEmailSubject": "Matomo - Please verify your email address",
+        "VerifyEmailChangeEmailBody": "You're almost done changing your email address to %1$s, %2$s! We just need you to verify this change by clicking the following link:",
     }
 }
