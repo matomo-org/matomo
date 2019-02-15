@@ -103,6 +103,9 @@
         "OptingYouOut": "Désinscription en cours, merci de patienter...",
         "ProtocolNotDetectedCorrectly": "Vous visualisez actuellement Matomo n'est pas parvenu à détecter une connexion non sécurisée pour le serveur.",
         "ProtocolNotDetectedCorrectlySolution": "Afin de vous assurer que Matomo demande et sever votre contenu de manière sécurisée au travers du protocole HTTPS, vous devriez éditer votre fichier %1$s et configuration vos paramètres de proxy ou bien vous pouvez ajouter la ligne %2$s sous la section %3$s %4$sEn savoir plus%5$s",
+        "YouMayOptOut2": "Vous pouvez vous opposer au suivi de votre navigation sur ce site web.",
+        "UncheckToOptOut": "Décochez cette case pour être exclu(e).",
+        "CheckToOptIn": "Cochez cette case pour ne plus être exclu(e).",
         "LearnMore": "En apprendre plus"
     }
 }
