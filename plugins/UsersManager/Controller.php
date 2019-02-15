@@ -13,6 +13,8 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Notification;
+use Piwik\Notification\Manager;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -25,6 +27,7 @@ use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\Session\SessionInitializer;
+use Psr\Log\LoggerInterface;
 
 class Controller extends ControllerAdmin
 {
@@ -43,6 +46,30 @@ class Controller extends ControllerAdmin
     static function orderByName($a, $b)
     {
         return strcmp($a['name'], $b['name']);
+    }
+
+    public function confirmEmailChange()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $login = Common::getRequestVar('login', '');
+        $token = Common::getRequestVar('token', '');
+
+        if (Piwik::getCurrentUserLogin() !== $login) {
+            throw new \Exception('not authorized');
+        }
+
+        $user = Request::processRequest('UsersManager.getUser', [ 'userLogin' => $login ], []);
+
+        $userEmailChanger = new UserEmailChanger();
+        $userEmailChanger->verifyEmailChange($user, $token);
+
+        $notification = new Notification(Piwik::translate('UsersManager_NewEmailVerified'));
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->context = Notification::CONTEXT_SUCCESS;
+        Manager::notify('email-verified', $notification);
+
+        $this->redirectToIndex('CoreHome', 'index');
     }
 
     /**
@@ -435,7 +462,12 @@ class Controller extends ControllerAdmin
         if ($newPassword !== false && !Url::isValidHost()) {
             throw new Exception("Cannot change password or email with untrusted hostname!");
         }
-        
+
+        $user = Request::processRequest('UsersManager.getUser', [
+            'userLogin' => $userLogin,
+        ], []);
+        $emailChanging = $user['email'] != $email;
+
         // UI disables password change on invalid host, but check here anyway
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
@@ -453,6 +485,13 @@ class Controller extends ControllerAdmin
             $auth->setLogin($userLogin);
             $auth->setPassword($newPassword);
             $sessionInitializer->initSession($auth);
+        }
+
+        if ($emailChanging) {
+            $notification = new Notification(Piwik::translate('UsersManager_MustVerifyEmail', [$email]));
+            $notification->type = Notification::TYPE_TRANSIENT;
+            $notification->context = Notification::CONTEXT_INFO;
+            Manager::notify('usersmanager-must-verify-email', $notification);
         }
     }
 

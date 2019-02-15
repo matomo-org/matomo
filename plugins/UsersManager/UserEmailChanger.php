@@ -70,7 +70,7 @@ class UserEmailChanger
     {
         $url = Url::getCurrentUrlWithoutQueryString()
             . "?module=UsersManager&action=confirmEmailChange&login=" . urlencode($user['login'])
-            . "&token=" . urlencode($token);;
+            . "&token=" . urlencode($token);
 
         // send email with new password
         $mail = new Mail();

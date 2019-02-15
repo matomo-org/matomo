@@ -846,6 +846,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * TODO: should be possible to skip email verification if user is a superuser? there may be some automated uses this could break.
+     *
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *

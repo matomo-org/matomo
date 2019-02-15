@@ -139,10 +139,18 @@
             });
         }
 
-        function showUserSavedNotification() {
+        function showUserSavedNotification(requiresEmailVerification) {
             var UI = require('piwik/UI');
             var notification = new UI.Notification();
             notification.show(_pk_translate('General_YourChangesHaveBeenSaved'), { context: 'success', type: 'toast' });
+
+            if (requiresEmailVerification) {
+                var emailNotification = new UI.Notification();
+                emailNotification.show(_pk_translate('UsersManager_TheUserMustVerifyTheirEmail', [vm.user.email]), {
+                    context: 'success',
+                    type: 'toast'
+                });
+            }
         }
 
         function createUser() {
@@ -165,7 +173,8 @@
                 vm.isEmailChanged = false;
                 vm.isUserModified = true;
 
-                showUserSavedNotification();
+                // TODO: we should also verify email when adding a user
+                showUserSavedNotification(true);
             });
         }
 
@@ -188,7 +197,8 @@
                 vm.passwordConfirmation = false;
                 vm.isUserModified = true;
 
-                showUserSavedNotification();
+                showUserSavedNotification(vm.isEmailChanged);
+                vm.isEmailChanged = false;
             });
         }
     }

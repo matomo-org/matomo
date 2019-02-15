@@ -159,5 +159,8 @@
         "Capability": "Capability",
         "VerifyEmailChangeEmailSubject": "Matomo - Please verify your email address",
         "VerifyEmailChangeEmailBody": "You're almost done changing your email address to %1$s, %2$s! We just need you to verify this change by clicking the following link:",
+        "NewEmailVerified": "Your email address has been successfully changed!",
+        "MustVerifyEmail": "To complete your email change, please verify your new email by clicking the link in the verification we just sent to %1$s.",
+        "TheUserMustVerifyTheirEmail": "Note: a verification email has been sent to %1$s. Once the user verifies this email address, the email will be used."
     }
 }
