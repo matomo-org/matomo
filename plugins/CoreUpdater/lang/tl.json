@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "I-click dito upang makita at ma kopya ang listahan ng mga SQL query na isasagawa",
         "CriticalErrorDuringTheUpgradeProcess": "Kritikal Error habang ginagawa ang pag-uupdate:",
         "DatabaseUpgradeRequired": "Ang pag upgrade ng database ay nangangailangan",
         "DisablingIncompatiblePlugins": "Hindi pinapagana ang mga hindi tugmang plugins: %s",

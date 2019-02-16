@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Sprawdzanie aktualizacji wtyczek",
-        "ClickHereToViewSqlQueries": "Kliknij tutaj, aby wyświetlić i skopiować listę zapytań SQL, która zostanie wykonana",
         "CriticalErrorDuringTheUpgradeProcess": "Błąd krytyczny w trakcie procesu aktualizacji:",
         "DatabaseUpgradeRequired": "Wymagana aktualizacja bazy danych",
         "DisablingIncompatiblePlugins": "Wyłączanie niekompatybilnych wtyczek: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Aktualne stabilne wydanie 2.X",
         "Latest2XBetaRelease": "Aktualne wydanie beta 2.X",
         "LtsSupportVersion": "Wersja z wydłużonym okresem wsparcia",
-        "ListOfSqlQueriesFYI": "FYI: oto kwerendy SQL, które zostaną wykonane w celu aktualizacji Twojej bazy Matomo %s",
         "MajorUpdateWarning1": "To jest znacząca aktualizacja i potrwa dłużej niż zwykle.",
         "MajorUpdateWarning2": "Poniższe porady są szczególnie ważne dla dużych instalacji.",
         "NeedHelpUpgrading": "Potrzebujesz pomocy przy aktualizacji Matomo?",
@@ -75,7 +73,6 @@
         "DbUpgradeNotExecuted": "Nie zaktualizowano bazy danych.",
         "ConsoleUpdateUnexpectedUserWarning": "Wygląda na to, że ta aktualizacja została wykonana przez użytkownika %1$s, podczas gdy twoje pliki Matomo są własnością %2$s. \n\nUpewnij się, że pliki Matomo są odczytywane przez właściwego użytkownika, może być konieczne uruchomienie następującego polecenia (lub podobnego polecenia w zależności od konfiguracji serwera):\n\n$ %3$s",
         "ConsoleUpdateFailure": "Nie udało się zaktualizować Matomo! Więcej informacji powyżej.",
-        "ConsoleUpdateNoSqlQueries": "NOTKA: Brak kwerend SQL do wykonania.",
         "AlreadyUpToDate": "Wszystko jest już zaktualizowane.",
         "ExecuteDbUpgrade": "Konieczna jest aktualizacja bazy danych. Aktualizujemy?",
         "DryRun": "NOTKA: to jest przebieg próbny",

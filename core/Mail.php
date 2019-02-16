@@ -191,7 +191,9 @@ class Mail extends Zend_Mail
 
     private function shouldSendMail()
     {
-        if (!Config::getInstance()->General['emails_enabled']) {
+        $config = Config::getInstance();
+        $general = $config->General;
+        if (empty($general['emails_enabled'])) {
             return false;
         }
 

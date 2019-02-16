@@ -19,6 +19,7 @@ class FormLogin extends QuickForm2
 {
     function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
     {
+        $attributes = array_merge($attributes ?: [], [ 'action' => '?module=' . Piwik::getLoginPluginName() ]);
         parent::__construct($id, $method, $attributes, $trackSubmit);
     }
 
@@ -29,6 +30,8 @@ class FormLogin extends QuickForm2
 
         $this->addElement('password', 'form_password')
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('General_Password')));
+
+        $this->addElement('hidden', 'form_redirect');
 
         $this->addElement('hidden', 'form_nonce');
 

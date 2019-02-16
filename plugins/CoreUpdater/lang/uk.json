@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Перевірка на наявність нових оновлень плагінів",
-        "ClickHereToViewSqlQueries": "Клацніть тут для перегляду та копіювання пеерліку SQL запитів що повинні бути виконані.",
         "CriticalErrorDuringTheUpgradeProcess": "Критична помилка протягом процесу поновлення:",
         "DatabaseUpgradeRequired": "Необхідно поновити базу даних",
         "DisablingIncompatiblePlugins": "Відключення несумісних плагінів: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Останній стабільний 2.X",
         "Latest2XBetaRelease": "Останній тестовий 2.X",
         "LtsSupportVersion": "Версія Довгострокової підтримки",
-        "ListOfSqlQueriesFYI": "FYI: ці запити SQL, які будуть виконані, щоб оновити свою базу даних Matomo %s",
         "MajorUpdateWarning1": "Це велике оновлення! Може знадобитися більше часу, ніж зазвичай.",
         "MajorUpdateWarning2": "Наступна порада особливо важлива для великих оновлень!",
         "NeedHelpUpgrading": "Потрібна допомога в оновленні Matomo?",
@@ -75,7 +73,6 @@
         "DbUpgradeNotExecuted": "Оновлення бази даних не виконано.",
         "ConsoleUpdateUnexpectedUserWarning": "Схоже, ви виконали це оновлення користувачем %1$s, а ваші файли Matomo належать.%2$s\nЩоб забезпечити читання файлів Matomo правильним користувачем, вам може знадобитися запустити таку команду (або подібну команду залежно від конфігурації вашого сервера).:\n\n$ %3$s",
         "ConsoleUpdateFailure": "Matomo не може бути оновлено! Докладніше див. вище.",
-        "ConsoleUpdateNoSqlQueries": "Примітка. Немає запитів для виконання SQL .",
         "AlreadyUpToDate": "Все вже оновлені.",
         "ExecuteDbUpgrade": "Потрібно оновити базу даних. Виконати оновлення?",
         "DryRun": "Примітка: це сухий пробіг",
