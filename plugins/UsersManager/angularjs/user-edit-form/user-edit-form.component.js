@@ -173,8 +173,7 @@
                 vm.isEmailChanged = false;
                 vm.isUserModified = true;
 
-                // TODO: we should also verify email when adding a user
-                showUserSavedNotification(true);
+                showUserSavedNotification();
             });
         }
 

@@ -927,7 +927,7 @@ class API extends \Piwik\Plugin\API
         Cache::deleteTrackerCache();
 
         if ($email != $userInfo['email']) {
-            $this->userEmailChanger->startEmailChange($userLogin, $email);
+            $this->userEmailChanger->startEmailChange($userInfo, $email);
         }
 
         /**

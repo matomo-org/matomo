@@ -67,7 +67,7 @@ class Controller extends ControllerAdmin
         $notification = new Notification(Piwik::translate('UsersManager_NewEmailVerified'));
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->context = Notification::CONTEXT_SUCCESS;
-        Manager::notify('email-verified', $notification);
+        Manager::notify('emailverified', $notification);
 
         $this->redirectToIndex('CoreHome', 'index');
     }
@@ -488,7 +488,7 @@ class Controller extends ControllerAdmin
         }
 
         if ($emailChanging) {
-            $notification = new Notification(Piwik::translate('UsersManager_MustVerifyEmail', [$email]));
+            $notification = new Notification(Piwik::translate('UsersManagerMustVerifyEmail', [$email]));
             $notification->type = Notification::TYPE_TRANSIENT;
             $notification->context = Notification::CONTEXT_INFO;
             Manager::notify('usersmanager-must-verify-email', $notification);
