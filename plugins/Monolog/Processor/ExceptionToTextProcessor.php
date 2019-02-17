@@ -33,7 +33,9 @@ class ExceptionToTextProcessor
             $this->getStackTrace($exception)
         );
 
-        if (strpos($record['message'], '{exception}') === false) {
+        if (!isset($record['message'])
+            || strpos($record['message'], '{exception}') === false
+        ) {
             $record['message'] = $exceptionStr;
         } else {
             $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
