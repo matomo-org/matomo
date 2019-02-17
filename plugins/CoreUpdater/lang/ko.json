@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "새로운 플러그인 업데이트를 체크하고 있습니다",
-        "ClickHereToViewSqlQueries": "이 목록을 실행하는 SQL 쿼리를 조회하고 복사하려면 여기를 클릭하세요",
         "CriticalErrorDuringTheUpgradeProcess": "업데이트 과정중에 치명적인 에러 발생:",
         "DatabaseUpgradeRequired": "데이터베이스 업그레이드 필요함",
         "DisablingIncompatiblePlugins": "호환이 안되는 플러그인들을 비활성화하는 중입니다: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "최근 안정 2.X 버전",
         "Latest2XBetaRelease": "최근 베타 2.X 버전",
         "LtsSupportVersion": "Long Term Support 버전",
-        "ListOfSqlQueriesFYI": "FYI: 피윅 %s 에 있는 데이타베이스를 업그레이드 하기 위해서 이 SQL 쿼리들이 실행되어질 것입니다.",
         "MajorUpdateWarning1": "중요한 업데이트입니다! 평소보다 더 오래 걸릴지도 모릅니다.",
         "MajorUpdateWarning2": "다음은 무거운 설치시 알아야하는 중요한 내용입니다.",
         "NeedHelpUpgrading": "피윅을 업그레이드를 하는데 도움이 필요하십니까?",
