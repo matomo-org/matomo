@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Controleren voor nieuwe plugin updates",
-        "ClickHereToViewSqlQueries": "Klik hier voor een lijst van de SQL query's die zullen worden uitgevoerd",
         "CriticalErrorDuringTheUpgradeProcess": "Kritieke fout tijdens updateproces:",
         "DatabaseUpgradeRequired": "Database-upgrade vereist",
         "DisablingIncompatiblePlugins": "Uitschakelen van incompatible plugins: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Laatste stabiele 2.X versie",
         "Latest2XBetaRelease": "Laatste bèta 2.X versie",
         "LtsSupportVersion": "Lange Termijn Support versie",
-        "ListOfSqlQueriesFYI": "Dit zijn de SQL-queries die worden uitgevoerd om de database te updaten naar Matomo %s",
         "MajorUpdateWarning1": "Dit is een grote update! Het zal langer dan normaal duren.",
         "MajorUpdateWarning2": "Het volgende advies vooral voor grote installaties belangrijk.",
         "NeedHelpUpgrading": "Hulp nodig om Matomo te upgraden?",
@@ -71,7 +69,6 @@
         "UpgradeComplete": "Upgrade voltooid!",
         "UpgradePiwik": "Upgrade Matomo",
         "DbUpgradeNotExecuted": "Database-upgrade niet uitgevoerd.",
-        "ConsoleUpdateNoSqlQueries": "Opmerking: er zijn geen SQL queries om uit te voeren.",
         "DryRun": "Opmerking: dit is een dry-run",
         "DryRunEnd": "Einde van dry-run",
         "VerifyingUnpackedFiles": "Bezig met verifiëren van de uitgepakte bestanden",
