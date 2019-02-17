@@ -26,7 +26,7 @@
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                 <td class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" />
+                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
                         <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
                     </span>
                 </td>
@@ -94,6 +94,9 @@
             $('#select-plugin-all').on('change', function () {
                 var self = this;
                 $('tbody#plugins td.select-cell input[type=checkbox]').each(function () {
+                    if ($(this).prop('disabled')) {
+                        return;
+                    }
                     $(this).prop('checked', self.checked);
                 });
             });
