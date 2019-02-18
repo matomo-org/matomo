@@ -11,13 +11,12 @@ namespace Piwik\Plugins\UsersManager;
 use Piwik\Common;
 use Piwik\SettingsPiwik;
 
-// TODO: check docs
 class UserChangeToken
 {
     /**
-     * Generate a password reset token.  Expires in 24 hours from the beginning of the current hour.
+     * Generate a token.  Expires in 24 hours from the beginning of the current hour.
      *
-     * The reset token is generated using a user's email, login and the time when the token expires.
+     * The token is generated using a user's email, login and the time when the token expires.
      *
      * @param array $user The user information.
      * @param string $keySuffix The suffix used in generating a token.
@@ -28,7 +27,7 @@ class UserChangeToken
     public function generateToken($user, $keySuffix, $data, $expiryTimestamp = null)
     {
         /*
-         * Piwik does not store the generated password reset token.
+         * Piwik does not store the generated token.
          * This avoids a database schema change and SQL queries to store, retrieve, and purge (expired) tokens.
          */
         if (!$expiryTimestamp) {
@@ -44,10 +43,10 @@ class UserChangeToken
     }
 
     /**
-     * Returns true if a reset token is valid, false if otherwise. A reset token is valid if
+     * Returns true if a token is valid, false if otherwise. A token is valid if
      * it exists and has not expired.
      *
-     * @param string $token The reset token to check.
+     * @param string $token The token to check.
      * @param array $user The user information returned by the UsersManager API.
      * @param string $keySuffix The suffix used in generating a token.
      * @return bool true if valid, false otherwise.
