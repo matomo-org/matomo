@@ -403,8 +403,6 @@ class UITestFixture extends SqlDump
 
     public function provideContainerConfig()
     {
-        $angularXssLabel = $this->xssTesting->forAngular('datatablerow');
-        $twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         return [
             'observers.global' => \DI\add([
                 ['Report.addReports', function (&$reports) {
@@ -419,7 +417,10 @@ class UITestFixture extends SqlDump
                 ['Dimension.addDimensions', function (&$instances) {
                     $instances[] = new XssDimension();
                 }],
-                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) use ($angularXssLabel, $twigXssLabel) {
+                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
+                    $angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+                    $twigXssLabel = $this->xssTesting->forTwig('datatablerow');
+
                     if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
