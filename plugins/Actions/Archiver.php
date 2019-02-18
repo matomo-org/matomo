@@ -129,7 +129,12 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->actionsTablesByType = array();
         foreach (Metrics::$actionTypes as $type) {
             $dataTable = new DataTable();
-            $dataTable->setMaximumAllowedRows(ArchivingHelper::$maximumRowsInDataTableLevelZero);
+            if ($type === Action::TYPE_SITE_SEARCH) {
+                $maxRows = ArchivingHelper::$maximumRowsInDataTableSiteSearch;
+            } else {
+                $maxRows = ArchivingHelper::$maximumRowsInDataTableLevelZero;
+            }
+            $dataTable->setMaximumAllowedRows($maxRows);
 
             if ($type == Action::TYPE_PAGE_URL
                 || $type == Action::TYPE_PAGE_TITLE
@@ -420,7 +425,12 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertTable(DataTable $dataTable, $recordName)
     {
         ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $report = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableLevelZero, ArchivingHelper::$maximumRowsInSubDataTable, ArchivingHelper::$columnToSortByBeforeTruncation);
+        if ($recordName === Archiver::SITE_SEARCH_RECORD_NAME) {
+            $maxRows = ArchivingHelper::$maximumRowsInDataTableSiteSearch;
+        } else {
+            $maxRows = ArchivingHelper::$maximumRowsInDataTableLevelZero;
+        }
+        $report = $dataTable->getSerialized($maxRows, ArchivingHelper::$maximumRowsInSubDataTable, ArchivingHelper::$columnToSortByBeforeTruncation);
         $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 

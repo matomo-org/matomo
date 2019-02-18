@@ -228,7 +228,8 @@ class ArchivingHelper
         $limit = $configLimit == 0 ? 0 : max(
             $configLimit,
             $configGeneral['datatable_archiving_maximum_rows_actions'],
-            $configGeneral['datatable_archiving_maximum_rows_subtable_actions']
+            $configGeneral['datatable_archiving_maximum_rows_subtable_actions'],
+            $configGeneral['datatable_archiving_maximum_rows_site_search']
         );
 
         // FIXME: This is a quick fix for #3482. The actual cause of the bug is that
@@ -296,6 +297,7 @@ class ArchivingHelper
 
     public static $maximumRowsInDataTableLevelZero;
     public static $maximumRowsInSubDataTable;
+    public static $maximumRowsInDataTableSiteSearch;
     public static $columnToSortByBeforeTruncation;
 
     protected static $actionUrlCategoryDelimiter = null;
@@ -319,6 +321,7 @@ class ArchivingHelper
         self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+        self::$maximumRowsInDataTableSiteSearch = 50; //Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
