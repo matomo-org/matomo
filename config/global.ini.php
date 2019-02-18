@@ -695,7 +695,7 @@ num_days_before_tracking_code_reminder = 5
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
-; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; If you want to track unique users across websites you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 

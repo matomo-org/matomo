@@ -43,6 +43,7 @@
         "DaysToConv": "Jours par conversion",
         "Details": "Détails de l'objectif",
         "DefaultGoalConvertedOncePerVisit": "(par défaut) Un objectif peut-être converti une seule fois par visite",
+        "DefaultRevenueLabel": "Revenu de l'objectif par défaut",
         "DefaultRevenueHelp": "Par exemple, un formulaire de contact soumis par un visiteur peut avoir une valeur de 10 € en moyenne. Matomo vous aidera à comprendre comment se comportent vos visiteurs.",
         "DeleteGoalConfirm": "Êtes vous sûr de vouloir supprimer l'objectif %s?",
         "DocumentationRevenueGeneratedByProductSales": "Ventes de produits. Hors taxes, expéditions et remises.",
@@ -109,6 +110,8 @@
         "WhenVisitors": "quand les visiteurs",
         "WhereThe": "où le",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La page visité doit contenir un appel à la méthode JavaScript 'trackGoal' (%1$sapprenez-en plus%2$s)",
-        "YouCanEnableEcommerceReports": "Vous pouvez activer %1$s pour ce site web sur la page %2$s."
+        "YouCanEnableEcommerceReports": "Vous pouvez activer %1$s pour ce site web sur la page %2$s.",
+        "UseEventValueAsRevenue": "Utilisez la valeur de l'évènement (si elle existe) en tant que revenu lié à la conversion de l'objectif.",
+        "GoalRevenue": "Revenu de l'objectif"
     }
 }

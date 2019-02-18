@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Proveravam da li ima novih verzija dodataka",
-        "ClickHereToViewSqlQueries": "Kliknite ovde kako biste videli i iskopirali SQL upite koje je potrebno izvršiti",
         "CriticalErrorDuringTheUpgradeProcess": "Kritične greške nastale tokom procesa nadogradnje:",
         "DatabaseUpgradeRequired": "Potrebna je nadogradnja baze",
         "DisablingIncompatiblePlugins": "Isključivanje nekompatibilnih dodataka: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Poslednja stabilna 2.X verzija",
         "Latest2XBetaRelease": "Poslednja beta 2.X verzija",
         "LtsSupportVersion": "Verzija sa dugoročnom podrškom (LTS)",
-        "ListOfSqlQueriesFYI": "Ovo su SQL upiti koji će biti izvršeni tokom nadogradnje vaše baze na Matomo %s",
         "MajorUpdateWarning1": "Ovo je bitna nadogradnja! Trajaće duže nego inače.",
         "MajorUpdateWarning2": "Sledeći predlog je naročito važan kod dugih instalacija.",
         "NeedHelpUpgrading": "Da li vam je potrebna pomoć oko nadogradnje?",
