@@ -62,7 +62,7 @@ class Controller extends ControllerAdmin
         $user = Request::processRequest('UsersManager.getUser', [ 'userLogin' => $login ], []);
 
         $userEmailChanger = new UserEmailChanger();
-        $userEmailChanger->verifyEmailChange($user, $token);
+        $userEmailChanger->confirmEmailChange($user, $token);
 
         $notification = new Notification(Piwik::translate('UsersManager_NewEmailVerified'));
         $notification->type = Notification::TYPE_TRANSIENT;

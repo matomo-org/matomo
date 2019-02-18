@@ -6,21 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Login\tests\Integration;
+namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\Access;
-use Piwik\Auth;
-use Piwik\Container\StaticContainer;
 use Piwik\Mail;
-use Piwik\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Plugins\Login\PasswordResetter;
-use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UserEmailChanger;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\UsersManager\Model;
 
-class PasswordResetterTest extends IntegrationTestCase
+class UserEmailChangerTest extends IntegrationTestCase
 {
-    const NEWPASSWORD = 'newpassword';
+    const NEW_EMAIL = 'newemail@newemail.com';
+
+    /**
+     * @var UserEmailChanger
+     */
+    private $userEmailChanger;
 
     /**
      * @var Model
@@ -32,38 +34,31 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     private $capturedToken;
 
-    /**
-     * @var PasswordResetter
-     */
-    private $passwordResetter;
-
     public function setUp()
     {
         parent::setUp();
-        $this->passwordResetter = new PasswordResetter();
+        $this->userEmailChanger = new UserEmailChanger();
         $this->userModel = new Model();
         $this->capturedToken = null;
 
         Manager::getInstance()->loadPluginTranslations();
     }
 
-    public function test_passwordReset_processWorksAsExpected()
+    public function test_userEmailChange_processWorksAsExpected()
     {
         $user = $this->userModel->getUser('superUserLogin');
-        $password = $user['password'];
-        $passwordModified = $user['ts_password_modified'];
+        $originalEmail = $user['email'];
 
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
-
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEmpty($this->capturedToken);
 
         $user = $this->userModel->getUser('superUserLogin');
-        $this->assertEquals($password, $user['password']);
-        $this->assertEquals($passwordModified, $user['ts_password_modified']);
+        $this->assertEquals($originalEmail, $user['email']);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
+        $this->userEmailChanger->confirmEmailChange($user, $this->capturedToken);
 
-        $this->checkPasswordIs(self::NEWPASSWORD);
+        $user = $this->userModel->getUser('superUserLogin');
+        $this->assertEquals(self::NEW_EMAIL, $user['email']);
     }
 
     /**
@@ -72,30 +67,36 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     public function test_passwordReset_shouldNotAllowTokenToBeUsedMoreThanOnce()
     {
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $user = $this->userModel->getUser('superUserLogin');
+
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEmpty($this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
-        $this->checkPasswordIs(self::NEWPASSWORD);
+        $this->userEmailChanger->confirmEmailChange($user, $this->capturedToken);
+
+        $user = $this->userModel->getUser('superUserLogin');
+        $this->assertEquals(self::NEW_EMAIL, $user['email']);
 
         sleep(1);
 
         $oldCapturedToken = $this->capturedToken;
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', 'anotherpassword');
+        $this->userEmailChanger->startEmailChange($user, 'anotherpassword');
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->userEmailChanger->confirmEmailChange($user, $oldCapturedToken);
     }
 
     public function test_passwordReset_shouldNeverGenerateTheSameToken()
     {
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $user = $this->userModel->getUser('superUserLogin');
+
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEmpty($this->capturedToken);
 
         sleep(1);
 
         $oldCapturedToken = $this->capturedToken;
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
     }
 
@@ -105,16 +106,18 @@ class PasswordResetterTest extends IntegrationTestCase
      */
     public function test_passwordReset_shouldNotAllowOldTokenToBeUsedAfterAnotherResetRequest()
     {
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $user = $this->userModel->getUser('superUserLogin');
+
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEmpty($this->capturedToken);
 
         sleep(1);
 
         $oldCapturedToken = $this->capturedToken;
-        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->userEmailChanger->startEmailChange($user, self::NEW_EMAIL);
         $this->assertNotEquals($oldCapturedToken, $this->capturedToken);
 
-        $this->passwordResetter->confirmNewPassword('superUserLogin', $oldCapturedToken);
+        $this->userEmailChanger->confirmEmailChange($user, $oldCapturedToken);
     }
 
     /**
@@ -127,25 +130,14 @@ class PasswordResetterTest extends IntegrationTestCase
         $fixture->extraTestEnvVars['loadRealTranslations'] = true;
     }
 
-    private function checkPasswordIs($pwd)
-    {
-        $auth = StaticContainer::get(Auth::class);
-        $auth->setLogin('superUserLogin');
-        $auth->setPassword($pwd);
-        $auth->setTokenAuth(null);
-        $auth->setPasswordHash(null);
-
-        $result = Access::getInstance()->reloadAccess($auth);
-        $this->assertTrue($result);
-    }
-
     public function provideContainerConfig()
     {
         return [
             'observers.global' => [
                 ['Mail.send', function (Mail $mail) {
                     $body = $mail->getBodyHtml(true);
-                    preg_match('/resetToken=3D([a-zA-Z0-9=\s]+?)<\/p>/', $body, $matches);
+                    $body = str_replace("\n", "", $body);
+                    preg_match('/toke=?n=3D([a-zA-Z0-9=\s]+?)<\/p>/', $body, $matches);
                     $capturedToken = $matches[1];
                     $capturedToken = preg_replace('/=\s*/', '', $capturedToken);
                     $this->capturedToken = $capturedToken;

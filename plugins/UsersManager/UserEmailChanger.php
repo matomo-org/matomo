@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
-
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
@@ -18,7 +17,6 @@ use Piwik\Piwik;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 
-// TODO: need integration test for email change process
 class UserEmailChanger
 {
     const OPTION_NAME_PREFIX = 'UsersManager.userEmailChange.';
@@ -37,7 +35,7 @@ class UserEmailChanger
         $this->sendEmail($user, $newEmail, $token);
     }
 
-    public function verifyEmailChange($user, $token)
+    public function confirmEmailChange($user, $token)
     {
         $optionName = $this->getOptionName($user['login']);
         $optionData = Option::get($optionName);
