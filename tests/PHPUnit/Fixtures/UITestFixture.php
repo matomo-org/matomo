@@ -41,6 +41,7 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Fixture for UI tests.
+ * @property  angularXssLabel
  */
 class UITestFixture extends SqlDump
 {
@@ -50,6 +51,10 @@ class UITestFixture extends SqlDump
      * @var XssTesting
      */
     private $xssTesting;
+
+    private $angularXssLabel;
+
+    private $twigXssLabel;
 
     public function __construct()
     {
@@ -115,6 +120,9 @@ class UITestFixture extends SqlDump
         );
 
         $this->addDangerousLinks();
+
+        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+        $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -418,9 +426,6 @@ class UITestFixture extends SqlDump
                     $instances[] = new XssDimension();
                 }],
                 ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
-                    $angularXssLabel = $this->xssTesting->forAngular('datatablerow');
-                    $twigXssLabel = $this->xssTesting->forTwig('datatablerow');
-
                     if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
@@ -431,11 +436,11 @@ class UITestFixture extends SqlDump
 
                     $dataTable = new DataTable();
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $angularXssLabel,
+                        'label' => $this->angularXssLabel,
                         'nb_visits' => 10,
                     ]);
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $twigXssLabel,
+                        'label' => $this->twigXssLabel,
                         'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
