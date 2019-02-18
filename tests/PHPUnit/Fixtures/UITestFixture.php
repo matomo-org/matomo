@@ -120,9 +120,6 @@ class UITestFixture extends SqlDump
         );
 
         $this->addDangerousLinks();
-
-        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
-        $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -152,6 +149,8 @@ class UITestFixture extends SqlDump
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->save();
 
+        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+        $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
 
         // launch archiving so tests don't run out of time
