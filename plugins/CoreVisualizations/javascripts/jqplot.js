@@ -500,7 +500,6 @@
                 axis.ticks.forEach(function (tick) {
                     var tickFormatted = $.jqplot.NumberFormatter(axis.tickOptions.formatString || '%s', tick);
                     $tempAxisElement.find('span').text(tickFormatted);
-                    console.log(tickFormatted, $tempAxisElement.width());
                     maxWidth = Math.max(maxWidth, $tempAxisElement.width());
                 });
                 return maxWidth;
