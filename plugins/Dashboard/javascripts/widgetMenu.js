@@ -145,11 +145,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId, callback) {
  */
 widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback, onWidgetErrorCallback) {
     var disableLink = broadcast.getValueFromUrl('disableLink');
-    if (disableLink.length
-        || $('body#standalone').length
-    ) {
-        widgetParameters['disableLink'] = disableLink;
-    }
+    widgetParameters['disableLink'] = disableLink.length || $('body#standalone').length;
 
     widgetParameters['widget'] = 1;
 
