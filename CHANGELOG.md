@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.9.0
+
+### New Features
+* It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
+
 ## Matomo 3.8.0
 
 ### Breaking Changes
