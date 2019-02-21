@@ -155,7 +155,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         // Record the same visit leaving twice an abandoned cart
         foreach (array(0, 5, 24) as $offsetHour) {
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($offsetHour + 2.4)->getDatetime());
-            // Also recording an order the day after
+            // Also recording an order the day after (purposefully using old order ID, it should be ignored by the tracker since it was used in a previous visit)
             if ($offsetHour >= 24) {
                 $t->setDebugStringAppend("&_idvc=1");
                 $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras', $price = 1500, $quantity = 1);
@@ -191,6 +191,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         // One more Ecommerce order, without any product in it, because we still track orders without products
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.8)->getDatetime());
         self::checkResponse($t->doTrackEcommerceOrder($orderId4, $grandTotal = 10000));
+
         return array($defaultInit, $t, $category, $price, $sku, $name, $quantity, $grandTotal, $orderId);
     }
 

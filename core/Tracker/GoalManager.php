@@ -742,6 +742,7 @@ class GoalManager
         Common::printDebug($newGoalDebug);
 
         $wasInserted = $this->getModel()->createConversion($conversion);
+        // TODO: if idsite/idorder are taken, but idvisit is different, this will silently fail. can we issue an error if possible?
 
         return $wasInserted;
     }

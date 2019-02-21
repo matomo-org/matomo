@@ -65,6 +65,11 @@ class VisitorRecognizer
      */
     private $eventDispatcher;
 
+    /**
+     * @var array
+     */
+    private $visitRow;
+
     public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom, $trackerAlwaysNewVisitor,
                                 Model $model, EventDispatcher $eventDispatcher)
     {
@@ -96,12 +101,13 @@ class VisitorRecognizer
             Common::printDebug("Visitor doesn't have the piwik cookie...");
         }
 
-        $persistedVisitAttributes = $this->getVisitFieldsPersist();
+        $persistedVisitAttributes = $this->getVisitorFieldsPersist();
 
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $this->visitRow = $visitRow;
 
         $isNewVisitForced = $request->getParam('new_visit');
         $isNewVisitForced = !empty($isNewVisitForced);
@@ -117,37 +123,14 @@ class VisitorRecognizer
             && $visitRow
             && count($visitRow) > 0
         ) {
-
-            // These values will be used throughout the request
-            foreach ($persistedVisitAttributes as $field) {
-                $visitProperties->setProperty($field, $visitRow[$field]);
-            }
-
             $visitProperties->setProperty('visit_last_action_time', strtotime($visitRow['visit_last_action_time']));
             $visitProperties->setProperty('visit_first_action_time', strtotime($visitRow['visit_first_action_time']));
-
-            // Custom Variables copied from Visit in potential later conversion
-            if (!empty($numCustomVarsToRead)) {
-                for ($i = 1; $i <= $numCustomVarsToRead; $i++) {
-                    if (isset($visitRow['custom_var_k' . $i])
-                        && strlen($visitRow['custom_var_k' . $i])
-                    ) {
-                        $visitProperties->setProperty('custom_var_k' . $i, $visitRow['custom_var_k' . $i]);
-                    }
-                    if (isset($visitRow['custom_var_v' . $i])
-                        && strlen($visitRow['custom_var_v' . $i])
-                    ) {
-                        $visitProperties->setProperty('custom_var_v' . $i, $visitRow['custom_var_v' . $i]);
-                    }
-                }
-            }
 
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
                     config_id = " . bin2hex($configId) . ",
                     idvisit = {$visitProperties->getProperty('idvisit')},
                     last action = " . date("r", $visitProperties->getProperty('visit_last_action_time')) . ",
-                    first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ",
-                    visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer') . ")");
+                    first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ")");
 
             return true;
         } else {
@@ -155,6 +138,20 @@ class VisitorRecognizer
 
             return false;
         }
+    }
+
+    public function updateVisitPropertiesFromLastVisitRow(VisitProperties $visitProperties)
+    {
+        // These values will be used throughout the request
+        foreach ($this->getVisitorFieldsPersist() as $field) {
+            if ($field == 'visit_last_action_time' || $field == 'visit_first_action_time') {
+                continue;
+            }
+
+            $visitProperties->setProperty($field, $this->visitRow[$field]);
+        }
+
+        Common::printDebug("The visit is part of an existing visit (visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer'));
     }
 
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, Request $request)
@@ -212,7 +209,7 @@ class VisitorRecognizer
     /**
      * @return array
      */
-    private function getVisitFieldsPersist()
+    private function getVisitorFieldsPersist()
     {
         if (is_null($this->visitFieldsToSelect)) {
             $fields = array(
