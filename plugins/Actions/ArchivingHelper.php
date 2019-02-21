@@ -321,7 +321,7 @@ class ArchivingHelper
         self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
-        self::$maximumRowsInDataTableSiteSearch = 50; //Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
+        self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
