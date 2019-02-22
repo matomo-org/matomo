@@ -125,6 +125,8 @@ class VisitorRecognizer
         ) {
             $visitProperties->setProperty('visit_last_action_time', strtotime($visitRow['visit_last_action_time']));
             $visitProperties->setProperty('visit_first_action_time', strtotime($visitRow['visit_first_action_time']));
+            $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
+            $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
                     config_id = " . bin2hex($configId) . ",
