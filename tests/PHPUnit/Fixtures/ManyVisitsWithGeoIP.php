@@ -118,7 +118,8 @@ class ManyVisitsWithGeoIP extends Fixture
         }
         $t->setTokenAuth(self::getTokenAuth());
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
+            // NOTE: floor() is so some visits share the same visit ID
+            $t->setVisitorId( substr(md5(floor($i / 2) + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
 
             $userAgent = null;
             if ($setIp) {

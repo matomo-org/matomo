@@ -237,7 +237,7 @@
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>181</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>81</visitDuration>
 		<visitDurationPretty>1 min 21s</visitDurationPretty>
@@ -552,7 +552,7 @@
 		<visitCount>7</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>17</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>34</visitDuration>
 		<visitDurationPretty>34s</visitDurationPretty>
@@ -1002,7 +1002,7 @@
 		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>3</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1292,7 +1292,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1648,7 +1648,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>30</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -3627,7 +3627,7 @@
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>444</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -3986,7 +3986,7 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st?__?key=value</url>
 				<pageIdAction>66</pageIdAction>
 				
 				
@@ -4101,7 +4101,7 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st?__?key=value</url>
 				<pageIdAction>66</pageIdAction>
 				
 				
@@ -5426,7 +5426,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>17</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>50.112.0.11</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -5529,17 +5529,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>San Jose</city>
+		<location>San Jose, California, United States</location>
+		<latitude>45.870000</latitude>
+		<longitude>-119.688000</longitude>
 		<visitLocalTime>15:31:05</visitLocalTime>
 		<visitLocalHour>15</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -5552,7 +5552,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>50.112.0.28</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -5655,17 +5655,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<continent>North America</continent>
+		<continentCode>amn</continentCode>
+		<country>United States</country>
+		<countryCode>us</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
+		<region>California</region>
+		<regionCode>CA</regionCode>
+		<city>San Jose</city>
+		<location>San Jose, California, United States</location>
+		<latitude>45.870000</latitude>
+		<longitude>-119.688000</longitude>
 		<visitLocalTime>13:49:46</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6308,7 +6308,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>79.125.0.21</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -6411,17 +6411,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>Ireland</country>
+		<countryCode>ie</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ie.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>Ireland</location>
+		<latitude>53</latitude>
+		<longitude>-8</longitude>
 		<visitLocalTime>18:03:40</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6686,7 +6686,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>9</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -6789,17 +6789,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6812,7 +6812,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -6915,17 +6915,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
