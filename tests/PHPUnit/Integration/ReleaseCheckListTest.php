@@ -418,7 +418,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
             $this->assertTrue( $enabled + $disabled === 1,
-                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager).
+                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Application\\Kernel\\PluginList).
                 It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
             );
             $count++;

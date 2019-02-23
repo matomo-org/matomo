@@ -28,6 +28,7 @@ use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -113,7 +114,10 @@ class GeoIPAutoUpdater extends Task
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIPAutoUpdater: '
-            Log::error($ex);
+            StaticContainer::get(LoggerInterface::class)->error('Auto-update failed: {exception}', [
+                'exception' => $ex,
+                'ignoreInScreenWriter' => true,
+            ]);
             $this->performRedundantDbChecks();
             throw $ex;
         }
@@ -572,9 +576,16 @@ class GeoIPAutoUpdater extends Task
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
 
-                if($logErrors) {
-                    Log::error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
-                        . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
+                if ($logErrors) {
+                    StaticContainer::get(LoggerInterface::class)->error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
+                        . "{type} database: {errno}: {errstr} on line {errline} of {errfile}.", [
+                        'ignoreInScreenWriter' => true,
+                        'type' => $type,
+                        'errno' => $errno,
+                        'errstr' => $errstr,
+                        'errline' => $errline,
+                        'errfile' => $errfile,
+                    ]);
                 }
 
                 // get the current filename for the DB and an available new one to rename it to

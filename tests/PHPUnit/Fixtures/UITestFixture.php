@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
@@ -24,6 +25,7 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Plugins\Monolog\Handler\WebNotificationHandler;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
@@ -35,9 +37,11 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Psr\Container\ContainerInterface;
 
 /**
  * Fixture for UI tests.
+ * @property  angularXssLabel
  */
 class UITestFixture extends SqlDump
 {
@@ -47,6 +51,10 @@ class UITestFixture extends SqlDump
      * @var XssTesting
      */
     private $xssTesting;
+
+    private $angularXssLabel;
+
+    private $twigXssLabel;
 
     public function __construct()
     {
@@ -141,6 +149,8 @@ class UITestFixture extends SqlDump
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->save();
 
+        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+        $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
 
         // launch archiving so tests don't run out of time
@@ -419,18 +429,27 @@ class UITestFixture extends SqlDump
                         return;
                     }
 
+                    if (!empty($_GET['forceError']) || !empty($_POST['forceError'])) {
+                        throw new \Exception("forced exception");
+                    }
+
                     $dataTable = new DataTable();
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $this->xssTesting->forAngular('datatablerow'),
+                        'label' => $this->angularXssLabel,
                         'nb_visits' => 10,
                     ]);
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $this->xssTesting->forTwig('datatablerow'),
+                        'label' => $this->twigXssLabel,
                         'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
                 }],
             ]),
+            Proxy::class => \DI\get(CustomApiProxy::class),
+            'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+                $previous[] = $c->get(WebNotificationHandler::class);
+                return $previous;
+            }),
         ];
     }
 
@@ -478,16 +497,6 @@ class XssReport extends Report
         $this->module = 'ExampleAPI';
         $this->action = 'xssReport' . $type;
         $this->id = 'ExampleAPI.xssReport' . $type;
-    }
-
-    public function configureView(ViewDataTable $view)
-    {
-        parent::configureView($view);
-
-        $type = $this->xssType;
-
-        $xssTesting = new XssTesting();
-        $view->config->show_footer_message = $xssTesting->$type('footermessage');
     }
 }
 
@@ -562,5 +571,23 @@ class XssProcessedMetric extends ProcessedMetric
     public function getDependentMetrics()
     {
         return [];
+    }
+}
+
+class CustomApiProxy extends Proxy
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforTwig']['parameters'] = [];
+        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforAngular']['parameters'] = [];
+    }
+
+    public function isExistingApiAction($pluginName, $apiAction)
+    {
+        if ($pluginName == 'ExampleAPI' && ($apiAction != 'xssReportforTwig' || $apiAction != 'xssReportforAngular')) {
+            return true;
+        }
+        return parent::isExistingApiAction($pluginName, $apiAction);
     }
 }

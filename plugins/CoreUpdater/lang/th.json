@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "คลิกที่นี่เพื่อดู และคัดลอกรายการ รันคิวรี SQL ที่จะได้รับดำเนินการ",
         "CriticalErrorDuringTheUpgradeProcess": "ข้อผิดพลาดร้ายแรง ในระหว่างกระบวนการอัพเดต",
         "DatabaseUpgradeRequired": "จำเป็นต้องอัพเกรดฐานข้อมูล",
         "DownloadingUpdateFromX": "ดาวน์โหลดโปรแกรมอัพเดตจาก %s",

@@ -21,6 +21,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
+use Psr\Log\LoggerInterface;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -107,6 +108,11 @@ class FrontController extends Singleton
      */
     private static function generateSafeModeOutputFromException($e)
     {
+        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+            'exception' => $e,
+            'ignoreInScreenWriter' => true,
+        ]);
+
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
@@ -255,6 +261,11 @@ class FrontController extends Singleton
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
             $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
+
+            StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {exception}', [
+                'exception' => $lastError,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
