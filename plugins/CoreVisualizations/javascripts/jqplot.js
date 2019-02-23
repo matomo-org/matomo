@@ -489,8 +489,10 @@
                 axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
             }
 
-            if (this.jqplotParams.axes.y2axis) {
+            if (this.jqplotParams.series.length > 1) {
                 $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
+            } else {
+                $('.piwik-graph', this.$element).css('width', '100%');
             }
 
             $tempAxisElement.remove();
