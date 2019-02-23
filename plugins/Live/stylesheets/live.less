@@ -135,10 +135,6 @@ ol.actionList > li:not(.pageviewActions) {
     position: relative;
     min-height: 25px;
 
-  &:not(.actionsForPageExpander):before {
-    padding-right: 5px;
-  }
-
   &:before {
     vertical-align: top;
     background-color: #424242;
@@ -159,7 +155,7 @@ ol.actionList > li:not(.pageviewActions) {
     border-left: 2px solid #d2d2d2;
     position: absolute;
     left: -10px;
-    height: 100%;
+    height: calc(~"100% - 20px");
     margin-top: 20px;
     z-index: 1;
   }
@@ -195,6 +191,11 @@ ol.actionList > li:not(.pageviewActions) {
       }
     }
 
+    &:before {
+      margin-left: -5px;
+      visibility: hidden;
+    }
+
     &.expanded:before {
       content: "\f102";
     }
@@ -222,16 +223,35 @@ ol.actionList > li:not(.pageviewActions) {
   }
 }
 
+ol.actionList > li.pageviewActions {
+  position: relative;
+
+  &:after {
+    content: " ";
+    border-left: 2px solid #d2d2d2;
+    position: absolute;
+    left: -10px;
+    height: calc(~"100% + 8px");
+    z-index: 1;
+    top: 0;
+    margin-top: -8px;
+  }
+
+  &:last-child:after {
+    height: calc(100%);
+  }
+}
+
 li.collapsed-contents > div {
   cursor: pointer;
 }
 
 li.collapsed-content-item {
-  margin-left: 1rem;
+  margin-left: 1.5rem;
 }
 
-li.pageviewActions {
-  margin-left: 1rem;
+li.pageviewActions > ol.actionList {
+  margin-left: 1.5rem;
 }
 
 #visitsLive img {

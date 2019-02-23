@@ -73,7 +73,8 @@ function initializeVisitorActions(elem) {
                     .attr('title', _pk_translate('Live_ClickToSeeAllContents'));
 
                 $('<div>')
-                    .html('<span class="icon-show action-list-action-icon"></span> <span class="content-impressions">0</span> content impressions <span class="content-interactions">0</span> interactions')
+                    .html('<img src="plugins/Morpheus/images/contentimpression.svg" class="action-list-action-icon"/>' +
+                        ' <span class="content-impressions">0</span> content impressions <span class="content-interactions">0</span> interactions')
                     .appendTo($li);
 
                 return $li;
