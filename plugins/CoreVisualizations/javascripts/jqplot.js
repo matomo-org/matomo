@@ -489,7 +489,14 @@
                 axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
             }
 
-            if (this.jqplotParams.series.length > 1) {
+            var axesShown = {};
+            this.jqplotParams.series.forEach(function (series) {
+                axesShown[series.yaxis] = true;
+            });
+            var hasMultipleAxes = Object.keys(axesShown).length > 1;
+
+            // only adjust width if more than one axis exists AND more than one series shown
+            if (hasMultipleAxes) {
                 $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
             } else {
                 $('.piwik-graph', this.$element).css('width', '');
