@@ -113,6 +113,15 @@ class VisitorLog extends Visualization
                 )
             )
         );
+
+        $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
+        if ($enableAddNewSegment) {
+            $this->config->datatable_actions[] = [
+                'id' => 'addSegmentToMatomo',
+                'title' => Piwik::translate('SegmentEditor_AddThisToMatomo'),
+                'icon' => 'icon-segment',
+            ];
+        }
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
