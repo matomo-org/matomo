@@ -492,7 +492,7 @@
             if (this.jqplotParams.series.length > 1) {
                 $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
             } else {
-                $('.piwik-graph', this.$element).css('width', '100%');
+                $('.piwik-graph', this.$element).css('width', '');
             }
 
             $tempAxisElement.remove();
