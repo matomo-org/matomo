@@ -195,7 +195,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated 
+     * @deprecated will be removed in Matomo 4.0.0
      */
     public function getKeywordsForPageUrl($idSite, $period, $date, $url)
     {
@@ -207,7 +207,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @deprecated
+     * @deprecated will be removed in Matomo 4.0.0
      */
     public function getKeywordsForPageTitle($idSite, $period, $date, $title)
     {

@@ -8,7 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* Deprecate `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle` API
+* `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle` APIs have been deprecated and will be removed in Matomo 4.0.0
 
 ### New Features
 * It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
