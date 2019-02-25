@@ -294,7 +294,6 @@ class UITestFixture extends SqlDump
         $dashboard = 0;
         foreach ($allWidgets as $widget) {
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
