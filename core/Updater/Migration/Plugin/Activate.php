@@ -7,6 +7,7 @@
  */
 namespace Piwik\Updater\Migration\Plugin;
 
+use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Updater\Migration;
 
@@ -33,7 +34,10 @@ class Activate extends Migration
 
     public function __toString()
     {
-        return sprintf('Activating plugin "%s"', $this->pluginName);
+        $domain = Config::getLocalConfigPath() == Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
+        $domainArg = !empty($domain) ? "--matomo-domain=\"$domain\" " : '';
+
+        return sprintf('./console %splugin:activate "%s"', $domainArg, $this->pluginName);
     }
 
     public function shouldIgnoreError($exception)

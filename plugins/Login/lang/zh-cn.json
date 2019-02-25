@@ -8,13 +8,16 @@
         "LogIn": "登录",
         "LoginOrEmail": "用户名或邮件地址",
         "LoginPasswordNotCorrect": "用户名或密码不正确！",
-        "LostYourPassword": "忘记密码了?",
+        "LostYourPassword": "忘记密码了？",
+        "ChangeYourPassword": "修改密码",
         "MailTopicPasswordChange": "密码修改确认",
         "NewPassword": "新密码",
-        "NewPasswordRepeat": "新密码(重复)",
+        "NewPasswordRepeat": "新密码（重复）",
         "PasswordChanged": "您的密码已修改。",
-        "PasswordRepeat": "密码(重复)",
+        "PasswordRepeat": "密码（重复）",
         "PasswordsDoNotMatch": "密码不一致。",
-        "RememberMe": "记住密码"
+        "WrongPasswordEntered": "请输入正确的密码。",
+        "ConfirmPasswordToContinue": "确认密码以继续",
+        "RememberMe": "记住登录信息"
     }
 }
