@@ -13,7 +13,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New Features
 * It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
 
-
 ## Matomo 3.8.0
 
 ### Breaking Changes
