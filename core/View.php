@@ -457,6 +457,6 @@ class View implements ViewInterface
     private function shouldPropagateTokenAuthInAjaxRequests()
     {
         $generalConfig = Config::getInstance()->General;
-        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'];
+        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
     }
 }
