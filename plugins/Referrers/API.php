@@ -194,6 +194,9 @@ class API extends \Piwik\Plugin\API
             : $label;
     }
 
+    /**
+     * @deprecated 
+     */
     public function getKeywordsForPageUrl($idSite, $period, $date, $url)
     {
         // Fetch the Top keywords for this page
@@ -203,6 +206,9 @@ class API extends \Piwik\Plugin\API
         return $this->getLabelsFromTable($table);
     }
 
+    /**
+     * @deprecated
+     */
     public function getKeywordsForPageTitle($idSite, $period, $date, $title)
     {
         $segment = 'entryPageTitle==' . $title;
