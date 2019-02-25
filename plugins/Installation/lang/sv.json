@@ -132,6 +132,7 @@
         "SystemCheckCronArchiveProcessCLI": "Hantering av processer via CLI",
         "SystemCheckPhpSetting": "För att det inte ska uppstå problem måste du ställa in följande i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo kan inte använda HTTPS-anslutning för uppdatering och kommer istället använda en osäker HTTP-anslutning. Kontrollera att CURL eller allow_url_fopen är aktiverat och att PHP-tillägget \"openssl\" är installerat: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "stöds inte",
         "Tables": "Skapar tabellerna",
         "TablesCreatedSuccess": "Tabeller skapades utan problem!",
