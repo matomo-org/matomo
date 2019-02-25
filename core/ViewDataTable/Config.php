@@ -505,6 +505,16 @@ class   Config
     public $no_data_message = '';
 
     /**
+     * List of extra actions to display as icons in the datatable footer.
+     *
+     * Not API yet.
+     *
+     * @var array
+     * @ignore
+     */
+    public $datatable_actions = [];
+
+    /*
      * Can be used to add a segment condition to the segment used to launch the segmented visitor log.
      * This can be useful if you'd like to have this segment condition applied ONLY to the segmented visitor
      * log, and not to the report itself.

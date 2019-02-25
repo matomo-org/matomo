@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "正在檢查外掛更新",
-        "ClickHereToViewSqlQueries": "點擊這裡來查看並複製即將執行的 SQL 指令",
         "CriticalErrorDuringTheUpgradeProcess": "在更新過程中發生嚴重錯誤：",
         "DatabaseUpgradeRequired": "資料庫需要升級",
         "DisablingIncompatiblePlugins": "停用不相容的插件：%s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "2.X 最新穩定版本",
         "Latest2XBetaRelease": "2.X 最新 Beta 版本",
         "LtsSupportVersion": "長期支援版本",
-        "ListOfSqlQueriesFYI": "備註：這些 SQL 指令將會在你資料庫升級至 Matomo %s 時執行。",
         "MajorUpdateWarning1": "這是一個重大更新！這將耗時比平常更長的時間。",
         "MajorUpdateWarning2": "下面的建議針對大量安裝時尤其重要。",
         "NeedHelpUpgrading": "升級 Matomo 時需要幫助？",

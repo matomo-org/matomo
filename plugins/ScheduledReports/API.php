@@ -616,6 +616,8 @@ class API extends \Piwik\Plugin\API
                 Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
             }
 
+            $reportType = $report['type'];
+
             /**
              * Triggered when sending scheduled reports.
              *
@@ -644,7 +646,7 @@ class API extends \Piwik\Plugin\API
             Piwik::postEvent(
                 self::SEND_REPORT_EVENT,
                 array(
-                    $report['type'],
+                    &$reportType,
                     $report,
                     $contents,
                     $filename = basename($outputFilename),

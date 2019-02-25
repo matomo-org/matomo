@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Handler\FileHandler;
+use Piwik\Plugins\Monolog\Handler\LogCaptureHandler;
 
 return array(
 
@@ -17,7 +18,7 @@ return array(
         'screen'   => 'Piwik\Plugins\Monolog\Handler\WebNotificationHandler',
         'database' => 'Piwik\Plugins\Monolog\Handler\DatabaseHandler',
     ),
-    'log.handlers' => DI\factory(function (ContainerInterface $c) {
+    'log.handlers' => DI\factory(function (\DI\Container $c) {
         if ($c->has('ini.log.log_writers')) {
             $writerNames = $c->get('ini.log.log_writers');
         } else {
@@ -26,13 +27,50 @@ return array(
 
         $classes = $c->get('log.handler.classes');
 
+        $logConfig = $c->get(\Piwik\Config::class)->log;
+        $enableFingersCrossed = isset($logConfig['enable_fingers_crossed_handler']) && $logConfig['enable_fingers_crossed_handler'] == 1;
+        $fingersCrossedStopBuffering = isset($logConfig['fingers_crossed_stop_buffering_on_activation']) && $logConfig['fingers_crossed_stop_buffering_on_activation'] == 1;
+        $enableLogCaptureHandler = isset($logConfig['enable_log_capture_handler']) && $logConfig['enable_log_capture_handler'] == 1;
+
+        $isLogBufferingAllowed = !\Piwik\Common::isPhpCliMode()
+            || \Piwik\SettingsServer::isArchivePhpTriggered()
+            || \Piwik\CliMulti::isCliMultiRequest();
+
         $writerNames = array_map('trim', $writerNames);
         $writers = array();
         foreach ($writerNames as $writerName) {
+            if ($writerName === 'screen' && \Piwik\Common::isPhpCliMode()) {
+                continue; // screen writer is only valid for web requests
+            }
+
             if (isset($classes[$writerName])) {
-                $writers[$writerName] = $c->get($classes[$writerName]);
+                // wrap the handler in FingersCrossedHandler if we can and this isn't the screen handler
+
+                /** @var \Monolog\Handler\HandlerInterface $handler */
+                $handler = $c->make($classes[$writerName]);
+                if ($enableFingersCrossed
+                    && $writerName !== 'screen'
+                    && $handler instanceof \Monolog\Handler\AbstractHandler
+                    && $isLogBufferingAllowed
+                ) {
+                    $passthruLevel = $handler->getLevel();
+
+                    $handler->setLevel(Logger::DEBUG);
+
+                    $handler = new \Monolog\Handler\FingersCrossedHandler($handler, $activationStrategy = null, $bufferSize = 0,
+                        $bubble = true, $fingersCrossedStopBuffering, $passthruLevel);
+                }
+
+                $writers[$writerName] = $handler;
             }
         }
+
+        if ($enableLogCaptureHandler
+            && $isLogBufferingAllowed
+        ) {
+            $writers[] = $c->get(LogCaptureHandler::class);
+        }
+
         return array_values($writers);
     }),
 

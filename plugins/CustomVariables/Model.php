@@ -9,10 +9,12 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\Piwik;
+use Psr\Log\LoggerInterface;
 
 class Model
 {
@@ -194,7 +196,10 @@ class Model
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
-                Log::error('Failed to add custom variable: ' . $e->getMessage());
+                StaticContainer::get(LoggerInterface::class)->error('Failed to add custom variable: {exception}', [
+                    'exception' => $e,
+                    'ignoreInScreenWriter' => true,
+                ]);
             }
         }
     }

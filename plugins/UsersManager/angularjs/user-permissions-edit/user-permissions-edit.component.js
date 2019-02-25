@@ -32,7 +32,7 @@
         vm.siteAccess = [];
         vm.offset = 0;
         vm.totalEntries = null;
-        vm.accessLevelFilter = 'some';
+        vm.accessLevelFilter = '';
         vm.siteNameFilter = '';
         vm.isLoadingAccess = false;
         vm.allWebsitesAccssLevelSet = 'view';

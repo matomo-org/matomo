@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "检查插件更新",
-        "ClickHereToViewSqlQueries": "点击这里查看并复制即将执行的 SQL 语句列表",
         "CriticalErrorDuringTheUpgradeProcess": "在升级过程中发生严重的错误：",
         "DatabaseUpgradeRequired": "数据库需要升级",
         "DisablingIncompatiblePlugins": "正在停用不兼容的插件：%s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "最新的 2.X 稳定版本",
         "Latest2XBetaRelease": "最新的 2.X 测试版本",
         "LtsSupportVersion": "长期支持版本",
-        "ListOfSqlQueriesFYI": "谨供参考：这是升级您的数据库到 Matomoi%s所要执行的 SQL 语句",
         "MajorUpdateWarning1": "这是全面升级！会比平时多花些时间。",
         "MajorUpdateWarning2": "下面的建议对大型网站格外重要。",
         "NeedHelpUpgrading": "升级 Matomo 时需要帮助？",

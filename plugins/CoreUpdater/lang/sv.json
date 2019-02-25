@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Sök efter uppdateringar för plugins",
-        "ClickHereToViewSqlQueries": "Klicka här för att visa och kopiera listan över SQL-frågor som kommer att exekveras",
         "CriticalErrorDuringTheUpgradeProcess": "Kritiskt fel uppstod under uppdateringsprocessen:",
         "DatabaseUpgradeRequired": "Databasuppgradering krävs",
         "DisablingIncompatiblePlugins": "Inaktiverar inkompatibla tillägg: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Senaste stabila 2.X",
         "Latest2XBetaRelease": "Senaste beta 2.X",
         "LtsSupportVersion": "Version med långtidsstöd",
-        "ListOfSqlQueriesFYI": "Info: dessa SQL-frågor kommer att köras för att uppgradera din databas till Matomo %s",
         "MajorUpdateWarning1": "Det här är en stor uppdatering! Den kommer att ta längre tid än vanligt.",
         "MajorUpdateWarning2": "Följande råd är extra viktiga för stora installationer.",
         "NeedHelpUpgrading": "Behöver du hjälp med att uppdatera Matomo?",
@@ -75,7 +73,6 @@
         "DbUpgradeNotExecuted": "Databasuppgraderingen har inte utförts.",
         "ConsoleUpdateUnexpectedUserWarning": "Det verkar som om du har kört den här uppdateringen med användaren %1$s, medan filerna för Matomo ägs av %2$s. \n\nFör att säkerställa att filerna för Matomo kan läsas av rätt användare kan du behöva köra följande kommando (eller ett liknande kommando beroende på din serverkonfiguration):\n\n$ %3$s",
         "ConsoleUpdateFailure": "Matomo kunde inte uppdateras! Se ovan för mer information.",
-        "ConsoleUpdateNoSqlQueries": "OBS! Det finns inga SQL-frågor att utföra.",
         "AlreadyUpToDate": "Allt är redan uppdaterat.",
         "ExecuteDbUpgrade": "En databasuppgradering krävs. Vill du köra uppdateringen nu?",
         "DryRun": "OBS! Detta är en testkörning",
