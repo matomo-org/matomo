@@ -84,6 +84,6 @@
         "ViewAllMarketplacePlugins": "View all Marketplace plugins",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "The plugin %1$s could not be loaded as it has missing dependencies: %2$s",
         "Websites": "Websites",
-        "UpdateSelected": "Updated Selected"
+        "UpdateSelected": "Updateg Selected"
     }
 }
