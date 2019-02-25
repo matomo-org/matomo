@@ -65,7 +65,7 @@
     "NoValidSubscriptionNoUpdates": "Once a subscription is expired you will no longer receive any updates for this plugin.",
     "PluginSubscriptionsList": "This is a list of subscriptions associated with your license key.",
     "PaidPluginsNoLicenseKeyIntro": "If you have purchased a %1$spremium paid plugin%2$s, please insert the received licence key below.",
-    "PaidPluginsWithLicenseKeyIntro": "A valid license key has been set up. For security reasons we do not show the license key here. If you have lost your license key please contact the Matomo team.",
+    "PaidPluginsWithLicenseKeyIntro": "A valid license key has been set up. For security reasons we do not show the license key here. If you have lost your license key, please contact the Matomo team.",
     "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "In case you have purchased a %1$spremium paid plugin%2$s on the Marketplace please ask a user with Super User access to add the license key.",
     "PluginDescription": "Extend and expand the functionality of Matomo via the Marketplace by downloading plugins and themes.",
     "PluginKeywords": "Keywords",
@@ -106,7 +106,7 @@
     "PluginUploadDisabled": "Plugin upload is disabled in config file. In order to enable this feature please update your configuration or contact your administrator",
     "LicenseKeyExpiresSoon": "Your license key expires soon, please contact %1$s.",
     "LicenseKeyIsExpired": "Your license key is expired, please contact %1$s.",
-    "MultiServerEnvironmentWarning": "You cannot install or update the plugin directly as you are using Matomo on multiple servers. The plugin would be only installed on one server. Instead download the plugin and deploy it manually to all your servers.",
+    "MultiServerEnvironmentWarning": "You cannot install or update the plugin directly as you are using Matomo on multiple servers. The plugin would be only installed on one server. Instead, download the plugin and deploy it manually to all your servers.",
     "AutoUpdateDisabledWarning": "You cannot install or update the plugin directly as automatic updates are disabled in the config. To enable automatic updates set %1$s in %2$s.",
     "ViewRepositoryChangelog": "View the changes"
   }
