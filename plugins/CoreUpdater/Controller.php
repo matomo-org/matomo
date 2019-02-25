@@ -141,6 +141,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->marketplacePlugins = $marketplacePlugins;
         $view->incompatiblePlugins = $incompatiblePlugins;
+        $view->piwik_latest_version_url = $this->updater->getArchiveUrl($newVersion);
         $view->can_auto_update  = Filechecks::canAutoUpdate();
         $view->makeWritableCommands = Filechecks::getAutoUpdateMakeWritableMessage();
 
