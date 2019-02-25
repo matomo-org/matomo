@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "新しいプラグインの更新を確認する",
-        "ClickHereToViewSqlQueries": "実行する SQL クエリーのリストを表示し、コピーするには、ここをクリックしてください",
         "CriticalErrorDuringTheUpgradeProcess": "アップグレード処理中の致命的なエラー：",
         "DatabaseUpgradeRequired": "データベースのアップグレードが必要",
         "DisablingIncompatiblePlugins": "互換性のないプラグインを無効にします: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "最新の安定版 2.X",
         "Latest2XBetaRelease": "最新のベータ版 2.X",
         "LtsSupportVersion": "長期サポート版",
-        "ListOfSqlQueriesFYI": "FYI：これらはデータベースを Matomo %s にアップグレードするために実行される SQL クエリです",
         "MajorUpdateWarning1": "これは最新版へのアップデートです！通常よりも時間がかかります",
         "MajorUpdateWarning2": "以下のアドバイスは、特に大規模なインストールの際、重要です。",
         "NeedHelpUpgrading": "Matomo のアップグレードをお手伝いしますか？",
@@ -75,7 +73,6 @@
         "DbUpgradeNotExecuted": "データベースのアップグレードは実行されません。",
         "ConsoleUpdateUnexpectedUserWarning": "Matomo ファイルの所有者である %2$s がユーザー %1$s と同時にこの更新プログラムを実行したようです。\n\n正しいユーザーが Matomo ファイルを確実に読み取れるようにするには、次のコマンドを実行する必要があります（またはサーバーの構成に応じて同様のコマンド）：\n\n$ %3$s",
         "ConsoleUpdateFailure": "Matomo は更新できませんでした！ 詳細については上記を参照してください。",
-        "ConsoleUpdateNoSqlQueries": "注：実行する SQL クエリはありません。",
         "AlreadyUpToDate": "既にすべて最新です。",
         "ExecuteDbUpgrade": "データベースのアップグレードが必要です。 更新を実行しますか？",
         "DryRun": "注：これは Dry Run です",

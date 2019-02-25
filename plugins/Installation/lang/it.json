@@ -132,6 +132,7 @@
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo non può utilizzare il protocollo HTTPS per l'aggiornamento e ritornerà all'aggiornamento non sicuro HTTP. Controlla che CURL o allow_fopen siano supportati e che sia installata l'estensione PHP openssl: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "non supportato",
         "Tables": "Sto creando le tabelle",
         "TablesCreatedSuccess": "Tabelle create con successo!",

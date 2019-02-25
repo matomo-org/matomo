@@ -71,6 +71,10 @@
             segment = decodeURIComponent(this.dataTable.param.segment) + ';' + segment;
         }
 
+        if (this.dataTable.props.segmented_visitor_log_segment_suffix) {
+            segment = segment + ';' + this.dataTable.props.segmented_visitor_log_segment_suffix;
+        }
+
         this.performAction(segment, tr, e);
     };
 
