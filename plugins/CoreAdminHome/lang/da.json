@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "Klik her for at fravælge.",
         "CustomLogoFeedbackInfo": "Hvis du tilpasser Matomo logoet, kan du også være interesseret i at skjule %1$s linket i topmenuen. For at gøre dette, kan du deaktivere tilbagemeldingsmodulet på %2$sUdvidelsesmodul administration%3$s siden.",
         "CustomLogoHelpText": "Du kan tilpasse Matomo logo, der bliver vist i brugergrænsefladen og e-mail rapporter.",
-        "DevelopmentProcess": "Mens vores %1$sudviklingsproces%2$s omfatter tusindvis af automatiske tests, spiller betatestere en nøglerolle i at opnå \"ingen fejl politikken\" i Matomo.",
         "EmailServerSettings": "E-mailserverindstillinger",
         "ForBetaTestersOnly": "Kun for beta testere",
         "ImageTracking": "Sporing vha. et billede",
@@ -23,8 +22,8 @@
         "InvalidPluginsYouCanUninstall": "Du kan opdatere eller afinstallere disse udvidelsesmoduler på %1$sManage Plugins%2$s-siden.",
         "JavaScriptTracking": "Sporing med JavaScript",
         "HttpTrackingApi": "HTTP-sporings-API",
-        "JSTracking_CampaignKwdParam": "Kampagne nøgleord parameter",
-        "JSTracking_CampaignNameParam": "Kampagnenavn parameter",
+        "JSTracking_CampaignKwdParam": "Parameter for kampagnenøgleord",
+        "JSTracking_CampaignNameParam": "Parameter for kampagnenavn",
         "JSTracking_CodeNoteBeforeClosingHead": "Sørg for, at denne kode er på alle side på dit website. Vi anbefaler at indsætte koden lige før det afsluttende %1$s tag.",
         "JSTracking_CustomCampaignQueryParam": "Brug brugerdefineret forespørgsel parameternavne for kampagnenavnet & søgeord",
         "JSTracking_CrossDomain": "Som standard, er det Visitor ID som identificere en unik besøgende gemt i browserens første-parts cookies, som kun kan tilgås af sider på samme domæne. Aktivering af kryds domæne linkning lader dig spore alle handlinger og sidevisninger af en bestemt bruger i det samme besøg, selv når de ser sider på adskillige domæner. Når en bruger klikker på et link til et af dine websites alias URL'er, vil der bliver tilføjet en URL paramter pk_vid, som viderestiller brugerens Visitor ID.",
@@ -77,6 +76,7 @@
         "PluginSettingsValueNotAllowed": "Værdien for feltet \"%1$s\" i udvidelsen \"%2$s\" er ikke tilladt",
         "PluginSettingsSaveFailed": "Kunne ikke gemme udvidelsesmodul indstillinger",
         "PluginSettingsSaveSuccess": "Udvidelse indstillinger opdateret.",
+        "TrackingFailures": "Sporingsfejl",
         "SettingsSaveSuccess": "Indstillinger opdateret.",
         "SendPluginUpdateCommunication": "Send en e-mail når der er en opdatering til et plugin",
         "SendPluginUpdateCommunicationHelp": "En e-mail vil blive sendt til Superbrugere, når der er en ny version tilgængelig for denne programudvidelse.",
@@ -98,6 +98,11 @@
         "YouMayOptOutBis": "Du har mulighed for at fravælge, at denne cookie placeres på din enhed.",
         "OptingYouOut": "Vælger dig fra, vent venligst...",
         "ProtocolNotDetectedCorrectly": "Du benhytter i øjeblikket Matomo over en sikker SSL-forbindelse (via HTTPS), men Matomo kunne kun detektere en ikke-sikker forbindelse på serveren.",
-        "ProtocolNotDetectedCorrectlySolution": "For at sikre at Matomo behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "For at sikre at Matomo behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s",
+        "NoKnownFailures": "Der er ikke kendte sporingsfejl.",
+        "NTrackingFailures": "%s sporingsfejl",
+        "ViewAllTrackingFailures": "Vis alle sporingsfejl",
+        "ConfirmDeleteAllTrackingFailures": "Er du sikker på, at du vil slette alle sporingsfejl?",
+        "TrackingFailuresEmail1": "Dette er blot for at fortælle dig, at der i de seneste dage har optrådt %s forskellige sporingsfejl."
     }
 }

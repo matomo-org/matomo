@@ -296,6 +296,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
         $dataTable->filter('ReplaceColumnNames');
+        $dataTable->filter('AddSegmentByLabel', array('siteSearchKeyword'));
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;
     }
@@ -333,6 +334,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable, $isPageTitleType = false);
+        $dataTable->filter('AddSegmentByLabel', array('siteSearchKeyword'));
         $dataTable->filter('ReplaceColumnNames');
         $this->addPagesPerSearchColumn($dataTable);
         return $dataTable;

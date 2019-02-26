@@ -51,6 +51,7 @@
         "CustomUnprocessedSegmentApiError4": "Once created the segment in the editor (or via API), this error message will disappear and within a few hours you will see your segmented report data, after the segment data has been pre-processed. (If it does not, there may be a problem.)",
         "CustomUnprocessedSegmentApiError5": "Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API.",
         "CustomUnprocessedSegmentApiError6": "When using this API method, you will see which users and actions were matched by your &segment= parameter.",
-        "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete."
+        "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete.",
+        "AddThisToMatomo": "Add this segment to Matomo"
     }
 }

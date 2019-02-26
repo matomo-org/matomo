@@ -34,6 +34,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::TIME_SPENT_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
+        $dataTable->queueFilter('AddSegmentByRangeLabel', array('visitDuration'));
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik::translate('VisitorInterest_BetweenXYSeconds'),
                                                                 Piwik::translate('Intl_OneMinuteShort'),
@@ -45,6 +46,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::PAGES_VIEWED_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
+        $dataTable->queueFilter('AddSegmentByRangeLabel', array('actions'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('VisitorInterest_OnePage'),
                                                             Piwik::translate('VisitorInterest_NPages')));
@@ -65,6 +67,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(
             Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
+        $dataTable->queueFilter('AddSegmentByRangeLabel', array('daysSinceLastVisit'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
         return $dataTable;
     }
@@ -84,6 +87,7 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(
             Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
 
+        $dataTable->queueFilter('AddSegmentByRangeLabel', array('visitCount'));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
 

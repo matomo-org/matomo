@@ -14,10 +14,18 @@ use Piwik\View\HtmlReportEmailHeaderView;
 
 class ContentGenerator
 {
-    public function generateHtmlContent(View $body)
+    /**
+     * @param View|string $body
+     * @return string
+     */
+    public function generateHtmlContent($body)
     {
-        HtmlReportEmailHeaderView::assignCommonParameters($body);
-        $bodyHtml = $body->render();
+        if ($body instanceof View) {
+            HtmlReportEmailHeaderView::assignCommonParameters($body);
+            $bodyHtml = $body->render();
+        } else {
+            $bodyHtml = (string)$body;
+        }
 
         $header = new View("@CoreHome/_htmlEmailHeader.twig");
         HtmlReportEmailHeaderView::assignCommonParameters($header);

@@ -23,7 +23,7 @@
          ng-change="$ctrl.onToggleCapability(true)"
          ng-model="$ctrl.capabilityToAddOrRemoveId"
          options="$ctrl.availableCapabilitiesGrouped"
-         disabled="$ctrl.isBusy"
+         data-disabled="$ctrl.isBusy"
          ng-if="$ctrl.availableCapabilitiesGrouped.length"
          class="addCapability"
     >

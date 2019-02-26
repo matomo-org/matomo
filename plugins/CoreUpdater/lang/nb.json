@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Ser etter nye oppdateringer for utvidelser",
-        "ClickHereToViewSqlQueries": "Klikk her for å se og kopiere listen med SQL-spørringer som vil bli utført.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk feil under oppdateringen:",
         "DatabaseUpgradeRequired": "Databaseoppgradering er nødvendig",
         "DisablingIncompatiblePlugins": "Deaktiverer inkompatible tillegg: %s",

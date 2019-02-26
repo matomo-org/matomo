@@ -1,5 +1,10 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "Använd tvåfaktorsautentisering.",
+        "TwoFactorAuthentication": "Tvåfaktorsautentisering",
+        "ResetTwoFactorAuthentication": "Återställ tvåfaktorsautentisering",
+        "ResetTwoFactorAuthenticationInfo": "Om användaren inte längre kan logga in på grund av förlorad återställningskod eller förlorad autentiseringsenhet, kan du återställa tvåfaktorsautentiseringen för användaren så att den kan logga in igen.",
         "AddUser": "Lägg till en ny användare",
         "AddExistingUser": "Lägg till en befintlig användare",
         "AddNewUser": "Lägg till en ny användare",
@@ -35,6 +40,7 @@
         "ExceptionInvalidEmail": "E-postadressen har inte ett giltigt format.",
         "ExceptionInvalidLoginFormat": "Användarnamnet måste vara mellan %1$s och %2$s tecken långt och får endast innehålla bokstäver, siffror och tecknen _ - . @ +",
         "ExceptionInvalidPassword": "Ditt lösenord måste vara längre %1$s tecken.",
+        "ExceptionInvalidPasswordTooLong": "Lösenordet måste vara kortare än %1$s tecken.",
         "ExceptionLoginExists": "Användaren '%s' finns redan.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth förväntar sig MD5-hashar av lösenorden (32 tecken lång sträng). Anropa gärna md5() funktionen på lösenord innan du anropar den här metoden.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Att ta bort Superanvändarbehörigheten från användare '%s' är inte möjligt.",
@@ -51,6 +57,9 @@
         "GiveViewAccessTitle": "Ge en existerande användare behörighet att visa rapporter för %s",
         "GiveViewAccessInstructions": "För att ge en befintlig användare läsrättighet för %s skriv in användarnamnet eller e-postadressen för den befintliga användaren.",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Om du vill ändra ditt lösenord så skriver du in det nya, annars lämnar du fältet tomt.",
+        "YourCurrentPassword": "Ditt nuvarande lösenord",
+        "CurrentPasswordNotCorrect": "Lösenordet du angav är inte korrekt.",
+        "ConfirmWithPassword": "Vänligen ange ditt lösenord för att godkänna ändringen.",
         "InjectedHostCannotChangePwd": "Du besöker för närvarande sidan genom ett okänt värdnamn (%1$s). Du kan inte ändra ditt lösenord innan det här prblemet är åtgärdat.",
         "LastSeen": "Senast sedd",
         "MainDescription": "Välj vilka användare som ska få tillgång till dina webbplatser. Du kan också ge tillgång till alla webbplatser samtidigt genom att välja \"Tillämpa på alla webbplatser\" i webbplatsväljaren.",
@@ -79,9 +88,7 @@
         "TheLoginScreen": "Inloggningsrutan",
         "ThereAreCurrentlyNRegisteredUsers": "Det finns just nu %s registrerade användare.",
         "TokenAuth": "API-autentiseringstoken",
-        "TokenRegenerateConfirm": "Ändring av API-autentiseringstoken kommer att ogiltigförklara användarens nuvarande token. Om användaren är inloggad kan de behöva logga in igen. Vill du verkligen fortsätta?",
-        "TokenRegenerateConfirmSelf": "Ändring av API-autentiseringstoken kommer att ogiltiggöra din egen token. Du kan behöva logga in igen om du fortsätter. Vill du verkligen ändra din autentiseringstoken?",
-        "TokenRegenerateLogoutWarning": "När du återskapar din token kommer du att loggas ut och måste logga in igen.",
+        "TokenRegenerateConfirmSelf": "Ändring av API-autentiseringstoken ogiltigförklarar ditt egna token. Om detta token är i användning, måste du uppdatera alla API-klienter med det nygenererade tokenet. Vill du verkligen ändra ditt autentiseringstoken?",
         "TokenRegenerateTitle": "Återskapa",
         "TypeYourPasswordAgain": "Bekräfta lösenordet genom att skriva in det igen.",
         "User": "Användare",
@@ -126,6 +133,8 @@
         "DeleteUsers": "Ta bort användare",
         "UserSearch": "Sök användare",
         "FilterByAccess": "Filtrera på rättighet",
+        "FilterByWebsite": "Filtrera på webbsida",
+        "ShowAll": "Visa alla",
         "Username": "Användarnamn",
         "RoleFor": "Roll för",
         "TheDisplayedUsersAreSelected": "De %1$s visade användarna är markerade.",
@@ -136,6 +145,10 @@
         "DeleteUserConfirmMultiple": "Är du säker på att du vill ta bort de %1$s markerade användarna?",
         "DeleteUserPermConfirmSingle": "Är du säker på att du vill ändra %1$s's roll till %2$s för %3$s?",
         "DeleteUserPermConfirmMultiple": "Är du säker på att du vill ändra de %1$s markerade användarnas roll till %2$s för %3$s?",
-        "AreYouSureChangePassword": "Är du säker på att du vill ändra lösenordet för %s?"
+        "AreYouSureChangeDetails": "Är du säker på att du vill ändra användarinformationen för %s?",
+        "AnonymousUserRoleChangeWarning": "Att ge användare %1$s %2$s rollen kommer göra denna webbsidas data publik och tillgänglig för alla, även om de inte har något Matomo-login.",
+        "GiveAccessToAll": "Ge denna användaren åtkomst till Alla webbplatser",
+        "OrManageIndividually": "Eller ange denna användares behörighet individuellt för varje webbplats",
+        "ChangePermToAllSitesConfirm": "Är du säker på att du vill ge %1$s användare %2$s rättigheter, till alla webbplatser som du för närvarande har administrationsrättigheter till?"
     }
 }

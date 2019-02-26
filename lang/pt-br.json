@@ -494,7 +494,7 @@
         "Advanced": "Avançado",
         "AnonymousAccess": "Acesso anônimo",
         "AnonymousTracking": "Rastreamento anônimo",
-        "AskForAnonymousTrackingPermission": "Quando ativado, o Matomo Mobile vai enviar os dados de uso anônimos para piwik.org. A intenção é usar esses dados para ajudar os desenvolvedores do Matomo a entender melhor como o aplicativo é utilizado. Informações enviadas são: menus e configurações clicadas, nome do sistema operacional e versão, qualquer erro exibido no Matomo Mobile. Nós não iremos acompanhar qualquer de seus dados analíticos e estes dados anônimos nunca será tornados públicos. Você pode ativar\/desativar o rastreamento anônimo em Configurações a qualquer momento.",
+        "AskForAnonymousTrackingPermission": "Quando ativado, o Matomo Mobile vai enviar os dados de uso anônimos para matomo.org. A intenção é usar esses dados para ajudar os desenvolvedores do Matomo a entender melhor como o aplicativo é utilizado. Informações enviadas são: menus e configurações clicadas, nome do sistema operacional e versão, qualquer erro exibido no Matomo Mobile. Nós não iremos acompanhar qualquer de seus dados analíticos e estes dados anônimos nunca será tornados públicos. Você pode ativar\/desativar o rastreamento anônimo em Configurações a qualquer momento.",
         "ChooseHttpTimeout": "Escolha um valor timeout HTTP",
         "ChooseMetric": "Escolha métrica",
         "ChooseReport": "Escolha um relatório",

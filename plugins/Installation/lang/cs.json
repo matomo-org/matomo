@@ -109,7 +109,6 @@
         "SystemCheckSummaryThereWereWarnings": "Vyskytly se problémy s vaším systémem. Matomo poběží, ale možná se nevyhnete menším problémům.",
         "SystemCheckTimeLimitHelp": "na webech s vysokým přenosem, může archivace vyžadovat více času, než je nyní povoleno. Pokud je potřeba, podívejte se na direktivu max_execution_time ve svém souboru php.ini",
         "SystemCheckTracker": "Stav sledování",
-        "SystemCheckTrackerHelp": "Get požadavek na piwik.php selhal. Zkuste vyloučit tuto URL z HTTP autentizace a zakažte mod_security (možná budete muset požádat svého poskytovatele hostingu). Více informací naleznete v záznamu chyb web serveru.",
         "SystemCheckWarnDomHelp": "Měli byste povolit \"dom\" rozšíření t. j. nainstalovat balíček \"php-dom\" nebo \"php-xml\".",
         "SystemCheckWarning": "Matomo bude pracovat normálně, ale některé funkce mohou chybět",
         "SystemCheckWarnJsonHelp": "Pro lepší výkon byste měli povolit rozšíření \"json\" t. j. nainstalovat balíček \"php-json\".",

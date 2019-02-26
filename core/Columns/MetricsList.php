@@ -34,12 +34,15 @@ class MetricsList
      */
     private $metrics = array();
 
+    private $metricsByNameCache = array();
+
     /**
      * @param Metric $metric
      */
     public function addMetric(Metric $metric)
     {
         $this->metrics[] = $metric;
+        $this->metricsByNameCache = array();
     }
 
     /**
@@ -66,6 +69,7 @@ class MetricsList
             if ($metric->getCategoryId() === $metricCategory) {
                 if (!$metricName || $metric->getName() === $metricName) {
                     unset($this->metrics[$index]);
+                    $this->metricsByNameCache = array();
                 }
             }
         }
@@ -77,11 +81,17 @@ class MetricsList
      */
     public function getMetric($metricName)
     {
-        foreach ($this->metrics as $index => $metric) {
-            if ($metric->getName() === $metricName) {
-                return $metric;
+        if (empty($this->metricsByNameCache)) {
+            // this method might be called quite often... eg when having heaps of goals... need to cache it
+            foreach ($this->metrics as $index => $metric) {
+                $this->metricsByNameCache[$metric->getName()] = $metric;
             }
         }
+
+        if (!empty($this->metricsByNameCache[$metricName])) {
+            return $this->metricsByNameCache[$metricName];
+        }
+
         return null;
     }
 

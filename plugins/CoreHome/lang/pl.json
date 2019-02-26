@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Brak danych w tej kategorii. Spróbuj opcji \"Uwzględnij całą populację\".",
         "ChangeVisualization": "Zmień wizualizację",
+        "ChangePeriod": "Zmień zakres",
         "CheckForUpdates": "Sprawdź aktualizacje",
         "CheckPiwikOut": "Sprawdź Matomo!",
         "ClickToEditX": "Edytuj %s",
@@ -67,6 +68,8 @@
         "TableNoData": "Brak danych dla tej tabeli.",
         "ThereIsNoDataForThisReport": "Brak danych dla tego raportu.",
         "UnFlattenDataTable": "Raport jest jednolity %s Przełącz na hierarchiczny",
+        "RemoveTotalsRowDataTable": "Raport pokazuje podsumowane wiersze %s Usuń podsumowanie wierszy",
+        "AddTotalsRowDataTable": "Raport nie pokazuje podsumowanych wierszy %s Pokaż podsumowane wiersze",
         "ViewAllPiwikVideoTutorials": "Obejrzyj wideo tutoriale Matomo",
         "WebAnalyticsReports": "Raport analityki statystyk stron",
         "YouAreUsingTheLatestVersion": "Używasz najnowszej wersji Matomo!",
@@ -101,6 +104,7 @@
         "ExpandSubtables": "Rozwiń zagnieżdżone tabele",
         "StandardReport": "Raport standardowy",
         "FlattenReport": "Spłaszcz raport",
-        "ReportWithMetadata": "Raport z metadanymi"
+        "ReportWithMetadata": "Raport z metadanymi",
+        "SeeAvailableVersions": "Zobacz dostępne wersje"
     }
 }

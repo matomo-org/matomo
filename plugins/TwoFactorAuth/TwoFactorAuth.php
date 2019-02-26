@@ -48,6 +48,7 @@ class TwoFactorAuth extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
+        $jsFiles[] = "libs/bower_components/qrcode.js/qrcode.js";
     }
 
     public function deleteRecoveryCodes($returnedValue, $params)

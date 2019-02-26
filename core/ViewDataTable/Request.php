@@ -71,6 +71,7 @@ class Request
             'filter_column',
             'filter_pattern',
             'flat',
+            'totals',
             'expanded',
             'pivotBy',
             'pivotByColumn',

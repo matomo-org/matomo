@@ -53,6 +53,7 @@
         "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (Matomo ignora cookie care a fost găsit în browser-ul dvs.).",
         "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.).",
         "XtoYofN": "%1$s - %2$s of %3$s",
+        "ShowAll": "Arată tot",
         "Username": "Nume utilizator"
     }
 }

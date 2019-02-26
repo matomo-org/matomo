@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 
 /**
  * Revenue for a specific goal.
@@ -22,7 +23,7 @@ class Revenue extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_revenue';
+        return Goals::makeGoalColumn($this->idGoal, 'revenue', false);
     }
 
     public function getTranslatedName()

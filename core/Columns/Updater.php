@@ -14,6 +14,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Db;
+use Piwik\Plugin\Manager;
 use Piwik\Updater as PiwikUpdater;
 use Piwik\Filesystem;
 use Piwik\Cache as PiwikCache;
@@ -341,7 +342,7 @@ class Updater extends \Piwik\Updates
 
     private static function getCurrentDimensionFileChanges()
     {
-        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/*/Columns', '*.php');
+        $files = Filesystem::globr(Manager::getPluginsDirectory() . '*/Columns', '*.php');
 
         $times = array();
         foreach ($files as $file) {

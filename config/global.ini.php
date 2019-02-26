@@ -93,7 +93,13 @@ log_writers[] = screen
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:
 ; ERROR, WARN, INFO, DEBUG
+; this setting will apply to every log writer, if there is no specific log level defined for a writer.
 log_level = WARN
+
+; you can also set specific log levels for different writers, by appending the writer name to log_level_, like so:
+; this allows you to log more information to one backend vs another.
+; log_level_screen =
+; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
 logger_file_path = tmp/logs/piwik.log
@@ -310,7 +316,7 @@ default_period = day
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; This setting is overriden in the UI, under "General Settings".
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
-time_before_today_archive_considered_outdated = 150
+time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
 ; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
@@ -371,7 +377,7 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session. As of Matomo 3.8.0 it is the only supported handler.
+; Matomo uses PHP's dbtable for session.
 ; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
 session_save_handler = dbtable
 
@@ -388,7 +394,7 @@ login_cookie_name = piwik_auth
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; (DEPRECATED) has no effect
+; Sets the session cookie path
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
@@ -443,6 +449,9 @@ noreply_email_address = "noreply@{DOMAIN}"
 
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
+
+; set to 0 to disable sending of all emails. useful for testing.
+emails_enabled = 1
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
@@ -684,7 +693,7 @@ num_days_before_tracking_code_reminder = 5
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
-; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; If you want to track unique users across websites you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 

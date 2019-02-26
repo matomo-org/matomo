@@ -722,7 +722,9 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        if (!self::get()->isErrNo($ex, 1213)) {
+        if (!self::get()->isErrNo($ex, 1213)
+            && !self::get()->isErrNo($ex, 1205)
+        ) {
             return;
         }
 
@@ -731,7 +733,6 @@ class Db
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
-
         } catch(\Exception $e) {
             //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }

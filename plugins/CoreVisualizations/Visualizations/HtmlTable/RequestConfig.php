@@ -38,6 +38,7 @@ class RequestConfig extends VisualizationRequestConfig
 
     public function __construct()
     {
+        $this->totals = true;
         $this->filter_limit = PiwikConfig::getInstance()->General['datatable_default_limit'];
 
         if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {

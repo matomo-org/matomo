@@ -117,6 +117,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://mths.be/placeholder
 	License:  Dual licensed: MIT (Expat) or GPL
 
+	Name:  qrcode.js
+	Link:  https://github.com/davidshimjs/qrcodejs
+	License:  MIT
+
 	Name:  json2.js
 	Link:  http://json.org/
 	License:  Public domain

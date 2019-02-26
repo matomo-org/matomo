@@ -21,6 +21,7 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
+use Psr\Log\LoggerInterface;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -64,6 +65,9 @@ class FrontController extends Singleton
     const DEFAULT_LOGIN = 'anonymous';
     const DEFAULT_TOKEN_AUTH = 'anonymous';
 
+    // public for tests
+    public static $requestId = null;
+
     /**
      * Set to false and the Front Controller will not dispatch the request
      *
@@ -104,11 +108,20 @@ class FrontController extends Singleton
      */
     private static function generateSafeModeOutputFromException($e)
     {
+        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+            'exception' => $e,
+            'ignoreInScreenWriter' => true,
+        ]);
+
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
         );
+
+        if (isset(self::$requestId)) {
+            $error['request_id'] = self::$requestId;
+        }
 
         $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
         $error['backtrace'] .= $e->getTraceAsString();
@@ -240,9 +253,19 @@ class FrontController extends Singleton
     public static function triggerSafeModeWhenError()
     {
         $lastError = error_get_last();
+
+        if (!empty($lastError) && isset(self::$requestId)) {
+            $lastError['request_id'] = self::$requestId;
+        }
+
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
             $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
+
+            StaticContainer::get(LoggerInterface::class)->error('Fatal error encountered: {exception}', [
+                'exception' => $lastError,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
@@ -265,6 +288,8 @@ class FrontController extends Singleton
         if ($this->initialized) {
             return;
         }
+
+        self::setRequestIdHeader();
 
         $this->initialized = true;
 
@@ -677,5 +702,19 @@ class FrontController extends Singleton
         }
 
         return $authAdapter;
+    }
+
+    public static function getUniqueRequestId()
+    {
+        if (self::$requestId === null) {
+            self::$requestId = substr(Common::generateUniqId(), 0, 5);
+        }
+        return self::$requestId;
+    }
+
+    private static function setRequestIdHeader()
+    {
+        $requestId = self::getUniqueRequestId();
+        Common::sendHeader("X-Matomo-Request-Id: $requestId");
     }
 }

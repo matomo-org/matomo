@@ -488,7 +488,7 @@
         "Advanced": "進階",
         "AnonymousAccess": "匿名存取",
         "AnonymousTracking": "匿名追蹤",
-        "AskForAnonymousTrackingPermission": "當啟用時，Matomo 行動版會發送匿名使用資料至 piwik.org。這些資料將用來幫助 Matomo 行動版開發人員了解應用程式使用情況。會傳送的資料為：選單和設定的點擊、作業系統名稱和版本、在 Matomo 行動版中顯示的錯誤。我們不會追蹤你任何分析資料。這份匿名資料也不會被公開。你可以在設定中隨時啟用\/停用匿名追蹤。",
+        "AskForAnonymousTrackingPermission": "當啟用時，Matomo 行動版會發送匿名使用資料至 matomo.org。這些資料將用來幫助 Matomo 行動版開發人員了解應用程式使用情況。會傳送的資料為：選單和設定的點擊、作業系統名稱和版本、在 Matomo 行動版中顯示的錯誤。我們不會追蹤你任何分析資料。這份匿名資料也不會被公開。你可以在設定中隨時啟用\/停用匿名追蹤。",
         "ChooseHttpTimeout": "選擇 HTTP 逾時時間",
         "ChooseMetric": "選擇數據",
         "ChooseReport": "選擇報表",

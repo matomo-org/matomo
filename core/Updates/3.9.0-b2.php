@@ -17,7 +17,7 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 /**
  * Update for version 3.8.0-b5.
  */
-class Updates_3_8_0_b5 extends PiwikUpdates
+class Updates_3_9_0_b2 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory

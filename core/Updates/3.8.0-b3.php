@@ -12,6 +12,7 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Plugin;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -47,14 +48,17 @@ class Updates_3_8_0_b3 extends PiwikUpdates
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
-        foreach (Option::getLike('GoogleAuthentication.%') as $name => $value) {
-            $value = @unserialize($value);
-            if (!empty($value['isActive']) && !empty($value['secret'])) {
-                $login = str_replace('GoogleAuthentication.', '', $name);
+        if (Plugin\Manager::getInstance()->isPluginActivated('GoogleAuthenticator')) {
+            foreach (Option::getLike('GoogleAuthentication.%') as $name => $value) {
+                $value = @unserialize($value);
+                if (!empty($value['isActive']) && !empty($value['secret'])) {
+                    $login = str_replace('GoogleAuthentication.', '', $name);
 
-                $table = Common::prefixTable('user');
-                Db::query("UPDATE $table SET twofactor_secret = ? where login = ?", array($value['secret'], $login));
+                    $table = Common::prefixTable('user');
+                    Db::query("UPDATE $table SET twofactor_secret = ? where login = ?", array($value['secret'], $login));
+                }
             }
         }
+
     }
 }

@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
+use Psr\Log\LoggerInterface;
 use Zend_Session;
 
 /**
@@ -19,7 +20,7 @@ use Zend_Session;
  */
 class Session extends Zend_Session
 {
-    const SESSION_NAME = 'PIWIK_SESSID';
+    const SESSION_NAME = 'MATOMO_SESSID';
 
     public static $sessionName = self::SESSION_NAME;
 
@@ -81,6 +82,8 @@ class Session extends Zend_Session
         // the session data won't be deleted until the cookie expires.
         @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
 
+        @ini_set('session.cookie_path', empty($config->General['login_cookie_path']) ? '/' : $config->General['login_cookie_path']);
+
         $currentSaveHandler = ini_get('session.save_handler');
 
         if (!SettingsPiwik::isPiwikInstalled()) {
@@ -102,6 +105,10 @@ class Session extends Zend_Session
             // We consider these to be misconfigurations, in that:
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
+
+            if (@ini_get('session.serialize_handler') !== 'php_serialize') {
+                @ini_set('session.serialize_handler', 'php_serialize');
+            }
 
             $config = array(
                 'name'           => Common::prefixTable(DbTable::TABLE_NAME),
@@ -126,7 +133,10 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::error('Unable to start session: ' . $e->getMessage());
+            StaticContainer::get(LoggerInterface::class)->error('Unable to start session: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             if (SettingsPiwik::isPiwikInstalled()) {
                 $pathToSessions = '';

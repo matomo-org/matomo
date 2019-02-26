@@ -24,7 +24,9 @@ var piwikHelper = {
 
     htmlDecode: function(value)
     {
-        return $('<div/>').html(value).text();
+        var textArea = document.createElement('textarea');
+        textArea.innerHTML = value;
+        return textArea.value;
     },
 
     sendContentAsDownload: function (filename, content, mimeType) {

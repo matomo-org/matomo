@@ -11,7 +11,6 @@
         "CorsDomainsHelp": "Você pode definir domínios ou subdomínios como http:\/\/example.com ou http:\/\/stats.example.com. Ou para permitir solicitações entre domínios de todos os domínios, basta adicionar um *",
         "CustomLogoFeedbackInfo": "Se você personalizar o logotipo Matomo, você também pode estar interessado em esconder a ligação %1$s no menu superior. Para fazer isso, você pode desabilitar o plug-in Comentários na página de Plugins %2$sManage%3$s.",
         "CustomLogoHelpText": "Você pode personalizar o logo que o Matomo exibe na interface do sistema e nos relatórios enviados por e-mail.",
-        "DevelopmentProcess": "Enquanto o nosso %1$sprocesso de desenvolvimento%2$s inclui milhares de testes automatizados, Os Beta Testers desempenham um papel fundamental na realização da política de \"Nenhum bug\" no Matomo.",
         "EmailServerSettings": "Configurações do servidor de e-mail",
         "ForBetaTestersOnly": "Somente para testadores beta",
         "ImageTracking": "Rastreamento por imagem",

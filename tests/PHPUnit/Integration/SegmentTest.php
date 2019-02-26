@@ -57,6 +57,7 @@ class SegmentTest extends IntegrationTestCase
 
     public function getCommonTestData()
     {
+        $encodedComplexValue = urlencode(urlencode('s#2&#--_*+?#  #5"\'&<>.22,3'));
         return array(
             // Normal segment
             array('countryCode==France', array(
@@ -107,6 +108,15 @@ class SegmentTest extends IntegrationTestCase
                     'def', 'def', 'def', 'def', 'def',
                 ),
             )),
+
+            array(urlencode('browserCode!=' . $encodedComplexValue . ',browserCode==' . $encodedComplexValue . ';browserCode!=' . $encodedComplexValue), [
+                'where' => ' (( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) OR log_visit.config_browser_name = ?) AND ( log_visit.config_browser_name IS NULL OR log_visit.config_browser_name <> ? ) ',
+                'bind' => [
+                    's#2&#--_*+?#  #5"\'&<>.22,3',
+                    's#2&#--_*+?#  #5"\'&<>.22,3',
+                    's#2&#--_*+?#  #5"\'&<>.22,3',
+                ],
+            ])
         );
     }
 

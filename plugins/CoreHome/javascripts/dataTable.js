@@ -175,6 +175,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'disable_generic_filters',
             'columns',
             'flat',
+            'totals',
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
@@ -1959,6 +1960,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.filter_sort_column;
     delete dataTable.param.filter_sort_order;
     delete dataTable.param.columns;
+    delete dataTable.param.totals;
     dataTable.reloadAjaxDataTable();
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };

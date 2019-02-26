@@ -23,19 +23,20 @@
         "RealTimeVisitorCount": "Tidstro besøgsantal",
         "Referrer_URL": "Henvisning netadresse",
         "ShowMap": "vis kort",
+        "ActionsAndDuration": "%1$s handlinger på %2$s",
         "SimpleRealTimeWidget_Message": "%1$s og %2$s i den sidste %3$s.",
         "ViewVisitorProfile": "Vis besøgendes profil",
         "VisitedPages": "Besøgte sider",
         "RevisitedPages": "Sider vist mere end én gang",
+        "VisitsLog": "Besøgslog",
         "VisitorLog": "Besøgslog",
         "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%1$s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %2$s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
-        "VisitorsInRealTime": "Besøgende her og nu",
+        "VisitorsInRealTime": "Besøg i realtid",
         "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
         "VisitsFrom": "%1$s%2$s besøg %3$s fra",
-        "RowActionTooltipDefault": "Vis besøgslog opdelt efter denne række",
-        "RowActionTooltipWithDimension": "Vis besøgslog opdelt efter %s",
-        "RowActionTooltipTitle": "Åben segmenteret besøgslog",
-        "SegmentedVisitorLogTitle": "Besøgslog viser besøg, hvor %1$s er \"%2$s\""
+        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og besøgte %4$s sider%5$s på %6$s besøg%7$s.",
+        "VisitSummaryWithActionDetails": "Brugte i alt %1$s%2$s på hjemmesiden%3$s og udførte %4$s handlinger%5$s (%6$s) på %7$s besøg%8$s.",
+        "SegmentedVisitorLogTitle": "Besøgsloggen viser besøg, hvor %1$s er \"%2$s\""
     }
 }

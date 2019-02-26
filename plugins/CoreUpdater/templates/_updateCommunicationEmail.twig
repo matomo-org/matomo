@@ -1,0 +1,18 @@
+<p>{{ 'ScheduledReports_EmailHello'|translate }}</p>
+
+<p>{{ 'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate }}</p>
+
+<p>{{ 'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate(latestVersion) }}<br/>
+{{ host }}index.php?module=CoreUpdater&action=newVersionAvailable
+</p>
+
+{% if isStableVersion %}
+<p>
+    {{ 'CoreUpdater_ViewVersionChangelog'|translate }}
+    <br/>
+    {{ linkToChangeLog }}
+</p>
+{% endif %}
+
+<p>{{ 'CoreUpdater_ReceiveEmailBecauseIsSuperUser'|translate(host) }}</p>
+<p>{{ 'CoreUpdater_FeedbackRequest'|translate }}<br/>https://matomo.org/contact/</p>

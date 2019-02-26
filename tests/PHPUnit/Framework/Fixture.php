@@ -23,6 +23,7 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\FrontController;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
@@ -367,6 +368,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public function clearInMemoryCaches()
     {
         Date::$now = null;
+        FrontController::$requestId = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();

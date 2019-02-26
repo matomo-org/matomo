@@ -3,7 +3,7 @@
         "ColumnCustomVariableName": "Název vlastní proměnné",
         "ColumnCustomVariableValue": "Hodnota vlastní proměnné",
         "CustomVariables": "Vlastní proměnné",
-        "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %1$s Pro více informací si přečtěte %2$sdokumentaci o vlastních proměnných na piwik.org%3$s",
+        "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %1$s Pro více informací si přečtěte %2$sdokumentaci o vlastních proměnných na matomo.org%3$s",
         "ScopePage": "rozsah stránky",
         "ScopeVisit": "rozsah návštěvy",
         "ScopeConversion": "rozsah konverze",

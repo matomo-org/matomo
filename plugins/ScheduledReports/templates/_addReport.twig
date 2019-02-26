@@ -1,13 +1,13 @@
 <div piwik-content-block
      content-title="{{ 'ScheduledReports_CreateAndScheduleReport'|translate|e('html_attr') }}"
      class="entityAddContainer"
-     ng-show="manageScheduledReport.showReportForm">
+     ng-if="manageScheduledReport.showReportForm">
     <div class='clear'></div>
     <form id='addEditReport' piwik-form ng-submit="manageScheduledReport.submitReport()">
 
         <div piwik-field uicontrol="text" name="website"
              title="{{ 'General_Website'|translate|e('html_attr') }}"
-             disabled="true"
+             data-disabled="true"
              value="{{ siteName|rawSafeDecoded }}">
         </div>
 
