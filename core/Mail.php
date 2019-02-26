@@ -42,7 +42,10 @@ class Mail extends Zend_Mail
         /** @var Translator $translator */
         $translator = StaticContainer::get('Piwik\Translation\Translator');
 
-        $fromEmailName = Config::getInstance()->General['noreply_email_name'];
+        $fromEmailName = Config::getInstance()->mail['noreply_email_name'];
+        if(empty($fromEmailName)){
+            $fromEmailName = Config::getInstance()->General['noreply_email_name'];
+        }
 
         if (empty($fromEmailName) && $customLogo->isEnabled()) {
             $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
@@ -50,7 +53,10 @@ class Mail extends Zend_Mail
             $fromEmailName = $translator->translate('TagManager_MatomoTagName');
         }
 
-        $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
+        $fromEmailAddress = Config::getInstance()->mail['noreply_email_address'];
+        if(empty($fromEmailAddress)){
+            $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
+        }
         $this->setFrom($fromEmailAddress, $fromEmailName);
     }
 
