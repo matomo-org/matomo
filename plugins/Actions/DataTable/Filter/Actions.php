@@ -35,7 +35,8 @@ class Actions extends BaseFilter
     public function filter($table)
     {
         $table->filter(function (DataTable $dataTable) {
-            $urlPrefix = $dataTable->getMetadata('site')->getMainUrl();
+            $site = $dataTable->getMetadata('site');
+            $urlPrefix = $site ? $site->getMainUrl() : null;
 
             $defaultActionName = Config::getInstance()->General['action_default_name'];
 
@@ -71,7 +72,7 @@ class Actions extends BaseFilter
                     } else {
                         $row->setMetadata('segmentValue', trim(urldecode($label)));
                     }
-                } else if (!$this->isPageTitleType) { // folder for older data w/ no folder URL metadata
+                } else if (!$this->isPageTitleType && $urlPrefix) { // folder for older data w/ no folder URL metadata
                     $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
                 }
 
