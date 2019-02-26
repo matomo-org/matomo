@@ -129,6 +129,20 @@
                      autocomplete="off">
                 </div>
 
+                <div piwik-field uicontrol="text" name="mailFromAddress"
+                     ng-model="mailSettings.mailFromAddress"
+                     title="{{ 'General_SmtpFromAddress'|translate|e('html_attr') }}"
+                     value="{{ mail.noreply_email_address }}" inline-help="{{ 'General_UsuallyYourEmailAddress'|translate|e('html_attr') }}"
+                     autocomplete="off">
+                </div>
+
+                <div piwik-field uicontrol="text" name="mailFromName"
+                     ng-model="mailSettings.mailFromName"
+                     title="{{ 'General_SmtpFromName'|translate|e('html_attr') }}"
+                     value="{{ mail.noreply_email_name }}" inline-help="{{ 'General_NameShownInTheSenderColumn'|translate|e('html_attr') }}"
+                     autocomplete="off">
+                </div>
+
                 <div piwik-field uicontrol="select" name="mailEncryption"
                      ng-model="mailSettings.mailEncryption"
                      title="{{ 'General_SmtpEncryption'|translate|e('html_attr') }}"

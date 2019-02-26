@@ -29,6 +29,8 @@
                 mailHost: this.mailHost,
                 mailType: this.mailType,
                 mailUsername: this.mailUsername,
+                mailFromAddress: this.mailFromAddress,
+                mailFromName: this.mailFromName,
                 mailEncryption: this.mailEncryption
             };
 
