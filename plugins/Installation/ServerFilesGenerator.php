@@ -51,8 +51,16 @@ class ServerFilesGenerator
             $allow . "\n" .
             "</Files>\n";
 
+        $noCachePreview = "
+# do not cache preview container files
+<Files  ~ \"^container_.*_preview\.js$\">
+<IfModule mod_headers.c>
+Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
+</IfModule>
+</Files>";
+
         $directoriesToProtect = array(
-            '/js'        => $allowAny,
+            '/js'        => $allowAny . $noCachePreview,
             '/libs'      => $denyAll . $allowStaticAssets,
             '/vendor'    => $denyAll . $allowStaticAssets,
             '/plugins'   => $denyAll . $allowStaticAssets,

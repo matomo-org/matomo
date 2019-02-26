@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
+use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -109,7 +110,21 @@ class Update extends TranslationBase
                     }
 
                     @touch(PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $code . '.json');
-                    API::unsetInstance(); // unset language manager instance, so valid names are refetched
+                    API::unsetAllInstances(); // unset language manager instance, so valid names are refetched
+
+                    $command = $this->getApplication()->find('translations:generate-intl-data');
+                    $arguments = array(
+                        'command' => 'translations:generate-intl-data',
+                        '--language' => $code,
+                    );
+                    $inputObject = new ArrayInput($arguments);
+                    $inputObject->setInteractive($input->isInteractive());
+                    $command->run($inputObject, $output->isVeryVerbose() ? $output : new NullOutput());
+
+                    API::unsetAllInstances(); // unset language manager instance, so valid names are refetched
+                    Cache::flushAll();
+
+                    $languageCodes[] = $code;
                 }
 
                 $command = $this->getApplication()->find('translations:set');
@@ -121,7 +136,7 @@ class Update extends TranslationBase
                 );
                 $inputObject = new ArrayInput($arguments);
                 $inputObject->setInteractive($input->isInteractive());
-                $command->run($inputObject, new NullOutput());
+                $command->run($inputObject, $output->isVeryVerbose() ? $output : new NullOutput());
             }
 
             $progress->finish();
@@ -143,9 +158,9 @@ class Update extends TranslationBase
             return $pluginsWithTranslations;
         }
 
-        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         $pluginsWithTranslations = array_map(function ($elem) {
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            return str_replace(array(Manager::getPluginsDirectory(), '/lang/en.json'), '', $elem);
         }, $pluginsWithTranslations);
 
         return $pluginsWithTranslations;
@@ -174,9 +189,9 @@ class Update extends TranslationBase
 
         $pluginsNotInCore = array_merge($submodulePlugins, $newPlugins);
 
-        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         $pluginsWithTranslations = array_map(function ($elem) {
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            return str_replace(array(Manager::getPluginsDirectory(), '/lang/en.json'), '', $elem);
         }, $pluginsWithTranslations);
 
         $pluginsInCore = array_diff($pluginsWithTranslations, $pluginsNotInCore);

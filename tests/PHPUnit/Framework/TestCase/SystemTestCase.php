@@ -163,7 +163,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     'otherRequestParameters' => array(
                         'idReport'     => 1,
                         'reportFormat' => ReportRenderer::HTML_FORMAT,
-                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
                     )
                 )
             )
@@ -183,7 +184,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     'otherRequestParameters' => array(
                         'idReport'     => 1,
                         'reportFormat' => ReportRenderer::CSV_FORMAT,
-                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
                     )
                 )
             )
@@ -205,7 +207,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 1,
                              'reportFormat' => ReportRenderer::PDF_FORMAT,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
                 )
@@ -225,7 +228,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 2,
-                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                         'serialize' => 0,
                      )
                  )
             )
@@ -244,7 +248,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 3,
-                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                         'serialize' => 0,
                      )
                  )
             )
@@ -265,7 +270,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 4,
                              'reportFormat' => ReportRenderer::HTML_FORMAT,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
                 )
@@ -284,7 +290,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                          'fileExtension'          => 'html',
                          'otherRequestParameters' => array(
                              'idReport'     => 5,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
                 )
@@ -303,7 +310,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                         'fileExtension'          => 'html',
                         'otherRequestParameters' => array(
                             'idReport'     => 6,
-                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                            'serialize' => 0,
                         )
                     )
                 )
@@ -322,7 +330,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                         'fileExtension'          => 'html',
                         'otherRequestParameters' => array(
                             'idReport'     => 7,
-                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                            'serialize' => 0,
                         )
                     )
                 )

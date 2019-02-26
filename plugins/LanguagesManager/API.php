@@ -15,6 +15,7 @@ use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Cache as PiwikCache;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugin\Manager;
 use Piwik\Translation\Loader\DevelopmentLoader;
 
 /**
@@ -86,20 +87,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Return information on translations (code, language, % translated, etc)
      *
+     * @param boolean $excludeNonCorePlugins excludes non core plugin from percentage calculation
+     *
      * @return array Array of arrays
      */
-    public function getAvailableLanguagesInfo()
+    public function getAvailableLanguagesInfo($excludeNonCorePlugins=true)
     {
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
         $englishTranslation = json_decode($data, true);
 
         // merge with plugin translations if any
-        $pluginFiles = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginFiles = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         foreach ($pluginFiles as $file) {
 
-            $data = file_get_contents($file);
-            $pluginTranslations = json_decode($data, true);
-            $englishTranslation = array_merge_recursive($englishTranslation, $pluginTranslations);
+            preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+            $plugin = $matches[1];
+
+            if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
+                $data = file_get_contents($file);
+                $pluginTranslations = json_decode($data, true);
+                $englishTranslation = array_merge_recursive($englishTranslation, $pluginTranslations);
+            }
         }
 
         $filenames = $this->getAvailableLanguages();
@@ -109,12 +117,17 @@ class API extends \Piwik\Plugin\API
             $translations = json_decode($data, true);
 
             // merge with plugin translations if any
-            $pluginFiles = glob(sprintf('%s/plugins/*/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
+            $pluginFiles = glob(sprintf('%s*/lang/%s.json', Manager::getPluginsDirectory(), $filename));
             foreach ($pluginFiles as $file) {
 
-                $data = file_get_contents($file);
-                $pluginTranslations = json_decode($data, true);
-                $translations = array_merge_recursive($translations, $pluginTranslations);
+                preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+                $plugin = $matches[1];
+
+                if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
+                    $data = file_get_contents($file);
+                    $pluginTranslations = json_decode($data, true);
+                    $translations = array_merge_recursive($translations, $pluginTranslations);
+                }
             }
 
             $intersect = function ($array, $array2) {
@@ -210,7 +223,7 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $languageFile = PIWIK_INCLUDE_PATH . "/plugins/$pluginName/lang/$languageCode.json";
+        $languageFile = Manager::getPluginsDirectory() . "$pluginName/lang/$languageCode.json";
 
         if (!file_exists($languageFile)) {
             return false;

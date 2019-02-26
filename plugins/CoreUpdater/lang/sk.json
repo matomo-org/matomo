@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Pre prezeranie a kopírovanie zoznamu SQL dopytov, ktoré budú vykonané, kliknite ru.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritická chyba počas procesu aktualizácie:",
         "DatabaseUpgradeRequired": "Vyžaduje sa aktualizácia databázy",
         "DisablingIncompatiblePlugins": "Vypínanie nekompatibilných pluginov: %s",

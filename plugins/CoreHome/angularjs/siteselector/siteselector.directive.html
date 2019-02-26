@@ -3,7 +3,7 @@
      ng-class="{'expanded': view.showSitesList}">
 
     <script type="text/ng-template" id="siteselector_allsiteslink.html">
-        <div ng-click="switchSite({idsite: 'all', name: allSitesText});view.showSitesList=false;"
+        <div ng-click="switchSite({idsite: 'all', name: allSitesText}, $event);view.showSitesList=false;"
              class="custom_select_all">
             <a href="{{ getUrlAllSites() }}"
                piwik-ignore-click
@@ -50,7 +50,7 @@
 
         <div class="custom_select_container">
             <ul class="custom_select_ul_list" ng-click="view.showSitesList=false;">
-                <li ng-click="switchSite(site)"
+                <li ng-click="switchSite(site, $event)"
                     ng-repeat="site in model.sites"
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"

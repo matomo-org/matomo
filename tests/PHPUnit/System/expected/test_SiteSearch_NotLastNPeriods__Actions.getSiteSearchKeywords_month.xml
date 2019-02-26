@@ -14,6 +14,7 @@
 		<avg_time_on_page>144</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
 	</row>
 	<row>
 		<label>Search 1</label>
@@ -29,6 +30,7 @@
 		<avg_time_on_page>78</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==Search+1</segment>
 	</row>
 	<row>
 		<label>Search 2</label>
@@ -45,6 +47,7 @@
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>50%</exit_rate>
+		<segment>siteSearchKeyword==Search+2</segment>
 	</row>
 	<row>
 		<label>Final tüte Keyword Searched for now</label>
@@ -61,6 +64,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==Final+t%C3%BCte+Keyword+Searched+for+now</segment>
 	</row>
 	<row>
 		<label>Keyword - Tracking API</label>
@@ -76,5 +80,6 @@
 		<avg_time_on_page>27</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<segment>siteSearchKeyword==Keyword+-+Tracking+API</segment>
 	</row>
 </result>
