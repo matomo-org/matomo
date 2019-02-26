@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\Access;
 use Piwik\Access\CapabilitiesProvider;
@@ -17,6 +18,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\IP;
+use Piwik\Mail;
 use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
@@ -26,7 +29,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Url;
+use Piwik\View;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -915,6 +918,10 @@ class API extends \Piwik\Plugin\API
 
         Cache::deleteTrackerCache();
 
+        if ($email != $userInfo['email']) {
+            $this->sendEmailChangedEmail($userInfo, $email);
+        }
+
         /**
          * Triggered after an existing user has been updated.
          * Event notify about password change.
@@ -1378,5 +1385,34 @@ class API extends \Piwik\Plugin\API
             }
         }
         return [$roles, $capabilities];
+    }
+
+    private function sendEmailChangedEmail($user, $newEmail)
+    {
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+        $uaParser = new DeviceDetector($userAgent);
+        $uaParser->parse();
+
+        $view = new View('@UsersManager/_emailChangedEmail.twig');
+        $view->accountName = Common::sanitizeInputValue($user['login']);
+        $view->newEmail = Common::sanitizeInputValue($newEmail);
+        $view->deviceName = $uaParser->getDeviceName();
+        $view->ipAddress = IP::getIpFromHeader();
+
+        $mail = new Mail();
+
+        // send the mail to both the old email and the new email
+        $mail->addTo($newEmail, $user['login']);
+        $mail->addTo($user['email'], $user['login']);
+        $mail->setSubject(Piwik::translate('UsersManager_EmailChangeNotificationSubject'));
+        $mail->setDefaultFromPiwik();
+        $mail->setWrappedHtmlBody($view);
+
+        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
+        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
+        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+
+        $mail->send();
     }
 }

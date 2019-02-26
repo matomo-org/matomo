@@ -156,6 +156,9 @@
         "AreYouSureAddCapability": "Are you sure you want to give %1$s the %2$s capability for %3$s?",
         "AreYouSureRemoveCapability": "Are you sure you want to remove the %1$s capability from %2$s for %3$s?",
         "IncludedInUsersRole": "Included in this user's role.",
-        "Capability": "Capability"
+        "Capability": "Capability",
+        "EmailChangeNotificationSubject": "Your Matomo account's email address has just been changed",
+        "EmailChangedEmail1": "The email address associated with your account %1$s has been changed to %2$s",
+        "EmailChangedEmail2": "This change was initiated from the following device: %1$s (IP address = %2$s). If this was you, feel free to ignore this email. If this was not you, please login, correct your email address, change your password and contact your Matomo administrator."
     }
 }
