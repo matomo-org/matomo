@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.9.0
 
+### Breaking Changes
+* When giving a user superuser access through the `UsersManager.setSuperUserAccess` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+
 ### New Features
 * It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
 
