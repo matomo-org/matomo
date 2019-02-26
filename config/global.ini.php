@@ -869,6 +869,8 @@ type = ; SMTP Auth type. By default: NONE. For example: LOGIN
 username = ; SMTP username
 password = ; SMTP password
 encryption = ; SMTP transport-layer encryption, either 'ssl', 'tls', or empty (i.e., none).
+noreply_email_address = ; standard email address displayed when sending emails
+noreply_email_name = ; standard email name displayed when sending emails. If not set, a default name will be used.
 
 [proxy]
 type = BASIC ; proxy type for outbound/outgoing connections; currently, only BASIC is supported
