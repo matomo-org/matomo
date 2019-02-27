@@ -31,7 +31,7 @@
         "JSTracking_Intro": "To track your web traffic with Matomo you need to make sure some extra code is added to each of your webpages.",
         "LargePiwikInstances": "Help for users with high traffic websites",
         "Legend": "Legend",
-        "LoadDataInfileRecommended": "If your Matomo server tracks high traffic websites (eg. > 100,000 pages per month), we recommend trying fix this problem.",
+        "LoadDataInfileRecommended": "If your Matomo server tracks high traffic websites (eg. > 100,000 pages per month), we recommend trying to fix this problem.",
         "LoadDataInfileUnavailableHelp": "Using %1$s will greatly speed Matomo's archiving process up. To make it available to Matomo, try updating your PHP & MySQL software and make sure your database user has the %2$s privilege.",
         "NfsFilesystemWarning": "Your server is using an NFS filesystem.",
         "NfsFilesystemWarningSuffixAdmin": "This means Matomo will be extremely slow when using file based sessions.",
