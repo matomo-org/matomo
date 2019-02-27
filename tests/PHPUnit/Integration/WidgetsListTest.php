@@ -135,7 +135,7 @@ class WidgetsListTest extends IntegrationTestCase
         $this->assertCount(11, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
-        $this->assertCount(2, $perCategory['SEO']);
+        $this->assertCount(1, $perCategory['SEO']);
 
         $list->remove('SEO', 'SEO_SeoRankings');
 
