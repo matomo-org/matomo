@@ -9,6 +9,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New Features
 * It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
 
+### New APIs
+* A new tracker method `disableQueueRequest` has been added to disable queued requests which may be useful when logs are imported.
+
 ## Matomo 3.8.0
 
 ### Breaking Changes

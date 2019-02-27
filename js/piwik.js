@@ -998,7 +998,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, sendRequests, queueRequest,
+    requests, timeout, sendRequests, queueRequest, disableQueueRequest,getRequestQueue,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -5656,7 +5656,10 @@ if (typeof window.Piwik !== 'object') {
                 return hookObj;
             }
 
+            /*</DEBUG>*/
+
             var requestQueue = {
+                enabled: true,
                 requests: [],
                 timeout: null,
                 sendRequests: function () {
@@ -5706,9 +5709,6 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
             };
-
-            /*</DEBUG>*/
-
             /************************************************************
              * Constructor
              ************************************************************/
@@ -5800,6 +5800,9 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
+            };
+            this.getRequestQueue = function () {
+                return requestQueue;
             };
             this.hasConsent = function () {
                 return configHasConsent;
@@ -7348,6 +7351,13 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Disables sending requests queued
+             */
+            this.disableQueueRequest = function () {
+                requestQueue.enabled = false;
+            };
+
+            /**
              * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
              * along with other tracking requests in one go. This can reduce the number of requests send to your server.
              * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
@@ -7359,8 +7369,12 @@ if (typeof window.Piwik !== 'object') {
              */
             this.queueRequest = function (request) {
                 trackCallback(function () {
-                    var fullRequest = getRequest(request);
-                    requestQueue.push(fullRequest);
+                    if (requestQueue.enabled) {
+                        var fullRequest = getRequest(request);
+                        requestQueue.push(fullRequest);
+                    } else {
+                        trackerInstance.trackRequest(request);
+                    }
                 });
             };
 
