@@ -55,9 +55,11 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         ArchivingHelper::reloadConfig();
+        $siteSearchQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
 
         $this->initActionsTables();
-        $this->archiveDayActions($rankingQueryLimit);
+
+        $this->archiveDayActions($siteSearchQueryLimit);
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);

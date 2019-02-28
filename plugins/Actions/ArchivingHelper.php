@@ -228,8 +228,7 @@ class ArchivingHelper
         $limit = $configLimit == 0 ? 0 : max(
             $configLimit,
             $configGeneral['datatable_archiving_maximum_rows_actions'],
-            $configGeneral['datatable_archiving_maximum_rows_subtable_actions'],
-            $configGeneral['datatable_archiving_maximum_rows_site_search']
+            $configGeneral['datatable_archiving_maximum_rows_subtable_actions']
         );
 
         // FIXME: This is a quick fix for #3482. The actual cause of the bug is that
