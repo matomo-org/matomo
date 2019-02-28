@@ -364,8 +364,8 @@ class Model
             $idSite
         );
 
-        $visitorIdWhere = 'idsite = ?';
-        $visitorIdbindSql = [$idSite];
+        $visitorIdWhere = 'idsite = ? AND visit_last_action_time <= ?';
+        $visitorIdbindSql = [$idSite, $timeLookAhead];
 
         if ($shouldMatchOneFieldOnly && $isVisitorIdToLookup) {
             $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
