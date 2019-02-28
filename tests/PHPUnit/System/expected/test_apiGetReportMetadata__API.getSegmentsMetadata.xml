@@ -118,6 +118,14 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Fingerprint</name>
+		<segment>visitorFingerprint</segment>
+		<acceptedValues>1eceaa833348b187 - any 16 Hexadecimal chars ID, which can be fetched from API.getLastVisitsDetails</acceptedValues>
+		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Local time - hour (Start of visit)</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>

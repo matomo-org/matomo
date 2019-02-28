@@ -1765,6 +1765,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 
+		<fingerprint>8f3c392c43450541</fingerprint>
 		<actionDetails>
 			<row>
 				<type>event</type>
