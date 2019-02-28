@@ -5,6 +5,7 @@
 		<idVisit>57</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		<fingerprint>c2bf957df173d3df</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -365,6 +366,7 @@
 		<idVisit>62</idVisit>
 		<visitIp>175.41.191.47</visitIp>
 		
+		<fingerprint>2b04b8f21bd15e6f</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -489,6 +491,7 @@
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>d5e0b403271e4142</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -638,6 +641,7 @@
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
+		<fingerprint>f8bf68e2e1f37702</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -766,6 +770,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>::ffff:123.45.67.89</visitIp>
 		
+		<fingerprint>652da4125b007f6a</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -894,6 +899,7 @@
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
 		
+		<fingerprint>4838cd5354aa5a0d</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1046,6 +1052,7 @@
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
 		
+		<fingerprint>99e510b5ed1c72ea</fingerprint>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -1209,6 +1216,7 @@
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
+		<fingerprint>04c32bb5831ccf11</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1337,6 +1345,7 @@
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
+		<fingerprint>b2e175eab44c7e62</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1465,6 +1474,7 @@
 		<idVisit>18</idVisit>
 		<visitIp>1.2.3.4</visitIp>
 		
+		<fingerprint>40d61aeac264b2ef</fingerprint>
 		<actionDetails>
 			<row>
 				<type>download</type>

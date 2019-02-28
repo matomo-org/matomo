@@ -5,6 +5,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -381,6 +382,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
+		<fingerprint>8f3c392c43450541</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
