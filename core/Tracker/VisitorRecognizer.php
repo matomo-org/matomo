@@ -130,7 +130,6 @@ class VisitorRecognizer
 
             Common::printDebug("The visitor is known (idvisitor = " . bin2hex($visitProperties->getProperty('idvisitor')) . ",
                     config_id = " . bin2hex($configId) . ",
-                    idvisit = {$visitProperties->getProperty('idvisit')},
                     last action = " . date("r", $visitProperties->getProperty('visit_last_action_time')) . ",
                     first action = " . date("r", $visitProperties->getProperty('visit_first_action_time')) . ")");
 
@@ -153,7 +152,9 @@ class VisitorRecognizer
             $visitProperties->setProperty($field, $this->visitRow[$field]);
         }
 
-        Common::printDebug("The visit is part of an existing visit (visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer'));
+        Common::printDebug("The visit is part of an existing visit (
+            idvisit = {$visitProperties->getProperty('idvisit')},
+            visit_goal_buyer' = " . $visitProperties->getProperty('visit_goal_buyer') . ")");
     }
 
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, Request $request)
