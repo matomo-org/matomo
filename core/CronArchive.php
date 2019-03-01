@@ -1287,7 +1287,10 @@ class CronArchive
         $latestExistingArchive = Date::factory($latestExistingArchive)->getTimestamp();
 
         $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getTimestamp();
-        $from = max($latestExistingArchive, $from);
+        if ($latestExistingArchive > $from) {
+            $from = $latestExistingArchive;
+            $sinceInfo = '(since the latest archive for today)';
+        }
         $from = Date::factory($from)->getDatetime();
 
         $to   = Date::now()->addHour(1)->getDatetime();
