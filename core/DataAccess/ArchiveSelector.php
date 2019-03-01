@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Segment;
 
 /**
@@ -351,6 +352,22 @@ class ArchiveSelector
             $row['name'] = self::appendIdSubtable($rawName, $idSubtable);
             $rows[] = $row;
         }
+    }
+
+    // TODO: tests
+    public static function getLatestArchiveTimestampForToday($idSite)
+    {
+        $today = Date::today();
+        $table = ArchiveTableCreator::getNumericTable($today);
+
+        $nameCondition = self::getNameCondition(['VisitsSummary'], new Segment('', [$idSite]));
+
+        $sql = "SELECT MAX(ts_archived)
+                  FROM $table
+                 WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND $nameCondition";
+        $bind = [$idSite, Piwik::$idPeriods['day'], $today->getDatetime(), $today->getDatetime()];
+
+        return Db::fetchOne($sql, $bind);
     }
 
     public static function appendIdSubtable($recordName, $id)

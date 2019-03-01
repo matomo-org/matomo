@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
@@ -18,6 +19,7 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
@@ -264,6 +266,11 @@ class CronArchive
     private $isArchiveProfilingEnabled = false;
 
     /**
+     * @var int[]
+     */
+    private $idSitesToArchiveWhenNoVisits;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -293,6 +300,7 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
+        $this->idSitesToArchiveWhenNoVisits = Loader::getIdSitesToArchiveWhenNoVisits();
     }
 
     private function isMaintenanceModeEnabled()
@@ -458,9 +466,7 @@ class CronArchive
                 // if not specific sites and not all websites should be archived, we check whether we actually have
                 // to process the archives for this website (only if there were visits since midnight)
                 if (!$hasWebsiteDayFinishedSinceLastRun && !$isOldReportInvalidatedForWebsite) {
-
                     if ($this->isWebsiteUsingTheTracker($idSite)) {
-
                         if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
                             $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
@@ -1253,7 +1259,8 @@ class CronArchive
     }
 
     /**
-     * Detects whether a site had visits since midnight in the websites timezone
+     * Detects whether a site had visits since midnight in the websites timezone (or the last time
+     * archiving finished, or the latest known archive for today, depending on different factors).
      *
      * @param $idSite
      * @return bool
@@ -1276,7 +1283,13 @@ class CronArchive
             $sinceInfo = "(since midnight)";
         }
 
-        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getDatetime();
+        $latestExistingArchive = ArchiveSelector::getLatestArchiveTimestampForToday($idSite);
+        $latestExistingArchive = Date::factory($latestExistingArchive)->getTimestamp();
+
+        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getTimestamp();
+        $from = max($latestExistingArchive, $from);
+        $from = Date::factory($from)->getDatetime();
+
         $to   = Date::now()->addHour(1)->getDatetime();
 
         $dao = new RawLogDao();

@@ -238,11 +238,11 @@ class Loader
 
     private function shouldArchiveForSiteEvenWhenNoVisits()
     {
-        $idSitesToArchive = $this->getIdSitesToArchiveWhenNoVisits();
+        $idSitesToArchive = self::getIdSitesToArchiveWhenNoVisits();
         return in_array($this->params->getSite()->getId(), $idSitesToArchive);
     }
 
-    private function getIdSitesToArchiveWhenNoVisits()
+    public static function getIdSitesToArchiveWhenNoVisits()
     {
         $cache = Cache::getTransientCache();
         $cacheKey = 'Archiving.getIdSitesToArchiveWhenNoVisits';
