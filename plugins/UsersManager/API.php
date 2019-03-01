@@ -922,6 +922,10 @@ class API extends \Piwik\Plugin\API
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 
+        if ($passwordHasBeenUpdated) {
+            $this->sendPasswordChangedEmail($userInfo);
+        }
+
         /**
          * Triggered after an existing user has been updated.
          * Event notify about password change.
@@ -1389,23 +1393,47 @@ class API extends \Piwik\Plugin\API
 
     private function sendEmailChangedEmail($user, $newEmail)
     {
-        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-
-        $uaParser = new DeviceDetector($userAgent);
-        $uaParser->parse();
-
-        $view = new View('@UsersManager/_emailChangedEmail.twig');
-        $view->accountName = Common::sanitizeInputValue($user['login']);
-        $view->newEmail = Common::sanitizeInputValue($newEmail);
-        $view->deviceName = $uaParser->getDeviceName();
-        $view->ipAddress = IP::getIpFromHeader();
-
-        $mail = new Mail();
+        $initiatingDevice = $this->getInitiatingDeviceInfo();
 
         // send the mail to both the old email and the new email
-        $mail->addTo($newEmail, $user['login']);
+        foreach ([$newEmail, $user['email']] as $emailTo) {
+            $view = new View('@UsersManager/_emailChangedEmail.twig');
+            $view->accountName = Common::sanitizeInputValue($user['login']);
+            $view->newEmail = Common::sanitizeInputValue($newEmail);
+            $view->ipAddress = IP::getIpFromHeader();
+            $view->deviceName = $initiatingDevice['deviceName'];
+            $view->deviceBrand = $initiatingDevice['deviceBrand'];
+            $view->deviceModel = $initiatingDevice['deviceModel'];
+
+            $mail = new Mail();
+
+            $mail->addTo($emailTo, $user['login']);
+            $mail->setSubject(Piwik::translate('UsersManager_EmailChangeNotificationSubject'));
+            $mail->setDefaultFromPiwik();
+            $mail->setWrappedHtmlBody($view);
+
+            $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
+            $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
+            $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+
+            $mail->send();
+        }
+    }
+
+    private function sendPasswordChangedEmail($user)
+    {
+        $initiatingDevice = $this->getInitiatingDeviceInfo();
+
+        $view = new View('@UsersManager/_passwordChangedEmail.twig');
+        $view->accountName = Common::sanitizeInputValue($user['login']);
+        $view->ipAddress = IP::getIpFromHeader();
+        $view->deviceName = $initiatingDevice['deviceName'];
+        $view->deviceBrand = $initiatingDevice['deviceBrand'];
+        $view->deviceModel = $initiatingDevice['deviceModel'];
+
+        $mail = new Mail();
         $mail->addTo($user['email'], $user['login']);
-        $mail->setSubject(Piwik::translate('UsersManager_EmailChangeNotificationSubject'));
+        $mail->setSubject(Piwik::translate('UsersManager_PasswordChangeNotificationSubject'));
         $mail->setDefaultFromPiwik();
         $mail->setWrappedHtmlBody($view);
 
@@ -1414,5 +1442,19 @@ class API extends \Piwik\Plugin\API
         $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
 
         $mail->send();
+    }
+
+    private function getInitiatingDeviceInfo()
+    {
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+        $uaParser = new DeviceDetector($userAgent);
+        $uaParser->parse();
+
+        return [
+            'deviceName' => $uaParser->getDeviceName(),
+            'deviceBrand' => $uaParser->getBrandName(),
+            'deviceModel' => $uaParser->getModel(),
+        ];
     }
 }
