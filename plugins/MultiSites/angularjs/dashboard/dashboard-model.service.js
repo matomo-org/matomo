@@ -87,11 +87,11 @@
         }
 
         function getCurrentPagingOffsetStart() {
-            return Math.ceil(model.currentPage * model.pageSize);
+            return Math.ceil(model.currentPage * model.pageSize) + 1;
         }
 
         function getCurrentPagingOffsetEnd() {
-            var end = getCurrentPagingOffsetStart() + parseInt(model.pageSize, 10);
+            var end = getCurrentPagingOffsetStart() + parseInt(model.pageSize, 10) - 1;
             var max = getNumberOfFilteredSites();
             if (end > max) {
                 end = max;
