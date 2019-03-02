@@ -21,7 +21,6 @@
         "MonthlyScheduleHelp": "月間スケジュール： レポートは毎月 1 日に送信されます。",
         "MustBeLoggedIn": "カスタムレポートの作成とスケジュールにはログインする必要があります。",
         "NoRecipients": "このレポートは、受取人がいません",
-        "Pagination": "%1$s の %2$s ページ",
         "PiwikReports": "Matomo レポート",
         "PleaseFindAttachedFile": "ウェブサイト %2$s の %1$s のレポートを添付しましたのでご確認ください。",
         "SentFromX": "%s から送信されます。",

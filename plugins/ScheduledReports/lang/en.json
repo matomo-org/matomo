@@ -21,7 +21,6 @@
         "MonthlyScheduleHelp": "Monthly schedule: report will be sent the first day of each month.",
         "MustBeLoggedIn": "You must be logged in to create and schedule custom reports.",
         "NoRecipients": "This report has no recipients",
-        "Pagination": "Page %1$s of %2$s",
         "PiwikReports": "Matomo Reports",
         "PleaseFindAttachedFile": "Please find your %1$s report for %2$s in the attached file.",
         "SentFromX": "Sent from %s.",

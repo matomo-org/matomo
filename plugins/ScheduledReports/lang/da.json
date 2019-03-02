@@ -20,7 +20,6 @@
         "MonthlyScheduleHelp": "Månedlig tidsplan: Rapporten vil blive sendt den første dag i hver måned.",
         "MustBeLoggedIn": "Du skal være logget på for at oprette og planlægge brugerdefinerede rapporter.",
         "NoRecipients": "Denne rapport har ingen modtagere",
-        "Pagination": "Side %1$s af %2$s",
         "PiwikReports": "Matomo rapporter",
         "SentFromX": "Sendt fra %s.",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",

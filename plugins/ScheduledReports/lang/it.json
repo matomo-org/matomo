@@ -21,7 +21,6 @@
         "MonthlyScheduleHelp": "Pianificazione mensile: il report verrà inviato il primo giorno di ogni mese.",
         "MustBeLoggedIn": "Devi avere effettuato l'accesso per creare e pianificare i report personalizzati.",
         "NoRecipients": "Questo report non ha destinatari",
-        "Pagination": "Pagina %1$s di %2$s",
         "PiwikReports": "Report di Matomo",
         "PleaseFindAttachedFile": "Troverai il tuo report %1$s per %2$s nel file allegato.",
         "SentFromX": "Inviato da %s",

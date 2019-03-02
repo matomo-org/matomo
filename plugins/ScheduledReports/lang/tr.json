@@ -21,7 +21,6 @@
         "MonthlyScheduleHelp": "Aylık zamanlama: Rapor her ayın ilk günü gönderilir.",
         "MustBeLoggedIn": "Özel rapor eklemek ve zamanlamak için oturum açmalısınız.",
         "NoRecipients": "Bu raporun herhangi bir alıcısı yok",
-        "Pagination": "Sayfa %1$s\/%2$s",
         "PiwikReports": "Matomo Raporları",
         "PleaseFindAttachedFile": "%2$s için %1$s raporunuzu ekli dosyada bulabilirsiniz.",
         "SentFromX": "%s tarafından gönderilmiş.",

@@ -47,7 +47,6 @@
         "Menu": "Menü",
         "NoPrivilegesAskPiwikAdmin": "'%1$s' olarak oturum açmışsınız ancak kullanıcınıza Matomo üzerinde herhangi bir izin verilmemiş gibi görünüyor. Kullanıcınıza bir web sitesini 'Görüntüleme' izni vermesi için %2$sMatomo yöneticiniz ile görüşün (e-posta göndermek için tıklayın)%3$s.",
         "OnlyForSuperUserAccess": "Varsayılan panodaki bu gereç yalnız Super Kullanıcılara görüntülenir.",
-        "PageOf": "%1$s\/ %2$s",
         "PeriodRange": "Aralık",
         "ReportGeneratedOn": "Rapor %s tarihinde oluşturuldu",
         "ReportGeneratedXAgo": "Rapor %s zaman önce oluşturuldu",

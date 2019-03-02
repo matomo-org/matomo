@@ -19,7 +19,6 @@
         "MonthlyScheduleHelp": "Envío mensual: los reportes serán enviados el primer día de cada mes.",
         "MustBeLoggedIn": "Usted debe haber iniciado sesión para crear y programar reportes personalizados.",
         "NoRecipients": "Este reporte no tiene destinatarios",
-        "Pagination": "Página %1$s de %2$s",
         "PleaseFindBelow": "Por favor encuentre debajo su reporte %1$s para %2$s.",
         "ReportFormat": "Formato del Reporte",
         "ReportIncludeNWebsites": "El reporte incluirá las principales métricas para todos los sitios de internet con al menos una visita (de todo %s los sitios de internet disponibles).",

@@ -21,7 +21,6 @@
         "MonthlyScheduleHelp": "월간 스케줄: 보고서는 매월 1일에 발송됩니다.",
         "MustBeLoggedIn": "보고서 작성 및 일정을 사용자정의하려면 로그인해야합니다.",
         "NoRecipients": "이 보고서의 수신자가 없음",
-        "Pagination": "페이지 %1$s \/ %2$s",
         "PiwikReports": "Matomo 보고서",
         "SentFromX": "%s에서 보내기",
         "PleaseFindBelow": "%2$s의 %1$s 보고서를 제공합니다.",
