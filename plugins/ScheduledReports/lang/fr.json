@@ -21,6 +21,7 @@
         "MonthlyScheduleHelp": "Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.",
         "MustBeLoggedIn": "Vous devez être connecté pour créer et planifier des rapports personnalisés.",
         "NoRecipients": "Ce rapport n'a aucun destinataire",
+        "Pagination": "Page %1$s sur %2$s",
         "PiwikReports": "Rapports Matomo",
         "PleaseFindAttachedFile": "Veuillez trouver votre rapport %1$s pour %2$s dans le fichier joint.",
         "SentFromX": "Envoyé depuis %s.",

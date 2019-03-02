@@ -19,6 +19,7 @@
         "MonthlyScheduleHelp": "Buwanang iskedyul: ang ulat ay ipapadala sa unang araw ng bawat buwan.",
         "MustBeLoggedIn": "Kailangang naka-log in upang gumawa at mag-iskedyul ng mga pasadyang ulat",
         "NoRecipients": "Wala pang makakatanggap sa ulat na ito",
+        "Pagination": "Pahina %1$s ng %2$s",
         "PiwikReports": "Mga ulat ng Matomo",
         "PleaseFindBelow": "Mangyaring hanapin sa ibaba ang iyong %1$s ulat para sa %2$s.",
         "ReportFormat": "Report Format",

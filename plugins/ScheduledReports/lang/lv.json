@@ -4,6 +4,7 @@
         "EmailHello": "Sveiki,",
         "EmailReports": "E-pasta atskaites",
         "FrontPage": "Pirmā lapa",
+        "Pagination": "%1$s. lapa no %2$s",
         "PiwikReports": "Matomo atskaites",
         "ReportFormat": "Atskaites formāts",
         "ReportsIncluded": "Iekļautā statistika",

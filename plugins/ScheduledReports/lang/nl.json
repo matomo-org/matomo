@@ -21,6 +21,7 @@
         "MonthlyScheduleHelp": "Maandelijks versturen: Rapport zal worden verzonden elke eerste dag van de maand.",
         "MustBeLoggedIn": "Je moet ingelogd zijn om aangepaste rapporten aan te maken en in te plannen.",
         "NoRecipients": "Dit rapport heeft geen ontvangers",
+        "Pagination": "Pagina %1$s van %2$s",
         "PiwikReports": "Matomo-rapporten",
         "PleaseFindAttachedFile": "In de bijlage treft u uw %1$s rapport voor %2$s.",
         "SentFromX": "Verzonden vanaf %s.",

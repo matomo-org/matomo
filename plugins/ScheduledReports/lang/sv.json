@@ -21,6 +21,7 @@
         "MonthlyScheduleHelp": "Månatligt schema: Rapporten kommer att skickas ut den första dagen i varje månad.",
         "MustBeLoggedIn": "Du måste vara inloggad för att skapa och schemalägga anpassade rapporter.",
         "NoRecipients": "Rapporten har ingen mottagare",
+        "Pagination": "Sida %1$s av %2$s",
         "PiwikReports": "Matomo Rapporter",
         "PleaseFindAttachedFile": "Se din %1$s-rapport för %2$s i den bifogade filen.",
         "SentFromX": "Skickat från %s.",

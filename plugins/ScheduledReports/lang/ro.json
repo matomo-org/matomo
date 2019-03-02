@@ -19,6 +19,7 @@
         "MonthlyScheduleHelp": "Program lunar: Raportul va fi trimis în prima zi a fiecărei luni.",
         "MustBeLoggedIn": "Trebuie să fii logat pentru a crea și programa rapoarte personalizate.",
         "NoRecipients": "Acest raport nu are destinatari",
+        "Pagination": "Pagina %1$s din %2$s",
         "PiwikReports": "Rapoarte Matomo",
         "PleaseFindBelow": "Va rugam sa gasiti mai jos raport ul tau de %1$s pentru %2$s.",
         "ReportFormat": "Formatul raportului",

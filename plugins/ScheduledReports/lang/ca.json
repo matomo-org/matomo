@@ -18,6 +18,7 @@
         "MonthlyScheduleHelp": "Programació mensual: L'informe s'enviarà el primer día de cada més.",
         "MustBeLoggedIn": "Heu d'estar identificat per crear i programar informes personalitzats",
         "NoRecipients": "Aquest informe no té destinataris",
+        "Pagination": "Pàgina %1$s de %2$s",
         "PiwikReports": "Informes Matomo",
         "PleaseFindBelow": "A continuació podeu trobar el vostre informe %1$s per a %2$s.",
         "ReportFormat": "Format de l'informe",

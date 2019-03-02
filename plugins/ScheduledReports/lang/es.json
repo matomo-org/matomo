@@ -21,6 +21,7 @@
         "MonthlyScheduleHelp": "Envío mensual: los informes serán enviados el primer día de cada mes.",
         "MustBeLoggedIn": "Debe haber iniciado sesión para crear y programar informes personalizados.",
         "NoRecipients": "Este informe no tiene destinatarios",
+        "Pagination": "Página %1$s de %2$s",
         "PiwikReports": "Informes Matomo",
         "PleaseFindAttachedFile": "Su informe %1$s de %2$s se encuentra adjunto.",
         "SentFromX": "Enviado desde %s.",
