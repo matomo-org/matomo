@@ -23,6 +23,7 @@
         "InjectedHostWarningIntro": "Bây giờ bạn đang truy cập Matomo từ %1$s, nhưng Matomo đã được cấu hình để chạy tại địa chỉ này: %2$s",
         "MakeOneTimeDonation": "Hãy đóng góp",
         "NoPrivilegesAskPiwikAdmin": "Bạn được đăng nhập như '%1$s' nhưng dường như bạn không được phép thiết lập trong Matomo. %2$s Yêu cầu quản trị Matomo của bạn (bấm vào để email) %3$s để cung cấp cho bạn 'xem' truy cập đến một website.",
+        "PageOf": "%1$s của %2$s",
         "PeriodRange": "Phạm vi",
         "ReportGeneratedOn": "Báo cáo được tạo vào %s",
         "ReportGeneratedXAgo": "Báo cáo được tạo %s trước đây",
