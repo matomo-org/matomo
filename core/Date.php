@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 
@@ -708,9 +709,10 @@ class Date
      * The template should contain tags that will be replaced with localized date strings.
      *
      * @param string $template eg. `"MMM y"`
+     * @param bool   $ucfirst  whether the first letter should be upper-cased
      * @return string eg. `"Aug 2009"`
      */
-    public function getLocalized($template)
+    public function getLocalized($template, $ucfirst = true)
     {
         $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
 
@@ -727,6 +729,10 @@ class Date
             } else {
                 $out .= $token;
             }
+        }
+
+        if ($ucfirst) {
+          $out = Common::mb_strtoupper(mb_substr($out, 0, 1)) . mb_substr($out, 1);
         }
 
         return $out;
