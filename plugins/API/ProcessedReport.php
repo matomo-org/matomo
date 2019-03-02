@@ -717,7 +717,7 @@ class ProcessedReport
         foreach ($simpleTotals as $metric => $value) {
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
-            } else {
+            } else if(is_numeric($value)) {
                 $totals[$metric] += $value;
             }
         }
