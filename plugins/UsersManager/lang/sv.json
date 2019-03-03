@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Klicka för att välja alla %1$s.",
         "AllWebsitesAreSelected": "Alla %1$s sidorna är markerade.",
         "ClickToSelectDisplayedWebsites": "Klicka för att markera de %1$s visade sidorna.",
-        "XtoYofN": "%1$s - %2$s av %3$s",
         "DeletePermConfirmSingle": "Är du säker på att du vill ta bort %1$s's tillgång till %2$s?",
         "DeletePermConfirmMultiple": "Är du säker på att du vill ta bort %1$s's tillgång till de%2$s markerade sidorna?",
         "ChangePermToSiteConfirmSingle": "Är du säker på att du vill ändra %1$s's roll för %2$s till %3$s?",

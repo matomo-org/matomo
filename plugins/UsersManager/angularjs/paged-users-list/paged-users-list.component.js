@@ -59,6 +59,7 @@
         vm.changeUserRole = changeUserRole;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
+        vm.getPaginationLowerBound = getPaginationLowerBound;
         vm.getPaginationUpperBound = getPaginationUpperBound;
         vm.showDeleteConfirm = showDeleteConfirm;
         vm.getAffectedUsersCount = getAffectedUsersCount;
@@ -178,6 +179,10 @@
                 }
             });
             return result;
+        }
+
+        function getPaginationLowerBound() {
+            return vm.searchParams.offset + 1;
         }
 
         function getPaginationUpperBound() {

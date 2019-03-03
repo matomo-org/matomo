@@ -52,7 +52,6 @@
         "YourUsernameCannotBeChanged": "Hindi maaaring mabago ang iyong username.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo %2$s %3$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
         "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo%2$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
-        "XtoYofN": "%1$s - %2$s ng %3$s",
         "ShowAll": "Ipakita lahat"
     }
 }

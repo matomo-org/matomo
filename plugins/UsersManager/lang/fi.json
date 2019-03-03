@@ -67,7 +67,6 @@
         "YourUsernameCannotBeChanged": "Käyttäjätunnusta ei voi vaihtaa.",
         "YourVisitsAreIgnoredOnDomain": "%1$sMatomo ei seuraa käyntejäsi sivulla %2$s %3$s (Matomon eväste löytyi selaimestasi).",
         "YourVisitsAreNotIgnored": "%1$sMatomo seuraa käyntejäsi%2$s (Matomon evästettä ei löytynyt selaimestasi).",
-        "XtoYofN": "%1$s - %2$s %3$s:sta.",
         "ShowAll": "Näytä kaikki",
         "Username": "Käyttäjätunnus"
     }

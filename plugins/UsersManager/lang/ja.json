@@ -113,7 +113,6 @@
         "ClickToSelectAll": "すべての %1$s をクリックして選択します。",
         "AllWebsitesAreSelected": "すべての %1$s ウェブサイトが選択されています。",
         "ClickToSelectDisplayedWebsites": "%1$s の表示ウェブサイトをクリックして選択します。",
-        "XtoYofN": "%1$s の %2$s - %3$s",
         "DeletePermConfirmSingle": "%1$s の %2$s へのアクセス権を削除してもよろしいですか？",
         "DeletePermConfirmMultiple": "%1$s の %2$s で選択したウェブサイトへのアクセスを削除してもよろしいですか？",
         "ChangePermToSiteConfirmSingle": "%1$s の役割を %2$s から %3$s に変更してもよろしいですか？",
