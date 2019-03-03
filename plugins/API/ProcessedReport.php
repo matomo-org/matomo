@@ -718,8 +718,8 @@ class ProcessedReport
             if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
                 continue; // skip average, rate and evolution metrics
             }
-            if (is_array($value) ) {
-                continue; // skip totals for nested metrics
+            if (is_array($value) || !is_numeric($value)) {
+                continue; // skip totals for nested or not numeric metrics
             }
 
             if (!array_key_exists($metric, $totals)) {
@@ -728,7 +728,7 @@ class ProcessedReport
                 $totals[$metric] = min($totals[$metric], $value);
             } else if(0 === strpos($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
-            } else if(is_numeric($value)) {
+            } else {
                 $totals[$metric] += $value;
             }
         }
