@@ -18,7 +18,7 @@
         "NbUniqueVisitors": "ユニークビジター",
         "NbUsersDescription": "ユーザー",
         "NbVisitsDescription": "ビジット",
-        "NbVisitsBounced": "バウンスしたビジット( 1 ページの後にウェブサイトを去りました )",
+        "NbVisitsBounced": "バウンスしたビジット ( 1 ページの後にウェブサイトを去りました )",
         "PluginDescription": "一般的な分析メトリックのレポート：ビジット、ユニークなビジター、アクション数、直帰率等。",
         "VisitsSummary": "ビジットの概要",
         "VisitsSummaryDocumentation": "ビジット推移の概観です",

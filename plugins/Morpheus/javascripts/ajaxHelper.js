@@ -357,6 +357,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
+     *
+     * Note: Sending synchronous requests will be removed in Matomo 4
+     *
      * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
@@ -526,10 +529,16 @@ function ajaxHelper() {
      */
     this._mixinDefaultGetParams = function (params) {
 
+        if (window.location.hash) {
+            var segment = broadcast.getValueFromHash('segment', window.location.href.split('#')[1]);
+        } else {
+            var segment = broadcast.getValueFromUrl('segment');
+        }
+
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
             period:  piwik.period || broadcast.getValueFromUrl('period'),
-            segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
+            segment: segment
         };
 
         // never append token_auth to url
@@ -546,10 +555,7 @@ function ajaxHelper() {
 
         // handle default date & period if not already set
         if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-            params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
-            if (params.period == 'range' && piwik.currentDateString) {
-                params.date = piwik.startDateString + ',' + params.date;
-            }
+            params.date = piwik.currentDateString;
         }
 
         return params;

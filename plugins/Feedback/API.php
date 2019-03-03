@@ -24,7 +24,7 @@ use Piwik\Version;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Sends feedback for a specific feature to the Piwik team or alternatively to the email address configured in the
+     * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
      * @param string      $featureName  The name of a feature you want to give feedback to.
@@ -64,15 +64,15 @@ class API extends \Piwik\Plugin\API
     {
         $feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
 
-        $subject = '[ Feedback Feature - Piwik ] ' . $subject;
+        $subject = '[ Feedback Feature - Matomo ] ' . $subject;
         $body    = Common::unsanitizeInputValue($body) . "\n"
-                 . 'Piwik ' . Version::VERSION . "\n"
+                 . 'Matomo ' . Version::VERSION . "\n"
                  . 'IP: ' . IP::getIpFromHeader() . "\n"
                  . 'URL: ' . Url::getReferrer() . "\n";
 
         $mail = new Mail();
         $mail->setFrom(Piwik::getCurrentUserEmail());
-        $mail->addTo($feedbackEmailAddress, 'Piwik Team');
+        $mail->addTo($feedbackEmailAddress, 'Matomo Team');
         $mail->setSubject($subject);
         $mail->setBodyText($body);
         @$mail->send();

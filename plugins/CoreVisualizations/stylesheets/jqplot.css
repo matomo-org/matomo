@@ -160,7 +160,6 @@ a.rowevolution-startmulti {
 .rowevolution table.metrics td.text img {
     max-width: 16px;
     max-height: 16px;
-    vertical-align: bottom;
 }
 
 .multirowevolution table.metrics td.text {
@@ -179,11 +178,11 @@ a.rowevolution-startmulti {
 }
 
 .rowevolution table.metrics td.text span.good {
-    color: #008000;
+    color: #43a047;
 }
 
 .rowevolution table.metrics td.text span.bad {
-    color: #f00;
+    color: #D4291F;
 }
 
 .rowevolution .metric-selectbox,
@@ -211,8 +210,6 @@ a.rowevolution-startmulti {
     height: 16px;
     margin-top: 3px;
     background: url(../../Morpheus/images/chart_line_edit.png) no-repeat center center;
-    overflow: hidden;
-    text-indent: -999px;
 }
 
 .jqplot-seriespicker-popover {
@@ -236,6 +233,7 @@ a.rowevolution-startmulti {
     padding: 0 4px 0 0;
     line-height: 15px;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 .jqplot-seriespicker-popover p.headline {

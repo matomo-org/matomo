@@ -80,12 +80,26 @@ class FormDatabaseSetup extends QuickForm2
         $defaultDatabaseType = Config::getInstance()->database['type'];
         $this->addElement( 'hidden', 'type')->setLabel('Database engine');
 
+
+        $defaults = array(
+            'host'          => '127.0.0.1',
+            'type'          => $defaultDatabaseType,
+            'tables_prefix' => 'matomo_',
+        );
+
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'password', 'dbname');
+        foreach ($defaultsEnvironment as $name) {
+            $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
+            $envNameMatomo = 'MATOMO_' . $envName;
+            if (getenv($envNameMatomo)) {
+                $defaults[$name] = getenv($envNameMatomo);
+            } elseif (getenv($envName)) {
+                $defaults[$name] = getenv($envName);
+            }
+        }
+
         // default values
-        $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-                                                                       'host'          => '127.0.0.1',
-                                                                       'type'          => $defaultDatabaseType,
-                                                                       'tables_prefix' => 'piwik_',
-                                                                  )));
+        $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
     }
 
     /**
@@ -96,7 +110,7 @@ class FormDatabaseSetup extends QuickForm2
      */
     public function createDatabaseObject()
     {
-        $dbname = $this->getSubmitValue('dbname');
+        $dbname = trim($this->getSubmitValue('dbname'));
         if (empty($dbname)) // disallow database object creation w/ no selected database
         {
             throw new Exception("No database name");
@@ -105,12 +119,15 @@ class FormDatabaseSetup extends QuickForm2
         $adapter = $this->getSubmitValue('adapter');
         $port = Adapter::getDefaultPortForAdapter($adapter);
 
+        $host = $this->getSubmitValue('host');
+        $tables_prefix = $this->getSubmitValue('tables_prefix');
+        
         $dbInfos = array(
-            'host'          => $this->getSubmitValue('host'),
+            'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
             'password'      => $this->getSubmitValue('password'),
             'dbname'        => $dbname,
-            'tables_prefix' => $this->getSubmitValue('tables_prefix'),
+            'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
@@ -153,7 +170,7 @@ class FormDatabaseSetup extends QuickForm2
 /**
  * Validation rule that checks that the supplied DB user has enough privileges.
  *
- * The following privileges are required for Piwik to run:
+ * The following privileges are required for Matomo to run:
  * - CREATE
  * - ALTER
  * - SELECT
@@ -229,7 +246,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
     }
 
     /**
-     * Returns an array describing the database privileges required for Piwik to run. The
+     * Returns an array describing the database privileges required for Matomo to run. The
      * array maps privilege names with one or more SQL queries that can be used to test
      * if the current user has the privilege.
      *
@@ -262,7 +279,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
     }
 
     /**
-     * Returns a string description of the database privileges required for Piwik to run.
+     * Returns a string description of the database privileges required for Matomo to run.
      *
      * @return string
      */

@@ -1,5 +1,6 @@
 {
     "Installation": {
-        "PasswordRepeat": "Lykilorð (endurtekið)"
+        "Email": "Netfang",
+        "Password": "Lykilorð"
     }
 }

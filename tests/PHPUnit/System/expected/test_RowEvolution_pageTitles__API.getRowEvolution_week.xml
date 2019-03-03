@@ -89,6 +89,6 @@
 				<change>-92%</change>
 			</avg_time_generation>
 		</metrics>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 	</metadata>
 </result>

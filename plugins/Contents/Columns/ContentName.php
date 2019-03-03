@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\Contents\Columns;
 
-use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -20,19 +20,22 @@ class ContentName extends ActionDimension
 {
     protected $columnName = 'idaction_content_name';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $segmentName = 'contentName';
+    protected $nameSingular = 'Contents_ContentName';
+    protected $namePlural = 'Contents_ContentNames';
+    protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('contentName');
-        $segment->setName('Contents_ContentName');
-        $segment->setAcceptedValues('The name of a content block, for instance "Ad Sale"');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Contents_ContentName');
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()

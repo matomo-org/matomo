@@ -13,10 +13,10 @@ use Piwik\Date;
 use Piwik\Period\Range;
 
 /**
- * ExampleUI API is also an example API useful if you are developing a Piwik plugin.
+ * ExampleUI API is also an example API useful if you are developing a Matomo plugin.
  *
  * The functions listed in this API are returning the data used in the Controller to draw graphs and
- * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
+ * display tables. See also the ExampleAPI plugin for an introduction to Matomo APIs.
  *
  * @method static \Piwik\Plugins\ExampleUI\API getInstance()
  */

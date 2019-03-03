@@ -11,23 +11,24 @@ namespace Piwik\Plugin;
 
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\API\Request as ApiRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -37,6 +38,7 @@ use Piwik\API\Request as ApiRequest;
  * itself:
  *
  * - report documentation,
+ * - a header message (if {@link Piwik\ViewDataTable\Config::$show_header_message} is set),
  * - a footer message (if {@link Piwik\ViewDataTable\Config::$show_footer_message} is set),
  * - a list of links to related reports (if {@link Piwik\ViewDataTable\Config::$related_reports} is set),
  * - a button that allows users to switch visualizations,
@@ -192,7 +194,10 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            StaticContainer::get(LoggerInterface::class)->error('Failed to get data from API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $message = $e->getMessage();
             if (\Piwik_ShouldPrintBackTraceWithMessage()) {
@@ -203,12 +208,12 @@ class Visualization extends ViewDataTable
         }
 
         $view = new View("@CoreHome/_dataTable");
+        $view->assign($this->templateVars);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
         }
 
-        $view->assign($this->templateVars);
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
@@ -237,8 +242,27 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $view->notifications = [];
+
+        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Visualization.onNoData', [$view]);
+        }
 
         return $view->render();
+    }
+
+    private function hasAnyData(DataTable\DataTableInterface $dataTable)
+    {
+        $hasData = false;
+        $dataTable->filter(function (DataTable $table) use (&$hasData) {
+            if ($table->getRowsCount() > 0) {
+                $hasData = true;
+            }
+        });
+        return $hasData;
     }
 
     /**
@@ -258,6 +282,8 @@ class Visualization extends ViewDataTable
         $module = $this->requestConfig->getApiModuleToRequest();
         $method = $this->requestConfig->getApiMethodToRequest();
 
+        list($module, $method) = Request::getRenamedModuleAndAction($module, $method);
+
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
         $class     = ApiRequest::getClassNameAPI($module);
@@ -274,18 +300,17 @@ class Visualization extends ViewDataTable
     {
         $request = $this->request->getRequestArray() + $_GET + $_POST;
 
-        $idSite  = Common::getRequestVar('idSite', null, 'string', $request);
+        $idSite  = Common::getRequestVar('idSite', null, 'int', $request);
         $module  = $this->requestConfig->getApiModuleToRequest();
         $action  = $this->requestConfig->getApiMethodToRequest();
 
         $apiParameters = array();
-        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        if ($idDimension > 0) {
-            $apiParameters['idDimension'] = $idDimension;
-        }
-        if ($idGoal > 0) {
-            $apiParameters['idGoal'] = $idGoal;
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
         }
 
         $metadata = ApiApi::getInstance()->getMetadata($idSite, $module, $action, $apiParameters);
@@ -742,7 +767,7 @@ class Visualization extends ViewDataTable
     public function buildApiRequestArray()
     {
         $requestArray = $this->request->getRequestArray();
-        $request = APIRequest::getRequestArrayFromString($requestArray);
+        $request = ApiRequest::getRequestArrayFromString($requestArray);
 
         if (false === $this->config->enable_sort) {
             $request['filter_sort_column'] = '';

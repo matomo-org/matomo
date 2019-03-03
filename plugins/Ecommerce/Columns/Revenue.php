@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Ecommerce\Columns;
 
+use Piwik\Columns\Discriminator;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -17,6 +18,14 @@ class Revenue extends BaseConversion
 {
     protected $columnName = 'revenue';
     protected $columnType = 'float default NULL';
+    protected $type = self::TYPE_MONEY;
+    protected $category = 'Goals_Ecommerce';
+    protected $nameSingular = 'Ecommerce_OrderValue';
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator($this->dbTableName, 'idgoal', GoalManager::IDGOAL_ORDER);
+    }
 
     /**
      * @param Request $request

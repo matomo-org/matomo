@@ -306,7 +306,7 @@ class ArchivingHelper
 
     public static function reloadConfig()
     {
-        // for BC, we read the old style delimiter first (see #1067)Row
+        // for BC, we read the old style delimiter first (see #1067)
         $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
         if (empty($actionDelimiter)) {
             self::$actionUrlCategoryDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
@@ -427,7 +427,7 @@ class ArchivingHelper
      *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
-     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Piwik', 'Category 1', 'Category 2');
+     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Matomo', 'Category 1', 'Category 2');
      *
      * @param string $name action name
      * @param int $type action type
@@ -443,12 +443,20 @@ class ArchivingHelper
 
         $name = str_replace("\n", "", $name);
 
+        if ($type == Action::TYPE_PAGE_TITLE && self::$actionTitleCategoryDelimiter === '') {
+            if ($name === '' || $name === false || $name === null || trim($name) === '') {
+                $name = self::getUnknownActionName($type);
+            }
+            return array(' ' . trim($name));
+        }
+
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
 
         // outlinks and downloads
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
+
         $split = self::splitNameByDelimiter($name, $type);
 
         if (empty($split)) {

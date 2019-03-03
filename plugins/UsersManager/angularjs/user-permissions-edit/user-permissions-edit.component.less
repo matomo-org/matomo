@@ -1,0 +1,232 @@
+.userPermissionsEdit {
+  &.loading {
+    .sites-for-permission-pagination, table {
+      opacity: .5;
+    }
+  }
+
+  .permission-select .select-wrapper {
+    display: inline-block;
+    transform: scale(.8);
+    margin-right: -10px;
+    margin-left: -10px;
+    z-index: 999;
+
+    input {
+      margin-bottom: 0;
+      height: 1.1em;
+      line-height: 1.1em;
+    }
+
+    .caret {
+      top: 0;
+    }
+  }
+
+  .add-site {
+    float: right;
+
+    [piwik-field] {
+      display:inline-block;
+
+      .input-field {
+        width: 180px;
+      }
+    }
+
+    [piwik-siteselector] {
+      display: inline-block;
+
+      a.title {
+        width: 180px;
+      }
+
+      .siteSelector {
+        position: static !important;
+        margin-top: 1px;
+      }
+    }
+
+    .btn-flat:hover {
+      background: none;
+    }
+  }
+
+  .filters {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    > div:first-child {
+      flex: 1;
+    }
+
+    > div > .input-field {
+      display: inline-block;
+      vertical-align: top;
+      width: 180px;
+    }
+
+    .sites-for-permission-pagination {
+      display: inline-block;
+      vertical-align: top;
+      min-height: 2.5rem;
+    }
+
+    .form-group, .input-field, input {
+      margin: 0;
+    }
+
+    .add-site {
+      > div {
+        vertical-align: bottom;
+        margin-top: .8rem;
+      }
+
+      > a {
+        padding: 0 1rem 0 0;
+      }
+    }
+  }
+
+  .bulk-actions > a.dropdown-trigger {
+    margin-top: .8rem;
+    margin-right: 1rem;
+  }
+
+  #sitesForPermission {
+    margin-left: 0;
+    margin-right: 0;
+    width: calc(100%);
+    font-size: 100%;
+
+    td > span {
+      display:inline-block;
+    }
+
+    .select-cell {
+      width: 32px;
+    }
+
+    span.checkbox-container {
+      transform: scale(.8);
+      margin-top: -4px;
+    }
+
+    .role-select .select-wrapper {
+      transform: scale(.8) translate(-1.3rem);
+      margin-top: -0.5rem;
+      max-width: 160px;
+
+      span.caret {
+        top: 8px;
+      }
+
+      input {
+        margin-bottom: 0;
+        height: 2rem;
+        line-height: 2rem;
+      }
+    }
+
+    tr.select-all-row > td {
+      padding: 6px;
+      text-align: center;
+    }
+
+    .row.form-group {
+      margin: 0;
+      .col {
+        padding: 0;
+      }
+    }
+
+    tr .input-field {
+      margin-top: 0;
+    }
+  }
+
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
+  .add-permission {
+    float: right;
+  }
+
+  .sites-for-permission-pagination-container {
+    position: relative;
+  }
+
+  .sites-for-permission-pagination {
+    position: absolute;
+    bottom: 0;
+    width: calc(100%);
+    text-align: center;
+
+    a.disabled {
+      pointer-events: none;
+      color: #9e9e9e;
+    }
+
+    .counter {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+
+  .delete-site-permission {
+    float: right;
+  }
+
+  .delete-access-confirm-modal, .change-access-confirm-modal, .confirm-give-access-all-sites {
+    .modal-no {
+      float: right;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
+  }
+
+  th.role_header, th.capabilities_header {
+    .helpIcon {
+      color: #9e9e9e;
+      font-size: .8rem;
+      margin-left: .1rem;
+      text-decoration: none;
+
+      &:hover,&.sticky {
+        opacity: 1;
+      }
+    }
+  }
+
+  .to-all-websites {
+    margin-left: -0.75em;
+    margin-right: -0.75em;
+  }
+  #all-sites-access-select {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 150px;
+    .form-group {
+      margin: 0;
+    }
+    .input-field {
+      margin-top: 0;
+    }
+    .select-dropdown {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.user-permission-toast .notification {
+  padding-left: 20px;
+  &::before {
+    display:none;
+  }
+}

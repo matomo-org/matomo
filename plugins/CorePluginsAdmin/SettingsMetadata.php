@@ -41,7 +41,11 @@ class SettingsMetadata
 
             if (!empty($setting)) {
                 $title = Piwik::translate(strip_tags($setting->configureField()->title));
-                throw new Exception($title . ': ' . $message);
+                if (strpos($message, $title) !== 0) {
+                    // only prefix it if not already prefixed
+                    $message = $title . ': ' . $message;
+                }
+                throw new Exception($message);
             }
         }
     }
@@ -90,7 +94,7 @@ class SettingsMetadata
             );
 
             foreach ($writableSettings as $writableSetting) {
-                $plugin['settings'][] = $this->formatMetadata($writableSetting);
+                $plugin['settings'][] = $this->formatSetting($writableSetting);
             }
 
             $metadata[] = $plugin;
@@ -99,7 +103,7 @@ class SettingsMetadata
         return $metadata;
     }
 
-    private function formatMetadata(Setting $setting)
+    public function formatSetting(Setting $setting)
     {
         $config = $setting->configureField();
 

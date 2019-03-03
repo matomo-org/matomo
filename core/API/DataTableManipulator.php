@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Period\Range;
@@ -32,8 +33,7 @@ abstract class DataTableManipulator
     protected $apiModule;
     protected $apiMethod;
     protected $request;
-
-    private $apiMethodForSubtable;
+    protected $apiMethodForSubtable;
 
     /**
      * Constructor
@@ -143,7 +143,7 @@ abstract class DataTableManipulator
      * @throws Exception
      * @return string
      */
-    private function getApiMethodForSubtable($request)
+    protected function getApiMethodForSubtable($request)
     {
         if (!$this->apiMethodForSubtable) {
             if (!empty($request['idSite'])) {
@@ -153,11 +153,11 @@ abstract class DataTableManipulator
             }
 
             $apiParameters = array();
-            if (!empty($request['idDimension'])) {
-                $apiParameters['idDimension'] = $request['idDimension'];
-            }
-            if (!empty($request['idGoal'])) {
-                $apiParameters['idGoal'] = $request['idGoal'];
+            $entityNames = StaticContainer::get('entities.idNames');
+            foreach ($entityNames as $idName) {
+                if (!empty($request[$idName])) {
+                    $apiParameters[$idName] = $request[$idName];
+                }
             }
 
             $meta = API::getInstance()->getMetadata($idSite, $this->apiModule, $this->apiMethod, $apiParameters);
@@ -169,7 +169,7 @@ abstract class DataTableManipulator
 
             if (empty($meta)) {
                 throw new Exception(sprintf(
-                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: http://developer.piwik.org/api-reference/events#apigetreportmetadata",
+                    "The DataTable cannot be manipulated: Metadata for report %s.%s could not be found. You can define the metadata in a hook, see example at: https://developer.matomo.org/api-reference/events#apigetreportmetadata",
                     $this->apiModule, $this->apiMethod
                 ));
             }

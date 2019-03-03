@@ -2,6 +2,7 @@
 
 use Interop\Container\ContainerInterface;
 use Monolog\Logger;
+use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,6 +11,7 @@ return array(
 
     // Log
     'log.handlers' => array(
+        DI\get(FailureLogMessageDetector::class),
         DI\get('Symfony\Bridge\Monolog\Handler\ConsoleHandler'),
     ),
     'Symfony\Bridge\Monolog\Handler\ConsoleHandler' => function (ContainerInterface $c) {
@@ -24,6 +26,6 @@ return array(
         $handler->setFormatter(new ConsoleFormatter($c->get('log.console.format'), null, true, true));
         return $handler;
     },
-    'log.console.format' => '%start_tag%%level_name% [%datetime%]%end_tag% %message%' . PHP_EOL,
+    'log.console.format' => '%start_tag%%level_name% [%datetime%] %extra.request_id% %end_tag% %message%' . PHP_EOL,
 
 );

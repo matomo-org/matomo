@@ -15,27 +15,41 @@ describe("ReportExporting", function () {
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
     function normalReportTest(format) {
-        it("should export a normal report correctly when the " + format + " export link is clicked", function (done) {
+        it("should export a normal report correctly when the " + format + " export is chosen", function (done) {
             expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
+
                 if (page.getCurrentUrl() != referrersGetWebsitesUrl) {
                     page.load(referrersGetWebsitesUrl);
                     page.click('.activateExportSelection');
                 }
 
-                page.downloadLink('.exportToFormatItems a[format=' + format + ']');
+
+                page.click('[name=format] input[value='+format+'] + label', 100);
+                page.click('[name=filter_limit_all] input[value=no] + label', 100);
+                page.evaluate(function(){
+                    $('[name=filter_limit] input').val(100).trigger('change');
+                });
+
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }
 
     function evolutionReportTest(format) {
-        it("should export an evolution graph report correctly when the " + format + " export link is clicked", function (done) {
+        it("should export an evolution graph report correctly when the " + format + " export is chosen", function (done) {
             expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
                 if (page.getCurrentUrl() != visitsSummaryGetUrl) {
                     page.load(visitsSummaryGetUrl);
                     page.click('.activateExportSelection');
                 }
 
-                page.downloadLink('.exportToFormatItems a[format=' + format + ']');
+                page.click('[name=format] input[value='+format+'] + label', 100);
+                page.click('[name=filter_limit_all] input[value=no] + label', 100);
+                page.evaluate(function(){
+                    $('[name=filter_limit] input').val(100).trigger('change');
+                });
+
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }
@@ -51,7 +65,13 @@ describe("ReportExporting", function () {
                     page.click('.ui-dialog .activateExportSelection');
                 }
 
-                page.downloadLink('.ui-dialog .exportToFormatItems a[format=' + format + ']');
+                page.click('[name=format] input[value='+format+'] + label', 100);
+                page.click('[name=filter_limit_all] input[value=no] + label', 100);
+                page.evaluate(function(){
+                    $('[name=filter_limit] input').val(100).trigger('change');
+                });
+
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }

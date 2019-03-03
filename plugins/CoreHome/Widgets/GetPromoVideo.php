@@ -27,7 +27,7 @@ class GetPromoVideo extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName('Installation_Welcome');
         $config->setOrder(10);
     }

@@ -27,10 +27,20 @@ class GetNewPlugins extends Widget
         $this->marketplaceApiClient = $marketplaceApiClient;
     }
 
+    public static function getCategory()
+    {
+        return 'About Matomo';
+    }
+
+    public static function getName()
+    {
+        return 'Latest Marketplace Updates';
+    }
+
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
-        $config->setName('Latest Marketplace Updates');
+        $config->setCategoryId(self::getCategory());
+        $config->setName(self::getName());
         $config->setOrder(19);
     }
 
@@ -45,6 +55,10 @@ class GetNewPlugins extends Widget
         }
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_ALL);
+
+        $plugins = array_filter($plugins, function ($plugin) {
+            return empty($plugin['isBundle']);
+        });
 
         return $this->renderTemplate($template, array(
             'plugins' => array_splice($plugins, 0, 3)

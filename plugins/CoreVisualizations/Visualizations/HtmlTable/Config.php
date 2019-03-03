@@ -87,6 +87,19 @@ class Config extends VisualizationConfig
      */
     public $highlight_summary_row = false;
 
+    /**
+     * If true, the totals row will be shown
+     *
+     * Default value: false
+     */
+    public $show_totals_row = true;
+
+    /**
+     * A list of columns that support showing the ratio percentage on hover
+     * @var array
+     */
+    public $report_ratio_columns = array();
+
     public function __construct()
     {
         parent::__construct();

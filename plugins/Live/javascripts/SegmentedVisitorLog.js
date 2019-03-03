@@ -96,7 +96,7 @@ var SegmentedVisitorLog = function() {
     function show(apiMethod, segment, extraParams) {
 
         // open the popover
-        var box = Piwik_Popover.showLoading('Segmented Visitor Log');
+        var box = Piwik_Popover.showLoading('Segmented Visit Log');
         box.addClass('segmentedVisitorLogPopover');
 
 
@@ -120,10 +120,10 @@ var SegmentedVisitorLog = function() {
         var requestParams = {
             module: 'Live',
             action: 'indexVisitorLog',
-            segment: segment,
+            segment: encodeURIComponent(segment),
             disableLink: 1,
             small: 1,
-            hideProfileLink: 1
+            enableAddNewSegment: 1,
         };
 
         $.extend(requestParams, extraParams);
@@ -132,7 +132,7 @@ var SegmentedVisitorLog = function() {
         ajaxRequest.addParams(requestParams, 'get');
         ajaxRequest.setCallback(callback);
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     return {

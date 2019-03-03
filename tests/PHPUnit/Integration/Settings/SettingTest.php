@@ -8,22 +8,35 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
-use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage\Storage;
 use Piwik\Settings\Storage\Backend;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Validators\NotEmpty;
+use Piwik\Validators\NumberRange;
 
 
 /**
  * @group Settings
  * @group Setting
  */
-class SettingTest extends IntegrationTestCase
+class SettingTest extends \PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $fixutre = new Fixture();
+        $fixutre->createEnvironmentInstance();
+    }
+
+    protected function tearDown()
+    {
+        $fixutre = new Fixture();
+        $fixutre->clearInMemoryCaches();
+        $fixutre->destroyEnvironment();
+    }
 
     /**
      * @expectedException \Exception
@@ -162,6 +175,39 @@ class SettingTest extends IntegrationTestCase
         }
 
         $this->fail('An expected exception has not been thrown');
+    }
+
+    public function test_setValue_shouldExecuteValidators()
+    {
+        $setting = $this->makeSetting('myname');
+        $config = $setting->configureField();
+        $config->validators[] = new NotEmpty();
+        $config->validators[] = new NumberRange(5, 10);
+
+        // valid values
+        $setting->setValue('7');
+        $setting->setValue('8.5');
+
+        try {
+            $setting->setValue('1invalid');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorNotANumber', $e->getMessage());
+        }
+
+        try {
+            $setting->setValue('3');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorNumberTooLow', $e->getMessage());
+        }
+
+        try {
+            $setting->setValue('');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorEmptyValue', $e->getMessage());
+        }
     }
 
     public function getNumericTypes()

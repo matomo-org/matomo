@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\LogDeleter;
+use Piwik\Piwik;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -60,8 +61,9 @@ class LogDataPurger
      * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
      *                                 Visits and related data whose age is greater than this number
      *                                 will be purged.
+     * @param bool $deleteUnusedLogActions Whether to delete unused log actions or not
      */
-    public function purgeData($deleteLogsOlderThan)
+    public function purgeData($deleteLogsOlderThan, $deleteUnusedLogActions)
     {
         $dateUpperLimit = Date::factory("today")->subDay($deleteLogsOlderThan);
         $this->logDeleter->deleteVisitsFor($start = null, $dateUpperLimit->getDatetime());
@@ -69,12 +71,28 @@ class LogDataPurger
         $logTables = self::getDeleteTableLogTables();
 
         // delete unused actions from the log_action table (but only if we can lock tables)
-        if (Db::isLockPrivilegeGranted()) {
+        if ($deleteUnusedLogActions && Db::isLockPrivilegeGranted()) {
             $this->rawLogDao->deleteUnusedLogActions();
         } else {
             $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
             Log::warning($logMessage);
         }
+
+        /**
+         * Triggered when a plugin is supposed to delete log/raw data that is older than a certain amount of days.
+         *
+         * **Example**
+         *
+         *     public function deleteLogsOlderThan($dateUpperLimit, $deleteLogsOlderThan)
+         *     {
+         *         Db::query('DELETE FROM mytable WHERE creation_date < ' . $dateUpperLimit->getDateTime());
+         *     }
+         *
+         * @param \Piwik\Date $dateUpperLimit A date where visits that occur before this time should be deleted.
+         * @param int $deleteLogsOlderThan The number of days after which log entires are considered old.
+         *                                 Visits and related data whose age is greater than this number will be purged.
+         */
+        Piwik::postEvent('PrivacyManager.deleteLogsOlderThan', array($dateUpperLimit, $deleteLogsOlderThan));
 
         // optimize table overhead after deletion
         Db::optimizeTables($logTables);

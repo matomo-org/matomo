@@ -139,6 +139,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'DevicesDetection.getBrand',
             'DevicesDetection.getModel',
 
+            // has different output before and after
+            'PrivacyManager.getAvailableVisitColumnsToAnonymize',
+
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
 
@@ -197,6 +200,18 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             array('VisitFrequency.get', array('idSite' => $idSite, 'date' => '2012-03-03,2012-12-12', 'periods' => array('month'),
                                               'testSuffix' => '_multipleOldNew', 'disableArchiving' => true)),
             array($reportsToCompareSeparately, $defaultOptions),
+        );
+    }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
         );
     }
 }

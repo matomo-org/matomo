@@ -106,7 +106,7 @@ class JoinGenerator
         /** @var LogTable[] $availableLogTables */
         $availableLogTables = array();
 
-        $this->tables->sort(array($this, 'sortTablesForJoin'));
+        $this->tables->sort();
 
         foreach ($this->tables as $i => $table) {
             if (is_array($table)) {
@@ -118,6 +118,18 @@ class JoinGenerator
                     $this->joinString .= ' ' . $table['join'];
                 } else {
                     $this->joinString .= ' LEFT JOIN';
+                }
+
+                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table'])) {
+                    $logTable = $this->tables->getLogTable($table['table']);
+                    if (!empty($availableLogTables)) {
+                        $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                    }
+                    if (!isset($table['tableAlias'])) {
+                        // eg array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN')
+                        // we treat this like a regular string table which we can join automatically
+                        $availableLogTables[$table['table']] = $logTable;
+                    }
                 }
 
                 $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
@@ -166,7 +178,7 @@ class JoinGenerator
      *                       to be joined
      * @throws Exception if table cannot be joined for segmentation
      */
-    protected function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
+    public function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
     {
         $join = null;
         $alternativeJoin = null;
@@ -255,56 +267,4 @@ class JoinGenerator
         $this->nonVisitJoins[$tableName][$tableNameToJoin] = $nonVisitJoin;
         $this->nonVisitJoins[$tableNameToJoin][$tableName] = $nonVisitJoin;
     }
-
-    public function sortTablesForJoin($tA, $tB)
-    {
-        $coreSort = array(
-            'log_link_visit_action' => 0,
-            'log_action' => 1,
-            'log_visit' => 2,
-            'log_conversion' => 3,
-            'log_conversion_item' => 4
-        );
-
-        if (is_array($tA) && is_array($tB)) {
-            if (isset($tB['tableAlias']) && isset($tA['joinOn']) && strpos($tA['joinOn'], $tB['tableAlias']) !== false) {
-                return 1;
-            }
-            if (isset($tA['tableAlias']) && isset($tB['joinOn']) && strpos($tB['joinOn'], $tA['tableAlias']) !== false) {
-                return -1;
-            }
-
-            return 0;
-        }
-
-        if (is_array($tA)) {
-            return -1;
-        }
-
-        if (is_array($tB)) {
-            return 1;
-        }
-
-        if (isset($coreSort[$tA])) {
-            $weightA = $coreSort[$tA];
-        } else {
-            $weightA = 999;
-        }
-        if (isset($coreSort[$tB])) {
-            $weightB = $coreSort[$tB];
-        } else {
-            $weightB = 999;
-        }
-
-        if ($weightA === $weightB) {
-            return 0;
-        }
-
-        if ($weightA > $weightB) {
-            return 1;
-        }
-
-        return -1;
-    }
-    
 }

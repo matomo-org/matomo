@@ -60,7 +60,7 @@ class Response
             $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
             $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutHeader.tpl');
             $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/simpleLayoutFooter.tpl');
-            $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+            $headerPage = str_replace('{$HTML_TITLE}', 'Matomo &rsaquo; Error', $headerPage);
 
             echo $headerPage . '<p>' . $this->getMessageFromException($e) . '</p>' . $trailer . $footerPage;
         } else {
@@ -78,8 +78,8 @@ class Response
             if (!$this->isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
                 Common::sendResponseCode(400);
             }
-            Common::printDebug("Empty request => Piwik page");
-            echo "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+            Common::printDebug("Empty request => Matomo page");
+            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");
@@ -139,6 +139,10 @@ class Response
 
         $request = $_GET + $_POST;
 
+        if ($this->isHttpGetRequest()) {
+            Common::sendHeader('Cache-Control: no-store');
+        }
+
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
             Common::sendResponseCode(204);
             return;
@@ -166,7 +170,7 @@ class Response
         // Note: duplicated from FormDatabaseSetup.isAccessDenied
         // Avoid leaking the username/db name when access denied
         if ($e->getCode() == 1044 || $e->getCode() == 42000) {
-            return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
+            return "Error while connecting to the Matomo database - please check your credentials in config/config.ini.php file";
         }
 
         if (Common::isPhpCliMode()) {
@@ -178,6 +182,6 @@ class Response
 
     protected function logExceptionToErrorLog($e)
     {
-        error_log(sprintf("Error in Piwik (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
+        error_log(sprintf("Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
     }
 }

@@ -32,4 +32,8 @@ class Action extends LogTable
         return 'log_link_visit_action';
     }
 
+    public function getPrimaryKey()
+    {
+        return array('idaction');
+    }
 }

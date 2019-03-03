@@ -26,7 +26,7 @@
         "ColumnUniqueDownloads": "Unike nedlastinger",
         "ColumnUniqueOutlinks": "Unike utlenker",
         "ColumnIdPageview": "Sidevisnings-ID",
-        "DownloadsReportDocumentation": "I denne rapporten kan du se hvilke filer de besøkende har lastet ned. %s Hva Piwik teller som en nedlasting, er klikket på en nedlastingslink. Om nedlastingen ble fullført eller ikke er ikke kjent for Piwik.",
+        "DownloadsReportDocumentation": "I denne rapporten kan du se hvilke filer de besøkende har lastet ned. %s Hva Matomo teller som en nedlasting, er klikket på en nedlastingslink. Om nedlastingen ble fullført eller ikke er ikke kjent for Matomo.",
         "EntryPageTitles": "Titler på inngangssider",
         "EntryPageTitlesReportDocumentation": "Denne rapporten inneholder informasjon om titler på inngangssider som ble brukt i løpet av den angitte perioden.",
         "ExitPageTitles": "Titler på utgangssider",

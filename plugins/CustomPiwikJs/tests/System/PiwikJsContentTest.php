@@ -23,7 +23,7 @@ class PiwikJsContentTest extends SystemTestCase
     public function test_piwikJsAndPiwikMinJsMustHaveSameContent()
     {
         $piwikMin = PIWIK_DOCUMENT_ROOT . TrackerUpdater::ORIGINAL_PIWIK_JS;
-        $piwikJs = PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_PIWIK_JS;
+        $piwikJs = PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_MATOMO_JS;
 
         $this->assertSame(file_get_contents($piwikMin), file_get_contents($piwikJs));
     }

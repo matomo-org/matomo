@@ -20,7 +20,7 @@ class GetItemsSku extends BaseItem
 
         $this->name      = Piwik::translate('Goals_ProductSKU');
         $this->dimension = new ProductSku();
-        $this->order     = 30;
+        $this->order     = 31;
 
         $this->subcategoryId = 'Goals_Products';
     }

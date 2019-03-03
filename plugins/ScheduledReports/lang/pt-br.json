@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Você precisa estar logado para criar e agendar relatórios personalizados.",
         "NoRecipients": "Este relatório não tem destinatários",
         "Pagination": "Página %1$s de %2$s",
-        "PiwikReports": "Relatórios Piwik",
+        "PiwikReports": "Relatórios Matomo",
         "SentFromX": "Enviado de %s.",
         "PleaseFindBelow": "Veja abaixo o seu relatório %1$s para %2$s.",
         "PluginDescription": "Crie relatórios personalizados e programe-os para serem enviado por dia, semana ou mês para uma ou várias pessoas. Vários formatos de relatório são suportados (imagens html, pdf, csv).",

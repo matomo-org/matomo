@@ -8,7 +8,9 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
-use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Metrics\Formatter;
+use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
@@ -18,19 +20,26 @@ use Piwik\Plugin\Segment;
  */
 class VisitIp extends VisitDimension
 {
+    protected $columnName = 'location_ip';
+    protected $type = self::TYPE_BINARY;
+    protected $allowAnonymous = false;
+    protected $segmentName = 'visitIp';
+    protected $nameSingular = 'General_VisitorIP';
+    protected $namePlural = 'General_VisitorIPs';
+    protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
+    protected $sqlFilterValue = array('Piwik\Network\IPUtils', 'stringToBinaryIP');
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        $value = Common::hex2bin($value);
+        $value = IPUtils::binaryToStringIP($value);
+        return $value;
+    }
+
     protected function configureSegments()
     {
-        parent::configureSegments();
-
         $segment = new Segment();
-        $segment->setType('metric');
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName('General_VisitorIP');
-        $segment->setSegment('visitIp');
-        $segment->setAcceptedValues('13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255');
-        $segment->setSqlSegment('log_visit.location_ip');
-        $segment->setSqlFilterValue(array('Piwik\Network\IPUtils', 'stringToBinaryIP'));
-        $segment->setRequiresAtLeastViewAccess(true);
+        $segment->setType(Segment::TYPE_METRIC); // we cannot remove this for now as it would assign dimension based on text type
         $this->addSegment($segment);
     }
 }

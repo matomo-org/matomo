@@ -1,0 +1,10 @@
+{% if action.customVariables is defined %}
+
+    {{ 'CustomVariables_CustomVariables'|translate }}:{% for id,customVariable in action.customVariables %}
+        {% set name = 'customVariablePageName' ~ id %}
+        {% set value = 'customVariablePageValue' ~ id %}
+
+        {# line break above is important #}
+        - {{ customVariable[name]|rawSafeDecoded }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|rawSafeDecoded }}{% endif %}
+    {% endfor %}
+{% endif -%}

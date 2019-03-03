@@ -17,6 +17,9 @@ class RevenueSubtotal extends BaseConversion
 {
     protected $columnName = 'revenue_subtotal';
     protected $columnType = 'float default NULL';
+    protected $type = self::TYPE_MONEY;
+    protected $category = 'Goals_Ecommerce';
+    protected $nameSingular = 'General_Subtotal';
 
     /**
      * @param Request $request

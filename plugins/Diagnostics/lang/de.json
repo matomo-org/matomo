@@ -1,8 +1,10 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Konfigurationsdatei",
-        "ConfigFileIntroduction": "Hier können Sie die Piwik Konfiguration einsehen. Sollten Sie Piwik auf lastverteilten Systemen einsetzen könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
-        "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten können Sie %1$salle unveränderten Werte ausblenden%2$s.",
+        "MysqlMaxPacketSize": "Maximale Packetgröße",
+        "MysqlMaxPacketSizeWarning": "Es wird empfohlen die 'max_allowed_packet' Größe in Ihrer MySQL Datenbank auf mindestens %1$s zu erhöhen. Aktuell ist %2$s eingestellt.",
+        "ConfigFileIntroduction": "Hier können Sie die Matomo Konfiguration einsehen. Sollten Sie Matomo auf lastverteilten Systemen einsetzen könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
+        "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten, können Sie %1$salle unveränderten Werte ausblenden%2$s.",
         "Sections": "Sektionen"
     }
 }

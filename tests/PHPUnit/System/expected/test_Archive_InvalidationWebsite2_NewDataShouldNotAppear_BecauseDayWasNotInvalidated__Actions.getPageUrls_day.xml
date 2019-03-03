@@ -38,6 +38,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page1</url>
+					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage1</segment>
 				</row>
 				<row>
 					<label>/Page2</label>
@@ -53,6 +54,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page2</url>
+					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage2</segment>
 				</row>
 				<row>
 					<label>/Page3</label>
@@ -68,6 +70,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page3</url>
+					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage3</segment>
 				</row>
 			</subtable>
 		</row>

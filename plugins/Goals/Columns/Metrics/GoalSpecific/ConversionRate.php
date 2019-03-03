@@ -12,6 +12,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -26,7 +27,7 @@ class ConversionRate extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_conversion_rate';
+        return Goals::makeGoalColumn($this->idGoal, 'conversion_rate', false);
     }
 
     public function getTranslatedName()

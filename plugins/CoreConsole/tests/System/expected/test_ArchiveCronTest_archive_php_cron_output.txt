@@ -1,0 +1,11 @@
+
+-------------------------------------------------------
+Using this 'archive.php' script is no longer recommended.
+Please use '/path/to/php /home/travis/build/matomo-org/matomo/tests/PHPUnit/proxy/../../..//console core:archive --url=http://localhost/tests/PHPUnit/proxy/index.php --force-date-last-n=10' instead.
+To get help use '/path/to/php /home/travis/build/matomo-org/matomo/tests/PHPUnit/proxy/../../..//console core:archive --help'
+See also: https://matomo.org/docs/setup-auto-archiving/
+
+If you cannot use the console because it requires CLI
+try 'php archive.php --url=http://your.piwik/path'
+-------------------------------------------------------
+

@@ -9,11 +9,8 @@
 namespace Piwik\Plugins\Overlay;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
-use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
@@ -30,8 +27,6 @@ class API extends \Piwik\Plugin\API
      */
     public function getTranslations($idSite)
     {
-        $this->authenticate($idSite);
-
         $translations = array(
             'oneClick'         => 'Overlay_OneClick',
             'clicks'           => 'Overlay_Clicks',
@@ -48,8 +43,6 @@ class API extends \Piwik\Plugin\API
      */
     public function getExcludedQueryParameters($idSite)
     {
-        $this->authenticate($idSite);
-
         $sitesManager = APISitesManager::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
 
@@ -71,8 +64,6 @@ class API extends \Piwik\Plugin\API
      */
     public function getFollowingPages($url, $idSite, $period, $date, $segment = false)
     {
-        $this->authenticate($idSite);
-
         $url = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
@@ -82,7 +73,7 @@ class API extends \Piwik\Plugin\API
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
-                $part = 'followingActions', $returnNormalizedUrls = true);
+                $part = 'followingActions');
         } catch (Exception $e) {
             return $resultDataTable;
         }
@@ -99,39 +90,5 @@ class API extends \Piwik\Plugin\API
         }
 
         return $resultDataTable;
-    }
-
-    /** Do cookie authentication. This way, the token can remain secret. */
-    private function authenticate($idSite)
-    {
-        /**
-         * Triggered immediately before the user is authenticated.
-         *
-         * This event can be used by plugins that provide their own authentication mechanism
-         * to make that mechanism available. Subscribers should set the `'Piwik\Auth'` object in
-         * the container to an object that implements the {@link Piwik\Auth} interface.
-         *
-         * **Example**
-         *
-         *     use Piwik\Container\StaticContainer;
-         *
-         *     public function initAuthenticationObject($activateCookieAuth)
-         *     {
-         *         StaticContainer::getContainer()->set('Piwik\Auth', new LDAPAuth($activateCookieAuth));
-         *     }
-         *
-         * @param bool $activateCookieAuth Whether authentication based on `$_COOKIE` values should
-         *                                        be allowed.
-         */
-        Piwik::postEvent('Request.initAuthenticationObject', array($activateCookieAuth = true));
-
-        $auth = StaticContainer::get('Piwik\Auth');
-        $success = Access::getInstance()->reloadAccess($auth);
-
-        if (!$success) {
-            throw new Exception('Authentication failed');
-        }
-
-        Piwik::checkUserHasViewAccess($idSite);
     }
 }

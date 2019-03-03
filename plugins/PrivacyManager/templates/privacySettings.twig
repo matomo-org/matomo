@@ -1,21 +1,20 @@
 {% extends 'admin.twig' %}
 
-{% set title %}{{ 'PrivacyManager_TeaserHeadline'|translate }}{% endset %}
+{% set title %}{{ 'PrivacyManager_AnonymizeData'|translate }}{% endset %}
 
 {% block content %}
 {% import 'macros.twig' as piwik %}
-{% if isSuperUser %}
 
 <div piwik-content-intro>
-    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/privacy/">{{ title }}</h2>
+    <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
 
-    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'PrivacyManager_TeaserHeader'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#anonymizeHistoricalData">',"</a>")|raw }}
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
 <div piwik-content-block
      id="anonymizeIPAnchor"
-     content-title="{{ 'PrivacyManager_UseAnonymizeIp'|translate|e('html_attr') }}">
+     content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
     <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
 
         <div piwik-field uicontrol="checkbox" name="anonymizeIpSettings"
@@ -43,13 +42,27 @@
             </div>
         </div>
 
+        <div piwik-field uicontrol="checkbox" name="anonymizeUserId"
+             ng-model="anonymizeIp.anonymizeUserId"
+             title="{{ 'PrivacyManager_PseudonymizeUserId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeUserId }}"
+             inline-help="{{ 'PrivacyManager_PseudonymizeUserIdNote'|translate|e('html_attr') }}<br/><br/><em>{{ 'PrivacyManager_PseudonymizeUserIdNote2'|translate|e('html_attr') }}</em>">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="anonymizeOrderId"
+             ng-model="anonymizeIp.anonymizeOrderId"
+             title="{{ 'PrivacyManager_UseAnonymizeOrderId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeOrderId }}"
+             inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
+        </div>
+
         <div piwik-save-button onconfirm="anonymizeIp.save()" saving="anonymizeIp.isLoading"></div>
     </div>
 </div>
 
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block id="deleteLogsAnchor"
-         content-title="{{ 'PrivacyManager_DeleteOldVisitorLogs'|translate|e('html_attr') }}">
+         content-title="{{ 'PrivacyManager_DeleteOldRawData'|translate|e('html_attr') }}">
         <div class="ui-confirm" id="confirmDeleteSettings">
             <h2 id="deleteLogsConfirm">{{ 'PrivacyManager_DeleteLogsConfirm'|translate }}</h2>
 
@@ -69,32 +82,23 @@
             <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
         </div>
 
-        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
 
         <div piwik-form
              ng-controller="DeleteOldLogsController as deleteOldLogs"
              id="formDeleteSettings">
             <div id="deleteLogSettingEnabled">
 
-                <div id="deleteLogInfoInlineHelp" class="inline-help-node">
-                    {{ 'PrivacyManager_DeleteLogInfo'|translate(deleteData.deleteTables)|raw }}
-                    {% if not canDeleteLogActions %}
-                        <br/><br/>
-                        {{ 'PrivacyManager_CannotLockSoDeleteLogActions'|translate(dbUser) }}
-                    {% endif %}
-                </div>
-
                 <div piwik-field uicontrol="checkbox" name="deleteEnable"
                      ng-model="deleteOldLogs.enabled"
                      ng-change="deleteOldLogs.reloadDbStats()"
                      title="{{ 'PrivacyManager_UseDeleteLog'|translate|e('html_attr') }}"
                      value="{{ deleteData.config.delete_logs_enable }}"
-                     inline-help="#deleteLogInfoInlineHelp">
+                     inline-help="{{ 'PrivacyManager_DeleteRawDataInfo'|translate|e('html_attr') }}">
                 </div>
 
-                <div class="alert alert-warning" style="width: 50%;">
-                    {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                    <a href="http://piwik.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
+                <div class="alert alert-warning deleteOldLogsWarning" style="width: 50%;" ng-show="deleteOldLogs.enabled">
+                    <a href="https://matomo.org/faq/general/#faq_125" rel="noreferrer noopener" target="_blank">
                         {{ 'General_ClickHere'|translate }}
                     </a>
                 </div>
@@ -115,7 +119,7 @@
     </div>
 
     <div piwik-content-block id="deleteReportsAnchor"
-            content-title="{{ 'PrivacyManager_DeleteOldArchivedReports'|translate|e('html_attr') }}">
+            content-title="{{ 'PrivacyManager_DeleteOldAggregatedReports'|translate|e('html_attr') }}">
 
         <div piwik-form
              ng-controller="DeleteOldReportsController as deleteReports" 
@@ -128,14 +132,12 @@
                      ng-change="deleteReports.reloadDbStats()"
                      title="{{ 'PrivacyManager_UseDeleteReports'|translate|e('html_attr') }}"
                      value="{{ deleteData.config.delete_reports_enable }}"
-                     inline-help="{{ 'PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*')|e('html_attr') }}">
+                     inline-help="{{ 'PrivacyManager_DeleteAggregateReportsDetailedInfo'|translate|e('html_attr') }}">
                 </div>
 
-                <div class="alert alert-warning" style="width: 50%;">
+                <div class="alert alert-warning" style="width: 50%;" ng-show="deleteReports.enabled">
                     {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('','')|raw }}
-                    <span ng-show="deleteReports.enabled">
-                        <br/><br/>
+                    <span>
                         {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
                         {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}
                     </span>
@@ -150,7 +152,7 @@
                      ng-change="deleteReports.reloadDbStats()"
                      title="{{ 'PrivacyManager_DeleteReportsOlderThan'|translate|e('html_attr') }} ({{ 'Intl_PeriodMonths'|translate }})"
                      value="{{ deleteData.config.delete_reports_older_than }}"
-                     inline-help="{{ 'PrivacyManager_LeastMonthsInput'|translate("3")|e('html_attr') }}">
+                     inline-help="{{ 'PrivacyManager_LeastMonthsInput'|translate("1")|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="checkbox" name="deleteReportsKeepBasic"
@@ -158,7 +160,7 @@
                      ng-change="deleteReports.reloadDbStats()"
                      title="{{ 'PrivacyManager_KeepBasicMetrics'|translate|e('html_attr') }} ({{ 'General_Recommended'|translate|e('html_attr') }})"
                      value="{{ deleteData.config.delete_reports_keep_basic_metrics }}"
-                     inline-help="{{ 'PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*')|e('html_attr') }}">
+                     inline-help="{{ 'PrivacyManager_KeepBasicMetricsReportsDetailedInfo'|translate|e('html_attr') }}">
                 </div>
 
                 <h3>
@@ -225,7 +227,7 @@
                         <br/>
                     {% endif %}
                     <strong>{{ 'PrivacyManager_NextDelete'|translate }}:</strong>
-                    {{ deleteData.nextRunPretty|raw }}
+                    {{ deleteData.nextRunPretty|rawSafeDecoded }}
                     <br/>
                     <br/>
                     <a id="purgeDataNowLink" href="#"
@@ -249,6 +251,7 @@
                 </div>
             </div>
 
+            {% if deleteData.config.enable_database_size_estimate == '1' %}
             <div id="deleteDataEstimateSect" class="form-group row">
 
                 <h3 class="col s12" id="databaseSizeHeadline">
@@ -270,53 +273,69 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
 
             <div piwik-save-button onconfirm="reportDeletionSchedule.save()" saving="reportDeletionSchedule.isLoading"></div>
 
         </div>
     {% endif %}
 </div>
-<div piwik-content-block
-    id="DNT"
-    content-title="{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate|e('html_attr') }}">
-    <p>
-        {% if dntSupport %}
-            <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
-            <br/>
-            {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
+
+    <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
+
+    <div piwik-content-block content-title="Anonymize previously tracked raw data" class="logDataAnonymizer">
+        <p>If you have tracked personal data such as the full visitor IP, you may
+            want to anonymize this data now in case you do not have consent for this data or no longer a legitimate
+            interest.
+        </p>
+
+        {% if isSuperUser %}
+            <div matomo-anonymize-log-data></div>
         {% else %}
-            {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
+            <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
         {% endif %}
-    </p>
 
-    <div piwik-form ng-controller="DoNotTrackPreferenceController as doNotTrack">
-
-        {# {{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT #}
-        <div piwik-field uicontrol="radio" name="doNotTrack"
-             ng-model="doNotTrack.enabled"
-             options="{{ doNotTrackOptions|json_encode }}"
-             value="{% if dntSupport %}1{% else %}0{% endif %}"
-             inline-help="{{ 'PrivacyManager_DoNotTrack_Description'|translate|e('html_attr') }}">
-        </div>
-
-        <div piwik-save-button onconfirm="doNotTrack.save()" saving="doNotTrack.isLoading"></div>
-
+        <br />
+        <h3>Previous raw data anonymizations</h3>
+        <table piwik-content-table>
+            <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Affected ID Sites</th>
+                <th>Affected date</th>
+                <th>Anonymize</th>
+                <th>Visit Columns</th>
+                <th>Link Visit Action Columns</th>
+                <th>Status</th>
+            </tr></thead>
+            <tbody>
+            {% for entry in anonymizations %}
+                {% set isStarted = entry.job_start_date or not entry.job_start_date is empty %}
+                {% set isFinished = entry.job_finish_date or not entry.job_finish_date is empty %}
+                <tr>
+                    <td>{{ entry.requester }}</td>
+                    <td>{{ entry.sites|join(', ') }}</td>
+                    <td>{{ entry.date_start }} - {{ entry.date_end }}</td>
+                    <td>{% if entry.anonymize_ip %}<span>IP address<br /></span>{% endif %}
+                        {% if entry.anonymize_location %}<span>Location<br /></span>{% endif %}
+                        {% if entry.anonymize_userid %}<span>User ID</span>{% endif %}
+                        {% if not entry.anonymize_ip and not entry.anonymize_location and not entry.anonymize_userid %}-{% endif %}
+                    </td>
+                    <td>{{ entry.unset_visit_columns|join(', ') }}</td>
+                    <td>{{ entry.unset_link_visit_action_columns|join(', ') }}</td>
+                    <td>
+                        {% if not isStarted %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}."></span> Scheduled
+                        {% elseif isStarted and not isFinished %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Current Output: {{ entry.output }}"></span> In progress
+                        {% else %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Job Finish Date: {{ entry.job_finish_date }}. Output: {{ entry.output }}"></span> Done
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-
-{% endif %}
-</div>
-<div piwik-content-block
-     id="optOutAnchor"
-     content-title="{{ 'CoreAdminHome_OptOutForYourVisitors'|translate|e('html_attr') }}">
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanation'|translate }}
-        {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
-        {% set iframeOptOut %}<iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>{% endset %}
-    </p>
-    <pre piwik-select-on-focus>{{ iframeOptOut|e('html') }}</pre>
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
-    </p>
-</div>
 {% endblock %}

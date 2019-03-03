@@ -71,6 +71,9 @@ class CliMultiTest extends SystemTestCase
      */
     public function test_request_shouldFail_IfUrlsIsNotAnArray()
     {
+        if (PHP_MAJOR_VERSION >= 7) {
+            $this->setExpectedException('TypeError');
+        }
         $this->cliMulti->request('');
     }
 
@@ -156,7 +159,7 @@ class CliMultiTest extends SystemTestCase
         $response = $this->cliMulti->request($urls);
 
         $message = "Response was: " . substr( implode("\n\n", $response), 0, 4000);
-        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - free/libre analytics platform"/>'), $message);
+        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Matomo - free/libre analytics platform"/>'), $message);
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'). $message);
     }
 

@@ -9,26 +9,18 @@
 namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
-use Piwik\Tracker;
 use Piwik\Tracker\Visitor;
 
 class VisitTotalSearches extends VisitDimension
 {
     protected $columnName = 'visit_total_searches';
     protected $columnType = 'SMALLINT(5) UNSIGNED NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('searches');
-        $segment->setName('General_NbSearches');
-        $segment->setAcceptedValues('To select all visits who used internal Site Search, use: &segment=searches>0');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'searches';
+    protected $nameSingular = 'General_NbSearches';
+    protected $acceptValues = 'To select all visits who used internal Site Search, use: &segment=searches>0';
+    protected $type = self::TYPE_NUMBER;
 
     /**
      * @param Request $request

@@ -18,7 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
- * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' rel='noreferrer' target='_blank'>Custom Variables</a> names and values.
+ * The Custom Variables API lets you access reports for your <a href='http://matomo.org/docs/custom-variables/' rel='noreferrer' target='_blank'>Custom Variables</a> names and values.
  *
  * @method static \Piwik\Plugins\CustomVariables\API getInstance()
  */
@@ -60,6 +60,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
 
         if ($dataTable instanceof DataTable
@@ -105,6 +107,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
 
         if (!$_leavePriceViewedColumn) {

@@ -36,15 +36,23 @@ function getPathFromUrl($url)
 function getReferrerTypeLabel($label)
 {
     switch ($label) {
+        case 'direct':
         case Common::REFERRER_TYPE_DIRECT_ENTRY:
             $indexTranslation = 'Referrers_DirectEntry';
             break;
+        case 'search':
         case Common::REFERRER_TYPE_SEARCH_ENGINE:
             $indexTranslation = 'Referrers_SearchEngines';
             break;
+        case 'social':
+        case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+            $indexTranslation = 'Referrers_Socials';
+            break;
+        case 'website':
         case Common::REFERRER_TYPE_WEBSITE:
             $indexTranslation = 'Referrers_Websites';
             break;
+        case 'campaign':
         case Common::REFERRER_TYPE_CAMPAIGN:
             $indexTranslation = 'Referrers_Campaigns';
             break;
@@ -65,10 +73,11 @@ function getReferrerTypeLabel($label)
 function getReferrerTypeFromShortName($name)
 {
     $map = array(
-        Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
-        Common::REFERRER_TYPE_WEBSITE       => 'website',
-        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
-        Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
+        Common::REFERRER_TYPE_SEARCH_ENGINE  => 'search',
+        Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
+        Common::REFERRER_TYPE_WEBSITE        => 'website',
+        Common::REFERRER_TYPE_DIRECT_ENTRY   => 'direct',
+        Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',
     );
     if (isset($map[$name])) {
         return $map[$name];

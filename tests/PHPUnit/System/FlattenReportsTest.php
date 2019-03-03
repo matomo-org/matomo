@@ -7,6 +7,9 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\EventDispatcher;
+use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Reports\GetWebsites;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithSubDirReferrersAndCustomVars;
 
@@ -25,6 +28,17 @@ class FlattenReportsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        EventDispatcher::getInstance()->addObserver('Report.filterReports', function(&$reports) {
+            $newReports = [];
+            foreach ($reports as $report) {
+                if ($report instanceof GetWebsites) {
+                    continue;
+                }
+                $newReports[] = $report;
+            }
+            $newReports[] = new DimensionLessReport();
+            $reports = $newReports;
+        });
         $this->runApiTests($api, $params);
     }
 
@@ -126,3 +140,15 @@ class FlattenReportsTest extends SystemTestCase
 }
 
 FlattenReportsTest::$fixture = new ManyVisitsWithSubDirReferrersAndCustomVars();
+
+
+class DimensionLessReport extends GetWebsites
+{
+    protected function init()
+    {
+        parent::init();
+        $this->dimension     = null;
+        $this->module        = 'Referrers';
+        $this->action        = 'GetWebsites';
+    }
+}

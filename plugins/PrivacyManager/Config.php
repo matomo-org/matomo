@@ -23,6 +23,8 @@ use Piwik\Tracker\Cache;
  *                                      anonymization is deactivated, this value is ignored. For IPv4/IPv6 addresses,
  *                                      valid values are the number of octets in IP address to mask (from 0 to 4).
  *                                      For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
+ * @property int  $anonymizeUserId      If enabled, it will pseudo anonymize the User ID
+ * @property int  $anonymizeOrderId     If enabled, it will anonymize the Order ID
  */
 class Config
 {
@@ -31,6 +33,8 @@ class Config
         'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
         'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => true),
         'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
+        'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),
+        'anonymizeOrderId'                  => array('type' => 'boolean', 'default' => false),
     );
 
     public function __set($name, $value)

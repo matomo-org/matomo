@@ -10,15 +10,21 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\IP;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Psr\Log\LoggerInterface;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -69,6 +75,13 @@ use Piwik\UrlHelper;
  */
 class Request
 {
+    /**
+     * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
+     *
+     * @var int
+     */
+    private static $nestedApiInvocationCount = 0;
+
     private $request = null;
 
     /**
@@ -205,8 +218,13 @@ class Request
         // read the format requested for the output data
         $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
+        $disablePostProcessing = $this->shouldDisablePostProcessing();
+
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
+        if ($disablePostProcessing) {
+            $response->disableDataTablePostProcessor();
+        }
 
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
@@ -215,12 +233,23 @@ class Request
         $shouldReloadAuth = false;
 
         try {
+            ++self::$nestedApiInvocationCount;
+
+            // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
+            // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
+            // to not expose any information in case the IP is not whitelisted.
+            $whitelist = new LoginWhitelist();
+            if ($whitelist->shouldCheckWhitelist() && $whitelist->shouldWhitelistApplyToAPI()) {
+                $ip = IP::getIpFromHeader();
+                $whitelist->checkIsWhitelisted($ip);
+            }
+
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
-            
+
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
             $apiClassName = self::getClassNameAPI($module);
@@ -235,11 +264,21 @@ class Request
             // call the method
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
-            $toReturn = $response->getResponse($returnedValue, $module, $method);
+            // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
+            // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
+            // which may only exist in $this->request, if the request was called programatically)
+            $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
+                return $response->getResponse($returnedValue, $module, $method);
+            });
         } catch (Exception $e) {
-            Log::debug($e);
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $toReturn = $response->getResponseException($e);
+        } finally {
+            --self::$nestedApiInvocationCount;
         }
 
         if ($shouldReloadAuth) {
@@ -277,8 +316,58 @@ class Request
     }
 
     /**
+     * @ignore
+     * @internal
+     * @param string $currentApiMethod
+     */
+    public static function setIsRootRequestApiRequest($currentApiMethod)
+    {
+        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+    }
+
+    /**
+     * @ignore
+     * @internal
+     * @return string current Api Method if it is an api request
+     */
+    public static function getRootApiRequestMethod()
+    {
+        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+    }
+
+    /**
+     * Detect if the root request (the actual request) is an API request or not. To detect whether an API is currently
+     * request within any request, have a look at {@link isApiRequest()}.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function isRootRequestApiRequest()
+    {
+        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return !empty($apiMethod);
+    }
+
+    /**
+     * Checks if the currently executing API request is the root API request or not.
+     *
+     * Note: the "root" API request is the first request made. Within that request, further API methods
+     * can be called programmatically. These requests are considered "child" API requests.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function isCurrentApiRequestTheRootApiRequest()
+    {
+        return self::$nestedApiInvocationCount == 1;
+    }
+
+    /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
-     * specified.
+     * specified. Note that this method will return true even if the actual request is for example a regular UI
+     * reporting page request but within this request we are currently processing an API request (eg a
+     * controller calls Request::processRequest('API.getMatomoVersion')). To find out if the root request is an API
+     * request or not, call {@link isRootRequestApiRequest()}
      *
      * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
      * @return bool
@@ -286,10 +375,24 @@ class Request
      */
     public static function isApiRequest($request)
     {
+        $method = self::getMethodIfApiRequest($request);
+        return !empty($method);
+    }
+
+    /**
+     * Returns the current API method being executed, if the current request is an API request.
+     *
+     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @return string|null
+     * @throws Exception
+     */
+    public static function getMethodIfApiRequest($request)
+    {
         $module = Common::getRequestVar('module', '', 'string', $request);
         $method = Common::getRequestVar('method', '', 'string', $request);
 
-        return $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        $isApi = $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        return $isApi ? $method : null;
     }
 
     /**
@@ -331,7 +434,13 @@ class Request
          * @param string $token_auth The value of the **token_auth** query parameter.
          */
         Piwik::postEvent('API.Request.authenticate', array($tokenAuth));
-        Access::getInstance()->reloadAccess();
+        if (!Access::getInstance()->reloadAccess() && $tokenAuth && $tokenAuth !== 'anonymous') {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('API.Request.authenticate.failed');
+        }
         SettingsServer::raiseMemoryLimitIfNecessary();
     }
 
@@ -510,5 +619,25 @@ class Request
     private static function getDefaultRequest()
     {
         return $_GET + $_POST;
+    }
+
+    private function shouldDisablePostProcessing()
+    {
+        $shouldDisable = false;
+
+        /**
+         * After an API method returns a value, the value is post processed (eg, rows are sorted
+         * based on the `filter_sort_column` query parameter, rows are truncated based on the
+         * `filter_limit`/`filter_offset` parameters, amongst other things).
+         *
+         * If you're creating a plugin that needs to disable post processing entirely for
+         * certain requests, use this event.
+         *
+         * @param bool &$shouldDisable Set this to true to disable datatable post processing for a request.
+         * @param array $request The request parameters.
+         */
+        Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        return $shouldDisable;
     }
 }

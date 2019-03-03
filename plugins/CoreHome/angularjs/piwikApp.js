@@ -16,4 +16,8 @@
         'piwikApp.filter'
     ]);
     angular.module('app', []);
+
+    angular.module('piwikApp').config(['$locationProvider', function($locationProvider) {
+        $locationProvider.hashPrefix('');
+    }]);
 })();

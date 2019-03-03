@@ -65,8 +65,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'Overlay',
 
-    dataTableIcon: 'plugins/Overlay/images/overlay_icon.png',
-    dataTableIconHover: 'plugins/Overlay/images/overlay_icon_hover.png',
+    dataTableIcon: 'icon-overlay',
 
     order: 30,
 

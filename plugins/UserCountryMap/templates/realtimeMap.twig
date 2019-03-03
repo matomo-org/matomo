@@ -2,7 +2,6 @@
      data-standalone="{{ mapIsStandaloneNotWidget|default(0) }}"
      data-config="{{ config|json_encode }}"
      tabindex="0">
-
     <div class="RealTimeMap_container">
         <div class="RealTimeMap_map" style="overflow:hidden;"></div>
         <div class="realTimeMap_overlay">
@@ -25,6 +24,12 @@
         </span>
     </div>
 
-</div>
+    {% if userIsSuperUser %}
+        <div style="display:none;margin-top:20px;margin-bottom:0;" id="realTimeMapNoVisitsInfo" class="alert alert-info">
+            <p>{{ 'UserCountryMap_NoVisitsInfo'|translate }}</p>
+            <p>{{ 'UserCountryMap_NoVisitsInfo2'|translate }}</p>
+        </div>
+    {% endif %}
+    </div>
 </div>
 <script type="text/javascript">UserCountryMap.RealtimeMap.initElements();</script>

@@ -8,10 +8,11 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
-use Piwik\Tracker\Action;
 use Exception;
 
 /**
@@ -21,50 +22,60 @@ use Exception;
  */
 class ActionType extends ActionDimension
 {
-    private $types = array(
-        Action::TYPE_PAGE_URL => 'pageviews',
-        Action::TYPE_CONTENT => 'contents',
-        Action::TYPE_SITE_SEARCH => 'sitesearches',
-        Action::TYPE_EVENT => 'events',
-        Action::TYPE_OUTLINK => 'outlinks',
-        Action::TYPE_DOWNLOAD => 'downloads'
-    );
+    protected $columnName = 'type';
+    protected $dbTableName = 'log_action';
+    protected $segmentName = 'actionType';
+    protected $type = self::TYPE_ENUM;
+    protected $nameSingular = 'Actions_ActionType';
+    protected $namePlural = 'Actions_ActionTypes';
+    protected $category = 'General_Actions';
 
-    /**
-     * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
-     */
-    public function getName()
+    public function __construct()
     {
-        return Piwik::translate('Actions_ActionType');
+        $this->acceptValues = 'A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads';
     }
 
-    protected function configureSegments()
+    public function getEnumColumnValues()
     {
-        $types = $this->types;
+        $availableTypes = [];
+        /**
+         * Triggered to determine the available action types
+         *
+         * Plugin can use this event to add their own action types, so they are available in segmentation
+         * The array maps internal ids to readable action type names used in visitor details
+         *
+         * **Example**
+         *
+         * public function addActionTypes(&$availableTypes)
+         * {
+         *     $availableTypes[] = array(
+         *         'id' => 76,
+         *         'name' => 'media_play'
+         *      );
+         * }
+         *
+         * @param array $availableTypes
+         */
+        Piwik::postEvent('Actions.addActionTypes', [&$availableTypes]);
 
-        $segment = new Segment();
-        $segment->setSegment('actionType');
-        $segment->setName('Actions_ActionType');
-        $segment->setSqlSegment('log_action.type');
-        $segment->setType(Segment::TYPE_DIMENSION);
-        $segment->setAcceptedValues(sprintf('A type of action, such as: %s', implode(', ', $types)));
-        $segment->setSqlFilter(function ($type) use ($types) {
-            if (array_key_exists($type, $types)) {
-                return $type;
+        $types = [];
+
+        foreach ($availableTypes as $type) {
+            if (empty($type['id']) || empty($type['name'])) {
+                throw new Exception("Invalid action added with event `Actions.addActionTypes`: " . var_export($type, true));
             }
-
-            $index = array_search(strtolower(trim(urldecode($type))), $types);
-
-            if ($index === false) {
-                throw new Exception("actionType must be one of: " . implode(', ', $types));
+            if (Development::isEnabled() && array_key_exists($type['id'], $types)) {
+                throw new Exception(sprintf("Action '%s' with id %s couldn't be added, as '%s' was already added for this id", $type['name'], $type['id'], $types[$type['id']]));
             }
+            $types[$type['id']] = $type['name'];
+        }
 
-            return $index;
-        });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxSuggestionsToReturn) use ($types) {
-            return array_slice(array_values($types), 0, $maxSuggestionsToReturn);
-        });
-        $this->addSegment($segment);
+        return $types;
     }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // do not genereate any metric for this
+    }
+
 }

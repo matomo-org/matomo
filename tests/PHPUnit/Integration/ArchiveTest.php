@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\Archive as PiwikArchive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
@@ -36,7 +37,14 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
+}
 
+class CustomArchiveQueryFactory extends PiwikArchive\ArchiveQueryFactory
+{
+    public function newInstance(\Piwik\Archive\Parameters $params, $forceIndexedBySite, $forceIndexedByDate)
+    {
+        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+    }
 }
 
 /**
@@ -251,7 +259,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
         $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getLastRow()->getColumn('label'));
 
-        $parameters = new Parameters(new Site(1), $period, new Segment('', ''));
+        $parameters = new Parameters(new Site(1), $period, new Segment('', []));
         $parameters->setRequestedPlugin('UserLanguage');
 
         $result    = ArchiveSelector::getArchiveIdAndVisits($parameters, $period->getDateStart()->getDateStartUTC());
@@ -292,6 +300,31 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals('UserLanguage_LanguageCode pt', $userLanguageReport->getLastRow()->getColumn('label'));
     }
 
+    public function testNoFutureArchiveTablesAreCreatedWithoutArchiving()
+    {
+        $dateTime = '2066-01-01';
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        // request API which should not trigger archiving due to config and shouldn't create any archive tables
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $numericTables = Db::get()->fetchAll('SHOW TABLES like "%archive_numeric_2066_%"');
+
+        $this->assertEmpty($numericTables, 'Archive table for future date found');
+    }
+
+    public function testNoFutureArchiveTablesAreCreatedWithArchiving()
+    {
+        $dateTime = '2066-01-01';
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
+
+        // request API which should not trigger archiving due to config and shouldn't create any archive tables
+        Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $numericTables = Db::get()->fetchAll('SHOW TABLES like "%archive_numeric_2066_%"');
+
+        $this->assertEmpty($numericTables, 'Archive table for future date found');
+    }
 
     private function createManyDifferentArchiveBlobs()
     {
@@ -387,9 +420,20 @@ class ArchiveTest extends IntegrationTestCase
         return $archive->getNumeric('nb_visits');
     }
 
+    /**
+     * @return Archive
+     */
     private function getArchive($period, $day = '2010-03-04,2010-03-07')
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Archive::build(self::$fixture->idSite, $period, $day);
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            PiwikArchive\ArchiveQueryFactory::class => \DI\object(CustomArchiveQueryFactory::class),
+        ];
     }
 }
 

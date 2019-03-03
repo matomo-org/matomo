@@ -14,7 +14,7 @@ class Type extends \Piwik\Measurable\Type
     protected $name = 'MobileAppMeasurable_MobileApp';
     protected $namePlural = 'MobileAppMeasurable_MobileApps';
     protected $description = 'MobileAppMeasurable_MobileAppDescription';
-    protected $howToSetupUrl = 'http://developer.piwik.org/guides/tracking-api-clients#mobile-sdks';
+    protected $howToSetupUrl = 'https://developer.matomo.org/guides/tracking-api-clients#mobile-sdks';
 
 }
 

@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class SearchEngine extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Referrers_ColumnSearchEngine');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Referrers_ColumnSearchEngine';
 }

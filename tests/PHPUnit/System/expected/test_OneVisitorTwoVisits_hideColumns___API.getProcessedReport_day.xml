@@ -8,7 +8,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metricsDocumentation>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
@@ -34,7 +34,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</metadata>
 	<columns>
-		<label>Page Name</label>
+		<label>Page Title</label>
 		<exit_rate>Exit rate</exit_rate>
 	</columns>
 	<reportData>
@@ -58,14 +58,36 @@
 	<reportMetadata>
 		<row>
 			
-			<idsubdatatable>5188</idsubdatatable>
+			<segment>pageTitle==Checkout</segment>
+			<idsubdatatable>2</idsubdatatable>
+		</row>
+		<row>
+			<segment>pageTitle==incredible+title%21</segment>
+		</row>
+		<row>
+			<segment>pageTitle==Looking+at+homepage+%28again%29...</segment>
+		</row>
+		<row>
+			<segment>pageTitle==Second+page+view+-+should+be+registered+as+URL</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>
-		<entry_bounce_count>1</entry_bounce_count>
+		<sum_time_spent>1080</sum_time_spent>
+		<sum_time_generation>0.615</sum_time_generation>
+		<min_time_generation>0.615</min_time_generation>
+		<max_time_generation>0.615</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
 		<entry_nb_actions>8</entry_nb_actions>
+		<entry_sum_visit_length>1621</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<exit_rate>50%</exit_rate>
 	</reportTotal>
 </result>

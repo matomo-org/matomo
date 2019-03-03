@@ -1,0 +1,40 @@
+<div class="visitor-profile-summary visitor-profile-location">
+    <h1>{{ 'UserCountry_Location'|translate }}</h1>
+    <p>
+        {%- for entry in visitorData.countries -%}
+
+            {% set entryCity -%}
+                {% if entry.cities is defined and 1 == entry.cities|length and entry.cities|join -%}
+                    {{ entry.cities|join }}
+                {%- elseif entry.cities is defined and 1 < entry.cities|length -%}
+                    <span title="{{ entry.cities|join(', ') }}">{{ 'UserCountry_FromDifferentCities'|translate }}</span>
+                {%- endif %}
+            {%- endset %}
+
+            {% set entryVisits -%}
+                <strong>
+                    {% if entry.nb_visits == 1 -%}
+                        {{ 'General_OneVisit'|translate }}
+                    {%- else -%}
+                        {{ 'General_NVisits'|translate(entry.nb_visits) }}
+                    {%- endif -%}
+                </strong>
+            {%- endset %}
+
+            {% set entryCountry -%}
+                {%- if entryCity -%}
+                    {{ 'UserCountry_CityAndCountry'|translate(entryCity, entry.prettyName)|raw }}
+                {%- else -%}
+                    {{ entry.prettyName }}
+                {%- endif -%}
+
+                &nbsp;<img height="16px" src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>
+            {%- endset %}
+
+            {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
+        {%- endfor %}
+        <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Morpheus/images/loading-blue.gif"/>
+    </p>
+    <div class="visitor-profile-map" style="display:none" data-href="{{ userCountryMapUrl|default('') }}">
+    </div>
+</div>

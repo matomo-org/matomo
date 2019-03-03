@@ -59,6 +59,7 @@ class CustomEventsTest extends SystemTestCase
         $periods = array($dayPeriod, 'month');
 
         $apiEventAndAction = array('Events', 'Actions.getPageUrls');
+
         $result = array(
             array($apiToCallProcessedReportMetadata, array(
                 'idSite'       => $idSite1,
@@ -74,6 +75,15 @@ class CustomEventsTest extends SystemTestCase
                 'segment'      => "eventCategory==Movie,eventName==".urlencode('La fiancée de l\'eau'),
                 'setDateLastN' => false,
                 'testSuffix'   => '_eventCategoryOrNameMatch')
+            ),
+
+            array($apiEventAndAction, array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'segment'      => "eventAction==rating;eventValue>9",
+                'setDateLastN' => false,
+                'testSuffix'   => '_eventValueMatch')
             ),
 
             // eventAction should not match any page view

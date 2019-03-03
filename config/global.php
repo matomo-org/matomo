@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
+use Piwik\Config;
 
 return array(
 
@@ -20,7 +21,12 @@ return array(
             $instanceId = '';
         }
 
-        return $root . '/tmp' . $instanceId;
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+        $tmp = empty($general['tmp_path']) ? '/tmp' : $general['tmp_path'];
+
+        return $root . $tmp . $instanceId;
     },
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
@@ -64,6 +70,8 @@ return array(
         return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
     },
 
+    'entities.idNames' => DI\add(array('idGoal', 'idDimension')),
+
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
@@ -71,7 +79,116 @@ return array(
 
     'observers.global' => array(),
 
+    'fileintegrity.ignore' => DI\add(array(
+        '*.htaccess',
+        '*web.config',
+        'bootstrap.php',
+        'favicon.ico',
+        'robots.txt',
+        '.bowerrc',
+        '.lfsconfig',
+        '.phpstorm.meta.php',
+        'config/config.ini.php',
+        'config/config.php',
+        'config/common.ini.php',
+        'config/*.config.ini.php',
+        'config/manifest.inc.php',
+        'misc/*.dat',
+        'misc/*.dat.gz',
+        'misc/*.mmdb',
+        'misc/*.mmdb.gz',
+        'misc/*.bin',
+        'misc/user/*png',
+        'misc/user/*svg',
+        'misc/user/*js',
+        'misc/package',
+        'misc/package/WebAppGallery/*.xml',
+        'misc/package/WebAppGallery/install.sql',
+        'plugins/ImageGraph/fonts/unifont.ttf',
+        'vendor/autoload.php',
+        'vendor/composer/autoload_real.php',
+        'vendor/szymach/c-pchart/app/*',
+        'tmp/*',
+        // Search engine sites verification
+        'google*.html',
+        'BingSiteAuth.xml',
+        'yandex*.html',
+        // common files on shared hosters
+        'php.ini',
+        '.user.ini',
+        // Files below are not expected but they used to be present in older Piwik versions and may be still here
+        // As they are not going to cause any trouble we won't report them as 'File to delete'
+        '*.coveralls.yml',
+        '*.scrutinizer.yml',
+        '*.gitignore',
+        '*.gitkeep',
+        '*.gitmodules',
+        '*.gitattributes',
+        '*.bower.json',
+        '*.travis.yml',
+    )),
+
     'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
+
+    'login.whitelist.ips' => function (ContainerInterface $c) {
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+
+        $ips = array();
+        if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
+            $ips = $general['login_whitelist_ip'];
+        }
+        
+        $ipsResolved = array();
+
+        foreach ($ips as $ip) {
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                $ipsResolved[] = $ip;
+            } else {
+                $ipFromHost = @gethostbyname($ip);
+                if (!empty($ipFromHost)) {
+                    $ipsResolved[] = $ipFromHost;
+                }
+            }
+        }
+
+        return $ipsResolved;
+    },
+    'Zend_Mail_Transport_Abstract' => function () {
+        $mailConfig = Config::getInstance()->mail;
+
+        if (empty($mailConfig['host'])
+            || $mailConfig['transport'] != 'smtp'
+        ) {
+            return;
+        }
+
+        $smtpConfig = array();
+        if (!empty($mailConfig['type'])) {
+            $smtpConfig['auth'] = strtolower($mailConfig['type']);
+        }
+
+        if (!empty($mailConfig['username'])) {
+            $smtpConfig['username'] = $mailConfig['username'];
+        }
+
+        if (!empty($mailConfig['password'])) {
+            $smtpConfig['password'] = $mailConfig['password'];
+        }
+
+        if (!empty($mailConfig['encryption'])) {
+            $smtpConfig['ssl'] = $mailConfig['encryption'];
+        }
+
+        if (!empty($mailConfig['port'])) {
+            $smtpConfig['port'] = $mailConfig['port'];
+        }
+
+        $host = trim($mailConfig['host']);
+        $transport = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
+        return $transport;
+    },
 
     'Zend_Validate_EmailAddress' => function () {
         return new \Zend_Validate_EmailAddress(array(
@@ -89,4 +206,7 @@ return array(
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
 
+    'archiving.performance.logger' => null,
+
+    \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
 );

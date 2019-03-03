@@ -192,7 +192,8 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 var failures = [];
                 for (var i = 0; i < app.diffViewerGenerator.failures.length; i++) {
                     if (app.diffViewerGenerator.failures[i].name == testInfo.name &&
-                        app.diffViewerGenerator.failures[i].baseDirectory == testInfo.baseDirectory) {
+                        app.diffViewerGenerator.failures[i].baseDirectory == testInfo.baseDirectory &&
+                        app.runner.failures > 0) {
                         app.runner.failures--;
                         continue;
                     }
@@ -200,7 +201,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 }
                 app.diffViewerGenerator.failures = failures;
 
-                done();
+                performAutomaticPageChecks(done);
             };
 
             if (!testInfo.processed) {
@@ -322,7 +323,7 @@ function compareContents(compareAgainst, pageSetupFn, done) {
                     console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
                 }
 
-                done();
+                performAutomaticPageChecks(done);
             };
 
             var processed = pageRenderer.getPageContents();
@@ -486,3 +487,54 @@ chai.Assertion.addChainableMethod('pageContents', function (pageSetupFn, done) {
 
     compareContents(compareAgainst, pageSetupFn, done);
 });
+
+// other automatically run assertions
+function performAutomaticPageChecks(done) {
+    try {
+        checkForDangerousLinks();
+
+        done();
+    } catch (e) {
+        done(e);
+    }
+}
+
+function checkForDangerousLinks() {
+    var links = pageRenderer.webpage.evaluate(function () {
+        try {
+            var result = [];
+
+            var linkElements = document.getElementsByTagName('a');
+            for (var i = 0; i !== linkElements.length; ++i) {
+                var element = linkElements.item(i);
+
+                var href = element.getAttribute('href');
+                if (/^(javascript|vbscript|data):/.test(href) && !isWhitelistedJavaScript(href)) {
+                    result.push(element.innerText + ' - [href = ' + href + ']');
+                }
+            }
+
+            return JSON.stringify(result);
+        } catch (e) {
+            return e.message || e;
+        }
+
+        function isWhitelistedJavaScript(href) {
+            var whitelistedCode = [
+                '',
+                'void(0)',
+                'window.history.back()',
+                'window.location.reload()',
+            ];
+
+            var m = /^javascript:(.*?);*$/.exec(href);
+            if (!m) {
+                return false;
+            }
+
+            var code = m[1] || '';
+            return whitelistedCode.indexOf(code) !== -1;
+        }
+    });
+    expect(links, "found dangerous links").to.equal("[]");
+}

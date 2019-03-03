@@ -190,12 +190,23 @@ class Option
     {
         $autoLoad = (int)$autoLoad;
 
-        $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
-                ' VALUES (?, ?, ?) ' .
-                ' ON DUPLICATE KEY UPDATE option_value = ?';
-        $bind = array($name, $value, $autoLoad, $value);
+        $sql  = 'UPDATE `' . Common::prefixTable('option') . '` SET option_value = ?, autoload = ? WHERE option_name = ?';
+        $bind = array($value, $autoLoad, $name);
 
-        Db::query($sql, $bind);
+        $result = Db::query($sql, $bind);
+
+        $rowsUpdated = Db::get()->rowCount($result);
+
+        if (! $rowsUpdated) {
+            try {
+                $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                        'VALUES (?, ?, ?) ';
+                $bind = array($name, $value, $autoLoad);
+
+                Db::query($sql, $bind);
+            } catch (\Exception $e) {
+            }
+        }
 
         $this->all[$name] = $value;
     }

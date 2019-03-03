@@ -2,7 +2,7 @@
 
     <div ng-repeat="settings in pluginSettings.settingsPerPlugin"
          class="card"
-          id="pluginSettings">
+          id="{{ settings.pluginName }}PluginSettings">
 
         <div class="card-content">
             <h2 id="{{ settings.pluginName }}" class="card-title">{{ settings.title }}</h2>
@@ -16,7 +16,7 @@
                    value="{{ 'General_Save'|translate }}"
                    class="pluginsSettingsSubmit btn"/>
 
-            <div piwik-activity-indicator loading="pluginSettings.isLoading"></div>
+            <div piwik-activity-indicator loading="pluginSettings.isLoading || pluginSettings.isSaving[settings.pluginName]"></div>
 
         </div>
 

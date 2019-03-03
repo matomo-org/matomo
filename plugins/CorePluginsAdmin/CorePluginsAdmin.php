@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
 
 class CorePluginsAdmin extends Plugin
 {
@@ -24,8 +25,18 @@ class CorePluginsAdmin extends Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'PluginManager.pluginActivated'          => 'onPluginActivated'
         );
+    }
+
+    public function onPluginActivated($pluginName)
+    {
+        if ($pluginName === 'TagManager') {
+            // make sure once activated once, it won't appear when disabling Tag Manager later 
+            $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
+            $tagManagerTeaser->disableGlobally();
+        }
     }
 
     public function addSystemSummaryItems(&$systemSummary)
@@ -38,6 +49,7 @@ class CorePluginsAdmin extends Plugin
     {
         $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
         $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-expandable-select.less";
     }
 
     public static function isPluginsAdminEnabled()

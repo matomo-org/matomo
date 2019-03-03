@@ -7,8 +7,16 @@
 
 var Piwik_Overlay = (function () {
 
+    var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
+    var ORIGIN_PARSE_REGEX = /^https?:\/\/[^\/]*/;
+    var ALLOWED_API_REQUEST_WHITELIST = [
+        'Overlay.getTranslations',
+        'Overlay.getExcludedQueryParameters',
+        'Overlay.getFollowingPages',
+    ];
+
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
-    var $rowEvolutionLink, $transitionsLink, $fullScreenLink, $visitorLogLink;
+    var $rowEvolutionLink, $transitionsLink, $visitorLogLink;
 
     var idSite, period, date, segment;
 
@@ -18,6 +26,7 @@ var Piwik_Overlay = (function () {
     var iframeCurrentPageNormalized = '';
     var iframeCurrentActionLabel = '';
     var updateComesFromInsideFrame = false;
+    var iframeOrigin = '';
 
     /** Load the sidebar for a url */
     function loadSidebar(currentUrl) {
@@ -26,7 +35,7 @@ var Piwik_Overlay = (function () {
         $location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
 
         iframeCurrentPage = currentUrl;
-        iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
+        iframeDomain = currentUrl.match(DOMAIN_PARSE_REGEX)[3];
 
         var params = {
             module: 'Overlay',
@@ -87,7 +96,7 @@ var Piwik_Overlay = (function () {
             $errorNotLoading.show();
         });
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     /** Adjust the dimensions of the iframe */
@@ -103,7 +112,6 @@ var Piwik_Overlay = (function () {
         $sidebar.hide();
         $location.hide();
 
-        $fullScreenLink.hide();
         $rowEvolutionLink.hide();
         $transitionsLink.hide();
         $visitorLogLink.hide();
@@ -114,7 +122,6 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
-        $fullScreenLink.show();
     }
 
     function getOverlaySegment(url) {
@@ -137,10 +144,34 @@ var Piwik_Overlay = (function () {
         return location;
     }
 
+    function setIframeOrigin(location) {
+        iframeOrigin = location.match(ORIGIN_PARSE_REGEX)[0];
+
+        // unset iframe origin if it is not one of the site URLs
+        var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
+            return url.match(ORIGIN_PARSE_REGEX)[0];
+        });
+
+        if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin) === -1) {
+            try {
+                console.log('Found invalid iframe origin in hash URL: ' + iframeOrigin);
+            } catch (e) {
+                // ignore
+            }
+            iframeOrigin = null;
+        }
+    }
+
     /** $.history callback for hash change */
     function hashChangeCallback(urlHash) {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
+
+        setIframeOrigin(location);
+
+        if (location == iframeCurrentPageNormalized) {
+            return;
+        }
 
         if (!updateComesFromInsideFrame) {
             var iframeUrl = iframeSrcBase;
@@ -154,6 +185,54 @@ var Piwik_Overlay = (function () {
         }
 
         updateComesFromInsideFrame = false;
+    }
+
+    function handleApiRequests() {
+        window.addEventListener("message", function (event) {
+            if (event.origin !== iframeOrigin || !iframeOrigin) {
+                return;
+            }
+
+            var strData = event.data.split(':', 3);
+            if (strData[0] !== 'overlay.call') {
+                return;
+            }
+
+            var requestId = strData[1];
+            var url = decodeURIComponent(strData[2]);
+
+            var params = broadcast.getValuesFromUrl(url);
+            Object.keys(params).forEach(function (name) {
+                params[name] = decodeURIComponent(params[name]);
+            });
+            params.module = 'API';
+            params.action = 'index';
+
+            if (ALLOWED_API_REQUEST_WHITELIST.indexOf(params.method) === -1) {
+                sendResponse({
+                    result: 'error',
+                    message: "'" + params.method + "' method is not allowed.",
+                });
+                return;
+            }
+
+            angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
+                piwikApi.fetch(params)
+                    .then(function (response) {
+                        sendResponse(response);
+                    }).catch(function (err) {
+                        sendResponse({
+                            result: 'error',
+                            message: err.message,
+                        });
+                    });
+            }]);
+
+            function sendResponse(data) {
+                var message = 'overlay.response:' + requestId + ':' + encodeURIComponent(JSON.stringify(data));
+                $iframe[0].contentWindow.postMessage(message, iframeOrigin);
+            }
+        }, false);
     }
 
     return {
@@ -176,11 +255,9 @@ var Piwik_Overlay = (function () {
 
             $rowEvolutionLink = $('#overlayRowEvolution');
             $transitionsLink = $('#overlayTransitions');
-            $fullScreenLink = $('#overlayFullScreen');
             $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
-
             showLoading();
 
             // apply initial dimensions
@@ -189,28 +266,23 @@ var Piwik_Overlay = (function () {
             }, 50);
 
             // handle window resize
-            // we manipulate broadcast.pageload because it unbinds all resize events on window
-            var originalPageload = broadcast.pageload;
-            broadcast.pageload = function (hash) {
-                originalPageload(hash);
-                $(window).resize(function () {
-                    adjustDimensions();
-                });
-            };
             $(window).resize(function () {
                 adjustDimensions();
             });
 
-            // handle hash change
-            broadcast.loadAjaxContent = hashChangeCallback;
+            angular.element(document).injector().invoke(function ($rootScope) {
+                $rootScope.$on('$locationChangeSuccess', function () {
+                    hashChangeCallback(broadcast.getHash());
+                });
 
-            broadcast._isInit = false;
-            broadcast.init();
+                hashChangeCallback(broadcast.getHash());
+            });
 
             if (window.location.href.split('#').length == 1) {
-                // if there's no hash, broadcast won't trigger the callback - we have to do it here
                 hashChangeCallback('');
             }
+
+            handleApiRequests();
 
             // handle date selection
             var $select = $('select#overlayDateRangeSelect').change(function () {
@@ -261,16 +333,6 @@ var Piwik_Overlay = (function () {
                 SegmentedVisitorLog.show('Actions.getPageUrls', $('#segment').val(), {});
                 return false;
             });
-
-            // handle full screen link
-            $fullScreenLink.click(function () {
-                var href = iframeSrcBase;
-                if (iframeCurrentPage) {
-                    href += '#' + iframeCurrentPage.replace(/#/g, '%23');
-                }
-                window.location.href = href;
-                return false;
-            });
         },
 
         /** This callback is used from within the iframe */
@@ -283,16 +345,26 @@ var Piwik_Overlay = (function () {
                 currentLocation = getOverlayLocationFromHash(locationParts[1]);
             }
 
-            var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
+            var newFrameLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
 
-            if (newLocation != currentLocation) {
+            if (newFrameLocation != currentLocation) {
                 updateComesFromInsideFrame = true;
-                // put the current iframe url in the main url to enable refresh and deep linking.
-                // use disableHistory=true to make sure that the back and forward buttons can be
-                // used on the iframe (which in turn notifies the parent about the location change)
-                broadcast.propagateAjax('l=' + newLocation, true);
+
+                // available in global scope
+                var currentHashStr = broadcast.getHash();
+
+                if (currentHashStr.charAt(0) == '?') {
+                    currentHashStr = currentHashStr.substr(1);
+                }
+
+                currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
+
+                var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
+                // window.location.replace changes the current url without pushing it on the browser's history stack
+                window.location.replace(newLocation);
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
+                setIframeOrigin(currentUrl);
                 loadSidebar(currentUrl);
             }
         }

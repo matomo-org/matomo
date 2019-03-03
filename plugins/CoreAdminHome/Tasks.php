@@ -8,20 +8,32 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
+use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Scheduler\Schedule\SpecificTime;
+use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
+use Piwik\Tracker\Failures;
+use Piwik\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
+    const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
     /**
      * @var ArchivePurger
      */
@@ -32,10 +44,16 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     private $logger;
 
-    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger)
+    /**
+     * @var Failures
+     */
+    private $trackingFailures;
+
+    public function __construct(ArchivePurger $archivePurger, LoggerInterface $logger, Failures $failures)
     {
         $this->archivePurger = $archivePurger;
         $this->logger = $logger;
+        $this->trackingFailures = $failures;
     }
 
     public function schedule()
@@ -47,10 +65,117 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
 
         // lowest priority since tables should be optimized after they are modified
-        $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
+        $this->monthly('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
+
+        $this->daily('cleanupTrackingFailures', null, self::LOWEST_PRIORITY);
+        $this->weekly('notifyTrackingFailures', null, self::LOWEST_PRIORITY);
 
         if(SettingsPiwik::isInternetEnabled() === true){
             $this->weekly('updateSpammerBlacklist');
+        }
+
+        $this->scheduleTrackingCodeReminderChecks();
+    }
+
+    private function scheduleTrackingCodeReminderChecks()
+    {
+        $daysToTrackedVisitsCheck = (int) Config::getInstance()->General['num_days_before_tracking_code_reminder'];
+        if ($daysToTrackedVisitsCheck <= 0) {
+            return;
+        }
+
+        // add check for a site's tracked visits
+        $sites = Request::processRequest('SitesManager.getAllSites');
+
+        foreach ($sites as $site) {
+            $createdTime = Date::factory($site['ts_created']);
+            $scheduledTime = $createdTime->addDay($daysToTrackedVisitsCheck)->setTime('02:00:00');
+
+            // we don't want to run this check for every site in an install when this code is introduced,
+            // so if the site is over 2 * $daysToTrackedVisitsCheck days old, assume the check has run.
+            $isSiteOld = $createdTime->isEarlier(Date::today()->subDay($daysToTrackedVisitsCheck * 2));
+
+            if ($isSiteOld || $this->hasTrackingCodeReminderRun($site['idsite'])) {
+                continue;
+            }
+
+            $schedule = new SpecificTime($scheduledTime->getTimestamp());
+            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $schedule);
+        }
+    }
+
+    public function checkSiteHasTrackedVisits($idSite)
+    {
+        $this->rememberTrackingCodeReminderRan($idSite);
+
+        if (!SitesManager::hasTrackedAnyTraffic($idSite)) {
+            return;
+        }
+
+        // site is still empty after N days, so send an email to the user that created the site
+        $creatingUser = Site::getCreatorLoginFor($idSite);
+        if (empty($creatingUser)) {
+            return;
+        }
+
+        $user = Request::processRequest('UsersManager.getUser', [
+            'userLogin' => $creatingUser,
+        ]);
+        if (empty($user['email'])) {
+            return;
+        }
+
+        $container = StaticContainer::getContainer();
+        $email = $container->make(JsTrackingCodeMissingEmail::class, array(
+            'login' => $user['login'],
+            'emailAddress' => $user['email'],
+            'idSite' => $idSite
+        ));
+        $email->send();
+    }
+
+    private function hasTrackingCodeReminderRun($idSite)
+    {
+        $table = new MeasurableSettingsTable($idSite, 'CoreAdminHome');
+        $settings = $table->load();
+        return !empty($settings[self::TRACKING_CODE_CHECK_FLAG]);
+    }
+
+    private function rememberTrackingCodeReminderRan($idSite)
+    {
+        $table = new MeasurableSettingsTable($idSite, 'CoreAdminHome');
+        $settings = $table->load();
+        $settings[self::TRACKING_CODE_CHECK_FLAG] = 1;
+        $table->save($settings);
+    }
+
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.cleanupTrackingFailures"`
+     *
+     * @throws \Exception
+     */
+    public function cleanupTrackingFailures()
+    {
+        // we remove possibly outdated/fixed tracking failures that have not occurred again recently
+        $this->trackingFailures->removeFailuresOlderThanDays(Failures::CLEANUP_OLD_FAILURES_DAYS);
+    }
+
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.notifyTrackingFailures"`
+     *
+     * @throws \Exception
+     */
+    public function notifyTrackingFailures()
+    {
+        $failures = $this->trackingFailures->getAllFailures();
+        if (!empty($failures)) {
+            $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
+            foreach ($superUsers as $login => $email) {
+                $email = new TrackingFailuresEmail($login, $email, count($failures));
+                $email->send();
+            }
         }
     }
 
@@ -116,11 +241,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     /**
      * Update the referrer spam blacklist
      *
-     * @see https://github.com/piwik/referrer-spam-blacklist
+     * @see https://github.com/matomo-org/referrer-spam-blacklist
      */
     public function updateSpammerBlacklist()
     {
-        $url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
+        $url = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
         $list = Http::sendHttpRequest($url, 30);
         $list = preg_split("/\r\n|\n|\r/", $list);
         if (count($list) < 10) {

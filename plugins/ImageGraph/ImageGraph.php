@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
 use Piwik\Url;
@@ -89,7 +90,7 @@ class ImageGraph extends \Piwik\Plugin
 				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
 				$dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
 					$periodForSinglePeriodGraph,
-					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					'last' . self::getDefaultGraphEvolutionLastPeriods(),
 					$dateForSinglePeriodGraph,
 					$piwikSite
 				);
@@ -172,5 +173,14 @@ class ImageGraph extends \Piwik\Plugin
                 $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
             }
         }
+    }
+
+    public static function getDefaultGraphEvolutionLastPeriods()
+    {
+        $lastPeriods = (int) Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        if ($lastPeriods <= 0) {
+            throw new \Exception("Invalid value '$lastPeriods' supplied for [General] graphs_default_evolution_graph_last_days_amount config.");
+        }
+        return $lastPeriods;
     }
 }

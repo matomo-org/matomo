@@ -16,7 +16,16 @@
         $scope.autocompleteMinSites = AUTOCOMPLETE_MIN_SITES;
         $scope.activeSiteId = piwik.idSite;
 
-        $scope.switchSite = function (site) {
+        $scope.switchSite = function (site, $event) {
+
+            // for Mac OS cmd key needs to be pressed, ctrl key on other systems
+            var controlKey = navigator.userAgent.indexOf("Mac OS X") !== -1 ? $event.metaKey : $event.ctrlKey;
+
+            if ($event && controlKey && $event.target && $event.target.href) {
+                window.open($event.target.href, "_blank");
+                return;
+            }
+
             $scope.selectedSite = {id: site.idsite, name: site.name};
 
             if (!$scope.switchSiteOnSelect || $scope.activeSiteId == site.idsite) {
@@ -38,7 +47,7 @@
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
         };
 
-        Mousetrap.bind('w', function(event) {
+        piwikHelper.registerShortcut('w', _pk_translate('CoreHome_ShortcutWebsiteSelector'), function(event) {
             if (event.altKey) {
                 return;
             }

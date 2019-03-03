@@ -101,25 +101,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Displays the admin UI page showing all tracking tags
-     * @return string
-     */
-    function displayJavascriptCode()
-    {
-        $idSite = Common::getRequestVar('idSite');
-        Piwik::checkUserHasViewAccess($idSite);
-        $javascriptGenerator = new TrackerCodeGenerator();
-        $jsTag = $javascriptGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
-        $site  = new Site($idSite);
-
-        return $this->renderTemplate('displayJavascriptCode', array(
-            'idSite' => $idSite,
-            'displaySiteName' => $site->getName(),
-            'jsTag' => $jsTag
-        ));
-    }
-
-    /**
      *  User will download a file called PiwikTracker.php that is the content of the actual script
      */
     function downloadPiwikTracker()
@@ -146,6 +127,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function siteWithoutData()
     {
         $javascriptGenerator = new TrackerCodeGenerator();
+        $javascriptGenerator->forceMatomoEndpoint();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
         if (!$this->site && Piwik::hasUserSuperUserAccess()) {
@@ -157,7 +139,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
-            'idSite' => $this->site->getId(),
+            'idSite' => $this->idSite,
             'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
                 'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),

@@ -1849,24 +1849,7 @@
 		<uniqueId>widgetInsightsgetInsightsOverview</uniqueId>
 	</row>
 	<row>
-		<name>Top Keywords for Page URL</name>
-		<category>
-			<name>SEO</name>
-			<order>99</order>
-			<id>SEO</id>
-		</category>
-		<subcategory />
-		<module>Referrers</module>
-		<action>getKeywordsForPage</action>
-		<order>99</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getKeywordsForPage</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
-	</row>
-	<row>
-		<name>Piwik Changelog</name>
+		<name>Matomo Changelog</name>
 		<category>
 			<name>Example Widgets</name>
 			<order>99</order>
@@ -1968,7 +1951,7 @@
 		<uniqueId>widgetCoreHomegetPromoVideo</uniqueId>
 	</row>
 	<row>
-		<name>Support Piwik!</name>
+		<name>Support Matomo!</name>
 		<category>
 			<name>Example Widgets</name>
 			<order>99</order>

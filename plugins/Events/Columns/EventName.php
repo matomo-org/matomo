@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Events\Segment;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -18,18 +18,21 @@ use Piwik\Tracker\Request;
 class EventName extends ActionDimension
 {
     protected $columnName = 'idaction_name';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'Events_Events';
+    protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
+    protected $segmentName = 'eventName';
+    protected $nameSingular = 'Events_EventName';
+    protected $namePlural = 'Events_EventNames';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('eventName');
-        $segment->setName('Events_EventName');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Events_EventName');
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()
@@ -43,7 +46,7 @@ class EventName extends ActionDimension
             return false;
         }
 
-        $eventName = $request->getParam('e_n');
+        $eventName = $action->getEventName();
         $eventName = trim($eventName);
 
         if (strlen($eventName) > 0) {

@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Url;
 use ReflectionClass;
@@ -283,6 +284,15 @@ class DocumentationGenerator
         $aParameters['disable_generic_filters'] = false;
         $aParameters['expanded'] = false;
         $aParameters['idDimenson'] = false;
+        $aParameters['format_metrics'] = false;
+
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            if (isset($aParameters[$entityName])) {
+                continue;
+            }
+            $aParameters[$entityName] = false;
+        }
 
         $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
         $aParameters = array_merge(array('module' => 'API', 'method' => $moduleName . '.' . $methodName), $aParameters);
@@ -356,6 +366,10 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 foreach ($methods as $index => $method) {
+                    if (!method_exists($class, $method)) { // method is handled through API.Request.intercept event
+                        continue;
+                    }
+
                     $reflectionMethod = new \ReflectionMethod($class, $method);
                     if ($this->checkIfCommentContainsInternalAnnotation($reflectionMethod)) {
                         unset($toDisplay[$moduleName][$index]);

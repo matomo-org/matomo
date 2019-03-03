@@ -1,15 +1,15 @@
 {
     "name": "ExampleAPI",
-    "description": "Piwik Platform showcase: how to create an API for your plugin to let your users export your data in multiple formats.",
+    "description": "Matomo Platform showcase: how to create an API for your plugin to let your users export your data in multiple formats.",
     "version": "1.0",
     "keywords": ["example", "api"],
-    "homepage": "http://piwik.org",
+    "homepage": "https://matomo.org",
     "license": "GPL v3+",
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
         }
     ]
 }

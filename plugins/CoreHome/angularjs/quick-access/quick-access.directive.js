@@ -38,14 +38,14 @@
 
                 var translate = $filter('translate');
                 var searchAreasTitle = '';
-                var searchAreas = [translate('CoreHome_MenuEntries')]
+                var searchAreas = [translate('CoreHome_MenuEntries')];
 
                 if (hasSegmentSelector) {
-                    searchAreas.push(translate('CoreHome_Segments'))
+                    searchAreas.push(translate('CoreHome_Segments'));
                 }
 
                 if (scope.hasSitesSelector) {
-                    searchAreas.push(translate('SitesManager_Sites'))
+                    searchAreas.push(translate('SitesManager_Sites'));
                 }
 
                 while (searchAreas.length) {
@@ -112,7 +112,7 @@
                                 leftMenuItems.push({name: text, category: category, index: ++menuIndex});
                                 $element.attr('quick_access', menuIndex);
                             }
-                        })
+                        });
 
                     });
 
@@ -259,7 +259,7 @@
                     }
                 };
 
-                Mousetrap.bind('f', function(event) {
+                piwikHelper.registerShortcut('f', _pk_translate('CoreHome_ShortcutSearch'), function(event) {
                     if (event.altKey) {
                         return;
                     }

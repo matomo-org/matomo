@@ -36,7 +36,7 @@ class RequestCommand extends ConsoleCommand
     {
         $this->setName('climulti:request');
         $this->setDescription('Parses and executes the given query. See Piwik\CliMulti. Intended only for system usage.');
-        $this->addArgument('url-query', InputArgument::REQUIRED, 'Piwik URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
+        $this->addArgument('url-query', InputArgument::REQUIRED, 'Matomo URL query string, for instance: "module=API&method=API.getPiwikVersion&token_auth=123456789"');
         $this->addOption('superuser', null, InputOption::VALUE_NONE, 'If supplied, runs the code as superuser.');
     }
 
@@ -95,7 +95,8 @@ class RequestCommand extends ConsoleCommand
     {
         $_GET = array();
 
-        $hostname = $input->getOption('piwik-domain');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $hostname = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');

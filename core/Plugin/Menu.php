@@ -47,7 +47,7 @@ class Menu
      *
      * Example:
      * ```
-     * $menu->addItem('UI Framework', '', $this->urlForDefaultAction(), $orderId = 30);
+     * $menu->addItem('MyPlugin_MyPlugin', '', $this->urlForDefaultAction(), $orderId = 30);
      * // will add a menu item that leads to the default action of the plugin controller when a user clicks on it.
      * // The default action is usually the `index` action - meaning the `index()` method the controller -
      * // but the default action can be customized within a controller

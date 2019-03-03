@@ -29,8 +29,16 @@ class RequestConfig extends VisualizationRequestConfig
      */
     public $keep_summary_row = false;
 
+    /**
+     * Controls whether the totals row is displayed on every page of the datatable view or not.
+     *
+     * Default value: false
+     */
+    public $keep_totals_row = false;
+
     public function __construct()
     {
+        $this->totals = true;
         $this->filter_limit = PiwikConfig::getInstance()->General['datatable_default_limit'];
 
         if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {
@@ -49,11 +57,13 @@ class RequestConfig extends VisualizationRequestConfig
             'filter_offset',
             'filter_sort_column',
             'filter_sort_order',
-            'keep_summary_row'
+            'keep_summary_row',
+            'keep_totals_row'
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
             'keep_summary_row',
+            'keep_totals_row',
         ));
     }
 

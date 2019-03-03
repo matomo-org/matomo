@@ -10,191 +10,19 @@
 namespace Piwik\Plugins\Live;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Tracker\GoalManager;
 
 class Model
 {
-
-    /**
-     * @param $idVisit
-     * @param $actionsLimit
-     * @return array
-     * @throws \Exception
-     */
-    public function queryActionsForVisit($idVisit, $actionsLimit)
-    {
-        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
-
-        $sqlCustomVariables = '';
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
-        }
-        // The second join is a LEFT join to allow returning records that don't have a matching page title
-        // eg. Downloads, Outlinks. For these, idaction_name is set to 0
-        $sql = "
-				SELECT
-					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
-					log_action.name AS url,
-					log_action.url_prefix,
-					log_action_title.name AS pageTitle,
-					log_action.idaction AS pageIdAction,
-					log_link_visit_action.idlink_va,
-					log_link_visit_action.server_time as serverTimePretty,
-					log_link_visit_action.time_spent_ref_action as timeSpentRef,
-					log_link_visit_action.idlink_va AS pageId,
-					log_link_visit_action.custom_float,
-					log_link_visit_action.interaction_position
-					" . $sqlCustomVariables . ",
-					log_action_event_category.name AS eventCategory,
-					log_action_event_action.name as eventAction
-				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
-					ON  log_link_visit_action.idaction_url = log_action.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
-					ON  log_link_visit_action.idaction_name = log_action_title.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_category
-					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
-					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
-				WHERE log_link_visit_action.idvisit = ?
-				ORDER BY server_time ASC
-				LIMIT 0, $actionsLimit
-				 ";
-        $actionDetails = Db::fetchAll($sql, array($idVisit));
-        return $actionDetails;
-    }
-
-    /**
-     * @param $idVisit
-     * @param $limit
-     * @return array
-     * @throws \Exception
-     */
-    public function queryGoalConversionsForVisit($idVisit, $limit)
-    {
-        $sql = "
-				SELECT
-						'goal' as type,
-						goal.name as goalName,
-						goal.idgoal as goalId,
-						log_conversion.revenue as revenue,
-						log_conversion.idlink_va,
-						log_conversion.idlink_va as goalPageId,
-						log_conversion.server_time as serverTimePretty,
-						log_conversion.url as url
-				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
-					ON (goal.idsite = log_conversion.idsite
-						AND
-						goal.idgoal = log_conversion.idgoal)
-					AND goal.deleted = 0
-				WHERE log_conversion.idvisit = ?
-					AND log_conversion.idgoal > 0
-                ORDER BY server_time ASC
-				LIMIT 0, $limit
-			";
-        $goalDetails = Db::fetchAll($sql, array($idVisit));
-        return $goalDetails;
-    }
-
-    /**
-     * @param $idVisit
-     * @param $limit
-     * @return array
-     * @throws \Exception
-     */
-    public function queryEcommerceConversionsForVisit($idVisit, $limit)
-    {
-        $sql = "SELECT
-						case idgoal when " . GoalManager::IDGOAL_CART
-            . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
-            . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
-						idorder as orderId,
-						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
-						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
-						" . LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
-						" . LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
-						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
-						items as items,
-						log_conversion.server_time as serverTimePretty,
-						log_conversion.idlink_va
-					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit = ?
-						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY server_time ASC
-					LIMIT 0, $limit";
-        $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
-        return $ecommerceDetails;
-    }
-
-    /**
-     * @param $idSite
-     * @param $idVisit
-     * @return array
-     * @throws \Exception
-     */
-    public function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
-    {
-        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
-
-        $sql = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
-
-        return array(
-            'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
-            'totalEcommerceConversions'  => $ecommerceOrders['lifeTimeConversions'],
-            'totalEcommerceItems'        => $ecommerceOrders['lifeTimeEcommerceItems'],
-            'totalAbandonedCartsRevenue' => $abandonedCarts['lifeTimeRevenue'],
-            'totalAbandonedCarts'        => $abandonedCarts['lifeTimeConversions'],
-            'totalAbandonedCartsItems'   => $abandonedCarts['lifeTimeEcommerceItems']
-        );
-    }
-
-    /**
-     * @param $idVisit
-     * @param $idOrder
-     * @param $actionsLimit
-     * @return array
-     * @throws \Exception
-     */
-    public function queryEcommerceItemsForOrder($idVisit, $idOrder, $actionsLimit)
-    {
-        $sql = "SELECT
-							log_action_sku.name as itemSKU,
-							log_action_name.name as itemName,
-							log_action_category.name as itemCategory,
-							" . LogAggregator::getSqlRevenue('price') . " as price,
-							quantity as quantity
-						FROM " . Common::prefixTable('log_conversion_item') . "
-							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
-							ON  idaction_sku = log_action_sku.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
-							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
-							ON idaction_category = log_action_category.idaction
-						WHERE idvisit = ?
-							AND idorder = ?
-							AND deleted = 0
-						LIMIT 0, $actionsLimit
-				";
-
-        $bind = array($idVisit, $idOrder);
-
-        $itemsDetails = Db::fetchAll($sql, $bind);
-        return $itemsDetails;
-    }
-
     /**
      * @param $idSite
      * @param $period
@@ -204,14 +32,31 @@ class Model
      * @param $visitorId
      * @param $minTimestamp
      * @param $filterSortOrder
+     * @param $checkforMoreEntries
      * @return array
      * @throws Exception
      */
-    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
+    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
     {
+        // to check for more entries increase the limit by one, but cut off the last entry before returning the result
+        if ($checkforMoreEntries) {
+            $limit++;
+        }
+
         list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        return Db::fetchAll($sql, $bind);
+        $visits = Db::fetchAll($sql, $bind);
+
+        if ($checkforMoreEntries) {
+            if (count($visits) == $limit) {
+                array_pop($visits);
+                return [$visits, true];
+            }
+
+            return [$visits, false];
+        }
+
+        return $visits;
     }
 
     /**
@@ -300,8 +145,16 @@ class Model
 
         list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
 
+        $now = null;
+        try {
+            $now = StaticContainer::get('Tests.now');
+        } catch (\Exception $ex) {
+            // ignore
+        }
+        $now = $now ?: time();
+
         $bind   = $idSites;
-        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+        $bind[] = Date::factory($now - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
 
@@ -320,7 +173,12 @@ class Model
      */
     private function getIdSitesWhereClause($idSite, $table = 'log_visit')
     {
-        $idSites = array($idSite);
+        if (is_array($idSite)) {
+            $idSites = $idSite;
+        } else {
+            $idSites = array($idSite);
+        }
+
         Piwik::postEvent('Live.API.getIdSitesString', array(&$idSites));
 
         $idSitesBind = Common::getSqlStringFieldsArray($idSites);
@@ -480,7 +338,9 @@ class Model
     private function getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp)
     {
         $where = array();
-        $where[] = $whereClause;
+        if (!empty($whereClause)) {
+            $where[] = $whereClause;
+        }
         $whereBind = $bindIdSites;
 
         if (!empty($visitorId)) {
@@ -495,11 +355,15 @@ class Model
 
         // SQL Filter with provided period
         if (!empty($period) && !empty($date)) {
-            $currentSite = $this->makeSite($idSite);
-            $currentTimezone = $currentSite->getTimezone();
+            if ($idSite === 'all' || is_array($idSite)) {
+                $currentTimezone = Request::processRequest('SitesManager.getDefaultTimezone');
+            } else {
+                $currentSite = $this->makeSite($idSite);
+                $currentTimezone = $currentSite->getTimezone();
+            }
 
             $dateString = $date;
-            if ($period == 'range') {
+            if ($period == 'range' || Period::isMultiplePeriod($date, $period)) {
                 $processedPeriod = new Range('range', $date);
                 if ($parsedDate = Range::parseDateRange($date)) {
                     $dateString = $parsedDate[2];
@@ -538,25 +402,4 @@ class Model
         }
         return array($whereBind, $where);
     }
-
-    /**
-     * @param $ecommerceIdGoal
-     * @return string
-     */
-    private function getSqlEcommerceConversionsLifeTimeMetricsForIdGoal($ecommerceIdGoal)
-    {
-        $sql = "SELECT
-                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('revenue') . "), 0) as lifeTimeRevenue,
-                    COUNT(*) as lifeTimeConversions,
-                    COALESCE(SUM(" . LogAggregator::getSqlRevenue('items') . "), 0)  as lifeTimeEcommerceItems
-					FROM  " . Common::prefixTable('log_visit') . " AS log_visit
-					    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion
-					    ON log_visit.idvisit = log_conversion.idvisit
-					WHERE
-					        log_visit.idsite = ?
-					    AND log_visit.idvisitor = ?
-						AND log_conversion.idgoal = " . $ecommerceIdGoal . "
-        ";
-        return $sql;
-    }
-} 
+}

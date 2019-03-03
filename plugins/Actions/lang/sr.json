@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Jedinstveni izlazni linkovi",
         "ColumnIdPageview": "ID prikaza stranice",
         "ColumnInteractionPosition": "Pozicija interakcije",
-        "DownloadsReportDocumentation": "U ovom izveštaju možete videti koje su fajlove posetioci kliknuli. %s Ono što Piwik računa kao download jeste klik na link za skidanje fajla. Bilo da je fajl skinut ili ne, to nije poznato Piwik-u.",
+        "DownloadsReportDocumentation": "U ovom izveštaju možete videti koje su fajlove posetioci kliknuli. %s Ono što Matomo računa kao download jeste klik na link za skidanje fajla. Bilo da je fajl skinut ili ne, to nije poznato Matomo-u.",
         "EntryPagesReportDocumentation": "Ovaj izveštaj sadrži informacije o ulaznim stranicama koje su korišćene tokom određenog perioda. Ulazna stranica je prva stranica koju posetilac vidi tokom svoje posete. %s Ulazni linkovi su prikazani kao stablo foldera.",
         "EntryPageTitles": "Naslovi ulaznih stranica",
         "EntryPageTitlesReportDocumentation": "Ovaj izveštaj sadrži informacije o naslovima ulaznih stranica koje su korišćene tokom određenog perioda.",

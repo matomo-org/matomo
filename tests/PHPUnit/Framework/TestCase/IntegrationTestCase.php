@@ -11,7 +11,9 @@ namespace Piwik\Tests\Framework\TestCase;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Menu\MenuAbstract;
+use Piwik\Option;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Cache as PiwikCache;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -79,7 +81,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
         static::$fixture->createEnvironmentInstance();
 
-        Db::createDatabaseObject();
+        Db::get();
         Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
@@ -91,6 +93,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getTransientCache()->flushAll();
         MenuAbstract::clearMenus();
+        Option::clearCache();
     }
 
     /**
@@ -104,6 +107,9 @@ abstract class IntegrationTestCase extends SystemTestCase
         parent::tearDown();
     }
 
+    /**
+     * @param Fixture $fixture
+     */
     protected static function configureFixture($fixture)
     {
         $fixture->createSuperUser     = false;

@@ -76,8 +76,11 @@ class ClientTest extends SystemTestCase
             'featured',
             'isFree',
             'isPaid',
+            'isBundle',
             'isCustomPlugin',
             'shop',
+            'bundle',
+            'specialOffer',
             'versions',
             'isDownloadable',
             'changelog',
@@ -86,7 +89,7 @@ class ClientTest extends SystemTestCase
         $this->assertNotEmpty($plugin);
         $this->assertEquals($expectedPluginKeys, array_keys($plugin));
         $this->assertSame('SecurityInfo', $plugin['name']);
-        $this->assertSame('piwik', $plugin['owner']);
+        $this->assertSame('matomo-org', $plugin['owner']);
         $this->assertTrue(is_array($plugin['keywords']));
         $this->assertNotEmpty($plugin['authors']);
         $this->assertGreaterThan(1000, $plugin['numDownloads']);

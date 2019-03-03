@@ -7,7 +7,7 @@
         "EmailSchedule": "ตารางการทำงานของอีเมล์",
         "MonthlyScheduleHelp": "ตารางเวลารายเดือน: รายงานจะถูกส่งไปวันแรกของแต่ละเดือน",
         "Pagination": "หน้า %1$s จาก %2$s",
-        "PiwikReports": "รายงาน Piwik",
+        "PiwikReports": "รายงาน Matomo",
         "ReportFormat": "รูปแบบรายงาน",
         "ReportType": "ส่งรายงานผ่านทาง",
         "SendReportNow": "ส่งรายงาน",

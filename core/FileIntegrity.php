@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomPiwikJs\Exception\AccessDeniedException;
 use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 
@@ -56,41 +57,7 @@ class FileIntegrity
 
     protected static function getFilesNotInManifestButExpectedAnyway()
     {
-        return array(
-            '*.htaccess',
-            '*web.config',
-            'bootstrap.php',
-            'favicon.ico',
-            'robots.txt',
-            '.bowerrc',
-            '.phpstorm.meta.php',
-            'config/config.ini.php',
-            'config/config.php',
-            'config/common.ini.php',
-            'config/*.config.ini.php',
-            'config/manifest.inc.php',
-            'misc/*.dat',
-            'misc/*.dat.gz',
-            'misc/*.bin',
-            'misc/user/*png',
-            'misc/package',
-            'misc/package/WebAppGallery/*.xml',
-            'misc/package/WebAppGallery/install.sql',
-            'plugins/ImageGraph/fonts/unifont.ttf',
-            'vendor/autoload.php',
-            'vendor/composer/autoload_real.php',
-            'tmp/*',
-            // Files below are not expected but they used to be present in older Piwik versions and may be still here
-            // As they are not going to cause any trouble we won't report them as 'File to delete'
-            '*.coveralls.yml',
-            '*.scrutinizer.yml',
-            '*.gitignore',
-            '*.gitkeep',
-            '*.gitmodules',
-            '*.gitattributes',
-            '*.bower.json',
-            '*.travis.yml',
-        );
+        return StaticContainer::get('fileintegrity.ignore');
     }
 
     protected static function getMessagesDirectoriesFoundButNotExpected($messages)
@@ -100,12 +67,12 @@ class FileIntegrity
 
             $messageDirectoriesToDelete = '';
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
-                $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', $directoryFoundNotExpected) . '<br/>';
+                $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', htmlspecialchars($directoryFoundNotExpected)) . '<br/>';
             }
 
             $directories = array();
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
-                $directories[] = realpath($directoryFoundNotExpected);
+                $directories[] = htmlspecialchars(realpath($directoryFoundNotExpected));
             }
 
             $deleteAllAtOnce = array();
@@ -148,12 +115,12 @@ class FileIntegrity
 
             $messageFilesToDelete = '';
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
+                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', htmlspecialchars($fileFoundNotExpected)) . '<br/>';
             }
 
             $files = array();
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-                $files[] = '"' . realpath($fileFoundNotExpected) . '"';
+                $files[] = '"' . htmlspecialchars(realpath($fileFoundNotExpected)) . '"';
             }
 
             $deleteAllAtOnce = array();
@@ -203,7 +170,8 @@ class FileIntegrity
         $directoriesFoundButNotExpected = array();
 
         foreach (self::getPathsToInvestigate() as $file) {
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, "\\/");
             $directory = dirname($file);
 
             if(in_array($directory, $directoriesInManifest)) {
@@ -241,7 +209,8 @@ class FileIntegrity
             if (is_dir($file)) {
                 continue;
             }
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, "\\/");
 
             if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
                 continue;
@@ -397,7 +366,7 @@ class FileIntegrity
 
     protected static function isModifiedPathValid($path)
     {
-        if ($path === 'piwik.js') {
+        if ($path === 'piwik.js' || $path === 'matomo.js') {
             // we could have used a postEvent hook to enrich "\Piwik\Manifest::$files;" which would also benefit plugins
             // that want to check for file integrity but we do not want to risk to break anything right now. It is not
             // as trivial because piwik.js might be already updated, or updated on the next request. We cannot define
@@ -443,9 +412,9 @@ class FileIntegrity
     {
         $filesToInvestigate = array_merge(
         // all normal files
-            Filesystem::globr('.', '*'),
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*'),
             // all hidden files
-            Filesystem::globr('.', '.*')
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '.*')
         );
         return $filesToInvestigate;
     }

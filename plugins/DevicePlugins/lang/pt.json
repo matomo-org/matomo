@@ -1,6 +1,10 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "Lista de Plugins",
-        "WidgetPluginsDocumentation": "Este relatório mostra quais os plugin que o navegador dos seus visitantes tinham. Esta informação pode ser importante para a escolha do caminho certo para distribuir o seu conteúdo."
+        "BrowserWithNoPluginsEnabled": "%1$s sem plugins ativos",
+        "BrowserWithPluginsEnabled": "%1$s com plugins %2$s ativos",
+        "PluginDescription": "Reporta a lista de plugins que são suportados nos navegadores dos visitantes.",
+        "PluginDetectionDoesNotWorkInIE": "Nota: A deteção de plugins não funciona no Internet Explorer anterior ao 11. Este relatório é baseado apenas nos outros navegadores e novas versões do IE.",
+        "WidgetPlugins": "Lista de plugins",
+        "WidgetPluginsDocumentation": "Este relatório mostra quais os plugins que os navegadores dos seus visitantes tinham ativados. Esta informação pode ser importante para a escolha do caminho certo para distribuir o seu conteúdo."
     }
 }

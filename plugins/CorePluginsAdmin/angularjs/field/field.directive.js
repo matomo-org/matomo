@@ -9,7 +9,7 @@
  * Usage:
  * <div piwik-field>
  *
- *     eg <div piwik-field ui-control="select"
+ *     eg <div piwik-field uicontrol="select"
  * title="{{ 'SitesManager_Timezone'|translate }}"
  * value="site.timezone"
  * options="timezones"
@@ -20,7 +20,7 @@
  * placeholder=""
  * rows="3"
  * autocomplete="off"
- * disabled="true"
+ * data-disabled="true"
  * full-width="true"
  * templateFile=""></div>
  *
@@ -48,6 +48,7 @@
                 title: '@',
                 inlineHelp: '@',
                 disabled: '=',
+                uiControlAttributes: '=',
                 autocomplete: '@',
                 condition: '@',
                 varType: '@',
@@ -58,7 +59,9 @@
                 maxlength: '@',
                 required: '@',
                 placeholder: '@',
-                rows: '@'
+                rows: '@',
+                min: '@',
+                max: '@'
             },
             template: '<div piwik-form-field="field"></div>',
             link: function(scope, elm, attrs, ctrl) {
@@ -97,6 +100,8 @@
                     field.type = 'boolean';
                 } else if (field.uiControl === 'site') {
                     field.type = 'object';
+                } else if (field.uiControl === 'number') {
+                    field.type = 'integer';
                 } else {
                     field.type = 'string';
                 }
@@ -110,7 +115,7 @@
                 field.inlineHelp = $scope.inlineHelp;
                 field.templateFile = $scope.templateFile;
                 field.title = $scope.title;
-                field.uiControlAttributes = {};
+                field.uiControlAttributes = $scope.uiControlAttributes || {};
                 field.fullWidth = !!$scope.fullWidth;
 
                 if (field.type === 'array' && angular.isString(field.value) && field.value) {
@@ -118,7 +123,7 @@
                 }
 
                 var i = 0, attribute;
-                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'rows', 'required', 'maxlength', 'placeholder'];
+                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'rows', 'required', 'maxlength', 'placeholder', 'min', 'max'];
                 for (i; i < attributes.length; i++) {
                     attribute = attributes[i];
                     if (!!$scope[attribute]) {
@@ -131,6 +136,18 @@
                 $scope.$watch('options', function (val, oldVal) {
                     if (val !== oldVal) {
                         $scope.field.availableValues = val;
+                    }
+                });
+
+                $scope.$watch('title', function (val, oldVal) {
+                    if (val !== oldVal) {
+                        $scope.field.title = val;
+                    }
+                });
+
+                $scope.$watch('inlineHelp', function (val, oldVal) {
+                    if (val !== oldVal) {
+                        $scope.field.inlineHelp = val;
                     }
                 });
 

@@ -1,8 +1,6 @@
 #visitsLive {
     text-align: left;
-    font-size: 90%;
     color: @theme-color-text-light;
-    border-top: 1px solid @color-silver-l90;
 
    .dataTable {
      margin-bottom: -1px;
@@ -13,6 +11,13 @@
   color: @theme-color-headline-alternative !important;
   .title {
     color: @theme-color-headline-alternative !important;
+  }
+}
+
+.card {
+  #visitsLive {
+    margin-left: -20px;
+    margin-right: -20px;
   }
 }
 
@@ -59,6 +64,27 @@
     background: #F9FAFA none repeat scroll 0 0;
 }
 
+#visitsLive .visits-live-launch-visitor-profile {
+  color: @theme-color-text;
+  line-height: 200%;
+
+  span {
+    display: block;
+    vertical-align: middle;
+
+    &.icon-visitor-profile {
+      display: inline;
+      font-size: 16px;
+      line-height: 16px;
+      vertical-align: middle;
+    }
+  }
+
+  .icon-visitor-profile {
+    font-size: 120%;
+  }
+}
+
 .visitsLiveFooter img {
     vertical-align: middle;
 }
@@ -74,7 +100,7 @@
 .ui-dialog.ui-widget {
   .dataTableVizVisitorLog {
     .dataTableFeatures {
-      border-bottom: 0px;
+      border-bottom: 0;
     }
   }
 }
@@ -89,7 +115,9 @@
 }
 
 ol.visitorLog {
-    list-style: decimal inside none;
+  list-style-type: none;
+  margin-left: 8px;
+  padding-left: 8px;
 }
 
 .truncated-text-line {
@@ -99,19 +127,66 @@ ol.visitorLog {
     display:inline-block;
     max-width:90%;
     overflow: -moz-hidden-unscrollable;
-
-    &.event {
-      margin-top: 1px;
-      margin-right: 15px;
-    }
 }
 
-ol.visitorLog li {
+ol.visitorLog > li {
     margin-bottom: 7px;
+    line-height: 20px;
+    position: relative;
+    min-height: 25px;
+
+  &:before {
+    vertical-align: top;
+    background-color: #424242;
+    border: 5px solid #424242;
+    border-radius: 50%;
+    line-height: 0;
+    font-size: 0;
+    content: " ";
+    top: 10px;
+    position: relative;
+    box-shadow: 0 0 0 7px #fff;
+    left: -14px;
+    z-index: 2;
+  }
+
+  &:after {
+    content: " ";
+    border-left: 2px solid #d2d2d2;
+    position: absolute;
+    left: -10px;
+    height: 100%;
+    margin-top: 20px;
+    z-index: 1;
+  }
+
+  &:last-child:after {
+    border-left: none;
+  }
+
+  &.duplicate {
+    visibility: hidden;
+    line-height: 0;
+    min-height: 0;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  &.more {
+      list-style-type: none;
+      font-weight: bold;
+
+      .icon-info {
+        vertical-align: middle;
+      }
+  }
 }
 
 #visitsLive img {
     vertical-align: middle;
+    height: 16px;
 }
 
 .visitorRank img {
@@ -140,6 +215,10 @@ ol.visitorLog li {
     margin-left: 5px;
 }
 
+#visitsLive .visitorType .visitorRank {
+  margin-left: 0;
+}
+
 .hash {
     color: #BBB;
     font-size: 9pt;
@@ -148,12 +227,15 @@ ol.visitorLog li {
 
 .repeat {
     font-weight: bold;
-    border: 1px solid @theme-color-text-light;
-    border-radius: 3px;
-    padding: 2px;
     display: block;
-    margin: 0px 5px 0px 5px;
+    margin: 5px 5px 5px 0;
     float: left;
+    background-color: #fff;
+    z-index: 3;
+
+    &.icon-refresh:before {
+      padding-right: 2px;
+    }
 }
 
 .dataTableVizVisitorLog hr {
@@ -201,7 +283,7 @@ ol.visitorLog p {
 .dataTableVizVisitorLog {
 
   .card {
-    padding: 15px 0px;
+    padding: 15px 0;
     font-size: 13px;
     text-align: left;
 
@@ -214,18 +296,32 @@ ol.visitorLog p {
 
   .visitorLog > li > div {
     width: 95%;
+
+    .segmentedVisitorLogPopover & {
+      width: 90%; // space in segmented visitor log isn't enough
+    }
   }
 
   .dataTableWrapper {
      width:100%;
   }
 
-  .card {
+  .widget & .card {
 
     &:hover .visitor-log-visitor-profile-link {
       display:inline;
     }
   }
+}
+
+.visitor-log-datetime {
+  display: block;
+}
+
+.visitor-log-ip-location img.flag {
+  border: 1px solid lightgray;
+  top: 2px;
+  position: relative;
 }
 
 .visitor-log-page-list {
@@ -236,46 +332,49 @@ ol.visitorLog p {
 a.visitor-log-visitor-profile-link {
     z-index: 2;
     position:absolute;
-    display:none;
     right: 15px;
     top: 15px;
     font-style:italic;
     font-size:13px;
     background-color: inherit !important;
 
+    .widget & {
+        display:none;
+    }
+
     img {
         margin-top: -2px;
         margin-bottom: -3px;
     }
+
+    @media print {
+      display: none;
+    }
 }
 
-.visitorLog,.visitor-profile-actions {
+.visitorLog {
     > li > div {
-        display:inline-block;
-        width:90%;
-        vertical-align:top;
+      display: inline-block;
+      width: 90%;
+
+      > * {
+        vertical-align: top;
+      }
     }
 }
 
 .action-list-action-icon {
-    float:left;
-    margin-right:4px;
-
-    &.event {
-      margin-top: 0;
-    }
-    &.outlink {
-      margin-top: 4px;
-      margin-right: 4px;
-      margin-left: 4px;
-    }
-    &.search {
-      margin-right: 4px;
-    }
+    display: inline;
+    height: 18px;
+    position: absolute;
+    left: -18px;
+    background-color: #fff;
+    z-index: 3;
+    margin-top: 1px;
 }
 
 .action-list-url {
-    display:block;
+    display: inline-block;
 }
 
 .visitorLogIcons {
@@ -288,18 +387,20 @@ a.visitor-log-visitor-profile-link {
 }
 
 .visitorLogIcons>span>span>img {
-    margin: auto 0 auto 0px;
+    margin: auto 5px auto 0;
 }
 
-.visitorLogIcons .visitorLogIconWithDetails>img {
-    margin: auto 5px auto 0;
-    width: 16px;
+.visitorLogIconWithDetails>img {
+    margin: auto 5px -2px 0;
     height: 16px;
+}
+
+.visitorLogIconWithDetails.flag {
+  display: none;
 }
 
 .visitorLogIconWithDetails.flag>img {
     border: 1px solid lightgray;
-    box-sizing: content-box;
 }
 
 .visitorLogIcons>span.visitorRank>img {
@@ -313,10 +414,39 @@ a.visitor-log-visitor-profile-link {
   }
 }
 
+.visitorType {
+  img {
+    max-height: 20px;
+    margin: auto 0;
+  }
+}
+
+.conversionCount {
+  color: #fff;
+  background-color: #4b0;
+  min-width: 17px;
+  height: 17px;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 15px;
+  border-radius: 5px;
+  margin-left: -17px;
+  position: relative;
+  top: 3px;
+  border: 1px solid #fff;
+  padding: 0 2px;
+
+  #visitsLive & {
+    top: 10px;
+  }
+}
+
 .own-visitor-column {
   .visitorLogIcons {
     .visitorDetails {
-      margin-top: 0px;
+      margin-top: 0;
     }
     .visitorType {
       margin-top: 8px;
@@ -327,14 +457,77 @@ a.visitor-log-visitor-profile-link {
 .visitorReferrer {
     clear:both;
     padding-top: 1em;
+
+    * {
+      vertical-align: middle;
+    }
+}
+
+#visitsLive .visitorReferrer {
+    padding-top: 0;
 }
 
 .segmentedlog {
   margin: 8px;
   display: block;
-  background: transparent url('plugins/Live/images/visitorlog.png') no-repeat 0 0;
-  padding-left: 25px;
 }
-.segmentedlog:hover {
-  background-image: url('plugins/Live/images/visitorlog-hover.png');
+
+#widgetLivewidget {
+  .visitorLogIcons {
+    &:before {
+      content: " ";
+      display: block;
+    }
+    display: inline-block;
+  }
+
+  .visitorLogIconWithDetails.flag {
+    display: inline;
+  }
+
+  .visitorDetails {
+    display: inline-block;
+  }
+
+  .visitorLogIconWithDetails {
+    margin-right: 5px;
+  }
+
+  .visitorType {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+  }
 }
+
+@media only screen and (min-width: 800px) {
+  .card #visitsLive .visitorLogIcons:before {
+    content: none;
+  }
+  .card #visitsLive .referrer {
+    float: right;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .own-visitor-column {
+    margin: 10px 0;
+  }
+}
+
+@media print{
+  .col.s12.m3{
+    width: 20%;
+  }
+
+  .row .col.s12.own-visitor-column{
+    width: 15%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .col.s12.m7.column {
+    width:65%;
+  }
+}
+

@@ -7,9 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 
@@ -35,11 +35,10 @@ class ManySitesImportedLogs extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-        self::downloadGeoIpDbs();
 
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        LocationProvider::setCurrentProvider('geoip_php');
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider('geoip2php');
 
         self::createSuperUser();
 
@@ -50,7 +49,7 @@ class ManySitesImportedLogs extends Fixture
     public function tearDown()
     {
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
@@ -141,6 +140,43 @@ class ManySitesImportedLogs extends Fixture
         if ($this->includeApiCustomVarMapping) {
             $this->logIisWithCustomFormat($mapToCustom = true);
         }
+
+        $this->logWithIncludeFilters();
+        $this->logWithExcludeFilters();
+    }
+
+    private function logWithExcludeFilters()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/filter_exclude_logs.log'; # log file
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--enable-testmode'           => false,
+                      '--recorders'                 => '1',
+                      '--recorder-max-payload-size' => '1',
+                      '--exclude-host' => ['filtered1.com', 'www.filtered2.com'],
+                      '--exclude-older-than' => '2012-08-09 08:10:39 +0000',
+                      '--exclude-newer-than' => '2012-08-31 00:00:00 +0000');
+
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('4 filtered log lines', $output);
+    }
+
+    private function logWithIncludeFilters()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/filter_include_logs.log'; # log file
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--enable-testmode'           => false,
+                      '--recorders'                 => '1',
+                      '--recorder-max-payload-size' => '1',
+                      '--include-host' => ['included3.com', 'www.included4.com']);
+
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('2 filtered log lines', $output);
     }
 
     private function setupSegments()
@@ -224,13 +260,14 @@ class ManySitesImportedLogs extends Fixture
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false,
                       '--enable-reverse-dns'        => false,
-                      '--force-lowercase-path'      => false);
+                      '--force-lowercase-path'      => false,
+                      '--tracker-endpoint-path'     => '/matomo.php');
 
         self::executeLogImporter($logFile, $opts);
     }
 
     /**
-     * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
+     * Logs a couple visit using log entries that are tracking requests to a matomo.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
      *
      * @param array $additonalOptions
@@ -238,16 +275,28 @@ class ManySitesImportedLogs extends Fixture
     private function replayLogFile($additonalOptions = array())
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
+        $logFileWithHost = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay_host.log';
 
         $opts = array('--login'                     => 'superUserLogin',
                       '--password'                  => 'superUserPass',
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
-                      '--replay-tracking'           => false);
+                      '--replay-tracking'           => false,
+                      '--exclude-older-than' => '2012-01-01 08:10:39 +0000',
+                      '--exclude-host' => ['excluded.com']);
 
         $opts = array_merge($opts, $additonalOptions);
 
-        self::executeLogImporter($logFile, $opts);
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('1 filtered log lines', $output);
+
+        // test that correct logs are excluded when the host is in the log file
+        $output = self::executeLogImporter($logFileWithHost, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('2 filtered log lines', $output);
     }
 
     /**

@@ -2,8 +2,12 @@
     "Ecommerce": {
         "PluginDescription": "Ecommerce vám umožňuje sledovat, kdy uživatelé přidají produkt do košíku a kdy dojde ke konverzi na objednávku. Také umožňuje sledovat zobrazení stránek produktů, kategorií a opuštěné košíky.",
         "Sales": "Tržby",
+        "Order": "Objednávka",
+        "Orders": "Objednávky",
         "SalesBy": "Tržby podle %s",
         "SalesAdjective": "Tržby %s",
+        "NumberOfItems": "Počet položek v košíku",
+        "OrderValue": "Hodnota objednávky",
         "LifeTimeValue": "Hodnota životnosti e-komerce",
         "LifeTimeValueDescription": "Celkový příjem příslušící tomuto zákazníkovi za všechny návštěvy: součet příjmů za všechny objednávky e-komerce návštěvníka s id %s.",
         "VisitorProfileLTV": "Za dobu životnosti vytvořil příjem %1$s.",

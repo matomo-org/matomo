@@ -1,7 +1,7 @@
     </div>
 
     <div class="footer">
-        <a href="index.php">&laquo; Back to Piwik</a>
+        <a href="index.php">&laquo; Back to Matomo</a>
     </div>
 
 </div>

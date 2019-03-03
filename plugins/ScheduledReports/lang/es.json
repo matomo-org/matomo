@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Debe haber iniciado sesión para crear y programar informes personalizados.",
         "NoRecipients": "Este informe no tiene destinatarios",
         "Pagination": "Página %1$s de %2$s",
-        "PiwikReports": "Informes Piwik",
+        "PiwikReports": "Informes Matomo",
         "PleaseFindAttachedFile": "Su informe %1$s de %2$s se encuentra adjunto.",
         "SentFromX": "Enviado desde %s.",
         "PleaseFindBelow": "Por favor encuentre debajo su %1$s informe para %2$s.",
@@ -43,9 +43,18 @@
         "SentToMe": "Enviarme una copia",
         "TableOfContent": "Lista de informes",
         "ThereIsNoReportToManage": "No hay informes que administrar para el sitio de internet %s",
-        "TopLinkTooltip": "Cree informes por medio del correo electrónico para obtener las estadísticas de Piwik enviadas a su correo electrónico o las de sus clientes automáticamente!",
+        "TopLinkTooltip": "Cree informes por medio del correo electrónico para obtener las estadísticas de Matomo enviadas a su correo electrónico o las de sus clientes automáticamente!",
         "TopOfReport": "Volver arriba",
         "UpdateReport": "Actualizar Informe",
-        "WeeklyScheduleHelp": "Envío semanal: los informes serán enviados el primer lunes de cada semana."
+        "WeeklyScheduleHelp": "Envío semanal: los informes serán enviados el primer lunes de cada semana.",
+        "Unsubscribe": "Desuscribirse",
+        "ReportUnsubscribe": "Desuscribirse del informe",
+        "UnsubscribeReportConfirmation": "¿Está seguro que le gustaría desuscribirse de este informe %1$s?",
+        "SuccessfullyUnsubscribed": "Se ha desuscripto exitosamente de este informe %1$s.",
+        "UnsubscribeFooter": "Para desuscribirse de este informe por favor siga este enlace: %1$s",
+        "NoTokenProvided": "No se proporcionó ningún token en la URL",
+        "NoSubscriptionFound": "No se ha encontrado ninguna suscripción. Tal vez el informe ya estaba cancelado o eliminado.",
+        "EvolutionGraphsShowForEachInPeriod": "Gráficos de evolución muestran la evolución de %1$scada día%2$s en el último %3$s",
+        "EvolutionGraphsShowForPreviousN": "Los gráficos de evolución muestra la evolución sobre los anteriores N %s"
     }
 }

@@ -62,7 +62,11 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
         var labelPart = labelParts[i].replace('@', '');
         labelParts[i] = $.trim(decodeURIComponent(labelPart));
     }
-    label = labelParts.join(piwik.config.action_url_category_delimiter);
+    var delimiter = piwik.config.action_url_category_delimiter;
+    if(this.dataTable.param.action.indexOf('PageTitles') !== false) {
+        delimiter = piwik.config.action_title_category_delimiter;
+    }
+    label = labelParts.join(delimiter);
     this.openPopover('title:' + label);
 };
 
@@ -97,8 +101,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'Transitions',
 
-    dataTableIcon: 'plugins/Transitions/images/transitions_icon.png',
-    dataTableIconHover: 'plugins/Transitions/images/transitions_icon_hover.png',
+    dataTableIcon: 'icon-transition',
 
     order: 20,
 
@@ -126,7 +129,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.hasClass('subDataTable')) {
+        if (tr.hasClass('subDataTable') || tr.hasClass('totalsRow')) {
             // not available on groups (i.e. folders)
             return false;
         }
@@ -158,7 +161,7 @@ function Piwik_Transitions(actionType, actionName, rowAction, segment) {
     this.ajax = new Piwik_Transitions_Ajax();
     this.model = new Piwik_Transitions_Model(this.ajax);
 
-    this.leftGroups = ['previousPages', 'previousSiteSearches', 'searchEngines', 'websites', 'campaigns'];
+    this.leftGroups = ['previousPages', 'previousSiteSearches', 'searchEngines', 'socialNetworks', 'websites', 'campaigns'];
     this.rightGroups = ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'];
 }
 
@@ -180,19 +183,33 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 };
 
 /** Open the popover */
-Piwik_Transitions.prototype.showPopover = function () {
+Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
+    this.showEmbeddedInReport = showEmbeddedInReport;
 
-    this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('http://piwik.org/docs/transitions');
+    $('#transitions_report .popoverContainer').hide();
+
+    if (showEmbeddedInReport) {
+        this.popover = $('#transitions_report');
+        $('#Transitions_Error_Container').hide();
+        $('#transitions_inline_loading').show();
+    } else {
+        this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
+        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    }
 
     var bothLoaded = function () {
-        Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
-
+        if (!showEmbeddedInReport) {
+            Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+        } else {
+            $('#transitions_inline_loading').hide();
+            $('#transitions_report .popoverContainer').html(Piwik_Transitions.popoverHtml);
+            $('#transitions_report .popoverContainer').show();
+        }
         self.preparePopover();
         self.model.htmlLoaded();
 
-        if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0
+        if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
             + self.model.campaignsNbTransitions > 0) {
             self.canvas.narrowMode();
         }
@@ -246,18 +263,22 @@ Piwik_Transitions.prototype.preparePopover = function () {
     if (self.actionType == 'url') {
         title = Piwik_Transitions_Util.shortenUrl(title, true);
     }
-    title = self.centerBox.find('h2')
-        .addClass('Transitions_ApplyTextAndTruncate')
+    var h2 = self.centerBox.find('h2');
+    var textContainer = h2;
+    if (self.actionType == 'url') {
+        var a = $(document.createElement('a'));
+        a.attr('href', self.actionName);
+        a.attr('rel', 'noreferrer noopener');
+        a.attr('target', '_blank');
+        h2.append(a);
+        textContainer = a;
+    }
+
+    textContainer.addClass('Transitions_ApplyTextAndTruncate')
         .data('text', title)
         .data('maxLines', 3);
 
-    if (self.actionType == 'url') {
-        title.click(function () {
-            self.openExternalUrl(self.actionName);
-        }).css('cursor', 'pointer');
-    }
-
-    var element = title.add(self.popover.find('p.Transitions_Pageviews'));
+    var element = textContainer.add(self.popover.find('p.Transitions_Pageviews'));
 
     element.tooltip({
         track:        true,
@@ -404,6 +425,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
     showMetric('PreviousSiteSearches', 'previousSiteSearchesNbTransitions', 'left', true);
     showMetric('PreviousPages', 'previousPagesNbTransitions', 'left', true);
     showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left', true);
+    showMetric('SocialNetworks', 'socialNetworksNbTransitions', 'left', true);
     showMetric('Websites', 'websitesNbTransitions', 'left', true);
     showMetric('Campaigns', 'campaignsNbTransitions', 'left', true);
 
@@ -558,17 +580,28 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         var isOthers = (label == 'Others');
         var onClick = false;
         if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
-            onClick = (function (url) {
-                return function () {
-                    self.reloadPopover(url);
-                };
-            })(label);
+
+            if (this.showEmbeddedInReport) {
+                onClick = (function (url) {
+                    return function () {
+                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                        if ($rootScope) {
+                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
+                                url:url
+                            });
+                        }
+                    };
+                })(label);
+            } else {
+                onClick = (function (url) {
+                    return function () {
+                        self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                    };
+                })(label);
+            }
+
         } else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
-            onClick = (function (url) {
-                return function () {
-                    self.openExternalUrl(url);
-                };
-            })(label);
+            onClick = label
         }
 
         var tooltip = Piwik_Transitions_Translations.XOfY;
@@ -738,17 +771,6 @@ Piwik_Transitions.prototype.unHighlightGroup = function (groupName, side) {
     this.renderLoops();
 };
 
-/** Open a link in a new tab */
-Piwik_Transitions.prototype.openExternalUrl = function (url) {
-    if (url.substring(0, 4) != 'http') {
-        // internal pages don't have the protocol
-        // external links / downloads have the protocol
-        url = 'http://' + url;
-    }
-    url = piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(url);
-    window.open(url, '_newtab');
-};
-
 // --------------------------------------
 // CANVAS
 // --------------------------------------
@@ -902,17 +924,27 @@ Piwik_Transitions_Canvas.prototype.renderText = function (text, x, y, cssClass, 
             div.addClass('Transitions_' + cssClass);
         }
     }
+    var textContainer = div;
     if (onClick) {
-        div.css('cursor', 'pointer').hover(function () {
-            $(this).addClass('Transitions_Hover');
-        },function () {
-            $(this).removeClass('Transitions_Hover');
-        }).click(onClick);
+        if (typeof onClick == 'function') {
+            div.css('cursor', 'pointer').hover(function () {
+                $(this).addClass('Transitions_Hover');
+            },function () {
+                $(this).removeClass('Transitions_Hover');
+            }).click(onClick);
+        } else {
+            var a = $(document.createElement('a'));
+            a.attr('href', onClick);
+            a.attr('rel', 'noreferrer noopener');
+            a.attr('target', '_blank');
+            div.append(a);
+            textContainer = a;
+        }
     }
     if (maxLines) {
-        div.addClass('Transitions_ApplyTextAndTruncate').data('text', text);
+        textContainer.addClass('Transitions_ApplyTextAndTruncate').data('text', text);
     } else {
-        div.html(text);
+        textContainer.html(text);
     }
     return div;
 };
@@ -1021,7 +1053,7 @@ Piwik_Transitions_Canvas.prototype.renderBox = function (params) {
 
     // text inside the box
     if (params.boxText && !params.onlyBg) {
-        var onClick = typeof params.onClick == 'function' ? params.onClick : false;
+        var onClick = params.onClick;
         var boxTextLeft, boxTextTop, el;
         if (params.side == 'left') {
             boxTextLeft = this.leftBoxBeginX + 10;
@@ -1276,6 +1308,7 @@ Piwik_Transitions_Model.prototype.htmlLoaded = function () {
         followingPages: Piwik_Transitions_Translations.toFollowingPagesInline,
         followingSiteSearches: Piwik_Transitions_Translations.toFollowingSiteSearchesInline,
         searchEngines: Piwik_Transitions_Translations.fromSearchEnginesInline,
+        socialNetworks: Piwik_Transitions_Translations.fromSocialNetworksInline,
         websites: Piwik_Transitions_Translations.fromWebsitesInline,
         campaigns: Piwik_Transitions_Translations.fromCampaignsInline,
         outlinks: Piwik_Transitions_Translations.outlinksInline,
@@ -1294,6 +1327,9 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, s
 
     this.searchEnginesNbTransitions = 0;
     this.searchEngines = [];
+
+    this.socialNetworksNbTransitions = 0;
+    this.socialNetworks = [];
 
     this.websitesNbTransitions = 0;
     this.websites = [];
@@ -1348,6 +1384,10 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, s
                     self.searchEnginesNbTransitions = referrer.visits;
                     self.searchEngines = referrer.details;
                     self.groupTitles.searchEngines = referrer.label;
+                } else if (referrer.shortName == 'social') {
+                    self.socialNetworksNbTransitions = referrer.visits;
+                    self.socialNetworks = referrer.details;
+                    self.groupTitles.socialNetworks = referrer.label;
                 } else if (referrer.shortName == 'website') {
                     self.websitesNbTransitions = referrer.visits;
                     self.websites = referrer.details;
@@ -1468,7 +1508,7 @@ Piwik_Transitions_Ajax.prototype.callTransitionsController = function (action, c
     }, 'get');
     ajaxRequest.setCallback(callback);
     ajaxRequest.setFormat('html');
-    ajaxRequest.send(false);
+    ajaxRequest.send();
 };
 
 Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
@@ -1505,7 +1545,25 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     }
 
                     errorMessage = sprintf(errorMessage, '<br />');
-                    Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    var inlineErrorNode = $('#Transitions_Error_Container');
+                    if (inlineErrorNode.length) {
+                        // viewing it as report, not popover
+                        inlineErrorNode.html('');
+                        var theContentNode = $(document.createElement('div')).addClass('Piwik_Popover_Error');
+
+                        var p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Title');
+                        theContentNode.append(p.html(errorTitle));
+
+                        if (errorMessage) {
+                            p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
+                            theContentNode.append(p.html(errorMessage));
+                        }
+                        inlineErrorNode.append(theContentNode);
+                        inlineErrorNode.show();
+                        $('#transitions_report .popoverContainer').hide();
+                    } else {
+                        Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    }
                 };
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {
@@ -1526,7 +1584,7 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
             }
         }
     );
-    ajaxRequest.send(false);
+    ajaxRequest.send();
 };
 
 // --------------------------------------

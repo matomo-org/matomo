@@ -89,47 +89,50 @@ widgetsHelper.getAvailableWidgets = function (callback) {
             }
             $('#loadingError').show();
         });
-        ajaxRequest.send(true);
+        ajaxRequest.send();
+        return;
     }
 
     if (callback) {
         callback(widgetsHelper.availableWidgets);
     }
-
-    return widgetsHelper.availableWidgets;
 };
 
 /**
- * Returns the complete widget object by its unique id
+ * Determines the complete widget object by its unique id and sends it to callback method
  *
  * @param {string} uniqueId
- * @return {object} widget object
+ * @param {function} callback
  */
-widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId) {
-    var widgets = widgetsHelper.getAvailableWidgets();
-    for (var widgetCategory in widgets) {
-        var widgetInCategory = widgets[widgetCategory];
-        for (var i in widgetInCategory) {
-            if (widgetInCategory[i]["uniqueId"] == uniqueId) {
-                return widgetInCategory[i];
+widgetsHelper.getWidgetObjectFromUniqueId = function (uniqueId, callback) {
+    widgetsHelper.getAvailableWidgets(function(widgets){
+        for (var widgetCategory in widgets) {
+            var widgetInCategory = widgets[widgetCategory];
+            for (var i in widgetInCategory) {
+                if (widgetInCategory[i]["uniqueId"] == uniqueId) {
+                    callback(widgetInCategory[i]);
+                    return;
+                }
             }
         }
-    }
-    return false;
+        callback(false);
+    });
 };
 
 /**
- * Returns the name of a widget by its unique id
+ * Determines the name of a widget by its unique id and sends it to the callback
  *
  * @param {string} uniqueId  unique id of the widget
+ * @param {function} callback
  * @return {string}
  */
-widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId) {
-    var widget = this.getWidgetObjectFromUniqueId(uniqueId);
-    if (widget == false) {
-        return false;
-    }
-    return widget["name"];
+widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId, callback) {
+    this.getWidgetObjectFromUniqueId(uniqueId, function(widget) {
+        if (widget == false) {
+            callback(false);
+        }
+        callback(widget["name"]);
+    });
 };
 
 /**
@@ -142,9 +145,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId) {
  */
 widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback, onWidgetErrorCallback) {
     var disableLink = broadcast.getValueFromUrl('disableLink');
-    if (disableLink.length) {
-        widgetParameters['disableLink'] = disableLink;
-    }
+    widgetParameters['disableLink'] = disableLink.length || $('body#standalone').length;
 
     widgetParameters['widget'] = 1;
 
@@ -155,7 +156,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
         ajaxRequest.setErrorCallback(onWidgetErrorCallback);
     }
     ajaxRequest.setFormat('html');
-    ajaxRequest.send(false);
+    ajaxRequest.send();
     return ajaxRequest;
 };
 
@@ -269,7 +270,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 for (var widgetCategory in availableWidgets) {
-                    $('.' + settings.categorylistClass, widgetPreview).append('<li>' + widgetCategory + '</li>');
+                    $('.' + settings.categorylistClass, widgetPreview).append($('<li>').text(widgetCategory));
                 }
 
                 return $('.' + settings.categorylistClass, widgetPreview);
@@ -324,9 +325,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 for (var j = 0; j < widgets.length; j++) {
                     var widgetName = widgets[j]["name"];
                     var widgetUniqueId = widgets[j]["uniqueId"];
-                    // var widgetParameters = widgets[j]["parameters"];
+                    var widgetCategoryId = widgets[j].category ? widgets[j].category.id : null;
                     var widgetClass = '';
-                    if (!settings.isWidgetAvailable(widgetUniqueId)) {
+                    if (!settings.isWidgetAvailable(widgetUniqueId) && widgetCategoryId !== 'General_Generic') {
                         widgetClass += ' ' + settings.unavailableClass;
                     }
 
@@ -389,6 +390,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
              * Show widget with the given uniqueId in preview
              *
              * @param {string} widgetUniqueId unique id of widget to display
+             * @param          widgetPreview
              * @return {void}
              */
             function showPreview(widgetUniqueId, widgetPreview) {
@@ -399,39 +401,41 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                 var previewElement = createPreviewElement(widgetPreview);
 
-                var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                var widgetParameters = widget['parameters'];
+                widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function(widget) {
+                    var widgetParameters = widget['parameters'];
 
-                var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
-                    widgetUniqueId,
-                    $('<div/>')
-                        .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
-                        .text(_pk_translate('Dashboard_WidgetPreview'))
-                );
-                previewElement.html(emptyWidgetHtml);
+                    var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
+                        widgetUniqueId,
+                        $('<span/>')
+                            .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
+                            .text(_pk_translate('Dashboard_WidgetPreview'))
+                    );
+                    previewElement.html(emptyWidgetHtml);
 
-                var onWidgetLoadedCallback = function (response) {
-                    var widgetElement = $(document.getElementById(widgetUniqueId));
-                    // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
-                    $('.widgetContent', widgetElement).html($(response));
-                    $('.widgetContent', widgetElement).trigger('widget:create');
-                    settings.onPreviewLoaded(widgetUniqueId, widgetElement);
-                    $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
-                        settings.onSelect(widgetUniqueId);
-                        $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
-                        if (settings.resetOnSelect) {
-                            resetWidgetPreview(widgetPreview);
-                        }
-                        return false;
-                    });
-                };
+                    var onWidgetLoadedCallback = function (response) {
+                        var widgetElement = $(document.getElementById(widgetUniqueId));
+                        // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
+                        $('.widgetContent', widgetElement).html($(response));
+                        piwikHelper.compileAngularComponents($('.widgetContent', widgetElement), { forceNewScope: true });
+                        $('.widgetContent', widgetElement).trigger('widget:create');
+                        settings.onPreviewLoaded(widgetUniqueId, widgetElement);
+                        $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
+                            settings.onSelect(widgetUniqueId);
+                            $(widgetPreview).closest('.dashboard-manager').removeClass('expanded');
+                            if (settings.resetOnSelect) {
+                                resetWidgetPreview(widgetPreview);
+                            }
+                            return false;
+                        });
+                    };
 
-                // abort previous sent request
-                if (widgetPreview.widgetAjaxRequest) {
-                    widgetPreview.widgetAjaxRequest.abort();
-                }
+                    // abort previous sent request
+                    if (widgetPreview.widgetAjaxRequest) {
+                        widgetPreview.widgetAjaxRequest.abort();
+                    }
 
-                widgetPreview.widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
+                    widgetPreview.widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
+                });
             }
 
             /**

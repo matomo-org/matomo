@@ -172,13 +172,26 @@ function getModelName($label)
         $brand = null;
         $model = $label;
     }
+    if ($brand) {
+        $brand = getDeviceBrandLabel($brand);
+        if ($brand == Piwik::translate('General_Unknown')) {
+            $brand = null;
+        }
+    }
     if (!$model) {
         $model = Piwik::translate('General_Unknown');
+    } else if (strpos($model, 'generic ') === 0) {
+        $model = substr($model, 8);
+        if ($model == 'mobile') {
+            $model = Piwik::translate('DevicesDetection_GenericDevice', Piwik::translate('DevicesDetection_MobileDevice'));
+        } else {
+            $model = Piwik::translate('DevicesDetection_GenericDevice', getDeviceTypeLabel($model));
+        }
     }
-    if (!$brand) {
+    if (empty($brand)) {
         return $model;
     }
-    return getDeviceBrandLabel($brand) . ' - ' . $model;
+    return $brand . ' - ' . $model;
 }
 
 function getOSFamilyFullName($label)

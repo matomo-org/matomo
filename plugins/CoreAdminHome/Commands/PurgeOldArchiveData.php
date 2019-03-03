@@ -141,7 +141,12 @@ class PurgeOldArchiveData extends ConsoleCommand
 
                 list($year, $month) = explode('_', $tableDate);
 
-                $dates[] = Date::factory($year . '-' . $month . '-' . '01');
+                try {
+                    $date    = Date::factory($year . '-' . $month . '-' . '01');
+                    $dates[] = $date;
+                } catch (\Exception $e) {
+                    // this might occur if archive tables like piwik_archive_numeric_1875_09 exist
+                }
             }
         } else {
             $includeYearArchives = $input->getOption('include-year-archives');

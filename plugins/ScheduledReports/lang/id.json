@@ -21,7 +21,7 @@
         "MustBeLoggedIn": "Anda harus masuk-log untuk membuat dan mengatur jadwal laporan.",
         "NoRecipients": "Laporan ini tidak memiliki penerima",
         "Pagination": "Halaman %1$s dari %2$s",
-        "PiwikReports": "Laporan Piwik",
+        "PiwikReports": "Laporan Matomo",
         "PleaseFindBelow": "Silakan temukan di bawah laporan %1$s Anda untuk %2$s.",
         "ReportFormat": "Bentuk Laporan",
         "ReportHour": "Kirim laporan pada jam %s",
@@ -36,7 +36,7 @@
         "SentToMe": "Kirimi saya",
         "TableOfContent": "Daftar Laporan",
         "ThereIsNoReportToManage": "Tidak ada laporan yang dapat diatur untuk situs %s",
-        "TopLinkTooltip": "Buat Laporan Surel agar statistik Piwik dikirim ke surel Anda atau alamat pelanggan Anda secara otomatis!",
+        "TopLinkTooltip": "Buat Laporan Surel agar statistik Matomo dikirim ke surel Anda atau alamat pelanggan Anda secara otomatis!",
         "TopOfReport": "Kembali ke atas",
         "UpdateReport": "Perbarui Laporan",
         "WeeklyScheduleHelp": "Laporan mingguan: laporan akan dikirim setiap hari Senin pertama tiap minggu."

@@ -23,6 +23,7 @@ use Piwik\DataTable\Manager as DataTableManager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\FrontController;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
 use Piwik\Option;
@@ -30,7 +31,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\ProcessedReport;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -83,6 +84,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
+
+    const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
 
     public $dbName = false;
 
@@ -138,7 +141,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.6';
+            return 'python2.7';
         }
 
         return 'python';
@@ -191,6 +194,8 @@ class Fixture extends \PHPUnit_Framework_Assert
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
+        $this->initFromEnvVars();
+
         $this->dbName = $this->getDbName();
 
         if ($this->persistFixtureData) {
@@ -209,6 +214,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         foreach ($this->extraTestEnvVars as $name => $value) {
             $testEnv->$name = $value;
+        }
+
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
         }
 
         $testEnv->save();
@@ -239,6 +248,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
+            DbHelper::recordInstallVersion();
 
             self::getPluginManager()->unloadPlugins();
 
@@ -283,7 +293,7 @@ class Fixture extends \PHPUnit_Framework_Assert
                 $this->loginAsSuperUser();
             }
 
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+            APILanguagesManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
@@ -342,10 +352,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 
@@ -358,6 +367,8 @@ class Fixture extends \PHPUnit_Framework_Assert
 
     public function clearInMemoryCaches()
     {
+        Date::$now = null;
+        FrontController::$requestId = null;
         Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
@@ -403,6 +414,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
+        DbHelper::recordInstallVersion();
         self::getPluginManager()->loadActivatedPlugins();
     }
 
@@ -568,7 +580,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getTestRootUrl() . 'piwik.php';
+        return self::getTestRootUrl() . 'matomo.php';
     }
 
     /**
@@ -775,7 +787,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             // set-up mail report with one row evolution based png graph
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (previous default)',
                 'day',
                 0,
                 ScheduledReports::EMAIL_TYPE,
@@ -784,7 +796,39 @@ class Fixture extends \PHPUnit_Framework_Assert
                 array(
                      ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
                      ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
-                )
+                ),
+                false
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (previous10)',
+                'day',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'prev',
+                10
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (each in period)',
+                'week',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'each'
             );
         }
     }
@@ -803,77 +847,6 @@ class Fixture extends \PHPUnit_Framework_Assert
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
             strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
-    }
-
-    public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
-    public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz';
-
-    public static function downloadGeoIpDbs()
-    {
-        $geoIpOutputDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
-        self::downloadAndUnzip(self::$geoIpDbUrl, $geoIpOutputDir, 'GeoIP.dat');
-        self::downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
-    }
-
-    public static function downloadAndUnzip($url, $outputDir, $filename)
-    {
-        $bufferSize = 1024 * 1024;
-
-        if (!is_dir($outputDir)) {
-            mkdir($outputDir);
-        }
-
-        $deflatedOut = $outputDir . '/' . $filename;
-        $outfileName = $deflatedOut . '.gz';
-
-        if (file_exists($deflatedOut)) {
-            $filesize = filesize($deflatedOut);
-            if($filesize == 0) {
-                throw new Exception("The file $deflatedOut is empty. Suggestion: delete it and try again.");
-            }
-
-            self::copyDownloadedGeoIp($deflatedOut, $filename);
-
-            // Valid geoip db found
-            return;
-        }
-
-        echo "Geoip database $outfileName is not found. Downloading from $url...\n";
-
-        $dump = fopen($url, 'rb');
-        if($dump === false){
-            throw new Exception('Could not download Geoip database from ' . $url);
-        }
-        
-        $outfile = fopen($outfileName, 'wb');
-        if(!$outfile) {
-            throw new Exception("Failed to create file $outfileName - please check permissions");
-        }
-
-        while (!feof($dump)) {
-            fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
-        }
-        fclose($dump);
-        fclose($outfile);
-
-        // unzip the dump
-        exec("gunzip -c \"" . $outfileName . "\" > \"$deflatedOut\"", $output, $return);
-        if ($return !== 0) {
-            Log::info("gunzip failed with file that has following contents:");
-            Log::info(file_get_contents($outfile));
-
-            throw new Exception("gunzip failed($return): " . implode("\n", $output));
-        }
-
-        self::copyDownloadedGeoIp($deflatedOut, $filename);
-    }
-
-    private static function copyDownloadedGeoIp($deflatedOut, $filename)
-    {
-        $realFileOut = PIWIK_INCLUDE_PATH . '/' . LocationProvider\GeoIp::$geoIPDatabaseDir . '/' . $filename;
-        if (!file_exists($realFileOut)) {
-            copy($deflatedOut, $realFileOut);
-        }
     }
 
     public static function executeLogImporter($logFile, $options, $allowFailure = false)
@@ -903,7 +876,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        // run the command
+        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // and no one will know why the build fails.
+        if (SystemTestCase::isTravisCI()) {
+            $cmd = "timeout 5m $cmd";
+        }
+
         exec($cmd, $output, $result);
         if ($result !== 0
             && !$allowFailure
@@ -974,15 +952,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
-    // sometimes do sanitization ourselves.
+    /**
+     * @param $type
+     * @param bool $sanitize
+     * @deprecated Use XssTesting
+     */
     public static function makeXssContent($type, $sanitize = false)
     {
-        $result = "<script>$('body').html('$type XSS!');</script>";
-        if ($sanitize) {
-            $result = Common::sanitizeInputValue($result);
-        }
-        return $result;
+        $xssTesting = new XssTesting();
+        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)
@@ -1037,5 +1015,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->piwikEnvironment->destroy();
         $this->piwikEnvironment = null;
+    }
+
+    private function initFromEnvVars()
+    {
+        $this->persistFixtureData = $this->persistFixtureData || (bool)getenv(self::PERSIST_FIXTURE_DATA_ENV);
     }
 }

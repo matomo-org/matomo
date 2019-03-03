@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Widgets;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
@@ -29,13 +30,9 @@ class AddNewGoal extends \Piwik\Widget\Widget
             return;
         }
 
-        $goals  = API::getInstance()->getGoals($idSite);
+        $goals  = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
-        if (Piwik::isUserHasAdminAccess($idSite)) {
-            $config->setName('Goals_AddNewGoal');
-        } else {
-            $config->setName('Goals_CreateNewGoal');
-        }
+        $config->setName('Goals_AddNewGoal');
 
         if (count($goals) !== 0) {
             $config->disable();

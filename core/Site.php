@@ -45,6 +45,14 @@ class Site
 {
     const DEFAULT_SITE_TYPE = "website";
 
+    private static $intProperties = [
+        'idsite',
+        'ecommerce',
+        'sitesearch',
+        'exclude_unknown_urls',
+        'keep_url_fragment',
+    ];
+
     /**
      * @var int|null
      */
@@ -82,6 +90,11 @@ class Site
         self::setSiteFromArray($this->id, $site);
 
         $this->site = $site;
+
+        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the int props stay ints
+        foreach (self::$intProperties as $propertyName) {
+            $this->site[$propertyName] = (int)$this->site[$propertyName];
+        }
     }
 
     /**
@@ -136,6 +149,7 @@ class Site
      * @param $idSite
      * @param $infoSite
      * @throws Exception if website or idsite is invalid
+     * @internal
      */
     public static function setSiteFromArray($idSite, $infoSite)
     {
@@ -149,12 +163,19 @@ class Site
     /**
      * Sets the cached Site data with a non-associated array of site data.
      *
+     * This method will trigger the `Sites.setSites` event modifying `$sites` before setting cached
+     * site data. In other words, this method will change the site data before it is cached and then
+     * return the modified array.
+     *
      * @param array $sites The array of sites data. eg,
      *
      *                         array(
      *                             array('idsite' => '1', 'name' => 'Site 1', ...),
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
      *                         )
+     * @return array The modified array.
+     * @deprecated
+     * @internal
      */
     public static function setSitesFromArray($sites)
     {
@@ -168,6 +189,8 @@ class Site
 
             self::setSiteFromArray($idSite, $site);
         }
+
+        return $sites;
     }
 
     /**
@@ -383,6 +406,16 @@ class Site
     }
 
     /**
+     * Returns the user that created this site.
+     *
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public function getCreatorLogin()
+    {
+        return $this->get('creator_login');
+    }
+
+    /**
      * Checks the given string for valid site IDs and returns them as an array.
      *
      * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
@@ -586,14 +619,15 @@ class Site
      */
     public static function getCurrencySymbolFor($idsite)
     {
-        $currency = self::getCurrencyFor($idsite);
-        $symbols  = self::getCurrencyList();
+        $currencyCode = self::getCurrencyFor($idsite);
+        $key = 'Intl_CurrencySymbol_' . $currencyCode;
+        $symbol = Piwik::translate($key);
 
-        if (isset($symbols[$currency])) {
-            return $symbols[$currency][0];
+        if ($key === $symbol) {
+            return $currencyCode;
         }
 
-        return '';
+        return $symbol;
     }
 
 
@@ -634,5 +668,16 @@ class Site
     public static function getExcludedQueryParametersFor($idsite)
     {
         return self::getFor($idsite, 'excluded_parameters');
+    }
+
+    /**
+     * Returns the user that created this site.
+     *
+     * @param int $idsite The site ID.
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public static function getCreatorLoginFor($idsite)
+    {
+        return self::getFor($idsite, 'creator_login');
     }
 }

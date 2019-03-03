@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Yeni pencerede açılsın",
-        "PluginDescription": "Piwik raporlarını web sitenizde ya da uygulamanızda basit gömülmüş HTML kod imi ile görüntüleyin.",
-        "TopLinkTooltip": "Piwik Raporlarını Gereç olarak verin ve uygulamanızın panosuna iframe olarak gömün."
+        "PluginDescription": "Basit bir Embed HTML kod imi ekleyerek istediğiniz Matomo raporunun web sitenizde ya da uygulamanızda görüntülenmesini sağlayabilirsiniz.",
+        "TopLinkTooltip": "Matomo Raporlarını, uygulamanızın panosuna iFrame olarak ekleyebileceğiniz gereçler olarak dışa aktarabilirsiniz."
     }
 }

@@ -8,7 +8,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
@@ -38,7 +38,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</metadata>
 	<columns>
-		<label>Page Name</label>
+		<label>Page Title</label>
 		<nb_hits>Pageviews</nb_hits>
 		<bounce_rate>Bounce Rate</bounce_rate>
 	</columns>
@@ -67,11 +67,22 @@
 	<reportMetadata>
 		<row>
 			
-			<idsubdatatable>5192</idsubdatatable>
+			<segment>pageTitle==Checkout</segment>
+			<idsubdatatable>2</idsubdatatable>
+		</row>
+		<row>
+			<segment>pageTitle==incredible+title%21</segment>
+		</row>
+		<row>
+			<segment>pageTitle==Looking+at+homepage+%28again%29...</segment>
+		</row>
+		<row>
+			<segment>pageTitle==Second+page+view+-+should+be+registered+as+URL</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>
 		<nb_hits>4</nb_hits>
 		<entry_nb_visits>2</entry_nb_visits>
+		<bounce_rate>50%</bounce_rate>
 	</reportTotal>
 </result>

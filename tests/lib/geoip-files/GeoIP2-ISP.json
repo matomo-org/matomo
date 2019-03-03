@@ -1,0 +1,16 @@
+[
+  {
+    "::194.57.91.215/128" : {
+      "isp" : "Matomo Internet",
+      "organization" : "Innocraft"
+    }
+  },
+  {
+    "::137.82.130.0/112" : {
+      "autonomous_system_number" : 1221,
+      "autonomous_system_organization" : "Phantasie Org",
+      "isp" : "Any Provider",
+      "organization" : "Phantasie Org"
+    }
+  }
+]

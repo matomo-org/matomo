@@ -43,3 +43,11 @@ p strong {
 strong {
     font-weight: 700 !important;
 }
+
+#logo {
+    display: block;
+}
+
+#logo img {
+    height: 40px;
+}

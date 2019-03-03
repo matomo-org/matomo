@@ -46,6 +46,16 @@ class SettingsPiwik
     }
 
     /**
+     * Should Piwik show the update notification to superusers only?
+     *
+     * @return bool  True if show to superusers only; false otherwise
+     */
+    public static function isShowUpdateNotificationToSuperUsersOnlyEnabled()
+    {
+        return Config::getInstance()->General['show_update_notification_to_superusers_only'] == 1;
+    }
+
+    /**
      * Returns every stored segment to pre-process for each site during cron archiving.
      *
      * @return array The list of stored segments that apply to all sites.
@@ -188,7 +198,7 @@ class SettingsPiwik
             // if URL changes, always update the cache
             || $currentUrl != $url
         ) {
-            $host = Url::getHostFromUrl($url);
+            $host = Url::getHostFromUrl($currentUrl);
 
             if (strlen($currentUrl) >= strlen('http://a/')
                 && !Url::isLocalHost($host)) {
@@ -204,7 +214,17 @@ class SettingsPiwik
     }
 
     /**
+     * @see SettingsPiwik::isPiwikInstalled
+     * @return bool
+     */
+    public static function isMatomoInstalled()
+    {
+        return self::isPiwikInstalled();
+    }
+
+    /**
      * Return true if Piwik is installed (installation is done).
+     * @deprecated since Matomo 3.8.0, please use {@link isMatomoInstalled()} instead.
      * @return bool
      */
     public static function isPiwikInstalled()
@@ -383,7 +403,7 @@ class SettingsPiwik
         $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
 
         if ($hasError || $expectedStringNotFound) {
-            throw new Exception("\nPiwik should be running at: "
+            throw new Exception("\nMatomo should be running at: "
                 . $piwikServerUrl
                 . " but this URL returned an unexpected response: '"
                 . $fetched . "'\n\n");

@@ -35,8 +35,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'piwik.js', 30);
-        $this->assertTrue(strpos($result, 'Piwik') !== false);
+        $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'matomo.js', 30);
+        $this->assertTrue(strpos($result, 'Matomo') !== false);
     }
 
     public function testFetchApiLatestVersion()
@@ -73,7 +73,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $result = Http::sendHttpRequestBy(
             $method,
-            Fixture::getRootUrl() . '/piwik.js',
+            Fixture::getRootUrl() . '/matomo.js',
             30,
             $userAgent = null,
             $destinationPath = null,
@@ -258,7 +258,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testHttpsWorksWithValidCertificate($method)
     {
-        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
+        $result = Http::sendHttpRequestBy($method, 'https://builds.matomo.org/LATEST', 10);
 
         $this->assertStringMatchesFormat('%d.%d.%d', $result);
     }
@@ -289,7 +289,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSocketHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net/', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://piwik.org/', 10);
         $this->assertNotEmpty($result);
     }
 }

@@ -244,12 +244,14 @@ class RequestSet
     private function resetEnvironment($env)
     {
         $_SERVER = $env['server'];
+        $_COOKIE = isset($env['cookie']) ? $env['cookie'] : array();
     }
 
     private function getCurrentEnvironment()
     {
         return array(
-            'server' => $_SERVER
+            'server' => $_SERVER,
+            'cookie' => $_COOKIE
         );
     }
 }

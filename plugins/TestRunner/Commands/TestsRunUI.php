@@ -11,6 +11,7 @@ use Piwik\AssetManager;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,6 +40,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('store-in-ui-tests-repo', null, InputOption::VALUE_NONE, "For tests");
         $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
+        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'Enable logging to the configured log file during tests.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,6 +58,9 @@ class TestsRunUI extends ConsoleCommand
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
         $debug = $input->getOption('debug');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $enableLogging = $input->getOption('enable-logging');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -65,6 +70,11 @@ class TestsRunUI extends ConsoleCommand
 
         $options = array();
         $phantomJsOptions = array();
+
+        if ($matomoDomain) {
+            $options[] = "--matomo-domain=$matomoDomain";
+        }
+
         if ($persistFixtureData) {
             $options[] = "--persist-fixture-data";
         }
@@ -103,6 +113,10 @@ class TestsRunUI extends ConsoleCommand
 
         if ($debug) {
             $phantomJsOptions[] = "--debug=true";
+        }
+
+        if ($enableLogging) {
+            $options[] = '--enable-logging';
         }
 
         $phantomJsOptions[] = "--ignore-ssl-errors=true";

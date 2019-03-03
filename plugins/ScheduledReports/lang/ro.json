@@ -20,7 +20,7 @@
         "MustBeLoggedIn": "Trebuie să fii logat pentru a crea și programa rapoarte personalizate.",
         "NoRecipients": "Acest raport nu are destinatari",
         "Pagination": "Pagina %1$s din %2$s",
-        "PiwikReports": "Rapoarte Piwik",
+        "PiwikReports": "Rapoarte Matomo",
         "PleaseFindBelow": "Va rugam sa gasiti mai jos raport ul tau de %1$s pentru %2$s.",
         "ReportFormat": "Formatul raportului",
         "ReportIncludeNWebsites": "Raportul va include principalii indicatori pentru toate site-urile care au cel puțin o vizită (de la %s site-uri disponibile în prezent ).",
@@ -36,7 +36,7 @@
         "SentToMe": "Expediază mie",
         "TableOfContent": "Lista raport",
         "ThereIsNoReportToManage": "Nu există nici un raport de a gestiona site-ul %s",
-        "TopLinkTooltip": "Creați rapoarte e-mail pentru a obține statistici Piwik livrate la adresa dvs. de email sau adresa clienților dumneavoastră în mod automat!",
+        "TopLinkTooltip": "Creați rapoarte e-mail pentru a obține statistici Matomo livrate la adresa dvs. de email sau adresa clienților dumneavoastră în mod automat!",
         "TopOfReport": "Inapoi de sus",
         "UpdateReport": "Actualizează raportul",
         "WeeklyScheduleHelp": "Program săptămânal: raportul va fi trimis luni, in fiecare săptămână."

@@ -20,6 +20,15 @@ use Zend_Session_Exception;
  */
 class WebNotificationHandler extends AbstractProcessingHandler
 {
+    public function isHandling(array $record)
+    {
+        if (!empty($record['context']['ignoreInScreenWriter'])) {
+            return false;
+        }
+
+        return parent::isHandling($record);
+    }
+
     protected function write(array $record)
     {
         switch ($record['level']) {
@@ -37,7 +46,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
                 break;
         }
 
-        $message = $record['level_name'] . ': ' . htmlentities($record['message']);
+        $message = $record['level_name'] . ': ' . htmlentities($record['message'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
 
         $notification = new Notification($message);
         $notification->context = $context;

@@ -12,12 +12,17 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>46</pageId>
-				<interactionPosition>1</interactionPosition>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
+				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -27,7 +32,9 @@
 				<goalPageId>46</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -35,19 +42,24 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>47</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/search.svg</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
 						<customVariablePageValue4>CAT</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<interactionPosition>2</interactionPosition>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -57,7 +69,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -66,12 +80,17 @@
 				<pageTitle />
 				<pageIdAction>47</pageIdAction>
 				
+				
 				<pageId>48</pageId>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/download.svg</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file8.zip</subtitle>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -79,26 +98,36 @@
 				<pageTitle />
 				<pageIdAction>48</pageIdAction>
 				
+				
 				<pageId>49</pageId>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/link.svg</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/8.html</subtitle>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
+				<bandwidth />
+				<interactionPosition>2</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.svg</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -108,13 +137,19 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -132,12 +167,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -150,6 +187,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -191,17 +234,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -210,23 +242,19 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>45</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>45</pageId>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -237,8 +265,19 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 8</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<icon />
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>45</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -249,13 +288,19 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
@@ -273,12 +318,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -291,6 +338,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
@@ -332,17 +385,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -356,12 +398,17 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>41</pageId>
-				<interactionPosition>1</interactionPosition>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
+				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -371,7 +418,9 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -382,7 +431,9 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -391,12 +442,17 @@
 				<pageTitle />
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>42</pageId>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/download.svg</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file7.zip</subtitle>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -404,26 +460,36 @@
 				<pageTitle />
 				<pageIdAction>43</pageIdAction>
 				
+				
 				<pageId>43</pageId>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/link.svg</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/7.html</subtitle>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.svg</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -433,13 +499,19 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -457,12 +529,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -475,16 +549,22 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -516,16 +596,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 </result>

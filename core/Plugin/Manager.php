@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
@@ -25,7 +26,9 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Settings\Storage as SettingsStorage;
+use Piwik\SettingsPiwik;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -102,6 +105,12 @@ class Manager
     public function loadActivatedPlugins()
     {
         $pluginsToLoad = $this->getActivatedPluginsFromConfig();
+        if (!SettingsPiwik::isInternetEnabled()) {
+            $pluginsToLoad = array_filter($pluginsToLoad, function($name) {
+                $plugin = Manager::makePluginClass($name);
+                return !$plugin->requiresInternetConnection();
+            });
+        }
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -263,6 +272,19 @@ class Manager
     }
 
     /**
+     * Returns `true` if a plugin requires an working internet connection
+     *
+     * @param string $name Name of plugin, eg, `'Actions'`.
+     * @return bool
+     * @throws \Exception
+     */
+    public function doesPluginRequireInternetConnection($name)
+    {
+        $plugin = $this->makePluginClass($name);
+        return $plugin->requiresInternetConnection();
+    }
+
+    /**
      * Checks whether the given plugin is activated, if not triggers an exception.
      *
      * @param  string $pluginName
@@ -393,7 +415,7 @@ class Manager
     public function uninstallPlugin($pluginName)
     {
         if ($this->isPluginLoaded($pluginName)) {
-            throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
+            throw new \Exception("To uninstall the plugin $pluginName, first disable it in Matomo > Settings > Plugins");
         }
         $this->loadAllPluginsAndGetTheirInfo();
 
@@ -437,7 +459,8 @@ class Manager
 
     public static function deletePluginFromFilesystem($plugin)
     {
-        Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
+        $pluginDir = self::getPluginsDirectory();
+        Filesystem::unlinkRecursive($pluginDir . $plugin, $deleteRootToo = true);
     }
 
     /**
@@ -594,6 +617,7 @@ class Manager
             $this->pluginList->getActivatedPlugins()
         );
         $listPlugins = array_unique($listPlugins);
+        $internetFeaturesEnabled = SettingsPiwik::isInternetEnabled();
         foreach ($listPlugins as $pluginName) {
             // Hide plugins that are never going to be used
             if ($this->isPluginBogus($pluginName)) {
@@ -670,7 +694,7 @@ class Manager
             return true;
         }
 
-        $path = $this->getPluginsDirectory() . $pluginName;
+        $path = self::getPluginsDirectory() . $pluginName;
         if (!$this->isManifestFileFound($path)) {
             return true;
         }
@@ -882,9 +906,44 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
+        if ($newPlugin->isPremiumFeature()
+            && SettingsPiwik::isInternetEnabled()
+            && !Development::isEnabled()
+            && $this->isPluginActivated('Marketplace')
+            && $this->isPluginActivated($pluginName)) {
+
+            $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
+            $cache = self::getLicenseCache();
+
+            if ($cache->contains($cacheKey)) {
+                $pluginLicenseInfo = $cache->fetch($cacheKey);
+            } else {
+                try {
+                    $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+                    $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
+                } catch (\Exception $e) {
+                    $licenseInfo = array();
+                }
+
+                $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
+                $sixHours = 3600 * 6;
+                $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
+            }
+
+            if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
+                $this->unloadPluginFromMemory($pluginName);
+                return $pluginsToPostPendingEventsTo;
+            }
+        }
+
         $pluginsToPostPendingEventsTo[] = $newPlugin;
 
         return $pluginsToPostPendingEventsTo;
+    }
+
+    public static function getLicenseCache()
+    {
+        return Cache::getLazyCache();
     }
 
     public function getIgnoredBogusPlugins()
@@ -1082,7 +1141,8 @@ class Manager
 
         foreach ($plugins as $pluginName) {
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) ) {
+            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
+                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())) {
                 $missingPlugins[] = $pluginName;
             }
         }

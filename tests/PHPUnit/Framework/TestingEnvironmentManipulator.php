@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\SettingsServer;
 
 class FakePluginList extends PluginList
 {
@@ -82,11 +83,19 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             foreach ($this->vars->queryParamOverride as $key => $value) {
                 $_GET[$key] = $value;
             }
+
+            $_SERVER['QUERY_STRING'] = http_build_query($_GET);
         }
 
         if ($this->vars->globalsOverride) {
             foreach ($this->vars->globalsOverride as $key => $value) {
                 $GLOBALS[$key] = $value;
+            }
+        }
+
+        if ($this->vars->environmentVariables) {
+            foreach ($this->vars->environmentVariables as $key => $value) {
+                putenv("$key=$value");
             }
         }
 
@@ -103,7 +112,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+            && !SettingsServer::isTrackerApiRequest()
+        ) { // TODO: should use testingEnvironment variable, not query param
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -122,7 +133,6 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         }
 
         \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
-        \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
         \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
 
         if ($this->vars->deleteArchiveTables
@@ -135,7 +145,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraDefinitions()
     {
-        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
+        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource();
 
         $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
@@ -201,6 +211,24 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     private function getPluginsToLoadDuringTest()
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
+        $plugins[] = 'TagManager';
+
+        $fixturePluginsToLoad = [];
+
+        if ($this->vars->testCaseClass) {
+            $testCaseClass = $this->vars->testCaseClass;
+            if ($this->classExists($testCaseClass)) {
+                if (isset($testCaseClass::$fixture)) {
+                    $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
+                }
+            }
+        } else if ($this->vars->fixtureClass) {
+            $fixtureClass = $this->vars->fixtureClass;
+            if ($this->classExists($fixtureClass)) {
+                $fixture = new $fixtureClass();
+                $fixturePluginsToLoad = $fixture->extraPluginsToLoad;
+            }
+        }
 
         // make sure the plugin that executed this method is included in the plugins to load
         $extraPlugins = array_merge(
@@ -211,7 +239,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
-            )
+            ),
+            $fixturePluginsToLoad
         );
 
         foreach ($extraPlugins as $pluginName) {

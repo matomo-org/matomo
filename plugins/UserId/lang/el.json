@@ -1,7 +1,7 @@
 {
     "UserId": {
         "UserId": "Αναγνωριστικό χρήστη",
-        "UserReportTitle": "Χρήστες",
+        "UserReportTitle": "Αναγνωριστικά χρηστών",
         "PluginDescription": "Εμφανίζει τις αναφορές χρηστών"
     }
 }

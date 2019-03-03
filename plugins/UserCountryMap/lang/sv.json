@@ -20,6 +20,8 @@
         "VisitorMap": "Besökskarta",
         "WorldWide": "Hela världen",
         "WithUnknownRegion": "%s med okänd region",
-        "WithUnknownCity": "%s med okänd stad"
+        "WithUnknownCity": "%s med okänd stad",
+        "NoVisitsInfo": "Det finns inga besök som visas för tillfället, eftersom inget besök för denna period har rätt geografisk platsinformation (latitud och longitud).",
+        "NoVisitsInfo2": "För att lösa detta problem se till att du använder en GeoIP leverantör med en databas över städer. Om det inte löser problemet är det möjligt (men osannolikt) att dina besök har IP-adresser som inte kan geopositioneras."
     }
 }

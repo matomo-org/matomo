@@ -8,7 +8,7 @@
         <ul>
             {% for dashboard in dashboards %}
                 <li id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}">
-                    <a href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});"
+                    <a href="#" onclick="$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});"
                        class="item">{{ dashboard.name|escape }}</a>
                 </li>
             {% endfor %}

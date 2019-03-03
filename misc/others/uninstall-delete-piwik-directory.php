@@ -9,7 +9,7 @@ exit; // Remove this line before using the script
 // 4) Go with your browser to http://your-site/uninstall-delete-piwik-directory.php
 // 5) The folder http://your-site/piwik/ should now be deleted!
 // We hope you enjoyed Piwik. If you have any feedback why you stopped using Piwik,
-// please let us know at hello@piwik.org - we are interested by your experience
+// please let us know at hello@matomo.org - we are interested by your experience
 function unlinkRecursive($dir)
 {
     if (!$dh = @opendir($dir)) return "Warning: folder $dir couldn't be read by PHP";

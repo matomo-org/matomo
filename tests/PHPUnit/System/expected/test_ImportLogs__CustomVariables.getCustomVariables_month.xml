@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<label>HTTP-code</label>
-		<nb_actions>45</nb_actions>
+		<nb_actions>50</nb_actions>
 		<slots>
 			<row>
 				<scope>page</scope>
@@ -17,9 +17,9 @@
 		<subtable>
 			<row>
 				<label>200</label>
-				<nb_visits>34</nb_visits>
-				<nb_actions>36</nb_actions>
-				<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
+				<nb_visits>39</nb_visits>
+				<nb_actions>41</nb_actions>
+				<sum_daily_nb_uniq_visitors>39</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>301</label>

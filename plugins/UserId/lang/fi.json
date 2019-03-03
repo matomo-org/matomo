@@ -1,5 +1,7 @@
 {
     "UserId": {
-        "UserReportTitle": "Käyttäjät"
+        "UserId": "Käyttäjän ID",
+        "UserReportTitle": "Käyttäjän IDt",
+        "PluginDescription": "Näyttää käyttäjän raportit"
     }
 }

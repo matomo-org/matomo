@@ -38,7 +38,9 @@
                     name: dashboard ? dashboard.name : ''
                 });
 
-            $('#columnPreview').find('>div').each(function () {
+            var divElements = $('#columnPreview').find('>div');
+
+            divElements.each(function () {
                 var width = [];
                 $('div', this).each(function () {
                     width.push(this.className.replace(/width-/, ''));
@@ -46,8 +48,9 @@
                 $(this).attr('layout', width.join('-'));
             });
 
-            $('#columnPreview').find('>div').on('click', function () {
-                $('#columnPreview').find('>div').removeClass('choosen');
+            divElements.off('click.renderDashboard');
+            divElements.on('click.renderDashboard', function () {
+                divElements.removeClass('choosen');
                 $(this).addClass('choosen');
             });
         }
@@ -61,7 +64,7 @@
             var getDashboard = dashboardsModel.getDashboard(dashboardId);
             var getLayout = dashboardsModel.getDashboardLayout(dashboardId);
 
-            $q.all([getDashboard, getLayout]).then(function (response) {
+            return $q.all([getDashboard, getLayout]).then(function (response) {
                 var dashboard = response[0];
                 var layout = response[1];
 
@@ -86,7 +89,7 @@
 
                 scope.$parent.fetchDashboard = function (dashboardId) {
                     scope.dashboardId = dashboardId;
-                    fetchDashboard(dashboardId)
+                    return fetchDashboard(dashboardId)
                 };
 
                 fetchDashboard(scope.dashboardid);

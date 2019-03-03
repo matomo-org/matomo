@@ -17,6 +17,7 @@ use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -60,6 +61,7 @@ class Controller extends ControllerAdmin
         $hasPremiumFeatures = $widgetsList->isDefined('Marketplace', 'getPremiumFeatures');
         $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
         $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
+        $hasTrackingFailures = $widgetsList->isDefined('CoreAdminHome', 'getTrackingFailures');
 
         return $this->renderTemplate('home', array(
             'isInternetEnabled' => $isInternetEnabled,
@@ -70,6 +72,7 @@ class Controller extends ControllerAdmin
             'hasDonateForm' => $hasDonateForm,
             'hasPiwikBlog' => $hasPiwikBlog,
             'hasDiagnostics' => $hasDiagnostics,
+            'hasTrackingFailures' => $hasTrackingFailures,
         ));
     }
 
@@ -77,6 +80,13 @@ class Controller extends ControllerAdmin
     {
         $this->redirectToIndex('UsersManager', 'userSettings');
         return;
+    }
+
+    public function trackingFailures()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('trackingFailures');
     }
 
     public function generalSettings()
@@ -171,7 +181,15 @@ class Controller extends ControllerAdmin
         $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
-        $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
+        $view->idSite = $this->idSite ?: $defaultIdSite;
+
+        if ($view->idSite) {
+            try {
+                $view->siteName = Site::getNameFor($view->idSite);
+            } catch (Exception $e) {
+                // ignore if site no longer exists
+            }
+        }
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
@@ -228,6 +246,7 @@ class Controller extends ControllerAdmin
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
+        $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
         if ($view->isGeneralSettingsAdminEnabled) {
             $this->displayWarningIfConfigFileNotWritable();
         }

@@ -69,7 +69,7 @@ class Adapter
     {
         $className = 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
         if (!class_exists($className)) {
-            throw new \Exception(sprintf("Adapter '%s' is not valid. Maybe check that your Piwik configuration files in config/*.ini.php are readable by the webserver.", $adapterName));
+            throw new \Exception(sprintf("Adapter '%s' is not valid. Maybe check that your Matomo configuration files in config/*.ini.php are readable by the webserver.", $adapterName));
         }
         return $className;
     }

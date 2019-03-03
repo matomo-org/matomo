@@ -1,0 +1,25 @@
+<li class="action" title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
+    <div>
+        {% if action.pageTitle|default(false) is not empty %}
+            <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
+        {% endif %}
+        <img src='plugins/Morpheus/images/event.svg' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+        <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }}
+            - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
+        {% if action.url is not empty %}
+            {% if previousAction.url|default(false) == action.url %}
+                {# For events, do not show (url) if the Event URL is the same as the URL last displayed #}
+            {% else %}
+                {% if action.url|trim|lower starts with 'javascript:' or
+                action.url|trim|lower starts with 'vbscript:' or
+                action.url|trim|lower starts with 'data:' %}
+                    {{ action.url }}
+                {% else %}
+                    <a href="{{ action.url|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="truncated-text-line">
+                        {{ action.url|replace({'http://': '', 'https://': ''}) }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+</li>

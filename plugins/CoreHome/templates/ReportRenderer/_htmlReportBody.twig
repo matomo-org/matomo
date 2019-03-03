@@ -2,7 +2,7 @@
 {% set styleTableHeader = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;text-align: left;font-weight:normal;padding:13px 0 13px 10px;" ~ fontStyle %}
 {% set styleTableCell = "border-bottom:1px solid rgb(231,231,231);font-size: 15px;padding:17px 15px;" ~ fontStyle %}
 
-<h2 id="{{ reportId }}" style=" {{fontStyle}} font-size: {{ reportTitleTextSize }}pt; font-weight:normal; margin:45px 0 30px 0;">
+<h2 id="{{ reportId }}" style=" {{fontStyle}} font-size: {{ emailStyles.reportTitleTextSize }}pt; font-weight:normal; margin:45px 0 30px 0;">
     {{ reportName }}
 </h2>
 
@@ -28,7 +28,7 @@
 
     {% if displayTable %}
         <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
-            <thead style="background-color: rgb({{tableBgColor}});">
+            <thead style="background-color: {{ emailStyles.tableBgColor }};">
             {% for columnId, columnName in reportColumns %}
                 <th style="{{ styleTableHeader }}{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %}">
                     &nbsp;{{ columnName }}&nbsp;&nbsp;
@@ -36,7 +36,7 @@
             {% endfor %}
             </thead>
             <tbody>
-            {% set cycleValues=['background-color: rgb('~tableBgColor~')',''] %}
+            {% set cycleValues=['background-color: '~emailStyles.tableBgColor,''] %}
             {% set cycleIndex=1 %}
             {% for rowId,row in reportRows %}
                 {% set rowMetrics=row.columns %}
@@ -59,7 +59,7 @@
                                         &nbsp;
                                     {% endif %}
                                     {% if rowMetadata.url is defined %}
-                                        <a style="color: rgb({{ reportTextColor }});" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
+                                        <a style="color: {{ emailStyles.reportTextColor }};" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
                                     {% endif %}
                                     {{ rowMetrics[columnId] | raw }}{# labels are escaped by SafeDecodeLabel filter in core/API/Response.php #}
                                     {% if rowMetadata.url is defined %}
@@ -81,7 +81,7 @@
         </table>
     {% endif %}
     <p style="width: 100%; text-align:center;">
-      <a style="text-decoration:none; font-size: 9pt;" href="#reportTop">
+      <a style="{{ fontStyle }}; text-decoration:none; font-size: 9pt;" href="#reportTop">
           {{ 'ScheduledReports_TopOfReport'|translate }} &#8593;
     </a></p>
 {% endif %}

@@ -75,10 +75,10 @@ class ReferrerSpamFilter
         $list = Option::get(self::OPTION_STORAGE_NAME);
 
         if ($list) {
-            $this->spammerList = unserialize($list);
+            $this->spammerList = Common::safe_unserialize($list);
         } else {
             // Fallback to reading the bundled list
-            $file = PIWIK_VENDOR_PATH . '/piwik/referrer-spam-blacklist/spammers.txt';
+            $file = PIWIK_VENDOR_PATH . '/matomo/referrer-spam-blacklist/spammers.txt';
             $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
 

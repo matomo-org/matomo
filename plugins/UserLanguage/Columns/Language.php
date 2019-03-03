@@ -9,20 +9,28 @@
 namespace Piwik\Plugins\UserLanguage\Columns;
 
 use Piwik\Common;
-use Piwik\Piwik;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserLanguage/functions.php';
+
 class Language extends VisitDimension
 {
     protected $columnName = 'location_browser_lang';
     protected $columnType = 'VARCHAR(20) NULL';
+    protected $category = 'UserCountry_VisitLocation';
+    protected $nameSingular = 'General_Language';
+    protected $namePlural = 'General_Languages';
+    protected $segmentName = 'languageCode';
+    protected $acceptValues = 'de, fr, en-gb, zh-cn, etc.';
+    protected $type = self::TYPE_TEXT;
 
-    public function getName()
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return Piwik::translate('General_Language');
+        return \Piwik\Plugins\UserLanguage\languageTranslateWithCode($value);
     }
 
     /**
@@ -52,13 +60,4 @@ class Language extends VisitDimension
         return $languageCode;
     }
 
-    protected function configureSegments()
-    {
-        $segment = new \Piwik\Plugin\Segment();
-        $segment->setCategory('Visit Location');
-        $segment->setSegment('languageCode');
-        $segment->setName('General_Language');
-        $segment->setAcceptedValues('de, fr, en-gb, zh-cn, etc.');
-        $this->addSegment($segment);
-    }
 }

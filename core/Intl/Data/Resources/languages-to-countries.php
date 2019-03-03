@@ -54,7 +54,7 @@ return array(
     'sr' => 'rs', // Serbian    => Serbia
     'sv' => 'se', // Swedish    => Sweden
     'th' => 'th', // Thai       => Thailand
-    'bo' => 'ti', // Tibetan    => Tibet
+    'bo' => 'cn', // Tibetan    => China
     'tr' => 'tr', // Turkish    => Turkey
     'uk' => 'ua', // Ukrainian  => Ukraine
 );

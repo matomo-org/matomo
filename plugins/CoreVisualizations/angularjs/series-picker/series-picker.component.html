@@ -1,0 +1,49 @@
+<div
+    class="jqplot-seriespicker"
+    ng-class="{open: $ctrl.isPopupVisible}"
+    ng-mouseenter="$ctrl.isPopupVisible = true"
+    ng-mouseleave="$ctrl.onLeavePopup()"
+>
+    <a
+        href="#"
+        ng-click="$event.preventDefault(); $event.stopPropagation();"
+    >
+    +
+    </a>
+    <div
+        class="jqplot-seriespicker-popover"
+        ng-if="$ctrl.isPopupVisible"
+    >
+        <p class="headline">{{ ($ctrl.multiselect ? 'General_MetricsToPlot' : 'General_MetricToPlot') | translate }}</p>
+        <p
+            ng-repeat="columnConfig in $ctrl.selectableColumns"
+            class="pickColumn"
+            ng-click="$ctrl.optionSelected(columnConfig.column, $ctrl.columnStates)"
+        >
+            <input
+                class="select"
+                ng-checked="$ctrl.columnStates[columnConfig.column]"
+                ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
+            />
+            <label>{{ columnConfig.translation }}</label>
+        </p>
+        <p
+            ng-if="$ctrl.selectableRows.length"
+            class="headline recordsToPlot"
+        >
+            {{ 'General_RecordsToPlot' | translate }}
+        </p>
+        <p
+            ng-repeat="rowConfig in $ctrl.selectableRows"
+            class="pickRow"
+            ng-click="$ctrl.optionSelected(rowConfig.matcher, $ctrl.rowStates)"
+        >
+            <input
+                class="select"
+                ng-checked="$ctrl.rowStates[rowConfig.matcher]"
+                ng-attr-type="{{ $ctrl.multiselect ? 'checkbox' : 'radio' }}"
+            />
+            <label>{{ rowConfig.label }}</label>
+        </p>
+    </div>
+</div>

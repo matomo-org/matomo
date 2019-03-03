@@ -1,0 +1,25 @@
+{% if visitorData.totalPageViews > 0 %}
+    <div class="visitor-profile-summary visitor-profile-pages">
+        <h1>{{ 'Actions_RevisitedPages'|translate }}</h1>
+        <div>
+            <ul>
+                {% for url,count in visitorData.visitedPages %}
+                    {% if loop.index < 6 and count > 1 %}
+                        <li><span class="repeat icon-refresh" title="{{ 'Actions_PageViewsByVisitor'|translate }}">{{ count }}</span>
+                            {% if url|trim|lower starts with 'javascript:' or
+                            url|trim|lower starts with 'vbscript:' or
+                            url|trim|lower starts with 'data:' %}
+                                {{ url }}
+                            {% else %}
+                                <a href="{{ url|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank"
+                                   class="action-list-url truncated-text-line">
+                                    {{ url|replace({'http://': '', 'https://': ''}) }}
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}

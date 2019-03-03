@@ -62,7 +62,7 @@ class Manager extends \ArrayObject
     public function getTable($idTable)
     {
         if (!isset($this[$idTable])) {
-            throw new TableNotFoundException(sprintf("Error: table id %s not found in memory. (If this error is causing you problems in production, please report it in Piwik issue tracker.)", $idTable));
+            throw new TableNotFoundException(sprintf("Error: table id %s not found in memory. (If this error is causing you problems in production, please report it in Matomo issue tracker.)", $idTable));
         }
 
         return $this[$idTable];

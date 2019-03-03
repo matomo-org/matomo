@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Je kunt meer telefoon nummers toevoegen via",
         "MobileReport_MobileMessagingSettingsLink": "De Mobiele Messaging instellingen pagina",
         "MobileReport_NoPhoneNumbers": "Gelieve ten minste één telefoonnummer te activeren door",
-        "MultiSites_Must_Be_Activated": "Om SMS berichten van je website statistieken te genereren. Schakel de MultSites plugin in Piwik.",
+        "MultiSites_Must_Be_Activated": "Om SMS berichten van je website statistieken te genereren. Schakel de MultSites plugin in Matomo.",
         "PhoneNumbers": "Telefoonnummers",
         "PluginDescription": "Creeër en download aangepaste SMS rapporten en verstuur ze dagelijks, wekelijks of maandelijks naar je telefoon.",
         "Settings_APIKey": "API-sleutel",
         "Settings_CountryCode": "Landcode",
         "Settings_SelectCountry": "Selecteer land",
-        "Settings_CredentialNotProvided": "Voordat je telefoonnummers kunt aanmaken en beheren, verbind Piwik hierboven met je SMS account.",
-        "Settings_CredentialNotProvidedByAdmin": "Voordat je telefoonnumers kunt aanmaken en beheren, vraag je beheerder om Piwik te verbinden met een SMS Account.",
+        "Settings_CredentialNotProvided": "Voordat je telefoonnummers kunt aanmaken en beheren, verbind Matomo hierboven met je SMS account.",
+        "Settings_CredentialNotProvidedByAdmin": "Voordat je telefoonnumers kunt aanmaken en beheren, vraag je beheerder om Matomo te verbinden met een SMS Account.",
         "Settings_CredentialProvided": "Uw %s SMS API account is correct geconfigureerd!",
         "Settings_DeleteAccountConfirm": "Weet je zeker dat je dit SMS-account wilt verwijderen?",
         "Settings_DelegatedSmsProviderOnlyAppliesToYou": "De geconfigureerde SMS provider zal alleen gebruikt worden door jou en niet door geen enkele andere gebruiker.",
@@ -27,7 +27,6 @@
         "Settings_PhoneNumbers_Add": "Nieuw telefoonnummer toevoegen",
         "Settings_PhoneNumbers_CountryCode_Help": "Weet je de landcode voor belen niet, kijk dan hier.",
         "Settings_PhoneNumbers_Help": "Voordat je SMS rapporten op een telefoon kunt ontvangen, moet het telefoonnummer hieronder worden ingegeven.",
-        "Settings_PhoneNumbers_HelpAdd": "Wanneer je klikt op \"Add\", een SMS met een code zal naar de telefoon verstuurd worden. De gebruiker die de code ontvangt moet daarna inloggen in Piwik, klik op instellingen en daarna op Mobile Messaging. Na het invoeren van de code zal de gebruiker in staat zijn om tekst rapportages te ontvangen op zijn\/haar telefoon.",
         "Settings_PleaseSignUp": "Om SMS rapporten aan te maken en SMS berichten met je website statistieken te ontvangen op je mobiele telefoon,gelieve in te loggen met de SMS API en je informatie hieronder in te vullen.",
         "Settings_SMSAPIAccount": "Beheer SMS API account",
         "Settings_SMSProvider": "SMS provider",
@@ -42,6 +41,6 @@
         "TopLinkTooltip": "Krijg je Web Analyse rapporten toegestuurd naar je mailbox of je mobiele telefoon!",
         "TopMenu": "E-mail & SMS-rapporten",
         "UserKey": "Userkey",
-        "VerificationText": "Code %1$s. Kopieer deze code naar Piwik > %2$s > %3$s om je telefoonnummer te valideren en sms rapporten te ontvangen."
+        "VerificationText": "Code %1$s. Kopieer deze code naar Matomo > %2$s > %3$s om je telefoonnummer te valideren en sms rapporten te ontvangen."
     }
 }

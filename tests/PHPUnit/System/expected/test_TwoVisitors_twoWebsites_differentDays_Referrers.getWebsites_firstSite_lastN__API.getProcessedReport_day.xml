@@ -4,12 +4,16 @@
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
 		<category>Referrers</category>
-		<subcategory>Websites &amp; Social</subcategory>
+		<subcategory>Websites</subcategory>
 		<name>Websites</name>
 		<module>Referrers</module>
 		<action>getWebsites</action>
 		<dimension>Website</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<dimensions>
+			<Referrers_Website>Website</Referrers_Website>
+			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -116,14 +120,14 @@
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1965</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1967</idsubdatatable>
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -133,22 +137,29 @@
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1972</idsubdatatable>
+				<idsubdatatable>9</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				
 				<segment>referrerName==referrer.com</segment>
-				<idsubdatatable>1974</idsubdatatable>
+				<idsubdatatable>11</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>4</nb_visits>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
 		<nb_actions>12</nb_actions>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_users>0</nb_users>
+		<max_actions>12</max_actions>
+		<sum_visit_length>1802</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<conversion_rate>0</conversion_rate>
+		<nb_actions_per_visit>12</nb_actions_per_visit>
+		<avg_time_on_site>1802</avg_time_on_site>
+		<bounce_rate>200</bounce_rate>
 	</reportTotal>
 </result>

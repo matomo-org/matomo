@@ -29,6 +29,7 @@ use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
@@ -37,7 +38,7 @@ use Piwik\Widget\WidgetsList;
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
- * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * This API is the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
  *
  * Some of the information that is returned by the Metadata API:
@@ -49,8 +50,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * conversion rate, time on site, etc. which are not directly available in other methods.</li>
  * <li>the method "getSuggestedValuesForSegment" returns top suggested values for a particular segment. It uses the Live.getLastVisitsDetails API to fetch the most recently used values, and will return the most often used values first.</li>
  * </ul>
- * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
- * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
+ * The Metadata API is for example used by the Matomo Mobile App to automatically display all Matomo reports, with translated report & columns names and nicely formatted values.
+ * More information on the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
@@ -66,6 +67,12 @@ class API extends \Piwik\Plugin\API
      */
     private $processedReport;
 
+    /**
+     * For Testing purpose only
+     * @var int
+     */
+    public static $_autoSuggestLookBack = 60;
+
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
         $this->settingsProvider = $settingsProvider;
@@ -73,13 +80,40 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get Piwik version
+     * Get Matomo version
      * @return string
      */
-    public function getPiwikVersion()
+    public function getMatomoVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
+    }
+
+    /**
+     * Get PHP version
+     * @return array
+     */
+    public function getPhpVersion()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        return array(
+            'version' => PHP_VERSION,
+            'major' => PHP_MAJOR_VERSION,
+            'minor' => PHP_MINOR_VERSION,
+            'release' => PHP_RELEASE_VERSION,
+            'versionId' => PHP_VERSION_ID,
+            'extra' => PHP_EXTRA_VERSION,
+        );
+    }
+
+    /**
+     * Get Matomo version
+     * @return string
+     * @deprecated
+     */
+    public function getPiwikVersion()
+    {
+        return $this->getMatomoVersion();
     }
 
     /**
@@ -109,7 +143,7 @@ class API extends \Piwik\Plugin\API
      * are not visible in the UI and not present in the API meta data. These columns are
      * translated here.
      * @return array
-     * @deprecated since Piwik 2.15.1
+     * @deprecated since Matomo 2.15.1
      */
     public function getDefaultMetricTranslations()
     {
@@ -152,6 +186,7 @@ class API extends \Piwik\Plugin\API
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
         } else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
             Piwik::checkUserHasViewAccess($idSites);
         }
 
@@ -159,17 +194,17 @@ class API extends \Piwik\Plugin\API
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
-        $cachKey = CacheId::pluginAware($cachKey);
+        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cacheKey = CacheId::pluginAware($cacheKey);
 
-        if ($cache->contains($cachKey)) {
-            return $cache->fetch($cachKey);
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
         }
 
         $metadata = new SegmentMetadata();
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
-        $cache->save($cachKey, $segments);
+        $cache->save($cacheKey, $segments);
 
         return $segments;
     }
@@ -196,7 +231,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
-     * @deprecated since Piwik 2.15.1
+     * @deprecated since Matomo 2.15.1
      */
     public function getLogoUrl($pathOnly = false)
     {
@@ -209,7 +244,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
-     * @deprecated since Piwik 2.15.1
+     * @deprecated since Matomo 2.15.1
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
@@ -282,7 +317,7 @@ class API extends \Piwik\Plugin\API
                 $idSite = $idSites;
             }
         } elseif (empty($idSite) && empty($idSites)) {
-            throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Piwik 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
+            throw new \Exception('Calling API.getReportMetadata without any idSite is no longer supported since Matomo 3.0.0. Please specifiy at least one idSite via the "idSite" parameter.');
         }
 
         Piwik::checkUserHasViewAccess($idSite);
@@ -305,7 +340,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a list of all pages that shall be shown in a Piwik UI including a list of all widgets that shall
+     * Get a list of all pages that shall be shown in a Matomo UI including a list of all widgets that shall
      * be shown within each page.
      *
      * @param int $idSite
@@ -380,7 +415,7 @@ class API extends \Piwik\Plugin\API
         krsort($columnsByPlugin);
 
         $mergedDataTable = false;
-        $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
+        $params = compact('idSite', 'period', 'date', 'segment');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
@@ -431,11 +466,33 @@ class API extends \Piwik\Plugin\API
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
     {
+        // check if site exists
+        $idSite = (int) $idSite;
+        $site = new Site($idSite);
+
         Piwik::checkUserHasViewAccess($idSite);
+
+        $apiParameters = array();
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            if ($entityName === 'idGoal' && is_numeric($idGoal)) {
+                $apiParameters['idGoal'] = $idGoal;
+            } elseif ($entityName === 'idDimension' && $idDimension) {
+                $apiParameters['idDimension'] = $idDimension;
+            } else {
+                // ideally it would get the value from API params but dynamic params is not possible yet in API. If this
+                // method is called eg in Request::processRequest, it could in theory pick up a param from the original request
+                // and not from the API request within the original request.
+                $idEntity = Common::getRequestVar($entityName, 0, 'int');
+                if ($idEntity > 0) {
+                    $apiParameters[$entityName] = $idEntity;
+                }
+            }
+        }
 
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl, $idDimension);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl);
     }
 
     /**
@@ -572,7 +629,7 @@ class API extends \Piwik\Plugin\API
 
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
-        $startDate = Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -646,7 +703,7 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl'
+            'outlinkUrl', 'downloadUrl', 'eventUrl'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
@@ -657,7 +714,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $values
-     * @param $value
+     *
      * @return array
      */
     private function getMostFrequentValues($values)
@@ -674,9 +731,25 @@ class API extends \Piwik\Plugin\API
         // we have a list of all values. let's show the most frequently used first.
         $values = array_count_values($values);
 
-        arsort($values);
-        $values = array_keys($values);
-        return $values;
+        // Sort this list by converting and sorting the array with custom method, so the result doesn't differ between PHP versions
+        $sortArray = [];
+
+        foreach ($values as $value => $count) {
+            $sortArray[] = [
+                'value' => $value,
+                'count' => $count
+            ];
+        }
+
+        usort($sortArray, function($a, $b) {
+            if ($a['count'] == $b['count']) {
+                return strcmp($a['value'], $b['value']);
+            }
+
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
+
+        return array_column($sortArray, 'value');
     }
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
@@ -708,17 +781,24 @@ class Plugin extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Platform.initialized' => 'detectIsApiRequest'
         );
+    }
+
+    public function detectIsApiRequest()
+    {
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
+        $stylesheets[] = "plugins/API/stylesheets/glossary.less";
     }
 }

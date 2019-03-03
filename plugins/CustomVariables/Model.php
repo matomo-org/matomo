@@ -9,9 +9,12 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
+use Psr\Log\LoggerInterface;
 
 class Model
 {
@@ -23,6 +26,7 @@ class Model
 
     private $scope = null;
     private $table = null;
+    private $tableUnprefixed = null;
 
     public function __construct($scope)
     {
@@ -31,7 +35,13 @@ class Model
         }
 
         $this->scope = $scope;
-        $this->table = Common::prefixTable($this->getTableNameFromScope($scope));
+        $this->tableUnprefixed = $this->getTableNameFromScope($scope);
+        $this->table = Common::prefixTable($this->tableUnprefixed);
+    }
+
+    public function getUnprefixedTableName()
+    {
+        return $this->tableUnprefixed;
     }
 
     private function getTableNameFromScope($scope)
@@ -47,8 +57,27 @@ class Model
         }
     }
 
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
     public function getScopeName()
     {
+        return ucfirst($this->scope);
+    }
+
+    public function getScopeDescription()
+    {
+        switch ($this->scope) {
+            case Model::SCOPE_PAGE:
+                return Piwik::translate('CustomVariables_ScopePage');
+            case Model::SCOPE_VISIT:
+                return Piwik::translate('CustomVariables_ScopeVisit');
+            case Model::SCOPE_CONVERSION:
+                return Piwik::translate('CustomVariables_ScopeConversion');
+        }
+
         return ucfirst($this->scope);
     }
 
@@ -167,7 +196,10 @@ class Model
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
-                Log::error('Failed to add custom variable: ' . $e->getMessage());
+                StaticContainer::get(LoggerInterface::class)->error('Failed to add custom variable: {exception}', [
+                    'exception' => $e,
+                    'ignoreInScreenWriter' => true,
+                ]);
             }
         }
     }

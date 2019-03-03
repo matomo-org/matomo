@@ -161,11 +161,14 @@ class ArchiveSelector
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment) . "
                                 AND %s
-                           GROUP BY idsite, date1, date2";
+                           GROUP BY idsite, date1, date2, name";
 
         $monthToPeriods = array();
         foreach ($periods as $period) {
             /** @var Period $period */
+            if ($period->getDateStart()->isLater(Date::now()->addDay(2))) {
+                continue; // avoid creating any archive tables in the future
+            }
             $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
             $monthToPeriods[$table][] = $period;
         }
@@ -178,8 +181,7 @@ class ArchiveSelector
             $bind = array();
 
             if ($firstPeriod instanceof Range) {
-                $dateCondition = "period = ? AND date1 = ? AND date2 = ?";
-                $bind[] = $firstPeriod->getId();
+                $dateCondition = "date1 = ? AND date2 = ?";
                 $bind[] = $firstPeriod->getDateStart()->toString('Y-m-d');
                 $bind[] = $firstPeriod->getDateEnd()->toString('Y-m-d');
             } else {
@@ -314,7 +316,7 @@ class ArchiveSelector
     private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
     {
         // $blobs = array([subtableID] = [blob of subtableId])
-        $blobs = unserialize($row['value']);
+        $blobs = Common::safe_unserialize($row['value']);
 
         if (!is_array($blobs)) {
             return;

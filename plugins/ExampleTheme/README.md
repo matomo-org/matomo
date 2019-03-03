@@ -1,4 +1,4 @@
-# Piwik ExampleTheme Theme
+# Matomo ExampleTheme Theme
 
 ## Description
 

@@ -1,11 +1,11 @@
 {
  "name": "ExampleReport",
  "version": "0.1.0",
- "description": "Piwik Platform showcase: how to define and display a data report.",
+ "description": "Matomo Platform showcase: how to define and display a data report.",
  "theme": false,
  "authors": [
      {
-         "name": "Piwik",
+         "name": "Matomo",
          "email": "",
          "homepage": ""
      }

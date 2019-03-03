@@ -32,7 +32,7 @@
         var defaults = {
             name: '',
             siteid: piwik.idSite,
-            sitename: piwik.siteName,
+            sitename: piwik.helper.htmlDecode(piwik.siteName),
             allSitesLocation: 'bottom',
             allSitesText: $filter('translate')('General_MultiSitesSummary'),
             showSelectedSite: 'false',
@@ -50,7 +50,8 @@
                 onlySitesWithAdminAccess: '=',
                 inputName: '@name',
                 allSitesText: '@',
-                allSitesLocation: '@'
+                allSitesLocation: '@',
+                placeholder: '@'
             },
             require: "?ngModel",
             templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.directive.html?cb=' + piwik.cacheBuster,

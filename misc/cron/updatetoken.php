@@ -43,7 +43,7 @@ if ($testmode) {
 function getPiwikDomain()
 {
     foreach($_SERVER['argv'] as $param) {
-        $pattern = '--piwik-domain=';
+        $pattern = '--matomo-domain=';
         if(false !== strpos($param, $pattern)) {
             return substr($param, strlen($pattern));
         }
@@ -51,13 +51,14 @@ function getPiwikDomain()
     return null;
 }
 
-$environment = new Environment('cli');
-$environment->init();
 
 $piwikDomain = getPiwikDomain();
 if($piwikDomain) {
     Url::setHost($piwikDomain);
 }
+
+$environment = new Environment('cli');
+$environment->init();
 
 $token = Db::get()->fetchOne("SELECT token_auth
                               FROM " . Common::prefixTable("user") . "

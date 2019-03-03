@@ -34,6 +34,7 @@ class TestsRun extends ConsoleCommand
         $this->addOption('group', null, InputOption::VALUE_REQUIRED, 'Run only a specific test group. Separate multiple groups by comma, for instance core,plugins', '');
         $this->addOption('file', null, InputOption::VALUE_REQUIRED, 'Execute tests within this file. Should be a path relative to the tests/PHPUnit directory.');
         $this->addOption('testsuite', null, InputOption::VALUE_REQUIRED, 'Execute tests of a specific test suite, for instance unit, integration or system.');
+        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'Enable logging to the configured log file during tests.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -41,6 +42,9 @@ class TestsRun extends ConsoleCommand
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
         $magics  = $input->getArgument('variables');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $enableLogging = $input->getOption('enable-logging');
 
         $groups = $this->getGroupsFromString($groups);
 
@@ -113,7 +117,7 @@ class TestsRun extends ConsoleCommand
             }
         }
 
-        $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
+        $this->executeTests($matomoDomain, $suite, $testFile, $groups, $options, $command, $output, $enableLogging);
 
         return $this->returnVar;
     }
@@ -158,12 +162,12 @@ class TestsRun extends ConsoleCommand
         return $this->fixPathToTestFileOrDirectory($testFile);
     }
 
-    private function executeTests($suite, $testFile, $groups, $options, $command, OutputInterface $output)
+    private function executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, OutputInterface $output, $enableLogging)
     {
         if (empty($suite) && empty($groups) && empty($testFile)) {
             foreach ($this->getTestsSuites() as $suite) {
                 $suite = $this->buildTestSuiteName($suite);
-                $this->executeTests($suite, $testFile, $groups, $options, $command, $output);
+                $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $output, $enableLogging);
             }
 
             return;
@@ -175,12 +179,20 @@ class TestsRun extends ConsoleCommand
             $params = $params . " " . $testFile;
         }
 
-        $this->executeTestRun($command, $params, $output);
+        $this->executeTestRun($piwikDomain, $command, $params, $output, $enableLogging);
     }
 
-    private function executeTestRun($command, $params, OutputInterface $output)
+    private function executeTestRun($piwikDomain, $command, $params, OutputInterface $output, $enableLogging)
     {
-        $cmd = $this->getCommand($command, $params);
+        $envVars = '';
+        if (!empty($piwikDomain)) {
+            $envVars .= "PIWIK_DOMAIN=$piwikDomain";
+        }
+        if (!empty($enableLogging)) {
+            $envVars .= " MATOMO_TESTS_ENABLE_LOGGING=1";
+        }
+
+        $cmd = $this->getCommand($envVars, $command, $params);
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         passthru($cmd, $returnVar);
         $output->writeln("");
@@ -198,9 +210,9 @@ class TestsRun extends ConsoleCommand
      * @param $params
      * @return string
      */
-    private function getCommand($command, $params)
+    private function getCommand($envVars, $command, $params)
     {
-        return sprintf('cd %s/tests/PHPUnit && %s %s', PIWIK_DOCUMENT_ROOT, $command, $params);
+        return sprintf('cd %s/tests/PHPUnit && %s %s %s', PIWIK_DOCUMENT_ROOT, $envVars, $command, $params);
     }
 
     private function buildPhpUnitCliParams($suite, $groups, $options)

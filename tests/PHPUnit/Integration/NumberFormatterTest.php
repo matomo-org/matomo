@@ -121,7 +121,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('en', -5000000, 0, 0, '-5,000,000%'),
 
             // foreign languages
-            array('ar', 51239.56, 3, 0, '51٬239٫56 ٪؜'),
+            array('ar', 51239.56, 3, 0, '51٬239٫56٪؜'),
             array('be', 51239.56, 3, 0, '51 239,56 %'),
             array('de', 51239.56, 3, 0, '51.239,56 %'),
             array('bn', 152551239.56, 3, 0, '152,551,239.56%'),
@@ -153,5 +153,28 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('en', 5000000, '+5,000,000%'),
             array('en', -5000000, '-5,000,000%'),
         );
+    }
+
+    public function testChangeLanguage()
+    {
+        $this->translator->setCurrentLanguage('en');
+        $numberFormatter = new NumberFormatter($this->translator);
+      
+        $this->assertEquals('5,000.1', $numberFormatter->formatNumber(5000.1, 1));
+        $this->assertEquals('50.1%', $numberFormatter->formatPercent(50.1, 1));
+        $this->assertEquals('+50%', $numberFormatter->formatPercentEvolution(50));
+        $this->assertEquals('$5,000.1', $numberFormatter->formatCurrency(5000.1, '$'));
+      
+        $this->translator->setCurrentLanguage('de');
+        $this->assertEquals('5.000,1', $numberFormatter->formatNumber(5000.1, 1));
+        $this->assertEquals('50,1 %', $numberFormatter->formatPercent(50.1, 1));
+        $this->assertEquals('+50 %', $numberFormatter->formatPercentEvolution(50));
+        $this->assertEquals('5.000,1 €', $numberFormatter->formatCurrency(5000.1, '€'));
+
+        $this->translator->setCurrentLanguage('ar');
+        $this->assertEquals('5٬000٫1٪؜', $numberFormatter->formatPercent(5000.1, 1));
+
+        $this->translator->setCurrentLanguage('bn');
+        $this->assertEquals('50,00,000', $numberFormatter->formatNumber(5000000));
     }
 }

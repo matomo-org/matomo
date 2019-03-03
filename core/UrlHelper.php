@@ -17,7 +17,15 @@ use Piwik\Intl\Data\Provider\RegionDataProvider;
  */
 class UrlHelper
 {
-    
+    private static $validLinkProtocols = [
+        'http',
+        'https',
+        'tel',
+        'sms',
+        'mailto',
+        'callto',
+    ];
+
     /**
     * Checks if a string matches/is equal to one of the patterns/strings.
     *
@@ -134,7 +142,23 @@ class UrlHelper
     public static function isLookLikeUrl($url)
     {
         return preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
-            && strlen($matches[3]) > 0;
+            && strlen($matches[3]) > 0
+            && !preg_match('/^(javascript:|vbscript:|data:)/i', $matches[1])
+            ;
+    }
+
+    public static function isLookLikeSafeUrl($url)
+    {
+        if (preg_match('/[\x00-\x1F\x7F]/', $url)) {
+            return false;
+        }
+
+        if (strpos($url, ':') === false) {
+            return true;
+        }
+
+        $protocol = explode(':', $url, 2)[0];
+        return preg_match('/^(' . implode('|', self::$validLinkProtocols) . ')$/i', $protocol);
     }
 
     /**

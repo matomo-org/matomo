@@ -161,13 +161,11 @@ class Archiver extends \Piwik\Plugin\Archiver
             )
         );
 
-        $where = "log_link_visit_action.server_time >= ?
-                AND log_link_visit_action.server_time <= ?
-                AND log_link_visit_action.idsite = ?
-                AND log_link_visit_action.%s IS NOT NULL"
+        $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.%s IS NOT NULL"
             . $this->getWhereClauseActionIsNotEvent();
 
-        $groupBy = "log_action.idaction";
+        $groupBy = "log_link_visit_action.%s";
         $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
 
         $rankingQuery = false;
@@ -285,12 +283,10 @@ class Archiver extends \Piwik\Plugin\Archiver
                 sum(log_visit.visit_total_time) as `" . PiwikMetrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH . "`,
                 sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . PiwikMetrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT . "`";
 
-        $where = "log_visit.visit_last_action_time >= ?
-                AND log_visit.visit_last_action_time <= ?
-                AND log_visit.idsite = ?
-                 AND log_visit.%s > 0";
+        $where  = $this->getLogAggregator()->getWhereStatement('log_visit', 'visit_last_action_time');
+        $where .= " AND log_visit.%s > 0";
 
-        $groupBy = "log_visit.%s, idaction";
+        $groupBy = "log_visit.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_entry_idaction_url", $rankingQuery);
 
@@ -330,12 +326,10 @@ class Archiver extends \Piwik\Plugin\Archiver
                 count(distinct log_visit.idvisitor) as `" . PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS . "`,
                 count(*) as `" . PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
 
-        $where = "log_visit.visit_last_action_time >= ?
-                AND log_visit.visit_last_action_time <= ?
-                 AND log_visit.idsite = ?
-                 AND log_visit.%s > 0";
+        $where  = $this->getLogAggregator()->getWhereStatement('log_visit', 'visit_last_action_time');
+        $where .= " AND log_visit.%s > 0";
 
-        $groupBy = "log_visit.%s, idaction";
+        $groupBy = "log_visit.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_exit_idaction_url", $rankingQuery);
 
@@ -374,14 +368,12 @@ class Archiver extends \Piwik\Plugin\Archiver
         $select = "log_link_visit_action.%s as idaction, $extraSelects
                 sum(log_link_visit_action.time_spent_ref_action) as `" . PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
-        $where = "log_link_visit_action.server_time >= ?
-                AND log_link_visit_action.server_time <= ?
-                 AND log_link_visit_action.idsite = ?
-                 AND log_link_visit_action.time_spent_ref_action > 0
+        $where = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.time_spent_ref_action > 0
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
 
-        $groupBy = "log_link_visit_action.%s, idaction";
+        $groupBy = "log_link_visit_action.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url_ref", $rankingQuery);
 

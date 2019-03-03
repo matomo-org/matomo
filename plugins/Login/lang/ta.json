@@ -3,7 +3,6 @@
         "InvalidOrExpiredToken": "தவறான அல்லது காலாவதியான ஞாபகக்குறி",
         "InvalidUsernameEmail": "தவறான பயனாளர் பெயர் அல்லது ஈமெயில் முகவரி.",
         "LogIn": "உள்நுழைய",
-        "LoginOrEmail": "பயனாளர்பெயர் அல்லது ஈமெயில் முகவரி",
         "LoginPasswordNotCorrect": "பயனாளர்பெயர் மற்றும் கடவுச்சொல் பொருந்தவில்லை.",
         "LostYourPassword": "கடவுச்சொல் மறந்து போனதா?",
         "PasswordRepeat": "கடவுச்சொல் (மீண்டும்)",

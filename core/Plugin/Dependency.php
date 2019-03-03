@@ -125,7 +125,7 @@ class Dependency
 
         foreach ($requires as $name => $requiredVersion) {
             $nameLower = strtolower($name);
-            $isPluginRequire = !in_array($nameLower, array('piwik', 'php'));
+            $isPluginRequire = !in_array($nameLower, array('piwik', 'php', 'matomo'));
             if ($isPluginRequire) {
                 // we do not check version, only whether it's activated. Everything that is not piwik or php is assumed
                 // a plugin so far.
@@ -141,6 +141,7 @@ class Dependency
     private function getCurrentVersion($name)
     {
         switch (strtolower($name)) {
+            case 'matomo':
             case 'piwik':
                 return $this->piwikVersion;
             case 'php':

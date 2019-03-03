@@ -14,7 +14,9 @@
 				<goalPageId />
 				
 				<url>http://localhost</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<title>Goal conversion</title>
+				<subtitle>triggered js</subtitle>
 				
 			</row>
 			<row>
@@ -23,7 +25,14 @@
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<title>Profile page</title>
+				<subtitle>http://localhost</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>Name_PAGE_1</customVariablePageName1>
@@ -58,9 +67,7 @@
 						<customVariablePageValue8>Val_PAGE8</customVariablePageValue8>
 					</row>
 				</customVariables>
-				<interactionPosition>1</interactionPosition>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -70,13 +77,19 @@
 		
 		
 		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -91,15 +104,17 @@
 		<referrerName>Google</referrerName>
 		<referrerKeyword>this keyword should be ranked</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/search?q=this+keyword+should+be+ranked</referrerUrl>
+		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -112,6 +127,12 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
@@ -177,16 +198,5 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 </result>

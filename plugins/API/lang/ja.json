@@ -4,13 +4,14 @@
         "GenerateVisits": "今日のデータがない場合は、%1$s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%2$s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
         "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%1$s絶対に共有しないでください%2$s！",
         "LoadedAPIs": "%s API が正常に読み込まれました",
-        "MoreInformation": "Piwik API の詳細については、%1$sIntroduction to Piwik API%2$s や %3$sPiwik API Reference%4$s を参照してください。",
-        "PluginDescription": "Pwik の全てのデータは簡単な API を通して利用することができます。このプラグインはウェブサービスの入り口で、xml , json , php , csv などのあなたのウェブ分析データを入手するために呼び出すことができます。",
-        "ReportingApiReference": "API リファレンスを報告",
-        "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムで分析データにアクセスできます",
+        "MoreInformation": "Matomo API の詳細については、%1$sMatomo API 入門%2$sと%3$s Matomo API リファレンス%4$sをご覧ください。",
+        "PluginDescription": "Matomo のすべてのデータは、シンプルな API を介して利用できます。 このプラグインは、xml、json、php、csv などで Web Analytics データを取得するために呼び出すことのできる Web サービスのエントリポイントです。",
+        "ReportingApiReference": "API リファレンスレポート",
+        "TopLinkTooltip": "jsopn、xml 等シンプルな API を介して、プログラムで Web Analytics データにアクセスできます。",
         "UserAuthentication": "ユーザー認証",
         "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",
         "Glossary": "用語集",
-        "LearnAboutCommonlyUsedTerms": "Piwik Analytics の最もよく使われる用語について: %1$s と %2$s"
+        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について学びましょう。",
+        "EvolutionMetricName": "%s 推移"
     }
 }

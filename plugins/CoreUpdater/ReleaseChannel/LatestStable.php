@@ -30,7 +30,7 @@ class LatestStable extends ReleaseChannel
 
     public function getDownloadUrlWithoutScheme($version)
     {
-        return '://builds.piwik.org/piwik.zip';
+        return '://builds.matomo.org/piwik.zip';
     }
 
     public function getOrder()

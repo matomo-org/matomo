@@ -16,7 +16,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -26,11 +25,9 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
-use Piwik\Theme;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -207,6 +204,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
+            DbHelper::recordInstallVersion();
 
             $this->updateComponents();
 
@@ -403,7 +401,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormDefaultSettings();
 
         /**
-         * Triggered on initialization of the form to customize default Piwik settings (at the end of the installation process).
+         * Triggered on initialization of the form to customize default Matomo settings (at the end of the installation process).
          *
          * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
          */
@@ -414,7 +412,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form->validate()) {
             try {
                 /**
-                 * Triggered on submission of the form to customize default Piwik settings (at the end of the installation process).
+                 * Triggered on submission of the form to customize default Matomo settings (at the end of the installation process).
                  *
                  * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
                  */
@@ -451,7 +449,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * This controller action renders an admin tab that runs the installation
      * system check, so people can see if there are any issues w/ their running
-     * Piwik installation.
+     * Matomo installation.
      *
      * This admin tab is only viewable by the Super User.
      */
@@ -554,9 +552,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config = Config::getInstance();
 
         // make sure DB sessions are used if the filesystem is NFS
-        if (Filesystem::checkIfFileSystemIsNFS()) {
-            $config->General['session_save_handler'] = 'dbtable';
-        }
         if (count($headers = ProxyHeaders::getProxyClientHeaders()) > 0) {
             $config->General['proxy_client_headers'] = $headers;
         }

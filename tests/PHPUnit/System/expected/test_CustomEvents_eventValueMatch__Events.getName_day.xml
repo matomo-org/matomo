@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>La fiancée de l'eau</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>20</sum_event_value>
+		<min_event_value>10</min_event_value>
+		<max_event_value>10</max_event_value>
+		<avg_event_value>10</avg_event_value>
+		<segment>eventName==La+fianc%C3%A9e+de+l%26%23039%3Beau</segment>
+		<subtable>
+			<row>
+				<label>rating</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>20</sum_event_value>
+				<min_event_value>10</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>10</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Spirited Away (千と千尋の神隠し)</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>19.32</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>9.66</max_event_value>
+		<avg_event_value>9.66</avg_event_value>
+		<segment>eventName==Spirited+Away+%28%E5%8D%83%E3%81%A8%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A5%9E%E9%9A%A0%E3%81%97%29</segment>
+		<subtable>
+			<row>
+				<label>rating</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+</result>

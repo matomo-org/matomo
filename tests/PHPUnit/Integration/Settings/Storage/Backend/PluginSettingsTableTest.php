@@ -198,6 +198,24 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
+    public function test_save_load_ShouldBeAbleToSaveAndLoadObjectValues()
+    {
+        $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => (object) array('val', 'val7', 'val5'));
+
+        $this->backendUser1->save($value1);
+
+        $value1['Mysetting2'] = (array) $value1['Mysetting2'];
+        $this->assertEquals($value1, $this->backendUser1->load());
+    }
+
+    public function test_save_load_ShouldBeAbleToSaveNestedArrays()
+    {
+        $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array(array('foo' => 'bar'),array('foo' => 'baz')));
+
+        $this->backendUser1->save($value1);
+        $this->assertEquals($value1, $this->backendUser1->load());
+    }
+
     public function test_save_load_ShouldBeAbleToSaveAndLoadArrayValues_OnlyOneKey()
     {
         $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val'));
@@ -205,7 +223,7 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->backendUser1->save($value1);
 
 
-        $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => 'val');
+        $value1 = array('Mysetting1' => 'value1', 'Mysetting2' => array('val'));
         // it doesn't return an array for Mysetting2 but it is supposed to be casted to array by storage in this case
         $this->assertEquals($value1, $this->backendUser1->load());
     }
@@ -216,17 +234,17 @@ class PluginSettingsTableTest extends IntegrationTestCase
 
         $this->backendUser1->save($value1);
 
-        $value1 = array('Mysetting1' => '1', 'Mysetting2' => array('val', 'val7', '0', '1', 'val5'));
+        $value1 = array('Mysetting1' => '1', 'Mysetting2' => array('val', 'val7', false, true, 'val5'));
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
-    public function test_save_ShouldIgnoreNullValues()
+    public function test_save_ShouldIgnoreNullValuesButNotInArray()
     {
         $value1 = array('Mysetting1' => true, 'MySetting3' => null, 'Mysetting2' => array('val', null, true, 'val5'));
 
         $this->backendUser1->save($value1);
 
-        $value1 = array('Mysetting1' => '1', 'Mysetting2' => array('val', '1', 'val5'));
+        $value1 = array('Mysetting1' => '1', 'Mysetting2' => array('val', null, true, 'val5'));
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 

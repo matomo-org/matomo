@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Console;
+use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
 
 /**
  * @group Plugin
@@ -80,6 +82,22 @@ class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame("- 1 ['nb_visits' => 5, 'nb_random' => 10] [] [idsubtable = ]<br />
 ", $response);
+    }
+
+    public function test_renderDataTableWithObjects_shouldReturnResult()
+    {
+        $dataTable = new DataTable();
+        $dataTable->addRowFromSimpleArray(array('nb_visits' => 5, 'nb_random' => 10));
+        $dataTable->setMetadata('processedRows', [
+            new AverageTimeOnSite(),
+            new \stdClass(),
+            Date::factory('2016-01-01 00:00:00')
+        ]);
+
+        $response = $this->builder->renderDataTable($dataTable);
+
+        $this->assertSame("- 1 ['nb_visits' => 5, 'nb_random' => 10] [] [idsubtable = ]<br />
+<hr />Metadata<br /><br /> <b>processedRows</b><br />0 => Object [Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite]1 => Object [stdClass]2 => 2016-01-01", $response);
     }
 
     public function test_renderArray_ShouldReturnConsoleResult()

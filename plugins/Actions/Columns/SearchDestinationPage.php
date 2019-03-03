@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class SearchDestinationPage extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('General_ColumnDestinationPage');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'General_ColumnDestinationPage';
 }

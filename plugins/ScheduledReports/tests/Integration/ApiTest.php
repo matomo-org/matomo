@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports\tests;
 
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
@@ -454,12 +455,13 @@ class ApiTest extends IntegrationTestCase
                     $result->addRowFromSimpleArray(array('label' => 'referrers label', 'nb_visits' => 1));
                     return $result;
                 case '\Piwik\Plugins\API\API':
+                case '\Piwik\Plugins\LanguagesManager\API':
                     return $realProxy->call($className, $methodName, $parametersRequest);
                 default:
                     throw new \Exception("Unexpected method $className::$methodName.");
             }
         });
-        Proxy::setSingletonInstance($mockProxy);
+        StaticContainer::getContainer()->set(Proxy::class, $mockProxy);
 
         $idReport = APIScheduledReports::getInstance()->addReport(
             1,
@@ -484,6 +486,208 @@ class ApiTest extends IntegrationTestCase
         $this->assertContains('id="VisitsSummary_get"', $result);
         $this->assertContains('id="Referrers_getWebsites"', $result);
         $this->assertNotContains('id="UserCountry_getCountry"', $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid evolutionPeriodFor value
+     */
+    public function test_addReport_validatesEvolutionPeriodForParam()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'garbage'
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Evolution period amount must be a positive number
+     */
+    public function test_addReport_validatesEvolutionPeriodNParam()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'prev',
+            -5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
+     */
+    public function test_addReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    {
+        self::setSuperUser();
+
+        APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'each',
+            5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid evolutionPeriodFor value
+     */
+    public function test_updateReport_validatesEvolutionPeriodForParam()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'garbage'
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Evolution period amount must be a positive number
+     */
+    public function test_updateReport_validatesEvolutionPeriodNParam()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'prev',
+            -5
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".
+     */
+    public function test_updateReport_throwsIfEvolutionPeriodNParamIsEach_AndLastNSupplied()
+    {
+        self::setSuperUser();
+
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->updateReport(
+            $idReport,
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY),
+            false,
+            'each',
+            5
+        );
     }
 
     private function assertReportsEqual($report, $data)

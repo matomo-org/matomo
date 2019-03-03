@@ -12,15 +12,11 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Common;
-use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Plugin\Segment;
 use Piwik\Plugin;
-use Exception;
 
 /**
  * Defines a new conversion dimension that records any visit related information during tracking.
@@ -40,116 +36,8 @@ abstract class ConversionDimension extends Dimension
 {
     const INSTALLER_PREFIX = 'log_conversion.';
 
-    private $tableName = 'log_conversion';
-
-    /**
-     * Installs the conversion dimension in case it is not installed yet. The installation is already implemented based
-     * on the {@link $columnName} and {@link $columnType}. If you want to perform additional actions beside adding the
-     * column to the database - for instance adding an index - you can overwrite this method. We recommend to call
-     * this parent method to get the minimum required actions and then add further custom actions since this makes sure
-     * the column will be installed correctly. We also recommend to change the default install behavior only if really
-     * needed. FYI: We do not directly execute those alter table statements here as we group them together with several
-     * other alter table statements do execute those changes in one step which results in a faster installation. The
-     * column will be added to the `log_conversion` MySQL table.
-     *
-     * Example:
-     * ```
-    public function install()
-    {
-    $changes = parent::install();
-    $changes['log_conversion'][] = "ADD INDEX index_idsite_servertime ( idsite, server_time )";
-
-    return $changes;
-    }
-    ```
-     *
-     * @return array An array containing the table name as key and an array of MySQL alter table statements that should
-     *               be executed on the given table. Example:
-     * ```
-    array(
-    'log_conversion' => array("ADD COLUMN `$this->columnName` $this->columnType", "ADD INDEX ...")
-    );
-    ```
-     * @api
-     */
-    public function install()
-    {
-        if (empty($this->columnName) || empty($this->columnType)) {
-            return array();
-        }
-
-        return array(
-            $this->tableName => array("ADD COLUMN `$this->columnName` $this->columnType")
-        );
-    }
-
-    /**
-     * @see ActionDimension::update()
-     * @return array
-     * @ignore
-     */
-    public function update()
-    {
-        if (empty($this->columnName) || empty($this->columnType)) {
-            return array();
-        }
-
-        return array(
-            $this->tableName => array("MODIFY COLUMN `$this->columnName` $this->columnType")
-        );
-    }
-
-    /**
-     * Uninstalls the dimension if a {@link $columnName} and {@link columnType} is set. In case you perform any custom
-     * actions during {@link install()} - for instance adding an index - you should make sure to undo those actions by
-     * overwriting this method. Make sure to call this parent method to make sure the uninstallation of the column
-     * will be done.
-     * @throws Exception
-     * @api
-     */
-    public function uninstall()
-    {
-        if (empty($this->columnName) || empty($this->columnType)) {
-            return;
-        }
-
-        try {
-            $sql = "ALTER TABLE `" . Common::prefixTable($this->tableName) . "` DROP COLUMN `$this->columnName`";
-            Db::exec($sql);
-        } catch (Exception $e) {
-            if (!Db::get()->isErrNo($e, '1091')) {
-                throw $e;
-            }
-        }
-    }
-
-    /**
-     * @see ActionDimension::getVersion()
-     * @return string
-     * @ignore
-     */
-    public function getVersion()
-    {
-        return $this->columnType;
-    }
-
-    /**
-     * Adds a new segment. It automatically sets the SQL segment depending on the column name in case none is set
-     * already.
-     *
-     * @see \Piwik\Columns\Dimension::addSegment()
-     * @param Segment $segment
-     * @api
-     */
-    protected function addSegment(Segment $segment)
-    {
-        $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->columnName) && empty($sqlSegment)) {
-            $segment->setSqlSegment($this->tableName . '.' . $this->columnName);
-        }
-
-        parent::addSegment($segment);
-    }
+    protected $dbTableName = 'log_conversion';
+    protected $category = 'Goals_Conversion';
 
     /**
      * Get all conversion dimensions that are defined by all activated plugins.

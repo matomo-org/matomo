@@ -139,6 +139,20 @@ class MigrationsTest extends IntegrationTestCase
     /**
      * @depends test_addPrimaryIndex
      */
+    public function test_dropPrimaryKey()
+    {
+        $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
+        $this->assertCount(1, $index);
+
+        $this->factory->dropPrimaryKey($this->testTable)->exec();
+
+        $index = Db::fetchAll("SHOW INDEX FROM {$this->testTablePrefixed} WHERE Key_name = 'PRIMARY'");
+        $this->assertCount(0, $index);
+    }
+
+    /**
+     * @depends test_addPrimaryIndex
+     */
     public function test_changeColumnType()
     {
         $this->factory->changeColumnType($this->testTable, 'column2', 'SMALLINT(4) NOT NULL')->exec();

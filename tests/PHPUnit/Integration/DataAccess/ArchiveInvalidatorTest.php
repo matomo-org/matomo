@@ -66,7 +66,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
     {
-        $key = 'report_to_invalidate_2_2014-04-05';
+        //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
+        $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
         $this->assertFalse(Option::get($key));
 
         $this->rememberReport(2, '2014-04-05');

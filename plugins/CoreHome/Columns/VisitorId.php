@@ -8,9 +8,12 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 
 /**
  * Dimension for the log_visit.idvisitor column. This column is added in the CREATE TABLE
@@ -18,19 +21,21 @@ use Piwik\Plugin\Segment;
  */
 class VisitorId extends VisitDimension
 {
-    protected function configureSegments()
-    {
-        parent::configureSegments();
+    protected $columnName = 'idvisitor';
+    protected $metricId = 'visitors';
+    protected $nameSingular = 'General_VisitorID';
+    protected $namePlural = 'General_Visitors';
+    protected $segmentName = 'visitorId';
+    protected $acceptValues = '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()';
+    protected $allowAnonymous = false;
+    protected $sqlFilterValue = array('Piwik\Common', 'convertVisitorIdToBin');
+    protected $type = self::TYPE_BINARY;
 
-        $segment = new Segment();
-        $segment->setType('dimension');
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName('General_VisitorID');
-        $segment->setSegment('visitorId');
-        $segment->setAcceptedValues('34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()');
-        $segment->setSqlSegment('log_visit.idvisitor');
-        $segment->setSqlFilterValue(array('Piwik\Common', 'convertVisitorIdToBin'));
-        $segment->setRequiresAtLeastViewAccess(true);
-        $this->addSegment($segment);
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
+        $metric->setTranslatedName(Piwik::translate('General_ColumnNbUniqVisitors'));
+        $metric->setName('nb_uniq_visitors');
+        $metricsList->addMetric($metric);
     }
 }

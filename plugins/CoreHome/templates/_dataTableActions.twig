@@ -33,6 +33,22 @@
             </ul>
         {% endset %}
 
+        {% if properties.show_periods %}
+            <a class="dropdown-button dataTableAction activatePeriodsSelection"
+               href="javascript:;"
+               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
+               data-activates="dropdownPeriods{{ randomIdForDropdown }}">
+                <span class="icon-calendar"></span>
+            </a>
+            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
+                {% for selectablePeriod in properties.selectable_periods %}
+                    <li>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon"{% endif %}"><span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
@@ -46,9 +62,28 @@
             {{ visualizationIcons|raw }}
         {% endif %}
 
-        <a class='dropdown-button dataTableAction activateExportSelection'
-           href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
-           data-activates='dropdownExport{{ randomIdForDropdown }}'><span class="icon-export"></span></a>
+        {% if properties.show_export %}
+            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
+
+            {% set formats = {"CSV":"CSV","TSV":"TSV (Excel)","XML":"XML","JSON":"Json","PHP":"PHP","HTML":"HTML"} %}
+            {% if properties.show_export_as_rss_feed %}
+                {% set formats = formats|merge({"RSS": "RSS"}) %}
+            {% endif %}
+
+            <a class="dataTableAction activateExportSelection" piwik-report-export
+               report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
+               api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
+               href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+               ><span class="icon-export"></span></a>
+        {% endif %}
+
+        {% if properties.show_export_as_image_icon %}
+            <a class="dataTableAction tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon"
+               onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;"
+               title="{{ 'General_ExportAsImage'|translate }}">
+                <span class="icon-image"></span>
+            </a>
+        {% endif %}
 
         {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
             <a class='dataTableAction annotationView'
@@ -68,27 +103,20 @@
             </a>
         {% endif %}
 
-        <ul id='dropdownExport{{ randomIdForDropdown }}' class='dropdown-content exportToFormatItems'>
-            {% set requestParams = properties.request_parameters_to_modify|json_encode %}
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.filter_limit }}">CSV</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.filter_limit }}">TSV (Excel)</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.filter_limit }}">XML</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.filter_limit }}">Json</a></li>
-            <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.filter_limit }}">Php</a></li>
-            {% if properties.show_export_as_rss_feed %}
-                <li><a target="_blank" requestParams="{{ requestParams|e('html_attr') }}" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.filter_limit }}" date="last10">
-                        <span class="icon-feed"></span> RSS
-                    </a>
-                </li>
-            {% endif %}
-            {% if properties.show_export_as_image_icon %}
-                <li><a class="tableIcon" href="javascript:;" id="dataTableFooterExportAsImageIcon" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
-                        <span class="icon-image"></span>
-                        {{ 'General_ExportAsImage'|translate }}
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
+        {% if properties.datatable_actions|default is not empty %}
+        {% for action in properties.datatable_actions %}
+            <a class='dataTableAction {{ action.id|e('html_attr') }}'
+               href='javascript:;' title="{{ action.title|e('html_attr') }}"
+            >
+                {% if action.icon starts with 'icon-' %}
+                    <span class="{{ action.icon }}"></span>
+                {% else %}
+                    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
+                {% endif %}
+            </a>
+        {% endfor %}
+        {% endif %}
+
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
@@ -98,6 +126,11 @@
                 {% endif %}
                 <li>
                     <div class="configItem dataTableFlatten"></div>
+                </li>
+            {% endif %}
+            {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
+                <li>
+                    <div class="configItem dataTableShowTotalsRow"></div>
                 </li>
             {% endif %}
             {% if properties.show_exclude_low_population %}

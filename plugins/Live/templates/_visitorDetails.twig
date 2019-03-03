@@ -1,0 +1,23 @@
+<strong class="visitor-log-datetime visitorLogTooltip" title="{% if visitInfo.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitInfo.getColumn('daysSinceLastVisit')) }}{% endif %}">
+    {{ visitInfo.getColumn('serverDatePrettyFirstAction') }}
+    {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}</strong>
+{% if visitInfo.getColumn('visitIp') is not empty %}
+<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|rawSafeDecoded }}
+{% endif %}{% if visitInfo.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitInfo.getColumn('visitorId') }}
+{% endif %}{% if visitInfo.getColumn('idVisit') is not empty %}
+{{ 'General_Visit'|translate }} ID: {{ visitInfo.getColumn('idVisit') }}
+{% endif %}{% if visitInfo.getColumn('latitude') or visitInfo.getColumn('longitude') %}{{ visitInfo.getColumn('location') }}
+GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('longitude') }}
+{% endif %}{% if visitInfo.getColumn('providerName') %}
+{{ 'Provider_ColumnProvider'|translate }}: {{ visitInfo.getColumn('providerName') }}{% endif %}">
+    IP: {{ visitInfo.getColumn('visitIp') }}
+    <br />
+    {% if visitInfo.getColumn('location') != 'General_Unknown'|translate %}<span><img width="16" class="flag" src="{{ visitInfo.getColumn('countryFlag') }}"/>&nbsp;
+    {% if visitInfo.getColumn('city') is not empty %}{{ visitInfo.getColumn('city') }}{% else %}{{ visitInfo.getColumn('country') }}{% endif %}</span>{% endif %}
+
+    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|rawSafeDecoded }}{% endif %}
+</span>{% endif %}
+{% if isWidget %}
+    <br />
+    {{ postEvent('Live.renderVisitorIcons', visitInfo) }}
+{% endif %}

@@ -6,6 +6,7 @@
         "PluginDescription": "يوضّح كثافة شاشة زوارك.",
         "Resolutions": "الكثافات النقطية",
         "WidgetGlobalVisitors": "الإعدادات العامة للزوار",
+        "WidgetGlobalVisitorsDocumentation": "يعرض هذا التقرير الإعدادات الأكثر شيوعاً لمجمل زوارك. يتضمن الإعداد نظام التشغيل، ونوع المتصفّح وكثافة الشاشة.",
         "WidgetResolutions": "كثافات الشاشة النقطية"
     }
 }

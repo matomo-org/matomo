@@ -32,7 +32,6 @@
     piwikWidget.$inject = ['piwik', 'piwikApi', 'reportMetadataModel'];
 
     function piwikWidget(piwik, piwikApi, reportMetadataModel){
-
         function findContainerWidget(containerId, scope) {
             widgetsHelper.getAvailableWidgets(function (categorizedWidgets) {
 
@@ -45,6 +44,7 @@
                                 widget.parameters.widget = '1';
                                 angular.forEach(widget.widgets, function (widget) {
                                     widget.parameters.widget = '1';
+                                    widget.parameters.containerId = containerId;
                                 });
                             }
                             scope.widget = widget;
@@ -69,12 +69,12 @@
         function applyMiddleware(scope)
         {
             if (!scope.widget.middlewareParameters) {
-                scope.$eval('view.showWidget = true');
+                scope.$evalAsync('view.showWidget = true');
             } else {
                 var params = angular.copy(scope.widget.middlewareParameters);
                 piwikApi.fetch(params).then(function (response) {
                     var enabled = response ? 'true' : 'false';
-                    scope.$eval('view.showWidget = ' + enabled);
+                    scope.$evalAsync('view.showWidget = ' + enabled);
                 });
             }
         }
@@ -96,6 +96,31 @@
                     } else if (attrs.containerid) {
                         findContainerWidget(attrs.containerid, scope);
                     }
+
+                    $(element).tooltip({
+                        track: true,
+                        content: function() {
+                            var $this = $(this);
+                            if ($this.attr('piwik-field') === '') {
+                                // do not show it for form fields
+                                return '';
+                            }
+
+                            var title = $(this).attr('title');
+                            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                        },
+                        show: {delay: 700, duration: 200},
+                        hide: false
+                    });
+
+                    scope.$on(
+                        "$destroy",
+                        function () {
+                            try {
+                                $(element).tooltip('destroy');
+                            } catch (e) {}
+                        }
+                    );
                 }
             }
         };

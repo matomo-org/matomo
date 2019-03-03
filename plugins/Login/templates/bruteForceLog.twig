@@ -1,0 +1,42 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Login_BruteForceLog'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block content-title="{{ 'Login_CurrentlyBlockedIPs'|translate|e('html_attr') }}">
+        {% if blockedIps is empty %}
+            <p>{{ 'UserCountryMap_None'|translate }}</p>
+        {% else %}
+            <ul style="margin-left: 20px;">
+                {% for blockedIp in blockedIps %}
+                <li style="list-style: disc;">{{ blockedIp }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if blockedIps is not empty %}
+            <p><br />{{ 'Login_CurrentlyBlockedIPsUnblockInfo'|translate }}</p>
+
+            <div>
+                <input type="button" class="btn" value="{{ 'Login_UnblockAllIPs'|translate }}" onclick="bruteForceLog.unblockAllIps();">
+            </div>
+
+            <div id="confirmUnblockAllIps" class="ui-confirm">
+                <h2>{{ 'Login_CurrentlyBlockedIPsUnblockConfirm'|translate }}</h2>
+                <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+                <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+            </div>
+        {% endif %}
+
+        {% if blacklistedIps is not empty %}
+            <h3>{{ 'Login_IPsAlwaysBlocked'|translate }}</h3>
+            <ul style="margin-left: 20px;">
+                {% for blacklistedIp in blacklistedIps %}
+                    <li style="list-style: disc;">{{ blacklistedIp }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock %}

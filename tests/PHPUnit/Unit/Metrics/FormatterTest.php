@@ -161,9 +161,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(1, 1, '1 €'),
-            array(1.045, 2, '1.04 kr'),
-            array(1000.4445, 3, '1000.44 zł'),
-            array(1234.56, 4, '$ 1234.56'),
+            array(1.045, 2, 'DKK 1.04'),
+            array(1000.4445, 3, 'PLN 1000.44'),
+            array(1234.56, 4, 'NZ$ 1234.56'),
             array(234.76, 5, '¥ 234.76')
         );
     }

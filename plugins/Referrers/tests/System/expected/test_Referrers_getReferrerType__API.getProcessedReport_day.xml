@@ -4,12 +4,12 @@
 	<prettyDate>January 1 – March 10, 2010</prettyDate>
 	<metadata>
 		<category>Referrers</category>
-		<subcategory>All Referrers</subcategory>
-		<name>Referrer Type</name>
+		<subcategory>All Channels</subcategory>
+		<name>Channel Type</name>
 		<module>Referrers</module>
 		<action>getReferrerType</action>
-		<dimension>Referrer Type</dimension>
-		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites &amp; Social&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
+		<dimension>Channel Type</dimension>
+		<documentation>This table contains information about the distribution of the channel types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -44,7 +44,7 @@
 		<uniqueId>Referrers_getReferrerType</uniqueId>
 	</metadata>
 	<columns>
-		<label>Referrer Type</label>
+		<label>Channel Type</label>
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>
@@ -1189,12 +1189,31 @@
 		<result prettyDate="Wednesday, March 10, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>62</nb_visits>
 		<nb_uniq_visitors>62</nb_uniq_visitors>
+		<nb_visits>62</nb_visits>
 		<nb_actions>62</nb_actions>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_users>0</nb_users>
+		<max_actions>31</max_actions>
+		<sum_visit_length>11315</sum_visit_length>
 		<bounce_count>62</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
 		<nb_conversions>93</nb_conversions>
 		<revenue>0</revenue>
+		<conversion_rate>0</conversion_rate>
+		<nb_actions_per_visit>31</nb_actions_per_visit>
+		<avg_time_on_site>5673</avg_time_on_site>
+		<bounce_rate>3100</bounce_rate>
 	</reportTotal>
 </result>

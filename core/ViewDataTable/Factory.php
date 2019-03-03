@@ -106,12 +106,19 @@ class Factory
 
         $params = array();
 
-        if(is_null($loadViewDataTableParametersForUser)) {
-            $loadViewDataTableParametersForUser = ('0' == Common::getRequestVar('widget', '0', 'string'));
+        $containerId = Common::getRequestVar('containerId', '', 'string');
+
+        if (!isset($loadViewDataTableParametersForUser)) {
+            $loadViewDataTableParametersForUser = ($containerId != '' || '0' == Common::getRequestVar('widget', '0', 'string'));
         }
+
         if ($loadViewDataTableParametersForUser) {
             $login  = Piwik::getCurrentUserLogin();
-            $params = Manager::getViewDataTableParameters($login, $controllerAction);
+            $paramsKey = $controllerAction;
+            if (!empty($report) && $controllerAction === $apiAction) {
+                $paramsKey = $report->getId();
+            }
+            $params = Manager::getViewDataTableParameters($login, $paramsKey, $containerId);
         }
 
         if (!self::isDefaultViewTypeForReportFixed($report)) {

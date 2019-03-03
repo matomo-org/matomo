@@ -50,7 +50,7 @@ class Updates_1_7_2_rc7 extends Updates
                 $idDashboard = $dashboard['iddashboard'];
                 $login = $dashboard['login'];
                 $layout = $dashboard['layout'];
-                $layout = html_entity_decode($layout);
+                $layout = html_entity_decode($layout, ENT_COMPAT | ENT_HTML401, 'UTF-8');
                 $layout = str_replace("\\\"", "\"", $layout);
 
                 $migrations[] = $this->migration->db->boundSql($updateQuery, array($layout, $idDashboard, $login));

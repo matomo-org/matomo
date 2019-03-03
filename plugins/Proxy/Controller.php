@@ -74,6 +74,7 @@ class Controller extends \Piwik\Plugin\Controller
      * exposing the referrer on the Piwik demo.
      *
      * @internal param string $url (via $_GET)
+     * @deprecated @since 3.6.0
      */
     public function redirect()
     {
@@ -116,6 +117,10 @@ class Controller extends \Piwik\Plugin\Controller
             return false;
         }
         if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url)) {
+            return true;
+        }
+
+        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?matomo.org([#?/]|$)~', $url)) {
             return true;
         }
 

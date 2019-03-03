@@ -1,0 +1,47 @@
+<div class="visitorReferrer {{ visitInfo.getColumn('referrerType') }}">
+    {% if visitInfo.getColumn('referrerType') == 'website' %}
+        <span>{{ 'Referrers_ColumnWebsite'|translate }}:</span>
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl') }}"
+           style="text-decoration:underline;">
+            {{ visitInfo.getColumn('referrerName') }}
+        </a>
+    {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'campaign' %}
+        <span>{{ 'Referrers_ColumnCampaign'|translate }}: {{ visitInfo.getColumn('referrerName') }}
+            {% if visitInfo.getColumn('referrerKeyword') is not empty %} - {{ visitInfo.getColumn('referrerKeyword') }}{% endif %}</span>
+    {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'social' %}
+        <span>{{ 'Referrers_ColumnSocial'|translate }}:</span>
+        {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
+            <img width="16" src="{{ visitInfo.getColumn('referrerSocialNetworkIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
+        {% endif %}
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl') }}"
+           style="text-decoration:underline;">
+            {{ visitInfo.getColumn('referrerName') }}
+        </a>
+    {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'search' %}
+        {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+        {%- set showKeyword = visitInfo.getColumn('referrerKeyword') is not empty and visitInfo.getColumn('referrerKeyword') != keywordNotDefined -%}
+        <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>
+        {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
+            <img width="16" src="{{ visitInfo.getColumn('referrerSearchEngineIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
+        {% endif %}
+            <span>{{ visitInfo.getColumn('referrerName') }}</span>
+        {%- if showKeyword %}<span>, {{ 'Referrers_Keywords'|translate }}:</span>
+            <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" style="text-decoration:underline;">
+                "{{ visitInfo.getColumn('referrerKeyword') }}"</a>
+        {% endif %}
+        {% set keyword %}{{ visitInfo.getColumn('referrerKeyword') }}{% endset %}
+        {% set searchName %}{{ visitInfo.getColumn('referrerName') }}{% endset %}
+        {% set position %}#{{ visitInfo.getColumn('referrerKeywordPosition') }}{% endset %}
+        {% if visitInfo.getColumn('referrerKeywordPosition') %}
+            <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank visitorLogTooltip'>
+                            <span class='hash'>#</span>
+                {{ visitInfo.getColumn('referrerKeywordPosition') }}
+                        </span>
+        {% endif %}
+        </span>
+    {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
+</div>

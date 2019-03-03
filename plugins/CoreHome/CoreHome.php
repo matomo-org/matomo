@@ -8,6 +8,15 @@
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Columns\ComputedMetricFactory;
+use Piwik\Columns\MetricsList;
+use Piwik\IP;
+use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
+use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\ThemeStyles;
+use Piwik\SettingsServer;
+
 /**
  *
  */
@@ -21,7 +30,7 @@ class CoreHome extends \Piwik\Plugin
     const WIDGET_CONTAINER_LAYOUT_BY_DIMENSION = 'ByDimension';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -30,32 +39,55 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
+            'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'AssetManager.addStylesheets' => 'addStylesheets',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
         );
+    }
+
+    public function addStylesheets(&$mergedContent)
+    {
+        $themeStyles = ThemeStyles::get();
+        $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
+    }
+
+    public function initAuthenticationObject()
+    {
+        $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
+
+        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
+            // will be checked in API itself to make sure we return an API response in the proper format.
+            return;
+        }
+
+        $whitelist = new LoginWhitelist();
+        if ($whitelist->shouldCheckWhitelist()) {
+            $ip = IP::getIpFromHeader();
+            $whitelist->checkIsWhitelisted($ip);
+        }
+    }
+
+    public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
+    {
+        $metrics = $list->getMetrics();
+        foreach ($metrics as $metric) {
+            if ($metric instanceof ArchivedMetric && $metric->getDimension()) {
+                $metricName = $metric->getName();
+                if ($metric->getDbTableName() === 'log_visit'
+                    && $metricName !== 'nb_uniq_visitors'
+                    && $metricName !== 'nb_visits'
+                    && strpos($metricName, ArchivedMetric::AGGREGATION_SUM_PREFIX) === 0) {
+                    $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_visits', ComputedMetric::AGGREGATION_AVG);
+                    $list->addMetric($metric);
+                }
+            }
+        }
     }
 
     public function filterMergedJavaScripts(&$mergedContent)
     {
         $mergedContent = preg_replace('/(sourceMappingURL=(.*?).map)/', '', $mergedContent);
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['userId']                      = $instance->getUserId();
-        $visitor['visitorType']                 = $instance->getVisitorReturning();
-        $visitor['visitorTypeIcon']             = $instance->getVisitorReturningIcon();
-        $visitor['visitConverted']              = $instance->isVisitorGoalConverted();
-        $visitor['visitConvertedIcon']          = $instance->getVisitorGoalConvertedIcon();
-        $visitor['visitCount']                  = $instance->getVisitCount();
-        $visitor['firstActionTimestamp']        = $instance->getTimestampFirstAction();
-        $visitor['visitEcommerceStatus']        = $instance->getVisitEcommerceStatus();
-        $visitor['visitEcommerceStatusIcon']    = $instance->getVisitEcommerceStatusIcon();
-        $visitor['daysSinceFirstVisit']         = $instance->getDaysSinceFirstVisit();
-        $visitor['daysSinceLastEcommerceOrder'] = $instance->getDaysSinceLastEcommerceOrder();
-        $visitor['visitDuration']               = $instance->getVisitLength();
-        $visitor['visitDurationPretty']         = $instance->getVisitLengthPretty();
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -88,8 +120,16 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -127,9 +167,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
@@ -140,6 +180,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/piwik-url.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/report-metadata-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/services/reporting-pages-model.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/services/periods.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/filter.module.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/filters/translate.js";
@@ -166,6 +207,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
@@ -176,6 +218,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/activity-indicator/activityindicator.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
@@ -193,6 +236,7 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/notification/notification.service.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/ajax-form/ajax-form.directive.js";
@@ -203,6 +247,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
@@ -218,6 +264,21 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/selector/selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/content-table/content-table.directive.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/date-picker/date-picker.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -226,9 +287,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.directive.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.controller.js";
-
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.controller.js";
+        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
@@ -247,12 +307,15 @@ class CoreHome extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Export';
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
+        $translationKeys[] = 'General_Remove';
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
@@ -265,11 +328,16 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
         $translationKeys[] = 'CoreHome_Default';
         $translationKeys[] = 'CoreHome_PageOf';
+        $translationKeys[] = 'CoreHome_FormatMetrics';
+        $translationKeys[] = 'CoreHome_ShowExportUrl';
+        $translationKeys[] = 'CoreHome_HideExportUrl';
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'CoreHome_ExternalHelp';
         $translationKeys[] = 'CoreHome_ClickToEditX';
         $translationKeys[] = 'CoreHome_Menu';
+        $translationKeys[] = 'CoreHome_AddTotalsRowDataTable';
+        $translationKeys[] = 'CoreHome_RemoveTotalsRowDataTable';
         $translationKeys[] = 'SitesManager_NotFound';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
         $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
@@ -324,6 +392,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'Intl_Day_Min_StandAlone_5';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_6';
         $translationKeys[] = 'Intl_Day_Min_StandAlone_7';
+        $translationKeys[] = 'Intl_PeriodDay';
+        $translationKeys[] = 'Intl_PeriodWeek';
+        $translationKeys[] = 'Intl_PeriodMonth';
+        $translationKeys[] = 'Intl_PeriodYear';
+        $translationKeys[] = 'General_DateRangeInPeriodList';
         $translationKeys[] = 'General_And';
         $translationKeys[] = 'General_All';
         $translationKeys[] = 'General_Search';
@@ -341,10 +414,12 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'General_Default';
         $translationKeys[] = 'General_LoadingData';
+        $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';
+        $translationKeys[] = 'General_ReadThisToLearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
         $translationKeys[] = 'General_LearnMore';
@@ -357,5 +432,32 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ChangeCurrentWebsite';
         $translationKeys[] = 'General_CreatedByUser';
         $translationKeys[] = 'General_DateRangeFromTo';
+        $translationKeys[] = 'General_DateRangeFrom';
+        $translationKeys[] = 'General_DateRangeTo';
+        $translationKeys[] = 'General_DoubleClickToChangePeriod';
+        $translationKeys[] = 'General_Apply';
+        $translationKeys[] = 'General_Period';
+        $translationKeys[] = 'CoreHome_EnterZenMode';
+        $translationKeys[] = 'CoreHome_ExitZenMode';
+        $translationKeys[] = 'CoreHome_ShortcutZenMode';
+        $translationKeys[] = 'CoreHome_ShortcutSegmentSelector';
+        $translationKeys[] = 'CoreHome_ShortcutWebsiteSelector';
+        $translationKeys[] = 'CoreHome_ShortcutCalendar';
+        $translationKeys[] = 'CoreHome_ShortcutSearch';
+        $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_StandardReport';
+        $translationKeys[] = 'CoreHome_ReportWithMetadata';
+        $translationKeys[] = 'CoreHome_ReportType';
+        $translationKeys[] = 'CoreHome_RowLimit';
+        $translationKeys[] = 'CoreHome_ExportFormat';
+        $translationKeys[] = 'CoreHome_FlattenReport';
+        $translationKeys[] = 'CoreHome_CustomLimit';
+        $translationKeys[] = 'CoreHome_ExpandSubtables';
+        $translationKeys[] = 'CoreHome_HomeShortcut';
+        $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
+        $translationKeys[] = 'CoreHome_EndShortcut';
+        $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
+        $translationKeys[] = 'CoreHome_MacPageUp';
+        $translationKeys[] = 'CoreHome_MacPageDown';
     }
 }

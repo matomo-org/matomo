@@ -314,6 +314,7 @@ class API extends \Piwik\Plugin\API
             'CASE log_visit.referer_type
 				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
 				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
+				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
 				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
 			END AS `referrer_data`');
@@ -322,6 +323,7 @@ class API extends \Piwik\Plugin\API
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
                                                                               Common::REFERRER_TYPE_DIRECT_ENTRY,
                                                                               Common::REFERRER_TYPE_SEARCH_ENGINE,
+                                                                              Common::REFERRER_TYPE_SOCIAL_NETWORK,
                                                                               Common::REFERRER_TYPE_WEBSITE,
                                                                               Common::REFERRER_TYPE_CAMPAIGN
                                                                          ));
@@ -562,6 +564,8 @@ class API extends \Piwik\Plugin\API
                 return Controller::getTranslation('directEntries');
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 return Controller::getTranslation('fromSearchEngines');
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                return Controller::getTranslation('fromSocialNetworks');
             case Common::REFERRER_TYPE_WEBSITE:
                 return Controller::getTranslation('fromWebsites');
             case Common::REFERRER_TYPE_CAMPAIGN:

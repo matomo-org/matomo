@@ -29,6 +29,7 @@ class Collection
         'Dashboard',
         'UsersManager',
         'SitesManager',
+        'TagManager',
         'ExampleUI',
         'Overlay',
         'Live',
@@ -48,6 +49,8 @@ class Collection
         'CustomAlerts',
         'Insights',
         'LogViewer',
+        'Referrers.getKeywordNotDefinedString',
+        'CorePluginsAdmin.getSystemSettings',
     );
 
     /**
@@ -251,7 +254,9 @@ class Collection
                 foreach ($formats as $format) {
                     $parametersToSet['format'] = $format;
                     $parametersToSet['hideIdSubDatable'] = 1;
-                    $parametersToSet['serialize'] = 1;
+                    if (!isset($parametersToSet['serialize'])) {
+                        $parametersToSet['serialize'] = 1;
+                    }
 
                     $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
                     if ($exampleUrl === false) {
@@ -335,7 +340,10 @@ class Collection
 
             if (!in_array('UserCountry.getLocationFromIP', $apiToCall) &&
                 !in_array('UserCountry.getCountryCodeMapping', $apiToCall)) {
-                $this->apiNotToCall = array('API.getPiwikVersion',
+                $this->apiNotToCall = array(
+                                            'API.getMatomoVersion',
+                                            'API.getPiwikVersion',
+                                            'API.getPhpVersion',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {

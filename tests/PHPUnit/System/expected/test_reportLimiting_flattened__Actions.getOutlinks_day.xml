@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<Actions_ClickedUrl>Others</Actions_ClickedUrl>
 	</row>
 	<row>
 		<label>othersite10.com/ - Others</label>
@@ -21,6 +22,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<Actions_ClickedUrl>othersite10.com/ - Others</Actions_ClickedUrl>
 	</row>
 	<row>
 		<label>othersite11.com/ - Others</label>
@@ -32,6 +34,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<Actions_ClickedUrl>othersite11.com/ - Others</Actions_ClickedUrl>
 	</row>
 	<row>
 		<label>othersite12.com/ - Others</label>
@@ -43,6 +46,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<Actions_ClickedUrl>othersite12.com/ - Others</Actions_ClickedUrl>
 	</row>
 	<row>
 		<label>othersite10.com/</label>
@@ -56,6 +60,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://othersite10.com/</url>
+		<Actions_ClickedUrl>othersite10.com/</Actions_ClickedUrl>
 		<segment>outlinkUrl==http%3A%2F%2Fothersite10.com%2F</segment>
 	</row>
 	<row>
@@ -70,6 +75,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://othersite11.com/</url>
+		<Actions_ClickedUrl>othersite11.com/</Actions_ClickedUrl>
 		<segment>outlinkUrl==http%3A%2F%2Fothersite11.com%2F</segment>
 	</row>
 	<row>
@@ -84,6 +90,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://othersite12.com/</url>
+		<Actions_ClickedUrl>othersite12.com/</Actions_ClickedUrl>
 		<segment>outlinkUrl==http%3A%2F%2Fothersite12.com%2F</segment>
 	</row>
 </result>

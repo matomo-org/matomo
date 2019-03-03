@@ -16,13 +16,13 @@
         <tbody>
         <tr class="">
             <td class="label column">{{ 'Live_LastHours'|translate(24) }}</td>
-            <td class="column">{{ visitorsCountToday }}</td>
-            <td class="column">{{ pisToday }}</td>
+            <td class="column">{{ visitorsCountToday|number }}</td>
+            <td class="column">{{ pisToday|number }}</td>
         </tr>
         <tr class="">
             <td class="label column">{{ 'Live_LastMinutes'|translate(30) }}</td>
-            <td class="column">{{ visitorsCountHalfHour }}</td>
-            <td class="column">{{ pisHalfhour }}</td>
+            <td class="column">{{ visitorsCountHalfHour|number }}</td>
+            <td class="column">{{ pisHalfhour|number }}</td>
         </tr>
         </tbody>
     </table>

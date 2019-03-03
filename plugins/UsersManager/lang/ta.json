@@ -2,6 +2,8 @@
     "UsersManager": {
         "Email": "மின்னஞ்சல்",
         "MenuUsers": "பாவனையாளர்கள்",
-        "PrivView": "பார்க்க"
+        "PrivView": "பார்க்க",
+        "ShowAll": "முழுவதையும் காட்டு",
+        "Username": "பயனாளர் பெயர்"
     }
 }

@@ -153,6 +153,6 @@
 				<max>2.8</max>
 			</avg_time_generation>
 		</metrics>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 	</metadata>
 </result>

@@ -52,7 +52,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
 
         $ApiDocumentation = new DocumentationGenerator();
-        $prefixUrls = Common::getRequestVar('prefixUrl', 'http://demo.piwik.org/', 'string');
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
         if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0) {
             $prefixUrls = '';
         }
@@ -78,12 +78,6 @@ class Controller extends \Piwik\Plugin\Controller
         $customVariables = 0;
         $lastCategory = array();
         foreach ($segments as $segment) {
-            // Eg. Event Value is a metric, not in the Visit metric category,
-            // we make sure it is displayed along with the Events dimensions
-            if ($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
-                $segment['type'] = 'dimension';
-            }
-
             $onlyDisplay = array('customVariableName1', 'customVariableName2',
                                  'customVariableValue1', 'customVariableValue2',
                                  'customVariablePageName1', 'customVariablePageValue1');
@@ -152,9 +146,53 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
+        $reports = Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1));
+        $metrics = Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1));
+
+        $glossaryItems = array(
+            'metrics' => array(
+                'title' => Piwik::translate('General_Metrics'),
+                'entries' => $metrics
+            ),
+            'reports' => array(
+                'title' => Piwik::translate('General_Reports'),
+                'entries' => $reports
+            )
+        );
+
+        /**
+         * Triggered to add or modify glossary items. You can either modify one of the existing core categories
+         * 'reports' and 'metrics' or add your own category.
+         *
+         * **Example**
+         *
+         *     public function addGlossaryItems(&$glossaryItems)
+         *     {
+         *          $glossaryItems['users'] = array('title' => 'Users', 'entries' => array(
+         *              array('name' => 'User1', 'documentation' => 'This user has ...'),
+         *              array('name' => 'User2', 'documentation' => 'This user has ...'),
+         *          ));
+         *          $glossaryItems['reports']['entries'][] = array('name' => 'My Report', 'documentation' => 'This report has ...');
+         *     }
+         *
+         * @param array &$glossaryItems An array containing all glossary items.
+         */
+        Piwik::postEvent('API.addGlossaryItems', array(&$glossaryItems));
+
+        foreach ($glossaryItems as &$item) {
+            $item['letters'] = array();
+            foreach ($item['entries'] as &$entry) {
+                $cleanEntryName = preg_replace('/["\']/', '', $entry['name']);
+                $entry['letter'] = Common::mb_strtoupper(substr($cleanEntryName, 0, 1));
+                $item['letters'][] = $entry['letter'];
+            }
+
+            $item['letters'] = array_unique($item['letters']);
+            sort($item['letters']);
+        }
+
         return $this->renderTemplate('glossary', array(
-            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports')),
-            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics')),
+            'glossaryItems' => $glossaryItems,
         ));
     }
 }

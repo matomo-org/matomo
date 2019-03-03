@@ -192,11 +192,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
+    /**
+     * Name for metadata that stores array of generic filters that should not be run on the table.
+     */
+    const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
+
     /** The ID of the Summary Row. */
     const ID_SUMMARY_ROW = -1;
 
     /** The original label of the Summary Row. */
     const LABEL_SUMMARY_ROW = -1;
+    const LABEL_TOTALS_ROW = -2;
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
@@ -302,13 +308,20 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $summaryRow = null;
 
     /**
+     * @var \Piwik\DataTable\Row
+     */
+    protected $totalsRow = null;
+
+    /**
      * Table metadata. Read [this](#class-desc-the-basics) to learn more.
      *
      * Any data that describes the data held in the table's rows should go here.
      *
+     * Note: this field is protected so derived classes will serialize it.
+     *
      * @var array
      */
-    private $metadata = array();
+    protected $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
@@ -398,6 +411,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 }
             }
         }
+    }
+
+    public function setTotalsRow(Row $totalsRow)
+    {
+        $this->totalsRow = $totalsRow;
+    }
+
+    public function getTotalsRow()
+    {
+        return $this->totalsRow;
     }
 
     /**
@@ -857,6 +880,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * Returns the array of Rows.
+     * Internal logic in Matomo core should avoid using this method as it is time and memory consuming when being
+     * executed thousands of times. The alternative is to use {@link getRowsWithoutSummaryRow()} + get the summary
+     * row manually.
      *
      * @return Row[]
      */
@@ -1048,7 +1074,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow');
+        return array('rows', 'summaryRow', 'metadata', 'totalsRow');
     }
 
     /**
@@ -1069,6 +1095,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         if (!is_null($this->summaryRow)) {
             $this->summaryRow->renameColumn($oldName, $newName);
+        }
+        if (!is_null($this->totalsRow)) {
+            $this->totalsRow->renameColumn($oldName, $newName);
         }
     }
 
@@ -1092,6 +1121,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!is_null($this->summaryRow)) {
             foreach ($names as $name) {
                 $this->summaryRow->deleteColumn($name);
+            }
+        }
+        if (!is_null($this->totalsRow)) {
+            foreach ($names as $name) {
+                $this->totalsRow->deleteColumn($name);
             }
         }
     }
@@ -1227,6 +1261,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param int $maximumRowsInDataTable If not null, defines the maximum number of rows allowed in the serialized DataTable.
      * @param int $maximumRowsInSubDataTable If not null, defines the maximum number of rows allowed in serialized subtables.
      * @param string $columnToSortByBeforeTruncation The column to sort by before truncating, eg, `Metrics::INDEX_NB_VISITS`.
+     * @param array $aSerializedDataTable Will contain all the output arrays
      * @return array The array of serialized DataTables:
      *
      *                   array(
@@ -1244,7 +1279,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getSerialized($maximumRowsInDataTable = null,
                                   $maximumRowsInSubDataTable = null,
-                                  $columnToSortByBeforeTruncation = null)
+                                  $columnToSortByBeforeTruncation = null,
+                                  &$aSerializedDataTable = array())
     {
         static $depth = 0;
         // make sure subtableIds are consecutive from 1 to N
@@ -1270,13 +1306,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // For each row, get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
-        $aSerializedDataTable = array();
         foreach ($this->rows as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
                 $consecutiveSubtableIds[$id] = ++$subtableId;
                 $depth++;
-                $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
+                $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
                 $depth--;
             } else {
                 $row->removeSubtable();
@@ -1292,7 +1327,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // we then serialize the rows and store them in the serialized dataTable
         $rows = array();
         foreach ($this->rows as $id => $row) {
-            if (array_key_exists($id, $consecutiveSubtableIds)) {
+            if (isset($consecutiveSubtableIds[$id])) {
                 $backup = $row->subtableId;
                 $row->subtableId = $consecutiveSubtableIds[$id];
                 $rows[$id] = $row->export();
@@ -1330,7 +1365,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function unserializeRows($serialized)
     {
         $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
-        $rows = unserialize($serialized);
+        $rows = Common::safe_unserialize($serialized, [
+            Row::class,
+            DataTableSummaryRow::class,
+            \Piwik_DataTable_SerializedRow::class
+        ]);
 
         if ($rows === false) {
             throw new Exception("The unserialization has failed!");
@@ -1856,6 +1895,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     public function clearQueuedFilters()
     {
         $this->queuedFilters = array();
+    }
+
+    public function getQueuedFilters()
+    {
+        return $this->queuedFilters;
     }
 
     /**

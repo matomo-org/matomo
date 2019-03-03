@@ -7,6 +7,10 @@
  *
  */
 namespace Piwik\Plugins\RssWidget;
+use Piwik\Plugins\RssWidget\Widgets\RssChangelog;
+use Piwik\Plugins\RssWidget\Widgets\RssPiwik;
+use Piwik\SettingsPiwik;
+use Piwik\Widget\WidgetsList;
 
 /**
  *
@@ -14,13 +18,14 @@ namespace Piwik\Plugins\RssWidget;
 class RssWidget extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameExampleRssWidgetModule',
+            'Widget.filterWidgets' => 'filterWidgets'
         );
     }
 
@@ -33,6 +38,17 @@ class RssWidget extends \Piwik\Plugin
     {
         if ($module == 'ExampleRssWidget') {
             $module = 'RssWidget';
+        }
+    }
+
+    /**
+     * @param WidgetsList $list
+     */
+    public function filterWidgets($list)
+    {
+        if (!SettingsPiwik::isInternetEnabled()) {
+            $list->remove(RssChangelog::getCategory(), RssChangelog::getName());
+            $list->remove(RssPiwik::getCategory(), RssPiwik::getName());
         }
     }
 }

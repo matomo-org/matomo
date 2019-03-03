@@ -2,10 +2,10 @@
 <result>
 	<row>
 		<login>login2</login>
-		
 		<alias>login2</alias>
 		<email>login2@example.com</email>
 		<superuser_access>0</superuser_access>
 		
+		<uses_2fa>0</uses_2fa>
 	</row>
 </result>

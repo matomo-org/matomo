@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 
@@ -41,6 +42,9 @@ class Date
 
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    
+    /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
+    const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
     const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
     const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
@@ -51,6 +55,9 @@ class Date
     const DATE_FORMAT_MONTH_LONG  = DateTimeFormatProvider::DATE_FORMAT_MONTH_LONG;
     const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
     const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
+
+    // for tests
+    public static $now = null;
 
     /**
      * Max days for months (non-leap-year). See {@link addPeriod()} implementation.
@@ -141,17 +148,69 @@ class Date
             $date = new Date($dateString);
         }
         $timestamp = $date->getTimestamp();
-        // can't be doing web analytics before the 1st website
-        // Tue, 06 Aug 1991 00:00:00 GMT
-        if ($timestamp < 681436800) {
-            throw self::getInvalidDateFormatException($dateString);
+    
+        if ($timestamp < self::FIRST_WEBSITE_TIMESTAMP) {
+            $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
+            $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
+                $date->toString(),
+                $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
+                $dateOfFirstWebsite->getTimestamp()
+            ));
+            throw new Exception($message . ": $dateString");
         }
+        
         if (empty($timezone)) {
             return $date;
         }
 
         $timestamp = self::adjustForTimezone($timestamp, $timezone);
         return Date::factory($timestamp);
+    }
+
+    /**
+     * Returns Date w/ UTC timestamp of time $dateString/$timezone.
+     * (Only applies to special strings, like 'now','today','yesterday','yesterdaySameTime'.
+     *
+     * @param $dateString
+     * @param $timezone
+     * @return Date
+     * @ignore
+     */
+    public static function factoryInTimezone($dateString, $timezone)
+    {
+        if ($dateString == 'now') {
+            return self::nowInTimezone($timezone);
+        } else if ($dateString == 'today') {
+            return self::todayInTimezone($timezone);
+        } else if ($dateString == 'yesterday') {
+            return self::yesterdayInTimezone($timezone);
+        } else if ($dateString == 'yesterdaySameTime') {
+            return self::yesterdaySameTimeInTimezone($timezone);
+        } else {
+            throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
+        }
+    }
+
+    private static function nowInTimezone($timezone)
+    {
+        $now = self::getNowTimestamp();
+        $now = self::adjustForTimezone($now, $timezone);
+        return new Date($now);
+    }
+
+    private static function todayInTimezone($timezone)
+    {
+        return self::nowInTimezone($timezone)->getStartOfDay();
+    }
+
+    private static function yesterdayInTimezone($timezone)
+    {
+        return self::todayInTimezone($timezone)->subDay(1);
+    }
+
+    private static function yesterdaySameTimeInTimezone($timezone)
+    {
+        return self::nowInTimezone($timezone)->subDay(1);
     }
 
     /**
@@ -178,17 +237,34 @@ class Date
     }
 
     /**
-     * Returns the start of the day of the current timestamp in UTC. For example,
-     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
-     * be `'2007-07-24'`.
-     *
      * @return string
+     * @deprecated
      */
     public function getDateStartUTC()
     {
+        return $this->getStartOfDay()->toString(self::DATE_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the start of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
+     * be `'2007-07-24'` as a Date.
+     *
+     * @return Date
+     */
+    public function getStartOfDay()
+    {
         $dateStartUTC = gmdate('Y-m-d', $this->timestamp);
-        $date = Date::factory($dateStartUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateStartUTC)->setTimezone($this->timezone);
+    }
+
+    /**
+     * @return string
+     * @deprecated
+     */
+    public function getDateEndUTC()
+    {
+        return $this->getEndOfDay()->toString(self::DATE_TIME_FORMAT);
     }
 
     /**
@@ -196,13 +272,12 @@ class Date
      * if the current timestamp is `'2007-07-24 14:03:24'` in UTC, the result will
      * be `'2007-07-24 23:59:59'`.
      *
-     * @return string
+     * @return Date
      */
-    public function getDateEndUTC()
+    public function getEndOfDay()
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
-        $date = Date::factory($dateEndUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateEndUTC)->setTimezone($this->timezone);
     }
 
     /**
@@ -222,8 +297,8 @@ class Date
     /**
      * Returns the offset to UTC time for the given timezone
      *
-     * @param $timezone
-     * @return int offest in minutes
+     * @param string $timezone
+     * @return int offset in seconds
      */
     public static function getUtcOffset($timezone)
     {
@@ -470,7 +545,7 @@ class Date
      */
     public static function now()
     {
-        return new Date(time());
+        return new Date(self::getNowTimestamp());
     }
 
     /**
@@ -634,9 +709,10 @@ class Date
      * The template should contain tags that will be replaced with localized date strings.
      *
      * @param string $template eg. `"MMM y"`
+     * @param bool   $ucfirst  whether the first letter should be upper-cased
      * @return string eg. `"Aug 2009"`
      */
-    public function getLocalized($template)
+    public function getLocalized($template, $ucfirst = true)
     {
         $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
 
@@ -653,6 +729,10 @@ class Date
             } else {
                 $out .= $token;
             }
+        }
+
+        if ($ucfirst) {
+          $out = Common::mb_strtoupper(mb_substr($out, 0, 1)) . mb_substr($out, 1);
         }
 
         return $out;
@@ -976,5 +1056,10 @@ class Date
     {
         $message = Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime"));
         return new Exception($message . ": $dateString");
+    }
+
+    private static function getNowTimestamp()
+    {
+        return isset(self::$now) ? self::$now : time();
     }
 }

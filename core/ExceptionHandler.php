@@ -9,10 +9,13 @@
 namespace Piwik;
 
 use Exception;
+use Interop\Container\Exception\ContainerException;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Psr\Log\LoggerInterface;
 
 /**
  * Contains Piwik's uncaught exception handler.
@@ -41,6 +44,8 @@ class ExceptionHandler
      */
     public static function dieWithCliError($exception)
     {
+        self::logException($exception);
+
         $message = $exception->getMessage();
 
         if (!method_exists($exception, 'isHtmlMessage') || !$exception->isHtmlMessage()) {
@@ -65,9 +70,17 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
+        self::logException($exception);
+
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
-        echo self::getErrorResponse($exception);
+        try {
+            echo self::getErrorResponse($exception);
+        } catch(Exception $e) {
+            // When there are failures while generating the HTML error response itself,
+            // we simply print out the error message instead.
+            echo $exception->getMessage();
+        }
 
         exit(1);
     }
@@ -130,5 +143,19 @@ class ExceptionHandler
         }
 
         return $result;
+    }
+
+    private static function logException($exception)
+    {
+        try {
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                'exception' => $exception,
+                'ignoreInScreenWriter' => true,
+            ]);
+        } catch (ContainerException $ex) {
+            // ignore (occurs if exception is thrown when resolving DI entries)
+        } catch (ContainerDoesNotExistException $ex) {
+            // ignore
+        }
     }
 }

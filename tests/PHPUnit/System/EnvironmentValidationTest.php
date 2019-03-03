@@ -57,7 +57,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('config.ini.php');
 
         $output = $this->triggerPiwikFrom('tracker');
-        $this->assertContains('As Piwik is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
+        $this->assertContains('As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
     }
 
     public function test_NoLocalConfigFile_TriggersError_inConsole()
@@ -129,13 +129,13 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsBadConfigFileError($output)
     {
-        $this->assertRegExp("/Unable to read INI file \\{.*\\/piwik.php\\}:/", $output);
+        $this->assertRegExp("/Unable to read INI file \\{.*\\/matomo.php\\}:/", $output);
         $this->assertRegExp("/Your host may have disabled parse_ini_file\\(\\)/", $output);
     }
 
     private function assertInstallationProcessStarted($output)
     {
-        $this->assertContains('<title>Piwik '. Version::VERSION .' &rsaquo; Installation</title>', $output);
+        $this->assertContains('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)
@@ -158,11 +158,11 @@ class EnvironmentValidationTest extends SystemTestCase
         $testingEnvironment = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
 
         if ($fileName == 'global.ini.php') {
-            $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileGlobal = PIWIK_INCLUDE_PATH . '/matomo.php';
         } else if ($fileName == 'common.config.ini.php') {
-            $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileCommon = PIWIK_INCLUDE_PATH . '/matomo.php';
         } else {
-            $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/piwik.php';
+            $testingEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . '/matomo.php';
         }
 
         $testingEnvironment->save();
@@ -192,7 +192,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function sendRequestToTracker()
     {
-        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/piwik.php?idsite=1&rec=1&action_name=something');
+        list($response, $info) = $this->curl(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php?idsite=1&rec=1&action_name=something');
 
         // Check Tracker requests return 200
         $this->assertEquals(200, $info["http_code"], 'Ok response');

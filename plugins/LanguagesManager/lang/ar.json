@@ -1,5 +1,6 @@
 {
     "LanguagesManager": {
-        "AboutPiwikTranslations": "حول ترجمة Piwik"
+        "AboutPiwikTranslations": "حول ترجمة Matomo",
+        "TranslationSearch": "بحث في الترجمة"
     }
 }

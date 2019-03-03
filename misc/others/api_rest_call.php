@@ -6,7 +6,7 @@ exit; // REMOVE this line to run the script
 $token_auth = 'anonymous';
 
 // we call the REST API and request the 100 first keywords for the last month for the idsite=7
-$url = "http://demo.piwik.org/";
+$url = "https://demo.matomo.org/";
 $url .= "?module=API&method=Referrers.getKeywords";
 $url .= "&idSite=7&period=month&date=yesterday";
 $url .= "&format=PHP&filter_limit=20";
@@ -22,7 +22,7 @@ if (!$content) {
 
 print("<h1>Keywords for the last month</h1>\n");
 foreach ($content as $row) {
-    $keyword = htmlspecialchars(html_entity_decode(urldecode($row['label']), ENT_QUOTES), ENT_QUOTES);
+    $keyword = htmlspecialchars(html_entity_decode(urldecode($row['label']), ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
     $hits = $row['nb_visits'];
 
     print("<b>$keyword</b> ($hits hits)<br>\n");

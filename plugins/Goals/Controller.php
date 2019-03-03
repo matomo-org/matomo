@@ -72,13 +72,12 @@ class Controller extends \Piwik\Plugin\Controller
 
         $this->translator = $translator;
 
-        $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->goals = API::getInstance()->getGoals($this->idSite);
+        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
     }
 
     public function manage()
     {
-        Piwik::checkUserHasAdminAccess($this->idSite);
+        Piwik::checkUserHasWriteAccess($this->idSite);
 
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
@@ -145,17 +144,16 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkSitePermission();
 
         $idGoal = Common::getRequestVar('idGoal', '', 'string');
-        $idSite = Common::getRequestVar('idSite', null, 'int');
         $period = Common::getRequestVar('period', null, 'string');
         $date   = Common::getRequestVar('date', null, 'string');
 
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $conversions = new Conversions();
 
         Json::sendHeaderJSON();
 
-        $numConversions = $conversions->getConversionForGoal($idGoal, $idSite, $period, $date);
+        $numConversions = $conversions->getConversionForGoal($idGoal, $this->idSite, $period, $date);
 
         return json_encode($numConversions > 0);
     }
@@ -174,10 +172,11 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (empty($idGoal)) {
-            $idGoal = Common::getRequestVar('idGoal', false, 'string');
+            $idGoal = Common::getRequestVar('idGoal', '', 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
         $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
+        $view->requestConfig->request_parameters_to_modify['showAllGoalSpecificMetrics'] = 1;
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
@@ -190,26 +189,26 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
+        $goalSelectableColumns = $selectableColumns;
         if ($this->site->isEcommerceEnabled()) {
             $selectableColumns[] = 'items';
             $selectableColumns[] = 'avg_order_revenue';
         }
 
         foreach (array_merge($columns ? $columns : array(), $selectableColumns) as $columnName) {
-            $columnTranslation = '';
-            // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
-            foreach ($nameToLabel as $metric => $metricTranslation) {
-                if (strpos($columnName, $metric) !== false) {
-                    $columnTranslation = $this->translator->translate($metricTranslation);
-                    break;
+            $columnTranslation = $this->getColumnTranslation($nameToLabel, $columnName, $idGoal);
+            $view->config->addTranslation($columnName, $columnTranslation);
+        }
+
+        if ($idGoal === '') {
+            foreach ($this->goals as $aGoal) {
+                foreach ($goalSelectableColumns as $goalColumn) {
+                    $goalMetricName = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
+                    $selectableColumns[] = $goalMetricName;
+                    $columnTranslation = $this->getColumnTranslation($nameToLabel, $goalColumn, $aGoal['idgoal']);
+                    $view->config->addTranslation($goalMetricName, $columnTranslation);
                 }
             }
-
-            if (!empty($idGoal) && isset($this->goals[$idGoal])) {
-                $goalName = $this->goals[$idGoal]['name'];
-                $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
-            }
-            $view->config->translations[$columnName] = $columnTranslation;
         }
 
         if (!empty($columns)) {
@@ -224,6 +223,27 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
         return $this->renderView($view);
+    }
+
+    private function getColumnTranslation($nameToLabel, $columnName, $idGoal)
+    {
+        $columnTranslation = '';
+        // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
+        foreach ($nameToLabel as $metric => $metricTranslation) {
+            if (strpos($columnName, $metric) !== false) {
+                $columnTranslation = $this->translator->translate($metricTranslation);
+                break;
+            }
+        }
+
+        if (!empty($idGoal)
+            && isset($this->goals[$idGoal])
+        ) {
+            $goalName = $this->goals[$idGoal]['name'];
+            $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
+        }
+
+        return $columnTranslation;
     }
 
     protected function getTopDimensions($idGoal)
@@ -326,6 +346,17 @@ class Controller extends \Piwik\Plugin\Controller
     private function setEditGoalsViewVariables($view)
     {
         $goals = $this->goals;
+
+        // unsanitize goal names and other text data (not done in API so as not to break
+        // any other code/cause security issues)
+        foreach ($goals as &$goal) {
+            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
+            $goal['description'] = Common::unsanitizeInputValue($goal['description']);
+            if (isset($goal['pattern'])) {
+                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
+            }
+        }
+
         $view->goals = $goals;
 
         $idGoal = Common::getRequestVar('idGoal', 0, 'int');
@@ -334,22 +365,13 @@ class Controller extends \Piwik\Plugin\Controller
             $view->idGoal = $idGoal;
         }
 
-        // unsanitize goal names and other text data (not done in API so as not to break
-        // any other code/cause security issues)
-
-        foreach ($goals as &$goal) {
-            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
-            if (isset($goal['pattern'])) {
-                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
-            }
-        }
         $view->goalsJSON = json_encode($goals);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }
 
     private function setGoalOptions(View $view)
     {
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
             'manually' => Piwik::translate('Goals_Manually')

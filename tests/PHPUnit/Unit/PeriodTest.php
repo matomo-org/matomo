@@ -14,6 +14,7 @@ use Piwik\Period;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
+use Piwik\Translation\Translator;
 
 /**
  * @group Core
@@ -52,40 +53,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($label);
     }
 
-    public function testFactoryDay()
-    {
-        $period = Period\Factory::build('day', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Day', $period);
-    }
-
-    public function testFactoryMonth()
-    {
-        $period = Period\Factory::build('month', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Month', $period);
-    }
-
-    public function testFactoryWeek()
-    {
-        $period = Period\Factory::build('week', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Week', $period);
-    }
-
-    public function testFactoryYear()
-    {
-        $period = Period\Factory::build('year', Date::today());
-        $this->assertInstanceOf('\Piwik\Period\Year', $period);
-    }
-
-    public function testFactoryInvalid()
-    {
-        try {
-            Period\Factory::build('inValid', Date::today());
-        } catch (\Exception $e) {
-            return;
-        }
-        $this->fail('Expected Exception not raised');
-    }
-
     public function testValidate_ValidDates()
     {
         Period::checkDateFormat('today');
@@ -102,7 +69,7 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage General_ExceptionInvalidDateFormat
+     * @expectedExceptionMessage Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information):
      * @dataProvider getInvalidDateFormats
      */
     public function testValidate_InvalidDates($invalidDateFormat)
@@ -117,9 +84,83 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
             array('today,last7'),
             array('2013-01-01,last7'),
             array('today,2013-01-01'),
-            array('1990-01-01'),
             array('1990-01-0111'),
             array('foobar'),
+        );
+    }
+
+    /**
+     * @dataProvider getTestDataForToString
+     */
+    public function test_toString_CreatesCommaSeparatedStringList($periodType, $date, $format, $expected)
+    {
+        $period = Period\Factory::build($periodType, $date);
+        $actual = $period->toString($format);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function getTestDataForToString()
+    {
+        return [
+            ['day', '2012-02-03', 'Y-m-d', '2012-02-03'],
+            ['day', '2012-02-03', 'Y_m', '2012_02'],
+
+            ['week', '2012-02-04', 'Y-m-d', [
+                '2012-01-30',
+                '2012-01-31',
+                '2012-02-01',
+                '2012-02-02',
+                '2012-02-03',
+                '2012-02-04',
+                '2012-02-05',
+            ]],
+            ['month', '2012-02-04', 'Y-m-d', [
+                '2012-02-01',
+                '2012-02-02',
+                '2012-02-03',
+                '2012-02-04',
+                '2012-02-05',
+                '2012-02-06,2012-02-07,2012-02-08,2012-02-09,2012-02-10,2012-02-11,2012-02-12',
+                '2012-02-13,2012-02-14,2012-02-15,2012-02-16,2012-02-17,2012-02-18,2012-02-19',
+                '2012-02-20,2012-02-21,2012-02-22,2012-02-23,2012-02-24,2012-02-25,2012-02-26',
+                '2012-02-27',
+                '2012-02-28',
+                '2012-02-29',
+            ]],
+            ['month', '2012-02-04', 'Y-m', [
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02,2012-02,2012-02,2012-02,2012-02,2012-02,2012-02',
+                '2012-02',
+                '2012-02',
+                '2012-02',
+            ]],
+            ['range', '2012-03-05,2012-03-12', 'Y-m-d', [
+                '2012-03-05,2012-03-06,2012-03-07,2012-03-08,2012-03-09,2012-03-10,2012-03-11',
+                '2012-03-12',
+            ]],
+        ];
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage is a date before first website was online. Try date that's after
+     * @dataProvider getInvalidDatesBeforeFirstWebsite
+     */
+    public function testValidate_InvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
+    {
+        Period::checkDateFormat($invalidDatesBeforeFirstWebsite);
+    }
+    
+    public function getInvalidDatesBeforeFirstWebsite()
+    {
+        return array(
+            array('1990-01-01'),
             array(3434),
         );
     }

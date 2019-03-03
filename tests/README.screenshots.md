@@ -25,7 +25,7 @@ To fix a broken build, follow these steps:
  * In the build output, at the beginning of the test output, there will be a link to a image diff viewer. It will look something
    like this:
 
-       View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
+       View UI failures (if any) here https://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
 
    Click on the link in the message.
  * The diff viewer will list links to the generated screenshots for failed tests as well as the expected screenshots and image diffs.
@@ -44,6 +44,10 @@ To fix a broken build, follow these steps:
 _Note: the `tests:sync-ui-screenshots` console command can be used to speed up the process. Run `./console tests:sync-ui-screenshots -h` to learn more._
 
 ## <a name="run-tests"></a>Running Tests
+
+Before running tests you'll want to pull the screenshots in lfs (the `--exclude=` since by default LFS files are excluded from being fetched in .lfsconfig to keep bandwidth usage down):
+
+    $ git lfs pull --exclude=
 
 You can test the UI by running the following command in the root piwik directory:
 

@@ -30,6 +30,9 @@ class Mysql extends Db
     protected $password;
     protected $charset;
 
+    protected $mysqlOptions = array();
+
+    
     protected $activeTransaction = false;
 
     /**
@@ -55,6 +58,30 @@ class Mysql extends Db
             $this->charset = $dbInfo['charset'];
             $this->dsn .= ';charset=' . $this->charset;
         }
+
+
+        if (isset($dbInfo['enable_ssl']) && $dbInfo['enable_ssl']) {
+
+            if (!empty($dbInfo['ssl_key'])) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_KEY] = $dbInfo['ssl_key'];
+            }
+            if (!empty($dbInfo['ssl_cert'])) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_CERT] = $dbInfo['ssl_cert'];
+            }
+            if (!empty($dbInfo['ssl_ca'])) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_CA] = $dbInfo['ssl_ca'];
+            }
+            if (!empty($dbInfo['ssl_ca_path'])) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_CAPATH] = $dbInfo['ssl_ca_path'];
+            }
+            if (!empty($dbInfo['ssl_cipher'])) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_CIPHER] = $dbInfo['ssl_cipher'];
+            }
+            if (!empty($dbInfo['ssl_no_verify']) && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+                $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+            }
+        }
+
     }
 
     public function __destruct()
@@ -77,15 +104,15 @@ class Mysql extends Db
         // rows that actually didn't have to be updated because the values didn't
         // change. This matches common behaviour among other database systems.
         // See #6296 why this is important in tracker
-        $config = array(
-            PDO::MYSQL_ATTR_FOUND_ROWS => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        );
+        $this->mysqlOptions[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+        $this->mysqlOptions[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+        
 
-        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $config);
+
+        $this->connection = @new PDO($this->dsn, $this->username, $this->password, $this->mysqlOptions);
 
         // we may want to setAttribute(PDO::ATTR_TIMEOUT ) to a few seconds (default is 60) in case the DB is locked
-        // the piwik.php would stay waiting for the database... bad!
+        // the matomo.php would stay waiting for the database... bad!
         // we delete the password from this object "just in case" it could be printed
         $this->password = '';
 

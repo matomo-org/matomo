@@ -200,7 +200,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $timestampProperties = array('ts_last_edit', 'ts_created');
         foreach ($timestampProperties as $propertyName) {
             if (isset($segmentInfo[$propertyName])) {
-                $segmentInfo[$propertyName] = substr($segmentInfo[$propertyName], 0, strlen($segmentInfo[$propertyName] - 2));
+                $segmentInfo[$propertyName] = substr($segmentInfo[$propertyName], 0, strlen($segmentInfo[$propertyName]) - 2);
             }
         }
     }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 use Piwik\Piwik;
@@ -213,7 +214,7 @@ abstract class SMSProvider
 
     private static function sizeOfSMSContent($smsContent, $containsUCS2Chars)
     {
-        if ($containsUCS2Chars) return mb_strlen($smsContent, 'UTF-8');
+        if ($containsUCS2Chars) return Common::mb_strlen($smsContent);
 
         $sizeOfSMSContent = 0;
         foreach (self::mb_str_split($smsContent) as $char) {

@@ -43,7 +43,7 @@ class Requests
     {
         if (empty($token)) {
             throw new Exception("token_auth must be specified when using Bulk Tracking Import. "
-                . " See <a href='http://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
+                . " See <a href='https://developer.piwik.org/api-reference/tracking-api'>Tracking Doc</a>");
         }
     }
 

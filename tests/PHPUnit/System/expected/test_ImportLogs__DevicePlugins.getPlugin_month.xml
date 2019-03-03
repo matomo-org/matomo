@@ -3,19 +3,19 @@
 	<row>
 		<label>Cookie</label>
 		<nb_visits>2</nb_visits>
-		<nb_visits_percentage>6%</nb_visits_percentage>
+		<nb_visits_percentage>5%</nb_visits_percentage>
 		<logo>plugins/Morpheus/icons/dist/plugins/cookie.png</logo>
 	</row>
 	<row>
 		<label>Flash</label>
 		<nb_visits>2</nb_visits>
-		<nb_visits_percentage>6%</nb_visits_percentage>
+		<nb_visits_percentage>5%</nb_visits_percentage>
 		<logo>plugins/Morpheus/icons/dist/plugins/flash.png</logo>
 	</row>
 	<row>
 		<label>Java</label>
 		<nb_visits>2</nb_visits>
-		<nb_visits_percentage>6%</nb_visits_percentage>
+		<nb_visits_percentage>5%</nb_visits_percentage>
 		<logo>plugins/Morpheus/icons/dist/plugins/java.png</logo>
 	</row>
 	<row>
