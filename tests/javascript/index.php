@@ -3632,7 +3632,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(164);
+        expect(165);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3886,20 +3886,22 @@ if ($mysql) {
         // Tracker custom request
         var requestQueue = tracker.getRequestQueue();
         strictEqual(true, requestQueue.enabled);
-        strictEqual(0, requestQueue.requests.length);
+        strictEqual(0, requestQueue.requests.length, "has not any request queued yet");
 
         tracker.trackRequest('myFoo=bar&baz=1');
         tracker.queueRequest('myQueue=bar&queue=1');
         tracker.queueRequest('myQueue=bar&queue=2');
         tracker.queueRequest('myQueue=bar&queue=3');
 
-        strictEqual(3, requestQueue.requests.length);
+        strictEqual('object', typeof requestQueue.requests, "we can access the queued requests from the queue");
+        strictEqual(3, requestQueue.requests.length, "has added only the queued requests to the queue");
 
         tracker.disableQueueRequest();
         strictEqual(false, requestQueue.enabled);
         
         tracker.queueRequest('myQueueDisabled=bar&queue=4');
-        strictEqual(3, requestQueue.requests.length);
+        strictEqual(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
+        requestQueue.enabled = true;
 
         // Custom variables
         tracker.storeCustomVariablesInCookie();
@@ -4095,7 +4097,7 @@ if ($mysql) {
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "50", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "41", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
