@@ -715,8 +715,8 @@ class ProcessedReport
         $simpleTotals = $this->hideShowMetrics($metadataTotals);
 
         foreach ($simpleTotals as $metric => $value) {
-            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5)) {
-                continue; // skip average and rate metrics
+            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
+                continue; // skip average, rate and evolution metrics
             }
             if (is_array($value) ) {
                 continue; // skip totals for nested metrics
