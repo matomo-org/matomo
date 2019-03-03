@@ -25,6 +25,11 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
         'PrivacyManager.deleteReportData_1'   => 1322229607,
     );
 
+    public function tearDown()
+    {
+        self::resetPiwikOption();
+    }
+
     /**
      * Dataprovider for testGetTimetableFromOptionValue
      */
@@ -59,12 +64,12 @@ class TimetableTest extends \PHPUnit_Framework_TestCase
 
         $timetable = new Timetable();
         $this->assertEquals($expectedTimetable, $timetable->getTimetable());
-
-        self::resetPiwikOption();
     }
 
     public function testRescheduleTaskAndRunTomorrow()
     {
+        self::stubPiwikOption(serialize([]));
+
         $timetable = new Timetable();
         $task = $this->getMockBuilder(Task::class)
             ->disableOriginalConstructor()
