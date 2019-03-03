@@ -3378,35 +3378,6 @@ function PiwikTest() {
         equal( tracker.hook.test._prefixPropertyName('webkit', 'hidden'), 'webkitHidden', 'webkit prefix' );
     });
 
-    test("Internal timers and setLinkTrackingTimer()", function() {
-        expect(5);
-
-        var tracker = Piwik.getTracker();
-
-        ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
-        equal( typeof tracker, typeof _paq, "async tracker proxy" );
-
-        var startTime, stopTime;
-
-        wait(1000); // in case there is  a previous expireDateTime set
-
-        equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
-
-        startTime = new Date();
-        tracker.hook.test._beforeUnloadHandler();
-        stopTime = new Date();
-        var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
-
-        tracker.setLinkTrackingTimer(2000);
-        startTime = new Date();
-        tracker.trackPageView();
-        tracker.hook.test._beforeUnloadHandler();
-        stopTime = new Date();
-        var diffTime = (stopTime.getTime() - startTime.getTime());
-        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
-    });
-
     test("Generate error messages when calling an undefined API method", function() {
         expect(2);
 
@@ -4985,6 +4956,35 @@ if ($mysql) {
         });
     });
 
+
+    test("Internal timers and setLinkTrackingTimer()", function() {
+        expect(8);
+
+        var tracker = Piwik.getTracker();
+
+        ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
+        equal( typeof tracker, typeof _paq, "async tracker proxy" );
+
+        var startTime, stopTime;
+
+        wait(1000); // in case there is  a previous expireDateTime set
+
+        equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
+
+        startTime = new Date();
+        tracker.hook.test._beforeUnloadHandler();
+        stopTime = new Date();
+        var msSinceStarted = (stopTime.getTime() - startTime.getTime());
+        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
+
+        tracker.setLinkTrackingTimer(2000);
+        startTime = new Date();
+        tracker.trackPageView();
+        tracker.hook.test._beforeUnloadHandler();
+        stopTime = new Date();
+        var diffTime = (stopTime.getTime() - startTime.getTime());
+        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
+    });
 
 <?php
 }
