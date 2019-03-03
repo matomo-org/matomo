@@ -80,9 +80,5 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
 		<max_bandwidth />
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>84</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
 	</reportTotal>
 </result>

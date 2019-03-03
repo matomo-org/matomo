@@ -107,9 +107,5 @@
 		<max_bandwidth />
 		<nb_pages_per_search>8</nb_pages_per_search>
 		<exit_nb_visits>2</exit_nb_visits>
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>68</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>25%</exit_rate>
 	</reportTotal>
 </result>

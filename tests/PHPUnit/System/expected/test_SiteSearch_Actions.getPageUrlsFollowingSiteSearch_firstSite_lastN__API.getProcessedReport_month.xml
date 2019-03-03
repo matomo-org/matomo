@@ -80,9 +80,5 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>84</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>0%</exit_rate>
 	</reportTotal>
 </result>

@@ -71,14 +71,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<avg_bandwidth>0</avg_bandwidth>
-		<conversion_rate>0%</conversion_rate>
 		<nb_actions_per_visit>0</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>100%</bounce_rate>
-		<avg_time_on_page>1080</avg_time_on_page>
-		<exit_rate>200%</exit_rate>
-		<avg_time_generation>0.615</avg_time_generation>
 		<exit_nb_visits>2</exit_nb_visits>
 		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 		<entry_nb_visits>2</entry_nb_visits>

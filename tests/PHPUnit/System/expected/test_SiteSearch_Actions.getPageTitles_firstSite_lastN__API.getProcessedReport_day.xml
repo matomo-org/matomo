@@ -117,9 +117,5 @@
 		<max_bandwidth />
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>1</exit_nb_visits>
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>63</avg_time_on_page>
-		<bounce_rate>0%</bounce_rate>
-		<exit_rate>33%</exit_rate>
 	</reportTotal>
 </result>

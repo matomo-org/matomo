@@ -87,7 +87,5 @@
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
-		<avg_bandwidth>0</avg_bandwidth>
-		<exit_rate>50%</exit_rate>
 	</reportTotal>
 </result>
