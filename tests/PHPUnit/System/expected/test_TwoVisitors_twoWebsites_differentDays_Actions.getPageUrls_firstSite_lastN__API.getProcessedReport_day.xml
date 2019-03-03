@@ -313,8 +313,6 @@
 		<max_time_generation>0.775</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_uniq_visitors>7</entry_nb_uniq_visitors>
 		<entry_nb_visits>7</entry_nb_visits>
 		<entry_nb_actions>27</entry_nb_actions>

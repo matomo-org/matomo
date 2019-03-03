@@ -78,8 +78,6 @@
 		<max_time_generation>0.615</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_actions>8</entry_nb_actions>
 		<entry_sum_visit_length>1621</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>

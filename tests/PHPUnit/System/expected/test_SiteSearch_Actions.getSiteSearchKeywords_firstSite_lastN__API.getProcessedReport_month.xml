@@ -103,8 +103,6 @@
 		<sum_time_spent>882</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<nb_pages_per_search>8</nb_pages_per_search>
 		<exit_nb_visits>2</exit_nb_visits>
 	</reportTotal>
