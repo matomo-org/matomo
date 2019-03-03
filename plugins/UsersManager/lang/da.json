@@ -70,6 +70,7 @@
         "ManageUsers": "Administer brugere",
         "ManageUsersDesc": "Opret nye brugere eller opdater eksisterende brugere. Her kan du også angive deres rettigheder.",
         "RemovePermissions": "Fjern rettigheder",
+        "XtoYofN": "%1$s - %2$s af %3$s",
         "BasicInformation": "Basisoplysninger",
         "Permissions": "Rettigheder",
         "SuperUserAccess": "Superbrugeradgang",

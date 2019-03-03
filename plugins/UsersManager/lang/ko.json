@@ -71,6 +71,7 @@
         "YourUsernameCannotBeChanged": "당신의 사용자 이름을 변경할 수 없습니다.",
         "YourVisitsAreIgnoredOnDomain": "%1$s당신의 방문은%2$s Matomo에 무시됩니다%3$s (브라우저에서 Matomo 무시 용 Cookie 발견).",
         "YourVisitsAreNotIgnored": "%1$s당신의 방문은 Matomo에 무시하지 않습니다%2$s (브라우저에서 Matomo 무시의 Cookie를 찾을 수 없습니다).",
+        "XtoYofN": "%1$s - %2$s 의 %3$s",
         "ShowAll": "모두 보기",
         "Username": "사용자 이름"
     }

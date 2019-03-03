@@ -114,6 +114,7 @@
         "ClickToSelectAll": "Tüm %1$s siteyi seçmek için tıklayın.",
         "AllWebsitesAreSelected": "%1$s web sitesinin tümü seçildi.",
         "ClickToSelectDisplayedWebsites": "Görüntülenen %1$s web sitesini seçmek için tıklayın.",
+        "XtoYofN": "%1$s - %2$s \/ %3$s",
         "DeletePermConfirmSingle": "%1$s kullanıcısının %2$s sitesine erişimini kaldırmak istediğinize emin misiniz?",
         "DeletePermConfirmMultiple": "%1$s kullanıcısının seçilmiş %2$s web sitesine erişimini kaldırmak istediğinize emin misiniz?",
         "ChangePermToSiteConfirmSingle": "%1$s kullanıcısının %2$s web sitesindeki rolünü %3$s olarak değiştirmek istediğinize emin misiniz?",

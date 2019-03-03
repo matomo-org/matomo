@@ -114,6 +114,7 @@
         "ClickToSelectAll": "Klikoni që të përzgjidhen krejt %1$s.",
         "AllWebsitesAreSelected": "Janë përzgjedhur krejt %1$s sajtet.",
         "ClickToSelectDisplayedWebsites": "Klikoni që të përzgjidhen %1$s sajtet e shfaqur.",
+        "XtoYofN": "%1$s - %2$s of %3$s",
         "DeletePermConfirmSingle": "Jeni i sigurt se doni të hiqet hyrja te %2$s për %1$s?",
         "DeletePermConfirmMultiple": "Jeni i sigurt se doni të hiqet hyrja te %2$s sajtet e përzgjedhur për %1$s?",
         "ChangePermToSiteConfirmSingle": "Jeni i sigurt se doni të ndryshohet roli për %1$s te %2$s në %3$s?",

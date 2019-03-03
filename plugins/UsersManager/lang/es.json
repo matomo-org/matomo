@@ -114,6 +114,7 @@
         "ClickToSelectAll": "Clic para selecionar todo %1$s.",
         "AllWebsitesAreSelected": "Todos los sitios web %1$s están seleccionados.",
         "ClickToSelectDisplayedWebsites": "Clic para seleccionar los %1$s sitios web mostrados.",
+        "XtoYofN": "%1$s - %2$s de %3$s",
         "DeletePermConfirmSingle": "¿Está seguro que desea quitar a %1$s del acceso a %2$s?",
         "DeletePermConfirmMultiple": "¿Está seguro que desea quitar a %1$sdel acceso a estos sitios web %2$s?",
         "ChangePermToSiteConfirmSingle": "¿Está seguro que desea cambiar la función de %1$s de %2$s a %3$s?",

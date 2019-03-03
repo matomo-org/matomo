@@ -38,6 +38,7 @@
         "YourUsernameCannotBeChanged": "No es pot canviar el vostre nom d'usuari",
         "YourVisitsAreIgnoredOnDomain": "%1$sLes vostres visites són ignorades pel Matomo %2$s %3$s (la galeta d'ignorància del Matomo s'ha trobat al vostre navegador).",
         "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Matomo%2$s (la galeta d'ignorància del Matomo no s'ha trobat al vostre navegador).",
+        "XtoYofN": "%1$s - %2$s de %3$s",
         "ShowAll": "Mostra-ho tot",
         "Username": "Usuari"
     }

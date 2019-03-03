@@ -45,6 +45,7 @@
         "YourUsernameCannotBeChanged": "Jūsų naudotojo vardas negali būti pakeistas.",
         "YourVisitsAreIgnoredOnDomain": "%1$sJūsų apsilankymai yra ignoruojami Matomo %2$s %3$s (Matomo ignoravimo slapukas buvo aptiktas Jūsų naršyklėje).",
         "YourVisitsAreNotIgnored": "%1$sJūsų apsilankymai nėra ignoruojami Matomo%2$s (Matomo ignoravimo slapukas jūsų naršyklėje nebuvo aptiktas).",
+        "XtoYofN": "%1$s - %2$s iš %3$s",
         "Username": "Naudotojo vardas"
     }
 }
