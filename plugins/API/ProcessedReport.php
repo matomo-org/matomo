@@ -724,6 +724,10 @@ class ProcessedReport
 
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
+            } else if(0 === strpos($metric, 'min_')) {
+                $totals[$metric] = min($totals[$metric], $value);
+            } else if(0 === strpos($metric, 'max_')) {
+                $totals[$metric] = max($totals[$metric], $value);
             } else if(is_numeric($value)) {
                 $totals[$metric] += $value;
             }
