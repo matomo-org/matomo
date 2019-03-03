@@ -715,6 +715,13 @@ class ProcessedReport
         $simpleTotals = $this->hideShowMetrics($metadataTotals);
 
         foreach ($simpleTotals as $metric => $value) {
+            if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5)) {
+                continue; // skip average and rate metrics
+            }
+            if (is_array($value) ) {
+                continue; // skip totals for nested metrics
+            }
+
             if (!array_key_exists($metric, $totals)) {
                 $totals[$metric] = $value;
             } else if(is_numeric($value)) {
