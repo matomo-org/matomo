@@ -714,12 +714,26 @@ class ProcessedReport
 
         $simpleTotals = $this->hideShowMetrics($metadataTotals);
 
+        return $this->calculateTotals($simpleTotals, $totals);
+    }
+
+    private function calculateTotals($simpleTotals, $totals)
+    {
         foreach ($simpleTotals as $metric => $value) {
             if (0 === strpos($metric, 'avg_') || '_rate' === substr($metric, -5) || '_evolution' === substr($metric, -10)) {
                 continue; // skip average, rate and evolution metrics
             }
-            if (is_array($value) || !is_numeric($value)) {
-                continue; // skip totals for nested or not numeric metrics
+
+            if (!is_numeric($value) && !is_array($value)) {
+                continue;
+            }
+
+            if (is_array($value)) {
+                $currentValue = array_key_exists($metric, $totals) ? $totals[$metric] : [];
+                $newValue = $this->calculateTotals($value, $currentValue);
+                if (!empty($newValue)) {
+                    $totals[$metric] = $newValue;
+                }
             }
 
             if (!array_key_exists($metric, $totals)) {
@@ -728,7 +742,7 @@ class ProcessedReport
                 $totals[$metric] = min($totals[$metric], $value);
             } else if(0 === strpos($metric, 'max_')) {
                 $totals[$metric] = max($totals[$metric], $value);
-            } else {
+            } else if($value) {
                 $totals[$metric] += $value;
             }
         }
