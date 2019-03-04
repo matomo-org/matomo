@@ -333,11 +333,11 @@ class RawLogDao
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
-                $start = Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));;
+                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));;
                 $finish = $maxIds[$table];
             } else {
                 $start = $maxIds[$table];
-                $finish = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+                $finish = (int) Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
             }
             // Borrowed from Db::segmentedFetchAll
             // Request records per $insertIntoTempIterationStep amount
@@ -348,22 +348,21 @@ class RawLogDao
                 $currentParams = array($i, $i + $insertIntoTempIterationStep);
                 $result        = Db::fetchAll($sql, $currentParams);
                 // Now we loop over the result set of max $insertIntoTempIterationStep rows and create insert queries
-                $keep_values = [];
+                $keepValues = [];
                 foreach ($result as $row) {
-                     $keep_values = array_merge($keep_values,array_filter(array_values($row), "is_numeric"));
-                     if (count($keep_values) >= 1000) {
-
+                     $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
+                     if (count($keepValues) >= 1000) {
                         $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
-                        $insert .= implode('),(', $keep_values);
+                        $insert .= implode('),(', $keepValues);
                         $insert .= ')';
 
                         Db::exec($insert);
-                        $keep_values = [];
+                        $keepValues = [];
                      }
                 }
 
                $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
-               $insert .= implode('),(', $keep_values);
+               $insert .= implode('),(', $keepValues);
                $insert .= ')';
 
                Db::exec($insert);
