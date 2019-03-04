@@ -51,6 +51,17 @@ class DateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * create tomorrow object check that timestamp is correct (midnight)
+     *
+     * @group Core
+     */
+    public function testTomorrow()
+    {
+        $date = Date::tomorrow();
+        $this->assertEquals(strtotime(date("Y-m-d ", strtotime('+1day')) . " 00:00:00"), $date->getTimestamp());
+    }
+
+    /**
      * create today object check that timestamp is correct (midnight)
      *
      * @group Core
