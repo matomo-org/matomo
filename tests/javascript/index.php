@@ -3864,14 +3864,16 @@ if ($mysql) {
         tracker.queueRequest('myQueue=bar&queue=2');
         tracker.queueRequest('myQueue=bar&queue=3');
 
-        strictEqual('object', typeof requestQueue.requests, "we can access the queued requests from the queue");
-        strictEqual(3, requestQueue.requests.length, "has added only the queued requests to the queue");
+        requestQueue = tracker.getRequestQueue();
+        equal('object', typeof requestQueue.requests, "we can access the queued requests from the queue");
+        equal(3, requestQueue.requests.length, "has added only the queued requests to the queue");
 
         tracker.disableQueueRequest();
         strictEqual(false, requestQueue.enabled);
-        
+
         tracker.queueRequest('myQueueDisabled=bar&queue=4');
-        strictEqual(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
+        requestQueue = tracker.getRequestQueue();
+        equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
 
         // Custom variables
