@@ -495,8 +495,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function test_woff2_isUpToDate()
     {
         $pr = getenv('TRAVIS_PULL_REQUEST');
-        if (empty($pr) || $pr !== 'false') {
-            $this->markTestSkipped('not running woff2 check on master');
+        if (!empty($pr) && $pr !== 'false') {
+            $this->markTestSkipped('not running woff2 check on branch');
             return;
         }
 
