@@ -147,7 +147,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the visitors > engagement page correctly', function (done) {
         expect.screenshot("visitors_engagement").to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitorInterest_Engagement");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=VisitorInterest_Engagement");
         }, done);
     });
 
@@ -166,6 +166,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.evaluate(function(){
                 $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
             }, 100);
+        }, done);
+    });
+
+    it('should load the visitors > real-time visits page correctly', function (done) {
+        expect.screenshot('visitors_realtime_visits').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
         }, done);
     });
 
@@ -488,9 +494,26 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should ask for password confirmation when changing email', function (done) {
+        expect.screenshot('admin_user_settings_asks_confirmation').to.be.captureSelector('.modal.open', function (page) {
+            page.evaluate(function () {
+                $('#userSettingsTable input#email').val('testlogin123@example.com').change();
+            });
+            page.click('#userSettingsTable [piwik-save-button] .btn');
+        }, done);
+    });
+
+    it('should load error when wrong password specified', function (done) {
+        expect.screenshot('admin_user_settings_wrong_password_confirmed').to.be.captureSelector('#notificationContainer', function (page) {
+            page.sendKeys('.modal.open #currentPassword', 'foobartest123');
+            page.click('.modal.open .modal-action:not(.modal-no)');
+        }, done);
+    });
+
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+            page.wait(1000); // for some extra JS to execute
         }, done);
     });
 
@@ -793,6 +816,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             }, 500);
 
             page.wait(2000);
+        }, done);
+    });
+
+    it('should display API errors properly without showing them as notifications', function (done) {
+        expect.screenshot("api_error").to.be.captureSelector('.pageWrap', function (page) {
+            var url = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&category=%7B%7Bconstructor.constructor(%22_x(45)%22)()%7D%7D&subcategory=%7B%7Bconstructor.constructor(%22_x(48)%22)()%7D%7D&forceError=1";
+            var adminUrl = "?" + generalParams + "&module=CoreAdminHome&action=home";
+            page.load(url, 1000);
+            page.load(adminUrl, 1000);
         }, done);
     });
 });

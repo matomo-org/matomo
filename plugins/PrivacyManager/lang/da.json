@@ -12,15 +12,10 @@
         "DeleteDataInterval": "Slet gamle data hver",
         "DeleteOldVisitorLogs": "Slet gamle besøgslogfiler",
         "DeleteLogDescription2": "Når automatisk log sletning aktiveres, så sørg for, at alle tidligere daglige rapporter er blevet behandlet, således at ingen data går tabt.",
-        "DeleteLogInfo": "Logfiler fra følgende tabeller vil blive slettet: %s",
         "DeleteLogsOlderThan": "Slet logfiler ældre end",
         "DeleteMaxRows": "Maksimale antal rækker der slettes på én gang:",
         "DeleteMaxRowsNoLimit": "ingen begrænsning",
         "DeleteReportsConfirm": "Aktiver rapportdata sletning. Hvis gamle rapporter fjernes, skal de forarbejdes igen dem med henblik på se dem. Bekræft sletning.",
-        "DeleteReportsDetailedInfo": "Data fra de numeriske arkiv tabeller (%1$s) og blob arkiv tabeller (%2$s) i databasen vil blive slettet.",
-        "DeleteReportsInfo": "Hvis aktiveret, vil gamle rapporter blive slettet. %1$sVi anbefaler kun at aktivere dette, når din database-plads er begrænset.%2$s",
-        "DeleteReportsInfo2": "Hvis ikke \"%s\" er aktiveret , vil gamle rapporter genskabes automatisk når det anmodes.",
-        "DeleteReportsInfo3": "Hvis du har aktiveret \"%s\", slettes data permanent.",
         "DeleteReportsOlderThan": "Slet rapporter ældre end",
         "DeleteDataSettings": "Slet gamle besøgslogfiler og -rapporter",
         "DoNotTrack_Description": "Spor ikke er en teknologi og politisk forslag, der giver brugerne mulighed for at fravælge sporing af websteder, de ikke besøger, herunder analyse-tjenester, reklame netværk og sociale platforme.",
@@ -57,7 +52,9 @@
         "UseAnonymizeIp": "Anonymisere besøgendes IP-adresser",
         "UseAnonymizeTrackingData": "Anonymiser sporingsdata",
         "PseudonymizeUserId": "Erstat bruger-ID med et pseudonym",
-        "UseDeleteLog": "Slet regelmæssigt gamle logfiler fra databasen",
-        "UseDeleteReports": "Slet regelmæssigt gamle rapporter fra databasen"
+        "UseDeleteReports": "Slet regelmæssigt gamle rapporter fra databasen",
+        "PrivacyPolicyUrl": "Privatlivspolitik-URL",
+        "PrivacyPolicyUrlDescription": "Link til din privatlivspolitik.",
+        "PrivacyPolicy": "Privatlivspolitik"
     }
 }

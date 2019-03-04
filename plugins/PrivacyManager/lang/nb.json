@@ -5,8 +5,6 @@
         "CurrentDBSize": "Nåværende databasestørrelse",
         "DeleteDataInterval": "Slett gammel data hver",
         "DeleteOldVisitorLogs": "Slett gamle besøkslogger",
-        "DeleteOldArchivedReports": "Slett gamle arkiverte rapporter",
-        "DeleteLogInfo": "Logger fra følgende tabeller vil bli slettet: %s",
         "DeleteLogsOlderThan": "Slett logger eldre enn",
         "DeleteMaxRowsNoLimit": "ingen grense",
         "DeleteReportsOlderThan": "Slett rapporter eldre enn",

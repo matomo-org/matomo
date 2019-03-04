@@ -78,6 +78,7 @@
 								<exit_rate>0%</exit_rate>
 								<avg_time_generation>0.974</avg_time_generation>
 								<url>http://piwik.net/blog/category/community/</url>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -125,6 +126,7 @@
 								<exit_rate>0%</exit_rate>
 								<avg_time_generation>0.089</avg_time_generation>
 								<url>http://piwik.net/blog/category/meta/</url>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fmeta%2F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -185,6 +187,7 @@
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.443</avg_time_generation>
 						<url>http://piwik.net/docs/manage-websites/</url>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -229,6 +232,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.255</avg_time_generation>
 				<url>http://piwik.net/faq/</url>
+				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 			</row>
 		</subtable>
 	</row>

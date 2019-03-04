@@ -14,7 +14,6 @@
         "ConversionRate": "%s konverziós arány",
         "Conversions": "%s konverzió",
         "ConversionsOverview": "Konverziók áttekintése",
-        "DefaultRevenue": "A célhoz rendelt alapértelmezett bevétel a következő:",
         "DefaultRevenueHelp": "Például egy látogató által elküldött kapcsolatfelvételi űrlap 1000 forintnak megfelelő értéket jelenthet átlagosan. A Matomo segít annak megértésében, hogy az egyes látogatói szegmensek hogyan teljesítenek ennek fényében.",
         "DeleteGoalConfirm": "Biztosan törölni szeretnéd a %s elnevezésű célt?",
         "Download": "letöltenek egy fájlt",

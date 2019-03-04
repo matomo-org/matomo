@@ -216,7 +216,6 @@ class OptOutManager
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
         $this->view->queryParameters = $this->getQueryParameters();
-
         return $this->view;
     }
 

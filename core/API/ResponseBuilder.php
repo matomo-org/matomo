@@ -15,6 +15,7 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
  */
@@ -165,10 +166,7 @@ class ResponseBuilder
      */
     private function formatExceptionMessage($exception)
     {
-        $message = $exception->getMessage();
-        if ($this->shouldPrintBacktrace) {
-            $message .= "\n" . $exception->getTraceAsString();
-        }
+        $message = ExceptionToTextProcessor::getWholeBacktrace($exception, $this->shouldPrintBacktrace);
 
         return Renderer::formatValueXml($message);
     }

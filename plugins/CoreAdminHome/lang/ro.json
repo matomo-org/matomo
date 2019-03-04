@@ -7,7 +7,6 @@
         "ClickHereToOptOut": "Apasa aici pentru a te dezabona.",
         "CustomLogoFeedbackInfo": "Daca customizezi logo-ul Matomo, ai putea fi interesat sa ascunzi linkul %1$s in meniul de sus. Pentru a face asta, poti dezactiva pluginul Feedback pe pagina %2$sManage Plugins%3$s.",
         "CustomLogoHelpText": "Poţi personaliza logoul Matomo care va fi afişat în interfaţa de utilizator şi în rapoartele email.",
-        "DevelopmentProcess": "In timp ce %1$sprocesul de dezvoltare%2$s include mii de teste automate, Testerii Beta au un rol esential in a-si insusi \"No bug policy\" in Matomo.",
         "EmailServerSettings": "Setările serverului email",
         "ForBetaTestersOnly": "Numai pentru beta-testeri",
         "ImageTracking": "Urmărire prin imagine",
@@ -66,7 +65,6 @@
         "UseCustomLogo": "Foloseşte un logou personalizat",
         "ValidPiwikHostname": "Valid Matomo Hostname",
         "WithOptionalRevenue": "cu venit opţional",
-        "YouAreOptedIn": "Acum esti abonat deja",
         "YouAreOptedOut": "Acum esti dezabonat.",
         "YouMayOptOut": "Poti alege sa nu ai un cookie unic de web analytics corespunzator computerului tau, pentru a evita cumularea si analiza datelor colectate pe acest site.",
         "YouMayOptOutBis": "Pentru a face aceasta alegere, va rugam faceti click mai jos pentru a primi o cookie de dezabonare."

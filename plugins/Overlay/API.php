@@ -73,7 +73,7 @@ class API extends \Piwik\Plugin\API
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
-                $part = 'followingActions', $returnNormalizedUrls = true);
+                $part = 'followingActions');
         } catch (Exception $e) {
             return $resultDataTable;
         }

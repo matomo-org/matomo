@@ -44,7 +44,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->factory->activate($this->pluginName);
 
-        $this->assertSame('Activating plugin "MyTestPluginName"', '' . $migration);
+        $this->assertSame('./console plugin:activate "MyTestPluginName"', '' . $migration);
     }
 
 }

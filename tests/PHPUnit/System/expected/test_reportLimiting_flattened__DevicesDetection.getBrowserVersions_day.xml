@@ -11,6 +11,7 @@
 		<bounce_count>45</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
+		<DevicesDetection_BrowserVersion>Others</DevicesDetection_BrowserVersion>
 	</row>
 	<row>
 		<label>Firefox 6.0</label>
@@ -24,6 +25,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>browserCode==FF;browserVersion==6.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
+		<DevicesDetection_BrowserVersion>Firefox 6.0</DevicesDetection_BrowserVersion>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -37,5 +39,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>browserCode==IE;browserVersion==9.0</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
+		<DevicesDetection_BrowserVersion>Internet Explorer 9.0</DevicesDetection_BrowserVersion>
 	</row>
 </result>

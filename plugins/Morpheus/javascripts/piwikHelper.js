@@ -24,7 +24,9 @@ var piwikHelper = {
 
     htmlDecode: function(value)
     {
-        return $('<div/>').html(value).text();
+        var textArea = document.createElement('textarea');
+        textArea.innerHTML = value;
+        return textArea.value;
     },
 
     sendContentAsDownload: function (filename, content, mimeType) {
@@ -99,7 +101,7 @@ var piwikHelper = {
         if (!value) {
             return value;
         }
-        var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
+        var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"], [/{{/g, '{&#8291;{']];
         for(var item in findReplace) {
             value = value.replace(findReplace[item][0], findReplace[item][1]);
         }

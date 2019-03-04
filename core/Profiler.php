@@ -209,12 +209,19 @@ class Profiler
             return;
         }
 
-        if (!function_exists('xhprof_enable')) {
+        $hasXhprof = function_exists('xhprof_enable');
+        $hasTidewaysXhprof = function_exists('tideways_xhprof_enable');
+
+        if (!$hasXhprof && !$hasTidewaysXhprof) {
             $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
             throw new Exception("Cannot find xhprof_enable, make sure to 1) install xhprof: run 'composer install --dev' and build the extension, and 2) add 'extension=$xhProfPath' to your php.ini.");
         }
 
         $outputDir = ini_get("xhprof.output_dir");
+        if (!$outputDir && $hasTidewaysXhprof) {
+            $outputDir = sys_get_temp_dir();
+        }
+
         if (empty($outputDir)) {
             throw new Exception("The profiler output dir is not set. Add 'xhprof.output_dir=...' to your php.ini.");
         }
@@ -239,12 +246,25 @@ class Profiler
             self::setProfilingRunIds(array());
         }
 
-        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+        if (function_exists('xhprof_enable')) {
+            xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+        } elseif (function_exists('tideways_xhprof_enable')) {
+            tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_MEMORY | TIDEWAYS_XHPROF_FLAGS_CPU);
+        }
 
-        register_shutdown_function(function () use ($profilerNamespace, $mainRun) {
-            $xhprofData = xhprof_disable();
-            $xhprofRuns = new XHProfRuns_Default();
-            $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
+        register_shutdown_function(function () use ($profilerNamespace, $mainRun, $outputDir) {
+            if (function_exists('xhprof_disable')) {
+                $xhprofData = xhprof_disable();
+                $xhprofRuns = new XHProfRuns_Default();
+                $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
+            } elseif (function_exists('tideways_xhprof_disable')) {
+                $xhprofData = tideways_xhprof_disable();
+                $runId = uniqid();
+                file_put_contents(
+                    $outputDir . DIRECTORY_SEPARATOR . $runId . '.' . $profilerNamespace . '.xhprof',
+                    serialize($xhprofData)
+                );
+            }
 
             if (empty($runId)) {
                 die('could not write profiler run');

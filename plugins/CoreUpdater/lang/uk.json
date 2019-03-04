@@ -1,7 +1,6 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Перевірка на наявність нових оновлень плагінів",
-        "ClickHereToViewSqlQueries": "Клацніть тут для перегляду та копіювання пеерліку SQL запитів що повинні бути виконані.",
         "CriticalErrorDuringTheUpgradeProcess": "Критична помилка протягом процесу поновлення:",
         "DatabaseUpgradeRequired": "Необхідно поновити базу даних",
         "DisablingIncompatiblePlugins": "Відключення несумісних плагінів: %s",
@@ -31,7 +30,6 @@
         "Latest2XStableRelease": "Останній стабільний 2.X",
         "Latest2XBetaRelease": "Останній тестовий 2.X",
         "LtsSupportVersion": "Версія Довгострокової підтримки",
-        "ListOfSqlQueriesFYI": "FYI: ці запити SQL, які будуть виконані, щоб оновити свою базу даних Matomo %s",
         "MajorUpdateWarning1": "Це велике оновлення! Може знадобитися більше часу, ніж зазвичай.",
         "MajorUpdateWarning2": "Наступна порада особливо важлива для великих оновлень!",
         "NeedHelpUpgrading": "Потрібна допомога в оновленні Matomo?",
@@ -71,11 +69,22 @@
         "UsingHttp": "використовується незахищене HTTP-з'єднання",
         "UpgradeComplete": "Поновлення завершено!",
         "UpgradePiwik": "Поновити Matomo",
+        "ConsoleStartingDbUpgrade": "Почати процес оновлення бази даних зараз. Це може зайняти деякий час, тому будьте терплячі.",
+        "DbUpgradeNotExecuted": "Оновлення бази даних не виконано.",
+        "ConsoleUpdateUnexpectedUserWarning": "Схоже, ви виконали це оновлення користувачем %1$s, а ваші файли Matomo належать.%2$s\nЩоб забезпечити читання файлів Matomo правильним користувачем, вам може знадобитися запустити таку команду (або подібну команду залежно від конфігурації вашого сервера).:\n\n$ %3$s",
+        "ConsoleUpdateFailure": "Matomo не може бути оновлено! Докладніше див. вище.",
+        "AlreadyUpToDate": "Все вже оновлені.",
+        "ExecuteDbUpgrade": "Потрібно оновити базу даних. Виконати оновлення?",
+        "DryRun": "Примітка: це сухий пробіг",
+        "DryRunEnd": "Кінець сухого пробігу",
+        "ConsoleParameterDescription": "Безпосередньо виконувати оновлення, не питаючи підтвердження",
         "VerifyingUnpackedFiles": "Перевірка розпакованих файлів",
         "WarningMessages": "Застережні повідомлення:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Автоматично деактивовано наступні плагіни: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Можна поновити до версії %s автоматично або завантажити пакунок та встановити в ручну:",
+        "YouMustDownloadPackageOrFixPermissions": "Matomo не може перезаписати вашу поточну установку. Ви можете виправити права доступу до каталогу\/файлу або завантажити пакет та встановити версію %s вручну:",
         "YourDatabaseIsOutOfDate": "База даних Matomo застаріла, і повинна бути поновлена перед наступним кроком.",
-        "ViewVersionChangelog": "Перегляд змін для цієї версії:"
+        "ViewVersionChangelog": "Перегляд змін для цієї версії:",
+        "ReceiveEmailBecauseIsSuperUser": "Ви отримали цей електронний лист, оскільки ви є суперкористувачем Matomo за адресою: %s"
     }
 }

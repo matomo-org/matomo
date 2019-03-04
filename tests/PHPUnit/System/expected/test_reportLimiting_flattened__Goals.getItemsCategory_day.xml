@@ -8,6 +8,7 @@
 		<avg_price>30</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<Ecommerce_ProductCategory>Others</Ecommerce_ProductCategory>
 	</row>
 	<row>
 		<label>Books Cat #0</label>
@@ -17,5 +18,6 @@
 		<avg_price>7.5</avg_price>
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
+		<Ecommerce_ProductCategory>Books Cat #0</Ecommerce_ProductCategory>
 	</row>
 </result>

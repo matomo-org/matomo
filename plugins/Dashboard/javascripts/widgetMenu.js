@@ -145,9 +145,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId, callback) {
  */
 widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback, onWidgetErrorCallback) {
     var disableLink = broadcast.getValueFromUrl('disableLink');
-    if (disableLink.length) {
-        widgetParameters['disableLink'] = disableLink;
-    }
+    widgetParameters['disableLink'] = disableLink.length || $('body#standalone').length;
 
     widgetParameters['widget'] = 1;
 
@@ -272,7 +270,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 for (var widgetCategory in availableWidgets) {
-                    $('.' + settings.categorylistClass, widgetPreview).append('<li>' + widgetCategory + '</li>');
+                    $('.' + settings.categorylistClass, widgetPreview).append($('<li>').text(widgetCategory));
                 }
 
                 return $('.' + settings.categorylistClass, widgetPreview);

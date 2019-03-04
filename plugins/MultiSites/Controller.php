@@ -115,6 +115,7 @@ class Controller extends \Piwik\Plugin\Controller
             $api = "Goals.get";
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
+        $view->requestConfig->totals = 0;
         return $this->renderView($view);
     }
 }

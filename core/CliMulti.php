@@ -142,7 +142,7 @@ class CliMulti
             if ($shouldStart === Request::ABORT) {
                 // output is needed to ensure same order of url to response
                 $output = new Output($cmdId);
-                $output->write('Skipped');
+                $output->write(serialize(array('aborted' => '1')));
                 $this->outputs[] = $output;
             } else {
                 $this->executeUrlCommand($cmdId, $url);
@@ -446,5 +446,10 @@ class CliMulti
     {
         $minutes = floor($elapsed / 60);
         return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
+    }
+
+    public static function isCliMultiRequest()
+    {
+        return Common::getRequestVar('pid', false) !== false;
     }
 }

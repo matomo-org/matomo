@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Session;
 
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
@@ -52,7 +53,8 @@ class SessionAuthTest extends IntegrationTestCase
 
         sleep(1);
 
-        UsersManagerAPI::getInstance()->updateUser(self::TEST_OTHER_USER, 'testpass2');
+        $userUpdater = new UserUpdater();
+        $userUpdater->updateUserWithoutCurrentPassword(self::TEST_OTHER_USER, 'testpass2');
 
         $result = $this->testInstance->authenticate();
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
@@ -89,7 +91,7 @@ class SessionAuthTest extends IntegrationTestCase
     private function initializeSession($userLogin)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $time = null);
+        $sessionFingerprint->initialize($userLogin);
     }
 
     protected static function configureFixture($fixture)

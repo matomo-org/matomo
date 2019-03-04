@@ -193,6 +193,13 @@ class ApiTestConfig
     public $keepLiveIds = false;
 
     /**
+     * For format=original tests. Will forego comparison w/ expected files and just make sure unserialize works.
+     *
+     * @var bool
+     */
+    public $onlyCheckUnserialize = false;
+
+    /**
      * Constructor. Sets class properties using an associative array mapping property names w/ values.
      *
      * @param array $params eg, `array('idSite' => 1, 'date' => '2012-01-01', ...)`

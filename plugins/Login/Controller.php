@@ -12,21 +12,23 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Cookie;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
  * Login controller
  * @api
  */
-class Controller extends \Piwik\Plugin\Controller
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * @var PasswordResetter
@@ -44,13 +46,31 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
+     * @var BruteForceDetection
+     */
+    protected $bruteForceDetection;
+
+    /**
+     * @var SystemSettings
+     */
+    protected $systemSettings;
+
+    /*
+     * @var PasswordVerifier
+     */
+    protected $passwordVerify;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
-     * @param SessionInitializer $authenticatedSessionFactory
+     * @param SessionInitializer $sessionInitializer
+     * @param PasswordVerifier $passwordVerify
+     * @param BruteForceDetection $bruteForceDetection
+     * @param SystemSettings $systemSettings
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null, $bruteForceDetection = null, $systemSettings = null)
     {
         parent::__construct();
 
@@ -64,10 +84,25 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $this->auth = $auth;
 
+        if (empty($passwordVerify)) {
+            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerifier');
+        }
+        $this->passwordVerify = $passwordVerify;
+
         if (empty($sessionInitializer)) {
             $sessionInitializer = new \Piwik\Session\SessionInitializer();
         }
         $this->sessionInitializer = $sessionInitializer;
+
+        if (empty($bruteForceDetection)) {
+            $bruteForceDetection = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+        }
+        $this->bruteForceDetection = $bruteForceDetection;
+
+        if (empty($systemSettings)) {
+            $systemSettings = StaticContainer::get('Piwik\Plugins\Login\SystemSettings');
+        }
+        $this->systemSettings = $systemSettings;
     }
 
     /**
@@ -92,7 +127,6 @@ class Controller extends \Piwik\Plugin\Controller
     function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
-        $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
             if (Nonce::verifyNonce('Login.login', $nonce)) {
@@ -140,12 +174,50 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function configureView($view)
     {
-        $this->setBasicVariablesView($view);
+        $this->setBasicVariablesNoneAdminView($view);
 
         $view->linkTitle = Piwik::getRandomTitle();
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
         $view->nonce = Nonce::getNonce('Login.login');
+    }
+
+    public function confirmPassword()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        if (!$this->passwordVerify->hasPasswordVerifyBeenRequested()) {
+            throw new Exception('Not available');
+        }
+
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot confirm password with untrusted hostname!");
+        }
+
+        $nonceKey = 'confirmPassword';
+        $messageNoAccess = '';
+
+        if (!empty($_POST)) {
+            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            $password = Common::getRequestVar('password', null, 'string', $_POST);
+            if ($password) {
+                $password = Common::unsanitizeInputValue($password);
+            }
+            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
+                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            } elseif ($this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $password)) {
+                $this->passwordVerify->setPasswordVerifiedCorrectly();
+                return;
+            } else {
+                $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
+            }
+        }
+
+        return $this->renderTemplate('confirmPassword', array(
+            'nonce' => Nonce::getNonce($nonceKey),
+            'AccessErrorString' => $messageNoAccess
+        ));
     }
 
     /**
@@ -173,6 +245,16 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
+    }
+
+    public function bruteForceLog()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('bruteForceLog', array(
+            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps(),
+            'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+        ));
     }
 
     /**
@@ -219,6 +301,24 @@ class Controller extends \Piwik\Plugin\Controller
 
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
+
+        if (empty($urlToRedirect)) {
+            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
+            $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
+            $module = Common::getRequestVar('module', '', 'string', $redirectParams);
+            // when module is login, we redirect to home...
+            if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
+                $host = Url::getHostFromUrl($redirect);
+                $currentHost = Url::getHost();
+                $currentHost = explode(':', $currentHost, 2)[0];
+
+                // we only redirect to a trusted host
+                if (!empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
+                ) {
+                    $urlToRedirect = $redirect;
+                }
+            }
+        }
 
         if (empty($urlToRedirect)) {
             $urlToRedirect = Url::getCurrentUrlWithoutQueryString();

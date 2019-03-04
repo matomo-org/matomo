@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,8 +10,8 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Widget\WidgetsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -41,16 +41,15 @@ class WidgetsListTest extends IntegrationTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'Dashboard_Dashboard' => 1,
-            'General_Actions' => 15,
+            'General_Actions' => 22,
             'General_Generic' => 1,
-            'General_Visitors' => 35,
-            'SEO' => 2,
+            'General_Visitors' => 31,
+            'SEO' => 1,
             'Goals_Goals' => 3,
-            'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
-            'Referrers_Referrers' => 9,
-            'About Matomo' => 10,
+            'Referrers_Referrers' => 10,
+            'About Matomo' => 11,
         );
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
@@ -92,7 +91,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(11, count($perCategory));
+        $this->assertEquals(10, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -106,7 +105,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(12, count($perCategory));
+        $this->assertEquals(11, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -128,25 +127,26 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(12, $this->getWidgetsPerCategory($list));
+        $this->assertCount(11, $this->getWidgetsPerCategory($list));
 
         $list->remove('SEO', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(12, $perCategory);
+        $this->assertCount(11, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
-        $this->assertCount(2, $perCategory['SEO']);
+        $this->assertCount(1, $perCategory['SEO']);
 
         $list->remove('SEO', 'SEO_SeoRankings');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(1, $perCategory['SEO']);
+        $this->assertArrayNotHasKey('SEO', $perCategory);
+        $this->assertArrayHasKey('About Matomo', $perCategory);
 
-        $list->remove('SEO');
+        $list->remove('About Matomo');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertArrayNotHasKey('SEO', $perCategory);
+        $this->assertArrayNotHasKey('About Matomo', $perCategory);
     }
 
     public function testIsDefined()

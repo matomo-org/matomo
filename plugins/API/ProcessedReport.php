@@ -276,6 +276,8 @@ class ProcessedReport
             $uniqueId = $availableReport['module'] . '_' . $availableReport['action'];
             if (!empty($availableReport['parameters'])) {
                 foreach ($availableReport['parameters'] as $key => $value) {
+                    $value = urlencode($value);
+                    $value = str_replace('%', '', $value);
                     $uniqueId .= '_' . $key . '--' . $value;
                 }
             }
@@ -428,6 +430,7 @@ class ProcessedReport
         $columns = @$reportMetadata['metrics'] ?: array();
 
         if ($hasDimension) {
+
             $columns = array_merge(
                 array('label' => $reportMetadata['dimension']),
                 $columns

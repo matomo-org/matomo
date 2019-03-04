@@ -15,7 +15,9 @@
 				<pageId>1</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
@@ -125,7 +127,9 @@
 				<pageId>2</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
@@ -235,7 +239,9 @@
 				<pageId>3</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>

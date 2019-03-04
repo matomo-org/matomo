@@ -14,12 +14,17 @@ use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Plugins\Installation\Installation;
+use Piwik\Version;
 
 /**
  * MySQL schema
  */
 class Mysql implements SchemaInterface
 {
+    const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+
     private $tablesInstalled = null;
 
     /**
@@ -38,12 +43,21 @@ class Mysql implements SchemaInterface
                           password VARCHAR(255) NOT NULL,
                           alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
+                          twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'twofactor_recovery_code'    => "CREATE TABLE {$prefixTables}twofactor_recovery_code (
+                          idrecoverycode BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          recovery_code VARCHAR(40) NOT NULL,
+                            PRIMARY KEY(idrecoverycode)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
@@ -278,6 +292,24 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`name`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+
+            'brute_force_log'        => "CREATE TABLE {$prefixTables}brute_force_log (
+                                      `id_brute_force_log` bigint(11) NOT NULL AUTO_INCREMENT,
+                                      `ip_address` VARCHAR(60) DEFAULT NULL,
+                                      `attempted_at` datetime NOT NULL,
+                                        INDEX index_ip_address(ip_address),
+                                      PRIMARY KEY(`id_brute_force_log`)
+                                      ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
+                                      `idsite` BIGINT(20) UNSIGNED NOT NULL ,
+                                      `idfailure` SMALLINT UNSIGNED NOT NULL ,
+                                      `date_first_occurred` DATETIME NOT NULL ,
+                                      `request_url` MEDIUMTEXT NOT NULL ,
+                                      PRIMARY KEY(`idsite`, `idfailure`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
         );
 
         return $tables;
@@ -469,7 +501,29 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 'anonymous', 0, '$now', '$now' );");
+    }
+
+    /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public function recordInstallVersion()
+    {
+        if (!self::getInstallVersion()) {
+            Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
+        }
+    }
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public function getInstallVersion()
+    {
+        Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        if (!empty($version)) {
+            return $version;
+        }
     }
 
     /**

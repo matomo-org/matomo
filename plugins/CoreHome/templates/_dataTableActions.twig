@@ -33,6 +33,22 @@
             </ul>
         {% endset %}
 
+        {% if properties.show_periods %}
+            <a class="dropdown-button dataTableAction activatePeriodsSelection"
+               href="javascript:;"
+               title="{{ 'CoreHome_ChangePeriod'|translate|e('html_attr') }}"
+               data-activates="dropdownPeriods{{ randomIdForDropdown }}">
+                <span class="icon-calendar"></span>
+            </a>
+            <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
+                {% for selectablePeriod in properties.selectable_periods %}
+                    <li>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon"{% endif %}"><span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% if activeFooterIcon and numIcons > 1 %}
             <a class="dropdown-button dataTableAction activateVisualizationSelection"
                href="javascript:;"
@@ -87,6 +103,20 @@
             </a>
         {% endif %}
 
+        {% if properties.datatable_actions|default is not empty %}
+        {% for action in properties.datatable_actions %}
+            <a class='dataTableAction {{ action.id|e('html_attr') }}'
+               href='javascript:;' title="{{ action.title|e('html_attr') }}"
+            >
+                {% if action.icon starts with 'icon-' %}
+                    <span class="{{ action.icon }}"></span>
+                {% else %}
+                    <img width="16" height="16" title="{{ action.title }}" src="{{ action.icon }}"/>
+                {% endif %}
+            </a>
+        {% endfor %}
+        {% endif %}
+
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
@@ -96,6 +126,11 @@
                 {% endif %}
                 <li>
                     <div class="configItem dataTableFlatten"></div>
+                </li>
+            {% endif %}
+            {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
+                <li>
+                    <div class="configItem dataTableShowTotalsRow"></div>
                 </li>
             {% endif %}
             {% if properties.show_exclude_low_population %}

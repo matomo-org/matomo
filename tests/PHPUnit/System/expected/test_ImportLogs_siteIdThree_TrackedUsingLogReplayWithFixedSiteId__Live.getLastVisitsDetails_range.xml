@@ -18,7 +18,9 @@
 				<generationTimeMilliseconds>292</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -152,7 +154,9 @@
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Changelog Archive - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/changelog/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -172,7 +176,9 @@
 				<pageId>68</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
-				<icon />
+				<title>Contact the Piwik team - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/contact/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -289,7 +295,9 @@
 				<generationTimeMilliseconds>413</generationTimeMilliseconds>
 				<generationTime>0.41s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
+				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -435,7 +443,9 @@
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -455,7 +465,9 @@
 				<pageId>66</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
-				<icon />
+				<title>What is Piwik? - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -591,7 +603,9 @@
 				<pageId>65</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
+				<title>Outlink</title>
+				<subtitle>http://demo.piwik.org/</subtitle>
 				
 				<customVariables>
 					<row>
@@ -729,7 +743,9 @@
 				<generationTimeMilliseconds>391</generationTimeMilliseconds>
 				<generationTime>0.39s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -873,7 +889,9 @@
 				<pageId>62</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1007,7 +1025,9 @@
 				<generationTimeMilliseconds>119</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1133,7 +1153,9 @@
 				<generationTimeMilliseconds>145</generationTimeMilliseconds>
 				<generationTime>0.15s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1281,7 +1303,9 @@
 				<generationTimeMilliseconds>182</generationTimeMilliseconds>
 				<generationTime>0.18s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1305,7 +1329,9 @@
 				<generationTimeMilliseconds>113</generationTimeMilliseconds>
 				<generationTime>0.11s</generationTime>
 				<interactionPosition>2</interactionPosition>
-				<icon />
+				<title>Download - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/download/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1325,7 +1351,9 @@
 				<pageId>58</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
+				<title>Download</title>
+				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1455,7 +1483,9 @@
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Hello Installing Piwik - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/docs/installation/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1593,7 +1623,9 @@
 				<generationTimeMilliseconds>58</generationTimeMilliseconds>
 				<generationTime>0.06s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1729,7 +1761,9 @@
 				<pageId>50</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>incredible title!</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1865,7 +1899,9 @@
 				<pageId>51</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Piwik Forums</title>
+				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -2011,7 +2047,9 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -2033,7 +2071,9 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon />
+				<title>Another Product page with no category</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -2057,7 +2097,9 @@
 				<pageId>53</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>3</interactionPosition>
-				<icon />
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>

@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "Klikkaa tästä poistuaksesi seurannasta.",
         "CustomLogoFeedbackInfo": "Jos haluat muokata Matomon logoa, voit myös piilottaa %1$s linkin ylävalikosta. Piilottaminen tapahtuu poistamalla Palaute-lisäosa %2$s Hallitse lisäosia %3$s -sivulta.",
         "CustomLogoHelpText": "Voit vaihtaa Matomon logoa, joka näytetään käyttöliittymässä ja sähköpostiraporteissa.",
-        "DevelopmentProcess": "%1$sKehitysprosessimme%2$s sisältää tuhansia automatisoituja testejä, ja Beta testeillä on avainrooli Matomon \"Ei bugeja\" -toimintaperiaatteessa.",
         "EmailServerSettings": "Sähköpostipalvelimen asetukset",
         "ForBetaTestersOnly": "Vain beta-testaajille",
         "ImageTracking": "Kuvaseuranta",
@@ -81,7 +80,6 @@
         "UseCustomLogo": "Käytä kustomoitua logoa",
         "ValidPiwikHostname": "Voimassaoleva Matomon isäntänimi",
         "WithOptionalRevenue": "valinnaisten tuottojen kanssa",
-        "YouAreOptedIn": "Olet mukana seurannassa.",
         "YouAreOptedOut": "Et ole mukana seurannassa.",
         "YouMayOptOut": "Jos haluat, voit estää yksilöllisen tunnisteen tallentamisen tietokoneellesi, ja samalla estää tämän sivun analytiikan osaltasi.",
         "YouMayOptOutBis": "Tee valinta klikkaamalla alla olevaa linkkiä."

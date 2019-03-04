@@ -13,8 +13,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\ReportsProvider;
-use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;

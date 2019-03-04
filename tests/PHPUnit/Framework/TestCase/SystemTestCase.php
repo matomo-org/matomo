@@ -13,11 +13,16 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
+use Piwik\Period;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
+use Piwik\Site;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
@@ -150,7 +155,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                 'ScheduledReports.generateReport',
                 array(
-                    'testSuffix'             => '_scheduled_report_in_html_tables_only',
+                    'testSuffix'             => '_schedrep_html_tables_only',
                     'date'                   => $dateTime,
                     'periods'                => array($period),
                     'format'                 => 'original',
@@ -158,7 +163,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     'otherRequestParameters' => array(
                         'idReport'     => 1,
                         'reportFormat' => ReportRenderer::HTML_FORMAT,
-                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
                     )
                 )
             )
@@ -170,7 +176,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                 'ScheduledReports.generateReport',
                 array(
-                    'testSuffix'             => '_scheduled_report_in_csv',
+                    'testSuffix'             => '_schedrep_in_csv',
                     'date'                   => $dateTime,
                     'periods'                => array($period),
                     'format'                 => 'original',
@@ -178,7 +184,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     'otherRequestParameters' => array(
                         'idReport'     => 1,
                         'reportFormat' => ReportRenderer::CSV_FORMAT,
-                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                        'serialize' => 0,
                     )
                 )
             )
@@ -192,7 +199,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_pdf_tables_only',
+                         'testSuffix'             => '_schedrep_in_pdf_tables_only',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
@@ -200,7 +207,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 1,
                              'reportFormat' => ReportRenderer::PDF_FORMAT,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
                 )
@@ -213,14 +221,15 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                  'ScheduledReports.generateReport',
                  array(
-                     'testSuffix'             => '_scheduled_report_via_sms_one_site',
+                     'testSuffix'             => '_schedrep_via_sms_one_site',
                      'date'                   => $dateTime,
                      'periods'                => array($period),
                      'format'                 => 'original',
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 2,
-                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                         'serialize' => 0,
                      )
                  )
             )
@@ -232,14 +241,15 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             array(
                  'ScheduledReports.generateReport',
                  array(
-                     'testSuffix'             => '_scheduled_report_via_sms_all_sites',
+                     'testSuffix'             => '_schedrep_via_sms_all_sites',
                      'date'                   => $dateTime,
                      'periods'                => array($period),
                      'format'                 => 'original',
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 3,
-                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                         'serialize' => 0,
                      )
                  )
             )
@@ -252,7 +262,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_html_tables_and_graph',
+                         'testSuffix'             => '_schedrep_html_tables_and_graph',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
@@ -260,7 +270,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 4,
                              'reportFormat' => ReportRenderer::HTML_FORMAT,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
                 )
@@ -272,16 +283,57 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 array(
                      'ScheduledReports.generateReport',
                      array(
-                         'testSuffix'             => '_scheduled_report_in_html_row_evolution_graph',
+                         'testSuffix'             => '_schedrep_html_row_evolution_graph',
                          'date'                   => $dateTime,
                          'periods'                => array($period),
                          'format'                 => 'original',
                          'fileExtension'          => 'html',
                          'otherRequestParameters' => array(
                              'idReport'     => 5,
-                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                             'serialize' => 0,
                          )
                      )
+                )
+            );
+
+            // row evolution w/ custom previousN
+            array_push(
+                $apiCalls,
+                array(
+                    'ScheduledReports.generateReport',
+                    array(
+                        'testSuffix'             => '_schedrep_html_row_evolution_prevCustomN',
+                        'date'                   => $dateTime,
+                        'periods'                => array($period),
+                        'format'                 => 'original',
+                        'fileExtension'          => 'html',
+                        'otherRequestParameters' => array(
+                            'idReport'     => 6,
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                            'serialize' => 0,
+                        )
+                    )
+                )
+            );
+
+            // row evolution w/ each in period
+            array_push(
+                $apiCalls,
+                array(
+                    'ScheduledReports.generateReport',
+                    array(
+                        'testSuffix'             => '_schedrep_html_row_evolution_overEach',
+                        'date'                   => $dateTime,
+                        'periods'                => array($period),
+                        'format'                 => 'original',
+                        'fileExtension'          => 'html',
+                        'otherRequestParameters' => array(
+                            'idReport'     => 7,
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
+                            'serialize' => 0,
+                        )
+                    )
                 )
             );
         }
@@ -386,7 +438,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $_GET = $requestUrl;
         unset($_GET['serialize']);
 
-        $processedResponse = Response::loadFromApi($params, $requestUrl);
+        $onlyCheckUnserialize = !empty($params['onlyCheckUnserialize']);
+
+        $processedResponse = Response::loadFromApi($params, $requestUrl, $normailze = !$onlyCheckUnserialize);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
@@ -394,6 +448,38 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $response = $processedResponse->getResponseText();
         if (strpos($response, '<?xml') === 0) {
             $this->assertValidXML($response);
+        }
+
+        if ($onlyCheckUnserialize) {
+            if (empty($response) || is_numeric($response)) {
+                return; // pass
+            }
+
+            // check the data can be successfully unserialized, nothing else
+            try {
+                $unserialized = Common::safe_unserialize($response, [
+                    DataTable::class,
+                    DataTable\Simple::class,
+                    DataTable\Row::class,
+                    DataTable\Map::class,
+                    Site::class,
+                    Date::class,
+                    Period::class,
+                    Period\Day::class,
+                    Period\Week::class,
+                    Period\Month::class,
+                    Period\Year::class,
+                    Period\Range::class,
+                    ProcessedMetric::class,
+                ], true);
+
+                if ($unserialized === false) {
+                    throw new \Exception("Unknown serialization error.");
+                }
+            } catch (\Exception $ex) {
+                $this->comparisonFailures[] = new \Exception("Processed response in '$processedFilePath' could not be unserialized: " . $ex->getMessage());
+            }
+            return;
         }
 
         $_GET = $originalGET;
@@ -677,7 +763,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     if (is_null($value)) {
                         $values[] = 'NULL';
                     } else {
-                        $isNumeric = preg_match('/^[1-9][0-9]*$/', $value);
+                        // is_numeric cannot be used here since some strings will look like floating point numbers (eg 3e456)
+                        $isNumeric = preg_match('/^\d+(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
                         } else if (!ctype_print($value)) {

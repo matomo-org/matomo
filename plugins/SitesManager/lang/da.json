@@ -75,6 +75,7 @@
         "OnlyMatchedUrlsAllowed": "Spor kun besøg og handlinger, når handlings-URL’en begynder med en af ovenstående URL’er.",
         "OnlyMatchedUrlsAllowedHelp": "Når dette er aktiveret, vil Matomo kun spore interne handlinger, når side-URL’en er en af de kendte URL’er for din hjemmeside. Dette forhindrer uvedkommende i at forurene din statistik med URL’er fra andre hjemmesider.",
         "WebsitesManagement": "Administration af hjemmesider",
+        "XManagement": "Administrer %s",
         "YouCurrentlyHaveAccessToNWebsites": "Du har adgang til %s hjemmesider.",
         "YourCurrentIpAddressIs": "Din aktuelle IP-adresse er %s"
     }

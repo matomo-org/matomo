@@ -9,7 +9,6 @@
         "ClickHereToOptOut": "Klik di sini agar tak-terekam.",
         "CustomLogoFeedbackInfo": "Jika Anda menyesuaikan logo Matomo, Anda mungkin juga tertarik untuk menyembunyikan tautan %1$s di menu atas. Untuk melakukannya, Anda mematikan pengaya Umpan Balik di halaman %2$s Pengelolaan Pengaya%3$s.",
         "CustomLogoHelpText": "Anda dapat Anda dapat menyesuaikan logo Matomo yang akan ditampilkan dalam antarmuka pengguna dan laporan surel.",
-        "DevelopmentProcess": "Ketika %1$sproses pengembangan%2$s kami menyertakan ribuan pemeriksaan otomatis, Pemeriksa Betta menjalankan peran kunci dalam pengarsipan \"Kebijakan Tanpa Kutu\" di Matomo.",
         "EmailServerSettings": "Pengaturan peladen Surel",
         "ForBetaTestersOnly": "Hanya untuk pemeriksa beta saja",
         "ImageTracking": "Pelacakan Gambar",
@@ -61,7 +60,6 @@
         "UseCustomLogo": "Gunakan logo kustom",
         "ValidPiwikHostname": "Nama Inang Sahih Matomo",
         "WithOptionalRevenue": "dengan pendapatan tersesuaikan",
-        "YouAreOptedIn": "Anda sekarang terekam.",
         "YouAreOptedOut": "Anda sekarang tak-terekam.",
         "YouMayOptOut": "Anda kemungkinan memilih untuk tidak menyimpan nomor identifikasi unik kuki analisis ramatraya yang diberikan ke komputer Anda untuk menghindari pengumpulan dan analisis data yang dikumpulkan di situs ini.",
         "YouMayOptOutBis": "Untuk membuat pilihan itu, silakan klik di bawah ini untuk menerima kuki Jangan-Lacak."

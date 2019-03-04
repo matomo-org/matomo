@@ -10,13 +10,11 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
-use Piwik\ErrorHandler;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
@@ -177,15 +175,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    $className = get_class($e);
-
-                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
-                    } else {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
-                    }
-
-                    throw $exception;
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);

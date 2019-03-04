@@ -40,7 +40,9 @@
 					<pageId>5</pageId>
 					<bandwidth />
 					<interactionPosition />
-					<icon>plugins/Morpheus/images/link.png</icon>
+					<icon>plugins/Morpheus/images/link.svg</icon>
+					<title>Outlink</title>
+					<subtitle>http://test.com</subtitle>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -164,7 +166,9 @@
 					<goalPageId />
 					
 					<url>http://example.org/homepage</url>
-					<icon>plugins/Morpheus/images/goal.png</icon>
+					<icon>plugins/Morpheus/images/goal.svg</icon>
+					<title>Goal conversion</title>
+					<subtitle>triggered js ($ 1000 revenue)</subtitle>
 					
 				</row>
 				<row>
@@ -177,7 +181,9 @@
 					<pageId>4</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
-					<icon />
+					<title>Homepage</title>
+					<subtitle>http://example.org/homepage</subtitle>
+					<icon>plugins/Morpheus/images/action.svg</icon>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -200,7 +206,7 @@
 			<visitorType>new</visitorType>
 			<visitorTypeIcon />
 			<visitConverted>1</visitConverted>
-			<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+			<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 			<visitCount>1</visitCount>
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />

@@ -69,23 +69,20 @@
 
                         {% else %}
 
-                            {% set col = col + 1 %}
-                            {% if col >= 9 %}
-                                {% set col = 0 %}
-                            {% endif %}
-			    
                             {% if action.url is defined and action.url is not empty %}
-                            <a href="{{ action.url }}" target="_blank">
+                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
 {% set title %}
-{% if action.pageTitle is not empty %}{{ action.pageTitle }}{% endif %}
+{% if action.url|trim is not empty %}<span class='tooltip-action-url'>{{ action.url }}</span>{% endif %}
 
-{{ action.serverTimePretty }}
-{% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
+{% if action.pageTitle is not empty %}<span class='tooltip-action-page-title'>{{ action.pageTitle }}</span>{% endif %}
+
+<span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
+    {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{- title -}}"/>
+                                    <img class='iconPadding' src="{{ action.icon }}" title="{{- title|e('html_attr') -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
@@ -115,9 +112,19 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-    e.preventDefault();
-    broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-    return false;
+$(function () {
+    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
+        e.preventDefault();
+        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+    }).tooltip({
+        track: true,
+        content: function() {
+            var title = $(this).attr('title');
+            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+        },
+        show: {delay: 100, duration: 0},
+        hide: false
+    });
 });
 </script>

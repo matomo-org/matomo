@@ -28,6 +28,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>https://www.example.org/foo/bar2.html</url>
+				<segment>pageUrl==https%3A%2F%2Fwww.example.org%2Ffoo%2Fbar2.html</segment>
 			</row>
 		</subtable>
 	</row>

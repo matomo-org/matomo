@@ -161,7 +161,7 @@ class ArchiveSelector
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment) . "
                                 AND %s
-                           GROUP BY idsite, date1, date2";
+                           GROUP BY idsite, date1, date2, name";
 
         $monthToPeriods = array();
         foreach ($periods as $period) {
@@ -316,7 +316,7 @@ class ArchiveSelector
     private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
     {
         // $blobs = array([subtableID] = [blob of subtableId])
-        $blobs = unserialize($row['value']);
+        $blobs = Common::safe_unserialize($row['value']);
 
         if (!is_array($blobs)) {
             return;

@@ -27,6 +27,7 @@ describe("SegmentSelectorEditorTest", function () {
                 $(fieldName + ' .dropdown-content.active li:contains("' + textToSelect + '"):first').click();
             }, fieldName, textToSelect);
         });
+        page.click({ x: -10, y: -10 });
     }
 
     function selectDimension(page, prefixSelector, category, name)
@@ -224,6 +225,52 @@ describe("SegmentSelectorEditorTest", function () {
         expect.screenshot('deleted').to.be.captureSelector('deleted_reload', selectorsToCapture, function (page) {
             page.reload();
             page.click('.segmentationContainer .title');
+        }, done);
+    });
+
+    it('should correctly handle complex segments w/ encoded characters and whitespace', function (done) {
+        expect.screenshot('complex_segment').to.be.capture(function (page) {
+            page.load(url);
+
+            page.click('.segmentationContainer .title');
+            page.click('a.add_new_segment');
+            page.sendKeys('input.edit_segment_name', 'complex segment');
+
+            selectDimension(page, '.segmentRow0', 'Visitors', 'Browser');
+            selectFieldValue(page, '.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
+
+            page.evaluate(function () {
+                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+                $('.segmentRow0 .segment-row:first .metricValueBlock input').val(complexValue).change();
+            });
+
+            page.click('.segment-add-or');
+
+            // configure or condition
+            selectDimension(page, '.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
+            selectFieldValue(page, '.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
+
+            page.evaluate(function () {
+                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+                $('.segmentRow0 .segment-row:eq(1) .metricValueBlock input').val(complexValue).change();
+            });
+
+            page.click('.segment-add-row');
+
+            // configure and condition
+            selectDimension(page, '.segmentRow1', 'Visitors', 'Browser');
+            selectFieldValue(page, '.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
+
+            page.evaluate(function () {
+                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+                $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
+            });
+            page.evaluate(function () {
+                $('button.saveAndApply').click();
+            });
+            page.evaluate(function () {
+                console.log(window.location.href);
+            });
         }, done);
     });
 });

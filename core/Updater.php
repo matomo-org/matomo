@@ -10,6 +10,8 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
@@ -61,7 +63,7 @@ class Updater
     public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, Columns\Updater $columnsUpdater = null)
     {
         $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
-        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: PIWIK_INCLUDE_PATH . '/plugins/%s/Updates/';
+        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: Manager::getPluginsDirectory() . '%s/Updates/';
         $this->columnsUpdater = $columnsUpdater ?: new Columns\Updater();
 
         self::$activeInstance = $this;
@@ -220,7 +222,7 @@ class Updater
     /**
      * Returns the list of SQL queries that would be executed during the update
      *
-     * @return Sql[] of SQL queries
+     * @return Migration[] of SQL queries
      * @throws \Exception
      */
     public function getSqlQueriesToExecute()
@@ -248,10 +250,7 @@ class Updater
                 $migrationsForComponent = $update->getMigrations($this);
                 foreach ($migrationsForComponent as $index => $migration) {
                     $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
-
-                    if ($migration instanceof Migration\Db) {
-                        $queries[] = $migration;
-                    }
+                    $queries[] = $migration;
                 }
                 $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
@@ -324,7 +323,7 @@ class Updater
         $this->markComponentSuccessfullyUpdated($componentName, $updatedVersion);
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
-
+        ServerFilesGenerator::createHtAccessFiles();
         return $warningMessages;
     }
 
@@ -482,6 +481,7 @@ class Updater
         }
 
         Filesystem::deleteAllCacheOnUpdate();
+        ServerFilesGenerator::createHtAccessFiles();
 
         $result = array(
             'warnings'  => $warnings,

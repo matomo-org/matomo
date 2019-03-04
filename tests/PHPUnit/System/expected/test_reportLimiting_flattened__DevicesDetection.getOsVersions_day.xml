@@ -11,6 +11,7 @@
 		<bounce_count>40</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
+		<DevicesDetection_OsVersion>Others</DevicesDetection_OsVersion>
 	</row>
 	<row>
 		<label>GNU/Linux</label>
@@ -24,6 +25,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>operatingSystemCode==LIN;operatingSystemVersion==</segment>
 		<logo>plugins/Morpheus/icons/dist/os/LIN.png</logo>
+		<DevicesDetection_OsVersion>GNU/Linux</DevicesDetection_OsVersion>
 	</row>
 	<row>
 		<label>Android 4.0</label>
@@ -37,5 +39,6 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>operatingSystemCode==AND;operatingSystemVersion==4.0</segment>
 		<logo>plugins/Morpheus/icons/dist/os/AND.png</logo>
+		<DevicesDetection_OsVersion>Android 4.0</DevicesDetection_OsVersion>
 	</row>
 </result>

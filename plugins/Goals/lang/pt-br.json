@@ -43,7 +43,6 @@
         "DaysToConv": "Dias para Conversão",
         "Details": "Detalhes da Meta",
         "DefaultGoalConvertedOncePerVisit": "(padrão) A meta só pode ser convertida uma vez por visita",
-        "DefaultRevenue": "O lucro padrão da meta é",
         "DefaultRevenueHelp": "Por exemplo, um Form Contato submetido por um visitante pode valer $10 em média. Matomo ajudará a entender quão bem o segmento de seus visitantes está funcionando.",
         "DeleteGoalConfirm": "Tem certeza que deseja deletar a meta %s?",
         "DocumentationRevenueGeneratedByProductSales": "As vendas de produtos. Exclui o de impostos transporte, e desconto.",

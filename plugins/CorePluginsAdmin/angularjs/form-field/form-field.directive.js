@@ -367,7 +367,10 @@
                     field.availableOptions = formatAvailableValues(field);
 
                     // for selects w/ a placeholder, add an option to unset the select
-                    if (field.uiControl === 'select' && field.uiControlAttributes.placeholder) {
+                    if (field.uiControl === 'select'
+                        && field.uiControlAttributes.placeholder
+                        && !hasOption('')
+                    ) {
                         field.availableOptions.splice(0, 0, { key: '', value: '' });
                     }
 
@@ -432,6 +435,15 @@
                     scope.templateLoaded = function () {
                         $timeout(whenRendered(scope, element, inlineHelpNode));
                     };
+
+                    function hasOption(key) {
+                        for (var i = 0; i !== field.availableOptions.length; ++i) {
+                            if (field.availableOptions[i].key === key) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
                 };
             }
         };

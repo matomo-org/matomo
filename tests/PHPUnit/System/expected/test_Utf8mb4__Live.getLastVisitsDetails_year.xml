@@ -20,7 +20,9 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
+				<title>Abandoned Cart</title>
+				<subtitle>$ 100 revenue - 1 items: name �)</subtitle>
 				
 			</row>
 			<row>
@@ -33,7 +35,9 @@
 				<pageId>1</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
-				<icon />
+				<title>incredible �</title>
+				<subtitle>http://example.org/foo/�.html</subtitle>
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -59,7 +63,7 @@
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>1</visitDuration>
