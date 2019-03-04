@@ -78,6 +78,13 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>1086</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal="3">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>42.26</revenue>
+			</row>
+		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
 		<nb_actions_per_visit>1</nb_actions_per_visit>

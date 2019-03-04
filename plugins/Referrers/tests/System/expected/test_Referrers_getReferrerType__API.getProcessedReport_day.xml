@@ -1197,6 +1197,18 @@
 		<sum_visit_length>11315</sum_visit_length>
 		<bounce_count>62</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>31</nb_conversions>
+				<nb_visits_converted>31</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>62</nb_conversions>
+				<nb_visits_converted>31</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
 		<nb_conversions>93</nb_conversions>
 		<revenue>0</revenue>
 		<nb_actions_per_visit>31</nb_actions_per_visit>
