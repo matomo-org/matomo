@@ -482,6 +482,10 @@ function PiwikTest() {
 
     module('externals');
 
+    QUnit.testDone(function () {
+        Piwik.getTracker().unsetPageIsUnloading();
+    })
+
     // Delete cookies to prevent cookie store from impacting tests
     deleteCookies();
 
@@ -3603,7 +3607,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(165);
+        expect(164);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3865,7 +3869,6 @@ if ($mysql) {
         tracker.queueRequest('myQueue=bar&queue=3');
 
         requestQueue = tracker.getRequestQueue();
-        equal('object', typeof requestQueue.requests, "we can access the queued requests from the queue");
         equal(3, requestQueue.requests.length, "has added only the queued requests to the queue");
 
         tracker.disableQueueRequest();
@@ -3875,9 +3878,7 @@ if ($mysql) {
         requestQueue = tracker.getRequestQueue();
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
-        equal(JSON.stringify(requestQueue), "", "does not increase number of queued requests but send it directly");
-        console.log(JSON.stringify(requestQueue));
-
+        
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");

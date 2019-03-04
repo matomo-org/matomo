@@ -5804,6 +5804,9 @@ if (typeof window.Piwik !== 'object') {
             this.getRequestQueue = function () {
                 return requestQueue;
             };
+            this.unsetPageIsUnloading = function () {
+                return isPageUnloading = false;
+            };
             this.hasConsent = function () {
                 return configHasConsent;
             };
