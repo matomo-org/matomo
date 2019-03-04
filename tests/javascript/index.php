@@ -3875,6 +3875,8 @@ if ($mysql) {
         requestQueue = tracker.getRequestQueue();
         equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
         requestQueue.enabled = true;
+        equal(JSON.stringify(requestQueue), "", "does not increase number of queued requests but send it directly");
+        console.log(JSON.stringify(requestQueue));
 
         // Custom variables
         tracker.storeCustomVariablesInCookie();

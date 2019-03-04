@@ -5666,22 +5666,22 @@ if (typeof window.Piwik !== 'object') {
                     var requestsToTrack = this.requests;
                     this.requests = [];
                     if (requestsToTrack.length === 1) {
-                        sendRequest(requestsToTrack[0]);
+                        sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
-                        sendBulkRequest(requestsToTrack);
+                        sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading) {
+                    if (isPageUnloading || !this.enabled) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
-                        trackerInstance.trackRequest(requestUrl);
+                        sendRequest(requestUrl, configTrackerPause);
                         return;
                     }
 
-                    this.requests.push(requestUrl);
+                    requestQueue.requests.push(requestUrl);
 
                     if (this.timeout) {
                         clearTimeout(this.timeout);
@@ -7369,12 +7369,8 @@ if (typeof window.Piwik !== 'object') {
              */
             this.queueRequest = function (request) {
                 trackCallback(function () {
-                    if (requestQueue.enabled) {
-                        var fullRequest = getRequest(request);
-                        requestQueue.push(fullRequest);
-                    } else {
-                        trackerInstance.trackRequest(request);
-                    }
+                    var fullRequest = getRequest(request);
+                    requestQueue.push(fullRequest);
                 });
             };
 
