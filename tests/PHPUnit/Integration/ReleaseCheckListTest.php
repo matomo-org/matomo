@@ -494,27 +494,19 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     public function test_woff2_isUpToDate()
     {
+        $pr = getenv('TRAVIS_PULL_REQUEST');
+        if (empty($pr) || $pr !== 'false') {
+            $this->markTestSkipped('not running woff2 check on master');
+            return;
+        }
+
         $allowed_time_difference = 60 * 60 * 24; #seconds
 
-        $woffLastChange = shell_exec("git log -1 --format='%ar' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff");
-        $woff2LastChange = shell_exec("git log -1 --format='%ar' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff2");
-        var_dump($woffLastChange);
-        var_dump($woff2LastChange);
+        $woff_last_change = $this->getGithubLastModifiedTime("/plugins/Morpheus/fonts/matomo.woff");
+        $woff2_last_change = $this->getGithubLastModifiedTime("/plugins/Morpheus/fonts/matomo.woff2");
 
-        $woffLastChange = shell_exec("git log -1 --format='%at' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff");
-        $woff2LastChange = shell_exec("git log -1 --format='%at' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff2");
-        var_dump($woffLastChange);
-        var_dump($woff2LastChange);
-
-
-        $woffLastChange = shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff");
-        $woff2LastChange = shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff2");
-        var_dump($woffLastChange);
-        var_dump($woff2LastChange);
         $woff_last_change = strtotime($woff_last_change);
         $woff2_last_change = strtotime($woff2_last_change);
-        var_dump($woff_last_change);
-        var_dump($woff2_last_change);
         $this->assertLessThan($allowed_time_difference, abs($woff_last_change - $woff2_last_change));
 
         $legacy_woff_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/piwik.woff"));
@@ -894,4 +886,13 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         return preg_match('~Morpheus/icons/(?!dist)~', $file);
     }
 
+    private function getGithubLastModifiedTime($file)
+    {
+        $branch = getenv('TRAVIS_BRANCH');
+        $url = "https://api.github.com/repos/matomo-org/matomo/commits/$branch?path=" . urlencode($file) . '&page=1&per_page=1';
+
+        $response = file_get_contents($url);
+        $response = json_decode($response, $isAssoc = true);
+        return $response[0]['commit']['committer']['date'];
+    }
 }
