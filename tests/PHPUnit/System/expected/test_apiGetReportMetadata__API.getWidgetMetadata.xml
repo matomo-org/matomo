@@ -3507,25 +3507,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Top Keywords for Page URL</name>
-		<category>
-			<id>SEO</id>
-			<name>SEO</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Referrers</module>
-		<action>getKeywordsForPage</action>
-		<order>99</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getKeywordsForPage</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Matomo Changelog</name>
 		<category>
 			<id>About Matomo</id>
