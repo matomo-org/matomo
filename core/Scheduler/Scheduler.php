@@ -181,6 +181,24 @@ class Scheduler
     }
 
     /**
+     * Determines a task's scheduled time and persists it, overwriting the previous scheduled time.
+     *
+     * Call this method if your task's scheduled time has changed due to, for example, an option that
+     * was changed.
+     *
+     * The task will be run the first time tomorrow.
+     *
+     * @param Task $task Describes the scheduled task being rescheduled.
+     * @api
+     */
+    public function rescheduleTaskAndRunTomorrow(Task $task)
+    {
+        $this->logger->debug('Rescheduling task and setting first run for tomorrow {task}', array('task' => $task->getName()));
+
+        $this->timetable->rescheduleTaskAndRunTomorrow($task);
+    }
+
+    /**
      * Returns true if the scheduler is currently running a task.
      *
      * @return bool
