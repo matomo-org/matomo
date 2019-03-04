@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Goals;
 
@@ -36,6 +37,12 @@ abstract class Base extends \Piwik\Plugin\Report
 
             $availableReports[] = $this->buildReportMetadata();
         }
+
+        // for goal overview
+        $this->name = Piwik::translate('Goals_GoalsOverview');
+        $this->parameters = ['idGoal' => 0];
+        $this->order = $this->orderGoal;
+        $availableReports[] = $this->buildReportMetadata();
 
         $this->init();
     }
