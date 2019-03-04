@@ -502,8 +502,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $allowed_time_difference = 60 * 60 * 24; #seconds
 
-        $woff_last_change = $this->getGithubLastModifiedTime("/plugins/Morpheus/fonts/matomo.woff");
-        $woff2_last_change = $this->getGithubLastModifiedTime("/plugins/Morpheus/fonts/matomo.woff2");
+        $woff_last_change = $this->getGithubLastModifiedTime("plugins/Morpheus/fonts/matomo.woff");
+        $woff2_last_change = $this->getGithubLastModifiedTime("plugins/Morpheus/fonts/matomo.woff2");
 
         $woff_last_change = strtotime($woff_last_change);
         $woff2_last_change = strtotime($woff2_last_change);
@@ -889,10 +889,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     private function getGithubLastModifiedTime($file)
     {
         $branch = getenv('TRAVIS_BRANCH');
-        $url = "https://api.github.com/repos/matomo-org/matomo/commits/$branch?path=" . urlencode($file) . '&page=1&per_page=1';
+        $url = "https://api.github.com/repos/matomo-org/matomo/commits?sha=" . urlencode($branch) . "&path="
+            . urlencode($file) . '&page=1&per_page=1';
 
         $response = file_get_contents($url);
         $response = json_decode($response, $isAssoc = true);
-        return $response[0]['commit']['committer']['date'];
+        return $response['commit']['committer']['date'];
     }
 }
