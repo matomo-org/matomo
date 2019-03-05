@@ -187,11 +187,23 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
             $rankingQuery->addColumn('url_prefix');
 
+            if ($this->isSiteSearchEnabled()) {
+                $rankingQuery->addColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
+                $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
+            }
+
             $this->addMetricsToRankingQuery($rankingQuery, $metricsConfig);
 
             $typesToQuery = $this->actionsTablesByType;
             unset($typesToQuery[Action::TYPE_SITE_SEARCH]);
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($typesToQuery));
+        }
+
+        // Special Magic to get
+        // 1) No result Keywords
+        // 2) For each page view, count number of times the referrer page was a Site Search
+        if ($this->isSiteSearchEnabled()) {
+            $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery, $metricsConfig);
