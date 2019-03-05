@@ -216,8 +216,8 @@ class DayTest extends BasePeriodTest
     {
         return array(
             array('en', 'Wed, Oct 9'),
-            array('lt', '10-09, Tr'),
-            array('ru', 'Ср, 9 Окт.'),
+            array('lt', '10-09, tr'),
+            array('ru', 'Ср, 9 окт.'),
             array('zh-cn', '10月9日周三'),
         );
     }
@@ -238,7 +238,7 @@ class DayTest extends BasePeriodTest
     {
         return array(
             array('en', 'Wednesday, October 9, 2024'),
-            array('lt', '2024 m. Spalio 9 d., Trečiadienis'),
+            array('lt', '2024 m. spalio 9 d., trečiadienis'),
             array('zh-cn', '2024年10月9日星期三'),
         );
     }

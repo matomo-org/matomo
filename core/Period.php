@@ -366,7 +366,7 @@ abstract class Period
         list($formatStart, $formatEnd) = $this->explodeFormat($format);
 
         $string = $dateStart->getLocalized($formatStart);
-        $string .= $dateEnd->getLocalized($formatEnd);
+        $string .= $dateEnd->getLocalized($formatEnd, false);
 
         return $string;
     }
