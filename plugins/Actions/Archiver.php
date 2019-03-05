@@ -174,7 +174,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.%s IS NOT NULL"
-            . " AND log_action.type != " . Action::TYPE_SITE_SEARCH
+            . " AND (log_action.type != " . Action::TYPE_SITE_SEARCH . " OR log_action.type IS NULL)"
             . $this->getWhereClauseActionIsNotEvent();
 
         $groupBy = "log_link_visit_action.%s";
