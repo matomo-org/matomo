@@ -21,6 +21,7 @@ use Piwik\Plugins\UsersManager\Model AS UsersModel;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -126,7 +127,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     function login($messageNoAccess = null, $infoMessage = false)
     {
         $form = new FormLogin();
-        $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
             if (Nonce::verifyNonce('Login.login', $nonce)) {
@@ -303,14 +303,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->passwordResetter->removePasswordResetInfo($login);
 
         if (empty($urlToRedirect)) {
-            $referrer = Url::getReferrer();
-            $module = Common::getRequestVar('module', '', 'string');
+            $redirect = Common::unsanitizeInputValue(Common::getRequestVar('form_redirect', false));
+            $redirectParams = UrlHelper::getArrayFromQueryString(UrlHelper::getQueryFromUrl($redirect));
+            $module = Common::getRequestVar('module', '', 'string', $redirectParams);
             // when module is login, we redirect to home...
-            if ($module !== 'Login' && $module !== Piwik::getLoginPluginName() && $referrer) {
-                $host = Url::getHostFromUrl($referrer);
+            if (!empty($module) && $module !== 'Login' && $module !== Piwik::getLoginPluginName() && $redirect) {
+                $host = Url::getHostFromUrl($redirect);
+                $currentHost = Url::getHost();
+                $currentHost = explode(':', $currentHost, 2)[0];
+
                 // we only redirect to a trusted host
-                if ($host && Url::isValidHost($host)) {
-                    $urlToRedirect = $referrer;
+                if (!empty($host) && !empty($currentHost) && $host == $currentHost && Url::isValidHost($host)
+                ) {
+                    $urlToRedirect = $redirect;
                 }
             }
         }

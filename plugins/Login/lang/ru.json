@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Журнал атак Brute Force",
         "ConfirmationLinkSent": "Ссылка с подтверждением была отправлена на ваш e-mail. Проверьте свой e-mail и перейдите по отправленной вам ссылке.",
         "ContactAdmin": "Возможная причина: на вашем хосте, возможно, отключена функция mail().<br \/>Пожалуйста, свяжитесь с администратором Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Пользователь с правами суперпользователя не может пройти проверку подлинности с помощью данного механизма: «%s».",
@@ -10,6 +11,18 @@
         "InvalidUsernameEmail": "Неверное имя пользователя и\/или e-mail",
         "LogIn": "Войти",
         "LoginOrEmail": "Имя пользователя или e-mail",
+        "SettingBruteForceEnable": "Включить обнаружение Brute Force",
+        "SettingBruteForceWhitelistIp": "Никогда не блокировать эти IP для авторизации",
+        "SettingBruteForceBlacklistIp": "Всегда блокировать эти IP для авторизации",
+        "SettingBruteForceMaxFailedLogins": "Разрешённое количество попыток авторизации за период времени",
+        "SettingBruteForceMaxFailedLoginsHelp": "Блокировать IP, если за установленный ниже период времени зарегистрировано большее чем это число количество ошибочных попыток авторизации.",
+        "SettingBruteForceTimeRange": "Считать попытки авторизации в пределах этого периода, в минутах",
+        "SettingBruteForceTimeRangeHelp": "Введите количество минут",
+        "LoginNotAllowedBecauseBlocked": "Сейчас вы не можете авторизоваться. т.к. у вас было слишком много ошибочных попыток, попробуйте позже.",
+        "CurrentlyBlockedIPs": "Заблокированные IP",
+        "IPsAlwaysBlocked": "Эти IP всегда заблокированы",
+        "UnblockAllIPs": "Разблокировать все заблокированные IP",
+        "CurrentlyBlockedIPsUnblockConfirm": "Вы уверены, что хотите разблокировать все заблокированные сейчас IP?",
         "LoginPasswordNotCorrect": "Логин или пароль неверны",
         "LostYourPassword": "Потеряли пароль?",
         "ChangeYourPassword": "Измените пароль",
@@ -19,6 +32,8 @@
         "PasswordChanged": "Ваш пароль был изменен.",
         "PasswordRepeat": "Пароль еще раз",
         "PasswordsDoNotMatch": "Пароли не совпадают.",
+        "WrongPasswordEntered": "Пожалуйста, введите ваш правильный пароль.",
+        "ConfirmPasswordToContinue": "Подтвердите пароль для продолжения",
         "PluginDescription": "Предоставляет авторизацию через имя пользователя и пароль, а также функцию сброса пароля. Способ авторизации может быть изменён если использовать другой Login плагин, такой как LoginLdap, доступный через Marketplace.",
         "RememberMe": "Запомнить меня"
     }
