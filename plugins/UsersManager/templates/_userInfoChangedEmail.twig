@@ -1,9 +1,14 @@
 <p>{{ 'General_HelloUser'|translate('<strong>' ~ accountName ~ '</strong>')|raw }}</p>
 
+{% if type == 'email' %}
 <p>{{ 'UsersManager_EmailChangedEmail1'|translate('<strong>' ~ newEmail ~ '</strong>')|raw }}.</p>
 
-{% set deviceDescription %}{{ deviceName }}{% if deviceBrand is not empty or deviceModel is not empty %} ({% if deviceBrand is not empty %}{{ deviceBrand }}{% endif %}{% if deviceModel is not empty %} {{ deviceModel }}{% endif %}){% endif %}{% endset %}
 <p>{{ 'UsersManager_EmailChangedEmail2'|translate(deviceDescription, ipAddress) }} {{ 'UsersManager_IfThisWasYouIgnoreIfNot'|translate }}</p>
+{% elseif type == 'password' %}
+<p>{{ 'UsersManager_PasswordChangedEmail'|translate(deviceDescription, ipAddress) }}</p>
+
+<p>{{ 'UsersManager_IfThisWasYouIgnoreIfNot'|translate }}</p>
+{% endif %}
 
 <p>{{ 'General_ThankYouForUsingMatomo'|translate }}!
 <br/>{{ 'General_TheMatomoTeam'|translate }}</p>

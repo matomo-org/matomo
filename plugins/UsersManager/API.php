@@ -1393,47 +1393,27 @@ class API extends \Piwik\Plugin\API
 
     private function sendEmailChangedEmail($user, $newEmail)
     {
-        $initiatingDevice = $this->getInitiatingDeviceInfo();
-
         // send the mail to both the old email and the new email
         foreach ([$newEmail, $user['email']] as $emailTo) {
-            $view = new View('@UsersManager/_emailChangedEmail.twig');
-            $view->accountName = Common::sanitizeInputValue($user['login']);
-            $view->newEmail = Common::sanitizeInputValue($newEmail);
-            $view->ipAddress = IP::getIpFromHeader();
-            $view->deviceName = $initiatingDevice['deviceName'];
-            $view->deviceBrand = $initiatingDevice['deviceBrand'];
-            $view->deviceModel = $initiatingDevice['deviceModel'];
-
-            $mail = new Mail();
-
-            $mail->addTo($emailTo, $user['login']);
-            $mail->setSubject(Piwik::translate('UsersManager_EmailChangeNotificationSubject'));
-            $mail->setDefaultFromPiwik();
-            $mail->setWrappedHtmlBody($view);
-
-            $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
-            $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
-            $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
-
-            $mail->send();
+            $this->sendUserInfoChangedEmail('email', $user, $newEmail, $emailTo, 'UsersManager_EmailChangeNotificationSubject');
         }
     }
 
-    private function sendPasswordChangedEmail($user)
+    private function sendUserInfoChangedEmail($type, $user, $newValue, $emailTo, $subject)
     {
-        $initiatingDevice = $this->getInitiatingDeviceInfo();
+        $deviceDescription = $this->getDeviceDescription();
 
-        $view = new View('@UsersManager/_passwordChangedEmail.twig');
+        $view = new View('@UsersManager/_userInfoChangedEmail.twig');
+        $view->type = $type;
         $view->accountName = Common::sanitizeInputValue($user['login']);
+        $view->newEmail = Common::sanitizeInputValue($newValue);
         $view->ipAddress = IP::getIpFromHeader();
-        $view->deviceName = $initiatingDevice['deviceName'];
-        $view->deviceBrand = $initiatingDevice['deviceBrand'];
-        $view->deviceModel = $initiatingDevice['deviceModel'];
+        $view->deviceDescription = $deviceDescription;
 
         $mail = new Mail();
-        $mail->addTo($user['email'], $user['login']);
-        $mail->setSubject(Piwik::translate('UsersManager_PasswordChangeNotificationSubject'));
+
+        $mail->addTo($emailTo, $user['login']);
+        $mail->setSubject(Piwik::translate($subject));
         $mail->setDefaultFromPiwik();
         $mail->setWrappedHtmlBody($view);
 
@@ -1444,17 +1424,34 @@ class API extends \Piwik\Plugin\API
         $mail->send();
     }
 
-    private function getInitiatingDeviceInfo()
+    private function sendPasswordChangedEmail($user)
+    {
+        $this->sendUserInfoChangedEmail('password', $user, null, $user['email'], 'UsersManager_PasswordChangeNotificationSubject');
+    }
+
+    private function getDeviceDescription()
     {
         $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
         $uaParser = new DeviceDetector($userAgent);
         $uaParser->parse();
 
-        return [
-            'deviceName' => $uaParser->getDeviceName(),
-            'deviceBrand' => $uaParser->getBrandName(),
-            'deviceModel' => $uaParser->getModel(),
-        ];
+        $deviceName = $uaParser->getDeviceName();
+        if (!empty($deviceName)) {
+            $description = $deviceName;
+        } else {
+            $description = Piwik::translate('General_Unknown');
+        }
+
+        $deviceBrand = $uaParser->getBrandName();
+        $deviceModel = $uaParser->getModel();
+        if (!empty($deviceBrand)
+            || !empty($deviceModel)
+        ) {
+            $parts = array_filter([$deviceBrand, $deviceModel]);
+            $description .= ' (' . implode(' ', $parts) . ')';
+        }
+
+        return $description;
     }
 }
