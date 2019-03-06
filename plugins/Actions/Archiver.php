@@ -58,12 +58,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->initActionsTables();
 
-        $this->archiveDayActions($rankingQueryLimit);
-        if ($this->isSiteSearchEnabled()) {
-            $siteSearchQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-            $this->archiveDaySiteSearchActions($siteSearchQueryLimit);
-        }
-
+        $this->archiveDayPageActions($rankingQueryLimit);
+        $this->archiveDaySiteSearchActions($rankingQueryLimit);
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
@@ -153,7 +149,22 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    protected function archiveDayActions($rankingQueryLimit)
+    protected function archiveDayPageActions($rankingQueryLimit)
+    {
+        $typesToQuery = $this->actionsTablesByType;
+        unset($typesToQuery[Action::TYPE_SITE_SEARCH]);
+        $this->archiveDayActions($rankingQueryLimit, array_keys($typesToQuery), true);
+    }
+
+    protected function archiveDaySiteSearchActions($rankingQueryLimit)
+    {
+        if ($this->isSiteSearchEnabled()) {
+            $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
+            $this->archiveDayActions($rankingQueryLimit, array(Action::TYPE_SITE_SEARCH), false);
+        }
+    }
+
+    protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
     {
         $metricsConfig = Metrics::getActionMetrics();
 
@@ -174,8 +185,13 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
         $where .= " AND log_link_visit_action.%s IS NOT NULL"
-            . " AND (log_action.type != " . Action::TYPE_SITE_SEARCH . " OR log_action.type IS NULL)"
             . $this->getWhereClauseActionIsNotEvent();
+
+        $actionTypesWhere = "log_action.type IN (" . implode(", ", $actionTypes) . ")";
+        if ($includePageNotDefined) {
+            $actionTypesWhere = "(" . $actionTypesWhere . " OR log_action.type IS NULL)";
+        }
+        $where .= " AND $actionTypesWhere";
 
         $groupBy = "log_link_visit_action.%s";
         $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
@@ -194,9 +210,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
             $this->addMetricsToRankingQuery($rankingQuery, $metricsConfig);
 
-            $typesToQuery = $this->actionsTablesByType;
-            unset($typesToQuery[Action::TYPE_SITE_SEARCH]);
-            $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($typesToQuery));
+            $rankingQuery->partitionResultIntoMultipleGroups('type', $actionTypes);
         }
 
         // Special Magic to get
@@ -205,56 +219,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         if ($this->isSiteSearchEnabled()) {
             $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
-
-        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery, $metricsConfig);
-        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url", $rankingQuery, $metricsConfig);
-    }
-
-    protected function archiveDaySiteSearchActions($rankingQueryLimit)
-    {
-        $metricsConfig = Metrics::getActionMetrics();
-
-        $select = "log_action.name,
-                log_action.type,
-                log_action.idaction,
-                log_action.url_prefix";
-
-        $select = $this->addMetricsToSelect($select, $metricsConfig);
-
-        $from = array(
-            "log_link_visit_action",
-            array(
-                "table"  => "log_action",
-                "joinOn" => "log_link_visit_action.%s = log_action.idaction"
-            )
-        );
-
-        $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
-        $where .= " AND log_link_visit_action.%s IS NOT NULL"
-            . " AND log_action.type = " . Action::TYPE_SITE_SEARCH
-            . $this->getWhereClauseActionIsNotEvent();
-
-        $groupBy = "log_link_visit_action.%s";
-        $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
-
-        $rankingQuery = false;
-        if ($rankingQueryLimit > 0) {
-            $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
-            $rankingQuery->addLabelColumn(array('idaction', 'name'));
-            $rankingQuery->addColumn('url_prefix');
-            $rankingQuery->addColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
-            $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
-
-            $this->addMetricsToRankingQuery($rankingQuery, $metricsConfig);
-
-            $rankingQuery->partitionResultIntoMultipleGroups('type', array(Action::TYPE_SITE_SEARCH));
-        }
-
-        // Special Magic to get
-        // 1) No result Keywords
-        // 2) For each page view, count number of times the referrer page was a Site Search
-        $this->updateQuerySelectFromForSiteSearch($select, $from);
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery, $metricsConfig);
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url", $rankingQuery, $metricsConfig);
