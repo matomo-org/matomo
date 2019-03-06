@@ -87,6 +87,9 @@ class Actions extends BaseFilter
                     }
                     $dataTable->setLabelsHaveChanged();
                 }
+
+                $row->deleteMetadata('folder_url_start');
+                $row->deleteMetadata('page_title_path');
             }
         });
 
