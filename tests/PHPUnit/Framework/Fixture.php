@@ -31,7 +31,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\ProcessedReport;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -293,7 +293,7 @@ class Fixture extends \PHPUnit_Framework_Assert
                 $this->loginAsSuperUser();
             }
 
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+            APILanguagesManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());

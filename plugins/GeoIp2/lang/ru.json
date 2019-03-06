@@ -1,0 +1,10 @@
+{
+    "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "В tar-архиве %1$s не найдено корректной базы данных GeoIP!",
+        "CannotUnzipGeoIPFile": "Не получилось распаковать файл GeoIP за %1$s:%2$s",
+        "PluginDescription": "Механизмы определения геолокации GeoIP2.",
+        "ServerBasedVariablesConfiguration": "Конфигурация серверных переменных, использованная модулями сервера GeoIP2.",
+        "GeoIPVariablesConfigurationHere": "Вы можете сконфигурировать используемые серверные переменные %1$s здесь %2$s.",
+        "ServerVariableFor": "Серверная переменная для %s"
+    }
+}

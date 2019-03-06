@@ -513,6 +513,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+            page.wait(1000); // for some extra JS to execute
         }, done);
     });
 
@@ -815,6 +816,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             }, 500);
 
             page.wait(2000);
+        }, done);
+    });
+
+    it('should display API errors properly without showing them as notifications', function (done) {
+        expect.screenshot("api_error").to.be.captureSelector('.pageWrap', function (page) {
+            var url = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&category=%7B%7Bconstructor.constructor(%22_x(45)%22)()%7D%7D&subcategory=%7B%7Bconstructor.constructor(%22_x(48)%22)()%7D%7D&forceError=1";
+            var adminUrl = "?" + generalParams + "&module=CoreAdminHome&action=home";
+            page.load(url, 1000);
+            page.load(adminUrl, 1000);
         }, done);
     });
 });

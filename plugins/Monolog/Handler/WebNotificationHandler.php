@@ -20,6 +20,15 @@ use Zend_Session_Exception;
  */
 class WebNotificationHandler extends AbstractProcessingHandler
 {
+    public function isHandling(array $record)
+    {
+        if (!empty($record['context']['ignoreInScreenWriter'])) {
+            return false;
+        }
+
+        return parent::isHandling($record);
+    }
+
     protected function write(array $record)
     {
         switch ($record['level']) {
