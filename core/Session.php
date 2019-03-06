@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
+use Psr\Log\LoggerInterface;
 use Zend_Session;
 
 /**
@@ -132,7 +133,10 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::error('Unable to start session: ' . $e->getMessage());
+            StaticContainer::get(LoggerInterface::class)->error('Unable to start session: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             if (SettingsPiwik::isPiwikInstalled()) {
                 $pathToSessions = '';

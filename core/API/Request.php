@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
@@ -23,6 +24,7 @@ use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Psr\Log\LoggerInterface;
 
 /**
  * Dispatches API requests to the appropriate API method.
@@ -269,7 +271,10 @@ class Request
                 return $response->getResponse($returnedValue, $module, $method);
             });
         } catch (Exception $e) {
-            Log::debug($e);
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
             $toReturn = $response->getResponseException($e);
         } finally {

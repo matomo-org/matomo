@@ -478,7 +478,7 @@ class Row extends \ArrayObject
                 throw new Exception("Unknown aggregation operation for column $columnToSumName.");
             }
 
-            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum);
+            $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $this, $rowToSum, $columnToSumName);
 
             $this->setColumn($columnToSumName, $newValue);
         }
@@ -490,7 +490,7 @@ class Row extends \ArrayObject
 
     /**
      */
-    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum)
+    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum, $columnName = null)
     {
         switch ($operation) {
             case 'skip':
@@ -509,7 +509,7 @@ class Row extends \ArrayObject
                 }
                 break;
             case 'sum':
-                $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+                $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue, $columnName);
                 break;
             case 'uniquearraymerge':
                 if (is_array($thisColumnValue) && is_array($columnToSumValue)) {
@@ -549,15 +549,15 @@ class Row extends \ArrayObject
 
             if (is_array($aggregationOperations)) {
                 // we need to aggregate value before value is overwritten by maybe another row
-                foreach ($aggregationOperations as $columnn => $operation) {
-                    $thisMetadata = $this->getMetadata($columnn);
-                    $sumMetadata  = $rowToSum->getMetadata($columnn);
+                foreach ($aggregationOperations as $column => $operation) {
+                    $thisMetadata = $this->getMetadata($column);
+                    $sumMetadata  = $rowToSum->getMetadata($column);
 
                     if ($thisMetadata === false && $sumMetadata === false) {
                         continue;
                     }
 
-                    $aggregatedMetadata[$columnn] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum);
+                    $aggregatedMetadata[$column] = $this->getColumnValuesMerged($operation, $thisMetadata, $sumMetadata, $this, $rowToSum, $column);
                 }
             }
 
@@ -595,16 +595,22 @@ class Row extends \ArrayObject
      *
      * @param number|bool $thisColumnValue
      * @param number|array $columnToSumValue
+     * @param string|null $columnName for error reporting.
      *
      * @throws Exception
      * @return array|int
      */
-    protected function sumRowArray($thisColumnValue, $columnToSumValue)
+    protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
         if (is_numeric($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 $thisColumnValue = 0;
+            } else if (!is_numeric($thisColumnValue)) {
+                $label = $this->getColumn('label');
+                throw new \Exception(sprintf('Trying to sum unsupported operands for column %s in row with label = %s: %s + %s',
+                    $columnName, $label, gettype($thisColumnValue), gettype($columnToSumValue)));
             }
+
             return $thisColumnValue + $columnToSumValue;
         }
 
@@ -622,12 +628,12 @@ class Row extends \ArrayObject
                 if (!isset($newValue[$arrayIndex])) {
                     $newValue[$arrayIndex] = false;
                 }
-                $newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue);
+                $newValue[$arrayIndex] = $this->sumRowArray($newValue[$arrayIndex], $arrayValue, $columnName);
             }
             return $newValue;
         }
 
-        $this->warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue);
+        $this->warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue, $columnName);
 
         return 0;
     }
@@ -723,13 +729,14 @@ class Row extends \ArrayObject
         }
     }
 
-    protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue)
+    protected function warnWhenSummingTwoStrings($thisColumnValue, $columnToSumValue, $columnName = null)
     {
         if (is_string($columnToSumValue)) {
             Log::warning(
-                "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for row %s",
+                "Trying to add two strings in DataTable\Row::sumRowArray: %s + %s for column %s in row %s",
                 $thisColumnValue,
                 $columnToSumValue,
+                $columnName,
                 $this->__toString()
             );
         }
