@@ -2181,7 +2181,7 @@
 	</row>
 	<row>
 		<category>Goals</category>
-		<name>Goals Overview</name>
+		<name>Goals Overview - Visits to Conversion</name>
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
 		<parameters>
@@ -2197,7 +2197,7 @@
 	</row>
 	<row>
 		<category>Goals</category>
-		<name>Goals Overview</name>
+		<name>Goals Overview - Days to Conversion</name>
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<parameters>
