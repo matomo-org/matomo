@@ -426,6 +426,7 @@ Multiple Category 5,$ 1000,2,1,1,$ 500,2,100%
 Product Category not defined,$ 611.22,7,2,4,$ 55.61,3.5,50%
 Tools,$ 200,2,1,0,$ 100,2,0%
 Category TWO LEFT in cart,$ 0,0,0,3,$ 0,0,0%
+second category,$ 0,0,0,3,$ 0,0,0%
 
 Goals
 nb_conversions,nb_visits_converted,revenue,conversion_rate

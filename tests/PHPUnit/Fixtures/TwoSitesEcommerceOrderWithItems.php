@@ -172,13 +172,13 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
             self::checkResponse($t->doTrackPageView("View product left in cart"));
 
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($offsetHour + 2.6)->getDatetime());
-            $t->setEcommerceView($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = 'Category TWO LEFT in cart');
+            $t->setEcommerceView($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = ['Category TWO LEFT in cart', 'second category']);
             self::checkResponse($t->doTrackPageView("View product left in cart"));
 
             // ABANDONED CART
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($offsetHour + 2.7)->getDatetime());
             $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART ONE', $name = 'PRODUCT ONE LEFT in cart', $category = '', $price = 500.11111112, $quantity = 1);
-            $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = 'Category TWO LEFT in cart', $price = 1000, $quantity = 2);
+            $t->addEcommerceItem($sku = 'SKU IN ABANDONED CART TWO', $name = 'PRODUCT TWO LEFT in cart', $category = ['Category TWO LEFT in cart', 'second category'], $price = 1000, $quantity = 2);
             $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT THREE LEFT in cart', $category = 'Electronics & Cameras', $price = 10, $quantity = 1);
             self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 2510.11111112));
         }
