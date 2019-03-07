@@ -1436,7 +1436,7 @@ class API extends \Piwik\Plugin\API
         $uaParser = new DeviceDetector($userAgent);
         $uaParser->parse();
 
-        $deviceName = $uaParser->getDeviceName();
+        $deviceName = ucfirst($uaParser->getDeviceName());
         if (!empty($deviceName)) {
             $description = $deviceName;
         } else {
