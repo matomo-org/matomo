@@ -119,7 +119,7 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Fingerprint</name>
-		<segment>visitorFingerprint</segment>
+		<segment>fingerprint</segment>
 		<acceptedValues>1eceaa833348b187 - any 16 Hexadecimal chars ID, which can be fetched from API.getLastVisitsDetails</acceptedValues>
 		<permission>1</permission>
 	</row>
