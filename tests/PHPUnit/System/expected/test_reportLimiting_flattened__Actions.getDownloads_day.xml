@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F-1</segment>
 		<Actions_DownloadUrl>Others</Actions_DownloadUrl>
 	</row>
 	<row>
@@ -22,6 +23,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite5.com</segment>
 		<Actions_DownloadUrl>cloudsite5.com/ - Others</Actions_DownloadUrl>
 	</row>
 	<row>
@@ -34,6 +36,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite6.com</segment>
 		<Actions_DownloadUrl>cloudsite6.com/ - Others</Actions_DownloadUrl>
 	</row>
 	<row>
@@ -46,6 +49,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite7.com</segment>
 		<Actions_DownloadUrl>cloudsite7.com/ - Others</Actions_DownloadUrl>
 	</row>
 	<row>
@@ -60,8 +64,8 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/20/download</url>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite5.com</segment>
 		<Actions_DownloadUrl>cloudsite5.com/20/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/24/download</label>
@@ -75,8 +79,8 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/24/download</url>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite6.com</segment>
 		<Actions_DownloadUrl>cloudsite6.com/24/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F24%2Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/28/download</label>
@@ -90,7 +94,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/28/download</url>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite7.com</segment>
 		<Actions_DownloadUrl>cloudsite7.com/28/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F28%2Fdownload</segment>
 	</row>
 </result>

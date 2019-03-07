@@ -65,12 +65,15 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $tar = new Tar($tarFile, 'bz2');
 
-        $tar->extract($targetDir);
-
-        $this->writeSuccessMessage($output, array(
-            'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
-            'Compare them with the expected test results and commit them if needed.'
-        ));
+        if ($tar->extract($targetDir)) {
+            $this->writeSuccessMessage($output, array(
+                'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
+                'Compare them with the expected test results and commit them if needed.'
+            ));
+        } else {
+            $output->write('<error>' . $tar->errorInfo() . '.</error>');
+            $output->writeln('<error> Check that you have the PHP bz2 extension installed and try again.');
+        }
 
         unlink($tarFile);
     }
@@ -100,7 +103,14 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $extractionTarget = $tmpDir . '/artifacts';
 
         Filesystem::mkdir($extractionTarget);
-        $tar->extract($extractionTarget);
+
+        $success = $tar->extract($extractionTarget);
+        if (! $success) {
+            $output->write('<error>' . $tar->errorInfo() . '.</error>');
+            $output->writeln('<error> Check that you have the PHP bz2 extension installed and try again.');
+            unlink($tarFile);
+            return;
+        }
 
         $artifacts = Filesystem::globr($extractionTarget, '*~~*');
 

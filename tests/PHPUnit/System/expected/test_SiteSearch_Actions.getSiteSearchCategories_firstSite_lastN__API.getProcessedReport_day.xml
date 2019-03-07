@@ -55,8 +55,19 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="Sunday, January 3, 2010" />
-		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FSearch%2BCategory</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FBad%2BNo%2BResult%2BCategory%2B%253A%2528</segment>
+			</row>
+			<row>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCategory</segment>
+			</row>
+		</result>
 	</reportMetadata>
 	<reportTotal>
 		<nb_uniq_visitors>4</nb_uniq_visitors>

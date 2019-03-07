@@ -18,7 +18,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -30,7 +30,7 @@
 				<goalPageId>95</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -54,7 +54,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -153,7 +153,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -165,7 +165,7 @@
 				<goalPageId>46</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -182,7 +182,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -202,7 +202,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -219,7 +219,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file8.zip</subtitle>
 				
@@ -237,7 +237,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/8.html</subtitle>
 				
@@ -255,7 +255,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
@@ -281,7 +281,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -386,7 +386,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -408,7 +408,7 @@
 				<goalPageId>45</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -432,7 +432,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -539,7 +539,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -551,7 +551,7 @@
 				<goalPageId>41</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -564,7 +564,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -581,7 +581,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file7.zip</subtitle>
 				
@@ -599,7 +599,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/7.html</subtitle>
 				
@@ -617,7 +617,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
@@ -643,7 +643,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -748,7 +748,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -770,7 +770,7 @@
 				<goalPageId>40</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -794,7 +794,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -901,7 +901,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -913,7 +913,7 @@
 				<goalPageId>35</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -930,7 +930,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -950,7 +950,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -967,7 +967,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file6.zip</subtitle>
 				
@@ -985,7 +985,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/6.html</subtitle>
 				
@@ -1003,7 +1003,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
 				<eventName>Name6</eventName>
@@ -1029,7 +1029,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1134,7 +1134,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1156,7 +1156,7 @@
 				<goalPageId>34</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1180,7 +1180,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1287,7 +1287,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1299,7 +1299,7 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1312,7 +1312,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -1329,7 +1329,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file5.zip</subtitle>
 				
@@ -1347,7 +1347,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/5.html</subtitle>
 				
@@ -1365,7 +1365,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
 				<eventName>Name5</eventName>
@@ -1391,7 +1391,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1496,7 +1496,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1518,7 +1518,7 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1542,7 +1542,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1649,7 +1649,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1661,7 +1661,7 @@
 				<goalPageId>24</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1678,7 +1678,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -1698,7 +1698,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -1715,7 +1715,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file4.zip</subtitle>
 				
@@ -1733,7 +1733,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/4.html</subtitle>
 				
@@ -1751,7 +1751,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
 				<eventName>Name4</eventName>
@@ -1777,7 +1777,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -1882,7 +1882,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -1904,7 +1904,7 @@
 				<goalPageId>23</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1928,7 +1928,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2035,7 +2035,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2047,7 +2047,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -2060,7 +2060,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -2077,7 +2077,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file3.zip</subtitle>
 				
@@ -2095,7 +2095,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
@@ -2113,7 +2113,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
@@ -2139,7 +2139,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2246,7 +2246,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2258,7 +2258,7 @@
 				<goalPageId>80</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -2271,7 +2271,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -2288,7 +2288,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file3.zip</subtitle>
 				
@@ -2306,7 +2306,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
@@ -2324,7 +2324,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
@@ -2350,7 +2350,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2447,7 +2447,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -2469,7 +2469,7 @@
 				<goalPageId>18</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -2493,7 +2493,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2598,7 +2598,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -2620,7 +2620,7 @@
 				<goalPageId>79</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -2644,7 +2644,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2751,7 +2751,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2763,7 +2763,7 @@
 				<goalPageId>13</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -2780,7 +2780,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -2800,7 +2800,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -2817,7 +2817,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file2.zip</subtitle>
 				
@@ -2835,7 +2835,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/2.html</subtitle>
 				
@@ -2853,7 +2853,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
@@ -2879,7 +2879,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -2986,7 +2986,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2998,7 +2998,7 @@
 				<goalPageId>74</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3015,7 +3015,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -3035,7 +3035,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -3052,7 +3052,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file2.zip</subtitle>
 				
@@ -3070,7 +3070,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/2.html</subtitle>
 				
@@ -3088,7 +3088,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
@@ -3114,7 +3114,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3211,7 +3211,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -3233,7 +3233,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3257,7 +3257,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3362,7 +3362,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -3384,7 +3384,7 @@
 				<goalPageId>73</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3408,7 +3408,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3515,7 +3515,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3527,7 +3527,7 @@
 				<goalPageId>8</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3540,7 +3540,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -3557,7 +3557,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
@@ -3575,7 +3575,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
@@ -3593,7 +3593,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
@@ -3619,7 +3619,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3726,7 +3726,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3738,7 +3738,7 @@
 				<goalPageId>58</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3751,7 +3751,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -3768,7 +3768,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
@@ -3786,7 +3786,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
@@ -3804,7 +3804,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
@@ -3830,7 +3830,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -3937,7 +3937,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3949,7 +3949,7 @@
 				<goalPageId>69</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -3962,7 +3962,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -3979,7 +3979,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
@@ -3997,7 +3997,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
@@ -4015,7 +4015,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
@@ -4041,7 +4041,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4140,7 +4140,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -4152,7 +4152,7 @@
 				<goalPageId>91</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4165,7 +4165,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -4182,7 +4182,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
@@ -4200,7 +4200,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
@@ -4218,7 +4218,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
@@ -4244,7 +4244,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4349,7 +4349,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -4371,7 +4371,7 @@
 				<goalPageId>7</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4395,7 +4395,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4500,7 +4500,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -4522,7 +4522,7 @@
 				<goalPageId>57</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4546,7 +4546,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4651,7 +4651,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -4673,7 +4673,7 @@
 				<goalPageId>68</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4697,7 +4697,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4802,7 +4802,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -4824,7 +4824,7 @@
 				<goalPageId>90</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4848,7 +4848,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -4955,7 +4955,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -4967,7 +4967,7 @@
 				<goalPageId>2</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -4984,7 +4984,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -5004,7 +5004,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -5021,7 +5021,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
@@ -5039,7 +5039,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
@@ -5057,7 +5057,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
@@ -5083,7 +5083,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -5190,7 +5190,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5202,7 +5202,7 @@
 				<goalPageId>52</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -5219,7 +5219,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -5239,7 +5239,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -5256,7 +5256,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
@@ -5274,7 +5274,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
@@ -5292,7 +5292,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
@@ -5318,7 +5318,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -5425,7 +5425,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5437,7 +5437,7 @@
 				<goalPageId>63</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -5454,7 +5454,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -5474,7 +5474,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -5491,7 +5491,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
@@ -5509,7 +5509,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
@@ -5527,7 +5527,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
@@ -5553,7 +5553,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -5652,7 +5652,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Space Quest XII</title>
 				<subtitle>http://piwik.net/space/quest/iv</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5664,7 +5664,7 @@
 				<goalPageId>85</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -5681,7 +5681,7 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.svg</icon>
 				<title>Site Search</title>
 				<subtitle>Bring on the party</subtitle>
 				
@@ -5701,7 +5701,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>two ($ 5 revenue)</subtitle>
 				
@@ -5718,7 +5718,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/download.png</icon>
+				<icon>plugins/Morpheus/images/download.svg</icon>
 				<title>Download</title>
 				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
@@ -5736,7 +5736,7 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/link.png</icon>
+				<icon>plugins/Morpheus/images/link.svg</icon>
 				<title>Outlink</title>
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
@@ -5754,7 +5754,7 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<icon>plugins/Morpheus/images/event.svg</icon>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
@@ -5780,7 +5780,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -5885,7 +5885,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -5907,7 +5907,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -5931,7 +5931,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -6036,7 +6036,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -6058,7 +6058,7 @@
 				<goalPageId>51</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -6082,7 +6082,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -6187,7 +6187,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -6209,7 +6209,7 @@
 				<goalPageId>62</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -6233,7 +6233,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -6338,7 +6338,7 @@
 				<interactionPosition>1</interactionPosition>
 				<title>It's &lt;script&gt; pitch black...</title>
 				<subtitle>http://piwik.net/grue/lair</subtitle>
-				<icon />
+				<icon>plugins/Morpheus/images/action.svg</icon>
 				
 				<customVariables>
 					<row>
@@ -6360,7 +6360,7 @@
 				<goalPageId>84</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
+				<icon>plugins/Morpheus/images/goal.svg</icon>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -6384,7 +6384,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

@@ -8,7 +8,9 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\ErrorException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Piwik's error handler function.
@@ -160,7 +162,7 @@ class ErrorHandler
             case E_USER_DEPRECATED:
             default:
                 try {
-                    Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                    StaticContainer::get(LoggerInterface::class)->warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
                 } catch (\Exception $ex) {
                     // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
                 }
