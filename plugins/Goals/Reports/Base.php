@@ -23,7 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->categoryId = 'Goals_Goals';
     }
 
-    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter)
+    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter, $isGoalSummaryReport = false)
     {
         $idSite = $this->getIdSiteFromInfos($infos);
         $goals  = $this->getGoalsForIdSite($idSite);
@@ -39,7 +39,11 @@ abstract class Base extends \Piwik\Plugin\Report
         }
 
         // for goal overview
-        $this->name = $goalNameFormatter(['name' => Piwik::translate('Goals_GoalsOverview')]);
+        if ($isGoalSummaryReport) {
+            $this->name = Piwik::translate('Goals_GoalsOverview');
+        } else {
+            $this->name = $goalNameFormatter(['name' => Piwik::translate('Goals_GoalsOverview')]);
+        }
         $this->parameters = ['idGoal' => 0];
         $this->order = $this->orderGoal;
         $availableReports[] = $this->buildReportMetadata();
