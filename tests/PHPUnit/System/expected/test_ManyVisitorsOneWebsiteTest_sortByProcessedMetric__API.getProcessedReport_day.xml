@@ -61,10 +61,12 @@
 	<reportMetadata>
 		<row>
 			
+			<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fspace</segment>
 			<idsubdatatable>3</idsubdatatable>
 		</row>
 		<row>
 			
+			<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fgrue</segment>
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 	</reportMetadata>
