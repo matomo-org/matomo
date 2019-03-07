@@ -58,7 +58,7 @@
 	<reportMetadata>
 		<row>
 			
-			<segment>pageTitle==Checkout</segment>
+			<segment>pageTitle=^Checkout</segment>
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
