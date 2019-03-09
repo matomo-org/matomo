@@ -95,7 +95,7 @@
         }
 
         function getPaginationUpperBound() {
-            var end = getCurrentPagingOffset() + parseInt(model.pageSize, 10) - 1;
+            var end = getCurrentPagingOffset() + parseInt(model.pageSize, 10);
             var max = getNumberOfFilteredSites();
             if (end > max) {
                 end = max;
