@@ -151,7 +151,7 @@
         "OrManageIndividually": "Ya da her web sitesi için bu kullanıcının erişim izinlerini ayarlayın",
         "ChangePermToAllSitesConfirm": "%1$sKullanıcıya%2$s yönetici erişiminiz olan tüm web siteleri için erişim izni vermek istediğinizden emin misiniz?",
         "ChangePermToAllSitesConfirm2": "Not: Bu ayar yalnız var olan web siteleri için geçerli olur. Eklenebilecek yeni web siteleri için bu kullanıcıya erişim izni otomatik olarak verilmez.",
-        "CapabilitiesHelp": "Yeterlikler kullanıcıya verilen bireysel izinlerdir. Roller, varsayılan olarak belirli yeterlikler için izin verir. Örneğin, Yönetici rolündeki kullanıcılara Etiket Yöneticisi üzerindeki etiketleri düzenleme izni otomatik olarak verilir. Yetkileri daha az olan kullanıcılara ek yeterlikler verebilirsiniz.",
+        "CapabilitiesHelp": "Yeterlikler kullanıcıya verilen bireysel izinlerdir. Roller, varsayılan olarak belirli yeterlikler için izin verir. Örneğin, Yönetici rolündeki kullanıcılara Kod İmi Yöneticisi üzerindeki kod imlerini düzenleme izni otomatik olarak verilir. Yetkileri daha az olan kullanıcılara ek yeterlikler verebilirsiniz.",
         "Capabilities": "Yeterlikler",
         "AreYouSureAddCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısına vermek istediğinize emin misiniz?",
         "AreYouSureRemoveCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısından kaldırmak istediğinize emin misiniz?",
