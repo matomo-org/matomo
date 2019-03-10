@@ -33,6 +33,7 @@
         "ConfirmDisableTwoFA": "Sei sicuro di voler disabilitare l'autenticazione a due fattori per il tuo account? L'autenticazione a due fattori attivata aumenta la sicurezza del tuo account.",
         "VerifyAuthCodeIntro": "Inserisci qui sotto il codice a sei cifre della tua app di autenticazione per confermare che hai configurato correttamente il tuo dispositivo.",
         "VerifyAuthCodeHelp": "Inserisci il codice a sei cifre che è stato generato sul tuo dispositivo mobile dopo la scansione del codice a barre.",
+        "Your2FaAuthSecret": "Il tuo \"segreto\" per l'autenticazione a due fattori",
         "SetupAuthenticatorOnDevice": "Imposta l'autenticatore sul tuo dispositivo",
         "SetupAuthenticatorOnDeviceStep1": "Installa un'app di autenticazione, ad esempio:",
         "SetupAuthenticatorOnDeviceStep2": "Quindi apri l'app e scansiona il codice a barre sottostante con l'app di autenticazione a due fattori sul telefono. Se non riesci a scansionare il codice a barre, %1$sinserisci invece questo codice%2$s.",

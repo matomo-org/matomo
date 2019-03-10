@@ -83,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Voir tous les plugins du marché",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Le composant %1$s n'a pas pu être chargé car il a des dépendances manquantes: %2$s",
-        "Websites": "Sites web"
+        "Websites": "Sites web",
+        "UpdateSelected": "Mise à jour sélectionnée"
     }
 }

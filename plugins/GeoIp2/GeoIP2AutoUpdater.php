@@ -352,7 +352,7 @@ class GeoIP2AutoUpdater extends Task
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
-            $scheduler->rescheduleTask(new GeoIP2AutoUpdater());
+            $scheduler->rescheduleTaskAndRunTomorrow(new GeoIP2AutoUpdater());
         }
 
         // clear option for GeoIP as not needed if GeoIP2 is set up

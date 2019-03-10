@@ -998,7 +998,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, sendRequests, queueRequest,
+    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -5656,29 +5656,32 @@ if (typeof window.Piwik !== 'object') {
                 return hookObj;
             }
 
+            /*</DEBUG>*/
+
             var requestQueue = {
+                enabled: true,
                 requests: [],
                 timeout: null,
                 sendRequests: function () {
                     var requestsToTrack = this.requests;
                     this.requests = [];
                     if (requestsToTrack.length === 1) {
-                        sendRequest(requestsToTrack[0]);
+                        sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
-                        sendBulkRequest(requestsToTrack);
+                        sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading) {
+                    if (isPageUnloading || !this.enabled) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
-                        trackerInstance.trackRequest(requestUrl);
+                        sendRequest(requestUrl, configTrackerPause);
                         return;
                     }
 
-                    this.requests.push(requestUrl);
+                    requestQueue.requests.push(requestUrl);
 
                     if (this.timeout) {
                         clearTimeout(this.timeout);
@@ -5706,9 +5709,6 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
             };
-
-            /*</DEBUG>*/
-
             /************************************************************
              * Constructor
              ************************************************************/
@@ -5800,6 +5800,12 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
+            };
+            this.getRequestQueue = function () {
+                return requestQueue;
+            };
+            this.unsetPageIsUnloading = function () {
+                isPageUnloading = false;
             };
             this.hasConsent = function () {
                 return configHasConsent;
@@ -7345,6 +7351,13 @@ if (typeof window.Piwik !== 'object') {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
+            };
+
+            /**
+             * Disables sending requests queued
+             */
+            this.disableQueueRequest = function () {
+                requestQueue.enabled = false;
             };
 
             /**

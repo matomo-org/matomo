@@ -156,6 +156,12 @@
         "AreYouSureAddCapability": "Sind Sie sicher, dass Sie %1$s die %2$s Fähigkeit für %3$s geben wollen?",
         "AreYouSureRemoveCapability": "Sind Sie sicher, dass Sie die %1$s Fähigkeit von %2$s für %3$s entziehen wollen?",
         "IncludedInUsersRole": "In dieser Benutzerrolle miteinbezogen.",
-        "Capability": "Fähigkeit"
+        "Capability": "Fähigkeit",
+        "EmailChangeNotificationSubject": "Die E-Mail-Adresse Ihres Matomo Benutzerkontos wurde soeben geändert",
+        "EmailChangedEmail1": "Die E-Mail-Adresse, die mit Ihrem Benutzerkonto verknüpft ist, wurde auf %1$s geändert.",
+        "EmailChangedEmail2": "Diese Änderung wurde von folgendem Gerät veranlasst: %1$s (IP-Adresse = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Falls Sie dies waren, können Sie diese E-Mail ignonieren. Falls Sie dies nicht waren, loggen Sie sich bitte ein, korrigieren Sie Ihre E-Mail-Adresse, ändern Sie Ihr Passwort und kontaktieren Sie Ihren Matomo-Administrator.",
+        "PasswordChangeNotificationSubject": "Das Passwort Ihres Matomo Benutzerkontos wurde soeben geändert",
+        "PasswordChangedEmail": "Ihr Passwort wurde soeben geändert. Diese Änderung wurde von diesem Gerät veranlasst: %1$s (IP-Adresse = %2$s)."
     }
 }
