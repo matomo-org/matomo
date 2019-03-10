@@ -554,7 +554,7 @@ class Date
      */
     public static function today()
     {
-        return new Date(strtotime(date("Y-m-d 00:00:00")));
+        return new Date(strtotime(date("Y-m-d 00:00:00", self::getNowTimestamp())));
     }
 
     /**

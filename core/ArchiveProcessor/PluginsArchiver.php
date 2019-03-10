@@ -62,6 +62,7 @@ class PluginsArchiver
         $this->isTemporaryArchive = $isTemporaryArchive;
         $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
+        $this->archiveWriter->insertRecord(ArchiveWriter::ARCHIVE_START_RECORD_NAME, 1);
 
         $this->logAggregator = new LogAggregator($params);
 

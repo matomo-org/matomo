@@ -1283,8 +1283,8 @@ class CronArchive
             $sinceInfo = "(since midnight)";
         }
 
-        $latestExistingArchive = ArchiveSelector::getLatestArchiveTimestampForToday($idSite);
-        $latestExistingArchive = Date::factory($latestExistingArchive)->getTimestamp();
+        $latestExistingArchive = ArchiveSelector::getLatestArchiveStartTimestampForToday($idSite);
+        $latestExistingArchive = $latestExistingArchive ? Date::factory($latestExistingArchive)->getTimestamp() : 0;
 
         $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getTimestamp();
         if ($latestExistingArchive > $from) {

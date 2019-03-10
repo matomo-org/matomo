@@ -354,18 +354,24 @@ class ArchiveSelector
         }
     }
 
-    // TODO: tests
-    public static function getLatestArchiveTimestampForToday($idSite)
+    public static function getLatestArchiveStartTimestampForToday($idSite)
     {
         $today = Date::today();
         $table = ArchiveTableCreator::getNumericTable($today);
 
         $nameCondition = self::getNameCondition(['VisitsSummary'], new Segment('', [$idSite]));
 
-        $sql = "SELECT MAX(ts_archived)
+        $sql = "SELECT MAX(idarchive)
                   FROM $table
                  WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND $nameCondition";
         $bind = [$idSite, Piwik::$idPeriods['day'], $today->getDatetime(), $today->getDatetime()];
+
+        $idArchive = Db::fetchOne($sql, $bind);
+
+        $sql = "SELECT ts_archived
+                  FROM $table
+                 WHERE idarchive = ? AND name = ?";
+        $bind = [$idArchive, ArchiveWriter::ARCHIVE_START_RECORD_NAME];
 
         return Db::fetchOne($sql, $bind);
     }

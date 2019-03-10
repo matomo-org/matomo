@@ -24,6 +24,8 @@ use Piwik\Period;
  */
 class ArchiveWriter
 {
+    const ARCHIVE_START_RECORD_NAME = 'start';
+
     /**
      * Flag stored at the end of the archiving
      *
