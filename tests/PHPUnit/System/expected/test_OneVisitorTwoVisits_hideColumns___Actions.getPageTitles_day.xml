@@ -12,7 +12,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==Checkout</segment>
+		<segment>pageTitle=^Checkout</segment>
 		<subtable>
 			<row>
 				<label> Purchasing...</label>
@@ -26,7 +26,7 @@
 				<max_bandwidth />
 				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
-				<segment>pageTitle==Purchasing...</segment>
+				<segment>pageTitle==Checkout%2FPurchasing...</segment>
 			</row>
 		</subtable>
 	</row>

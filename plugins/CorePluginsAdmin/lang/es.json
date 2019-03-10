@@ -83,6 +83,7 @@
         "Version": "Versión",
         "ViewAllMarketplacePlugins": "Ver todos los complementos del \"Marketplace\"",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "El complemento %1$s no pudo ser cargado en tanto porque les falta algunas dependencias: %2$s",
-        "Websites": "Sitios de internet"
+        "Websites": "Sitios de internet",
+        "UpdateSelected": "Actualización seleccionada"
     }
 }

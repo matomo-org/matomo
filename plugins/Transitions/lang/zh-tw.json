@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s 跳出",
         "DirectEntries": "直接流量",
+        "Transitions": "行為流程",
         "ErrorBack": "返回上一個動作",
         "ExitsInline": "%s 個離開數",
         "NumPageviews": "%s 次瀏覽數",
         "NumDownloads": "%s 次下載數",
         "NumOutlinks": "%s 個離開連結",
+        "TopX": "前 %s 標籤",
+        "FeatureDescription": "你可以在行為流程中查看訪客在查看特定網頁之前和之後做的事情。這個頁面將解釋如何存取、了解和使用強大的行為流程報表。",
+        "AvailableInOtherReports": "你知道嗎？行為流程也可以在以下的報表中的列表動作使用：",
+        "AvailableInOtherReports2": "只要將滑鼠移動到這些報表的列表上，並點擊行為流程圖示 %s 即可開啟。",
         "FromCampaigns": "來自廣告活動",
         "FromPreviousPages": "來自站內網頁",
         "FromPreviousPagesInline": "%s 來自站內網頁",
         "FromPreviousSiteSearches": "來自站內搜尋",
         "FromPreviousSiteSearchesInline": "%s 來自站內搜尋",
         "FromSearchEngines": "來自搜尋引擎",
+        "FromSocialNetworks": "來自社群網站",
         "FromWebsites": "來自網站",
         "IncomingTraffic": "進站流量",
         "LoopsInline": "%s 次頁面重整",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "站內搜尋",
         "ToFollowingSiteSearchesInline": "%s 站內搜尋",
         "XOfAllPageviews": "此網頁所有訪問中的 %s",
-        "XOutOfYVisits": "%2$s 中的 %1$s"
+        "XOutOfYVisits": "%2$s 中的 %1$s",
+        "PageURLTransitions": "網頁網址行為流程"
     }
 }

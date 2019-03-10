@@ -22,7 +22,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
-		<segment>pageTitle==Checkout</segment>
+		<segment>pageTitle=^Checkout</segment>
 		<subtable>
 			<row>
 				<label> Purchasing...</label>
@@ -48,7 +48,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
-				<segment>pageTitle==Purchasing...</segment>
+				<segment>pageTitle==Checkout%2FPurchasing...</segment>
 			</row>
 		</subtable>
 	</row>

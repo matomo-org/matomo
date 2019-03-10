@@ -490,7 +490,9 @@
         "YouAreCurrentlyUsing": "You are currently using Matomo %s.",
         "YouAreViewingDemoMessage": "You are viewing the demo of %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
-        "YourChangesHaveBeenSaved": "Your changes have been saved."
+        "YourChangesHaveBeenSaved": "Your changes have been saved.",
+        "ThankYouForUsingMatomo": "Thank you for using Matomo",
+        "TheMatomoTeam": "The Matomo Team"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",
