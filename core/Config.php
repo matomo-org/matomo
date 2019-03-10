@@ -135,6 +135,10 @@ class Config
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        if (!$hostname) {
+            return array();
+        }
+
         // Remove any port number to get actual hostname
         $hostname = Url::getHostSanitized($hostname);
         $standardConfigName = 'config.ini.php';
@@ -188,6 +192,7 @@ class Config
     {
         $host       = self::getHostname();
         $hostConfigs = self::getLocalConfigInfoForHostname($host);
+
         foreach ($hostConfigs as $hostConfig) {
             if (Filesystem::isValidFilename($hostConfig['file'])
                 && file_exists($hostConfig['path'])
