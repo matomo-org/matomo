@@ -229,16 +229,25 @@ class Config
      *     $config->save();
      *
      * @param string $hostname eg piwik.example.com
+     * @param string $preferredPath If there are different paths for the config that can be used, eg /config/* and /misc/user/*,
+     *                              and a preferred path is given, then the config path must contain the preferred path.
      * @return string
      * @throws \Exception In case the domain contains not allowed characters
      * @internal
      */
-    public function forceUsageOfLocalHostnameConfig($hostname)
+    public function forceUsageOfLocalHostnameConfig($hostname, $preferredPath = null)
     {
         $hostConfigs = self::getLocalConfigInfoForHostname($hostname);
         $fileNames = '';
 
         foreach ($hostConfigs as $hostConfig) {
+            if (count($hostConfigs) > 1
+                && $preferredPath
+                && strpos($hostConfig['path'], $preferredPath) === false) {
+                //
+                continue;
+            }
+
             $filename = $hostConfig['file'];
             $fileNames .= $filename . ' ';
 
