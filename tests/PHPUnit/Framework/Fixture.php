@@ -298,6 +298,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
 
+        $testEnv->tokenAuth = self::getTokenAuth();
+        $testEnv->save();
+
         if ($setupEnvironmentOnly) {
             return;
         }
