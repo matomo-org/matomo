@@ -665,14 +665,6 @@ enable_internet_features = 1
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
-; By setting this option to 0, the check that the DB schema version matches the version of the source code will be no longer performed.
-; Thus it allows you to execute for example a newer version of Matomo with an older Matomo database version. Please note
-; disabling this setting is not recommended because often an older DB version is not compatible with newer source code.
-; If you disable this setting, make sure to execute the updates after updating the source code. The setting can be useful if
-; you want to update Matomo without any outage when you know the current source code update will still run fine for a short time
-; while in the background the database updates are running.
-enable_db_version_check = 1
-
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1

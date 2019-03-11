@@ -615,8 +615,7 @@ class FrontController extends Singleton
             return;
         }
 
-        $config = Config::getInstance()->General;
-        if (empty($config['enable_db_version_check'])) {
+        if (!StaticContainer::get('EnableDbVersionCheck')) {
             return;
         }
 
