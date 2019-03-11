@@ -595,7 +595,7 @@ Segmentation = (function($) {
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
             }
 
-            if (segment.definition != ""){
+            if (segment !== undefined && segment.definition != ""){
                 self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
             }
 

@@ -513,6 +513,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+            page.wait(1000); // for some extra JS to execute
         }, done);
     });
 
@@ -825,5 +826,29 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load(url, 1000);
             page.load(adminUrl, 1000);
         }, done);
+    });
+
+    // embedding whole app
+    describe('enable_framed_pages', function () {
+        before(function () {
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+            testEnvironment.save();
+        });
+
+        after(function () {
+            testEnvironment.testUseMockAuth = 1;
+            if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
+                delete testEnvironment.configOverride.General.enable_framed_pages;
+            }
+            testEnvironment.save();
+        });
+
+        it('should allow embedding the entire app', function (done) {
+            expect.screenshot("embed_whole_app").to.be.capture(function (page) {
+                var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+                page.load(url, 20000);
+            }, done);
+        });
     });
 });

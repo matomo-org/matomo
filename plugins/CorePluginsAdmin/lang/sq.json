@@ -83,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Shihni krejt shtojcat e Marketplace-it",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Shtojca %1$s s’u ngarkua dot, ngaqë ka varësi të paplotësuara: %2$s",
-        "Websites": "Sajte"
+        "Websites": "Sajte",
+        "UpdateSelected": "Përditëso të Përzgjedhurat"
     }
 }

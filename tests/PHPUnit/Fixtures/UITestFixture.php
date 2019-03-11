@@ -297,14 +297,13 @@ class UITestFixture extends SqlDump
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
-        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
+        $widgetsPerDashboard = ceil((count($allWidgets)+1) / $dashboardCount);
 
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
         $dashboard = 0;
         foreach ($allWidgets as $widget) {
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0

@@ -18,6 +18,7 @@
 		<avg_time_on_page>420</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>25%</exit_rate>
+		<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Ffoo</segment>
 		<subtable>
 			<row>
 				<label>/bar.html</label>
