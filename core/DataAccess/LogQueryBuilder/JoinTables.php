@@ -171,10 +171,6 @@ class JoinTables extends \ArrayObject
             return true;
         }
 
-        if ($table->getColumnToJoinOnIdAction()) {
-            return false;
-        }
-
         if ($table->getLinkTableToBeAbleToJoinOnVisit()) {
             return true;
         }
@@ -202,16 +198,8 @@ class JoinTables extends \ArrayObject
             return false;
         }
 
-        if ($table->getColumnToJoinOnIdVisit()) {
-            return false;
-        }
-
         if ($table->getColumnToJoinOnIdAction()) {
             return true;
-        }
-
-        if ($table->getLinkTableToBeAbleToJoinOnVisit()) {
-            return false;
         }
 
         $otherWays = $table->getWaysToJoinToOtherLogTables();
