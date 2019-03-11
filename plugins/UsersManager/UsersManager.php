@@ -132,6 +132,7 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/permissions-metadata/permissions-metadata.service.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/capabilities-edit/capabilities-edit.component.js";
+        $jsFiles[] = "libs/pwstrength/jquery.pwstrength.min.js";
     }
 
     /**

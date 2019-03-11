@@ -79,7 +79,8 @@
                  ng-change="personalSettings.requirePasswordConfirmation()"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
                  title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
-                 value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
+                 value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}"
+                 ui-control-attributes="{'data-indicator':'pw-indicator'}">
             </div>
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
@@ -87,6 +88,10 @@
                  ng-change="personalSettings.requirePasswordConfirmation()"
                  title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
+            </div>
+
+            <div id="pw-indicator" class="row">
+                <div class="pw-indicator-label label col m3"></div>
             </div>
         {% endif %}
 

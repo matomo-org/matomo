@@ -24,9 +24,9 @@
         controller: UserEditFormController
     });
 
-    UserEditFormController.$inject = ['$element', 'piwikApi', '$q'];
+    UserEditFormController.$inject = ['$element', 'piwikApi', '$q', '$timeout'];
 
-    function UserEditFormController($element, piwikApi, $q) {
+    function UserEditFormController($element, piwikApi, $q, $timeout) {
         var vm = this;
         vm.activeTab = 'basic';
         vm.permissionsForIdSite = 1;
@@ -66,6 +66,10 @@
                 vm.user.password = 'XXXXXXXX'; // make sure password is not stored in the client after update/save
             }
         }
+
+        $timeout(function() {
+            angular.element('#user_password').pwstrength();
+        }, 100);
 
         function getFormTitle() {
             return vm.isAdd ? _pk_translate('UsersManager_AddNewUser') : _pk_translate('UsersManager_EditUser');

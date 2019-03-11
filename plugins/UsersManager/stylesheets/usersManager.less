@@ -98,3 +98,35 @@
     margin-top: 1em;
   }
 }
+
+#pw-indicator {
+  .pw-indicator-label {
+    color: white;
+    font-size: 14px;
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 3px;
+
+    &:before {
+      content: "Password strength: ";
+      margin-right: 5px;
+    }
+  }
+
+  &.pw-very-weak .pw-indicator-label {
+    background: darkred;
+  }
+  &.pw-weak .pw-indicator-label {
+    background: orangered;
+  }
+  &.pw-mediocre .pw-indicator-label {
+    background: orange;
+  }
+  &.pw-strong .pw-indicator-label {
+    background: yellowgreen;
+  }
+  &.pw-very-strong .pw-indicator-label {
+    background: #43a047;
+  }
+}

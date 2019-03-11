@@ -7,12 +7,16 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik'];
+    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik', '$timeout'];
 
-    function PersonalSettingsController(piwikApi, $window, piwik) {
+    function PersonalSettingsController(piwikApi, $window, piwik, $timeout) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
+
+        $timeout(function() {
+            angular.element('#password').pwstrength();
+        }, 100);
 
         this.doesRequirePasswordConfirmation = false;
 

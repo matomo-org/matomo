@@ -55,8 +55,14 @@
                         ng-model="$ctrl.user.password"
                         title="Password"
                         data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        ui-control-attributes="{'data-indicator':'pw-indicator'}"
                 >
                 </div>
+
+                <div id="pw-indicator" class="row">
+                    <div class="pw-indicator-label label col m3"></div>
+                </div>
+
 
                 <div
                         piwik-field
