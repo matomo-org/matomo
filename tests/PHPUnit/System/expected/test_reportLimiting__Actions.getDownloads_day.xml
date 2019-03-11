@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite5.com</segment>
 		<subtable>
 			<row>
 				<label>/20/download</label>
@@ -46,6 +47,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite6.com</segment>
 		<subtable>
 			<row>
 				<label>/24/download</label>
@@ -82,6 +84,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite7.com</segment>
 		<subtable>
 			<row>
 				<label>/28/download</label>
@@ -118,5 +121,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F-1</segment>
 	</row>
 </result>
