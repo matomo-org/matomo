@@ -78,6 +78,15 @@ class API extends \Piwik\Plugin\API
          *
          * @param array
          */
+        Piwik::postEvent('LanguagesManager.getAvailableLanguages', array(&$languages));
+
+        /**
+         * Hook called after loading available language files.
+         *
+         * @param array
+         *
+         * @deprecated since v3.9.0 use LanguagesManager.getAvailableLanguages instead. Will be removed in Matomo 4.0.0
+         */
         Piwik::postEvent('LanguageManager.getAvailableLanguages', array(&$languages));
 
         $this->languageNames = $languages;
@@ -97,7 +106,7 @@ class API extends \Piwik\Plugin\API
         $englishTranslation = json_decode($data, true);
 
         // merge with plugin translations if any
-        $pluginFiles = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginFiles = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         foreach ($pluginFiles as $file) {
 
             preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
@@ -117,7 +126,7 @@ class API extends \Piwik\Plugin\API
             $translations = json_decode($data, true);
 
             // merge with plugin translations if any
-            $pluginFiles = glob(sprintf('%s/plugins/*/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
+            $pluginFiles = glob(sprintf('%s*/lang/%s.json', Manager::getPluginsDirectory(), $filename));
             foreach ($pluginFiles as $file) {
 
                 preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
@@ -223,7 +232,7 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $languageFile = PIWIK_INCLUDE_PATH . "/plugins/$pluginName/lang/$languageCode.json";
+        $languageFile = Manager::getPluginsDirectory() . "$pluginName/lang/$languageCode.json";
 
         if (!file_exists($languageFile)) {
             return false;

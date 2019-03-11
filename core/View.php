@@ -252,6 +252,7 @@ class View implements ViewInterface
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
             $this->isInternetEnabled = SettingsPiwik::isInternetEnabled();
+            $this->shouldPropagateTokenAuth = $this->shouldPropagateTokenAuthInAjaxRequests();
 
             $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();
@@ -451,5 +452,11 @@ class View implements ViewInterface
         $view->title = $title;
         $view->report = $reportHtml;
         return $view->render();
+    }
+
+    private function shouldPropagateTokenAuthInAjaxRequests()
+    {
+        $generalConfig = Config::getInstance()->General;
+        return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
     }
 }

@@ -4,6 +4,7 @@
         "AvgEventValue": "事件平均值為：%s",
         "AvgValue": "平均值",
         "AvgValueDocumentation": "此事件所有值的加總平均",
+        "Category": "分類",
         "Event": "事件",
         "EventAction": "事件動作",
         "EventActions": "事件動作",

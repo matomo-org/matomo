@@ -51,6 +51,7 @@
         "CustomUnprocessedSegmentApiError4": "Düzenleyici (ya da API) ile dilimi ekledikten sonra, bu hata iletisi kaldırılır ve dilim verilerinin ön hazırlığının tamamlanması ile bir kaç saat içinde dilimlenmiş rapor verileri görüntülenebilir (görüntülenmiyorsa bir sorun olabilir).",
         "CustomUnprocessedSegmentApiError5": "Live.getLastVisitsDetails API yöntemini kullanarak verilerin ön hazırlığının tamamlanmasını beklemeden dilimin çalışıp çalışmadığını sınayabileceğinizi unutmayın.",
         "CustomUnprocessedSegmentApiError6": "Bu API yöntemini kullanarak, &segment= parametre ölçütünüze uyan kullanıcı ve işlemleri görebilirsiniz.",
-        "CustomUnprocessedSegmentNoData": "Bu dilimin verilerini görüntülemek için, Dilim Düzenleyici üzerinden bu dilimi el ile ekledikten sonra verilerin hazırlanması için bir kaç saat beklemelisiniz."
+        "CustomUnprocessedSegmentNoData": "Bu dilimin verilerini görüntülemek için, Dilim Düzenleyici üzerinden bu dilimi el ile ekledikten sonra verilerin hazırlanması için bir kaç saat beklemelisiniz.",
+        "AddThisToMatomo": "Bu parçayı Matomo üzerine ekle"
     }
 }

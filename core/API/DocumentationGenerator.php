@@ -366,6 +366,10 @@ class DocumentationGenerator
 
             foreach ($toDisplay as $moduleName => $methods) {
                 foreach ($methods as $index => $method) {
+                    if (!method_exists($class, $method)) { // method is handled through API.Request.intercept event
+                        continue;
+                    }
+
                     $reflectionMethod = new \ReflectionMethod($class, $method);
                     if ($this->checkIfCommentContainsInternalAnnotation($reflectionMethod)) {
                         unset($toDisplay[$moduleName][$index]);

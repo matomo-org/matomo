@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ScheduledReports\tests;
 
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
@@ -460,7 +461,7 @@ class ApiTest extends IntegrationTestCase
                     throw new \Exception("Unexpected method $className::$methodName.");
             }
         });
-        Proxy::setSingletonInstance($mockProxy);
+        StaticContainer::getContainer()->set(Proxy::class, $mockProxy);
 
         $idReport = APIScheduledReports::getInstance()->addReport(
             1,
