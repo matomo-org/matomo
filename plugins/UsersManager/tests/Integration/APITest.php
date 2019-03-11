@@ -12,6 +12,7 @@ use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
 use Piwik\Container\StaticContainer;
+use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -293,6 +294,11 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser()
     {
+        $capturedMails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
         $identity = FakeAccess::$identity;
         FakeAccess::$identity = $this->login; // ensure password will be checked against this user
         $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false, $this->password);
@@ -307,6 +313,13 @@ class APITest extends IntegrationTestCase
         $passwordHelper = new Password();
 
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
+
+        $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
+        $this->assertEquals([
+            'UsersManager_EmailChangeNotificationSubject', // sent twice to old email and new
+            'UsersManager_EmailChangeNotificationSubject',
+            'UsersManager_PasswordChangeNotificationSubject',
+        ], $subjects);
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()

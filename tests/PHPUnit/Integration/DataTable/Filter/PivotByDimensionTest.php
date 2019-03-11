@@ -9,6 +9,7 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
@@ -20,7 +21,7 @@ use Piwik\Translate;
 /**
  * @group DataTableTest
  */
-class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
+class PivotByDimensionTest extends IntegrationTestCase
 {
     /**
      * The number of segment tables that have been created. Used when injecting API results to make sure each
@@ -46,30 +47,7 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
         Cache::clearCacheGeneral();
         \Piwik\Cache::flushAll();
 
-        $self = $this;
-
-        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
-        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
-            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
-                && $methodName == 'getCity'
-            ) {
-                $self->segmentUsedToGetIntersected[] = $parameters['segment'];
-
-                return $self->getSegmentTable();
-            } else {
-                throw new Exception("Unknown API request: $className::$methodName.");
-            }
-        });
-        Proxy::setSingletonInstance($proxyMock);
-
         $this->segmentTableCount = 0;
-    }
-
-    public function tearDown()
-    {
-        Proxy::unsetInstance();
-
-        parent::tearDown();
     }
 
     /**
@@ -398,5 +376,24 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
     private function loadPlugins()
     {
         PluginManager::getInstance()->loadPlugins(func_get_args());
+    }
+
+    public function provideContainerConfig()
+    {
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
+        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) {
+            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
+                && $methodName == 'getCity'
+            ) {
+                $this->segmentUsedToGetIntersected[] = $parameters['segment'];
+                return $this->getSegmentTable();
+            } else {
+                throw new Exception("Unknown API request: $className::$methodName.");
+            }
+        });
+
+        return [
+            Proxy::class => $proxyMock,
+        ];
     }
 }

@@ -129,7 +129,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.hasClass('subDataTable')) {
+        if (tr.hasClass('subDataTable') || tr.hasClass('totalsRow')) {
             // not available on groups (i.e. folders)
             return false;
         }

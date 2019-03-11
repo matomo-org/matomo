@@ -120,6 +120,16 @@ class Config
     }
 
     /**
+     * Returns default absolute path to the local configuration file.
+     *
+     * @return string
+     */
+    public static function getDefaultLocalConfigPath()
+    {
+        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
+    }
+
+    /**
      * Returns absolute path to the local configuration file
      *
      * @return string
@@ -130,7 +140,7 @@ class Config
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
+        return self::getDefaultLocalConfigPath();
     }
 
     private static function getLocalConfigInfoForHostname($hostname)

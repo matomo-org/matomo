@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Klikk her for å sjå og kopiera SQL-spurnadene som vil bli køyrd",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk feil under oppdateringa:",
         "DatabaseUpgradeRequired": "Databaseoppdatering krevst",
         "DownloadingUpdateFromX": "Lastar ned oppdatering frå %s",

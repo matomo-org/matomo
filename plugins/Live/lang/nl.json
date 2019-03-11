@@ -30,6 +30,8 @@
         "RevisitedPages": "Pagina's die meer dan eens zijn bekeken",
         "ToggleActions": "Schakelen tussen zichtbaarheid van alle acties",
         "TopVisitedPages": "Best bezochte pagina's",
+        "VisitsLog": "Logboek bezoeken",
+        "VisitorLog": "Bezoekerslogboek",
         "VisitorLogDocumentation": "Deze tabel toont de laatste bezoeken binnen het geselecteerde datumbereik. Je kunt zien wanneer een bezoeker zijn laatste bezoek bracht door je muis boven de datum te houden. %1$s Indien het datumbereik ook vandaag bevat, kun je je bezoekers zien in real time! %2$s De data die hier wordt getoond is steeds live, ongeacht of en wanneer je de archiving cron job gebruikt.",
         "VisitorProfile": "Profiel bezoeker",
         "VisitorsLastVisit": "Het laatste bezoek van deze bezoekers was %s dagen geleden.",

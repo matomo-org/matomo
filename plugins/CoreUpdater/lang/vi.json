@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Click vào đây để xem và sao chép danh sách các truy vấn SQL sẽ được thực hiện.",
         "CriticalErrorDuringTheUpgradeProcess": "Lỗi nghiêm trọng trong quá trình cập nhạt:",
         "DatabaseUpgradeRequired": "Nâng cấp cơ sở dữ liệu",
         "DownloadingUpdateFromX": "Đang download để update từ %s",

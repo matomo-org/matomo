@@ -158,9 +158,9 @@ class Update extends TranslationBase
             return $pluginsWithTranslations;
         }
 
-        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         $pluginsWithTranslations = array_map(function ($elem) {
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            return str_replace(array(Manager::getPluginsDirectory(), '/lang/en.json'), '', $elem);
         }, $pluginsWithTranslations);
 
         return $pluginsWithTranslations;
@@ -189,9 +189,9 @@ class Update extends TranslationBase
 
         $pluginsNotInCore = array_merge($submodulePlugins, $newPlugins);
 
-        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
         $pluginsWithTranslations = array_map(function ($elem) {
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            return str_replace(array(Manager::getPluginsDirectory(), '/lang/en.json'), '', $elem);
         }, $pluginsWithTranslations);
 
         $pluginsInCore = array_diff($pluginsWithTranslations, $pluginsNotInCore);
