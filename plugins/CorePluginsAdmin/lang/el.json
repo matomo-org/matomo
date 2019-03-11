@@ -83,6 +83,7 @@
         "Version": "Έκδοση",
         "ViewAllMarketplacePlugins": "Εμφάνιση όλων των πρόσθετων στην Αγορά",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Δεν ήταν δυνατή η φόρτωση του πρόσθετου %1$s καθώς έχει ελλιπείς εξαρτήσεις: %2$s",
-        "Websites": "Ιστοτόποι"
+        "Websites": "Ιστοτόποι",
+        "UpdateSelected": "Ενημέρωση που επιλέχθηκε"
     }
 }

@@ -827,4 +827,28 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load(adminUrl, 1000);
         }, done);
     });
+
+    // embedding whole app
+    describe('enable_framed_pages', function () {
+        before(function () {
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+            testEnvironment.save();
+        });
+
+        after(function () {
+            testEnvironment.testUseMockAuth = 1;
+            if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
+                delete testEnvironment.configOverride.General.enable_framed_pages;
+            }
+            testEnvironment.save();
+        });
+
+        it('should allow embedding the entire app', function (done) {
+            expect.screenshot("embed_whole_app").to.be.capture(function (page) {
+                var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+                page.load(url, 20000);
+            }, done);
+        });
+    });
 });

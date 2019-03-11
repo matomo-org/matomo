@@ -156,6 +156,12 @@
         "AreYouSureAddCapability": "Êtes-vous sûr(e) de vouloir donner %1$s la compétence %2$s à %3$s ?",
         "AreYouSureRemoveCapability": "Êtes-vous sûr(e) de vouloir supprimer la compétence %1$s de%2$s à %3$s ?",
         "IncludedInUsersRole": "Inclus dans le rôle de cet utilisateur.",
-        "Capability": "Compétence"
+        "Capability": "Compétence",
+        "EmailChangeNotificationSubject": "L'adresse courriel de votre compte Matomo vient d'être modifiée",
+        "EmailChangedEmail1": "L'adresse courriel associée à votre compte a été changée par %1$s",
+        "EmailChangedEmail2": "Ce changement a été initié depuis le périphérique suivant : %1$s (Adresse IP = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Si c'était vous, vous pouvez ignorer ce courriel. Si ce n'était pas vous, veuillez vous identifier, corrigez votre adresse de courriel, modifiez votre mot de passe et contactez votre administrateur Matomo.",
+        "PasswordChangeNotificationSubject": "Le mot de passe de votre compte Matomo vient d'être modifié",
+        "PasswordChangedEmail": "Votre mot de passe vient d'être modifié. Le changement a été initié depuis le périphérique suivant : %1$s (Adresse IP = %2$s)."
     }
 }
