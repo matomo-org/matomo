@@ -39,6 +39,7 @@ class PluginList
         'ExampleVisualization',
         'ExamplePluginTemplate',
         'ExampleTracker',
+        'ExampleLogTables',
         'ExampleReport',
         'MobileAppMeasurable',
         'Provider',
