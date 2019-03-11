@@ -489,7 +489,7 @@ function ajaxHelper() {
     };
 
     this._getDefaultPostParams = function () {
-        if (this.withToken || this._isRequestToApiMethod() || this._isWidgetizedRequest()) {
+        if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
                 token_auth: piwik.token_auth
             };

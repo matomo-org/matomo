@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fpiwik.org</segment>
 		<subtable>
 			<row>
 				<label>/path/again/latest.zip</label>
@@ -22,6 +23,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://piwik.org/path/again/latest.zip</url>
+				<segment>downloadUrl==http%3A%2F%2Fpiwik.org%2Fpath%2Fagain%2Flatest.zip</segment>
 			</row>
 		</subtable>
 	</row>

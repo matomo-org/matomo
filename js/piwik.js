@@ -998,8 +998,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, sendRequests, queueRequest,
-    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
+    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
+    setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -4256,7 +4256,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(getCookieName('ses'), '1', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             function generateUniqueId() {
@@ -5656,29 +5656,32 @@ if (typeof window.Piwik !== 'object') {
                 return hookObj;
             }
 
+            /*</DEBUG>*/
+
             var requestQueue = {
+                enabled: true,
                 requests: [],
                 timeout: null,
                 sendRequests: function () {
                     var requestsToTrack = this.requests;
                     this.requests = [];
                     if (requestsToTrack.length === 1) {
-                        sendRequest(requestsToTrack[0]);
+                        sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
-                        sendBulkRequest(requestsToTrack);
+                        sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading) {
+                    if (isPageUnloading || !this.enabled) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
-                        trackerInstance.trackRequest(requestUrl);
+                        sendRequest(requestUrl, configTrackerPause);
                         return;
                     }
 
-                    this.requests.push(requestUrl);
+                    requestQueue.requests.push(requestUrl);
 
                     if (this.timeout) {
                         clearTimeout(this.timeout);
@@ -5706,9 +5709,6 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
             };
-
-            /*</DEBUG>*/
-
             /************************************************************
              * Constructor
              ************************************************************/
@@ -5800,6 +5800,12 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
+            };
+            this.getRequestQueue = function () {
+                return requestQueue;
+            };
+            this.unsetPageIsUnloading = function () {
+                isPageUnloading = false;
             };
             this.hasConsent = function () {
                 return configHasConsent;
@@ -7246,6 +7252,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns the list of ecommerce items that will be sent when a cart update or order is tracked.
+             * The returned value is read-only, modifications will not change what will be tracked. Use
+             * addEcommerceItem/removeEcommerceItem/clearEcommerceCart to modify what items will be tracked.
+             *
+             * Note: the cart will be cleared after an order.
+             *
+             * @returns array
+             */
+            this.getEcommerceItems = function () {
+                return JSON.parse(JSON.stringify(ecommerceItems));
+            };
+
+            /**
              * Adds an item (product) that is in the current Cart or in the Ecommerce order.
              * This function is called for every item (product) in the Cart or the Order.
              * The only required parameter is sku.
@@ -7332,6 +7351,13 @@ if (typeof window.Piwik !== 'object') {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
+            };
+
+            /**
+             * Disables sending requests queued
+             */
+            this.disableQueueRequest = function () {
+                requestQueue.enabled = false;
             };
 
             /**

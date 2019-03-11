@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Embed</title>
+    <style>
+        html, body {
+            height: calc(100%);
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100%);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function () {
+            var url = decodeURIComponent(window.location.hash.substring(1));
+            console.log(url);
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            document.body.appendChild(iframe);
+        })();
+    </script>
+</body>
+</html>

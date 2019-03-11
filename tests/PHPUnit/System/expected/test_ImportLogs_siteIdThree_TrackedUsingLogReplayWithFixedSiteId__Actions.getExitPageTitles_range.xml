@@ -25,6 +25,7 @@
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<avg_time_generation>0.177</avg_time_generation>
+		<segment>exitPageTitle==Liberate+Web+Analytics+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Log Analytics - Analytics - Piwik</label>
@@ -51,6 +52,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.145</avg_time_generation>
+		<segment>exitPageTitle==Log+Analytics+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Contact the Piwik team - Analytics - Piwik</label>
@@ -72,6 +74,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==Contact+the+Piwik+team+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</label>
@@ -98,6 +101,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.413</avg_time_generation>
+		<segment>exitPageTitle==demo.piwik.org%2FPiwik+Forums+-+Piwik+%E2%80%BA+Web+Analytics+Reports</segment>
 	</row>
 	<row>
 		<label> Download - Analytics - Piwik</label>
@@ -119,6 +123,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.113</avg_time_generation>
+		<segment>exitPageTitle==Download+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Hello Installing Piwik - Analytics - Piwik</label>
@@ -145,6 +150,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>exitPageTitle==Hello+Installing+Piwik+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> incredible title!</label>
@@ -171,6 +177,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==incredible+title%21</segment>
 	</row>
 	<row>
 		<label> Integrate Piwik into your Rails Application - Analytics - Piwik</label>
@@ -197,6 +204,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.391</avg_time_generation>
+		<segment>exitPageTitle==Integrate+Piwik+into+your+Rails+Application+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Looking at Electronics &amp; Cameras page with a page level custom variable</label>
@@ -223,6 +231,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==Looking+at+Electronics+%26amp%3B+Cameras+page+with+a+page+level+custom+variable</segment>
 	</row>
 	<row>
 		<label> Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</label>
@@ -249,6 +258,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.119</avg_time_generation>
+		<segment>exitPageTitle==Piwik+2.1+%E2%80%94+Massive+Performance+and+Reliability+Improvements+-+Analytics+-+Piwik</segment>
 	</row>
 	<row>
 		<label> Piwik Forums</label>
@@ -275,6 +285,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==Piwik+Forums</segment>
 	</row>
 	<row>
 		<label> What is Piwik? - Analytics - Piwik</label>
@@ -296,5 +307,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>exitPageTitle==What+is+Piwik%3F+-+Analytics+-+Piwik</segment>
 	</row>
 </result>

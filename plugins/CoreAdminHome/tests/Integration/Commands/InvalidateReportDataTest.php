@@ -118,7 +118,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertNotEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("The segment 'ablksdjfdslkjf' is not valid", $this->applicationTester->getDisplay());
+        $this->assertContains("The segment condition 'ablksdjfdslkjf' is not valid", $this->applicationTester->getDisplay());
     }
 
     /**

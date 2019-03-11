@@ -132,7 +132,7 @@
         "SystemCheckCronArchiveProcessCLI": "Διαχείριση εργασιών από CLI",
         "SystemCheckPhpSetting": "Για την αποφυγή σημαντικών προβλημάτων, πρέπει να ορίσετε τα παρακάτω στο αρχείο php.ini: %s",
         "SystemCheckUpdateHttps": "Ενημέρωση μέσω HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Το Matomo δεν μπορεί να χρησιμοποιήσει HTTPS για ενημέρωση, θα δοκιμάσει να κάνει ενημέρωση μέσω μη ασφαλούς σύνδεσης HTTP. Ελέγξτε ότι υποστηρίζεται το CURL ή το allow_url_fopen και ότι η επέκταση openssl της PHP είναι εγκατεστημένη: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
+        "SystemCheckUpdateHttpsNotSupported": "Το Matomo δεν μπορεί να χρησιμοποιήσει HTTPS για ενημέρωση, θα δοκιμάσει να κάνει ενημέρωση μέσω μη ασφαλούς σύνδεσης HTTP. Ελέγξτε ότι υποστηρίζεται το CURL ή το allow_url_fopen και ότι η επέκταση openssl της PHP είναι εγκατεστημένη: https:\/\/matomo.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "δεν υποστηρίζεται",
         "Tables": "Δημιουργία πινάκων",
         "TablesCreatedSuccess": "Οι πίνακες δημιουργήθηκαν επιτυχώς!",

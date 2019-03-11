@@ -172,7 +172,7 @@
 
             var self = this;
 
-            this._initTooltips();
+            window.setTimeout(function() { self._initTooltips(); }, 250);
 
             this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
         },

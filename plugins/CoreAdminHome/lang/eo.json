@@ -1,0 +1,14 @@
+{
+    "CoreAdminHome": {
+        "AddNewTrustedHost": "Aldoni fidendan gastejon",
+        "Administration": "Administrado",
+        "ClickHereToOptIn": "Klaki ĉi tie por permesi.",
+        "ClickHereToOptOut": "Klaki ĉi tie por malpermesi.",
+        "ForBetaTestersOnly": "Nur por betaaj uzantoj",
+        "ImageTracking": "Bildasekvado",
+        "PiwikIsInstalledAt": "Matomo estas instalita ĉe",
+        "PluginSettingChangeNotAllowed": "Vi ne rajtas ŝanĝi la valoron de la parametro \"%1$s\" en la kromprogramo \"%2$s\"",
+        "PluginSettingReadNotAllowed": "Vi ne rajtas legi la valoron de la parametro \"%1$s\" en la kromprogramo \"%2$s\"",
+        "PluginSettings": "Kromprogramaj agordoj"
+    }
+}

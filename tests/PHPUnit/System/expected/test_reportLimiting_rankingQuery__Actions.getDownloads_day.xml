@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcloudsite5.com</segment>
 		<subtable>
 			<row>
 				<label>/20/download</label>
@@ -22,6 +23,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://cloudsite5.com/20/download</url>
+				<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
 			</row>
 			<row>
 				<label>Others</label>
@@ -45,5 +47,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F-1</segment>
 	</row>
 </result>

@@ -122,7 +122,8 @@ var SegmentedVisitorLog = function() {
             action: 'indexVisitorLog',
             segment: encodeURIComponent(segment),
             disableLink: 1,
-            small: 1
+            small: 1,
+            enableAddNewSegment: 1,
         };
 
         $.extend(requestParams, extraParams);

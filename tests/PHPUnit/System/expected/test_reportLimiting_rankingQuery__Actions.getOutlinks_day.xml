@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fothersite10.com</segment>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -22,6 +23,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://othersite10.com/</url>
+				<segment>outlinkUrl==http%3A%2F%2Fothersite10.com%2F</segment>
 			</row>
 			<row>
 				<label>Others</label>
@@ -45,5 +47,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F-1</segment>
 	</row>
 </result>

@@ -79,12 +79,14 @@
             report.hour = adjustHourToTimezone(report.hour, getTimeZoneDifferenceInHours());
             updateReportHourUtc(report);
 
-            $('[name=reportsList] input').prop('checked', false);
+            setTimeout(function() {
+              $('[name=reportsList] input').prop('checked', false);
 
-            var key;
-            for (key in report.reports) {
-                $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
-            }
+              var key;
+              for (key in report.reports) {
+                  $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
+              }
+            });
 
             report['format' + report.type] = report.format;
 

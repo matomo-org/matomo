@@ -316,7 +316,7 @@ default_period = day
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; This setting is overriden in the UI, under "General Settings".
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
-time_before_today_archive_considered_outdated = 150
+time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
 ; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
@@ -377,7 +377,7 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session. As of Matomo 3.8.0 it is the only supported handler.
+; Matomo uses PHP's dbtable for session.
 ; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
 session_save_handler = dbtable
 
@@ -693,7 +693,7 @@ num_days_before_tracking_code_reminder = 5
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
-; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; If you want to track unique users across websites you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 
