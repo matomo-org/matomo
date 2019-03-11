@@ -51,6 +51,7 @@
         "CustomUnprocessedSegmentApiError4": "Sobald das Segment im Editor (oder via API) erstellt wurde, wird diese Fehlermeldung verschwinden und ein paar Stunden später werden Sie Ihre segmentierten Berichtsdaten sehen, nachdem die segmentierten Daten verarbeitet wurden. (Falls nicht, liegt ein Problem vor.)",
         "CustomUnprocessedSegmentApiError5": "Bitte beachten Sie dass Sie testen können ob Ihr Segment funktioniert ohne dass Sie auf die Verarbeitung warten müssen, in dem Sie die Live.getLastVisitsDetails API verwenden.",
         "CustomUnprocessedSegmentApiError6": "Wenn sie diese API Methode verwenden, werden Sie sehen welche Benutzer und Aktionen vom Ihrem &segment= Parameter betroffen sind.",
-        "CustomUnprocessedSegmentNoData": "Um Daten für dieses Segment zu sehen, müssen Sie das Segment manuell im Segment Editor erstellen, dann ein paar Stunden auf die Verarbeitung warten."
+        "CustomUnprocessedSegmentNoData": "Um Daten für dieses Segment zu sehen, müssen Sie das Segment manuell im Segment Editor erstellen, dann ein paar Stunden auf die Verarbeitung warten.",
+        "AddThisToMatomo": "Dieses Segment zu Matomo hinzufügen"
     }
 }

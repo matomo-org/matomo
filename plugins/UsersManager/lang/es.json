@@ -156,6 +156,12 @@
         "AreYouSureAddCapability": "¿Está seguro que desea otorgarle %1$sla%2$sfacultad de %3$s?",
         "AreYouSureRemoveCapability": "¿Está seguro que desea quitar la %1$sfacultad de %2$s para %3$s?",
         "IncludedInUsersRole": "Incluído en el rol del usuario.",
-        "Capability": "Facultad"
+        "Capability": "Facultad",
+        "EmailChangeNotificationSubject": "La dirección de correo electrónico de tu cuenta Matomo acaba de ser modificada.",
+        "EmailChangedEmail1": "La dirección de correo electrónico asociado con su cuenta ha sido cambiado a %1$s",
+        "EmailChangedEmail2": "Este cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Si fuistes vos, no dudes en ignorar este correo electrónico. Si no, inicia sesión, corrije tu dirección de correo electrónico, cambia tu contraseña y ponte en contacto con tu administrador de Matomo.",
+        "PasswordChangeNotificationSubject": "La contraseña de su cuenta Matomo ha sido modificada",
+        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s)."
     }
 }
