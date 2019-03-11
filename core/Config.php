@@ -254,7 +254,6 @@ class Config
             if (count($hostConfigs) > 1
                 && $preferredPath
                 && strpos($hostConfig['path'], $preferredPath) === false) {
-                //
                 continue;
             }
 
