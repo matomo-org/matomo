@@ -29,6 +29,11 @@
         };
         vm.onUpdate = function () {
             if (vm.piwikurl) {
+                if (vm.backgroundColor === '' && vm.fontColor !== '' && vm.nearlyWhite(vm.fontColor.substr(1))) {
+                    $('#previewIframe').addClass('withBg');
+                } else {
+                    $('#previewIframe').removeClass('withBg');
+                }
                 var value = vm.piwikurl + "index.php?module=CoreAdminHome&action=optOut&language=" + vm.language + "&backgroundColor=" + vm.backgroundColor.substr(1) + "&fontColor=" + vm.fontColor.substr(1) + "&fontSize=" + vm.fontSizeWithUnit + "&fontFamily=" + encodeURIComponent(vm.fontFamily);
                 var isAnimationAlreadyRunning = $('.optOutCustomizer pre').queue('fx').length > 0;
                 if (value !== vm.iframeUrl && !isAnimationAlreadyRunning) {
@@ -39,6 +44,14 @@
             } else {
                 vm.iframeUrl = "";
             };
+        }
+        vm.nearlyWhite = function (hex) {
+            var bigint = parseInt(hex, 16);
+            var r = (bigint >> 16) & 255;
+            var g = (bigint >> 8) & 255;
+            var b = bigint & 255;
+            
+            return (r >= 225 && g >= 225 && b >= 225);
         }
         vm.onUpdate();
 

@@ -22,7 +22,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
-		<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fdir1%2Fsub</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub</segment>
 		<subtable>
 			<row>
 				<label>dir</label>
@@ -45,7 +45,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>33%</exit_rate>
 				<avg_time_generation>0.3</avg_time_generation>
-				<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fdir1%2Fsub%2Fdir</segment>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub%252Fdir</segment>
 				<subtable>
 					<row>
 						<label>/page0.html</label>
