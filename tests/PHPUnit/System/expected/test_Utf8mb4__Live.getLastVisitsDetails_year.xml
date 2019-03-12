@@ -18,6 +18,9 @@
 						<itemCategory>category �</itemCategory>
 						<price>95</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>category �</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
