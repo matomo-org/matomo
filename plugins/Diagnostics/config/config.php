@@ -25,11 +25,11 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\RecommendedFunctionsCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\NfsDiskCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck'),
+        DI\get(CronArchivingLastRunCheck::class),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\LoadDataInfileCheck'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbMaxPacket'),
         Di\get('Piwik\Plugins\Diagnostics\Diagnostic\ForceSSLCheck'),
-        DI\get(CronArchivingLastRunCheck::class),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
