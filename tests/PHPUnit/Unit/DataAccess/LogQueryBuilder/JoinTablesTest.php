@@ -39,6 +39,20 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
         $this->makeTables(array('log_visit', 'log_foo_bar_baz'));
     }
 
+    public function test_hasJoinedTable_custom()
+    {
+        $tables = $this->makeTables(array('log_visit', 'log_custom'));
+        $this->assertTrue($tables->hasJoinedTable('log_visit'));
+        $this->assertTrue($tables->hasJoinedTable('log_custom'));
+    }
+
+    public function test_hasJoinedTable_custom2()
+    {
+        $tables = $this->makeTables(array('log_visit', 'log_custom_other'));
+        $this->assertTrue($tables->hasJoinedTable('log_visit'));
+        $this->assertTrue($tables->hasJoinedTable('log_custom_other'));
+    }
+
     public function test_hasJoinedTable_shouldDetectIfTableIsAlreadyAdded()
     {
         $this->assertTrue($this->tables->hasJoinedTable('log_visit'));

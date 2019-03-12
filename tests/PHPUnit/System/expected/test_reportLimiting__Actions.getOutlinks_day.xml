@@ -10,7 +10,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fothersite10.com</segment>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -47,7 +46,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fothersite11.com</segment>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -84,7 +82,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fothersite12.com</segment>
 		<subtable>
 			<row>
 				<label>/</label>
@@ -121,6 +118,5 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252F-1</segment>
 	</row>
 </result>

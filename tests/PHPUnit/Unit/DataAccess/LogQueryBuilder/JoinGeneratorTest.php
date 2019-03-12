@@ -67,12 +67,6 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
-    public function test_generate_getJoinString_OnlyOneTable()
-    {
-        $generator = $this->generate(array('log_visit'));
-        $this->assertEquals('log_visit AS log_visit', $generator->getJoinString());
-    }
-
     public function test_generate_getJoinString_OnlyOneActionTable()
     {
         $generator = $this->generate(array('log_action'));
@@ -85,6 +79,43 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $expected  = 'log_link_visit_action AS log_link_visit_action';
         $expected .= ' LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
         $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_JoinCustomVisitTable()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id`', $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_JoinMultipleCustomVisitTable()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom_other', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id` LEFT JOIN log_custom_other AS log_custom_other ON `log_custom_other`.`other_id` = `log_custom`.`other_id`', $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_JoinMultipleCustomVisitTableWithMissingOne()
+    {
+        $generator = $this->generate(array('log_visit', 'log_custom_other'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id` LEFT JOIN log_custom_other AS log_custom_other ON `log_custom_other`.`other_id` = `log_custom`.`other_id`', $generator->getJoinString());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Table 'log_visit' can't be joined for segmentation
+     *
+     * Note: the exception reports `log_visit` and not `log_custom` as it resolves the dependencies as so resolves
+     * from `log_custom` to `log_visit` but is then not able to find a way to join `log_visit` with `log_action`
+     */
+    public function test_generate_getJoinString_CustomVisitTableCantBeJoinedWithAction()
+    {
+        $generator = $this->generate(array('log_action', 'log_custom'));
+        $generator->getJoinString();
+    }
+
+    public function test_generate_getJoinString_JoinCustomVisitTableMultiple()
+    {
+        $generator = $this->generate(array('log_visit', 'log_action', 'log_custom'));
+        $this->assertEquals('log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction LEFT JOIN log_custom AS log_custom ON `log_custom`.`user_id` = `log_visit`.`user_id`', $generator->getJoinString());
     }
 
     public function test_generate_getJoinString_manuallyJoinedAlready()
