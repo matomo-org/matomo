@@ -41,7 +41,7 @@
                 </strong>
 
                 <div class="visitor-log-page-list">
-                    <ol class='visitorLog actionList' data-page-view-actions-to-display-collapsed="{{ actionsToDisplayCollapsed }}">
+                    <ol class='visitorLog actionList'>
                         {% include "@Live/_actionsList.twig" with {'actionGroups': visitor.getColumn('actionGroups'), 'visitInfo': visitor} %}
                     </ol>
                 </div>

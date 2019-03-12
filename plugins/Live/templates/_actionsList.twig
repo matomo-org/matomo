@@ -18,14 +18,12 @@
         {% set previousAction = action %}
         {% endfor %}
     {% if actionGroup.pageviewAction is not empty %}
-        {% if actionGroup.actionsOnPage|length > 2 %}
-        <li class="actionsForPageExpander expanded">
+        <li class="actionsForPageExpander expanded" style="display:none;">
             <span>
-                <a class="show-more-actions" href="javascript:" style="display:none;">Show {{ actionGroup.actionsOnPage|length - 2 }} more actions that occurred on this page...</a>
+                <a class="show-more-actions" href="javascript:" style="display:none;">Show <span class="show-actions-count"></span> more actions that occurred on this page...</a>
                 <a class="show-less-actions" href="javascript:">Show less actions...</a>
             </span>
         </li>
-        {% endif %}
         </ol>
     </li>
     {% endif %}

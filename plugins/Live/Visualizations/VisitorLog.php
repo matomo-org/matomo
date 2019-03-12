@@ -141,7 +141,7 @@ class VisitorLog extends Visualization
         return ($view->requestConfig->getApiModuleToRequest() === 'Live');
     }
 
-    private function groupActionsByPageviewId(DataTable $table)
+    public static function groupActionsByPageviewId(DataTable $table)
     {
         foreach ($table->getRows() as $row) {
             $actionGroups = [];

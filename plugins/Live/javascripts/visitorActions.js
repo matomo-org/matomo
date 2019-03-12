@@ -129,12 +129,17 @@ function initializeVisitorActions(elem) {
 
     // hide expanders if content collapsing removed enough items
     $("ol.actionList", elem).each(function () {
-        var actionsToDisplayCollapsed = +$(this).closest('ol.visitorLog').attr('data-page-view-actions-to-display-collapsed');
+        var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
 
         var $items = $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander):not(.duplicate)");
-        if ($items.length <= actionsToDisplayCollapsed) {
-            $(this).children('.actionsForPageExpander').hide();
-        }
+        var hasMoreItemsThanLimit = $items.length > actionsToDisplayCollapsed;
+
+        $(this).children('.actionsForPageExpander')
+            .toggle(hasMoreItemsThanLimit)
+            .find('.show-actions-count').text($items.length - actionsToDisplayCollapsed);
+
+        // add last-action class to the last action in each list
+        $(this).children(':not(.actionsForPageExpander)').last().addClass('last-action');
     });
 
     $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){

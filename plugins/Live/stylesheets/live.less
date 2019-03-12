@@ -160,7 +160,7 @@ ol.actionList > li:not(.pageviewActions) {
     z-index: 1;
   }
 
-  &:last-child:after {
+  &:last-of-type:after {
     border-left: none;
   }
 
@@ -239,6 +239,15 @@ ol.actionList > li.pageviewActions {
 
   &:last-child:after {
     height: calc(100%);
+  }
+}
+
+ol.actionList > .action.last-action {
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+  &:after {
+    border-left: none;
   }
 }
 

@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 
 /**
  *
@@ -32,7 +33,16 @@ class Live extends \Piwik\Plugin
             'Live.renderActionTooltip'               => 'renderActionTooltip',
             'Live.renderVisitorDetails'              => 'renderVisitorDetails',
             'Live.renderVisitorIcons'                => 'renderVisitorIcons',
+            'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
         );
+    }
+
+    public function addJsGlobalVariables(&$out)
+    {
+        $actionsToDisplayCollapsed = (int)StaticContainer::get('Live.pageViewActionsToDisplayCollapsed');
+        $out .= "
+        piwik.visitorLogActionsToDisplayCollapsed = $actionsToDisplayCollapsed;
+        ";
     }
 
     public function getStylesheetFiles(&$stylesheets)
