@@ -170,7 +170,7 @@ function initializeVisitorActions(elem) {
     elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
         e.preventDefault();
 
-        var actionsToDisplayCollapsed = +$(e.target).closest('ol.visitorLog').attr('data-page-view-actions-to-display-collapsed');
+        var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
 
         var $actions = $(e.target).closest('.actionList').find('li:not(.duplicate):not(.actionsForPageExpander)');
         $actions.each(function () {
