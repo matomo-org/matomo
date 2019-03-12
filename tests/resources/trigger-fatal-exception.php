@@ -7,7 +7,7 @@
  */
 
 define('PIWIK_PRINT_ERROR_BACKTRACE', true);
-define('PIWIK_ENABLE_DISPATCH', true);
+define('PIWIK_ENABLE_DISPATCH', false);
 
 require_once __DIR__ . '/../../tests/PHPUnit/proxy/index.php';
 
