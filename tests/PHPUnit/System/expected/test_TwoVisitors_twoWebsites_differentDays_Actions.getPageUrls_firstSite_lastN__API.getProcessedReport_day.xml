@@ -234,6 +234,7 @@
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
@@ -247,6 +248,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
@@ -260,6 +262,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
@@ -273,6 +276,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
@@ -286,6 +290,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
@@ -299,6 +304,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 	</reportMetadata>

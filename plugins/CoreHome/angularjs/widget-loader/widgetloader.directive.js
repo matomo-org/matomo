@@ -97,7 +97,7 @@
                             url += '&showtitle=1';
                         }
 
-                        if (broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('token_auth')) {
+                        if (piwik.shouldPropagateTokenAuth && broadcast.getValueFromUrl('token_auth')) {
                             url += '&token_auth=' + broadcast.getValueFromUrl('token_auth');
                         }
 

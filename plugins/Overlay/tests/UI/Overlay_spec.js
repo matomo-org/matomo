@@ -11,6 +11,8 @@ describe("Overlay", function () {
 
     this.timeout(0);
 
+    var baseUrl;
+    var hash;
     var url = null;
     var urlWithSegment;
 
@@ -21,8 +23,8 @@ describe("Overlay", function () {
     }
 
     before(function (done) {
-        var baseUrl = '?module=Overlay&period=year&date=today&idSite=3';
-        var hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
+        baseUrl = '?module=Overlay&period=year&date=today&idSite=3';
+        hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
 
         url = baseUrl + hash;
         urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==20.56.34.67') + hash;
@@ -31,6 +33,12 @@ describe("Overlay", function () {
     });
 
     after(function (done) {
+        testEnvironment.testUseMockAuth = 1;
+        if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
+            delete testEnvironment.configOverride.General.enable_framed_pages;
+        }
+        testEnvironment.save();
+
         testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
     });
 
@@ -131,6 +139,18 @@ describe("Overlay", function () {
     it("should load an overlay with segment", function (done) {
         expect.screenshot("loaded_with_segment").to.be.capture(function (page) {
             page.load(urlWithSegment);
+
+            removeOptOutIframe(page);
+        }, done);
+    });
+
+    it('should load correctly with token_auth if enable_framed_pages is set', function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+        testEnvironment.save();
+
+        expect.screenshot("framed_loaded").to.be.capture(function (page) {
+            page.load(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
 
             removeOptOutIframe(page);
         }, done);
