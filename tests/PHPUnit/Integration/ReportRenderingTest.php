@@ -32,11 +32,5 @@ class ReportRenderingTest extends IntegrationTestCase
         $response = $frontController->dispatch('DevicesDetection', 'getBrand');
 
         $this->assertContains('Diagnostics_NoDataForReportArchivingNotRun', $response);
-        // TODO
-        /*
-        -
-        - dispatch module.action
-        -
-        */
     }
 }
