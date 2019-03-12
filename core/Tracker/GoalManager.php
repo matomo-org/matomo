@@ -742,7 +742,11 @@ class GoalManager
         Common::printDebug($newGoalDebug);
 
         $wasInserted = $this->getModel()->createConversion($conversion);
-        // TODO: if idsite/idorder are taken, but idvisit is different, this will silently fail. can we issue an error if possible?
+        if (!$wasInserted) {
+            $idSite = $request->getIdSite();
+            $idorder = $request->getParam('ec_id');
+            throw new \Exception("Invalid non-unique idsite/idorder combination ($idSite, $idorder), conversion was not inserted.");
+        }
 
         return $wasInserted;
     }
