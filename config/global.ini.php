@@ -49,8 +49,8 @@ charset = utf8
 host = localhost
 username = "@USERNAME@"
 password =
-dbname = piwik_tests
-tables_prefix = piwiktests_
+dbname = matomo_tests
+tables_prefix = matomotests_
 port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
@@ -102,7 +102,7 @@ log_level = WARN
 ; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
-logger_file_path = tmp/logs/piwik.log
+logger_file_path = tmp/logs/matomo.log
 
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
@@ -442,7 +442,7 @@ enable_framed_pages = 0
 enable_framed_settings = 0
 
 ; language cookie name for session
-language_cookie_name = piwik_lang
+language_cookie_name = matomo_lang
 
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
