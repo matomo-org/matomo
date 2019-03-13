@@ -161,15 +161,15 @@ class VisitorRecognizer
     {
         $isForcedUserIdMustMatch = (false !== $request->getForcedUserId());
 
+        // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
+        // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
+        if (($isVisitorIdToLookup || $isForcedUserIdMustMatch) && $this->trustCookiesOnly) {
+            return true;
+        }
+
         if ($isForcedUserIdMustMatch) {
             // if &iud was set, we must try and match both idvisitor and config_id
             return false;
-        }
-
-        // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
-        // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-        if ($isVisitorIdToLookup && $this->trustCookiesOnly) {
-            return true;
         }
 
         // If a &cid= was set, we force to select this visitor (or create a new one)
