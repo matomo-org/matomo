@@ -16,7 +16,8 @@
 				<pageId>5</pageId>
 				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/link.svg</icon>
+				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>http://test.com</subtitle>
 				
@@ -133,7 +134,8 @@
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>triggered js ($ 1000 revenue)</subtitle>
 				
@@ -150,7 +152,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Homepage</title>
 				<subtitle>http://example.org/homepage</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -265,7 +268,8 @@
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>second goal</subtitle>
 				
@@ -284,7 +288,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Homepage</title>
 				<subtitle>http://example.org/homepage</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -296,7 +301,8 @@
 				<goalPageId />
 				
 				<url>http://example.org/user/profile</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>triggered js</subtitle>
 				
@@ -315,7 +321,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>Profile page</title>
 				<subtitle>http://example.org/user/profile</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -341,7 +348,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title>Profile page for user *_)%</title>
 				<subtitle>http://example.org/user/profile</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
