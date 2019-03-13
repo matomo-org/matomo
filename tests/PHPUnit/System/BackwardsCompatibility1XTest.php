@@ -97,7 +97,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'otherRequestParameters' => array(
                 // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
                 'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
-            )
+            ),
+            'xmlFieldsToRemove' => [
+                'entry_sum_visit_length',
+                'sum_visit_length',
+            ],
         );
 
         /**
@@ -162,7 +166,11 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // system settings such as enable_plugin_update_communication are enabled by default in newest version,
             // but ugpraded Piwik are not
-            'CorePluginsAdmin.getSystemSettings'
+            'CorePluginsAdmin.getSystemSettings',
+
+            // visit length changes slightly with change to previous visitor detection in #13935
+            'VisitsSummary.getSumVisitsLength',
+            'VisitsSummary.getSumVisitsLengthPretty',
         );
 
         $apiNotToCall = array_merge($apiNotToCall, $reportsToCompareSeparately);

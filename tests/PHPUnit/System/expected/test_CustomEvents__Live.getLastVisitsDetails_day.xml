@@ -8,11 +8,11 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>24</pageId>
+				<pageId>27</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
@@ -39,8 +39,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -133,11 +133,11 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>23</pageId>
+				<pageId>26</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
@@ -164,8 +164,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -252,7 +252,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>2</idVisit>
+		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<actionDetails>
@@ -262,7 +262,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>19</pageId>
+				<pageId>20</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
@@ -282,7 +282,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>20</pageId>
+				<pageId>21</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
@@ -322,7 +322,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>25</pageId>
+				<pageId>23</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
@@ -342,7 +342,7 @@
 				<pageIdAction />
 				
 				
-				<pageId>26</pageId>
+				<pageId>24</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
@@ -360,10 +360,10 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>27</pageId>
+				<pageId>25</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
@@ -392,8 +392,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -480,7 +480,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>3</idVisit>
+		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<actionDetails>
@@ -490,7 +490,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>21</pageId>
+				<pageId>19</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
@@ -517,8 +517,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1172,11 +1172,11 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>47</pageId>
+				<pageId>50</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
@@ -1203,8 +1203,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1293,11 +1293,11 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>46</pageId>
+				<pageId>49</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
@@ -1324,8 +1324,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1408,7 +1408,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>7</idVisit>
+		<idVisit>8</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
 		<actionDetails>
@@ -1418,7 +1418,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>42</pageId>
+				<pageId>43</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
@@ -1438,7 +1438,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>43</pageId>
+				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
@@ -1478,7 +1478,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>48</pageId>
+				<pageId>46</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
@@ -1498,7 +1498,7 @@
 				<pageIdAction />
 				
 				
-				<pageId>49</pageId>
+				<pageId>47</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
@@ -1516,10 +1516,10 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>50</pageId>
+				<pageId>48</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
@@ -1548,8 +1548,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1632,7 +1632,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>8</idVisit>
+		<idVisit>7</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
 		<actionDetails>
@@ -1642,7 +1642,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>44</pageId>
+				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
@@ -1669,8 +1669,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
