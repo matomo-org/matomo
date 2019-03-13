@@ -242,10 +242,7 @@ ol.actionList > li.pageviewActions {
   }
 }
 
-ol.actionList > .action.last-action {
-  margin-bottom: 0;
-  padding-bottom: 0;
-
+ol.actionList > li:not(.pageviewActions).last-action {
   &:after {
     border-left: none;
   }

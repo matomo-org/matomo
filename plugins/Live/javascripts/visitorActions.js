@@ -139,7 +139,7 @@ function initializeVisitorActions(elem) {
             .find('.show-actions-count').text($items.length - actionsToDisplayCollapsed);
 
         // add last-action class to the last action in each list
-        $(this).children(':not(.actionsForPageExpander)').last().addClass('last-action');
+        setLastActionClass($(this));
     });
 
     $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){
@@ -164,6 +164,7 @@ function initializeVisitorActions(elem) {
     // event handler for content expander/collapser
     elem.on('click', '.collapsed-contents', function () {
         $(this).nextUntil(':not(.content)').toggleClass('duplicate');
+        setLastActionClass($(this).closest('ol.actionList'));
     });
 
     // event handler for action expander/collapser
@@ -188,5 +189,9 @@ function initializeVisitorActions(elem) {
     });
 
     elem.find('.show-less-actions:visible').click();
+
+    function setLastActionClass($list) {
+        $list.children(':not(.actionsForPageExpander):not(.duplicate)').removeClass('last-action').last().addClass('last-action');
+    }
 }
 
