@@ -8,9 +8,16 @@
 
     {% if actionGroup.actionsOnPage is not empty %}
     {% if actionGroup.pageviewAction is not empty %}
-    <li class="pageviewActions">
+    <li class="pageviewActions" data-view-count="{{ actionGroup.refreshActions|length + 1 }}">
         <ol class="actionList">
     {% endif %}
+        {% for action in actionGroup.refreshActions %}
+
+            {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+
+            {% set previousAction = action %}
+        {% endfor %}
+        <li class="refresh-divider"></li>
         {% for action in actionGroup.actionsOnPage %}
 
             {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}

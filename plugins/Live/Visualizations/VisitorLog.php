@@ -150,6 +150,7 @@ class VisitorLog extends Visualization
                     $actionGroups[] = [
                         'pageviewAction' => null,
                         'actionsOnPage' => [$action],
+                        'refreshActions' => [],
                     ];
                     continue;
                 }
@@ -159,11 +160,21 @@ class VisitorLog extends Visualization
                     $actionGroups[$idPageView] = [
                         'pageviewAction' => null,
                         'actionsOnPage' => [],
+                        'refreshActions' => [],
                     ];
                 }
 
                 if ($action['type'] == 'action') {
-                    $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    if (empty($actionGroups[$idPageView]['pageviewAction'])) {
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else if (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
+                        // set this action as the pageview action either if there isn't one set already, or the existing one
+                        // has no URL
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else {
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                    }
                 } else {
                     $actionGroups[$idPageView]['actionsOnPage'][] = $action;
                 }

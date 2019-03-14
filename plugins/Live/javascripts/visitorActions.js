@@ -95,35 +95,44 @@ function initializeVisitorActions(elem) {
     });
 
     // show refresh icon for duplicate page views in a row
-    $("ol.visitorLog", elem).each(function () {
-        var prevelement;
-        var prevhtml;
-        var duplicateCounter = 0;
+    $("li.pageviewActions", elem).each(function () {
+        var $divider = $(this).find('.refresh-divider');
+        $divider.prevUntil().addClass('duplicate');
+        $divider.remove();
 
-        $(this).find("li:not(.pageviewActions):not(.actionsForPageExpander)").each(function () {
-            var current = $(this).html();
+        var viewCount = +$(this).attr('data-view-count');
+        if (viewCount <= 1
+            || isNaN(viewCount)
+        ) {
+            return;
+        }
 
-            if (current == prevhtml) {
-                duplicateCounter++;
-                $(this).find('>div').prepend($("<span>"+(duplicateCounter+1)+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
-                prevelement.addClass('duplicate').val('').attr('style', '');
-            } else {
-                duplicateCounter = 0;
+        var $pageviewAction = $(this).prev();
+        $pageviewAction.find('>div').prepend($("<span>"+viewCount+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
+
+        $('a', $(this)).on('focus', function () {
+            // see https://github.com/piwik/piwik/issues/4099
+            if (tooltipIsOpened) {
+                $(this).tooltip('close');
             }
+        });
 
-            prevhtml = current;
-            prevelement = $(this);
+        var $this = $(this);
+        $pageviewAction.attr('origtitle', $pageviewAction.attr('title'));
+        $pageviewAction.attr('title', _pk_translate('Live_ClickToViewAllActions'));
+        $pageviewAction.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-            var $this = $(this);
-            var tooltipIsOpened = false;
+            $this.children('.actionList').children().first().removeClass('duplicate').nextUntil('li:not(.duplicate)').removeClass('duplicate');
+            $pageviewAction.find('.icon-refresh').hide();
 
-            $('a', $this).on('focus', function () {
-                // see https://github.com/piwik/piwik/issues/4099
-                if (tooltipIsOpened) {
-                    $this.tooltip('close');
-                }
-            });
+            window.setTimeout(function() {
+                $pageviewAction.attr('title', $pageviewAction.attr('origtitle'));
+                $pageviewAction.attr('origtitle', null);
+            }, 150);
 
+            $pageviewAction.off('click');
         });
     });
 
@@ -140,25 +149,6 @@ function initializeVisitorActions(elem) {
 
         // add last-action class to the last action in each list
         setLastActionClass($(this));
-    });
-
-    $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){
-        if (!$('.icon-refresh', $(this)).length) {
-            return;
-        }
-        $(this).attr('origtitle', $(this).attr('title'));
-        $(this).attr('title', _pk_translate('Live_ClickToViewAllActions'));
-        $(this).click(function(e){
-            e.preventDefault();
-            $(this).prevUntil('li:not(.duplicate)').removeClass('duplicate').find('.icon-refresh').hide();
-            var elem = $(this);
-            window.setTimeout(function() {
-                elem.attr('title', elem.attr('origtitle'));
-                elem.attr('origtitle', null);
-            }, 150);
-            $(this).off('click').find('.icon-refresh').hide();
-            return false;
-        });
     });
 
     // event handler for content expander/collapser
