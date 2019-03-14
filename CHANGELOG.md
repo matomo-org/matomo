@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 
 * `Referrers.getKeywordsForPageUrl` and `Referrers.getKeywordsForPageTitle` APIs have been deprecated and will be removed in Matomo 4.0.0
+* By default, Matomo [application logs](https://matomo.org/faq/troubleshooting/faq_115/) will now be logged in `tmp/logs/matomo.log` instead of `tmp/logs/piwik.log`. This log file path can be edited in your config/config.ini.php in the INI setting `logger_file_path`.
 
 ### New Features
 * It is now possible to use monolog's FingersCrossedHandler which buffers all logs and logs all of them in case of warning or error.
