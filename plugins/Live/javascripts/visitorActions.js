@@ -125,14 +125,14 @@ function initializeVisitorActions(elem) {
             e.stopPropagation();
 
             $this.children('.actionList').children().first().removeClass('duplicate').nextUntil('li:not(.duplicate)').removeClass('duplicate');
-            $pageviewAction.find('.icon-refresh').hide();
 
             window.setTimeout(function() {
                 $pageviewAction.attr('title', $pageviewAction.attr('origtitle'));
                 $pageviewAction.attr('origtitle', null);
             }, 150);
 
-            $pageviewAction.off('click');
+            $pageviewAction.off('click').find('.icon-refresh').hide();
+            $pageviewAction.triggerHandler('mouseleave'); // close tooltip so the title will replace
         });
     });
 
