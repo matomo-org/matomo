@@ -10,7 +10,6 @@
 		<min_bandwidth>43</min_bandwidth>
 		<max_bandwidth>43</max_bandwidth>
 		<avg_bandwidth>43</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fbuilds.piwik.org</segment>
 		<subtable>
 			<row>
 				<label>/latest.zip</label>

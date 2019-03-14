@@ -3,7 +3,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>9</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -106,15 +106,15 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
+		<location>Japan</location>
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -127,7 +127,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -230,15 +230,15 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
+		<location>Japan</location>
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

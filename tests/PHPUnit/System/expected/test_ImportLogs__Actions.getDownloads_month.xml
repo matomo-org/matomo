@@ -10,7 +10,6 @@
 		<min_bandwidth>4334745</min_bandwidth>
 		<max_bandwidth>4334745</max_bandwidth>
 		<avg_bandwidth>1083686</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpiwik.net</segment>
 		<subtable>
 			<row>
 				<label>/19.pdf</label>

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Visualization;
@@ -103,5 +104,17 @@ class HtmlTable extends Visualization
     protected function isPivoted()
     {
         return $this->requestConfig->pivotBy || Common::getRequestVar('pivotBy', '');
+    }
+
+    /**
+     * Override to compute a custom cell HTML attributes (such as style).
+     *
+     * @param Row $row
+     * @param $column
+     * @return array Array of name => value pairs.
+     */
+    public function getCellHtmlAttributes(Row $row, $column)
+    {
+        return null;
     }
 }

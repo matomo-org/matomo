@@ -941,7 +941,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
-                    var str = sprintf(_pk_translate('CoreHome_PageOf'), offset + '-' + offsetEndDisp, totalRows);
+                    var str = sprintf(_pk_translate('General_Pagination'), offset, offsetEndDisp, totalRows);
                     $(this).text(str);
                 } else {
                     $(this).hide();

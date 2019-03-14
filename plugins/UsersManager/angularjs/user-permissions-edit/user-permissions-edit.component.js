@@ -58,6 +58,7 @@
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.onRowSelected = onRowSelected;
+        vm.getPaginationLowerBound = getPaginationLowerBound;
         vm.getPaginationUpperBound = getPaginationUpperBound;
         vm.fetchAccess = fetchAccess;
         vm.gotoPreviousPage = gotoPreviousPage;
@@ -178,6 +179,10 @@
             var selectedRowKeyCount = getSelectedRowsCount();
             vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
             vm.isAllCheckboxSelected = selectedRowKeyCount === vm.siteAccess.length;
+        }
+
+        function getPaginationLowerBound() {
+            return vm.offset + 1;
         }
 
         function getPaginationUpperBound() {

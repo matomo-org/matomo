@@ -315,6 +315,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_Pagination';
         $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
@@ -327,7 +328,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_DataTableIncludeAggregateRows';
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
         $translationKeys[] = 'CoreHome_Default';
-        $translationKeys[] = 'CoreHome_PageOf';
         $translationKeys[] = 'CoreHome_FormatMetrics';
         $translationKeys[] = 'CoreHome_ShowExportUrl';
         $translationKeys[] = 'CoreHome_HideExportUrl';
