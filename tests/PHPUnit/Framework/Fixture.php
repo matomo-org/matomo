@@ -642,6 +642,17 @@ class Fixture extends \PHPUnit_Framework_Assert
         );
     }
 
+    public static function checkTrackingFailureResponse($response)
+    {
+        $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        $expectedResponse = base64_decode($trans_gif_64);
+
+        self::assertContains($expectedResponse, $response);
+        self::assertContains('This resource is part of Matomo.', $response);
+        self::assertNotContains('Error', $response);
+        self::assertNotContains('Fatal', $response);
+    }
+
     /**
      * Checks that the response from bulk tracking is a valid JSON
      * string. Will fail the test if JSON status is not success.

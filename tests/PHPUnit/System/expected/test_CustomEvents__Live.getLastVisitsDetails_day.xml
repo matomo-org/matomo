@@ -9,17 +9,18 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>24</pageId>
+				<pageId>27</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Purchase&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -40,8 +41,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -135,17 +136,18 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>23</pageId>
+				<pageId>26</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -166,8 +168,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -254,7 +256,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>2</idVisit>
+		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -265,7 +267,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>19</pageId>
+				<pageId>20</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
@@ -273,7 +275,8 @@
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play50%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -285,7 +288,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>20</pageId>
+				<pageId>21</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
@@ -293,7 +296,8 @@
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play75%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -313,7 +317,8 @@
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<eventName>Search query here</eventName>
@@ -325,7 +330,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>25</pageId>
+				<pageId>23</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
@@ -333,7 +338,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -345,7 +351,7 @@
 				<pageIdAction />
 				
 				
-				<pageId>26</pageId>
+				<pageId>24</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
@@ -353,7 +359,8 @@
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;rating&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -363,16 +370,17 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>27</pageId>
+				<pageId>25</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---', Action: &quot;event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---&quot;</subtitle>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
@@ -395,8 +403,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -483,7 +491,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>3</idVisit>
+		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -494,13 +502,14 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>21</pageId>
+				<pageId>19</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -521,8 +530,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -630,7 +639,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Welcome!</title>
 				<subtitle>http://example.org/webradio</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -642,7 +652,8 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/webradio</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>triggered js</subtitle>
 				
@@ -661,7 +672,8 @@
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -688,7 +700,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -700,7 +713,8 @@
 				<goalPageId>9</goalPageId>
 				
 				<url />
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>event matching ($ 8 revenue)</subtitle>
 				
@@ -719,7 +733,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play25%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -746,7 +761,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				
 				<eventValue>23</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -759,7 +775,8 @@
 				<goalPageId>10</goalPageId>
 				
 				<url />
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>event matching ($ 23 revenue)</subtitle>
 				
@@ -778,7 +795,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play50%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -805,7 +823,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;CategoryTriggersGoal here', Action: &quot;This is an event without a URL&quot;</subtitle>
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				
 				<eventValue>0</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -818,7 +837,8 @@
 				<goalPageId>11</goalPageId>
 				
 				<url />
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>event matching</subtitle>
 				
@@ -837,7 +857,8 @@
 				<timeSpentPretty>30s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play75%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -863,7 +884,8 @@
 				<timeSpentPretty>30s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -889,7 +911,8 @@
 				<timeSpentPretty>1s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -916,7 +939,8 @@
 				<timeSpentPretty>27 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -945,7 +969,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -963,7 +988,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
@@ -983,7 +1009,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
@@ -1003,7 +1030,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1023,7 +1051,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;clickBuyNow&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1043,7 +1072,8 @@
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playStart&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1061,7 +1091,8 @@
 				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play25%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1178,17 +1209,18 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>47</pageId>
+				<pageId>50</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Purchase&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1209,8 +1241,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1300,17 +1332,18 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>16</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>46</pageId>
+				<pageId>49</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1331,8 +1364,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1415,7 +1448,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>7</idVisit>
+		<idVisit>8</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
 		<fingerprint>8f3c392c43450541</fingerprint>
@@ -1426,7 +1459,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>42</pageId>
+				<pageId>43</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
 				<bandwidth />
@@ -1434,7 +1467,8 @@
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play50%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1446,7 +1480,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>43</pageId>
+				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
 				<bandwidth />
@@ -1454,7 +1488,8 @@
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play75%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1474,7 +1509,8 @@
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<eventName>Search query here</eventName>
@@ -1486,7 +1522,7 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>48</pageId>
+				<pageId>46</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
 				<bandwidth />
@@ -1494,7 +1530,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1506,7 +1543,7 @@
 				<pageIdAction />
 				
 				
-				<pageId>49</pageId>
+				<pageId>47</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
 				<bandwidth />
@@ -1514,7 +1551,8 @@
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;rating&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -1524,16 +1562,17 @@
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
-				<pageId>50</pageId>
+				<pageId>48</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---', Action: &quot;event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---&quot;</subtitle>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
@@ -1556,8 +1595,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1640,7 +1679,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>8</idVisit>
+		<idVisit>7</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
 		<fingerprint>8f3c392c43450541</fingerprint>
@@ -1651,13 +1690,14 @@
 				<pageIdAction>16</pageIdAction>
 				
 				
-				<pageId>44</pageId>
+				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
 				<bandwidth />
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;Search&quot;</subtitle>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1678,8 +1718,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1781,7 +1821,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1807,7 +1848,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play25%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1833,7 +1875,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play50%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1859,7 +1902,8 @@
 				<timeSpentPretty>30s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;play75%&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1885,7 +1929,8 @@
 				<timeSpentPretty>30s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;playEnd&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1911,7 +1956,8 @@
 				<timeSpentPretty>1s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1938,7 +1984,8 @@
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
 				<interactionPosition />
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Music', Action: &quot;rating&quot;</subtitle>
 				<eventName>La fiancée de l'eau</eventName>
@@ -1967,7 +2014,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Movie Theater</title>
 				<subtitle>http://example.org/movies</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1985,7 +2033,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Princess Mononoke (もののけ姫)</eventName>
@@ -2005,7 +2054,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Ponyo (崖の上のポニョ)</eventName>
@@ -2025,7 +2075,8 @@
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playTrailer&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -2045,7 +2096,8 @@
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;clickBuyNow&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -2065,7 +2117,8 @@
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;playStart&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
@@ -2083,7 +2136,8 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				
-				<icon>plugins/Morpheus/images/event.svg</icon>
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
 				<title>Event</title>
 				<subtitle>Event_Category: &quot;Movie', Action: &quot;play25%&quot;</subtitle>
 				<eventName>Spirited Away (千と千尋の神隠し)</eventName>

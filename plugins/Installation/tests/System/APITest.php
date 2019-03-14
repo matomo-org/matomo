@@ -61,6 +61,13 @@ class APITest extends SystemTestCase
         $this->assertContains('Access denied', $data);
     }
 
+    public function test_shouldReturnEmptyResultWhenNotInstalledAndDispatchIsDisabled()
+    {
+        $url = Fixture::getTestRootUrl() . 'nodispatchnotinstalled.php';
+        $response = $this->sendHttpRequest($url);
+        $this->assertSame('', $response['data']);
+    }
+
     private function getUrl()
     {
         return Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=API&method=API.getPiwikVersion';
