@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Option;
 use Piwik\Plugins\Intl\DateTimeFormatProvider;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
@@ -36,6 +37,10 @@ class CronArchivingLastRunCheck implements Diagnostic
 
     public function execute()
     {
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return [];
+        }
+
         $label = $this->translator->translate('Diagnostics_CronArchivingLastRunCheck');
         $commandToRerun = '<code>' . $this->getArchivingCommand() . '</code>';
         $coreArchiveShort = '<code>core:archive</code>';
