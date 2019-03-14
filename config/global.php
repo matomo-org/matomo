@@ -111,6 +111,7 @@ return array(
         'misc/user/*png',
         'misc/user/*svg',
         'misc/user/*js',
+        'misc/user/*/config.ini.php',
         'misc/package',
         'misc/package/WebAppGallery/*.xml',
         'misc/package/WebAppGallery/install.sql',
