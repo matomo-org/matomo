@@ -120,6 +120,16 @@ class Config
     }
 
     /**
+     * Returns default absolute path to the local configuration file.
+     *
+     * @return string
+     */
+    public static function getDefaultLocalConfigPath()
+    {
+        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
+    }
+
+    /**
      * Returns absolute path to the local configuration file
      *
      * @return string
@@ -130,17 +140,28 @@ class Config
         if ($path) {
             return $path;
         }
-        return PIWIK_USER_PATH . self::DEFAULT_LOCAL_CONFIG_PATH;
+        return self::getDefaultLocalConfigPath();
     }
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        if (!$hostname) {
+            return array();
+        }
+
         // Remove any port number to get actual hostname
         $hostname = Url::getHostSanitized($hostname);
-        $perHostFilename  = $hostname . '.config.ini.php';
+        $standardConfigName = 'config.ini.php';
+        $perHostFilename  = $hostname . '.' . $standardConfigName;
         $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
+        $pathDomainMiscUser = PIWIK_USER_PATH . '/misc/user/' . $hostname . '/' . $standardConfigName;
 
-        return array('file' => $perHostFilename, 'path' => $pathDomainConfig);
+        $locations = array(
+            array('file' => $perHostFilename, 'path' => $pathDomainConfig),
+            array('file' => $standardConfigName, 'path' => $pathDomainMiscUser)
+        );
+
+        return $locations;
     }
 
     public function getConfigHostnameIfSet()
@@ -180,13 +201,16 @@ class Config
     public static function getByDomainConfigPath()
     {
         $host       = self::getHostname();
-        $hostConfig = self::getLocalConfigInfoForHostname($host);
+        $hostConfigs = self::getLocalConfigInfoForHostname($host);
 
-        if (Filesystem::isValidFilename($hostConfig['file'])
-            && file_exists($hostConfig['path'])
-        ) {
-            return $hostConfig['path'];
+        foreach ($hostConfigs as $hostConfig) {
+            if (Filesystem::isValidFilename($hostConfig['file'])
+                && file_exists($hostConfig['path'])
+            ) {
+                return $hostConfig['path'];
+            }
         }
+
         return false;
     }
 
@@ -215,28 +239,41 @@ class Config
      *     $config->save();
      *
      * @param string $hostname eg piwik.example.com
+     * @param string $preferredPath If there are different paths for the config that can be used, eg /config/* and /misc/user/*,
+     *                              and a preferred path is given, then the config path must contain the preferred path.
      * @return string
      * @throws \Exception In case the domain contains not allowed characters
      * @internal
      */
-    public function forceUsageOfLocalHostnameConfig($hostname)
+    public function forceUsageOfLocalHostnameConfig($hostname, $preferredPath = null)
     {
-        $hostConfig = self::getLocalConfigInfoForHostname($hostname);
+        $hostConfigs = self::getLocalConfigInfoForHostname($hostname);
+        $fileNames = '';
 
-        $filename = $hostConfig['file'];
-        if (!Filesystem::isValidFilename($filename)) {
-            throw new Exception('Matomo domain is not a valid looking hostname (' . $filename . ').');
+        foreach ($hostConfigs as $hostConfig) {
+            if (count($hostConfigs) > 1
+                && $preferredPath
+                && strpos($hostConfig['path'], $preferredPath) === false) {
+                continue;
+            }
+
+            $filename = $hostConfig['file'];
+            $fileNames .= $filename . ' ';
+
+            if (Filesystem::isValidFilename($filename)) {
+                $pathLocal = $hostConfig['path'];
+
+                try {
+                    $this->reload($pathLocal);
+                } catch (Exception $ex) {
+                    // pass (not required for local file to exist at this point)
+                }
+
+                return $pathLocal;
+            }
         }
 
-        $pathLocal = $hostConfig['path'];
-
-        try {
-            $this->reload($pathLocal);
-        } catch (Exception $ex) {
-            // pass (not required for local file to exist at this point)
-        }
-
-        return $pathLocal;
+        throw new Exception('Matomo domain is not a valid looking hostname (' . trim($fileNames) . ').');
     }
 
     /**

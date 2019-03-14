@@ -19,6 +19,7 @@
 				<title>incredible title</title>
 				<subtitle>http://example.org/foo/dir/page</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -139,6 +140,7 @@
 				<title>incredible title 0</title>
 				<subtitle>http://example.org/my/dir/page0</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>

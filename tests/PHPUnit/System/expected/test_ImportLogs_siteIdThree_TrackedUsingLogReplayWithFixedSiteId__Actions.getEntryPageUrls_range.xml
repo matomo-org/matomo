@@ -78,6 +78,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.255</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog</segment>
 		<subtable>
 			<row>
 				<label>2012</label>
@@ -100,6 +101,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.391</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012</segment>
 				<subtable>
 					<row>
 						<label>10</label>
@@ -122,6 +124,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.391</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012%252F10</segment>
 						<subtable>
 							<row>
 								<label>integrate-piwik-into-your-rails-application</label>
@@ -144,6 +147,7 @@
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
 								<avg_time_generation>0.391</avg_time_generation>
+								<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2012%252F10%252Fintegrate-piwik-into-your-rails-application</segment>
 								<subtable>
 									<row>
 										<label>/index</label>
@@ -199,6 +203,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.119</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014</segment>
 				<subtable>
 					<row>
 						<label>03</label>
@@ -221,6 +226,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.119</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014%252F03</segment>
 						<subtable>
 							<row>
 								<label>piwik-2-1-massive-performance-reliability-improvements</label>
@@ -243,6 +249,7 @@
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
 								<avg_time_generation>0.119</avg_time_generation>
+								<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fblog%252F2014%252F03%252Fpiwik-2-1-massive-performance-reliability-improvements</segment>
 								<subtable>
 									<row>
 										<label>/index</label>
@@ -301,6 +308,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.145</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Flog-analytics</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -408,6 +416,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fchangelog</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -454,6 +463,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fdocs</segment>
 		<subtable>
 			<row>
 				<label>installation</label>
@@ -476,6 +486,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fexample-site-three.com%252Fdocs%252Finstallation</segment>
 				<subtable>
 					<row>
 						<label>/index</label>

@@ -2,7 +2,7 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Ecommerce Abandoned Cart / Ecommerce Order #}
-        <img src="{{ action.icon }}" class="action-list-action-icon"/>
+        <img src="{{ action.iconSVG|default(action.icon) }}" class="action-list-action-icon"/>
         {% if action.type == 'ecommerceOrder' %}
             <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
             <span style='color:#666;'>({{ action.orderId }})</span>

@@ -18,6 +18,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
@@ -130,6 +131,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
@@ -242,6 +244,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>
