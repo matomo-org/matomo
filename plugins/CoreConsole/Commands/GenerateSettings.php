@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,7 +34,7 @@ class GenerateSettings extends GeneratePluginBase
         $pluginName = $this->getPluginName($input, $output, $settingsType, $settingsFilename);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExampleSettingsPlugin';
+        $exampleFolder  = Manager::getPluginDirectory('ExampleSettingsPlugin');
         $replace        = array('ExampleSettingsPlugin' => $pluginName);
         $whitelistFiles = array('/' . $settingsFilename);
 
