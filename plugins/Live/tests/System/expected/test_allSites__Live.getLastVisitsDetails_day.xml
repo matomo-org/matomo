@@ -18,7 +18,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title</title>
 				<subtitle>http://example.org/foo/dir/page</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -138,7 +139,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title 0</title>
 				<subtitle>http://example.org/my/dir/page0</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
