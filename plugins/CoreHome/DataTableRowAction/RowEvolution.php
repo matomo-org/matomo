@@ -236,9 +236,11 @@ class RowEvolution
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
             list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
+            $fractionDigits = max($this->getFractionDigits($first), $this->getFractionDigits($last));
+
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first) . $unit,
-                NumberFormatter::getInstance()->format($last) . $unit
+                NumberFormatter::getInstance()->format($first, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($last, $fractionDigits, $fractionDigits) . $unit,
             ));
 
             if ($change !== false) {
@@ -264,12 +266,10 @@ class RowEvolution
             // set metric min/max text (used as tooltip for details)
             $max = isset($metricData['max']) ? $metricData['max'] : 0;
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
-            $min .= $unit;
-            $max .= $unit;
             $minmax = Piwik::translate('RowEvolution_MetricMinMax', array(
                 $metricData['name'],
-                NumberFormatter::getInstance()->formatNumber($min),
-                NumberFormatter::getInstance()->formatNumber($max)
+                NumberFormatter::getInstance()->formatNumber($min, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->formatNumber($max, $fractionDigits, $fractionDigits) . $unit,
             ));
 
             $newMetric = array(
@@ -366,5 +366,12 @@ class RowEvolution
             return $labelPretty;
         }
         return $rowLabel;
+    }
+
+    private function getFractionDigits($value)
+    {
+        $value = (string) $value;
+        $fraction = substr(strrchr($value, "."), 1);
+        return strlen($fraction);
     }
 }

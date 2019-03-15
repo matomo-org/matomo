@@ -27,6 +27,11 @@ var Overlay_Helper = {
             url += '&segment=' + encodeURIComponent(segment);
         }
 
+        var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
+        if (token_auth.length && piwik.shouldPropagateTokenAuth) {
+            url += '&token_auth='  + encodeURIComponent(token_auth);
+        }
+
         if (link) {
             url += '#?l=' + Overlay_Helper.encodeFrameUrl(link);
         }

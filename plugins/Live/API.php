@@ -157,9 +157,10 @@ class API extends \Piwik\Plugin\API
      * @param bool|int $minTimestamp (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
      * @param bool $flat
      * @param bool $doNotFetchActions
+     * @param bool $enhanced for plugins that want to expose additional information
      * @return DataTable
      */
-    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
+    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $idSite = Site::getIdSitesFromIdSitesString($idSite);

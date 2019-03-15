@@ -30,6 +30,7 @@ use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\API\Request as ApiRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -195,15 +196,15 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            $logMessage = "Failed to get data from API: " . $e->getMessage();
-            $message = $e->getMessage();
+            StaticContainer::get(LoggerInterface::class)->error('Failed to get data from API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
+            $message = $e->getMessage();
             if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $logMessage .= "\n" . $e->getTraceAsString();
                 $message .= "\n" . $e->getTraceAsString();
             }
-
-            Log::error($logMessage);
 
             $loadingError = array('message' => $message);
         }

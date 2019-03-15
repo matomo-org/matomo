@@ -49,8 +49,8 @@ charset = utf8
 host = localhost
 username = "@USERNAME@"
 password =
-dbname = piwik_tests
-tables_prefix = piwiktests_
+dbname = matomo_tests
+tables_prefix = matomotests_
 port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
@@ -102,7 +102,7 @@ log_level = WARN
 ; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
-logger_file_path = tmp/logs/piwik.log
+logger_file_path = tmp/logs/matomo.log
 
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
@@ -442,7 +442,7 @@ enable_framed_pages = 0
 enable_framed_settings = 0
 
 ; language cookie name for session
-language_cookie_name = piwik_lang
+language_cookie_name = matomo_lang
 
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
@@ -693,7 +693,7 @@ num_days_before_tracking_code_reminder = 5
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
-; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; If you want to track unique users across websites you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 
@@ -744,10 +744,12 @@ record_statistics = 1
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
-; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
+; The amount of time in the past to match the current visitor to a known visitor via fingerprint. Defaults to visit_standard_length.
 ; If you are looking for higher accuracy of "returning visitors" metrics, you may set this value to 86400 or more.
 ; This is especially useful when you use the Tracking API where tracking Returning Visitors often depends on this setting.
-; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length
+; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length.
+; Note: visitors with visitor IDs will be matched by visitor ID from any point in time, this is only for recognizing visitors
+; by device fingerprint.
 window_look_back_for_visitor = 0
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second

@@ -21,6 +21,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -57,6 +58,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -93,6 +95,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -139,6 +142,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
@@ -165,7 +169,7 @@
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>721</visitDuration>
@@ -274,6 +278,7 @@
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -298,6 +303,7 @@
 				<title>Looking at Electronics &amp; Cameras page again</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -322,6 +328,7 @@
 				<title>Looking at product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -370,6 +377,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (937nsjusu 3894)</title>
 				<subtitle>$ 1111.11 revenue - 8 items: PRODUCT name, PRODUCT name BIS)</subtitle>
 				
@@ -401,6 +409,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (1037nsjusu4s3894)</title>
 				<subtitle>$ 2000 revenue - 2 items: PRODUCT name, Canon SLR)</subtitle>
 				
@@ -420,6 +429,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -456,6 +466,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -492,6 +503,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -538,6 +550,7 @@
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
@@ -561,10 +574,10 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3961</visitDuration>
@@ -673,6 +686,7 @@
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -703,6 +717,7 @@
 				
 				<url>http://example.org/index.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>title match, triggered ONCE ($ 10 revenue)</subtitle>
 				
@@ -722,6 +737,7 @@
 				<title>Another Product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -758,6 +774,7 @@
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -792,6 +809,7 @@
 				<title>Another Product page with multiple categories</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -828,7 +846,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

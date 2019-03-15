@@ -132,7 +132,6 @@
         "SystemCheckCronArchiveProcessCLI": "Управление процессами через консоль",
         "SystemCheckPhpSetting": "Для предотвращения критической проблемы необходимо установить следующее значение в вашем файле php.ini: %s",
         "SystemCheckUpdateHttps": "Обновление через HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo не может использовать HTTPS для обновления, он вернётся к небезопасному обновлению HTTP. Проверьте, поддерживается ли CURL или allow_url_fopen и установлено ли расширение PHP openssl: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "не поддерживается",
         "Tables": "Создание таблиц",
         "TablesCreatedSuccess": "Таблицы успешно созданы!",

@@ -471,11 +471,47 @@
 
         /** Generate ticks in y direction */
         setYTicks: function () {
+            var $tempAxisElement = $('<div>').attr('class', 'jqplot-axis jqplot-y2axis').css({'visibility': 'hidden', 'display': 'inline-block'});
+            $('<span>')
+                .css('font-size', this.jqplotParams.axesDefaults.fontSize)
+                .css('font-family', this.jqplotParams.axesDefaults.fontFamily)
+                .appendTo($tempAxisElement);
+            $('body').append($tempAxisElement);
+
             // default axis
             this.setYTicksForAxis('yaxis', this.jqplotParams.axes.yaxis);
+
             // other axes: y2axis, y3axis...
+            var axisLength = 10;
             for (var i = 2; typeof this.jqplotParams.axes['y' + i + 'axis'] != 'undefined'; i++) {
                 this.setYTicksForAxis('y' + i + 'axis', this.jqplotParams.axes['y' + i + 'axis']);
+
+                axisLength += getAxisWidth(this.jqplotParams.axes['y' + i + 'axis']);
+            }
+
+            var axesShown = {};
+            this.jqplotParams.series.forEach(function (series) {
+                axesShown[series.yaxis] = true;
+            });
+            var hasMultipleAxes = Object.keys(axesShown).length > 1;
+
+            // only adjust width if more than one axis exists AND more than one series shown
+            if (hasMultipleAxes) {
+                $('.piwik-graph', this.$element).css('width', 'calc(100% - ' + axisLength + 'px)');
+            } else {
+                $('.piwik-graph', this.$element).css('width', '');
+            }
+
+            $tempAxisElement.remove();
+
+            function getAxisWidth(axis) {
+                var maxWidth = 0;
+                axis.ticks.forEach(function (tick) {
+                    var tickFormatted = $.jqplot.NumberFormatter(axis.tickOptions.formatString || '%s', tick);
+                    $tempAxisElement.find('span').text(tickFormatted);
+                    maxWidth = Math.max(maxWidth, $tempAxisElement.width());
+                });
+                return maxWidth;
             }
         },
 

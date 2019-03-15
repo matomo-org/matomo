@@ -327,8 +327,8 @@
         "OverlayRowActionTooltipTitle": "Open Page Overlay",
         "Overview": "Overview",
         "Pages": "Pages",
-        "Pagination": "%1$s - %2$s of %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
+        "Pagination": "%1$s–%2$s of %3$s",
+        "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "Parameter %1$s must be an integer value between %2$s and %3$s.",
         "Password": "Password",
         "Period": "Period",
@@ -490,7 +490,9 @@
         "YouAreCurrentlyUsing": "You are currently using Matomo %s.",
         "YouAreViewingDemoMessage": "You are viewing the demo of %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
-        "YourChangesHaveBeenSaved": "Your changes have been saved."
+        "YourChangesHaveBeenSaved": "Your changes have been saved.",
+        "ThankYouForUsingMatomo": "Thank you for using Matomo",
+        "TheMatomoTeam": "The Matomo Team"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

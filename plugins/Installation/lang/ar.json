@@ -131,7 +131,6 @@
         "SystemCheckCronArchiveProcessCLI": "إدارة العمليات عبر CLI",
         "SystemCheckPhpSetting": "لمنع حدوث مايعيق ، يجب أن تضبط الإعدادات التالية في ملف php.ini لديك : %s .",
         "SystemCheckUpdateHttps": "التحديث عبر HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "لم ينجح Matomo في استخدام HTTPS للتحديث ، وسيعود للتحديث عبر HTTP غير الآمن . تحقق من دعم CURL أو allow_url_fopen وأن إضافة openssl تم تثبيتها على PHP ، أنظر http:\\\/\\\/piwik.org\\\/faq\\\/troubleshooting\\\/faq_177\\\/ .",
         "NotSupported": "غير مدعوم",
         "Tables": "جاري إنشاء الجداول",
         "TablesCreatedSuccess": "تم إنشاء الجداول بنجاح!",

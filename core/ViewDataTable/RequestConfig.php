@@ -355,4 +355,15 @@ class RequestConfig
 
         return Common::getRequestVar($paramName, false);
     }
+
+    /**
+     * Override this method if you want to add custom request parameters to the API request based on ViewDataTable
+     * parameters. Return in the result the list of extra parameters.
+     *
+     * @return array eg, `['mycustomparam']`
+     */
+    public function getExtraParametersToSet()
+    {
+        return [];
+    }
 }

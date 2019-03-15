@@ -87,7 +87,8 @@ class ReportTotalsCalculator extends DataTableManipulator
         $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
 
         if (!$firstLevelTable->getRowsCount()
-            || $firstLevelTable->getTotalsRow()
+            || $dataTable->getTotalsRow()
+            || $dataTable->getMetadata('totals')
         ) {
             return $dataTable;
         }

@@ -226,6 +226,6 @@ class Get extends Base
 
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) {
             return Piwik::translate('Goals_GoalX', $goal['name']);
-        });
+        }, $isSummary = true);
     }
 }
