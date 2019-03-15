@@ -20,7 +20,7 @@ final class Version
      * The current Matomo version.
      * @var string
      */
-    const VERSION = '3.9.0-b3';
+    const VERSION = '3.9.0-rc1';
 
     public function isStableVersion($version)
     {
