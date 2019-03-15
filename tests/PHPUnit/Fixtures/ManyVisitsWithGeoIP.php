@@ -245,7 +245,6 @@ class ManyVisitsWithGeoIP extends Fixture
     public function setLocationProvider($file)
     {
         GeoIp2::$dbNames['loc'] = array($file);
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 

@@ -79,7 +79,6 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
