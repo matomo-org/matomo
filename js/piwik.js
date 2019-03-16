@@ -959,7 +959,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global Blob */
 /*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
-    createElement, appendChild, characterSet, charset, all,
+    createElement, appendChild, characterSet, charset, all, btoa,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
@@ -996,6 +996,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
+    enableParameterObfuscation, disableParameterObfuscation,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
@@ -3085,6 +3086,9 @@ if (typeof window.Piwik !== 'object') {
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
 
+                // If enabled, tracking parameters will be obfuscated in requests
+                configParameterObfuscation = false,
+
                 // Recurring heart beat after initial ping (in milliseconds)
                 configHeartBeatDelay,
 
@@ -4514,6 +4518,10 @@ if (typeof window.Piwik !== 'object') {
 
                 if (isFunction(configCustomRequestContentProcessing)) {
                     request = configCustomRequestContentProcessing(request);
+                }
+
+                if (configParameterObfuscation && isFunction(windowAlias.btoa)) {
+                    request = windowAlias.btoa(request);
                 }
 
                 return request;
@@ -6831,6 +6839,21 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setGenerationTimeMs = function (generationTime) {
                 configPerformanceGenerationTime = parseInt(generationTime, 10);
+            };
+
+
+            /**
+             * Enables parameter obfuscation in tracking requests
+             */
+            this.enableParameterObfuscation = function () {
+                configParameterObfuscation = true;
+            };
+
+            /**
+             * Disables parameter obfuscation in tracking requests
+             */
+            this.disableParameterObfuscation = function () {
+                configParameterObfuscation = false;
             };
 
             /**

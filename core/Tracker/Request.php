@@ -66,6 +66,16 @@ class Request
         if (!is_array($params)) {
             $params = array();
         }
+
+        // obfuscated params will be the first and only array key without any value
+        if (1 === count($params) && '' === end($params)) {
+            $data = key($params);
+            $encodedData = base64_decode($data);
+            if (false !== $encodedData) {
+                parse_str($encodedData, $params);
+            }
+        }
+
         $this->params = $params;
         $this->rawParams = $params;
         $this->tokenAuth = $tokenAuth;
