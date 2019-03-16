@@ -530,7 +530,9 @@ function PiwikTest() {
 
                 // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
                 JSLINT.errors.forEach( function (item, index) {
-                    item.line += countOfLinesRemoved;
+                    if (item && item.line !== undefined) {
+                        item.line += countOfLinesRemoved;
+                    }
                     console.log(item);
                 });
 
