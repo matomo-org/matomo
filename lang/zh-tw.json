@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "開啟網頁覆蓋",
         "Overview": "總覽",
         "Pages": "網頁",
-        "Pagination": "%3$s 中的 %1$s - %2$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "參數 %1$s 必須是介於 %2$s 和 %3$s 之間的純數字。",
         "Password": "密碼",
         "Period": "期間",

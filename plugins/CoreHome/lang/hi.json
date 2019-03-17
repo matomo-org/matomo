@@ -24,7 +24,6 @@
         "InjectedHostWarningIntro": "%2$sअब आप%1$s Matomo से पहुँच रहे हैं, लेकिन Matomo इस पते पर चलाने के लिए समाकृति किया गया है:",
         "MakeOneTimeDonation": "इसके बजाय, एक समय दान करें.",
         "NoPrivilegesAskPiwikAdmin": "आप '%1$s' के रूप में लॉग इन किया है, लेकिन यह आपको Matomo में निर्धारित कोई भी अनुमति नहीं है लगता है. एक वेबसाइट पर 'दृश्य' पहुंच देने के लिए आपके %2$sMatomo व्यवस्थापक (ईमेल के लिए क्लिक करें)%3$s से पूछो.",
-        "PageOf": "%1$s का %2$s",
         "PeriodRange": "सीमा",
         "ReportGeneratedOn": "%s पर उत्पन्न रिपोर्ट",
         "ReportGeneratedXAgo": "%s रिपोर्ट के पहले उत्पन्न",
