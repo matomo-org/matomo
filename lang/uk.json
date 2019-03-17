@@ -312,8 +312,6 @@
         "OverlayRowActionTooltipTitle": "Відкрити сторінку з накладенням",
         "Overview": "Огляд",
         "Pages": "Сторінки",
-        "Pagination": "%1$s - %2$s з %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Параметр %1$s повинен бути цілим числом між %2$s и %3$s.",
         "Password": "Пароль",
         "Period": "Період",

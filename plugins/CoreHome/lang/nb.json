@@ -32,7 +32,6 @@
         "Menu": "Meny",
         "NoPrivilegesAskPiwikAdmin": "Du er logget inn som «%1$s», men det ser ut til at du ikke har noen rettigheter satt i Matomo. %2$s Be din Matomo-administrator (klikk for å sende e-post)%3$s å gi deg «vis»-tilgang til et nettsted.",
         "OnlyForSuperUserAccess": "Denne widgeten vises kun i standardoversikten for brukere som har superbruker-tilgang.",
-        "PageOf": "%1$s av %2$s",
         "PeriodRange": "Periode",
         "ReportGeneratedOn": "Rapport generert %s",
         "ReportGeneratedXAgo": "Rapport generert for %s siden",

@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Öppna sidöverlägg",
         "Overview": "Översikt",
         "Pages": "Sidor",
-        "Pagination": "%1$s - %2$s av %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parametern %1$s måste vara ett heltal mellan %2$s och %3$s.",
         "Password": "Lösenord",
         "Period": "Period",

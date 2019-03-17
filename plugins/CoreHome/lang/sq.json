@@ -47,7 +47,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Jeni i futur si '%1$s' por duket se s’keni leje të rregulluara për ju në Matomo. %2$s Kërkojini administratorit tuaj te Matomo (klikoni që t’i dërgoni email)%3$s që t’ju japë të drejta 'parjesh' te një sajt.",
         "OnlyForSuperUserAccess": "Ky widget u shfaqet te pulti parazgjedhje vetëm përdoruesve që kanë hyrje si Superpërdorues.",
-        "PageOf": "%1$s nga %2$s",
         "PeriodRange": "Interval",
         "ReportGeneratedOn": "Raport i prodhuar më %s",
         "ReportGeneratedXAgo": "Raport i prodhuar %s më parë",

@@ -83,6 +83,7 @@
         "Version": "Sürüm",
         "ViewAllMarketplacePlugins": "Mağazadaki Tüm Uygulama Eklerini Görüntüle",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "%1$s uygulama ekinin şu bağımlılıkları eksik olduğundan yüklenemedi: %2$s",
-        "Websites": "Web siteleri"
+        "Websites": "Web siteleri",
+        "UpdateSelected": "Seçilmişleri Güncelle"
     }
 }
