@@ -53,7 +53,7 @@
                 e.stopPropagation();
 
                 var url = window.location.href;
-                url = broadcast.updateParamValue('addSegmentAsNew=' + self.param.segment, url);
+                url = broadcast.updateParamValue('addSegmentAsNew=' + decodeURIComponent(self.param.segment), url);
                 url = broadcast.updateParamValue('segment=', url);
                 url = broadcast.updateParamValue('popover=', url);
 
