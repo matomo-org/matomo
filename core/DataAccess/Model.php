@@ -334,6 +334,46 @@ class Model
     }
 
     /**
+     * Get a list of IDs of archives that don't have any matching rows in the site table. Excludes temporary archives
+     * that may still be in use, as specified by the $oldestToKeep passed in.
+     * @param string $archiveTableName
+     * @param string $oldestToKeep Datetime string
+     * @return array of IDs
+     */
+    public function getArchiveIdsForDeletedSites($archiveTableName, $oldestToKeep)
+    {
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " a "
+            . " LEFT JOIN " . Common::prefixTable('site') . " s USING (idsite)"
+            . " WHERE s.idsite IS NULL"
+            . " AND ts_archived < ?";
+
+        $rows = Db::fetchAll($sql, array($oldestToKeep));
+
+        $idArchivesToDelete = array();
+        foreach ($rows as $row) {
+            $idArchivesToDelete[] = $row['idarchive'];
+        }
+
+        return $idArchivesToDelete;
+    }
+
+    /**
+     * Get a list of IDs of archives which have a segment. Excludes temporary archives that may still be in use, as
+     * specified by the $oldestToKeep passed in.
+     * @param string $archiveTableName
+     * @param string $oldestToKeep Datetime string
+     * @return array With keys idarchive, name, idsite
+     */
+    public function getArchivesWithSegments($archiveTableName, $oldestToKeep)
+    {
+        $sql = 'SELECT idarchive, name, idsite FROM ' . $archiveTableName
+            . ' WHERE name LIKE "done%" AND name != "done"'
+            . ' AND ts_archived < ?';
+
+        return Db::fetchAll($sql, array($oldestToKeep));
+    }
+
+    /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      */

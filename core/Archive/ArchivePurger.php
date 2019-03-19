@@ -9,11 +9,13 @@
 namespace Piwik\Archive;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Piwik;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -152,6 +154,95 @@ class ArchivePurger
         ));
 
         return $deletedRowCount;
+    }
+
+    public function purgeNoSiteArchives(Date $dateStart)
+    {
+        $idArchivesToDelete = $this->getNoSiteArchives($dateStart);
+
+        $deletedRowCount = 0;
+        if (!empty($idArchivesToDelete)) {
+            $deletedRowCount = count($idArchivesToDelete);
+//            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+
+            $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted sites for {date}.", array(
+                'count' => $deletedRowCount,
+                'date' => $dateStart
+            ));
+
+            $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
+                'deletedIds' => implode(',', $idArchivesToDelete)
+            ));
+        } else {
+            $this->logger->debug("No archives for deleted sites found in archive numeric table for {date}.", array('date' => $dateStart));
+        }
+
+        return $deletedRowCount;
+    }
+
+    public function purgeNoSegmentArchives(Date $dateStart, array $validSegmentHashes)
+    {
+        $idArchivesToDelete = $this->getNoSegmentArchives($dateStart, $validSegmentHashes);
+
+        $deletedRowCount = 0;
+        if (!empty($idArchivesToDelete)) {
+            $deletedRowCount = count($idArchivesToDelete);
+//            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+
+            $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted segments for {date}.", array(
+                'count' => $deletedRowCount,
+                'date' => $dateStart
+            ));
+
+            $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
+                'deletedIds' => implode(',', $idArchivesToDelete)
+            ));
+        } else {
+            $this->logger->debug("No archives for deleted segments found in archive numeric table for {date}.", array('date' => $dateStart));
+        }
+
+        return $deletedRowCount;
+    }
+
+    protected function getNoSiteArchives(Date $date)
+    {
+        $archiveTable = ArchiveTableCreator::getNumericTable($date);
+        return $this->model->getArchiveIdsForDeletedSites(
+            $archiveTable, 
+            $this->getOldestTemporaryArchiveToKeepThreshold()
+        );
+    }
+
+    protected function getNoSegmentArchives(Date $date, array $validSegmentIds)
+    {
+        $archiveTable = ArchiveTableCreator::getNumericTable($date);
+        $rows = $this->model->getArchivesWithSegments(
+            $archiveTable, $this->getOldestTemporaryArchiveToKeepThreshold()
+        );
+
+        $idArchivesToDelete = array();
+        foreach ($rows as $row) {
+            if (! $this->isForValidSegment($row, $validSegmentIds)) {
+                $idArchivesToDelete[] = $row['idarchive'];
+            }
+        }
+
+        return $idArchivesToDelete;
+    }
+
+    protected function isForValidSegment($archiveRow, array $validSegmentIds)
+    {
+        $segmentHash = substr($archiveRow['name'], 4);
+
+        //Strip off the plugin name if there is one
+        $dotPlace = strpos($segmentHash, '.');
+        if ($dotPlace !== false) {
+            $segmentHash = substr($segmentHash, 0, $dotPlace);
+        }
+
+        //Check that it's in the list of segments, either for ALL sites or for THIS site
+        return  isset($validSegmentIds[0][$segmentHash]) ||
+                isset($validSegmentIds[$archiveRow['idsite']][$segmentHash]);
     }
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)
