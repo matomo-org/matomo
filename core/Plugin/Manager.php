@@ -447,7 +447,7 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
-        $corePluginsDir = PIWIK_INCLUDE_PATH . 'plugins/' . $pluginName;
+        $corePluginsDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName;
         if (is_dir($corePluginsDir)) {
             // for faster performance
             self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($corePluginsDir);
