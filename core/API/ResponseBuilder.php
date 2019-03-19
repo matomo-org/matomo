@@ -168,6 +168,10 @@ class ResponseBuilder
     {
         $message = ExceptionToTextProcessor::getWholeBacktrace($exception, $this->shouldPrintBacktrace);
 
+        if ($exception instanceof \Piwik\Exception\Exception && $exception->isHtmlMessage()) {
+            $message = strip_tags(str_replace('<br />', PHP_EOL, $message));
+        }
+
         return Renderer::formatValueXml($message);
     }
 
