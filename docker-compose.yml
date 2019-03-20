@@ -1,0 +1,31 @@
+version: '2'
+volumes:
+  database:
+networks:
+  front:
+  back:
+services:
+  db:
+    image: mysql:5.6
+    volumes:
+      - database:/var/lib/mysql
+      - ./misc/docker/db.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      - MYSQL_DATABASE=matomo
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=matomo
+    networks:
+    - back
+  matomo:
+    image: matomo:3.8.1-apache
+    ports:
+      - "80:80"
+    links:
+      - db
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APACHE_RUN_USER='#1000'
+    networks:
+    - back
+    - front

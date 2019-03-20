@@ -19,6 +19,7 @@ plugins/*/tests/UI/expected-screenshots/*.png filter=lfs diff=lfs merge=lfs
 *.SVG    diff=astextplain
 
 # binary
+misc/docker/db.sql
 *.z binary
 *.xls binary
 *.xlsx binary
