@@ -922,7 +922,9 @@ class API extends \Piwik\Plugin\API
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 
-        if ($passwordHasBeenUpdated) {
+        if ($passwordHasBeenUpdated
+            && $requirePasswordConfirmation
+        ) {
             $this->sendPasswordChangedEmail($userInfo);
         }
 
