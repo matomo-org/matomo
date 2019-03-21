@@ -2,8 +2,13 @@ version: '2'
 volumes:
   database:
 networks:
-  front:
   back:
+  front:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.220.0/28
 services:
   db:
     image: mysql:5.6
@@ -11,13 +16,16 @@ services:
       - database:/var/lib/mysql
       - ./misc/docker/db.sql:/docker-entrypoint-initdb.d/db.sql
     environment:
-      - MYSQL_DATABASE=matomo
-      - MYSQL_ROOT_HOST=%
-      - MYSQL_ROOT_PASSWORD=matomo
+      MYSQL_DATABASE: matomo
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: matomo
     networks:
     - back
   matomo:
-    image: matomo:3.8.1-apache
+    image: matomo:3.8.1-apache-dev
+    build:
+      context: .
+      dockerfile: ./misc/docker/Dockerfile-matomo-3.8.1-apache-dev
     ports:
       - "80:80"
     links:
@@ -25,7 +33,9 @@ services:
     volumes:
       - ./:/var/www/html
     environment:
-      - APACHE_RUN_USER='#1000'
+      APACHE_RUN_USER: '#1000'
+      XDEBUG_CONFIG: 'remote_enable=1 remote_host=192.168.220.1 remote_autostart=1 idekey=PHPSTORM'
+      PHP_IDE_CONFIG: 'serverName=Docker'
     networks:
-    - back
-    - front
+      - back
+      - front
