@@ -16,7 +16,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267874553</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -43,7 +44,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index2.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267874733</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -59,7 +61,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index3.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267874913</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -86,7 +89,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>no User Id set but it should appear in email@example.com!</title>
 				<subtitle>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267881393</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -104,7 +108,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267881753</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -120,7 +125,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title>second page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267882113</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -145,7 +151,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>a new user id was set -&gt; new visit</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267882473</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -170,7 +177,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>pageview - should not be tracked by our user id but in a new visit</title>
 				<subtitle>http://example.org/home</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267892913</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -197,7 +205,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>same user id was set -&gt; this is the same unique user</title>
 				<subtitle>http://example.org/home</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267892553</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -215,7 +224,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>second pageview - by this user id</title>
 				<subtitle>http://example.org/home</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1267892913</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -227,7 +237,8 @@
 				<goalPageId />
 				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
 				<url>http://example.org/home</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>triggered js</subtitle>
 				<timestamp>1267893273</timestamp>
@@ -246,7 +257,8 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 10000000000 revenue - 1 items: My secret spy tech)</subtitle>
 				<timestamp>1267893633</timestamp>
@@ -272,7 +284,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Page view by email@example.com</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1268565753</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -297,7 +310,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>A page view by new-user-id@one-weeklater</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1268567193</timestamp>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>

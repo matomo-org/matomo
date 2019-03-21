@@ -53,17 +53,7 @@
 		</result>
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010">
-			<row>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FSearch%2BCategory</segment>
-			</row>
-			<row>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FBad%2BNo%2BResult%2BCategory%2B%253A%2528</segment>
-			</row>
-			<row>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCategory</segment>
-			</row>
-		</result>
+		<result prettyDate="January 2010" />
 	</reportMetadata>
 	<reportTotal>
 		<nb_visits>4</nb_visits>

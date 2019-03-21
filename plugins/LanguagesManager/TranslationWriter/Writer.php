@@ -202,7 +202,7 @@ class Writer
             if ($base == 'tmp') {
                 return sprintf('%s/plugins/%s/lang/%s.json', StaticContainer::get('path.tmp'), $this->pluginName, $lang);
             } else {
-                return sprintf('%s%s/lang/%s.json', Manager::getPluginsDirectory(), $this->pluginName, $lang);
+                return sprintf('%s/lang/%s.json', Manager::getPluginDirectory($this->pluginName), $lang);
             }
         }
 

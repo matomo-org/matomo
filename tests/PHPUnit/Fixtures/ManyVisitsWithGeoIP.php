@@ -118,7 +118,8 @@ class ManyVisitsWithGeoIP extends Fixture
         }
         $t->setTokenAuth(self::getTokenAuth());
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
+            // NOTE: floor() is so some visits share the same visit ID
+            $t->setVisitorId( substr(md5(floor($i / 2) + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
 
             $userAgent = null;
             if ($setIp) {
@@ -244,7 +245,6 @@ class ManyVisitsWithGeoIP extends Fixture
     public function setLocationProvider($file)
     {
         GeoIp2::$dbNames['loc'] = array($file);
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 

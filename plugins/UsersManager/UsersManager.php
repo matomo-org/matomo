@@ -221,6 +221,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Done";
+        $translationKeys[] = "General_Pagination";
         $translationKeys[] = "UsersManager_DeleteConfirm";
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
@@ -272,7 +273,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_UserSearch';
         $translationKeys[] = 'UsersManager_DeleteUsers';
         $translationKeys[] = 'UsersManager_FilterByAccess';
-        $translationKeys[] = 'UsersManager_XtoYofN';
         $translationKeys[] = 'UsersManager_Username';
         $translationKeys[] = 'UsersManager_RoleFor';
         $translationKeys[] = 'UsersManager_TheDisplayedUsersAreSelected';

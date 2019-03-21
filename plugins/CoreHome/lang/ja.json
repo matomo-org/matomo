@@ -47,7 +47,6 @@
         "Menu": "メニュー",
         "NoPrivilegesAskPiwikAdmin": "'%1$s'としてログインしていますが、権限が設定されていないようです。 %2$s Matomo の管理者 ( クリックして E メール ) %3$s に'表示'の権限を与えてもらってください。",
         "OnlyForSuperUserAccess": "このウィジェットは、スーパーユーザー権限を持つユーザーにのみデフォルトのダッシュボードに表示されます。",
-        "PageOf": "%1$s \/ %2$s",
         "PeriodRange": "期間",
         "ReportGeneratedOn": "%s に生成されたリポート",
         "ReportGeneratedXAgo": "%s 前に生成されたリポート",

@@ -78,7 +78,7 @@
 
                 <div class="counter">
                     <span>
-                        {{ 'UsersManager_XtoYofN'|translate:$ctrl.searchParams.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
+                        {{ 'General_Pagination'|translate:$ctrl.getPaginationLowerBound():$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
                     </span>
                     <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
                 </div>

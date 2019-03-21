@@ -144,35 +144,10 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
 
         if ($module === 'Proxy') {
-            return;
+            return false;
         }
 
-        if ($module === 'TwoFactorAuth' && $action === 'showQrCode') {
-            return;
-        }
-
-        if ($module === 'CoreUpdater') {
-            return;
-        }
-
-        if ($module === Piwik::getLoginPluginName() && $action === 'logout') {
-            return;
-        }
-
-        if (Piwik::getModule() === 'Widgetize') {
-            // we cannot use $module as it would be different when dispatching other requests within the widgetized request
-            $auth = StaticContainer::get('Piwik\Auth');
-            if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
-                // when authenticated by token only, we do not require 2fa
-                // needed eg for rendering exported widgets authenticated by token
-                return;
-            }
-        }
-
-        $requiresAuth = true;
-        Piwik::postEvent('TwoFactorAuth.requiresTwoFactorAuthentication', array(&$requiresAuth, $module, $action, $parameters));
-
-        if (!$requiresAuth) {
+        if (!$this->requiresAuth($module, $action, $parameters)) {
             return;
         }
 
@@ -191,10 +166,44 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
     }
 
+    private function requiresAuth($module, $action, $parameters)
+    {
+        if ($module === 'TwoFactorAuth' && $action === 'showQrCode') {
+            return false;
+        }
+
+        if ($module === 'CoreUpdater') {
+            return false;
+        }
+
+        if ($module === Piwik::getLoginPluginName() && $action === 'logout') {
+            return false;
+        }
+
+        if (Piwik::getModule() === 'Widgetize') {
+            // we cannot use $module as it would be different when dispatching other requests within the widgetized request
+            $auth = StaticContainer::get('Piwik\Auth');
+            if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+                // when authenticated by token only, we do not require 2fa
+                // needed eg for rendering exported widgets authenticated by token
+                return false;
+            }
+        }
+
+        $requiresAuth = true;
+        Piwik::postEvent('TwoFactorAuth.requiresTwoFactorAuthentication', array(&$requiresAuth, $module, $action, $parameters));
+
+        return $requiresAuth;
+    }
+
     public function onRequestDispatchEnd(&$result, $module, $action, $parameters)
     {
         $validator = $this->getValidator();
         if (!$validator->canUseTwoFa()) {
+            return;
+        }
+
+        if (!$this->requiresAuth($module, $action, $parameters)) {
             return;
         }
 

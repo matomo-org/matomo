@@ -289,8 +289,6 @@
         "OverlayRowActionTooltipTitle": "Otvorite prikaz",
         "Overview": "Pregled",
         "Pages": "Stranice",
-        "Pagination": "%1$s - %2$s od %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parametar %1$s mora biti celobrojna vrednost između %2$s i %3$s",
         "Password": "Lozinka",
         "Period": "Period",

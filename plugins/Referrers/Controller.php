@@ -286,6 +286,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($visibleRows !== false) {
             // this happens when the row picker has been used
             $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
+            $visibleRows = array_map('urldecode', $visibleRows);
 
             // typeReferrer is redundant if rows are defined, so make sure it's not used
             $view->config->custom_parameters['typeReferrer'] = false;
