@@ -349,28 +349,46 @@ class Model
 
         $rows = Db::fetchAll($sql, array($oldestToKeep));
 
-        $idArchivesToDelete = array();
-        foreach ($rows as $row) {
-            $idArchivesToDelete[] = $row['idarchive'];
-        }
-
-        return $idArchivesToDelete;
+        return array_map(function($row) { return $row['idarchive']; }, $rows);
     }
 
     /**
-     * Get a list of IDs of archives which have a segment. Excludes temporary archives that may still be in use, as
-     * specified by the $oldestToKeep passed in.
+     * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
+     * may still be in use, as specified by the $oldestToKeep passed in.
      * @param string $archiveTableName
      * @param string $oldestToKeep Datetime string
      * @return array With keys idarchive, name, idsite
      */
-    public function getArchivesWithSegments($archiveTableName, $oldestToKeep)
+    public function getArchiveIdsForDeletedSegments($archiveTableName, array $validSegmentIds, $oldestToKeep)
     {
-        $sql = 'SELECT idarchive, name, idsite FROM ' . $archiveTableName
-            . ' WHERE name LIKE "done%" AND name != "done"'
-            . ' AND ts_archived < ?';
+        $validSegmentClauses = [];
 
-        return Db::fetchAll($sql, array($oldestToKeep));
+        foreach ($validSegmentIds as $idSite => $segments) {
+            //Special case as idsite=0 means the segment is not site-specific
+            if ($idSite === 0) {
+                foreach ($segments as $segmentHash) {
+                    $validSegmentClauses[] = '(name LIKE "done' . $segmentHash . '%")';
+                }
+                continue;
+            }
+
+            //Vanilla case ... it's valid if it matches any of the valid segments for the site
+            $sql = '(idsite = ' . $idSite . ' AND (';
+            $sql .= 'name LIKE "done' . implode('%" OR name LIKE "done', $segments) . '%"';
+            $sql .= '))';
+            $validSegmentClauses[] = $sql;
+        }
+
+        $isValidSegmentSql = implode(' OR ', $validSegmentClauses);
+
+        $sql = 'SELECT idarchive FROM ' . $archiveTableName
+            . ' WHERE name LIKE "done%" AND name != "done"'
+            . ' AND ts_archived < ?'
+            . ' AND NOT (' . $isValidSegmentSql . ')';
+
+        $rows = Db::fetchAll($sql, array($oldestToKeep));
+
+        return array_map(function($row) { return $row['idarchive']; }, $rows);
     }
 
     /**

@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -105,6 +106,35 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertCustomRangesNotPurged($this->january);
 
         $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+    }
+
+    public function test_purgeNoSiteArchives_PurgesAllNoSiteArchives()
+    {
+        //Create two websites (IDs #1 and #2). Existing rows for website #3 will be invalid.
+        Fixture::createWebsite($this->january);
+        Fixture::createWebsite($this->january);
+
+        //There are 5 rows for website #3. We leave the other two because they're before our purge threshold.
+        $deletedRowCount = $this->archivePurger->purgeDeletedSiteArchives($this->january);
+        $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10), $this->january);
+    }
+
+    public function test_purgeNoSegmentArchives_PurgesSegmentForAppropriateSitesOnly()
+    {
+        //Extra data set with segment and plugin archives
+        self::$fixture->insertSegmentArchives($this->january);
+
+        $validSegmentIds = array(
+            0 => ['DUMMYHASHSTR'],          //valid for all sites
+            1 => ['abcd1234abcd5678'],      //valid for site 1. should be ignored for site 2
+            2 => ['hashthatdontexist', 'hash1', 'hash2']
+        );
+
+        //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $validSegmentIds);
+        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(22, 23, 24, 28), $this->january);
     }
 
     private function configureCustomRangePurging()

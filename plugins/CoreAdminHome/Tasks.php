@@ -274,8 +274,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 
             $dateObj = Date::factory("$year-$month-15");
 
-            $this->archivePurger->purgeNoSiteArchives($dateObj);
-            $this->archivePurger->purgeNoSegmentArchives($dateObj, $segmentHashes);
+            $this->archivePurger->purgeDeletedSiteArchives($dateObj);
+            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $segmentHashes);
 
             $datesPurged[$date] = true;
         }
@@ -291,7 +291,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         foreach ($rows as $row) {
             try {
                 $segment = new Segment($row['definition'], array());
-                $segmentHashes[$row['enable_only_idsite']][$segment->getHash()] = 1;
+                $segmentHashes[(int)$row['enable_only_idsite']] = $segment->getHash();
             } catch (\Exception $ex) {
                 //Segment is invalid ... into the sea its archives shall go
             }

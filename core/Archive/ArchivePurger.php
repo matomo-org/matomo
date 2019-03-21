@@ -156,14 +156,13 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
-    public function purgeNoSiteArchives(Date $dateStart)
+    public function purgeDeletedSiteArchives(Date $dateStart)
     {
-        $idArchivesToDelete = $this->getNoSiteArchives($dateStart);
+        $idArchivesToDelete = $this->getDeletedSiteArchiveIds($dateStart);
 
         $deletedRowCount = 0;
         if (!empty($idArchivesToDelete)) {
-            $deletedRowCount = count($idArchivesToDelete);
-//            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
 
             $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted sites for {date}.", array(
                 'count' => $deletedRowCount,
@@ -180,14 +179,13 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
-    public function purgeNoSegmentArchives(Date $dateStart, array $validSegmentHashes)
+    public function purgeDeletedSegmentArchives(Date $dateStart, array $validSegmentHashes)
     {
-        $idArchivesToDelete = $this->getNoSegmentArchives($dateStart, $validSegmentHashes);
+        $idArchivesToDelete = $this->getDeletedSegmentArchives($dateStart, $validSegmentHashes);
 
         $deletedRowCount = 0;
         if (!empty($idArchivesToDelete)) {
-            $deletedRowCount = count($idArchivesToDelete);
-//            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
 
             $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted segments for {date}.", array(
                 'count' => $deletedRowCount,
@@ -204,7 +202,7 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
-    protected function getNoSiteArchives(Date $date)
+    protected function getDeletedSiteArchiveIds(Date $date)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
         return $this->model->getArchiveIdsForDeletedSites(
@@ -213,21 +211,12 @@ class ArchivePurger
         );
     }
 
-    protected function getNoSegmentArchives(Date $date, array $validSegmentIds)
+    protected function getDeletedSegmentArchives(Date $date, array $validSegmentIds)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
-        $rows = $this->model->getArchivesWithSegments(
-            $archiveTable, $this->getOldestTemporaryArchiveToKeepThreshold()
+        return $this->model->getArchiveIdsForDeletedSegments(
+            $archiveTable, $validSegmentIds, $this->getOldestTemporaryArchiveToKeepThreshold()
         );
-
-        $idArchivesToDelete = array();
-        foreach ($rows as $row) {
-            if (! $this->isForValidSegment($row, $validSegmentIds)) {
-                $idArchivesToDelete[] = $row['idarchive'];
-            }
-        }
-
-        return $idArchivesToDelete;
     }
 
     protected function isForValidSegment($archiveRow, array $validSegmentIds)
