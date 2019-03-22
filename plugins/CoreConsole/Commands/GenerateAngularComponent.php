@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +39,7 @@ class GenerateAngularComponent extends GenerateAngularConstructBase
                 . $pluginName);
         }
 
-        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $exampleFolder = Manager::getPluginDirectory('ExamplePlugin');
         $replace       = array(
             'ExamplePlugin'       => $pluginName,
             'example-component' => $componentLower,

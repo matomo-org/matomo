@@ -34,7 +34,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%1$s' men det ser ikke ud som du har adgang til Matomo. %2$s Spørg Matomo administratoren (klik for at sende e-mail)%3$s for at give dig 'se' adgang til et websted.",
         "OnlyForSuperUserAccess": "Dette modul vises i standarddashboardet kun til brugere med superbrugeradgang.",
-        "PageOf": "%1$s af %2$s",
         "PeriodRange": "Interval",
         "ReportGeneratedOn": "Rapport genereret på %s",
         "ReportGeneratedXAgo": "Rapport genereret %s siden",

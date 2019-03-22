@@ -7,7 +7,7 @@
         "CreateNewDashboard": "Pano ekle",
         "Dashboard": "Pano",
         "DashboardCopied": "Geçerli pano seçilmiş kullanıcıya kopyalandı.",
-        "DashboardEmptyNotification": "Panoda herhangi bir gereç yok. Başlamak için bazı gereçler ekleyin ya da panoyu varsayılan gereç seçimine sıfırlayın.",
+        "DashboardEmptyNotification": "Panoda henüz bir gereç yok. Başlamak için bazı gereçler ekleyin ya da panoyu varsayılan gereç seçimine sıfırlayın.",
         "DashboardName": "Pano adı:",
         "DashboardOf": "%s panosu",
         "DefaultDashboard": "Varsayılan pano - Varsayılan gereç seçimlerini ve sütun düzenini kullanır",

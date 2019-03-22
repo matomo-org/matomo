@@ -1,0 +1,27 @@
+{% extends 'dashboard.twig' %}
+
+{% block content %}
+    <strong>This is our custom plugin!</strong>
+    <br/>
+    <span class="fooBarBazCustom">
+    The answer to life is {{ answerToLife }}
+    </span>
+    <br />
+    <h3>Translation test</h3>
+    <p>This should be translated: {{ 'CustomDirPlugin_CustomName'|translate }}</p>
+
+    <h3>image test</h3>
+    <p>You should see an image showing a check here: <img src="plugins/CustomDirPlugin/images/ok.png"></p>
+
+    <h3>CSS import test</h3>
+    <p class="customPluginDirImportTest">this text should appear green!</p>
+
+    <h3>CSS background images test</h3>
+    <p class="customPluginDirBackgroundTestRelative">This should have a background image relative</p>
+
+    <p class="customPluginDirBackgroundTestPluginRelative">This should have a background image relative to plugins</p>
+
+    <h3>Dependency Injection Test</h3>
+    <p>You should now see hello world: {{ diTest }}</p>
+
+{% endblock %}

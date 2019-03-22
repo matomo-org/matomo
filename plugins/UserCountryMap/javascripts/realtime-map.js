@@ -141,7 +141,7 @@
                     filter_limit: maxVisits,
                     showColumns: ['latitude', 'longitude', 'actions', 'lastActionTimestamp',
                         'visitLocalTime', 'city', 'country', 'countryCode', 'referrerType', 'referrerName',
-                        'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
+                        'referrerTypeName', 'browserIcon', 'operatingSystemIcon', 'deviceType', 'deviceModel',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
                         'actions', 'searches', 'goalConversions', 'visitorId', 'userId'].join(','),
                     minTimestamp: firstRun ? 0 : lastTimestamp
@@ -212,18 +212,20 @@
                 var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
                     ad = r.actionDetails,
                     ico = function (src) { return '<img height="16px" src="' + src + '" alt="" class="icon" />&nbsp;'; };
-                return '<h3>' + (r.city ? r.city + ' / ' : '') + r.country + '</h3>' +
+                return '<h3>' + (r.city ? $('<span>').text(r.city).html() + ' / ' : '') + $('<span>').text(r.country).html() + '</h3>' +
                     // icons
                     ico(r.countryFlag) + ico(r.browserIcon) + ico(r.operatingSystemIcon) + '<br/>' +
+                    // device type, model, brand
+                    r.deviceType + ' (' + r.deviceModel + ')<br/>' +
                     // User ID
-                    (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + r.userId + '<br/>' : '') +
+                    (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + $('<span>').text(r.userId).html() + '<br/>' : '') +
                     // last action
-                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '' + ad[ad.length - 1].pageTitle + '<br/>' : '') +
+                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '' + $('<span>').text(ad[ad.length - 1].pageTitle).html() + '<br/>' : '') +
                     // time of visit
                     '<div class="rel-time" data-actiontime="' + r.lastActionTimestamp + '">' + relativeTime(ds) + '</div>' +
                     // either from or direct
                     (r.referrerType == "direct" ? r.referrerTypeName :
-                        _.from + ': ' + r.referrerName) + '<br />' +
+                        _.from + ': ' + $('<span>').text(r.referrerName).html()) + '<br />' +
                     // local time
                     '<small>' + _.local_time + ': ' + r.visitLocalTime + '</small><br />' +
                     // goals, if available

@@ -53,6 +53,19 @@ class JoinGenerator
             if (!$logTable->getColumnToJoinOnIdVisit()) {
                 $tableNameToJoin = $logTable->getLinkTableToBeAbleToJoinOnVisit();
 
+                if (empty($tableNameToJoin) && $logTable->getWaysToJoinToOtherLogTables()) {
+                    foreach ($logTable->getWaysToJoinToOtherLogTables() as $otherLogTable => $column) {
+                        if ($this->tables->hasJoinedTable($otherLogTable)) {
+                            $this->tables->addTableDependency($table, $otherLogTable);
+                            continue;
+                        }
+                        if ($this->tables->isTableJoinableOnVisit($otherLogTable) || $this->tables->isTableJoinableOnAction($otherLogTable)) {
+                            $this->addMissingTablesForOtherTableJoin($otherLogTable, $table);
+                        }
+                    }
+                    continue;
+                }
+
                 if ($index > 0 && !$this->tables->hasJoinedTable($tableNameToJoin)) {
                     $this->tables->addTableToJoin($tableNameToJoin);
                 }
@@ -94,6 +107,30 @@ class JoinGenerator
                 }
             }
         }
+    }
+
+    private function addMissingTablesForOtherTableJoin($tableName, $dependentTable)
+    {
+        $this->tables->addTableDependency($dependentTable, $tableName);
+
+        if ($this->tables->hasJoinedTable($tableName)) {
+            return;
+        }
+
+        $table = $this->tables->getLogTable($tableName);
+
+        if ($table->getColumnToJoinOnIdAction() || $table->getColumnToJoinOnIdAction() || $table->getLinkTableToBeAbleToJoinOnVisit()) {
+            $this->tables->addTableToJoin($tableName);
+            return;
+        }
+
+        $otherTableJoins = $table->getWaysToJoinToOtherLogTables();
+
+        foreach ($otherTableJoins as $logTable => $column) {
+            $this->addMissingTablesForOtherTableJoin($logTable, $tableName);
+        }
+
+        $this->tables->addTableToJoin($tableName);
     }
 
     /**
@@ -206,6 +243,15 @@ class JoinGenerator
 
                 break;
             }
+
+            $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $column) {
+                if($availableLogTable->getName() == $joinTable) {
+                    $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
+                    break;
+                }
+            }
+
         }
 
         if (!isset($join)) {

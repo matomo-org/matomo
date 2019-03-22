@@ -333,10 +333,10 @@ class GenerateIntl extends ConsoleCommand
             $calendarData = $calendarData['main'][$requestLangCode]['dates']['calendars']['gregorian'];
 
             for ($i = 1; $i <= 12; $i++) {
-                $translations['Intl']['Month_Short_' . $i] = $this->transform($calendarData['months']['format']['abbreviated'][$i]);
-                $translations['Intl']['Month_Long_' . $i] = $this->transform($calendarData['months']['format']['wide'][$i]);
-                $translations['Intl']['Month_Short_StandAlone_' . $i] = $this->transform($calendarData['months']['stand-alone']['abbreviated'][$i]);
-                $translations['Intl']['Month_Long_StandAlone_' . $i] = $this->transform($calendarData['months']['stand-alone']['wide'][$i]);
+                $translations['Intl']['Month_Short_' . $i] = $calendarData['months']['format']['abbreviated'][$i];
+                $translations['Intl']['Month_Long_' . $i] = $calendarData['months']['format']['wide'][$i];
+                $translations['Intl']['Month_Short_StandAlone_' . $i] = $calendarData['months']['stand-alone']['abbreviated'][$i];
+                $translations['Intl']['Month_Long_StandAlone_' . $i] = $calendarData['months']['stand-alone']['wide'][$i];
             }
 
             $days = array(
@@ -350,12 +350,12 @@ class GenerateIntl extends ConsoleCommand
             );
 
             foreach ($days AS $nr => $day) {
-                $translations['Intl']['Day_Min_' . $nr] = $this->transform($calendarData['days']['format']['short'][$day]);
-                $translations['Intl']['Day_Short_' . $nr] = $this->transform($calendarData['days']['format']['abbreviated'][$day]);
-                $translations['Intl']['Day_Long_' . $nr] = $this->transform($calendarData['days']['format']['wide'][$day]);
-                $translations['Intl']['Day_Min_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['short'][$day]);
-                $translations['Intl']['Day_Short_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['abbreviated'][$day]);
-                $translations['Intl']['Day_Long_StandAlone_' . $nr] = $this->transform($calendarData['days']['stand-alone']['wide'][$day]);
+                $translations['Intl']['Day_Min_' . $nr] = $calendarData['days']['format']['short'][$day];
+                $translations['Intl']['Day_Short_' . $nr] = $calendarData['days']['format']['abbreviated'][$day];
+                $translations['Intl']['Day_Long_' . $nr] = $calendarData['days']['format']['wide'][$day];
+                $translations['Intl']['Day_Min_StandAlone_' . $nr] = $calendarData['days']['stand-alone']['short'][$day];
+                $translations['Intl']['Day_Short_StandAlone_' . $nr] = $calendarData['days']['stand-alone']['abbreviated'][$day];
+                $translations['Intl']['Day_Long_StandAlone_' . $nr] = $calendarData['days']['stand-alone']['wide'][$day];
             }
 
             $translations['Intl']['Time_AM'] = $calendarData['dayPeriods']['format']['wide']['am'];

@@ -70,6 +70,7 @@ class UITestFixture extends SqlDump
         self::resetPluginsInstalledConfig();
         self::updateDatabase();
         self::installAndActivatePlugins($this->getTestEnvironment());
+        self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),
@@ -78,7 +79,6 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
@@ -126,6 +126,9 @@ class UITestFixture extends SqlDump
     {
         $this->extraTestEnvVars = array(
             'loadRealTranslations' => 1,
+        );
+        $this->extraPluginsToLoad = array(
+            'CustomDirPlugin'
         );
 
         parent::performSetUp($setupEnvironmentOnly);
@@ -297,14 +300,13 @@ class UITestFixture extends SqlDump
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
-        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
+        $widgetsPerDashboard = ceil((count($allWidgets)+1) / $dashboardCount);
 
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
         $dashboard = 0;
         foreach ($allWidgets as $widget) {
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0

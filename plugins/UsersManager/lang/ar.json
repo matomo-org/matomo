@@ -33,11 +33,9 @@
         "User": "المستخدم",
         "UsersManagement": "إدارة المستخدمين",
         "UsersManagementMainDescription": "أنشئ متسخدم جديد أو قم بتحديث مستخدم قائم. يمكنك أن تضبط صلاحياتهم بالأعلى.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "عندما لا يسجل المستخدمون دخولهم ويزورون Matomo،فسيمكنهم الوصول إلى",
         "YourUsernameCannotBeChanged": "لا يمكن تغيير اسم المستخدم الخاص بك.",
         "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Matomo%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
         "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك).",
-        "XtoYofN": "%1$s - %2$s من %3$s",
         "ShowAll": "عرض الكل",
         "Username": "اسم المستخدم"
     }

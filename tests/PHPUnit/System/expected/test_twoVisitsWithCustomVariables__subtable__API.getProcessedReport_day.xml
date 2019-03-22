@@ -93,9 +93,6 @@
 		</goals>
 		<nb_conversions>6</nb_conversions>
 		<revenue>2000</revenue>
-		<conversion_rate>0%</conversion_rate>
 		<nb_actions_per_visit>11</nb_actions_per_visit>
-		<avg_time_on_site>1144</avg_time_on_site>
-		<bounce_rate>167%</bounce_rate>
 	</reportTotal>
 </result>

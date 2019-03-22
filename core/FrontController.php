@@ -626,6 +626,10 @@ class FrontController extends Singleton
             return;
         }
 
+        if (!StaticContainer::get('EnableDbVersionCheck')) {
+            return;
+        }
+
         $updater = new Updater();
 
         $dbSchemaVersion = $updater->getCurrentComponentVersion('core');

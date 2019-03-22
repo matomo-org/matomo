@@ -323,8 +323,6 @@
         "OverlayRowActionTooltipTitle": "Sobreposição de Página aberta",
         "Overview": "Visão Geral",
         "Pages": "Páginas",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "O parâmetro %1$s deve ser um valor inteiro entre %2$s e %3$s.",
         "Password": "Senha",
         "Period": "Período",

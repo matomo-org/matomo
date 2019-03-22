@@ -47,7 +47,6 @@
         "Menu": "Menú",
         "NoPrivilegesAskPiwikAdmin": "Has iniciado sesión como '%1$s', pero parece que no posees ningún permiso configurado en Matomo. %2$s Consulta al administrador de tu Matomo (clic para enviar correo electrónico)%3$s para que te otorgue acceso para 'ver' el sitio web.",
         "OnlyForSuperUserAccess": "Este módulo se muestra en el panel de control predeterminado solo a los usuarios que poseen permisos de Super Usuario.",
-        "PageOf": "%1$s de %2$s",
         "PeriodRange": "Rango",
         "ReportGeneratedOn": "Informe generado el %s",
         "ReportGeneratedXAgo": "Informe generado hace %s",

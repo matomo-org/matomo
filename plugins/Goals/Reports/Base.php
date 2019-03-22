@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\Reports;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Goals;
 
@@ -22,7 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->categoryId = 'Goals_Goals';
     }
 
-    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter)
+    protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter, $isGoalSummaryReport = false)
     {
         $idSite = $this->getIdSiteFromInfos($infos);
         $goals  = $this->getGoalsForIdSite($idSite);
@@ -36,6 +37,16 @@ abstract class Base extends \Piwik\Plugin\Report
 
             $availableReports[] = $this->buildReportMetadata();
         }
+
+        // for goal overview
+        if ($isGoalSummaryReport) {
+            $this->name = Piwik::translate('Goals_GoalsOverview');
+        } else {
+            $this->name = $goalNameFormatter(['name' => Piwik::translate('Goals_GoalsOverview')]);
+        }
+        $this->parameters = ['idGoal' => 0];
+        $this->order = $this->orderGoal;
+        $availableReports[] = $this->buildReportMetadata();
 
         $this->init();
     }

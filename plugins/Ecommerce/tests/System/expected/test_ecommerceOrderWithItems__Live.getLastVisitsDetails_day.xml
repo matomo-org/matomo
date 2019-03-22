@@ -20,7 +20,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -56,7 +57,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -92,7 +94,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -138,7 +141,8 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
@@ -273,7 +277,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -297,7 +302,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>Looking at Electronics &amp; Cameras page again</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -321,7 +327,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title>Looking at product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -369,7 +376,8 @@
 						<quantity>6</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceOrder.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (937nsjusu 3894)</title>
 				<subtitle>$ 1111.11 revenue - 8 items: PRODUCT name, PRODUCT name BIS)</subtitle>
 				
@@ -400,7 +408,8 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceOrder.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (1037nsjusu4s3894)</title>
 				<subtitle>$ 2000 revenue - 2 items: PRODUCT name, Canon SLR)</subtitle>
 				
@@ -419,7 +428,8 @@
 				<interactionPosition>4</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -455,7 +465,8 @@
 				<interactionPosition>5</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -491,7 +502,8 @@
 				<interactionPosition>6</interactionPosition>
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -537,7 +549,8 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
@@ -672,7 +685,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -702,7 +716,8 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>title match, triggered ONCE ($ 10 revenue)</subtitle>
 				
@@ -721,7 +736,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>Another Product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -757,7 +773,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -791,7 +808,8 @@
 				<interactionPosition>4</interactionPosition>
 				<title>Another Product page with multiple categories</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>

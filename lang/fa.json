@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "گشودن نمای صفحه",
         "Overview": "بازبینی",
         "Pages": "صفحه ها",
-        "Pagination": "%1$s-%2$s از %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "پارامتر %1$s باید یک عدد صحیح بین %2$s و %3$s باشد.",
         "Password": "رمزعبور",
         "Period": "دوره",
