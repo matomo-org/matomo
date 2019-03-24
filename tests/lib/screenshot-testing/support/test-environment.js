@@ -91,8 +91,7 @@ TestingEnvironment.prototype.callController = function (method, params, done) {
     this._call(params, done);
 };
 
-TestingEnvironment.prototype._call = function (params, done) {
-    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
+TestingEnvironment.prototype.request = function (url, params, done) {
     for (var key in params) {
         var value = params[key];
         if (value instanceof Array) {
@@ -107,8 +106,17 @@ TestingEnvironment.prototype._call = function (params, done) {
 
     var page = require('webpage').create();
     page.open(url, function () {
-        var response = page.plainText;
-        if (response.replace(/\s*/g, "")) {
+        var response = page.plainText.replace(/\s*/g, "");
+        page.close();
+        done(null, response);
+    });
+
+};
+
+TestingEnvironment.prototype._call = function (params, done) {
+    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
+    this.request(url, params, function (error, response) {
+        if (response) {
             try {
                 response = JSON.parse(response);
             } catch (e) {
@@ -118,7 +126,7 @@ TestingEnvironment.prototype._call = function (params, done) {
                 return;
             }
 
-            if (response.result == "error") {
+            if (response.result === "error") {
                 page.close();
 
                 done(new Error("API returned error: " + response.message));
@@ -126,19 +134,21 @@ TestingEnvironment.prototype._call = function (params, done) {
             }
         }
 
-        page.close();
-
-        done(null, response);
+        done(error, response);
     });
 };
 
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
-        commandArgs = [consoleFile, command].concat(args),
+        commandArgs = [consoleFile, command].concat(args || []),
         child = require('child_process').spawn(config.php, commandArgs);
+
+    var output = "";
 
     var firstLine = true;
     child.stdout.on("data", function (data) {
+        output += data;
+
         if (firstLine) {
             data = "    " + data;
             firstLine = false;
@@ -148,6 +158,8 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
     });
 
     child.stderr.on("data", function (data) {
+        output += data;
+
         if (firstLine) {
             data = "    " + data;
             firstLine = false;
@@ -156,7 +168,9 @@ TestingEnvironment.prototype.executeConsoleCommand = function (command, args, ca
         fs.write("/dev/stderr", data, "w");
     });
 
-    child.on("exit", callback);
+    child.on("exit", function (code) {
+        callback(code, output);
+    });
 };
 
 TestingEnvironment.prototype.addPluginOnCmdLineToTestEnv = function () {
@@ -271,7 +285,7 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
         } else {
             done();
         }
-    })
+    });
 };
 
 TestingEnvironment.prototype.deleteAndSave = function () {

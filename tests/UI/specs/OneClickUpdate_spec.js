@@ -52,4 +52,25 @@ describe("OneClickUpdate", function () {
             page.click('.footer a');
         }, done);
     });
+
+    it('should have a working cron archiving process', function (done) {
+        // track one action
+        var trackerUrl = path.join(config.piwikUrl, "tests/PHPUnit/proxy/piwik.php?");
+        testEnvironment.request(trackerUrl, {
+            idsite: 1,
+            url: 'http://piwik.net/test/url',
+            action_name: 'test page',
+        }, onTrackingDone);
+
+        // run cron archiving
+        function onTrackingDone() {
+            testEnvironment.executeConsoleCommand('core:archive', [], onCronArchivingDone);
+        }
+
+        function onCronArchivingDone(code, output) {
+            console.log(code);
+            console.log(output);
+            done();
+        }
+    });
 });
