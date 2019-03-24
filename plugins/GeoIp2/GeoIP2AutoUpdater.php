@@ -519,7 +519,7 @@ class GeoIP2AutoUpdater extends Task
             } catch (\Exception $e) {
                 if($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
-                        . "%s database: %s: %s", $type, $e->getMessage());
+                        . "%s database: %s", $type, $e->getMessage());
                 }
 
                 // get the current filename for the DB and an available new one to rename it to
