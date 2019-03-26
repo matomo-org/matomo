@@ -121,7 +121,7 @@ class ContainerFactory
         // add plugin environment configs
         $plugins = $this->pluginList->getActivatedPlugins();
         foreach ($plugins as $plugin) {
-            $baseDir = Manager::getPluginsDirectory() . $plugin;
+            $baseDir = Manager::getPluginDirectory($plugin);
 
             $environmentFile = $baseDir . '/config/' . $environment . '.php';
             if (file_exists($environmentFile)) {
@@ -135,7 +135,7 @@ class ContainerFactory
         $plugins = $this->pluginList->getActivatedPlugins();
 
         foreach ($plugins as $plugin) {
-            $baseDir = Manager::getPluginsDirectory() . $plugin;
+            $baseDir = Manager::getPluginDirectory($plugin);
 
             $file = $baseDir . '/config/config.php';
             if (file_exists($file)) {

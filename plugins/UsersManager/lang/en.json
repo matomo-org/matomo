@@ -96,7 +96,7 @@
         "UserHasNoPermission":"%1$s currently has %2$s to %3$s",
         "UsersManagement": "Users Management",
         "UsersManagementMainDescription": "Create new users or update the existing users. You can then set their permissions above.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should access",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should initially see",
         "YourUsernameCannotBeChanged": "Your username cannot be changed.",
         "YourVisitsAreIgnoredOnDomain": "%1$sYour visits are ignored by Matomo on %2$s %3$s (the Matomo ignore cookie was found in your browser).",
         "YourVisitsAreNotIgnored": "%1$sYour visits are not ignored by Matomo%2$s (the Matomo ignore cookie was not found in your browser).",

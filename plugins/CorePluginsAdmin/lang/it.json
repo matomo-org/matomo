@@ -83,6 +83,7 @@
         "Version": "Versione",
         "ViewAllMarketplacePlugins": "Scopri tutti i plugin del Marketplace",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Non è stato possibile caricare il plugin %1$s in quanto ci sono delle dipendenze mancanti: %2$s",
-        "Websites": "Siti web"
+        "Websites": "Siti web",
+        "UpdateSelected": "Aggiornamento Selezionato"
     }
 }

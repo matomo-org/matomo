@@ -252,8 +252,6 @@
         "OverlayRowActionTooltipTitle": "ओपन पृष्ठ ओवरले",
         "Overview": "अवलोकन",
         "Pages": "पृष्ठों",
-        "Pagination": "%1$s - %2$s के लिए %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "पैरामीटर %1$s और %2$s के बीच में एक पूर्णांक मान %3$s होना चाहिए.",
         "Password": "पासवर्ड",
         "Period": "अवधि",

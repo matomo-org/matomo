@@ -3,7 +3,6 @@
         "CategoryNoData": "ไม่มีข้อมูลในประเภทนี้ พยายาม \"รวมประชากรทั้งหมด\"",
         "CheckForUpdates": "ตรวจสอบชุดอัพเดท",
         "Default": "ค่าเริ่มต้น",
-        "PageOf": "%1$s ของ %2$s",
         "ShowJSCode": "แสดงรหัส JavaScript เมื่อต้องการแทรก",
         "SupportPiwik": "สนับสนุน Matomo!",
         "ThereIsNoDataForThisReport": "ไม่มีข้อมูลสำหรับรายงานนี้",

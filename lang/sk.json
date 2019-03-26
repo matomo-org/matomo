@@ -289,8 +289,6 @@
         "OverlayRowActionTooltipTitle": "Otvoriť prekrytie stránky",
         "Overview": "Prehľad",
         "Pages": "Stránky",
-        "Pagination": "%1$s - %2$s z %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parameter %1$s musí byť číselná hodnota medzi %2$s a %3$s.",
         "Password": "Heslo",
         "Period": "Obdobie",

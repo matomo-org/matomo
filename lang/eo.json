@@ -252,8 +252,6 @@
         "Outlinks": "Eksteraj ligiloj",
         "Overview": "Superrigardo",
         "Pages": "Paĝoj",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "La parametro %1$s devas esti entjero inter %2$s kaj %3$s.",
         "Password": "Pasvorto",
         "Period": "Periodo",

@@ -96,7 +96,7 @@
         "UserHasNoPermission": "%1$s kullanıcısının %3$s için %2$s izni var",
         "UsersManagement": "Kullanıcı Yönetimi",
         "UsersManagementMainDescription": "Yeni kullanıcılar ekleyin ya da var olan kullanıcıları güncelleyin. Ardından yukarıdan izinleri ayarlayabilirsiniz.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kullanıcılar oturum açmadan Matomo ziyareti yaptığında şuraya erişebilmeli",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kullanıcılar oturum açmadan Matomo ziyareti yaptığında ilk olarak şunu görmeli",
         "YourUsernameCannotBeChanged": "Kullanıcı adınız değiştirilemez.",
         "YourVisitsAreIgnoredOnDomain": "%1$s%2$s üzerine yaptığınız ziyaretler Matomo tarafından izlenmiyor%3$s (web tarayıcınızda Matomo izlemeyi engelleme çerezi bulundu).",
         "YourVisitsAreNotIgnored": "%1$sZiyaretleriniz Matomo tarafından izleniyor%2$s (web tarayıcınızda Matomo izlemeyi engelleme çerezi bulunamadı).",
@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Tüm %1$s siteyi seçmek için tıklayın.",
         "AllWebsitesAreSelected": "%1$s web sitesinin tümü seçildi.",
         "ClickToSelectDisplayedWebsites": "Görüntülenen %1$s web sitesini seçmek için tıklayın.",
-        "XtoYofN": "%1$s - %2$s \/ %3$s",
         "DeletePermConfirmSingle": "%1$s kullanıcısının %2$s sitesine erişimini kaldırmak istediğinize emin misiniz?",
         "DeletePermConfirmMultiple": "%1$s kullanıcısının seçilmiş %2$s web sitesine erişimini kaldırmak istediğinize emin misiniz?",
         "ChangePermToSiteConfirmSingle": "%1$s kullanıcısının %2$s web sitesindeki rolünü %3$s olarak değiştirmek istediğinize emin misiniz?",
@@ -156,6 +155,12 @@
         "AreYouSureAddCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısına vermek istediğinize emin misiniz?",
         "AreYouSureRemoveCapability": "%1$s yeterliğini %3$s için %2$s kullanıcısından kaldırmak istediğinize emin misiniz?",
         "IncludedInUsersRole": "Bu kullanıcının rolünde bulunuyor",
-        "Capability": "Yeterlik"
+        "Capability": "Yeterlik",
+        "EmailChangeNotificationSubject": "Matomo hesabınızın e-posta adresi değiştirildi",
+        "EmailChangedEmail1": "Hesabınız ile ilişkilendirilmiş e-posta adresi %1$s olarak değiştirildi",
+        "EmailChangedEmail2": "Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Bu değişikliği siz yaptıysanız bu bildirimi yok sayabilirsiniz. Değişikliği siz yapmadıysanız lütfen oturum açarak e-posta adresinizi düzeltin, parolanızı değiştirin ve Matomo yöneticiniz ile görüşün.",
+        "PasswordChangeNotificationSubject": "Matomo hesabınızın parolası değiştirildi",
+        "PasswordChangedEmail": "Parolanız değiştirildi. Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s)."
     }
 }
