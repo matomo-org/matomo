@@ -37,6 +37,18 @@ class ReferrerName extends Base
         return $information['referer_name'];
     }
 
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
+        if ($this->isCurrentReferrerDirectEntry($visitor)
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+        ) {
+            return $information['referer_name'];
+        }
+
+        return false;
+    }
+
     /**
      * @param Request $request
      * @param Visitor $visitor

@@ -50,6 +50,7 @@ class Campaign extends Base
 
         if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && $this->isReferrerInformationNew($visitor, $information)
+            && !$this->isCurrentReferrerDirectEntry($visitor)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because campaign information is different than last action.");
 

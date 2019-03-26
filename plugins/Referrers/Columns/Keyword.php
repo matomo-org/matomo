@@ -36,6 +36,18 @@ class Keyword extends Base
         return $information['referer_keyword'];
     }
 
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
+        if ($this->isCurrentReferrerDirectEntry($visitor)
+            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
+        ) {
+            return $information['referer_keyword'];
+        }
+
+        return false;
+    }
+
     /**
      * @param Request $request
      * @param Visitor $visitor

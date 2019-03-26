@@ -602,4 +602,10 @@ abstract class Base extends VisitDimension
     {
         return Common::mb_substr($refererKeyword, 0, 255);
     }
+
+    protected function isCurrentReferrerDirectEntry(Visitor $visitor)
+    {
+        $referrerType = $visitor->getVisitorColumn('referer_type');
+        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+    }
 }
