@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
-use Piwik\Common;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -40,9 +39,7 @@ class ReferrerUrl extends Base
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
-        if ($this->isCurrentReferrerDirectEntry($visitor)
-            && $information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
-        ) {
+        if ($this->isCurrentReferrerDirectEntry($visitor)) {
             return $information['referer_url'];
         }
 
