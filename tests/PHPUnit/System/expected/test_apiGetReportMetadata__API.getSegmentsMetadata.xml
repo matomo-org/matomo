@@ -688,4 +688,10 @@
 		<segment>referrerUrl</segment>
 		<acceptedValues>http%3A%2F%2Fwww.example.org%2Freferer-page.htm</acceptedValues>
 	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Order ID</name>
+		<segment>orderId</segment>
+	</row>
 </result>

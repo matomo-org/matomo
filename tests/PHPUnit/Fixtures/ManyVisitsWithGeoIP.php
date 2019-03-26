@@ -210,6 +210,12 @@ class ManyVisitsWithGeoIP extends Fixture
             $t->setForceVisitDateTime($date->getDatetime());
             $r = $t->doTrackEvent('Cat' . $i, 'Action' . $i, 'Name' . $i, 345.678 + $i );
 
+            // Add a few ecommerce orders
+            if (($i % 3) == 0) {
+                $t->addEcommerceItem('ABCD1234', 'My Product', 'My Category', 100, 1);
+                $t->doTrackEcommerceOrder($i + 1, 111.11, 100, 11);
+            }
+
             if (!$doBulk) {
                 self::checkResponse($r);
             }
