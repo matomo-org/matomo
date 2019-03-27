@@ -42,7 +42,6 @@ class APITest extends IntegrationTestCase
 
     public function test_setLocationProvider()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());

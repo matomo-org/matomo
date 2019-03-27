@@ -83,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Das Plugin %1$s konnte nicht geladen werden, da folgende Abhängigkeiten fehlen: %2$s",
-        "Websites": "Websites"
+        "Websites": "Websites",
+        "UpdateSelected": "Auswahl aktualisieren"
     }
 }

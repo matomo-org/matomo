@@ -27,9 +27,14 @@ class PluginsWithTranslations extends TranslationBase
     {
         $output->writeln("Following plugins contain their own translation files:");
 
-        $pluginFiles = glob(sprintf('%s*/lang/en.json', Manager::getPluginsDirectory()));
+        $pluginFiles = array();
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginFiles = array_merge($pluginsDir, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
         $pluginFiles = array_map(function($elem){
-            return str_replace(array(Manager::getPluginsDirectory(), '/lang/en.json'), '', $elem);
+            $replace = Manager::getPluginsDirectories();
+            $replace[] = '/lang/en.json';
+            return str_replace($replace, '', $elem);
         }, $pluginFiles);
 
         $output->writeln(join("\n", $pluginFiles));

@@ -77,7 +77,7 @@ class EnvironmentValidator
 
         $message = $this->getSpecificMessageWhetherFileExistsOrNot($path);
 
-        $exception = new \Exception($message);
+        $exception = new NotYetInstalledException($message);
 
         if ($startInstaller) {
             $this->startInstallation($exception);

@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Nakładka Otwarta Strona",
         "Overview": "Przegląd",
         "Pages": "Strony",
-        "Pagination": "%1$s - %2$s z %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parametr %1$s musi być liczbą całkowitą między %2$s a %3$s.",
         "Password": "Hasło",
         "Period": "Okres",

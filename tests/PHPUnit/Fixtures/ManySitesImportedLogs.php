@@ -37,7 +37,6 @@ class ManySitesImportedLogs extends Fixture
         $this->setUpWebsitesAndGoals();
 
         LocationProvider::$providers = null;
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider('geoip2php');
 
         self::createSuperUser();
@@ -49,7 +48,6 @@ class ManySitesImportedLogs extends Fixture
     public function tearDown()
     {
         LocationProvider::$providers = null;
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 

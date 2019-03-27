@@ -58,7 +58,7 @@
 	<reportMetadata>
 		<row>
 			
-			<segment>pageTitle==Checkout</segment>
+			<segment>pageTitle=^Checkout</segment>
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
@@ -79,7 +79,7 @@
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<entry_nb_actions>8</entry_nb_actions>
-		<entry_sum_visit_length>1621</entry_sum_visit_length>
+		<entry_sum_visit_length>1622</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>

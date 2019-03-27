@@ -298,6 +298,9 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
 
+        $testEnv->tokenAuth = self::getTokenAuth();
+        $testEnv->save();
+
         if ($setupEnvironmentOnly) {
             return;
         }
@@ -637,6 +640,17 @@ class Fixture extends \PHPUnit_Framework_Assert
             . base64_encode($response)
             . $url
         );
+    }
+
+    public static function checkTrackingFailureResponse($response)
+    {
+        $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        $expectedResponse = base64_decode($trans_gif_64);
+
+        self::assertContains($expectedResponse, $response);
+        self::assertContains('This resource is part of Matomo.', $response);
+        self::assertNotContains('Error', $response);
+        self::assertNotContains('Fatal', $response);
     }
 
     /**

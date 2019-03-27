@@ -302,8 +302,6 @@
         "OverlayRowActionTooltipTitle": "Åbn sideoverlejring",
         "Overview": "Oversigt",
         "Pages": "Sider",
-        "Pagination": "%1$s - %2$s af %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parameter %1$s skal være et tal mellem %2$s og %3$s.",
         "Password": "Adgangskode",
         "Period": "Periode",

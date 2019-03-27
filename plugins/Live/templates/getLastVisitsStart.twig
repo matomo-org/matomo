@@ -61,7 +61,7 @@
                                 {%- endif %}
                             {% endset %}
                             <span title="{{- title -}}">
-						        <img class='iconPadding' src="{{ action.icon }}"/>
+						        <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
                                     {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}
                                 {% endif %}
@@ -82,19 +82,19 @@
 <span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
     {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img class='iconPadding' src="{{ action.icon }}" title="{{- title|e('html_attr') -}}"/>
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html_attr') -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
                                 {% elseif action.type == 'search' %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{{ 'Actions_SubmenuSitesearch'|translate }}: {{ action.siteSearchKeyword }} - {{ action.serverTimePretty }}"/>
                                 {% elseif action.eventCategory|default(false) is not empty %}
-                                    <img  class="iconPadding" src='{{ action.icon }}'
+                                    <img  class="iconPadding" src='{{ action.iconSVG|default(action.icon) }}'
                                         title="{{ 'Events_Event'|translate }} {{ action.eventCategory }} - {{ action.eventAction }} {% if action.eventName is defined %}- {{ action.eventName }}{% endif %} {% if action.eventValue is defined %}- {{ action.eventValue }}{% endif %}"/>
                                 {% elseif action.type == 'goal' or action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER') or
                                           action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART') %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
                             {% if action.url is defined and action.url is not empty %}

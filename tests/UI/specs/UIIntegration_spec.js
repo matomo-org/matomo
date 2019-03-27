@@ -27,6 +27,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
 
         testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
+
+        testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
+        testEnvironment.save();
     });
 
     beforeEach(function () {
@@ -83,6 +86,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it("should load the page of a plugin located in a custom directory", function (done) {
+        expect.screenshot("customdirplugin").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
+        }, done);
+    });
     // shortcuts help
     it("should show shortcut help", function (done) {
         expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
@@ -826,5 +834,29 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load(url, 1000);
             page.load(adminUrl, 1000);
         }, done);
+    });
+
+    // embedding whole app
+    describe('enable_framed_pages', function () {
+        before(function () {
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+            testEnvironment.save();
+        });
+
+        after(function () {
+            testEnvironment.testUseMockAuth = 1;
+            if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
+                delete testEnvironment.configOverride.General.enable_framed_pages;
+            }
+            testEnvironment.save();
+        });
+
+        it('should allow embedding the entire app', function (done) {
+            expect.screenshot("embed_whole_app").to.be.capture(function (page) {
+                var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+                page.load(url, 20000);
+            }, done);
+        });
     });
 });

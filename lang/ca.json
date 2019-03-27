@@ -251,8 +251,6 @@
         "OverlayRowActionTooltipTitle": "Obre una pàgina superposada",
         "Overview": "Resum",
         "Pages": "Pàgines",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "El paràmetre %1$s ha de ser un enter entre %2$s i %3$s",
         "Password": "Contrasenya",
         "Period": "Període",

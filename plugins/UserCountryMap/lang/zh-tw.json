@@ -20,6 +20,8 @@
         "VisitorMap": "訪客分佈地圖",
         "WorldWide": "全球",
         "WithUnknownRegion": "%s 個未知地區",
-        "WithUnknownCity": "%s 個未知城市"
+        "WithUnknownCity": "%s 個未知城市",
+        "NoVisitsInfo": "由於這段期間內沒有任何包含正確地理位置資訊（經度、緯度）的訪問，因此目前沒有顯示任何訪問。",
+        "NoVisitsInfo2": "要解決這個問題，確定你正在使用包含 GeoIP 程式資料庫的 GeoIP 地理位置供應商。如果這沒有解決你的問題，那麼有可能（雖然不太可能）是你的訪客使用了無法被定位的 IP 位址。"
     }
 }
