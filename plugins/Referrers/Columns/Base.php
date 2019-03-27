@@ -96,7 +96,7 @@ abstract class Base extends VisitDimension
         $referrerDetected = $this->detectReferrerCampaign($request, $visitor);
 
         if (!$referrerDetected) {
-            if ($this->detectReferrerDirectEntry()
+            if ($this->detectReferrerDirectEntry($request)
                 || $this->detectReferrerSearchEngine()
                 || $this->detectReferrerSocialNetwork()
             ) {
@@ -337,7 +337,7 @@ abstract class Base extends VisitDimension
      * it is considered a direct entry
      * @return bool
      */
-    protected function detectReferrerDirectEntry()
+    protected function detectReferrerDirectEntry(Request $request)
     {
         if (empty($this->referrerHost)) {
             return false;
@@ -346,6 +346,8 @@ abstract class Base extends VisitDimension
         $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
         $directEntry   = new SiteUrls();
+        $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
         $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
         if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
