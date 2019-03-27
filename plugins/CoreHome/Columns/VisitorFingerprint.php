@@ -21,7 +21,7 @@ use Piwik\Plugin\Dimension\VisitDimension;
 class VisitorFingerprint extends VisitDimension
 {
     protected $columnName = 'config_id';
-    protected $metricId = 'visitors';
+    protected $metricId = 'visitors_fingerprints';
     protected $nameSingular = 'General_VisitorFingerprint';
     protected $namePlural = 'General_Visitors';
     protected $segmentName = 'fingerprint';
@@ -33,7 +33,6 @@ class VisitorFingerprint extends VisitDimension
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
         $metric->setTranslatedName(Piwik::translate('Visitor_Fingerprint'));
-        $metric->setName('nb_uniq_visitors_fingerprint');
         $metricsList->addMetric($metric);
     }
 }
