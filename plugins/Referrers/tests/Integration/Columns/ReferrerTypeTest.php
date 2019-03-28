@@ -33,6 +33,7 @@ class ReferrerTypeTest extends IntegrationTestCase
     private $idSite2 = 2;
     private $idSite3 = 3;
     private $idSite4 = 4;
+    private $idSite5 = 5;
 
     public function setUp()
     {
@@ -47,6 +48,7 @@ class ReferrerTypeTest extends IntegrationTestCase
         Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.org/');
         Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
         Fixture::createWebsite($date, $ecommerce, $name = 'test4', $url = 'http://google.com/subdir/', 1, null, null, null, null, $excludeUnknownUrls = 1);
+        Fixture::createWebsite($date, $ecommerce, $name = 'test5', $url = null);
 
         $this->referrerType = new ReferrerType();
     }
@@ -128,8 +130,53 @@ class ReferrerTypeTest extends IntegrationTestCase
             // referrer comes from another subdir, but same host, query matches search engine definition  => search engine
             array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'),
             // referrer comes from search engine not matching site
-            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test')
+            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test'),
+
+            // site w/o url
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, $url, $referrer . '/'),
         );
+    }
+
+    /**
+     * @dataProvider getTestDataForOnExistingVisit
+     */
+    public function test_onExistingVisit_shouldSometimesOverwriteReferrerInfo($expectedType, $idSite, $url, $referrerUrl, $existingType)
+    {
+        $request = $this->getRequest(array('idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl));
+        $visitor = $this->getNewVisitor();
+        $visitor->setVisitorColumn('referer_type', $existingType);
+        $type = $this->referrerType->onExistingVisit($request, $visitor, $action = null);
+
+        $this->assertSame($expectedType, $type);
+    }
+
+    public function getTestDataForOnExistingVisit()
+    {
+        return [
+            // direct entry => campaign
+            [Common::REFERRER_TYPE_CAMPAIGN, $this->idSite3, 'http://piwik.xyz/abc?pk_campaign=testfoobar', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => website
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+
+            // campaign => direct entry
+            [Common::REFERRER_TYPE_CAMPAIGN, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_CAMPAIGN],
+
+            // direct entry => website (site w/o url)
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.org/', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry (site w/o url)
+            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry (site w/o url)
+            [Common::REFERRER_TYPE_WEBSITE, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+        ];
     }
 
     private function getRequest($params)

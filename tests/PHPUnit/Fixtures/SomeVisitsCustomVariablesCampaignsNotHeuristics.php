@@ -200,6 +200,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
         $t5->setUrlReferrer('http://apocalypsenow.org');
         $t5->setUrl('http://mutantrights.org');
+
         // params supplied, for existing campaign
         $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
             urlencode(Date::factory($dateTime)->addHour(2)->getDatetime()))));

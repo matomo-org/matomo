@@ -77,14 +77,16 @@ class SiteUrls
             $allUrls[$host] = array();
         }
 
-        if ($addPath) {
-            if (!isset($allUrls[$host][$path])) {
-                $allUrls[$host][$path] = array();
-            }
+        if (!$addPath) {
+            $path = '/';
+        }
 
-            if (!in_array($idSite, $allUrls[$host][$path])) {
-                $allUrls[$host][$path][] = $idSite;
-            }
+        if (!isset($allUrls[$host][$path])) {
+            $allUrls[$host][$path] = array();
+        }
+
+        if (!in_array($idSite, $allUrls[$host][$path])) {
+            $allUrls[$host][$path][] = $idSite;
         }
     }
 

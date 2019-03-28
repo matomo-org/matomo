@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Referrers\tests\Integration\Columns;
 
+use Piwik\Common;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Plugins\Referrers\Columns\ReferrerType;
 use Piwik\Tests\Framework\Fixture;
@@ -32,6 +33,7 @@ class ReferrerNameTest extends IntegrationTestCase
     private $idSite1 = 1;
     private $idSite2 = 2;
     private $idSite3 = 3;
+    private $idSite4 = 4;
 
     public function setUp()
     {
@@ -45,6 +47,7 @@ class ReferrerNameTest extends IntegrationTestCase
         Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/foo/bar');
         Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.org/');
         Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test4', $url = null);
 
         $this->referrerName = new ReferrerName();
     }

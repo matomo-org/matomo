@@ -111,6 +111,8 @@ abstract class Base extends VisitDimension
             $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
             $directEntry = new SiteUrls();
+            $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
             $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
             if (!empty($path) && $path !== '/') {
                 $this->nameReferrerAnalyzed .= rtrim($path, '/');
