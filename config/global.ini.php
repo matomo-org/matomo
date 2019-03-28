@@ -453,6 +453,9 @@ noreply_email_name = ""
 ; set to 0 to disable sending of all emails. useful for testing.
 emails_enabled = 1
 
+; set to 0 to disable sending of emails in API UserManager::updateUser endpoint
+api_update_users_email_notifications = 1
+
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@matomo.org"
