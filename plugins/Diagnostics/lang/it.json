@@ -9,7 +9,7 @@
         "CronArchivingLastRunCheck": "Ultima Archiviazione Completata con Successo",
         "CronArchivingHasNotRun": "L'archiviazione non è ancora stata eseguita con successo.",
         "CronArchivingHasNotRunInAWhile": "L'ultima archiviazione è stata eseguita con successo il %1$s, cioè %2$s fa.",
-        "CronArchivingRunDetails": "Si prega di verificare di avere impostato un crontab che richiama il comando di console %1$s, e di avere configurato un %2$s per ricevere i messaggi di errore tramite email se l'archiviazione fallisce. Puoi anche provare a eseguire manualmente il comando di console per archiviare i tuoi report: %3$s. %4$sLeggi altro.%5$s",
+        "CronArchivingRunDetails": "Si prega di verificare di avere impostato un crontab che richiama il comando di console %1$s, e di avere configurato un %2$s per ricevere i messaggi di errore tramite email se l'archiviazione fallisce. Puoi anche provare a eseguire manualmente il comando di console per archiviare i tuoi report: %3$s",
         "CronArchivingRanSuccessfullyXAgo": "Il processo di archiviazione è stato completato con successo %1$s fa.",
         "BrowserTriggeredArchivingEnabled": "Per delle prestazioni ottimali e un Matomo veloce, è altamente raccomandato di impostare un crontab per archiviare automaticamente i tuoi report, e di disabilitare l'attivazione dal browser nelle impostazioni di Matomo. %1$sLeggi altro.%2$s",
         "NoDataForReportArchivingNotRun": "L'archiviazione dei tuoi report non è stata eseguita di recente, %1$sleggi di più su come generare i tuoi report.%2$s"
