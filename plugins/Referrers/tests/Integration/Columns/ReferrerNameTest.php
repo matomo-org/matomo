@@ -116,7 +116,52 @@ class ReferrerNameTest extends IntegrationTestCase
 
             // testing case where domain of referrer is not known to any site but neither is the URL, url != urlref
             array('example.com',            $this->idSite3, 'http://example.org',     'http://example.com/bar'),
+
+            // site w/o url
+            array($directEntryReferrerName, $this->idSite4, $url, $referrer . '/'),
         );
+    }
+
+    /**
+     * @dataProvider getTestDataForOnExistingVisit
+     */
+    public function test_onExistingVisit_shouldSometimesOverwriteReferrerInfo($expectedName, $idSite, $url, $referrerUrl, $existingType)
+    {
+        $request = $this->getRequest(array('idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl));
+        $visitor = $this->getNewVisitor();
+        $visitor->setVisitorColumn('referer_type', $existingType);
+        $name = $this->referrerName->onExistingVisit($request, $visitor, $action = null);
+
+        $this->assertSame($expectedName, $name);
+    }
+
+    public function getTestDataForOnExistingVisit()
+    {
+        return [
+            // direct entry => campaign
+            ['testfoobar', $this->idSite3, 'http://piwik.xyz/abc?pk_campaign=testfoobar', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => website
+            ['piwik.org', $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+
+            // campaign => direct entry
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_CAMPAIGN],
+
+            // direct entry => website (site w/o url)
+            ['piwik.org', $this->idSite4, 'http://piwik.xyz/abc', 'http://piwik.org/', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry (site w/o url)
+            [false, $this->idSite4, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry (site w/o url)
+            [false, $this->idSite4, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+        ];
     }
 
     private function getRequest($params)

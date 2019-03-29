@@ -160,22 +160,22 @@ class ReferrerTypeTest extends IntegrationTestCase
             [Common::REFERRER_TYPE_WEBSITE, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
 
             // direct entry => direct entry
-            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
 
             // website => direct entry
-            [Common::REFERRER_TYPE_WEBSITE, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
 
             // campaign => direct entry
-            [Common::REFERRER_TYPE_CAMPAIGN, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_CAMPAIGN],
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_CAMPAIGN],
 
             // direct entry => website (site w/o url)
             [Common::REFERRER_TYPE_WEBSITE, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.org/', Common::REFERRER_TYPE_DIRECT_ENTRY],
 
             // direct entry => direct entry (site w/o url)
-            [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+            [false, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
 
             // website => direct entry (site w/o url)
-            [Common::REFERRER_TYPE_WEBSITE, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+            [false, $this->idSite5, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
         ];
     }
 
