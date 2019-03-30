@@ -161,6 +161,17 @@
         "EmailChangedEmail2": "This change was initiated from the following device: %1$s (IP address = %2$s).",
         "IfThisWasYouIgnoreIfNot": "If this was you, feel free to ignore this email. If this was not you, please login, correct your email address, change your password and contact your Matomo administrator.",
         "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
-        "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s)."
+        "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s).",
+        "PasswordPolicyConfiguration": "Password Policy",
+        "PasswordPolicyMinLengthSetting": "Minimum password length",
+        "PasswordPolicyMinLengthSettingDescription": "All passwords will MUST be of minimum length specified here. Due security reasons value can not be lower than %1$s.",
+        "PasswordPolicyOneUppercaseLetterSetting": "Require at least one uppercase letter",
+        "PasswordPolicyOneUppercaseLetterSettingDescription": "Require at least one uppercase character from Latin alphabet. (A-Z)",
+        "PasswordPolicyOneLowercaseLetterSetting": "Require at least one lowercase letter",
+        "PasswordPolicyOneLowercaseLetterSettingDescription": "Require at least one lowercase character from Latin alphabet. (a-z)",
+        "PasswordPolicyOneNumberSetting": "Require at least one number",
+        "PasswordPolicyOneNumberSettingDescription": "Require at least one number. (0-9)",
+        "PasswordPolicyOneSpecialCharacterSetting": "Require at least one non-alphanumeric character",
+        "PasswordPolicyOneSpecialCharacterSettingDescription": "Require at least one symbol. (!@#$%^&*()_+-=[]{}|')"
     }
 }
