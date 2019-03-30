@@ -210,7 +210,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
         self.model.htmlLoaded();
 
         if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
-            + self.model.campaignsNbTransitions > 0) {
+            && self.model.campaignsNbTransitions > 0) {
             self.canvas.narrowMode();
         }
 
