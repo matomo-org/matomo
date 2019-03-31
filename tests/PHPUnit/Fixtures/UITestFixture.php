@@ -150,6 +150,7 @@ class UITestFixture extends SqlDump
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
+        $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
         $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
