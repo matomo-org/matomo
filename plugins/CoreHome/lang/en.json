@@ -14,7 +14,7 @@
         "DataTableExcludeAggregateRows": "Aggregate rows are shown %s Hide them",
         "DataTableIncludeAggregateRows": "Aggregate rows are hidden %s Show them",
         "DataTableHowToSearch": "Press enter or click the search icon to search",
-        "DataTableShowDimensions": "Dimensions are shown combined %s Show dimensions separately",
+        "DataTableShowDimensions": "Dimensions are combined %s Show dimensions separately",
         "DataTableCombineDimensions": "Dimensions are shown separately %s Show dimensions combined",
         "Default": "default",
         "DonateCall1": "Matomo will always cost you nothing to use, but that doesn't mean it costs us nothing to make.",
