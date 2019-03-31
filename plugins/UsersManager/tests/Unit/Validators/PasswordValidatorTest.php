@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UsersManager\tests\Unit\Validators;
 
 use Piwik\Plugins\UsersManager\Validators\PasswordValidator;
-use Piwik\Translate;
 
 /**
  * @group UsersManager
@@ -17,7 +16,7 @@ use Piwik\Translate;
  * @group PasswordValidator
  * @group Plugins
  */
-class PasswordTest extends \PHPUnit_Framework_TestCase
+class PasswordValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     /** @var PasswordValidator */
@@ -25,14 +24,12 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        Translate::loadEnglishTranslation();
-
         $this->passwordValidator = new PasswordValidator(15, true, true, true, true);
     }
 
     /**
      * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The password length must be greater than 15 characters.
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPassword
      */
     public function test_validate_notLongEnough()
     {
@@ -41,7 +38,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The password must contain at least one uppercase character from Latin alphabet. (A-Z)
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordUppercaseLetterRequired
      */
     public function test_validate_notOneUppercaseLetter()
     {
@@ -50,7 +47,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The password must contain at least one lowercase character from Latin alphabet. (a-z)
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordLowercaseLetterRequired
      */
     public function test_validate_notOneLowercaseLetter()
     {
@@ -59,7 +56,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The password must contain at least one number character. (0-9)
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordNumberRequired
      */
     public function test_validate_notOneNumberLetter()
     {
@@ -68,7 +65,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Piwik\Validators\Exception
-     * @expectedExceptionMessage The password must contain at least one symbol. (!@#$%^&*()_+-=[]{}|')
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordSpecialCharacterRequired
      */
     public function test_validate_notOneSpecialCharacter()
     {
