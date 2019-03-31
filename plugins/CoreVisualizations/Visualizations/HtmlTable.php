@@ -105,31 +105,8 @@ class HtmlTable extends Visualization
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
-                foreach (Dimension::getAllDimensions() as $dimension) {
-                    $dimensionId = str_replace('.', '_', $dimension->getId());
-                    $dimensionName = $dimension->getName();
-
-                    if (!empty($dimensionId) && !empty($dimensionName) && in_array($dimensionId, $dimensions)) {
-                        $this->config->translations[$dimensionId] = $dimensionName;
-                    }
-                }
-
-                $this->dataTable->filter(function($dataTable) use ($dimensions) {
-                    /** @var DataTable $dataTable */
-                    $rows = $dataTable->getRows();
-                    foreach ($rows as $row) {
-                        foreach ($dimensions as $dimension) {
-                            $row->setColumn($dimension, $row->getMetadata($dimension));
-                        }
-                    }
-                });
-
-                # replace original label column with first dimension
-                $firstDimension = array_shift($dimensions);
-                $this->dataTable->filter('ColumnDelete', array('label'));
-                $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
-
                 $properties = $this->config;
+                array_shift($dimensions); // shift away first dimension, as that will be shown as label
 
                 $this->dataTable->filter(function (DataTable $dataTable) use ($properties, $dimensions) {
                     if (empty($properties->columns_to_display)) {
@@ -164,6 +141,40 @@ class HtmlTable extends Visualization
         }
 
         parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
+
+        // Note: This needs to be done right before generic filter are applied, to make sorting such columns possible
+        if ($this->isFlattened()) {
+            $dimensions = $this->dataTable->getMetadata('dimensions');
+
+            $hasMultipleDimensions = is_array($dimensions) && count($dimensions) > 1;
+
+            if ($this->config->show_dimensions && $hasMultipleDimensions) {
+
+                foreach (Dimension::getAllDimensions() as $dimension) {
+                    $dimensionId = str_replace('.', '_', $dimension->getId());
+                    $dimensionName = $dimension->getName();
+
+                    if (!empty($dimensionId) && !empty($dimensionName) && in_array($dimensionId, $dimensions)) {
+                        $this->config->translations[$dimensionId] = $dimensionName;
+                    }
+                }
+
+                $this->dataTable->filter(function($dataTable) use ($dimensions) {
+                    /** @var DataTable $dataTable */
+                    $rows = $dataTable->getRows();
+                    foreach ($rows as $row) {
+                        foreach ($dimensions as $dimension) {
+                            $row->setColumn($dimension, $row->getMetadata($dimension));
+                        }
+                    }
+                });
+
+                # replace original label column with first dimension
+                $firstDimension = array_shift($dimensions);
+                $this->dataTable->filter('ColumnDelete', array('label'));
+                $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
+            }
+        }
     }
 
     protected function isPivoted()
