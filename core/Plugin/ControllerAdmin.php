@@ -240,6 +240,10 @@ abstract class ControllerAdmin extends Controller
 
     private static function notifyWhenPhpVersionIsEOL()
     {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
+            return;
+        }
+
         $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && ! self::isPhpVersionAtLeast71();
         if (!$notifyPhpIsEOL) {
             return;
