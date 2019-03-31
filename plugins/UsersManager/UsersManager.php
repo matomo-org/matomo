@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\UsersManager\Validators\PasswordValidator;
 use Piwik\SettingsPiwik;
 
 /**
@@ -24,7 +25,7 @@ use Piwik\SettingsPiwik;
  */
 class UsersManager extends \Piwik\Plugin
 {
-    const PASSWORD_MIN_LENGTH = 6;
+    const PASSWORD_DEFAULT_MIN_LENGTH = 6;
     const PASSWORD_MAX_LENGTH = 200;
 
     /**
@@ -162,9 +163,16 @@ class UsersManager extends \Piwik\Plugin
             return true;
         }
 
-        $l = strlen($input);
+        $settings = new SystemSettings();
+        $passwordValidator = new PasswordValidator(
+            $settings->minLength->getValue(),
+            $settings->isOneUppercaseLetterRequired->getValue(),
+            $settings->isOneLowercaseLetterRequired->getValue(),
+            $settings->isOneNumberRequired->getValue(),
+            $settings->isOneNumberRequired->getValue()
+        );
 
-        return $l >= self::PASSWORD_MIN_LENGTH;
+        return $passwordValidator->validate($input);
     }
 
     public static function checkPassword($password)
@@ -187,9 +195,8 @@ class UsersManager extends \Piwik\Plugin
          */
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
-        if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
-        }
+        self::isValidPasswordString($password);
+
         if (Common::mb_strlen($password) > self::PASSWORD_MAX_LENGTH) {
             throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPasswordTooLong', array(self::PASSWORD_MAX_LENGTH)));
         }

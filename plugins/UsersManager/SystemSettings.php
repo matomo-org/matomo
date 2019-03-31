@@ -50,7 +50,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('UsersManager_PasswordPolicyMinLengthSetting');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->description = Piwik::translate('UsersManager_PasswordPolicyMinLengthSettingDescription', [UsersManager::PASSWORD_DEFAULT_MIN_LENGTH]);
-            $field->validators[] = new NumberRange(UsersManager::PASSWORD_DEFAULT_MIN_LENGTH);
+            $field->validators[] = new NumberRange(UsersManager::PASSWORD_DEFAULT_MIN_LENGTH, UsersManager::PASSWORD_MAX_LENGTH);
         });
     }
     
