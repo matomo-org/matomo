@@ -423,7 +423,9 @@ class Csv extends Renderer
                         $name = 'metadata_' . $name;
                     }
 
-                    if (is_array($value)) {
+                    if (is_array($value)
+                        || is_object($value)
+                    ) {
                         if (!in_array($name, $this->unsupportedColumns)) {
                             $this->unsupportedColumns[] = $name;
                         }

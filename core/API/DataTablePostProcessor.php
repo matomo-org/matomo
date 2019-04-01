@@ -20,6 +20,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -117,6 +118,7 @@ class DataTablePostProcessor
         }
 
         $dataTable = $this->applyGenericFilters($dataTable);
+        $dataTable = $this->applyComparison($dataTable);
         $this->applyComputeProcessedMetrics($dataTable);
 
         if ($this->callbackAfterGenericFilters) {
@@ -454,6 +456,16 @@ class DataTablePostProcessor
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
+    }
+
+    public function applyComparison(DataTableInterface $dataTable)
+    {
+        if (Common::getRequestVar('compare', '0', 'int', $this->request) != 1) {
+            return $dataTable;
+        }
+
+        $dataTable->filter([DataComparisonFilter::class, $this->request]);
+        return $dataTable;
     }
 }
 

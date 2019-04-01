@@ -23,6 +23,8 @@ use Piwik\Metrics;
  */
 class Row extends \ArrayObject
 {
+    const COMPARISONS_METADATA_NAME = 'comparisons';
+
     /**
      * List of columns that cannot be summed. An associative array for speed.
      *
@@ -87,9 +89,11 @@ class Row extends \ArrayObject
      */
     public function export()
     {
+        $metadataToPersist = $this->metadata;
+        unset($metadataToPersist[self::COMPARISONS_METADATA_NAME]);
         return array(
             self::COLUMNS => $this->getArrayCopy(),
-            self::METADATA => $this->metadata,
+            self::METADATA => $metadataToPersist,
             self::DATATABLE_ASSOCIATED => $this->subtableId,
         );
     }

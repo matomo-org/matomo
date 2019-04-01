@@ -368,6 +368,10 @@ class Xml extends Renderer
             } else {
                 $out .= "\n";
                 foreach ($row as $name => $value) {
+                    if ($value instanceof DataTable) {
+                        $value = $this->getArrayFromDataTable($value);
+                    }
+
                     // handle the recursive dataTable case by XML outputting the recursive table
                     if (is_array($value)) {
                         $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
@@ -412,6 +416,10 @@ class Xml extends Renderer
             list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
             if (strlen($xmlValue) == 0) {
                 $out .= $prefixLine . "\t<$tagStart />\n";
+            } else if ($value instanceof DataTable) {
+                $arrayValue = $this->getArrayFromDataTable($value);
+                $xmlTable = $this->renderDataTable($arrayValue, "\t");
+                $out .= $prefixLine . "\t<$tagStart>\n" . $xmlTable . "\t</$tagEnd>\n";
             } else {
                 $out .= $prefixLine . "\t<$tagStart>" . $xmlValue . "</$tagEnd>\n";
             }

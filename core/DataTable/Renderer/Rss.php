@@ -147,7 +147,9 @@ class Rss extends Renderer
             foreach ($row->getColumns() as $column => $value) {
                 // for example, goals data is array: not supported in export RSS
                 // in the future we shall reuse ViewDataTable for html exports in RSS anyway
-                if (is_array($value)) {
+                if (is_array($value)
+                    || is_object($value)
+                ) {
                     continue;
                 }
                 $allColumns[$column] = true;
