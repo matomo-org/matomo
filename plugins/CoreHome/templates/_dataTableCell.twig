@@ -37,8 +37,8 @@
           title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}"
           >&nbsp;{{ rowPercentage }}</span>
 {%- endif %}
-
-{% if column=='label' %}
+{% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}
+{% if column=='label' or column in dimensions %}
     {% import 'macros.twig' as piwik %}
 
     <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'

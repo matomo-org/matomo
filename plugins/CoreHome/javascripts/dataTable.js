@@ -456,7 +456,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
-            return parseInt(labelWidth, 10);
+            return parseInt(labelWidth / $('tr:nth-child(1) td.label', domElem).length, 10);
         }
 
         function getLabelColumnMinWidth(domElem)
@@ -1444,6 +1444,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // label (first column of a data row) or not
         $("th:first-child", domElem).addClass('label');
         $("td:first-child", domElem).addClass('label');
+
+        var metadata = this.getReportMetadata();
+
+        if (self.param.show_dimensions && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
+            for (var i = 1; i < Object.keys(metadata.dimensions).length; i++) {
+                $("th:nth-child("+(i+1)+")", domElem).addClass('label');
+                $("td:nth-child("+(i+1)+")", domElem).addClass('label');
+            }
+        }
+
         $("tr td", domElem).addClass('column');
     },
 
