@@ -131,6 +131,7 @@ class TasksTest extends IntegrationTestCase
         $expected = [
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
+            'purgeOrphanedArchives',
             'optimizeArchiveTable.',
             'cleanupTrackingFailures.',
             'notifyTrackingFailures.',
