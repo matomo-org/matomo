@@ -31,10 +31,11 @@ class UrlsFromWebsiteId extends BaseFilter
     {
         // the htmlspecialchars_decode call is for BC for before 1.1
         // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
-        $table->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
+        $table->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
             return htmlspecialchars_decode($label);
         }));
-        $table->queueFilter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
+        $table->filter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
+        $table->filter('GroupBy', array('label'));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
