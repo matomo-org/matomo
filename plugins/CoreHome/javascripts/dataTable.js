@@ -1806,7 +1806,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         trs.each(function () {
             var tr = $(this);
-            var td = tr.find('td:first');
+            var td = tr.find('td.label:last');
 
             // call initTr on all actions that are available for the report
             for (var i = 0; i < availableActionsForReport.length; i++) {
@@ -1935,7 +1935,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        var td = tr.find('td:first');
+        var td = tr.find('td.label:last');
         var actions = tr.find('div.dataTableRowActions');
 
         if (!actions) {
