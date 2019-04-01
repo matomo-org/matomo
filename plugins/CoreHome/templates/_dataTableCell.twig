@@ -43,7 +43,7 @@
 
     <span class='label{% if row.getMetadata('is_aggregate') %} highlighted{% endif %}'
     {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
-        {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
+        {% if column=='label' %}{{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}{% endif %}
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
 {% endif %}<span class="value">
     {%- if row.getColumn(column) or (column=='label' and row.getColumn(column) is same as("0")) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{% if row.getMetadata('html_column_' ~ column ~ '_prefix') %}<span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>{% endif -%}{{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}{% if row.getMetadata('html_column_' ~ column ~ '_suffix') %}<span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>{% endif -%}{% endif %}
