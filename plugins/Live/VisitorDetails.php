@@ -35,6 +35,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'idVisit'             => $this->getIdVisit(),
             'visitIp'             => $this->getIp(),
             'visitorId'           => $this->getVisitorId(),
+            'fingerprint'         => $this->getFingerprint(),
 
             // => false are placeholders to be filled in API later
             'actionDetails'       => false,
@@ -151,6 +152,14 @@ class VisitorDetails extends VisitorDetailsAbstract
     function getIdSite()
     {
         return $this->details['idsite'];
+    }
+
+    function getFingerprint()
+    {
+        if (isset($this->details['config_id'])) {
+            return bin2hex($this->details['config_id']);
+        }
+        return false;
     }
 
     function getTimestampLastAction()

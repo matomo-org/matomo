@@ -447,6 +447,7 @@
         "VisitorIPs": "Visitor IPs",
         "Visitors": "Visitors",
         "VisitsWith": "Visits with %s",
+        "VisitorFingerprint": "Fingerprint",
         "VisitorSettings": "Visitor Settings",
         "VisitType": "Visit type",
         "VisitTypes": "Visit types",
