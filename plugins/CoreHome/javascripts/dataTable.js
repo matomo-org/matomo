@@ -1447,7 +1447,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var metadata = this.getReportMetadata();
 
-        if (self.param.show_dimensions && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
+        if (self.param.flat == "1" && self.param.show_dimensions == "1" && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
             for (var i = 1; i < Object.keys(metadata.dimensions).length; i++) {
                 $("th:nth-child("+(i+1)+")", domElem).addClass('label');
                 $("td:nth-child("+(i+1)+")", domElem).addClass('label');
