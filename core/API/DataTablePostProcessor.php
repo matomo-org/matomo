@@ -460,11 +460,12 @@ class DataTablePostProcessor
 
     public function applyComparison(DataTableInterface $dataTable)
     {
-        if (Common::getRequestVar('compare', '0', 'int', $this->request) != 1) {
+        $compare = Common::getRequestVar('compare', '0', 'int', $this->request);
+        if ($compare != 1) {
             return $dataTable;
         }
 
-        $dataTable->filter([DataComparisonFilter::class, $this->request]);
+        $dataTable->filter(DataComparisonFilter::class, [$this->request]);
         return $dataTable;
     }
 }

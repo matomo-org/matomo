@@ -33,7 +33,10 @@ class DataComparisonFilter extends BaseFilter
      */
     public function filter($table)
     {
-        // TODO: disable comparison for Live API
+        $method = Common::getRequestVar('method', $default = null, $type = 'string', $this->request);
+        if ($method == 'Live') {
+            throw new \Exception("Data comparison is not enabled for the Live API.");
+        }
 
         // TODO: multiple sites / periods. will need to change requests appropriately, based on table metadata.
 
@@ -52,7 +55,7 @@ class DataComparisonFilter extends BaseFilter
 
         $reportsToCompare = $this->getReportsToCompare($segments, $dates, $periods);
         foreach ($reportsToCompare as $modifiedParams) {
-            $compareTable = $this->requestReport($modifiedParams);
+            $compareTable = $this->requestReport($method, $modifiedParams);
             $this->compareTables($modifiedParams, $table, $compareTable);
 
             Common::destroy($compareTable);
@@ -106,7 +109,7 @@ class DataComparisonFilter extends BaseFilter
      * @param $paramsToModify
      * @return DataTable
      */
-    private function requestReport($paramsToModify)
+    private function requestReport($method, $paramsToModify)
     {
         $params = array_merge([
             'filter_limit' => -1,
@@ -117,7 +120,6 @@ class DataComparisonFilter extends BaseFilter
             'totals' => 0,
         ], $paramsToModify);
 
-        $method = Common::getRequestVar('method', $default = null, $type = 'string', $this->request);
         return Request::processRequest($method, $params);
     }
 
