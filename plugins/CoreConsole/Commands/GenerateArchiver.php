@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +30,7 @@ class GenerateArchiver extends GeneratePluginBase
         $pluginName = $this->getPluginName($input, $output);
         $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $exampleFolder  = Manager::getPluginDirectory('ExamplePlugin');
         $replace        = array('ExamplePlugin' => $pluginName, 'EXAMPLEPLUGIN' => strtoupper($pluginName));
         $whitelistFiles = array('/Archiver.php');
 

@@ -255,8 +255,6 @@
         "OverlayRowActionTooltip": "Вижте анализите директно от сайта си (отваря нов подпрозорец)",
         "Overview": "Общ преглед",
         "Pages": "Страници",
-        "Pagination": "%1$s - %2$s като %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Параметърът %1$s трябва да има цифрова стойност от %2$s до %3$s.",
         "Password": "Парола",
         "Period": "Период",

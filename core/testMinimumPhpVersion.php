@@ -84,6 +84,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
+        if (\Piwik\SettingsServer::isArchivePhpTriggered()
+            && \Piwik\Common::isPhpCliMode()
+        ) {
+            return true;
+        }
+
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
                 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
 

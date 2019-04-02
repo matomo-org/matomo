@@ -15,6 +15,7 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Filter\Pattern;
+use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
 /**
  */
@@ -165,19 +166,11 @@ class ResponseBuilder
      */
     private function formatExceptionMessage($exception)
     {
-        $message = "";
+        $message = ExceptionToTextProcessor::getWholeBacktrace($exception, $this->shouldPrintBacktrace);
 
-        $e = $exception;
-        do {
-            if ($e !== $exception) {
-                $message .= ",\ncaused by: ";
-            }
-
-            $message .= $e->getMessage();
-            if ($this->shouldPrintBacktrace) {
-                $message .= "\n" . $e->getTraceAsString();
-            }
-        } while ($e = $e->getPrevious());
+        if ($exception instanceof \Piwik\Exception\Exception && $exception->isHtmlMessage() && Request::isRootRequestApiRequest()) {
+            $message = strip_tags(str_replace('<br />', PHP_EOL, $message));
+        }
 
         return Renderer::formatValueXml($message);
     }

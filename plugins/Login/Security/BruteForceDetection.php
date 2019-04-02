@@ -12,6 +12,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Login\SystemSettings;
+use Piwik\Updater;
+use Piwik\Version;
 
 class BruteForceDetection {
 
@@ -26,16 +28,27 @@ class BruteForceDetection {
      */
     private $settings;
 
+    /**
+     * @var Updater
+     */
+    private $updater;
+
     public function __construct(SystemSettings $systemSettings)
     {
         $this->tablePrefixed = Common::prefixTable($this->table);
         $this->settings = $systemSettings;
         $this->minutesTimeRange = $systemSettings->loginAttemptsTimeRange->getValue();
         $this->maxLogAttempts = $systemSettings->maxFailedLoginsPerMinutes->getValue();
+        $this->updater = new Updater();
     }
 
     public function isEnabled()
     {
+        $dbSchemaVersion = $this->updater->getCurrentComponentVersion('core');
+        if ($dbSchemaVersion && version_compare($dbSchemaVersion, '3.8.0') == -1) {
+            return false; // do not enable brute force detection before the tables exist
+        }
+
         return $this->settings->enableBruteForceDetection->getValue();
     }
 

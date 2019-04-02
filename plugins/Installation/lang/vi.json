@@ -31,6 +31,7 @@
         "NfsFilesystemWarningSuffixAdmin": "Điều này tức là Matomo sẽ rất chậm khi sử dụng tập tin dựa trên phiên.",
         "NfsFilesystemWarningSuffixInstall": "Sử dụng tập tin dựa trên các phiên trên NFS là rất chậm, vì vậy Matomo sẽ sử dụng các phiên cơ sở dữ liệu. Nếu bạn có nhiều người sử dụng bảng điều khiển đồng thời, bạn có thể cần phải tăng số lượng tối đa các kết nối client đến máy chủ cơ sở dữ liệu.",
         "Optional": "Tùy chọn",
+        "Password": "Mật khẩu",
         "PasswordDoNotMatch": "Mật khẩu không phù hợp",
         "PercentDone": "%s %% thực hiện",
         "PleaseFixTheFollowingErrors": "Hãy sửa các lỗi sau đây",

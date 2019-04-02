@@ -247,7 +247,6 @@
         "OverlayRowActionTooltipTitle": "Buksan ang Overlay ng Pahina",
         "Overview": "Overview",
         "Pages": "pahina",
-        "Pagination": "%1$s - %2$s ng %3$s",
         "ParameterMustIntegerBetween": "Ang parameter %1$s ay dapat na isang integer value sa pagitan ng %2$s at %3$s.",
         "Password": "Password",
         "Period": "Panahon",

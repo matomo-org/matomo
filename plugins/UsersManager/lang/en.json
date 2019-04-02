@@ -4,7 +4,7 @@
         "UsesTwoFactorAuthentication": "Uses two-factor authentication",
         "TwoFactorAuthentication": "Two-factor authentication",
         "ResetTwoFactorAuthentication": "Reset two-factor authentication",
-        "ResetTwoFactorAuthenticationInfo": "If the user can no longer log in due to lost recovery codes or a lost authentication device, you can reset two-factor authentication for the user so they can log in again.",
+        "ResetTwoFactorAuthenticationInfo": "If the user can no longer log in due to lost recovery codes or a lost authentication device, you can reset two-factor authentication for the user, so they can log in again.",
         "AddUser": "Add a new user",
         "AddExistingUser": "Add an existing user",
         "AddNewUser": "Add new user",
@@ -56,7 +56,7 @@
         "GiveViewAccess": "Give view access for %1$s",
         "GiveViewAccessTitle": "Give an existing user access to view reports for %s",
         "GiveViewAccessInstructions": "To give an existing user view access for %s enter the username or email address of an existing user",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise leave this blank.",
+        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise, leave this blank.",
         "YourCurrentPassword": "Your current password",
         "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
         "ConfirmWithPassword": "Please enter your password to confirm this change.",
@@ -96,7 +96,7 @@
         "UserHasNoPermission":"%1$s currently has %2$s to %3$s",
         "UsersManagement": "Users Management",
         "UsersManagementMainDescription": "Create new users or update the existing users. You can then set their permissions above.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should access",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should initially see",
         "YourUsernameCannotBeChanged": "Your username cannot be changed.",
         "YourVisitsAreIgnoredOnDomain": "%1$sYour visits are ignored by Matomo on %2$s %3$s (the Matomo ignore cookie was found in your browser).",
         "YourVisitsAreNotIgnored": "%1$sYour visits are not ignored by Matomo%2$s (the Matomo ignore cookie was not found in your browser).",
@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Click to select all %1$s.",
         "AllWebsitesAreSelected": "All %1$s websites are selected.",
         "ClickToSelectDisplayedWebsites": "Click to select the %1$s displayed websites.",
-        "XtoYofN": "%1$s - %2$s of %3$s",
         "DeletePermConfirmSingle": "Are you sure you want to remove %1$s's access to %2$s?",
         "DeletePermConfirmMultiple": "Are you sure you want to remove %1$s's access the %2$s selected websites?",
         "ChangePermToSiteConfirmSingle": "Are you sure you want to change %1$s's role to %2$s to %3$s?",
@@ -156,6 +155,12 @@
         "AreYouSureAddCapability": "Are you sure you want to give %1$s the %2$s capability for %3$s?",
         "AreYouSureRemoveCapability": "Are you sure you want to remove the %1$s capability from %2$s for %3$s?",
         "IncludedInUsersRole": "Included in this user's role.",
-        "Capability": "Capability"
+        "Capability": "Capability",
+        "EmailChangeNotificationSubject": "Your Matomo account's email address has just been changed",
+        "EmailChangedEmail1": "The email address associated with your account has been changed to %1$s",
+        "EmailChangedEmail2": "This change was initiated from the following device: %1$s (IP address = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "If this was you, feel free to ignore this email. If this was not you, please login, correct your email address, change your password and contact your Matomo administrator.",
+        "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
+        "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s)."
     }
 }

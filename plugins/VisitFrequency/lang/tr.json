@@ -8,7 +8,7 @@
         "ColumnMaxActionsInReturningVisit": "Geri gelen bir ziyarette yapılan en fazla işlem sayısı",
         "ColumnNbReturningVisitsConverted": "Hedef tutturan geri gelen ziyaret sayısı",
         "ColumnReturningVisits": "Geri Gelen Ziyaretler",
-        "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin harcadığı toplam süre (saniye)",
+        "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin geçirdiği toplam süre (saniye)",
         "ColumnUniqueReturningVisitors": "Tekil geri gelen ziyaretçi sayısı",
         "ColumnReturningUsers": "Geri Gelen Kullanıcılar",
         "PluginDescription": "İlk kez gelen ziyaretçiler ile geri gelen ziyaretçi ölçeklerini raporlar.",

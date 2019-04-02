@@ -25,7 +25,6 @@
         "MakeOneTimeDonation": "Направете еднократно дарение",
         "Menu": "Меню",
         "NoPrivilegesAskPiwikAdmin": "Вие се логнахте в като '%1$s' но изглежда че нямате разрешение от Matomo. %2$s Попитайте Вашият Matomo администратор (клик на email)%3$s да Ви даде \"поглед\" достъп до сайта.",
-        "PageOf": "%1$s от %2$s",
         "PeriodRange": "Период",
         "ReportGeneratedOn": "Доклада е генериран за %s",
         "ReportGeneratedXAgo": "Доклада е генериран преди %s",

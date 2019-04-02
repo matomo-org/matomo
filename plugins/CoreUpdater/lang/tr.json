@@ -1,7 +1,7 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Uygulama eki güncellemeleri denetleniyor",
-        "ClickHereToViewSqlQueries": "Yürütülecek SQL sorgularının listesini görmek ve kopyalamak için tıklayın",
+        "ClickHereToViewSqlQueries": "Yürütülecek SQL sorguları ve konsol komutlarının listesini görmek ve kopyalamak için tıklayın",
         "CriticalErrorDuringTheUpgradeProcess": "Güncelleme sırasında önemli bir sorun çıktı:",
         "DatabaseUpgradeRequired": "Veritabanı Güncellemesi Gerekli",
         "DisablingIncompatiblePlugins": "Uyumsuz uygulama ekleri devre dışı bırakılıyor: %s",
@@ -31,7 +31,9 @@
         "Latest2XStableRelease": "Son kararlı 2.X sürümü",
         "Latest2XBetaRelease": "Son Beta 2.X sürümü",
         "LtsSupportVersion": "Uzun Dönem Desteklenen Sürüm",
-        "ListOfSqlQueriesFYI": "BİLGİ: Veritabanınızı Matomo %s sürümüne güncellemek için yürütülecek sorgular şunlardır",
+        "ListOfSqlQueriesFYI": "BİLGİ: Veritabanınızı Matomo %s sürümüne güncellemek için yürütülecek sorgular ve konsol komutları şunlardır",
+        "TheseSqlQueriesWillBeExecuted": "Yürütülecek SQL sorguları:",
+        "TheseCommandsWillBeExecuted": "Yürütülecek konsol komutları:",
         "MajorUpdateWarning1": "Yapılacak güncellemeler oldukça büyük! Alışkın olduğunuzdan daha uzun sürebilir.",
         "MajorUpdateWarning2": "Büyük kurulumlar için şu öneri özellikle önemlidir.",
         "NeedHelpUpgrading": "Matomo yükseltmesi için yardım mı gerekiyor?",
@@ -75,7 +77,7 @@
         "DbUpgradeNotExecuted": "Veritabanı güncellemesi yapılamadı.",
         "ConsoleUpdateUnexpectedUserWarning": "Bu güncellemeyi %1$s kullanıcısı ile yapmaya çalışıyorsunuz ancak Matomo dosyalarınızın sahibi %2$s kullanıcısı gibi görünüyor.\n\nMatomo dosyalarına doğru kullanıcı izinlerini vermek için şu komutu (ya da sunucu yapılandırmanıza uygun benzer bir komutu) yürütmelisiniz:\n\n$ %3$s",
         "ConsoleUpdateFailure": "Matomo güncellenemedi! Ayrıntılı bilgi almak için aşağıya bakın.",
-        "ConsoleUpdateNoSqlQueries": "Not: Yürütülecek bir SQL sorgusu bulunamadı.",
+        "ConsoleUpdateNoSqlQueries": "Not: Yürütülecek herhangi bir SQL sorgusu ya da konsol komutu yok.",
         "AlreadyUpToDate": "Güncellenmesi gereken herhangi bir şey yok.",
         "ExecuteDbUpgrade": "Veritabanının güncellenmesi gerekli. Güncellensin mi?",
         "DryRun": "Not: Bu işlem deneme amacıyla yapılan Kuru Çalışmadır",

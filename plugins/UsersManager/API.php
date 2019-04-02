@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use DeviceDetector\DeviceDetector;
 use Exception;
 use Piwik\Access;
 use Piwik\Access\CapabilitiesProvider;
@@ -17,6 +18,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\IP;
+use Piwik\Mail;
 use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
@@ -26,7 +29,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
-use Piwik\Url;
+use Piwik\View;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -901,6 +904,8 @@ class API extends \Piwik\Plugin\API
                 throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
             }
 
+            $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
+
             $loginCurrentUser = Piwik::getCurrentUserLogin();
             if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
                 throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
@@ -912,6 +917,16 @@ class API extends \Piwik\Plugin\API
         $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
 
         Cache::deleteTrackerCache();
+
+        if ($email != $userInfo['email']) {
+            $this->sendEmailChangedEmail($userInfo, $email);
+        }
+
+        if ($passwordHasBeenUpdated
+            && $requirePasswordConfirmation
+        ) {
+            $this->sendPasswordChangedEmail($userInfo);
+        }
 
         /**
          * Triggered after an existing user has been updated.
@@ -1376,5 +1391,69 @@ class API extends \Piwik\Plugin\API
             }
         }
         return [$roles, $capabilities];
+    }
+
+    private function sendEmailChangedEmail($user, $newEmail)
+    {
+        // send the mail to both the old email and the new email
+        foreach ([$newEmail, $user['email']] as $emailTo) {
+            $this->sendUserInfoChangedEmail('email', $user, $newEmail, $emailTo, 'UsersManager_EmailChangeNotificationSubject');
+        }
+    }
+
+    private function sendUserInfoChangedEmail($type, $user, $newValue, $emailTo, $subject)
+    {
+        $deviceDescription = $this->getDeviceDescription();
+
+        $view = new View('@UsersManager/_userInfoChangedEmail.twig');
+        $view->type = $type;
+        $view->accountName = Common::sanitizeInputValue($user['login']);
+        $view->newEmail = Common::sanitizeInputValue($newValue);
+        $view->ipAddress = IP::getIpFromHeader();
+        $view->deviceDescription = $deviceDescription;
+
+        $mail = new Mail();
+
+        $mail->addTo($emailTo, $user['login']);
+        $mail->setSubject(Piwik::translate($subject));
+        $mail->setDefaultFromPiwik();
+        $mail->setWrappedHtmlBody($view);
+
+        $replytoEmailName = Config::getInstance()->General['login_password_recovery_replyto_email_name'];
+        $replytoEmailAddress = Config::getInstance()->General['login_password_recovery_replyto_email_address'];
+        $mail->setReplyTo($replytoEmailAddress, $replytoEmailName);
+
+        $mail->send();
+    }
+
+    private function sendPasswordChangedEmail($user)
+    {
+        $this->sendUserInfoChangedEmail('password', $user, null, $user['email'], 'UsersManager_PasswordChangeNotificationSubject');
+    }
+
+    private function getDeviceDescription()
+    {
+        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+        $uaParser = new DeviceDetector($userAgent);
+        $uaParser->parse();
+
+        $deviceName = ucfirst($uaParser->getDeviceName());
+        if (!empty($deviceName)) {
+            $description = $deviceName;
+        } else {
+            $description = Piwik::translate('General_Unknown');
+        }
+
+        $deviceBrand = $uaParser->getBrandName();
+        $deviceModel = $uaParser->getModel();
+        if (!empty($deviceBrand)
+            || !empty($deviceModel)
+        ) {
+            $parts = array_filter([$deviceBrand, $deviceModel]);
+            $description .= ' (' . implode(' ', $parts) . ')';
+        }
+
+        return $description;
     }
 }

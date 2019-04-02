@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
@@ -741,7 +742,15 @@ class GoalManager
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
         Common::printDebug($newGoalDebug);
 
+        $idorder = $request->getParam('ec_id');
+
         $wasInserted = $this->getModel()->createConversion($conversion);
+        if (!$wasInserted
+            && !empty($idorder)
+        ) {
+            $idSite = $request->getIdSite();
+            throw new InvalidRequestParameterException("Invalid non-unique idsite/idorder combination ($idSite, $idorder), conversion was not inserted.");
+        }
 
         return $wasInserted;
     }

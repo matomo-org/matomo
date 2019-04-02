@@ -80,7 +80,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         /** @var \Zend_Db_Statement $query */
         $query = $this->getLogAggregator()->queryVisitsByDimension(
             array(self::USER_ID_FIELD),
-            "$userIdFieldName IS NOT NULL AND $userIdFieldName != ''",
+            "log_visit.$userIdFieldName IS NOT NULL AND log_visit.$userIdFieldName != ''",
             array("LOWER(HEX($visitorIdFieldName)) as $visitorIdFieldName")
         );
 

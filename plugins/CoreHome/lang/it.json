@@ -47,7 +47,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Hai effettuato l'accesso come '%1$s', ma a quanto pare non disponi di alcuna autorizzazione in Matomo. %2$sContatta l'amministratore Matomo (clicca per e-mail)%3$s per avere un accesso che ti consenta di 'vedere' un sito web.",
         "OnlyForSuperUserAccess": "Questo widget è visualizzato sulla dashboard predefinita solo per gli utenti che hanno accesso come Super User.",
-        "PageOf": "%1$s di %2$s",
         "PeriodRange": "Intervallo",
         "ReportGeneratedOn": "Report generato il %s",
         "ReportGeneratedXAgo": "Report generato %s fa",
