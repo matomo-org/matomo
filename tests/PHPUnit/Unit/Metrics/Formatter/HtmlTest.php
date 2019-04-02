@@ -81,7 +81,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     public function test_getPrettyMoney_UsesNonBreakingSpaces()
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
-        NumberFormatter::getInstance()->setTranslator(StaticContainer::get('Piwik\Translation\Translator'));
 
         $expected = html_entity_decode('1&nbsp;€');
         $value = $this->formatter->getPrettyMoney(1, 1);

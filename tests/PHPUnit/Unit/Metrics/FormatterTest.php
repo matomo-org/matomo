@@ -59,6 +59,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         Translate::reset();
+        NumberFormatter::getInstance()->clearCache();
         $this->unsetSiteManagerApiMock();
     }
 
@@ -93,7 +94,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function test_getPrettyMoney_ReturnsCorrectResult($value, $idSite, $language, $expected)
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        NumberFormatter::getInstance()->setTranslator(StaticContainer::get('Piwik\Translation\Translator'));
 
         $this->assertEquals($expected, $this->formatter->getPrettyMoney($value, $idSite));
     }
@@ -104,7 +104,6 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function test_getPrettyPercentFromQuotient_ReturnsCorrectResult($value, $language, $expected)
     {
         StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage($language);
-        NumberFormatter::getInstance()->setTranslator(StaticContainer::get('Piwik\Translation\Translator'));
 
         $this->assertEquals($expected, $this->formatter->getPrettyPercentFromQuotient($value));
     }
@@ -139,11 +138,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     public function getPrettyNumberLocaleTestData()
     {
         return array(
-            array(0.14, '0.14'),
-            array(0.14567, '0.15'),
-            array(100.1234, '100.12'),
-            array(1000.45, '1,000.45'),
-            array(23456789.00, '23,456,789'),
+            array(0.14, '0,14'),
+            array(0.14567, '0,15'),
+            array(100.1234, '100,12'),
+            array(1000.45, '1.000,45'),
+            array(23456789.00, '23.456.789'),
         );
     }
 
