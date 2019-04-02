@@ -145,7 +145,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
                 'idSite'          => $this->idSite,
                 'piwikUrl'        => $piwikUrl,
-            )),
-        ));
+            ), $viewType = 'basic'),
+        ), $viewType = 'basic');
     }
 }
