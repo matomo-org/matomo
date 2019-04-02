@@ -209,6 +209,69 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
+    public function test_referrersReport_sameUrlButDifferentProtocol_flat()
+    {
+        $dateTime = '2015-01-04';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track an HTTPS request
+        $t->setUrlReferrer('https://t.umblr.com/');
+        $t->setUrl('http://piwik.net/');
+        $t->doTrackPageView('My Title');
+
+        // track an HTTP request
+        $t->setForceNewVisit(true);
+        $t->setUrlReferrer('http://t.umblr.com/');
+        $t->setUrl('http://piwik.net/');
+        $t->doTrackPageView('My Title');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest(
+            'Referrers.getWebsites', 
+            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'flat' => 1)
+        );
+
+        $firstRow = $visits->getFirstRow();
+        $this->assertEquals('t.umblr.com', $firstRow->getColumn('label'));
+        $this->assertEquals(2, $firstRow->getColumn('nb_visits'));
+    }
+
+    public function test_referrersReport_sameUrlButDifferentProtocol_hierarchical()
+    {
+        $dateTime = '2015-01-04';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track an HTTPS request
+        $t->setUrlReferrer('https://t.umblr.com/');
+        $t->setUrl('http://piwik.net/');
+        $t->doTrackPageView('My Title');
+
+        // track an HTTP request
+        $t->setForceNewVisit(true);
+        $t->setUrlReferrer('http://t.umblr.com/');
+        $t->setUrl('http://piwik.net/');
+        $t->doTrackPageView('My Title');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest(
+            'Referrers.getWebsites', 
+            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime)
+        );
+
+        $idSubtable = $visits->getFirstRow()->getIdSubDataTable();
+
+        $visits = Request::processRequest(
+            'Referrers.getUrlsFromWebsiteId',
+            array('idSite' => $idSite, 'period' => 'day', 'date' => $dateTime, 'idSubtable' => $idSubtable)
+        );
+
+        $firstRow = $visits->getFirstRow();
+        $this->assertEquals('index', $firstRow->getColumn('label'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_visits'));
+    }
+
     public static function getOutputPrefix()
     {
         return '';
