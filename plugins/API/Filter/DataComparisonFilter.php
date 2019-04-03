@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API\Filter;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
 
@@ -41,13 +42,22 @@ class DataComparisonFilter extends BaseFilter
         // TODO: multiple sites / periods. will need to change requests appropriately, based on table metadata.
 
         // TODO: soft limit or segments/date\speriods to compare
-        $segments = Common::getRequestVar('compareSegments', $default = [''], $type = 'array', $this->request);
+        $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
+        if (empty($segments)) {
+            $segments = [''];
+        }
 
-        $dates = Common::getRequestVar('compareDates', $default = [''], $type = 'array', $this->request);
+        $dates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
         $dates = array_values($dates);
+        if (empty($dates)) {
+            $dates = [''];
+        }
 
-        $periods = Common::getRequestVar('comparePeriods', $default = [''], $type = 'array', $this->request);
+        $periods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $this->request);
         $periods = array_values($periods);
+        if (empty($periods)) {
+            $periods = [''];
+        }
 
         if (count($dates) !== count($periods)) {
             throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
@@ -128,6 +138,7 @@ class DataComparisonFilter extends BaseFilter
         $formatter = new Formatter();
         foreach ($table->getRows() as $row) {
             $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+            $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class);
             $formatter->formatMetrics($comparisonTable);
 
             $subtable = $row->getSubtable();
@@ -147,17 +158,24 @@ class DataComparisonFilter extends BaseFilter
 
         $metadata = [];
         if (!empty($modifiedParams['segment'])) {
-            $metadata['segment'] = $modifiedParams['segment'];
+            $metadata['compareSegment'] = $modifiedParams['segment'];
         }
         if (!empty($modifiedParams['period'])) {
-            $metadata['period'] = $modifiedParams['period'];
+            $metadata['comparePeriod'] = $modifiedParams['period'];
         }
         if (!empty($modifiedParams['date'])) {
-            $metadata['date'] = $modifiedParams['date'];
+            $metadata['compareDate'] = $modifiedParams['date'];
+        }
+
+        if ($compareRow) {
+            $columns = $compareRow->getColumns();
+        } else {
+            $rowColumns = array_keys($row->getColumns());
+            $columns = array_fill_keys($rowColumns, 0);
         }
 
         $newRow = new DataTable\Row([
-            DataTable\Row::COLUMNS => $compareRow->getColumns(),
+            DataTable\Row::COLUMNS => $columns,
             DataTable\Row::METADATA => $metadata,
         ]);
 
@@ -172,7 +190,9 @@ class DataComparisonFilter extends BaseFilter
 
         // recurse on subtable if there
         $subtable = $row->getSubtable();
-        if ($subtable) {
+        if ($subtable
+            && $compareRow
+        ) {
             $this->compareTables($modifiedParams, $subtable, $compareRow->getSubtable());
         }
     }
@@ -182,7 +202,13 @@ class DataComparisonFilter extends BaseFilter
         foreach ($table->getRows() as $row) {
             $label = $row->getColumn('label');
 
-            $compareRow = $compareTable ? $compareTable->getRowFromLabel($label) : null;
+            $compareRow = null;
+            if ($compareTable instanceof Simple) {
+                $compareRow = $compareTable->getFirstRow();
+            } else if ($compareTable instanceof DataTable) {
+                $compareRow = $compareTable->getRowFromLabel($label) ?: null;
+            }
+
             $this->compareRow($modifiedParams, $row, $compareRow);
         }
     }
