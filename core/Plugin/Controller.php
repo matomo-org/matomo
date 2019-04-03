@@ -282,6 +282,8 @@ abstract class Controller
 
         $view = new View($template);
 
+        $this->checkViewType($viewType);
+
         if (empty($viewType)) {
             $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
         }
@@ -589,6 +591,8 @@ abstract class Controller
      */
     protected function setGeneralVariablesView($view, $viewType = null)
     {
+        $this->checkViewType($viewType);
+
         if ($viewType === null) {
             $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
         }
@@ -754,6 +758,8 @@ abstract class Controller
      */
     protected function setBasicVariablesView($view, $viewType = null)
     {
+        $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
+
         $this->setBasicVariablesNoneAdminView($view);
     }
 
@@ -1026,5 +1032,12 @@ abstract class Controller
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
         $url = $url . $queryParams;
         Url::redirectToUrl($url);
+    }
+
+    private function checkViewType($viewType)
+    {
+        if ($viewType == 'admin' && !($this instanceof ControllerAdmin)) {
+            throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");
+        }
     }
 }
