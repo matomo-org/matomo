@@ -74,7 +74,11 @@ class ArchiveCronTest extends SystemTestCase
                                      'testSuffix' => '_preArchivedSegment' . $index,
                                      'otherRequestParameters' => array(
                                         'hideColumns' => 'latitude,longitude'
-                                     ))
+                                     ),
+                                     'xmlFieldsToRemove' => array(
+                                         'fingerprint'
+                                     )
+                               )
             );
         }
 
