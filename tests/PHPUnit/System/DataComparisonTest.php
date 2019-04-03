@@ -52,7 +52,7 @@ class DataComparisonTest extends SystemTestCase
             [$apiToTest, [
                 'idSite' => self::$fixture->idSite,
                 'date' => '2012-08-09',
-                'period' => 'day',
+                'period' => 'month',
                 'otherRequestParameters' => [
                     'compareSegments' => [$segment1, $segment2],
                     'compare' => '1',

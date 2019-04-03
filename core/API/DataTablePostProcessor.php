@@ -118,8 +118,8 @@ class DataTablePostProcessor
         }
 
         $dataTable = $this->applyGenericFilters($dataTable);
-        $dataTable = $this->applyComparison($dataTable);
         $this->applyComputeProcessedMetrics($dataTable);
+        $dataTable = $this->applyComparison($dataTable);
 
         if ($this->callbackAfterGenericFilters) {
             call_user_func($this->callbackAfterGenericFilters, $dataTable);

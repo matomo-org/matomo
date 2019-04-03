@@ -128,6 +128,8 @@ class DataComparisonFilter extends BaseFilter
             'filter_truncate' => -1,
             'compare' => 0,
             'totals' => 0,
+            'disable_queued_filters' => 1,
+            'format_metrics' => 0,
         ], $paramsToModify);
 
         return Request::processRequest($method, $params);
@@ -138,6 +140,10 @@ class DataComparisonFilter extends BaseFilter
         $formatter = new Formatter();
         foreach ($table->getRows() as $row) {
             $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+            if (empty($comparisonTable)) { // sanity check
+                continue;
+            }
+
             $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class);
             $formatter->formatMetrics($comparisonTable);
 
@@ -167,6 +173,7 @@ class DataComparisonFilter extends BaseFilter
             $metadata['compareDate'] = $modifiedParams['date'];
         }
 
+        // TODO: must remove 'label' + non numeric columns from $columns
         if ($compareRow) {
             $columns = $compareRow->getColumns();
         } else {
@@ -178,10 +185,9 @@ class DataComparisonFilter extends BaseFilter
             DataTable\Row::COLUMNS => $columns,
             DataTable\Row::METADATA => $metadata,
         ]);
-        // TODO: temp metric change rate + processed metric change rates
 
         // calculate changes (including processed metric changes)
-        foreach ($row->getColumns() as $name => $value) {
+        foreach ($newRow->getColumns() as $name => $value) {
             $valueToCompare = $row->getColumn($name) ?: 0;
             $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1);
             $newRow->addColumn($name . '_change', $change);
