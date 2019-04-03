@@ -286,9 +286,9 @@ class DocumentationGenerator
         $aParameters['idDimenson'] = false;
         $aParameters['format_metrics'] = false;
         $aParameters['compare'] = false;
-        $aParameters['dates'] = false;
-        $aParameters['periods'] = false;
-        $aParameters['segments'] = false;
+        $aParameters['compareDates'] = false;
+        $aParameters['comparePeriods'] = false;
+        $aParameters['compareSegments'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {

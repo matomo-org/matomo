@@ -178,8 +178,9 @@ class DataComparisonFilter extends BaseFilter
             DataTable\Row::COLUMNS => $columns,
             DataTable\Row::METADATA => $metadata,
         ]);
+        // TODO: temp metric change rate + processed metric change rates
 
-        // calculate changes
+        // calculate changes (including processed metric changes)
         foreach ($row->getColumns() as $name => $value) {
             $valueToCompare = $row->getColumn($name) ?: 0;
             $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1);
