@@ -72,15 +72,13 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $userAgents = array(
             $linuxFirefoxA, $linuxFirefoxA, $win7FirefoxA, $win7ChromeA, $linuxChromeA, $linuxSafariA,
             $iPadSafariA, $iPadFirefoxB, $androidFirefoxB, $androidChromeB, $androidIEA, $iPhoneOperaA,
-            $win8IEB, $winVistaIEB, $osxOperaB, 
-            $linuxFirefoxA, $linuxChromeA, $androidChromeB, $win8IEB, $iPadFirefoxB
+            $win8IEB, $winVistaIEB, $osxOperaB
         );
 
         $resolutions = array(
             "1920x1080", "1920x1080", "1920x1080", "1920x1080", "1366x768", "1366x768", "1366x768",
             "1280x1024", "1280x1024", "1280x1024", "1680x1050", "1680x1050", "1024x768", "800x600",
-            "320x480", 
-            "320x480", "320x480", "320x480", "320x480", "320x480"
+            "320x480"
         );
 
         $referrers = array(
@@ -129,9 +127,6 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
         // track outlinks
         $this->trackActions($t, $visitorCounter, 'outlink', $userAgents, $resolutions);
-
-        // track site search
-//        $this->trackActions($t, $visitorCounter, 'sitesearch', $userAgents, $resolutions);
 
         // track ecommerce product orders
         $this->trackOrders($t);
@@ -214,12 +209,14 @@ class ManyVisitsWithMockLocationProvider extends Fixture
                 : "http://cloudsite$visitorCounter.com/$actionNum";
 
             self::checkResponse($t->doTrackAction("$root/download", 'download'));
-            self::checkResponse($t->doTrackSiteSearch(is_null($actionNum) ? "keyword" : "keyword$actionNum"));
         } else if ($actionType == 'outlink') {
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
+        }
+
+        // Add a site search to some visits
+        if (in_array($actionType, array('download', 'outlink'))) {
             self::checkResponse($t->doTrackSiteSearch(is_null($actionNum) ? "keyword" : "keyword$actionNum"));
-        } else if ($actionType == 'sitesearch') {
         }
     }
 
