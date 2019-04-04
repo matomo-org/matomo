@@ -37,7 +37,7 @@ class Json extends ApiRenderer
      */
     public function renderException($message, $exception)
     {
-        $exceptionMessage = str_replace(array("\r\n", "\n"), "", $message);
+        $exceptionMessage = str_replace(array("\r\n", "\n"), " ", $message);
 
         $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
 

@@ -150,6 +150,7 @@ class UITestFixture extends SqlDump
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
+        $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
         $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
@@ -587,7 +588,7 @@ class CustomApiProxy extends Proxy
 
     public function isExistingApiAction($pluginName, $apiAction)
     {
-        if ($pluginName == 'ExampleAPI' && ($apiAction != 'xssReportforTwig' || $apiAction != 'xssReportforAngular')) {
+        if ($pluginName == 'ExampleAPI' && ($apiAction == 'xssReportforTwig' || $apiAction == 'xssReportforAngular')) {
             return true;
         }
         return parent::isExistingApiAction($pluginName, $apiAction);

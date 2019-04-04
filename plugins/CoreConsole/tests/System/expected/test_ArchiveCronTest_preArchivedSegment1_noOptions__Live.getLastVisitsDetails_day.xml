@@ -5,6 +5,7 @@
 		<idVisit>9</idVisit>
 		<visitIp>175.41.192.9</visitIp>
 		
+		<fingerprint>bbe2b69b9d6206c8</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -131,6 +132,7 @@
 		<idVisit>8</idVisit>
 		<visitIp>175.41.192.9</visitIp>
 		
+		<fingerprint>94bbcc6321ee7261</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -257,6 +259,7 @@
 		<idVisit>7</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		<fingerprint>0aaaacad93d951db</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -383,6 +386,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		<fingerprint>e12d9a8c305a3708</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -509,6 +513,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		<fingerprint>bbf07e6c90b48685</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -635,6 +640,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		<fingerprint>659f2f521aa74750</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -761,6 +767,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		<fingerprint>7aa833c1c3d3ff36</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -887,6 +894,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		<fingerprint>44530bd12cf9e583</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1013,6 +1021,7 @@
 		<idVisit>59</idVisit>
 		<visitIp>175.41.193.46</visitIp>
 		
+		<fingerprint>c4a18d78c000c9eb</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1139,6 +1148,7 @@
 		<idVisit>61</idVisit>
 		<visitIp>175.41.191.46</visitIp>
 		
+		<fingerprint>12672863d3c913e1</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
