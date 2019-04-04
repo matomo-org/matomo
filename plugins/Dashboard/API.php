@@ -126,7 +126,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if (!$userFound) {
-            throw new \Exception(sprintf('Cannot copy dashboard to user %s, user not found or user does not have access to same site.', $copyToUser));
+            throw new \Exception(sprintf('Cannot copy dashboard to user %s, user not found.', $copyToUser));
         }
 
         $login  = Piwik::getCurrentUserLogin();

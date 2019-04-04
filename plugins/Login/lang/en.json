@@ -24,7 +24,7 @@
         "CurrentlyBlockedIPs": "Currently blocked IPs",
         "IPsAlwaysBlocked": "These IPs are always blocked",
         "UnblockAllIPs": "Unblock all currently blocked IPs",
-        "CurrentlyBlockedIPsUnblockInfo": "You can unblock IPs that are currently blocked so they can log in again in case they were falsely flagged and need to be able to log in again.",
+        "CurrentlyBlockedIPsUnblockInfo": "You can unblock IPs that are currently blocked, so they can log in again in case they were falsely flagged and need to be able to log in again.",
         "CurrentlyBlockedIPsUnblockConfirm": "Are you sure you want to unblock all currently blocked IPs?",
         "LoginPasswordNotCorrect": "Wrong Username and password combination.",
         "LostYourPassword": "Lost your password?",

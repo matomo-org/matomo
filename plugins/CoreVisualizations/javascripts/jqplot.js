@@ -761,6 +761,7 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
             // show the active series
             // if initiallyShowAll, all are active; otherwise only the first one
             self.activated.push(true);
+            el.find('td').css('opacity', '');
         } else {
             // fade out the others
             el.find('td').css('opacity', .5);

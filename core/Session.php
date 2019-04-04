@@ -54,6 +54,10 @@ class Session extends Zend_Session
             return;
         }
         self::$sessionStarted = true;
+    
+        if (defined('PIWIK_SESSION_NAME')) {
+            self::$sessionName = PIWIK_SESSION_NAME;
+        }
 
         $config = Config::getInstance();
 
