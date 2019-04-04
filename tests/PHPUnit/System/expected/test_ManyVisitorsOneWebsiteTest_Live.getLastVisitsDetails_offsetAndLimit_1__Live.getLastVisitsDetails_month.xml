@@ -5,6 +5,7 @@
 		<idVisit>18</idVisit>
 		<visitIp>1.2.4.8</visitIp>
 		
+		<fingerprint>a36244db4114afa7</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -247,6 +248,7 @@
 		<idVisit>17</idVisit>
 		<visitIp>1.2.4.8</visitIp>
 		
+		<fingerprint>a36244db4114afa7</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -400,6 +402,7 @@
 		<idVisit>16</idVisit>
 		<visitIp>1.2.4.7</visitIp>
 		
+		<fingerprint>28a7ee52024f3a89</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
