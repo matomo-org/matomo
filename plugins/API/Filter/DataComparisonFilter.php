@@ -10,8 +10,8 @@ namespace Piwik\Plugins\API\Filter;
 
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
@@ -26,10 +26,27 @@ class DataComparisonFilter extends BaseFilter
      */
     private $request;
 
+    /**
+     * @var int
+     */
+    private $segmentCompareLimit;
+
+    /**
+     * @var int
+     */
+    private $periodCompareLimit;
+
     public function __construct(DataTable $table, $request)
     {
         parent::__construct($table);
         $this->request = $request;
+
+        $generalConfig = Config::getInstance()->General;
+        $this->segmentCompareLimit = (int) $generalConfig['data_comparison_segment_limit'];
+        $this->checkComparisonLimit($this->segmentCompareLimit, 'data_comparison_segment_limit');
+
+        $this->periodCompareLimit = (int) $generalConfig['data_comparison_period_limit'];
+        $this->checkComparisonLimit($this->periodCompareLimit, 'data_comparison_period_limit');
     }
 
     /**
@@ -43,10 +60,12 @@ class DataComparisonFilter extends BaseFilter
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
 
-        // TODO: soft limit or segments/date\speriods to compare
         $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
         if (empty($segments)) {
             $segments = [''];
+        }
+        if (count($segments) > $this->segmentCompareLimit) {
+            throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
         }
 
         $dates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
@@ -63,6 +82,10 @@ class DataComparisonFilter extends BaseFilter
 
         if (count($dates) !== count($periods)) {
             throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
+        }
+
+        if (count($dates) > $this->periodCompareLimit) {
+            throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
         }
 
         $reportsToCompare = $this->getReportsToCompare($segments, $dates, $periods);
@@ -267,5 +290,12 @@ class DataComparisonFilter extends BaseFilter
             $mappings[$index . '_change'] = $name . '_change';
         }
         return $mappings;
+    }
+
+    private function checkComparisonLimit($n, $configName)
+    {
+        if ($n <= 1) {
+            throw new \Exception("The [General] $configName INI config option must be greater than 1.");
+        }
     }
 }

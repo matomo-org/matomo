@@ -689,6 +689,12 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The maximum number of segments that can be compared simultaneously.
+data_comparison_segment_limit = 5
+
+; The maximum number of periods that can be compared simultaneously.
+data_comparison_period_limit = 5
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
