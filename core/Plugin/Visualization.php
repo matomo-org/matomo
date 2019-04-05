@@ -244,6 +244,13 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
 
+        if (!$this->supportsComparison()
+            && Common::getRequestVar('compare', 0, 'int') == 1
+        ) {
+            // TODO: translate
+            $view->show_footer_message .= '<br/>This visualization does not support segment/period comparison.';
+        }
+
         if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
             /**
              * @ignore
@@ -783,5 +790,14 @@ class Visualization extends ViewDataTable
         }
 
         return $request;
+    }
+
+    /**
+     * TODO
+     * @return bool
+     */
+    public function supportsComparison()
+    {
+        return false;
     }
 }

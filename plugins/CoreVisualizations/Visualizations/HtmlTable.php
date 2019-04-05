@@ -117,4 +117,9 @@ class HtmlTable extends Visualization
     {
         return null;
     }
+
+    public function supportsComparison()
+    {
+        return true;
+    }
 }
