@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
+use Piwik\Columns\MetricsList;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -174,6 +175,19 @@ class Metrics
         Metrics::INDEX_BOUNCE_COUNT,
         Metrics::INDEX_NB_VISITS_CONVERTED,
     );
+
+    public static function getMappingFromIdToName()
+    {
+        $mapping = self::$mappingFromIdToName;
+
+        /**
+         * TODO
+         * @ignore
+         */
+        Piwik::postEvent('Metrics.addMetricIdToNameMapping', [&$mapping]);
+
+        return $mapping;
+    }
 
     public static function getVisitsMetricNames()
     {

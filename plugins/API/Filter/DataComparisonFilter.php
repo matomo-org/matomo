@@ -11,10 +11,14 @@ namespace Piwik\Plugins\API\Filter;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
+use Piwik\Period;
 use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
 
+// TODO: unit test
 class DataComparisonFilter extends BaseFilter
 {
     /**
@@ -38,8 +42,6 @@ class DataComparisonFilter extends BaseFilter
         if ($method == 'Live') {
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
-
-        // TODO: multiple sites / periods. will need to change requests appropriately, based on table metadata.
 
         // TODO: soft limit or segments/date\speriods to compare
         $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
@@ -65,7 +67,7 @@ class DataComparisonFilter extends BaseFilter
 
         $reportsToCompare = $this->getReportsToCompare($segments, $dates, $periods);
         foreach ($reportsToCompare as $modifiedParams) {
-            $compareTable = $this->requestReport($method, $modifiedParams);
+            $compareTable = $this->requestReport($table, $method, $modifiedParams);
             $this->compareTables($modifiedParams, $table, $compareTable);
 
             Common::destroy($compareTable);
@@ -119,8 +121,11 @@ class DataComparisonFilter extends BaseFilter
      * @param $paramsToModify
      * @return DataTable
      */
-    private function requestReport($method, $paramsToModify)
+    private function requestReport(DataTable $table, $method, $paramsToModify)
     {
+        /** @var Period $period */
+        $period = $table->getMetadata('period');
+
         $params = array_merge([
             'filter_limit' => -1,
             'filter_offset' => 0,
@@ -130,6 +135,9 @@ class DataComparisonFilter extends BaseFilter
             'totals' => 0,
             'disable_queued_filters' => 1,
             'format_metrics' => 0,
+            'idSite' => $table->getMetadata('site')->getId(),
+            'period' => $period->getLabel(),
+            'date' => $period->getDateStart()->toString(),
         ], $paramsToModify);
 
         return Request::processRequest($method, $params);
@@ -139,12 +147,26 @@ class DataComparisonFilter extends BaseFilter
     {
         $formatter = new Formatter();
         foreach ($table->getRows() as $row) {
+            /** @var DataTable $comparisonTable */
             $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
-            if (empty($comparisonTable)) { // sanity check
+            if (empty($comparisonTable)
+                || $comparisonTable->getRowsCount() === 0
+            ) { // sanity check
                 continue;
             }
 
-            $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class);
+            $columnMappings = $this->getColumnMappings();
+            $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
+
+            foreach ($comparisonTable->getRows() as $rowie) {
+                foreach ($rowie->getColumns() as $column => $value) {
+                    if (is_numeric($column)) {
+                        throw new \Exception("found wrong column: " . print_r($rowie->getColumns(), true) . ' - '
+                            . print_r($columnMappings, true) . ' - ' . print_r($row, true));
+                    }
+                }
+            }
+
             $formatter->formatMetrics($comparisonTable);
 
             $subtable = $row->getSubtable();
@@ -173,12 +195,27 @@ class DataComparisonFilter extends BaseFilter
             $metadata['compareDate'] = $modifiedParams['date'];
         }
 
-        // TODO: must remove 'label' + non numeric columns from $columns
+        $columns = [];
         if ($compareRow) {
-            $columns = $compareRow->getColumns();
+            foreach ($compareRow as $name => $value) {
+                if (!is_numeric($value)
+                    || $name == 'label'
+                ) {
+                    continue;
+                }
+
+                $columns[$name] = $value;
+            }
         } else {
-            $rowColumns = array_keys($row->getColumns());
-            $columns = array_fill_keys($rowColumns, 0);
+            foreach ($row as $name => $value) {
+                if (!is_numeric($value)
+                    || $name == 'label'
+                ) {
+                    continue;
+                }
+
+                $columns[$name] = 0;
+            }
         }
 
         $newRow = new DataTable\Row([
@@ -218,5 +255,17 @@ class DataComparisonFilter extends BaseFilter
 
             $this->compareRow($modifiedParams, $row, $compareRow);
         }
+    }
+
+    private function getColumnMappings()
+    {
+        $allMappings = Metrics::getMappingFromIdToName(); // TODO: cache this
+
+        $mappings = [];
+        foreach ($allMappings as $index => $name) {
+            $mappings[$index] = $name;
+            $mappings[$index . '_change'] = $name . '_change';
+        }
+        return $mappings;
     }
 }

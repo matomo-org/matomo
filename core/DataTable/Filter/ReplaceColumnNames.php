@@ -56,7 +56,7 @@ class ReplaceColumnNames extends BaseFilter
     public function __construct($table, $mappingToApply = null)
     {
         parent::__construct($table);
-        $this->mappingToApply = Metrics::$mappingFromIdToName;
+        $this->mappingToApply = Metrics::getMappingFromIdToName();
         if (!is_null($mappingToApply)) {
             $this->mappingToApply = $mappingToApply;
         }

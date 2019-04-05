@@ -418,8 +418,8 @@ class Xml extends Renderer
                 $out .= $prefixLine . "\t<$tagStart />\n";
             } else if ($value instanceof DataTable) {
                 $arrayValue = $this->getArrayFromDataTable($value);
-                $xmlTable = $this->renderDataTable($arrayValue, "\t");
-                $out .= $prefixLine . "\t<$tagStart>\n" . $xmlTable . "\t</$tagEnd>\n";
+                $xmlTable = $this->renderDataTable($arrayValue, $prefixLine . "\t");
+                $out .= $prefixLine . "\t<$tagStart>\n" . $xmlTable . $prefixLine . "\t</$tagEnd>\n";
             } else {
                 $out .= $prefixLine . "\t<$tagStart>" . $xmlValue . "</$tagEnd>\n";
             }
