@@ -1780,6 +1780,7 @@ function PiwikTest() {
     });
 
     test("ContentTrackerInternals", function() {
+        expect(151);
         var tracker = Piwik.getTracker();
         var actual, expected, trackerUrl;
 
@@ -2005,6 +2006,9 @@ function PiwikTest() {
         actual = tracker.buildContentImpressionsRequests([impression]);
         propEqual(actual, [], 'buildContentImpressionsRequests, nothing tracked as supposed to be ignored');
         propEqual(tracker.getTrackedContentImpressions(), [impression], 'buildContentImpressionsRequests, impression should be ignored as it was already tracked before');
+
+        tracker.trackSiteSearch()
+        propEqual(tracker.getTrackedContentImpressions(), [], 'trackSiteSearch, resets tracked impressions');
 
         tracker.clearTrackedContentImpressions();
         _s('#ignoreInteraction1').contentInteractionTrackingSetupDone = false;
