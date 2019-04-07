@@ -22,7 +22,7 @@
         "FromWebsites": "Web Sitelerinden",
         "IncomingTraffic": "Gelen Trafik",
         "LoopsInline": "%s sayfa yüklemesi",
-        "NoDataForAction": "%s için herhangi bir veri yok",
+        "NoDataForAction": "%s için henüz bir veri yok",
         "NoDataForActionDetails": "%s zaman aralığından işlem için hiç bir sayfa görüntülenmemiş ya da geçersiz.",
         "OutgoingTraffic": "Giden Trafik",
         "PluginDescription": "Bu rapor, işlem raporları bölümündeki yeni simgesi ile erişilebilen yeni geçiş raporunda her sayfa adresi için önceki ve sonraki işlemleri içerir.",

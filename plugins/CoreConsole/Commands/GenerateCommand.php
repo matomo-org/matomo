@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,7 +33,7 @@ class GenerateCommand extends GeneratePluginBase
 
         $commandName = $this->getCommandName($input, $output);
 
-        $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleCommand';
+        $exampleFolder = Manager::getPluginDirectory('ExampleCommand');
         $replace       = array(
             'ExampleCommandDescription' => $commandName,
             'ExampleCommand' => $pluginName,

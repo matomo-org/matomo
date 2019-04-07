@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\API\Proxy;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
@@ -114,8 +115,6 @@ class ReportTest extends IntegrationTestCase
         $this->disabledReport = new GetDisabledReport();
         $this->basicReport    = new GetBasicReport();
         $this->advancedReport = new GetAdvancedReport();
-
-        Proxy::unsetInstance();
     }
 
     public function tearDown()
@@ -379,7 +378,7 @@ class ReportTest extends IntegrationTestCase
                 'serialize' => '0'
             )
         )->willReturn("result");
-        Proxy::setSingletonInstance($proxyMock);
+        StaticContainer::getContainer()->set(Proxy::class, $proxyMock);
 
         $report = new GetExampleReport();
         $result = $report->fetch(array('idSite' => 1, 'date' => '2012-01-02'));
@@ -403,7 +402,7 @@ class ReportTest extends IntegrationTestCase
                 'serialize' => '0'
             )
         )->willReturn("result");
-        Proxy::setSingletonInstance($proxyMock);
+        StaticContainer::getContainer()->set(Proxy::class, $proxyMock);
 
         $report = new \Piwik\Plugins\Referrers\Reports\GetKeywords();
         $result = $report->fetchSubtable(23, array('idSite' => 1, 'date' => '2012-01-02'));

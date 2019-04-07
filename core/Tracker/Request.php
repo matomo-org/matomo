@@ -237,7 +237,7 @@ class Request
             $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
         }
 
-        $daysSinceFirstVisit = round(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400, $precision = 0);
+        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
 
         if ($daysSinceFirstVisit < 0) {
             $daysSinceFirstVisit = 0;

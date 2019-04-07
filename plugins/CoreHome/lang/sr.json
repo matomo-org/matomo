@@ -33,7 +33,6 @@
         "Menu": "Meni",
         "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%1$s' ali izgleda da nemate postavljena nikakva ovlašćenja. %2$s Tražite od Matomo administratora (kliknite za poruku)%3$s da vam dozvoli 'prikaz' na sajtu.",
         "OnlyForSuperUserAccess": "Ovaj vidžet se prikazuje na podrazumevanoj konzoli samo superkorisnicima.",
-        "PageOf": "%1$s od %2$s",
         "PeriodRange": "Period",
         "ReportGeneratedOn": "Izveštaj generisan %s",
         "ReportGeneratedXAgo": "Izveštaj generisan pre %s",

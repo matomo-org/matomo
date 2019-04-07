@@ -482,6 +482,10 @@ function PiwikTest() {
 
     module('externals');
 
+    QUnit.testDone(function () {
+        Piwik.getTracker().unsetPageIsUnloading();
+    })
+
     // Delete cookies to prevent cookie store from impacting tests
     deleteCookies();
 
@@ -2145,7 +2149,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(105);
+        expect(107);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2235,6 +2239,7 @@ function PiwikTest() {
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
         equal( typeof tracker.queueRequest, 'function', 'queueRequest' );
+        equal( typeof tracker.disableQueueRequest, 'function', 'disableQueueRequest' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
@@ -2247,6 +2252,7 @@ function PiwikTest() {
         equal( typeof tracker.logAllContentBlocksOnPage, 'function', 'logAllContentBlocksOnPage' );
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
+        equal( typeof tracker.getEcommerceItems, 'function', 'getEcommerceItems' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
         equal( typeof tracker.removeEcommerceItem, 'function', 'removeEcommerceItem' );
         equal( typeof tracker.clearEcommerceCart, 'function', 'clearEcommerceCart' );
@@ -3380,35 +3386,6 @@ function PiwikTest() {
         equal( tracker.hook.test._prefixPropertyName('webkit', 'hidden'), 'webkitHidden', 'webkit prefix' );
     });
 
-    test("Internal timers and setLinkTrackingTimer()", function() {
-        expect(5);
-
-        var tracker = Piwik.getTracker();
-
-        ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
-        equal( typeof tracker, typeof _paq, "async tracker proxy" );
-
-        var startTime, stopTime;
-
-        wait(1000); // in case there is  a previous expireDateTime set
-
-        equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
-
-        startTime = new Date();
-        tracker.hook.test._beforeUnloadHandler();
-        stopTime = new Date();
-        var msSinceStarted = (stopTime.getTime() - startTime.getTime());
-        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
-
-        tracker.setLinkTrackingTimer(2000);
-        startTime = new Date();
-        tracker.trackPageView();
-        tracker.hook.test._beforeUnloadHandler();
-        stopTime = new Date();
-        var diffTime = (stopTime.getTime() - startTime.getTime());
-        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
-    });
-
     test("Generate error messages when calling an undefined API method", function() {
         expect(2);
 
@@ -3634,7 +3611,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(157);
+        expect(164);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3886,11 +3863,26 @@ if ($mysql) {
         ok( visitorIdStart == visitorIdEnd, "tracker.getVisitorId() same at the start and end of process");
 
         // Tracker custom request
+        var requestQueue = tracker.getRequestQueue();
+        strictEqual(true, requestQueue.enabled);
+        strictEqual(0, requestQueue.requests.length, "has not any request queued yet");
+
         tracker.trackRequest('myFoo=bar&baz=1');
         tracker.queueRequest('myQueue=bar&queue=1');
         tracker.queueRequest('myQueue=bar&queue=2');
         tracker.queueRequest('myQueue=bar&queue=3');
 
+        requestQueue = tracker.getRequestQueue();
+        equal(3, requestQueue.requests.length, "has added only the queued requests to the queue");
+
+        tracker.disableQueueRequest();
+        strictEqual(false, requestQueue.enabled);
+
+        tracker.queueRequest('myQueueDisabled=bar&queue=4');
+        requestQueue = tracker.getRequestQueue();
+        equal(3, requestQueue.requests.length, "does not increase number of queued requests but send it directly");
+        requestQueue.enabled = true;
+        
         // Custom variables
         tracker.storeCustomVariablesInCookie();
         tracker.setCookieNamePrefix("PREFIX");
@@ -3967,6 +3959,49 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
         tracker3.addEcommerceItem("SKU ONLY" );
         tracker3.removeEcommerceItem("SKU TO REMOVE");
+
+        var cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {
+            "SKU NO PRICE NO QUANTITY": [
+                "SKU NO PRICE NO QUANTITY",
+                "PRODUCT NAME 3",
+                "CATEGORY",
+                "",
+                ""
+            ],
+            "SKU ONLY": [
+                "SKU ONLY",
+                null,
+                null,
+                null,
+                null
+            ],
+            "SKU ONLY NAME": [
+                "SKU ONLY NAME",
+                "PRODUCT NAME 2",
+                "",
+                "",
+                null
+            ],
+            "SKU ONLY SKU": [
+                "SKU ONLY SKU",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "SKU PRODUCT": [
+                "SKU PRODUCT",
+                "random",
+                "random PRODUCT CATEGORY",
+                11.1111,
+                2
+            ]
+        });
+
+        // test that changing the cart object does not change the internal ecommerceItems var
+        cart["SKU PRODUCT"][3] = 5;
+
         tracker3.trackEcommerceCartUpdate( 555.55 );
 
         tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
@@ -4042,7 +4077,7 @@ if ($mysql) {
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "40", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "41", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -4083,6 +4118,7 @@ if ($mysql) {
             ok( /myQueue=bar&queue=1/.test( results ), "queueRequest sends queued requests");
             ok( /myQueue=bar&queue=2/.test( results ), "queueRequest sends queued requests");
             ok( /myQueue=bar&queue=3/.test( results ), "queueRequest sends queued requests");
+            ok( /myQueueDisabled=bar&queue=4/.test( results ), "queueRequest sends queued requests when disabled directly");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
@@ -4929,6 +4965,35 @@ if ($mysql) {
         });
     });
 
+
+    test("Internal timers and setLinkTrackingTimer()", function() {
+        expect(8);
+
+        var tracker = Piwik.getTracker();
+
+        ok( ! ( _paq instanceof Array ), "async tracker proxy not an array" );
+        equal( typeof tracker, typeof _paq, "async tracker proxy" );
+
+        var startTime, stopTime;
+
+        wait(1000); // in case there is  a previous expireDateTime set
+
+        equal( typeof tracker.hook.test._beforeUnloadHandler, 'function', 'beforeUnloadHandler' );
+
+        startTime = new Date();
+        tracker.hook.test._beforeUnloadHandler();
+        stopTime = new Date();
+        var msSinceStarted = (stopTime.getTime() - startTime.getTime());
+        ok( msSinceStarted < 510, 'beforeUnloadHandler(): ' + msSinceStarted + ' was greater than 510 ' );
+
+        tracker.setLinkTrackingTimer(2000);
+        startTime = new Date();
+        tracker.trackPageView();
+        tracker.hook.test._beforeUnloadHandler();
+        stopTime = new Date();
+        var diffTime = (stopTime.getTime() - startTime.getTime());
+        ok( diffTime >= 2000, 'setLinkTrackingTimer()' );
+    });
 
 <?php
 }

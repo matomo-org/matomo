@@ -27,6 +27,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
 
         testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
+
+        testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
+        testEnvironment.save();
     });
 
     beforeEach(function () {
@@ -83,6 +86,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it("should load the page of a plugin located in a custom directory", function (done) {
+        expect.screenshot("customdirplugin").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
+        }, done);
+    });
     // shortcuts help
     it("should show shortcut help", function (done) {
         expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
@@ -513,6 +521,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
+            page.wait(1000); // for some extra JS to execute
         }, done);
     });
 
@@ -816,5 +825,38 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             page.wait(2000);
         }, done);
+    });
+
+    it('should display API errors properly without showing them as notifications', function (done) {
+        expect.screenshot("api_error").to.be.captureSelector('.pageWrap', function (page) {
+            var url = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&category=%7B%7Bconstructor.constructor(%22_x(45)%22)()%7D%7D&subcategory=%7B%7Bconstructor.constructor(%22_x(48)%22)()%7D%7D&forceError=1";
+            var adminUrl = "?" + generalParams + "&module=CoreAdminHome&action=home";
+            page.load(url, 1000);
+            page.load(adminUrl, 1000);
+        }, done);
+    });
+
+    // embedding whole app
+    describe('enable_framed_pages', function () {
+        before(function () {
+            testEnvironment.testUseMockAuth = 0;
+            testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
+            testEnvironment.save();
+        });
+
+        after(function () {
+            testEnvironment.testUseMockAuth = 1;
+            if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
+                delete testEnvironment.configOverride.General.enable_framed_pages;
+            }
+            testEnvironment.save();
+        });
+
+        it('should allow embedding the entire app', function (done) {
+            expect.screenshot("embed_whole_app").to.be.capture(function (page) {
+                var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+                page.load(url, 20000);
+            }, done);
+        });
     });
 });

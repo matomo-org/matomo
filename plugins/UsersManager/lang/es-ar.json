@@ -42,7 +42,6 @@
         "UsersManagement": "Administración de Usuarios",
         "UsersManagementMainDescription": "Cree nuevos usuarios o actualice los actuales. Luego puede configurar sus permisos.",
         "YourUsernameCannotBeChanged": "Su nombre de usuario no puede cambiarse.",
-        "XtoYofN": "%1$s - %2$s de %3$s",
         "ShowAll": "Mostrar todo",
         "Username": "Nombre de usuario"
     }

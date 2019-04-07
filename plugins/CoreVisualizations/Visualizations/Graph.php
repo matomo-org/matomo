@@ -103,7 +103,7 @@ abstract class Graph extends Visualization
     {
         $isVisible = true;
         if ('label' == $this->config->row_picker_match_rows_by) {
-            $isVisible = in_array($rowLabel, $this->config->rows_to_display);
+            $isVisible = in_array($rowLabel, $this->config->rows_to_display === false ? [] : $this->config->rows_to_display);
         }
 
         return $isVisible;

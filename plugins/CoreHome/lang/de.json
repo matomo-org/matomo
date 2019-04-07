@@ -47,7 +47,6 @@
         "Menu": "Menü",
         "NoPrivilegesAskPiwikAdmin": "Sie sind angemeldet als '%1$s', aber es wurden keine Berechtigungen für diesen Benutzer in Matomo gesetzt. %2$s Bitte fragen Sie Ihren Matomo Administrator (klicken für E-Mail)%3$s um Zugriff auf die Webseite zu erhalten.",
         "OnlyForSuperUserAccess": "Dieses Widget wird im Standard-Dashboard nur Benutzern mit Hauptadministrator-Berechtigung angezeigt.",
-        "PageOf": "%1$s von %2$s",
         "PeriodRange": "Zeitspanne",
         "ReportGeneratedOn": "Bericht erzeugt am %s",
         "ReportGeneratedXAgo": "Bericht erzeugt vor %s",

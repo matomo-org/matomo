@@ -47,10 +47,6 @@ var hasBlockedContent = false;
             return getParams && getParams['module'] === 'API' && getParams['method'];
         }
 
-        function isWidgetizedRequest() {
-            return (broadcast.getValueFromUrl('module') == 'Widgetize');
-        }
-
         function reset () {
             getParams  = {};
             postParams = {};
@@ -188,7 +184,7 @@ var hasBlockedContent = false;
          * @private
          */
         function getPostParams (params) {
-            if (isRequestToApiMethod() || isWidgetizedRequest()) {
+            if (isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
                 params.token_auth = piwik.token_auth;
             }
 

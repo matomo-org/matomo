@@ -70,11 +70,9 @@
         "UserHasNoPermission": "%1$s trenutno ima %2$s za %3$s.",
         "UsersManagement": "Upravljanje korisnicima",
         "UsersManagementMainDescription": "Dodavanje novih i promena postojećih korisničkih naloga, dodeljivanje privilegija.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kada korisnik koji nije prijavljen pokuša da otvori Matomo, trebalo bi da se otvori:",
         "YourUsernameCannotBeChanged": "Vaše korisničko ime ne može biti promenjeno.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Matomo ignoriše vaše posete %2$s %3$s (pronađen je specijalni kolačić u vašem brauzeru).",
         "YourVisitsAreNotIgnored": "%1$s Matomo ne ignoriše vaše posete%2$s (nije pronađen kolačić u vašem brauzeru).",
-        "XtoYofN": "%1$s - %2$s od %3$s",
         "ShowAll": "Prikaži sve",
         "Username": "Korisničko ime"
     }

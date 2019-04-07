@@ -5,6 +5,7 @@
 		<idVisit>56</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
+		<fingerprint>8ca20e3b82c2cd8e</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -21,6 +22,7 @@
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -141,6 +143,7 @@
 		<idVisit>49</idVisit>
 		<visitIp>206.190.75.8</visitIp>
 		
+		<fingerprint>cca042bdad090064</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -157,6 +160,7 @@
 				<title>Changelog Archive - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/changelog/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -179,6 +183,7 @@
 				<title>Contact the Piwik team - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/contact/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -211,7 +216,7 @@
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>181</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>80</visitDuration>
 		<visitDurationPretty>1 min 20s</visitDurationPretty>
@@ -282,6 +287,7 @@
 		<idVisit>55</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
+		<fingerprint>812bd9b9728d78fb</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -298,6 +304,7 @@
 				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
 				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -430,6 +437,7 @@
 		<idVisit>53</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
+		<fingerprint>3ac61952f99e2d53</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -446,6 +454,7 @@
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -468,6 +477,7 @@
 				<title>What is Piwik? - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -500,7 +510,7 @@
 		<visitCount>7</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>17</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>33</visitDuration>
 		<visitDurationPretty>33s</visitDurationPretty>
@@ -592,6 +602,7 @@
 		<idVisit>54</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -604,6 +615,7 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>http://demo.piwik.org/</subtitle>
 				
@@ -730,6 +742,7 @@
 		<idVisit>52</idVisit>
 		<visitIp>108.211.181.12</visitIp>
 		
+		<fingerprint>18feb08b734d8ada</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -746,6 +759,7 @@
 				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -878,6 +892,7 @@
 		<idVisit>51</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
+		<fingerprint>119d38feb66b039a</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -892,6 +907,7 @@
 				<title>Log Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -924,7 +940,7 @@
 		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>3</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1012,6 +1028,7 @@
 		<idVisit>50</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
+		<fingerprint>4250ad6a1eb0d7d1</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1028,6 +1045,7 @@
 				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1140,6 +1158,7 @@
 		<idVisit>48</idVisit>
 		<visitIp>188.107.238.9</visitIp>
 		
+		<fingerprint>589d8bdb92c383bd</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1156,6 +1175,7 @@
 				<title>Log Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1188,7 +1208,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1288,6 +1308,7 @@
 		<idVisit>46</idVisit>
 		<visitIp>93.80.130.163</visitIp>
 		
+		<fingerprint>ea1589bc543ab4c0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1306,6 +1327,7 @@
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1332,6 +1354,7 @@
 				<title>Download - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/download/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1352,6 +1375,7 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
@@ -1470,6 +1494,7 @@
 		<idVisit>47</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
+		<fingerprint>1a2817a163b2805e</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1486,6 +1511,7 @@
 				<title>Hello Installing Piwik - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/docs/installation/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1518,7 +1544,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>30</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1610,6 +1636,7 @@
 		<idVisit>45</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1626,6 +1653,7 @@
 				<title>Liberate Web Analytics - Analytics - Piwik</title>
 				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1750,6 +1778,7 @@
 		<idVisit>43</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>e8e54c258f211e0c</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1764,6 +1793,7 @@
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1797,8 +1827,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1888,6 +1918,7 @@
 		<idVisit>44</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>6e7df29fc80d00de</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1902,6 +1933,7 @@
 				<title>Piwik Forums</title>
 				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1934,7 +1966,7 @@
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>444</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -2034,6 +2066,7 @@
 		<idVisit>30</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>43c578fad9b1f13c</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2050,6 +2083,7 @@
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -2074,6 +2108,7 @@
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -2100,6 +2135,7 @@
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>

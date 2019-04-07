@@ -112,6 +112,10 @@ class VisitRequestProcessor extends RequestProcessor
         $isNewVisit = $this->isVisitNew($visitProperties, $request);
         $request->setMetadata('CoreHome', 'isNewVisit', $isNewVisit);
 
+        if (!$isNewVisit) { // only copy over known visitor's information, if this is for an ongoing visit
+            $this->visitorRecognizer->updateVisitPropertiesFromLastVisitRow($visitProperties);
+        }
+
         return false;
     }
 

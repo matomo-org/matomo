@@ -5,6 +5,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -23,6 +24,7 @@
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -42,6 +44,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - Unknown</subtitle>
 				
@@ -63,6 +66,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd</subtitle>
 				
@@ -84,6 +88,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
@@ -105,6 +110,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
 				
@@ -126,6 +132,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (submit)</title>
 				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
@@ -147,6 +154,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -168,6 +176,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click NOW</subtitle>
 				
@@ -189,6 +198,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -210,6 +220,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
 				<subtitle>Text Ad - Click NOW</subtitle>
 				
@@ -231,6 +242,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -252,6 +264,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Video Ad - movie.mov</subtitle>
 				
@@ -273,6 +286,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Video Ad - movie.mov</subtitle>
 				
@@ -381,6 +395,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>111.1.1.1</visitIp>
 		
+		<fingerprint>8f3c392c43450541</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -399,6 +414,7 @@
 				<title>Ads</title>
 				<subtitle>http://www.example.org/page</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -418,6 +434,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - Unknown</subtitle>
 				
@@ -439,6 +456,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd</subtitle>
 				
@@ -460,6 +478,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
@@ -481,6 +500,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>ImageAd - /path/ad2.jpg</subtitle>
 				
@@ -502,6 +522,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (submit)</title>
 				<subtitle>ImageAd - /path/ad.jpg</subtitle>
 				
@@ -523,6 +544,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -544,6 +566,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click NOW</subtitle>
 				
@@ -565,6 +588,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -586,6 +610,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentinteraction.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentinteraction.svg</iconSVG>
 				<title>Content Interaction (click)</title>
 				<subtitle>Text Ad - Click NOW</subtitle>
 				
@@ -607,6 +632,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Text Ad - Click to download Piwik now</subtitle>
 				
@@ -628,6 +654,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Video Ad - movie.mov</subtitle>
 				
@@ -649,6 +676,7 @@
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/contentimpression.png</icon>
+				<iconSVG>plugins/Morpheus/images/contentimpression.svg</iconSVG>
 				<title>Content Impression</title>
 				<subtitle>Video Ad - movie.mov</subtitle>
 				

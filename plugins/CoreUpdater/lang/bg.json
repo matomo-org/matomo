@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Щракнете тук, за да видите и копие на списъка на SQL заявката, която ще изпълнява",
         "CriticalErrorDuringTheUpgradeProcess": "Открита е КРИТИЧНА грешка по време на обновяването:",
         "DatabaseUpgradeRequired": "Необходимо е да се обнови базата от данни (БД)",
         "DisablingIncompatiblePlugins": "Изключване на несъвместими добавки: %s",

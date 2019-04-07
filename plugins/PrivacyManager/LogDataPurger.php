@@ -71,11 +71,13 @@ class LogDataPurger
         $logTables = self::getDeleteTableLogTables();
 
         // delete unused actions from the log_action table (but only if we can lock tables)
-        if ($deleteUnusedLogActions && Db::isLockPrivilegeGranted()) {
-            $this->rawLogDao->deleteUnusedLogActions();
-        } else {
-            $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
-            Log::warning($logMessage);
+        if ($deleteUnusedLogActions) {
+            if (Db::isLockPrivilegeGranted()) {
+                $this->rawLogDao->deleteUnusedLogActions();
+            } else {
+                $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
+                Log::warning($logMessage);
+            }
         }
 
         /**

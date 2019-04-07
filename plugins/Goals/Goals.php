@@ -53,9 +53,13 @@ class Goals extends \Piwik\Plugin
         }
     }
 
-    public static function makeGoalColumn($idGoal, $column)
+    public static function makeGoalColumn($idGoal, $column, $forceInt = true)
     {
-        return 'goal_'. (int)$idGoal . '_' . $column;
+        if ($forceInt) { // in non-archiver code idGoal can be, eg, ecommerceOrder
+            $idGoal = (int) $idGoal;
+        }
+
+        return 'goal_'. $idGoal . '_' . $column;
     }
 
     public static function getGoalColumns($idGoal)

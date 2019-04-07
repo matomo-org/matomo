@@ -52,6 +52,9 @@
         "UseAnonymizeIp": "Anonymisere besøgendes IP-adresser",
         "UseAnonymizeTrackingData": "Anonymiser sporingsdata",
         "PseudonymizeUserId": "Erstat bruger-ID med et pseudonym",
-        "UseDeleteReports": "Slet regelmæssigt gamle rapporter fra databasen"
+        "UseDeleteReports": "Slet regelmæssigt gamle rapporter fra databasen",
+        "PrivacyPolicyUrl": "Privatlivspolitik-URL",
+        "PrivacyPolicyUrlDescription": "Link til din privatlivspolitik.",
+        "PrivacyPolicy": "Privatlivspolitik"
     }
 }

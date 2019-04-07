@@ -238,7 +238,9 @@ class WidgetsList
                 // could we switch to using $value[0]?
                 $value = 'Array';
             }
-            $widgetUniqueId .= $name . urlencode($value);
+            $value = urlencode($value);
+            $value = str_replace('%', '', $value);
+            $widgetUniqueId .= $name . $value;
         }
 
         return $widgetUniqueId;

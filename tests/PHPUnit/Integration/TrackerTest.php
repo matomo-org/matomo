@@ -250,7 +250,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         $this->assertEquals($expected, $response);
     }
 

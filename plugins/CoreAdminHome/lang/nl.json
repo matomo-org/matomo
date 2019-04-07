@@ -94,6 +94,11 @@
         "OptingYouOut": "Opt-out inschakelen, even geduld a.u.b...",
         "ProtocolNotDetectedCorrectly": "Op dit moment bezoek je Matomo geen beveiligde verbinding op de server kunnen vinden.",
         "ProtocolNotDetectedCorrectlySolution": "Om zeker te zijn dat Matomo verzoeken van je content over een beveiligde HTTPS verbinding serveert, kan je in het bestand %1$s de proxy settings aanpassen of je kan de regel %2$s onder sectie %3$s aanpassen. %4$sLeer meer%5$s",
-        "LearnMore": "Meer weten"
+        "UncheckToOptOut": "Schakel dit vakje uit om u aan te melden.",
+        "CheckToOptIn": "Vind dit vakje aan om u aan te melden.",
+        "Problem": "Probleem",
+        "Solution": "Oplossing",
+        "LearnMore": "Meer weten",
+        "TrackingFailureInvalidSiteProblem": "Deze website bestaat niet."
     }
 }

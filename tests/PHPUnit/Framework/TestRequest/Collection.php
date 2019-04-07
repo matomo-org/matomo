@@ -254,7 +254,9 @@ class Collection
                 foreach ($formats as $format) {
                     $parametersToSet['format'] = $format;
                     $parametersToSet['hideIdSubDatable'] = 1;
-                    $parametersToSet['serialize'] = 1;
+                    if (!isset($parametersToSet['serialize'])) {
+                        $parametersToSet['serialize'] = 1;
+                    }
 
                     $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
                     if ($exampleUrl === false) {

@@ -116,6 +116,17 @@ class Timetable
         return Date::factory($rescheduledTime);
     }
 
+    public function rescheduleTaskAndRunTomorrow(Task $task)
+    {
+        $tomorrow = Date::factory('tomorrow');
+
+        // update the scheduled time
+        $this->timetable[$task->getName()] = $tomorrow->getTimestamp();
+        $this->save();
+
+        return $tomorrow;
+    }
+
     public function save()
     {
         Option::set(self::TIMETABLE_OPTION_STRING, serialize($this->timetable));

@@ -26,7 +26,7 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'avg_order_revenue');
+        return Goals::makeGoalColumn($this->idGoal, 'avg_order_revenue', false);
     }
 
     public function getTranslatedName()
