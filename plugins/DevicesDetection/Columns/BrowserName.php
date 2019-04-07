@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\Client\Browser;
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
@@ -29,7 +30,10 @@ class BrowserName extends Base
     {
         $this->sqlFilterValue = function ($val) {
             $browsers = Browser::getAvailableBrowsers();
-            $result   = array_search($val, $browsers);
+            array_map(function($val) {
+                return Common::mb_strtolower($val);
+            }, $browsers);
+            $result   = array_search(Common::mb_strtolower($val), $browsers);
 
             if ($result === false) {
                 $result = 'UNK';

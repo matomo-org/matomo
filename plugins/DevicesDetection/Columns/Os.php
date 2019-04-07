@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
 use DeviceDetector\Parser\OperatingSystem;
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
@@ -31,7 +32,10 @@ class Os extends Base
     {
         $this->sqlFilterValue = function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
-            $result   = array_search($val, $oss);
+            array_map(function($val) {
+                return Common::mb_strtolower($val);
+            }, $oss);
+            $result   = array_search(Common::mb_strtolower($val), $oss);
 
             if ($result === false) {
                 $result = 'UNK';
