@@ -4986,7 +4986,9 @@ if (typeof window.Piwik !== 'object') {
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
 
                     return request;
                 };
@@ -7130,7 +7132,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7155,7 +7159,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7200,6 +7206,7 @@ if (typeof window.Piwik !== 'object') {
              * @param mixed customData
              */
             this.trackSiteSearch = function (keyword, category, resultsCount, customData) {
+                trackedContentImpressions = [];
                 trackCallback(function () {
                     logSiteSearch(keyword, category, resultsCount, customData);
                 });
