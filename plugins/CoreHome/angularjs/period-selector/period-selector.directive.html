@@ -36,6 +36,15 @@
                         >
                         </piwik-period-date-picker>
                     </div>
+                    <!-- TODO: tooltip -->
+                    <div
+                            piwik-field
+                            uicontrol="checkbox"
+                            name="comparePeriod"
+                            ng-model="periodSelector.isComparing"
+                            data-title="Compare"
+                            class="compareCheckbox"
+                    ></div>
                 </td>
                 <td>
                     <div class="period-type">
@@ -62,6 +71,7 @@
                                 </label>
                             </p>
                         </div>
+
                         <input
                             type="submit"
                             value="{{ 'General_Apply'|translate }}"

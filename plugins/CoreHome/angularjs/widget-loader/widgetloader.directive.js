@@ -71,6 +71,10 @@
 
                         var $urlParams = $location.search();
 
+                        delete $urlParams['comparePeriods[]'];
+                        delete $urlParams['compareDates[]'];
+                        delete $urlParams['compareSegments[]'];
+
                         if ($.isEmptyObject($urlParams) || !$urlParams || !$urlParams['idSite']) {
                             // happens eg in exported widget etc when URL does not have #?...
                             $urlParams = {idSite: 'idSite', period: 'period',date: 'date'};
@@ -90,6 +94,15 @@
                         angular.forEach($urlParams, function (value, key) {
                             if (!(key in parameters)) {
                                 url += '&' + key + '=' + piwikUrl.getSearchParam(key);
+                            }
+                        });
+
+                        ['comparePeriods', 'compareDates', 'compareSegments'].forEach(function (paramName) {
+                            var value = getQueryParamValue(paramName);
+                            if (value) {
+                                var map = {};
+                                map[paramName] = value;
+                                url += '&' + $.param(map);
                             }
                         });
 
@@ -161,6 +174,14 @@
                             scope.loading = false;
                             scope.loadingFailed = true;
                         });
+                    }
+
+                    function getQueryParamValue(name) {
+                        var result = broadcast.getValueFromHash(name);
+                        if (!result) {
+                            result = broadcast.getValueFromUrl(name);
+                        }
+                        return result;
                     }
 
                     scope.$watch('piwikWidgetLoader', function (parameters, oldUrl) {

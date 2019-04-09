@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
-    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods'];
+    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, comparisonsService) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -27,6 +27,7 @@
         vm.isRangeValid = null;
 
         vm.isLoadingNewPage = false;
+        vm.isComparing = false;
 
         vm.getCurrentlyViewingText = getCurrentlyViewingText;
         vm.changeViewedPeriod = changeViewedPeriod;
@@ -141,6 +142,38 @@
         }
 
         function onApplyClicked() {
+            if (vm.isComparing) {
+                compareSelectedPeriod();
+                return;
+            }
+
+            if (vm.selectedPeriod === 'range') {
+                var dateString = getSelectedDateString();
+                if (!dateString) {
+                    return;
+                }
+
+                vm.periodValue = 'range';
+
+                propagateNewUrlParams(dateString, 'range');
+                return;
+            }
+
+            setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
+        }
+
+        function compareSelectedPeriod() {
+            vm.isComparing = false;
+
+            comparisonsService.addComparison({
+                date: getSelectedDateString(),
+                period: vm.selectedPeriod,
+            });
+
+            vm.closePeriodSelector();
+        }
+
+        function getSelectedDateString() {
             if (vm.selectedPeriod === 'range') {
                 var dateFrom = vm.startRangeDate,
                     dateTo = vm.endRangeDate,
@@ -154,16 +187,13 @@
                     // TODO: use a notification instead?
                     $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
                     piwik.helper.modalConfirm('#alert', {});
-                    return;
+                    return null;
                 }
 
-                vm.periodValue = 'range';
-
-                propagateNewUrlParams(dateFrom + ',' + dateTo, 'range');
-                return;
+                return dateFrom + ',' + dateTo;
+            } else {
+                return formatDate(vm.dateValue);
             }
-
-            setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
         }
 
         function setPiwikPeriodAndDate(period, date) {
@@ -173,6 +203,11 @@
 
             var currentDateString = formatDate(date);
             setRangeStartEndFromPeriod(period, currentDateString);
+
+            if (vm.isComparing) {
+                compareSelectedPeriod();
+                return;
+            }
 
             propagateNewUrlParams(currentDateString, vm.selectedPeriod);
             initTopControls();

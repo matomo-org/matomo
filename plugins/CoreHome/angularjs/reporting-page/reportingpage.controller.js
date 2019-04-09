@@ -19,12 +19,19 @@
         var currentDate = null;
         var currentSegment = null;
 
+        var currentCompareDates = null;
+        var currentComparePeriods = null;
+        var currentCompareSegments = null;
+
         function renderInitialPage()
         {
             var $search = $location.search();
             currentPeriod = $search.period;
             currentDate = $search.date;
             currentSegment = $search.segment;
+            currentCompareSegments = getQueryParamValue('compareSegments');
+            currentCompareDates = getQueryParamValue('compareDates');
+            currentComparePeriods = getQueryParamValue('comparePeriods');
             $scope.renderPage($search.category, $search.subcategory);
         }
 
@@ -73,7 +80,7 @@
                 $scope.hasNoPage = !pageModel.page;
                 $scope.loading = false;
             });
-        }
+        };
 
         $scope.loading = true; // we only set loading on initial load
         
@@ -89,11 +96,20 @@
             var date = $search.date;
             var segment = $search.segment;
 
+            // $location does not handle array parameters properly
+            var compareSegments = getQueryParamValue('compareSegments');
+            var compareDates = getQueryParamValue('compareDates');
+            var comparePeriods = getQueryParamValue('comparePeriods');
+
             if (category === currentCategory
                 && subcategory === currentSubcategory
                 && period === currentPeriod
                 && date === currentDate
-                && segment === currentSegment) {
+                && segment === currentSegment
+                && JSON.stringify(compareDates) === JSON.stringify(currentCompareDates)
+                && JSON.stringify(comparePeriods) === JSON.stringify(currentComparePeriods)
+                && JSON.stringify(compareSegments) === JSON.stringify(currentCompareSegments)
+            ) {
                 // this page is already loaded
                 return;
             }
@@ -101,6 +117,9 @@
             currentPeriod = period;
             currentDate = date;
             currentSegment = segment;
+            currentCompareDates = compareDates;
+            currentComparePeriods = comparePeriods;
+            currentCompareSegments = compareSegments;
 
             $scope.renderPage(category, subcategory);
         });
@@ -108,5 +127,13 @@
         $rootScope.$on('loadPage', function (event, category, subcategory) {
             $scope.renderPage(category, subcategory);
         });
+
+        function getQueryParamValue(name) {
+            var result = broadcast.getValueFromHash(name);
+            if (!result) {
+                result = broadcast.getValueFromUrl(name);
+            }
+            return result;
+        }
     }
 })();

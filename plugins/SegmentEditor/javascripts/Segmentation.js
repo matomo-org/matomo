@@ -196,6 +196,8 @@ Segmentation = (function($) {
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
+                    // TODO: translate
+                    listHtml += '<span class="compareSegment" title="Compare this segment with the selected segment and period."></span>';
                     listHtml += '</li>';
                 }
 
@@ -390,6 +392,18 @@ Segmentation = (function($) {
                 openEditFormGivenSegment(target);
                 e.stopPropagation();
                 e.preventDefault();
+            });
+
+            self.target.on('click', '.compareSegment', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+                comparisonService.addComparison({
+                    segment: $(e.target).closest('li').data('definition'),
+                });
+
+                closeAllOpenLists();
             });
 
             self.target.on("click", ".segmentList li", function (e) {

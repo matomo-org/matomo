@@ -328,19 +328,35 @@ var broadcast = {
 
         var oldUrl = currentSearchStr + currentHashStr;
 
-        for (var i = 0; i < params_vals.length; i++) {
+        // remove any array query params being set
+        params_vals.forEach(function (param) {
+            if (/\[]=/.test(decodeURIComponent(param))) {
+                var paramRegex = new RegExp(param + '\\[]=[^&?#]+&?', 'g');
+                currentSearchStr = currentSearchStr.replace(paramRegex, '');
+                currentHashStr = currentHashStr.replace(paramRegex, '');
+            }
+        });
 
-            if(params_vals[i].length == 0) {
-                continue; // updating with empty string would destroy some values
+        params_vals.forEach(function (param) {
+            if(!param.length) {
+                return; // updating with empty string would destroy some values
             }
 
-            // update both the current search query and hash string
-            currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
+            if (/\[]=/.test(decodeURIComponent(param))) { // array param value
+                currentSearchStr = broadcast.addArrayParamValue(param, currentSearchStr);
 
-            if (currentHashStr.length != 0) {
-                currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+                if (currentHashStr.length !== 0) {
+                    currentHashStr = broadcast.addArrayParamValue(param, currentHashStr);
+                }
+            } else {
+                // update both the current search query and hash string
+                currentSearchStr = broadcast.updateParamValue(param, currentSearchStr);
+
+                if (currentHashStr.length !== 0) {
+                    currentHashStr = broadcast.updateParamValue(param, currentHashStr);
+                }
             }
-        }
+        });
 
         var updatedUrl = new RegExp('&updated=([0-9]+)');
         var updatedCounter = updatedUrl.exec(currentSearchStr);
@@ -367,7 +383,7 @@ var broadcast = {
                 if (event) {
                     event.preventDefault();
                 }
-            })
+            });
         }
 
         if (oldUrl == newUrl) {
@@ -427,6 +443,20 @@ var broadcast = {
         }
 
         return urlStr;
+    },
+
+    /**
+     * TODO
+     * @param newParamValue
+     * @param urlStr
+     */
+    addArrayParamValue: function (newParamValue, urlStr) {
+        if (urlStr.indexOf('?') === -1) {
+            urlStr += '?';
+        } else {
+            urlStr += '&';
+        }
+        return urlStr + newParamValue;
     },
 
     /**
@@ -726,11 +756,30 @@ var broadcast = {
         var startStr = url.indexOf(lookFor);
 
         if (startStr >= 0) {
-            var endStr = url.indexOf("&", startStr);
-            if (endStr == -1) {
+            return getSingleValue(startStr, url);
+        } else {
+            url = decodeURIComponent(url);
+
+            // try looking for multi value param
+            lookFor = param + '[]=';
+            startStr = url.indexOf(lookFor);
+            if (startStr >= 0) {
+                var result = [getSingleValue(startStr)];
+                while ((startStr = url.indexOf(lookFor, startStr + 1)) !== -1) {
+                    result.push(getSingleValue(startStr));
+                }
+                return result;
+            } else {
+                return '';
+            }
+        }
+
+        function getSingleValue(startPos) {
+            var endStr = url.indexOf("&", startPos);
+            if (endStr === -1) {
                 endStr = url.length;
             }
-            var value = url.substring(startStr + param.length + 1, endStr);
+            var value = url.substring(startPos + lookFor.length, endStr);
 
             // we sanitize values to add a protection layer against XSS
             // &segment= value is not sanitized, since segments are designed to accept any user input
@@ -738,8 +787,6 @@ var broadcast = {
                 value = value.replace(/[^_%~\*\+\-\<\>!@\$\.()=,;0-9a-zA-Z]/gi, '');
             }
             return value;
-        } else {
-            return '';
         }
     },
 
