@@ -356,7 +356,7 @@ class Model
      * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
      * may still be in use, as specified by the $oldestToKeep passed in.
      * @param string $archiveTableName
-1     * @param array $segmentHashesById  Whitelist of existing segments, indexed by site ID
+     * @param array $segmentHashesById  Whitelist of existing segments, indexed by site ID
      * @param string $oldestToKeep Datetime string
      * @return array With keys idarchive, name, idsite
      */
