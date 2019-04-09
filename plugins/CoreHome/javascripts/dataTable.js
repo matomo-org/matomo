@@ -1812,6 +1812,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             tr.on(listenEvent, function () {
+                if ($(this).closest('.comparisonsRow').length) {
+                    return;
+                }
+
                 if (useTouchEvent && actionsDom && actionsDom.prop('rowActionsVisible')) {
                     actionsDom.prop('rowActionsVisible', false);
                     actionsDom.hide();

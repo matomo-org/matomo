@@ -789,6 +789,13 @@ class Visualization extends ViewDataTable
             unset($request['disable_queued_filters']);
         }
 
+        if (!empty($request['compareSegments'])
+            || !empty($request['comparePeriods'])
+            || !empty($request['compareDates'])
+        ) {
+            $request['compare'] = '1'; // TODO: only set if supports comparison
+        }
+
         return $request;
     }
 
