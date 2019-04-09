@@ -6,10 +6,8 @@
     {{ error.message }}
 {% else %}
     {%- if not showingEmbeddedSubtable -%}
-    <table cellspacing="0" class="dataTable {{ extraCssClass|default }}">
-        {% if showHeader|default(1) %}
+    <table cellspacing="0" class="dataTable">
         {% include "@CoreHome/_dataTableHead.twig" %}
-        {% endif %}
 
         <tbody>
     {%- endif -%}
@@ -46,18 +44,16 @@
                         </td>
                     {% endfor %}
                 </tr>
-                {% endif %}
 
                 {% if row.getMetadata('comparisons') %}
                 <tr class="comparisonsRow">
                     <td class="cellSubDataTable" colspan="{{ properties.columns_to_display|length }}">
-                        {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {
-                            'dataTable': row.getMetadata('comparisons'),
-                            'extraCssClass': 'comparisonsTable',
-                            'showHeader': 0
+                        {% include "@CoreVisualizations/_dataTableViz_htmlTable_comparisons.twig" with {
+                            'dataTable': row.getMetadata('comparisons')
                         } %}
                     </td>
                 </tr>
+                {% endif %}
                 {% endif %}
 
                 {# display subtable if present and showing expanded datatable #}

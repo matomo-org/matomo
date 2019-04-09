@@ -1,0 +1,34 @@
+<table cellspacing="0" class="dataTable comparisonsTable">
+    <tbody>
+    {% set lastSeenComparePeriod = false %}
+    {%- for rowId, row in dataTable.getRows() -%}
+        {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
+        {% if lastSeenComparePeriod != comparePeriod %}
+        <tr class="comparePeriod">
+            <td colspan="{{ properties.columns_to_display|length }}">
+                {{ comparePeriod }}
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td>
+                <span class="label">{{ row.getMetadata('compareSegmentPretty') }}</span>
+            </td>
+            {% for columnName in properties.columns_to_display %}
+            {% if columnName != 'label' %}
+            {% set columnValue = row.getColumn(columnName) %}
+            <td>
+                {% set columnChange = row.getColumn(columnName ~ '_change')|default('+0%') %}
+                {% set columnNumericValue = columnChange|slice(0, columnChange|length - 1) + 0 %}
+                {% set columnChangeIsPositive = columnNumericValue > 0 %}
+                {% set columnChangeIsNeutral = columnNumericValue == 0 %}
+                <span class="changePercent {% if columnChangeIsPositive %}positiveChange{% elseif columnChangeIsNeutral %}neutralChange{% else %}negativeChange{% endif %}">{{ columnChange }}</span>
+                <span class="value">{{ columnValue|default(0) }}</span>
+            </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% set lastSeenComparePeriod = comparePeriod %}
+    {%- endfor -%}
+    </tbody>
+</table>

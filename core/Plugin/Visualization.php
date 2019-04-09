@@ -23,6 +23,7 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -155,6 +156,11 @@ class Visualization extends ViewDataTable
     protected $metricsFormatter = null;
 
     /**
+     * @var array
+     */
+    private $cachedRequestArray;
+
+    /**
      * @var Report
      */
     protected $report;
@@ -243,6 +249,7 @@ class Visualization extends ViewDataTable
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
+        $view->isComparing = $this->isComparing();
 
         if (!$this->supportsComparison()
             && Common::getRequestVar('compare', 0, 'int') == 1
@@ -475,7 +482,6 @@ class Visualization extends ViewDataTable
             foreach ($self->config->getPresentationFilters() as $filter) {
                 $dataTable->queueFilter($filter[0], $filter[1]);
             }
-
         });
 
         $this->dataTable = $postProcessor->process($this->dataTable);
@@ -773,8 +779,7 @@ class Visualization extends ViewDataTable
      */
     public function buildApiRequestArray()
     {
-        $requestArray = $this->request->getRequestArray();
-        $request = ApiRequest::getRequestArrayFromString($requestArray);
+        $request = $this->getRequestArray();
 
         if (false === $this->config->enable_sort) {
             $request['filter_sort_column'] = '';
@@ -789,14 +794,24 @@ class Visualization extends ViewDataTable
             unset($request['disable_queued_filters']);
         }
 
-        if (!empty($request['compareSegments'])
-            || !empty($request['comparePeriods'])
-            || !empty($request['compareDates'])
-        ) {
-            $request['compare'] = '1'; // TODO: only set if supports comparison
+        if ($this->isComparing()) {
+            $request['compare'] = '1';
         }
 
         return $request;
+    }
+
+    private function isComparing()
+    {
+        if (!$this->supportsComparison()) {
+            return false;
+        }
+
+        $request = $this->getRequestArray();
+
+        return !empty($request['compareSegments'])
+            || !empty($request['comparePeriods'])
+            || !empty($request['compareDates']);
     }
 
     /**
@@ -806,5 +821,33 @@ class Visualization extends ViewDataTable
     public function supportsComparison()
     {
         return false;
+    }
+
+    private function getRequestArray()
+    {
+        if (empty($this->cachedRequestArray)) {
+            $requestArray = $this->request->getRequestArray();
+            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
+            $this->cachedRequestArray = $requestArray;
+        }
+        return $this->cachedRequestArray;
+    }
+
+    private function getCompareAgainstSegmentTitle()
+    {
+        $request = $this->getRequestArray();
+        $segment = $request['segment'];
+
+        $availableSegments = DataComparisonFilter::getAvailableSegments();
+        foreach ($availableSegments as $storedSegment) {
+            if ($storedSegment['definition'] == $segment
+                || $storedSegment['definition'] == urldecode($segment)
+                || $storedSegment['definition'] == urlencode($segment)
+            ) {
+                return $storedSegment['name'];
+            }
+        }
+
+        return $segment;
     }
 }

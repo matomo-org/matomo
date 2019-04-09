@@ -1449,8 +1449,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var currentNthChild = null;
         var self = this;
 
-        // higlight all columns on hover
-        $('td', domElem).hover(function() {
+        // give all values consistent width
+        $('td', domElem).each(function () {
             var $this = $(this);
             if ($this.hasClass('label')) {
                 return;
@@ -1472,6 +1472,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
                 });
             }
+        });
+
+        // higlight all columns on hover
+        $('td', domElem).hover(function() {
+            var $this = $(this);
+            if ($this.hasClass('label')) {
+                return;
+            }
+
+            var table    = $this.closest('table');
+            var nthChild = $this.parent('tr').children().index($(this)) + 1;
+            var rows     = $('> tbody > tr', table);
 
             if (currentNthChild === nthChild) {
                 return;
