@@ -138,7 +138,12 @@ abstract class Graph extends Visualization
         // set default selectable columns, if none specified
         $selectableColumns = $this->config->selectable_columns;
         if (false === $selectableColumns) {
-            $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors', 'nb_users');
+            // Unique visitors is only available for some date ranges (e.g. a single day)
+            if ($this->getDataTable()->getFirstRow()->hasColumn('nb_uniq_visitors')) {
+                $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors', 'nb_users');
+            } else {
+                $selectableColumns = array('nb_visits', 'nb_actions', 'nb_users');
+            }
 
             if ($this->config->show_goals) {
                 $goalMetrics       = array('nb_conversions', 'revenue');
