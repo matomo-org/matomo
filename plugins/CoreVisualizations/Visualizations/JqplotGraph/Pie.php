@@ -42,12 +42,23 @@ class Pie extends JqplotGraph
     {
         parent::afterAllFiltersAreApplied();
 
-        $metricColumn = reset($this->config->columns_to_display);
+        $columnsToDisplay = $this->config->columns_to_display;
 
-        if ($metricColumn == 'label') {
-            $metricColumn = next($this->config->columns_to_display);
+        // Remove 'label' from columns to display if present
+        if (! empty($columnsToDisplay) && $columnsToDisplay[0] == 'label') {
+            array_shift($columnsToDisplay);
         }
 
+        // Chuck out any columns_to_display that are not in list of selectable_columns
+        $columnsToDisplay = array_intersect(
+            $columnsToDisplay,
+            array_map(function($row) { return $row['column']; }, $this->config->selectable_columns)
+        );
+
+        // Ensure only one column_to_display - it is a pie graph after all!
+        $metricColumn = reset($columnsToDisplay);
+
+        // Set to a sensible default if no suitable value was found
         $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 

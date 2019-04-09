@@ -142,10 +142,10 @@ abstract class Graph extends Visualization
 
             // Only add unique visitors and users metrics when there is data to support them
             $firstRow = $this->getDataTable()->getFirstRow();
-            if ($firstRow->hasColumn('nb_uniq_visitors')) {
+            if (!$firstRow || $firstRow->hasColumn('nb_uniq_visitors')) {
                 $selectableColumns[] = 'nb_uniq_visitors';
             }
-            if ($firstRow->hasColumn('nb_users')) {
+            if (!$firstRow || $firstRow->hasColumn('nb_users')) {
                 $selectableColumns[] = 'nb_users';
             }
 
