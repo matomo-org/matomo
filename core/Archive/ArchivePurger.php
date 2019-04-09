@@ -170,7 +170,7 @@ class ArchivePurger
      */
     public function purgeDeletedSegmentArchives(Date $dateStart, array $segmentHashesByIdSite)
     {
-        $idArchivesToDelete = $this->getDeletedSegmentArchives($dateStart, $segmentHashesByIdSite);
+        $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $segmentHashesByIdSite);
 
         return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
     }
@@ -219,7 +219,7 @@ class ArchivePurger
         );
     }
 
-    protected function getDeletedSegmentArchives(Date $date, array $segmentHashesByIdSite)
+    protected function getDeletedSegmentArchiveIds(Date $date, array $segmentHashesByIdSite)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
         return $this->model->getArchiveIdsForDeletedSegments(
