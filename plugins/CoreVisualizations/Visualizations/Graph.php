@@ -138,11 +138,15 @@ abstract class Graph extends Visualization
         // set default selectable columns, if none specified
         $selectableColumns = $this->config->selectable_columns;
         if (false === $selectableColumns) {
-            // Unique visitors is only available for some date ranges (e.g. a single day)
-            if ($this->getDataTable()->getFirstRow()->hasColumn('nb_uniq_visitors')) {
-                $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors', 'nb_users');
-            } else {
-                $selectableColumns = array('nb_visits', 'nb_actions', 'nb_users');
+            $selectableColumns = array('nb_visits', 'nb_actions');
+
+            // Only add unique visitors and users metrics when there is data to support them
+            $firstRow = $this->getDataTable()->getFirstRow();
+            if ($firstRow->hasColumn('nb_uniq_visitors')) {
+                $selectableColumns[] = 'nb_uniq_visitors';
+            }
+            if ($firstRow->hasColumn('nb_users')) {
+                $selectableColumns[] = 'nb_users';
             }
 
             if ($this->config->show_goals) {
@@ -161,5 +165,12 @@ abstract class Graph extends Visualization
         }
 
         $this->config->selectable_columns = $transformed;
+
+        // Make sure there it least one column_to_display (other than the label)
+        $metricColumn = reset($this->config->columns_to_display);
+        if ($metricColumn == 'label') {
+            $metricColumn = next($this->config->columns_to_display);
+        }
+        $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 }
