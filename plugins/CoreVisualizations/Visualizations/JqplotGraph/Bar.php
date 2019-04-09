@@ -36,6 +36,24 @@ class Bar extends JqplotGraph
         return $config;
     }
 
+    public function afterAllFiltersAreApplied()
+    {
+        parent::afterAllFiltersAreApplied();
+
+        // Remove 'label' from columns_to_display and ensure there is at least one other column in the list
+        $columnsToDisplay = $this->config->columns_to_display;
+
+        if (! empty($columnsToDisplay) && $columnsToDisplay[0] == 'label') {
+            array_shift($columns_to_display);
+        }
+
+        if (empty($columnsToDisplay)) {
+            $columnsToDisplay = array('nb_visits');
+        }
+
+        $this->config->columns_to_display = $columnsToDisplay;
+    }
+
     protected function makeDataGenerator($properties)
     {
         return JqplotDataGenerator::factory('bar', $properties);

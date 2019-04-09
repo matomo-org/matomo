@@ -165,12 +165,5 @@ abstract class Graph extends Visualization
         }
 
         $this->config->selectable_columns = $transformed;
-
-        // Make sure there it least one column_to_display (other than the label)
-        $metricColumn = reset($this->config->columns_to_display);
-        if ($metricColumn == 'label') {
-            $metricColumn = next($this->config->columns_to_display);
-        }
-        $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 }
