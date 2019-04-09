@@ -117,8 +117,22 @@ abstract class Graph extends Visualization
     {
         $this->determineWhichRowsAreSelectable();
 
+        // set default selectable columns, if none specified
+        $selectableColumns = $this->config->selectable_columns;
+        if (false === $selectableColumns) {
+            $this->generateSelectableColumns();
+        }
+
+        $this->ensureValidColumnsToDisplay();
+
+        $this->addTranslations();
+
         $this->config->selectable_rows = array_values($this->selectableRows);
 
+    }
+
+    protected function addTranslations()
+    {
         if ($this->config->add_total_row) {
             $totalTranslation = Piwik::translate('General_Total');
             $this->config->selectable_rows[] = array(
@@ -135,35 +149,48 @@ abstract class Graph extends Visualization
             ));
         }
 
-        // set default selectable columns, if none specified
-        $selectableColumns = $this->config->selectable_columns;
-        if (false === $selectableColumns) {
-            $selectableColumns = array('nb_visits', 'nb_actions');
-
-            // Only add unique visitors and users metrics when there is data to support them
-            $firstRow = $this->getDataTable()->getFirstRow();
-            if (!$firstRow || $firstRow->hasColumn('nb_uniq_visitors')) {
-                $selectableColumns[] = 'nb_uniq_visitors';
-            }
-            if (!$firstRow || $firstRow->hasColumn('nb_users')) {
-                $selectableColumns[] = 'nb_users';
-            }
-
-            if ($this->config->show_goals) {
-                $goalMetrics       = array('nb_conversions', 'revenue');
-                $selectableColumns = array_merge($selectableColumns, $goalMetrics);
-            }
-        }
-
         $transformed = array();
-        foreach ($selectableColumns as $column) {
+        foreach ($this->config->selectable_columns as $column) {
             $transformed[] = array(
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
                 'displayed'   => in_array($column, $this->config->columns_to_display)
             );
         }
-
         $this->config->selectable_columns = $transformed;
+    }
+
+    protected function generateSelectableColumns()
+    {
+        $selectableColumns = array('nb_visits', 'nb_actions');
+
+        // Only add unique visitors and users metrics when there is data to support them
+        $firstRow = $this->getDataTable()->getFirstRow();
+        if (!$firstRow || $firstRow->hasColumn('nb_uniq_visitors')) {
+            $selectableColumns[] = 'nb_uniq_visitors';
+        }
+        if (!$firstRow || $firstRow->hasColumn('nb_users')) {
+            $selectableColumns[] = 'nb_users';
+        }
+
+        if ($this->config->show_goals) {
+            $goalMetrics       = array('nb_conversions', 'revenue');
+            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+        }
+
+        $this->config->selectable_columns = $selectableColumns;
+    }
+
+    protected function ensureValidColumnsToDisplay()
+    {
+        $columnsToDisplay = $this->config->columns_to_display;
+
+        // Remove 'label' from columns to display if present
+        if (! empty($columnsToDisplay) && $columnsToDisplay[0] == 'label') {
+            array_shift($columnsToDisplay);
+        }
+
+        // Chuck out any columns_to_display that are not in list of selectable_columns
+        $this->config->columns_to_display = array_intersect($columnsToDisplay, $this->config->selectable_columns);
     }
 }

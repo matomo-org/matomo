@@ -36,29 +36,14 @@ class Bar extends JqplotGraph
         return $config;
     }
 
-    public function afterAllFiltersAreApplied()
+    protected function ensureValidColumnsToDisplay()
     {
-        parent::afterAllFiltersAreApplied();
+        parent::ensureValidColumnsToDisplay();
 
         $columnsToDisplay = $this->config->columns_to_display;
 
-        // Remove 'label' from columns to display if present
-        if (! empty($columnsToDisplay) && $columnsToDisplay[0] == 'label') {
-            array_shift($columnsToDisplay);
-        }
-
-        // Chuck out any columns_to_display that are not in list of selectable_columns
-        $columnsToDisplay = array_intersect(
-            $columnsToDisplay,
-            array_map(function($row) { return $row['column']; }, $this->config->selectable_columns)
-        );
-
         // Use a sensible default if the columns_to_display is empty
-        if (empty($columnsToDisplay)) {
-            $columnsToDisplay = array('nb_visits');
-        }
-
-        $this->config->columns_to_display = $columnsToDisplay;
+        $this->config->columns_to_display = $columnsToDisplay ? : array('nb_visits');
     }
 
     protected function makeDataGenerator($properties)
