@@ -37,6 +37,8 @@ class TrackerTest extends IntegrationTestCase
      */
     private $request;
 
+    private $iniTimeZone;
+
     public function setUp()
     {
         parent::setUp();
@@ -45,6 +47,8 @@ class TrackerTest extends IntegrationTestCase
 
         $this->tracker = new TestTracker();
         $this->request = $this->buildRequest(array('idsite' => 1));
+
+        $this->iniTimeZone = ini_get('date.timezone');
     }
 
     public function tearDown()
@@ -58,7 +62,9 @@ class TrackerTest extends IntegrationTestCase
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
-        
+
+        ini_set('date.timezone', $this->iniTimeZone);
+
         parent::tearDown();
     }
 
