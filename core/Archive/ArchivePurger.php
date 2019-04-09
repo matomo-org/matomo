@@ -160,43 +160,51 @@ class ArchivePurger
     {
         $idArchivesToDelete = $this->getDeletedSiteArchiveIds($dateStart);
 
-        $deletedRowCount = 0;
-        if (!empty($idArchivesToDelete)) {
-            $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
-
-            $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted sites for {date}.", array(
-                'count' => $deletedRowCount,
-                'date' => $dateStart
-            ));
-
-            $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
-                'deletedIds' => implode(',', $idArchivesToDelete)
-            ));
-        } else {
-            $this->logger->debug("No archives for deleted sites found in archive numeric table for {date}.", array('date' => $dateStart));
-        }
-
-        return $deletedRowCount;
+        return $this->purge($idArchivesToDelete, $dateStart, 'deleted sites');
     }
 
-    public function purgeDeletedSegmentArchives(Date $dateStart, array $validSegmentHashes)
+    /**
+     * @param Date $dateStart
+     * @param array $segmentHashesByIdSite  List of valid segment hashes, indexed by site ID
+     * @return int
+     */
+    public function purgeDeletedSegmentArchives(Date $dateStart, array $segmentHashesByIdSite)
     {
-        $idArchivesToDelete = $this->getDeletedSegmentArchives($dateStart, $validSegmentHashes);
+        $idArchivesToDelete = $this->getDeletedSegmentArchives($dateStart, $segmentHashesByIdSite);
 
+        return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+    }
+
+    /**
+     * Purge all numeric and blob archives with the given IDs from the database.
+     * @param array $idArchivesToDelete
+     * @param Date $dateStart
+     * @param string $reason
+     * @return int
+     */
+    protected function purge(array $idArchivesToDelete, Date $dateStart, $reason)
+    {
         $deletedRowCount = 0;
         if (!empty($idArchivesToDelete)) {
             $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
 
-            $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for deleted segments for {date}.", array(
-                'count' => $deletedRowCount,
-                'date' => $dateStart
-            ));
+            $this->logger->info(
+                "Deleted {count} rows in archive tables (numeric + blob) for {reason} for {date}.",
+                array(
+                    'count' => $deletedRowCount,
+                    'date' => $dateStart,
+                    'reason' => $reason
+                )
+            );
 
             $this->logger->debug("[Deleted IDs: {deletedIds}]", array(
                 'deletedIds' => implode(',', $idArchivesToDelete)
             ));
         } else {
-            $this->logger->debug("No archives for deleted segments found in archive numeric table for {date}.", array('date' => $dateStart));
+            $this->logger->debug(
+                "No archives for {reason} found in archive numeric table for {date}.",
+                array('date' => $dateStart, 'reason' => $reason)
+            );
         }
 
         return $deletedRowCount;
@@ -211,27 +219,12 @@ class ArchivePurger
         );
     }
 
-    protected function getDeletedSegmentArchives(Date $date, array $validSegmentIds)
+    protected function getDeletedSegmentArchives(Date $date, array $segmentHashesByIdSite)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
         return $this->model->getArchiveIdsForDeletedSegments(
-            $archiveTable, $validSegmentIds, $this->getOldestTemporaryArchiveToKeepThreshold()
+            $archiveTable, $segmentHashesByIdSite, $this->getOldestTemporaryArchiveToKeepThreshold()
         );
-    }
-
-    protected function isForValidSegment($archiveRow, array $validSegmentIds)
-    {
-        $segmentHash = substr($archiveRow['name'], 4);
-
-        //Strip off the plugin name if there is one
-        $dotPlace = strpos($segmentHash, '.');
-        if ($dotPlace !== false) {
-            $segmentHash = substr($segmentHash, 0, $dotPlace);
-        }
-
-        //Check that it's in the list of segments, either for ALL sites or for THIS site
-        return  isset($validSegmentIds[0][$segmentHash]) ||
-                isset($validSegmentIds[$archiveRow['idsite']][$segmentHash]);
     }
 
     protected function getOutdatedArchiveIds(Date $date, $purgeArchivesOlderThan)

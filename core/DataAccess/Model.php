@@ -356,15 +356,16 @@ class Model
      * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
      * may still be in use, as specified by the $oldestToKeep passed in.
      * @param string $archiveTableName
+1     * @param array $segmentHashesById  Whitelist of existing segments, indexed by site ID
      * @param string $oldestToKeep Datetime string
      * @return array With keys idarchive, name, idsite
      */
-    public function getArchiveIdsForDeletedSegments($archiveTableName, array $validSegmentIds, $oldestToKeep)
+    public function getArchiveIdsForDeletedSegments($archiveTableName, array $segmentHashesById, $oldestToKeep)
     {
         $validSegmentClauses = [];
 
-        foreach ($validSegmentIds as $idSite => $segments) {
-            //Special case as idsite=0 means the segment is not site-specific
+        foreach ($segmentHashesById as $idSite => $segments) {
+            // Special case as idsite=0 means the segments are not site-specific
             if ($idSite === 0) {
                 foreach ($segments as $segmentHash) {
                     $validSegmentClauses[] = '(name LIKE "done' . $segmentHash . '%")';
@@ -372,7 +373,7 @@ class Model
                 continue;
             }
 
-            //Vanilla case ... it's valid if it matches any of the valid segments for the site
+            // Vanilla case - segments that are valid for a single site only
             $sql = '(idsite = ' . $idSite . ' AND (';
             $sql .= 'name LIKE "done' . implode('%" OR name LIKE "done', $segments) . '%"';
             $sql .= '))';

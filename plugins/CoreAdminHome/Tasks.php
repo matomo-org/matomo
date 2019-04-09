@@ -264,7 +264,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function purgeOrphanedArchives()
     {
-        $segmentHashes = $this->getSegmentHashes();
+        $segmentHashesByIdSite = $this->getSegmentHashesByIdSite();
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
 
         $datesPurged = array();
@@ -275,13 +275,17 @@ class Tasks extends \Piwik\Plugin\Tasks
             $dateObj = Date::factory("$year-$month-15");
 
             $this->archivePurger->purgeDeletedSiteArchives($dateObj);
-            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $segmentHashes);
+            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $segmentHashesByIdSite);
 
             $datesPurged[$date] = true;
         }
     }
 
-    protected function getSegmentHashes()
+    /**
+     * Get a list of all segment hashes that currently exist, indexed by idSite.
+     * @return array
+     */
+    protected function getSegmentHashesByIdSite()
     {
         //Get a list of hashes of all segments that exist now
         $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
@@ -291,7 +295,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         foreach ($rows as $row) {
             try {
                 $segment = new Segment($row['definition'], array());
-                $segmentHashes[(int)$row['enable_only_idsite']] = $segment->getHash();
+                $segmentHashes[(int)$row['enable_only_idsite']][] = $segment->getHash();
             } catch (\Exception $ex) {
                 //Segment is invalid ... into the sea its archives shall go
             }
