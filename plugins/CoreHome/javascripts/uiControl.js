@@ -11,6 +11,8 @@
 
     var exports = require('piwik/UI');
 
+    var ARRAY_PARAM_NAMES = ['compareDates', 'comparePeriods', 'compareSegments'];
+
     /**
      * Base type for Piwik UI controls. Provides functionality that all controls need (such as
      * cleanup on destruction).
@@ -30,7 +32,9 @@
 
         var params = JSON.parse($element.attr('data-params') || '{}');
         for (var key in params) { // convert values in params that are arrays to comma separated string lists
-            if (params[key] instanceof Array) {
+            if (params[key] instanceof Array
+                && ARRAY_PARAM_NAMES.indexOf(key) === -1
+            ) {
                 params[key] = params[key].join(',');
             }
         }

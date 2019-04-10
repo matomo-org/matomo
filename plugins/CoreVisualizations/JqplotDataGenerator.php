@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
 
@@ -34,6 +35,8 @@ class JqplotDataGenerator
 
     protected $graphType;
 
+    protected $isComparing;
+
     /**
      * Creates a new JqplotDataGenerator instance for a graph type and view properties.
      *
@@ -42,14 +45,14 @@ class JqplotDataGenerator
      * @throws \Exception
      * @return JqplotDataGenerator
      */
-    public static function factory($type, $properties)
+    public static function factory($type, $properties, JqplotGraph $graph)
     {
         switch ($type) {
             case 'evolution':
-                return new JqplotDataGenerator\Evolution($properties, $type);
+                return new JqplotDataGenerator\Evolution($properties, $type, $graph->isComparing());
             case 'pie':
             case 'bar':
-                return new JqplotDataGenerator($properties, $type);
+                return new JqplotDataGenerator($properties, $type, $graph->isComparing());
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
         }
@@ -63,10 +66,11 @@ class JqplotDataGenerator
      *
      * @internal param \Piwik\Plugin\ViewDataTable $visualization
      */
-    public function __construct($properties, $graphType)
+    public function __construct($properties, $graphType, $isComparing)
     {
         $this->properties = $properties;
         $this->graphType = $graphType;
+        $this->isComparing = $isComparing;
     }
 
     /**
@@ -97,19 +101,23 @@ class JqplotDataGenerator
      * @param DataTable|DataTable\Map $dataTable
      * @param $visualization
      */
-    protected function initChartObjectData($dataTable, $visualization)
+    protected function initChartObjectData($dataTable, Chart $visualization)
     {
         $xLabels = $dataTable->getColumn('label');
+
+        $columnNameToTranslation = [];
 
         $columnNames = $this->properties['columns_to_display'];
         if (($labelColumnIndex = array_search('label', $columnNames)) !== false) {
             unset($columnNames[$labelColumnIndex]);
         }
 
-        $columnNameToTranslation = $columnNameToValue = array();
         foreach ($columnNames as $columnName) {
             $columnNameToTranslation[$columnName] = @$this->properties['translations'][$columnName];
+        }
 
+        $columnNameToValue = array();
+        foreach ($columnNames as $columnName) {
             $columnNameToValue[$columnName] = $dataTable->getColumn($columnName);
         }
 

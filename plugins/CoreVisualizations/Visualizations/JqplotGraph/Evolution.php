@@ -68,7 +68,7 @@ class Evolution extends JqplotGraph
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('evolution', $properties);
+        return JqplotDataGenerator::factory('evolution', $properties, $this);
     }
 
     /**

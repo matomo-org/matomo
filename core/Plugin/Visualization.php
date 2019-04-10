@@ -805,7 +805,7 @@ class Visualization extends ViewDataTable
      * TODO
      * @return bool
      */
-    protected function isComparing()
+    public function isComparing()
     {
         if (!$this->supportsComparison()) {
             return false;

@@ -1534,7 +1534,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     // at the end of the query it will replace the ID matching the new HTML table #ID
                     // we need to create this ID first
-                    $(this).after(
+                    var newRow = $(this).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last().after(
                         '<tr>' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
@@ -1543,6 +1543,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                             '</td>' +
                             '</tr>'
                     );
+
+                    piwikHelper.lazyScrollTo(newRow);
 
                     var savedActionVariable = self.param.action;
 

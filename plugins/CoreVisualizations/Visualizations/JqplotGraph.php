@@ -40,6 +40,11 @@ abstract class JqplotGraph extends Graph
      * @return JqplotDataGenerator
      */
     abstract protected function makeDataGenerator($properties);
+
+    public function supportsComparison()
+    {
+        return true;
+    }
 }
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Bar.php';

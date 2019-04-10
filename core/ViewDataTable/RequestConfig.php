@@ -94,7 +94,10 @@ class RequestConfig
         'expanded',
         'pivotBy',
         'pivotByColumn',
-        'pivotByColumnLimit'
+        'pivotByColumnLimit',
+        'compareSegments',
+        'comparePeriods',
+        'compareDates'
     );
 
     /**
@@ -116,7 +119,10 @@ class RequestConfig
         'expanded',
         'pivotBy',
         'pivotByColumn',
-        'pivotByColumnLimit'
+        'pivotByColumnLimit',
+        'compareSegments',
+        'comparePeriods',
+        'compareDates'
     );
 
     /**
@@ -270,6 +276,24 @@ class RequestConfig
      * @var int
      */
     public $pivotByColumnLimit = false;
+
+    /**
+     * TODO
+     * @var array
+     */
+    public $compareSegments = [];
+
+    /**
+     * TODO
+     * @var array
+     */
+    public $comparePeriods = [];
+
+    /**
+     * TODO
+     * @var array
+     */
+    public $compareDates = [];
 
     public function getProperties()
     {

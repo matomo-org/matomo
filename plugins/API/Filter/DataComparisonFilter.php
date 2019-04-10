@@ -334,7 +334,8 @@ class DataComparisonFilter extends BaseFilter
         if (!empty($metadata['comparePeriod'])
             && !empty($metadata['compareDate'])
         ) {
-            $metadata['comparePeriodPretty'] = Period\Factory::build($metadata['comparePeriod'], $metadata['compareDate'])->getLocalizedLongString();
+            $prettyPeriod = Period\Factory::build($metadata['comparePeriod'], $metadata['compareDate'])->getLocalizedLongString();
+            $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
         }
     }
 
