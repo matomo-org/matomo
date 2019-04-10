@@ -88,6 +88,12 @@ class HtmlTable extends Visualization
         if ($this->isPivoted()) {
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
+
+        if ($this->isComparing()
+            && !empty($this->dataTable)
+        ) {
+            $this->assignTemplateVar('indexedComparisonTotals', $this->getIndexedComparisonTotals());
+        }
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
@@ -121,5 +127,21 @@ class HtmlTable extends Visualization
     public function supportsComparison()
     {
         return true;
+    }
+
+    private function getIndexedComparisonTotals()
+    {
+        $result = [];
+
+        $comparisonTotals = $this->dataTable->getMetadata('comparisonTotals');
+        foreach ($comparisonTotals as $totalsEntry) {
+            $segment = isset($totalsEntry['compareSegment']) ? $totalsEntry['compareSegment'] : '';
+            $period = isset($totalsEntry['comparePeriod']) ? $totalsEntry['comparePeriod'] : '';
+            $date = isset($totalsEntry['compareDate']) ? $totalsEntry['compareDate'] : '';
+
+            $result[$segment][$period][$date] = $totalsEntry['totals'];
+        }
+
+        return $result;
     }
 }

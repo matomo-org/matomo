@@ -46,6 +46,11 @@ class DataComparisonFilter extends BaseFilter
      */
     private $availableSegments;
 
+    /**
+     * @var array
+     */
+    private $columnMappings;
+
     public function __construct(DataTable $table, $request)
     {
         parent::__construct($table);
@@ -57,6 +62,8 @@ class DataComparisonFilter extends BaseFilter
 
         $this->periodCompareLimit = (int) $generalConfig['data_comparison_period_limit'];
         $this->checkComparisonLimit($this->periodCompareLimit, 'data_comparison_period_limit');
+
+        $this->columnMappings = $this->getColumnMappings();
     }
 
     /**
@@ -71,24 +78,15 @@ class DataComparisonFilter extends BaseFilter
         }
 
         $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
-        if (empty($segments)) {
-            $segments = [''];
-        }
         if (count($segments) > $this->segmentCompareLimit) {
             throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
         }
 
         $dates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
         $dates = array_values($dates);
-        if (empty($dates)) {
-            $dates = [''];
-        }
 
         $periods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $this->request);
         $periods = array_values($periods);
-        if (empty($periods)) {
-            $periods = [''];
-        }
 
         if (count($dates) !== count($periods)) {
             throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
@@ -98,12 +96,30 @@ class DataComparisonFilter extends BaseFilter
             throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
         }
 
+        if (empty($segments)
+            && empty($periods)
+        ) {
+            throw new \Exception("compare=1 set, but no segments or periods to compare.");
+        }
+
         $this->availableSegments = self::getAvailableSegments();
+
+        $comparisonTotals = [];
 
         $reportsToCompare = $this->getReportsToCompare($segments, $dates, $periods);
         foreach ($reportsToCompare as $modifiedParams) {
+            $metadata = $this->getMetadataFromModifiedParams($modifiedParams);
+
             $compareTable = $this->requestReport($table, $method, $modifiedParams);
-            $this->compareTables($modifiedParams, $table, $compareTable);
+            $this->compareTables($metadata, $table, $compareTable);
+
+            $totals = $compareTable->getMetadata('totals');
+            if (!empty($totals)) {
+                $totals = $this->replaceIndexesInTotals($totals);
+                $comparisonTotals[] = array_merge($metadata, [
+                    'totals' => $totals,
+                ]);
+            }
 
             Common::destroy($compareTable);
             unset($compareTable);
@@ -123,6 +139,10 @@ class DataComparisonFilter extends BaseFilter
 
         if (!empty($periods)) {
             $table->setMetadata('comparePeriods', $periods);
+        }
+
+        if (!empty($comparisonTotals)) {
+            $table->setMetadata('comparisonTotals', $comparisonTotals);
         }
     }
 
@@ -173,7 +193,7 @@ class DataComparisonFilter extends BaseFilter
             'filter_sort_column' => '',
             'filter_truncate' => -1,
             'compare' => 0,
-            'totals' => 0,
+            'totals' => 1,
             'disable_queued_filters' => 1,
             'format_metrics' => 0,
             'idSite' => $table->getMetadata('site')->getId(),
@@ -196,17 +216,8 @@ class DataComparisonFilter extends BaseFilter
                 continue;
             }
 
-            $columnMappings = $this->getColumnMappings();
+            $columnMappings = $this->columnMappings;
             $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
-
-            foreach ($comparisonTable->getRows() as $rowie) {
-                foreach ($rowie->getColumns() as $column => $value) {
-                    if (is_numeric($column)) {
-                        throw new \Exception("found wrong column: " . print_r($rowie->getColumns(), true) . ' - '
-                            . print_r($columnMappings, true) . ' - ' . print_r($row, true));
-                    }
-                }
-            }
 
             $formatter->formatMetrics($comparisonTable);
 
@@ -217,23 +228,12 @@ class DataComparisonFilter extends BaseFilter
         }
     }
 
-    private function compareRow($modifiedParams, DataTable\Row $row, DataTable\Row $compareRow = null)
+    private function compareRow($metadata, DataTable\Row $row, DataTable\Row $compareRow = null)
     {
         $comparisonDataTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
         if (empty($comparisonDataTable)) {
             $comparisonDataTable = new DataTable();
             $row->setMetadata(DataTable\Row::COMPARISONS_METADATA_NAME, $comparisonDataTable);
-        }
-
-        $metadata = [];
-        if (isset($modifiedParams['segment'])) {
-            $metadata['compareSegment'] = $modifiedParams['segment'];
-        }
-        if (!empty($modifiedParams['period'])) {
-            $metadata['comparePeriod'] = $modifiedParams['period'];
-        }
-        if (!empty($modifiedParams['date'])) {
-            $metadata['compareDate'] = $modifiedParams['date'];
         }
 
         $this->addPrettifiedMetadata($metadata);
@@ -271,7 +271,7 @@ class DataComparisonFilter extends BaseFilter
             $valueToCompare = $row->getColumn($name) ?: 0;
             $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
 
-            if ($change > 0) {
+            if ($change >= 0) {
                 $change = '+' . $change;
             }
             $change .= '%';
@@ -286,11 +286,11 @@ class DataComparisonFilter extends BaseFilter
         if ($subtable
             && $compareRow
         ) {
-            $this->compareTables($modifiedParams, $subtable, $compareRow->getSubtable());
+            $this->compareTables($metadata, $subtable, $compareRow->getSubtable());
         }
     }
 
-    private function compareTables($modifiedParams, DataTable $table, DataTable $compareTable = null)
+    private function compareTables($metadata, DataTable $table, DataTable $compareTable = null)
     {
         foreach ($table->getRows() as $row) {
             $label = $row->getColumn('label');
@@ -302,7 +302,7 @@ class DataComparisonFilter extends BaseFilter
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
-            $this->compareRow($modifiedParams, $row, $compareRow);
+            $this->compareRow($metadata, $row, $compareRow);
         }
     }
 
@@ -362,5 +362,32 @@ class DataComparisonFilter extends BaseFilter
             }
         }
         return null;
+    }
+
+    private function getMetadataFromModifiedParams($modifiedParams)
+    {
+        $metadata = [];
+        if (isset($modifiedParams['segment'])) {
+            $metadata['compareSegment'] = $modifiedParams['segment'];
+        }
+        if (!empty($modifiedParams['period'])) {
+            $metadata['comparePeriod'] = $modifiedParams['period'];
+        }
+        if (!empty($modifiedParams['date'])) {
+            $metadata['compareDate'] = $modifiedParams['date'];
+        }
+        return $metadata;
+    }
+
+    private function replaceIndexesInTotals($totals)
+    {
+        foreach ($totals as $index => $value) {
+            if (isset($this->columnMappings[$index])) {
+                $name = $this->columnMappings[$index];
+                $totals[$name] = $totals[$index];
+                unset($totals[$index]);
+            }
+        }
+        return $totals;
     }
 }

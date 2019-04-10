@@ -10,20 +10,27 @@
             </td>
         </tr>
         {% endif %}
-        <tr>
+        <tr class="comparisonRow">
             <td>
-                <span class="label">{{ row.getMetadata('compareSegmentPretty') }}</span>
+                {%- set comparisonLabel = row.getMetadata('compareSegmentPretty') -%}
+                <span class="label">{{ comparisonLabel }}</span>
             </td>
-            {% for columnName in properties.columns_to_display %}
-            {% if columnName != 'label' %}
-            {% set columnValue = row.getColumn(columnName) %}
+            {% for column in properties.columns_to_display %}
+            {% if column != 'label' %}
+            {% set columnValue = row.getColumn(column) %}
             <td>
-                {% set columnChange = row.getColumn(columnName ~ '_change')|default('+0%') %}
-                {% set columnNumericValue = columnChange|slice(0, columnChange|length - 1) + 0 %}
-                {% set columnChangeIsPositive = columnNumericValue > 0 %}
-                {% set columnChangeIsNeutral = columnNumericValue == 0 %}
-                <span class="changePercent {% if columnChangeIsPositive %}positiveChange{% elseif columnChangeIsNeutral %}neutralChange{% else %}negativeChange{% endif %}">{{ columnChange }}</span>
-                <span class="value">{{ columnValue|default(0) }}</span>
+                {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
+                {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriod')|default('')][row.getMetadata('compareDate')|default('')]|default(null) %}
+
+                {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
+                    'changePercentage': columnChange,
+                    'totals': comparisonTotals,
+                    'label': comparisonLabel,
+                    'labelColumn': properties.columns_to_display|first,
+                    'changePercantage': columnChange,
+                    'forceZero': true
+                } %}
+                <span class="value">{{ columnValue }}</span>
             </td>
             {% endif %}
             {% endfor %}

@@ -538,7 +538,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
-                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                    var w = labelColumnWidth;
+                    if ($(this).parent().is('.comparisonRow')) {
+                        w = labelColumnWidth - 28; // TODO: 28 is the left margin for .comparisonsTable, should get if from css, not hard code it
+                    }
+                    $(this).width(removePaddingFromWidth($(this), w));
                 });
             }
 
@@ -1810,7 +1814,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             // if there are row actions, make sure the first column is not too narrow
-            td.css('minWidth', '145px');
+            td.css('minWidth', tr.is('.comparisonRow') ? '117px' : '145px');
 
             // show actions that are available for the row on hover
             var actionsDom = null;

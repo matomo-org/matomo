@@ -801,7 +801,11 @@ class Visualization extends ViewDataTable
         return $request;
     }
 
-    private function isComparing()
+    /**
+     * TODO
+     * @return bool
+     */
+    protected function isComparing()
     {
         if (!$this->supportsComparison()) {
             return false;
@@ -831,23 +835,5 @@ class Visualization extends ViewDataTable
             $this->cachedRequestArray = $requestArray;
         }
         return $this->cachedRequestArray;
-    }
-
-    private function getCompareAgainstSegmentTitle()
-    {
-        $request = $this->getRequestArray();
-        $segment = $request['segment'];
-
-        $availableSegments = DataComparisonFilter::getAvailableSegments();
-        foreach ($availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
-                || $storedSegment['definition'] == urldecode($segment)
-                || $storedSegment['definition'] == urlencode($segment)
-            ) {
-                return $storedSegment['name'];
-            }
-        }
-
-        return $segment;
     }
 }
