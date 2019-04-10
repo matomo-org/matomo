@@ -1,41 +1,37 @@
-<table cellspacing="0" class="dataTable comparisonsTable">
-    <tbody>
-    {% set lastSeenComparePeriod = false %}
-    {%- for rowId, row in dataTable.getRows() -%}
-        {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
-        {% if lastSeenComparePeriod != comparePeriod %}
-        <tr class="comparePeriod">
-            <td colspan="{{ properties.columns_to_display|length }}">
-                {{ comparePeriod }}
-            </td>
-        </tr>
-        {% endif %}
-        <tr class="comparisonRow">
-            <td>
-                {%- set comparisonLabel = row.getMetadata('compareSegmentPretty') -%}
-                <span class="label">{{ comparisonLabel }}</span>
-            </td>
-            {% for column in properties.columns_to_display %}
-            {% if column != 'label' %}
-            {% set columnValue = row.getColumn(column) %}
-            <td>
-                {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
-                {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriod')|default('')][row.getMetadata('compareDate')|default('')]|default(null) %}
+{% set lastSeenComparePeriod = false %}
+{%- for rowId, row in dataTable.getRows() -%}
+    {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
+    {% if lastSeenComparePeriod != comparePeriod %}
+    <tr class="comparePeriod">
+        <td colspan="{{ properties.columns_to_display|length }}">
+            {{ comparePeriod }}
+        </td>
+    </tr>
+    {% endif %}
+    <tr class="comparisonRow">
+        <td>
+            {%- set comparisonLabel = row.getMetadata('compareSegmentPretty') -%}
+            <span class="label">{{ comparisonLabel }}</span>
+        </td>
+        {% for column in properties.columns_to_display %}
+        {% if column != 'label' %}
+        {% set columnValue = row.getColumn(column) %}
+        <td>
+            {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
+            {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriod')|default('')][row.getMetadata('compareDate')|default('')]|default(null) %}
 
-                {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
-                    'changePercentage': columnChange,
-                    'totals': comparisonTotals,
-                    'label': comparisonLabel,
-                    'labelColumn': properties.columns_to_display|first,
-                    'changePercantage': columnChange,
-                    'forceZero': true
-                } %}
-                <span class="value">{{ columnValue }}</span>
-            </td>
-            {% endif %}
-            {% endfor %}
-        </tr>
-        {% set lastSeenComparePeriod = comparePeriod %}
-    {%- endfor -%}
-    </tbody>
-</table>
+            {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
+                'changePercentage': columnChange,
+                'totals': comparisonTotals,
+                'label': comparisonLabel,
+                'labelColumn': properties.columns_to_display|first,
+                'changePercantage': columnChange,
+                'forceZero': true
+            } %}
+            <span class="value">{{ columnValue|number(2,0)|rawSafeDecoded }}</span>
+        </td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% set lastSeenComparePeriod = comparePeriod %}
+{%- endfor -%}

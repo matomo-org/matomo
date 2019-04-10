@@ -540,7 +540,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $('td.label', domElem).each(function() {
                     var w = labelColumnWidth;
                     if ($(this).parent().is('.comparisonRow')) {
-                        w = labelColumnWidth - 28; // TODO: 28 is the left margin for .comparisonsTable, should get if from css, not hard code it
+                        // TODO: w = labelColumnWidth - 28; // TODO: 28 is the left margin for .comparisonsTable, should get if from css, not hard code it
                     }
                     $(this).width(removePaddingFromWidth($(this), w));
                 });
@@ -1828,7 +1828,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             tr.on(listenEvent, function () {
-                if ($(this).closest('.comparisonsRow').length) {
+                if ($(this).is('.comparisonRow').length) {
                     return;
                 }
 

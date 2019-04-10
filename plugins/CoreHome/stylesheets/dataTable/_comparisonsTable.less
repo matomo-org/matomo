@@ -1,9 +1,20 @@
-.theWidgetContent .card .card-content table.dataTable.comparisonsTable {
-  margin-left: 29px;
-  width: calc(~"100% - 29px");
+.theWidgetContent .card .card-content table.dataTable {
+  tr.comparePeriod, tr.comparisonRow {
+    > td:first-child {
+      padding-left: 50px;
+    }
+  }
 
-  tr:last-child td {
-    border-bottom: 0 !important;
+  tr.parentComparisonRow {
+    .dataTableRowActions {
+      display: none !important;
+    }
+
+    > td:not(:first-child) {
+      &, & .ratio {
+        visibility: hidden;
+      }
+    }
   }
 
   // TODO: need to use theme colors wherevere possible
@@ -11,8 +22,4 @@
     font-weight: bold;
     color: #aaa;
   }
-}
-
-#content:not(.admin) table.dataTable tr.comparisonsRow > td {
-  padding: 0;
 }
