@@ -325,7 +325,7 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser_doesNotSendEmailsIfTurnedOffInConfig()
     {
-        Config::getInstance()->General['api_update_users_email_notifications'] = 0;
+        Config::getInstance()->General['enable_update_users_email'] = 0;
         $capturedMails = [];
         Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
             $capturedMails[] = $mail;
@@ -338,7 +338,7 @@ class APITest extends IntegrationTestCase
 
         $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
         $this->assertEquals([], $subjects);
-        Config::getInstance()->General['api_update_users_email_notifications'] = 1;
+        Config::getInstance()->General['enable_update_users_email'] = 1;
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()
