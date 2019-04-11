@@ -827,6 +827,11 @@ tracking_requests_require_authentication = 1
 ; You can change how far back Matomo will track your requests without authentication. The configured value is in seconds.
 tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
 
+; if set to 1, all the SQL queries will be recorded by the profiler
+; and a profiling summary will be printed at the end of the request
+; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
+enable_sql_profiler = 0
+
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
 ; On high traffic websites it is recommended to pre-process the data
