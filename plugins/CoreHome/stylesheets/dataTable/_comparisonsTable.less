@@ -18,8 +18,14 @@
   }
 
   // TODO: need to use theme colors wherevere possible
-  tr.comparePeriod td.label {
-    font-weight: bold;
-    color: #aaa;
+  tr.comparePeriod {
+    .dataTableRowActions {
+      display: none !important;
+    }
+
+    td.label {
+      font-weight: bold;
+      color: #aaa;
+    }
   }
 }

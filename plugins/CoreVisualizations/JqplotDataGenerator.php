@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreVisualizations;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
@@ -105,12 +106,31 @@ class JqplotDataGenerator
     {
         $xLabels = $dataTable->getColumn('label');
 
-        $columnNameToTranslation = [];
-
-        $columnNames = $this->properties['columns_to_display'];
-        if (($labelColumnIndex = array_search('label', $columnNames)) !== false) {
-            unset($columnNames[$labelColumnIndex]);
+        $columnsToDisplay = $this->properties['columns_to_display'];
+        if (($labelColumnIndex = array_search('label', $columnsToDisplay)) !== false) {
+            unset($columnsToDisplay[$labelColumnIndex]);
         }
+
+        if ($this->isComparing) {
+            list($yLabels, $serieses) = $this->getComparisonTableSerieses($dataTable, $columnsToDisplay);
+        } else {
+            list($yLabels, $serieses) = $this->getMainTableSerieses($dataTable, $columnsToDisplay);
+        }
+
+        $visualization->dataTable = $dataTable;
+        $visualization->properties = $this->properties;
+
+        $visualization->setAxisXLabels($xLabels);
+        $visualization->setAxisYValues($serieses);
+        $visualization->setAxisYLabels($yLabels);
+
+        $units = $this->getUnitsForColumnsToDisplay($yLabels);
+        $visualization->setAxisYUnits($units);
+    }
+
+    private function getMainTableSerieses(DataTable $dataTable, $columnNames)
+    {
+        $columnNameToTranslation = [];
 
         foreach ($columnNames as $columnName) {
             $columnNameToTranslation[$columnName] = @$this->properties['translations'][$columnName];
@@ -121,21 +141,52 @@ class JqplotDataGenerator
             $columnNameToValue[$columnName] = $dataTable->getColumn($columnName);
         }
 
-        $visualization->dataTable = $dataTable;
-        $visualization->properties = $this->properties;
-
-        $visualization->setAxisXLabels($xLabels);
-        $visualization->setAxisYValues($columnNameToValue);
-        $visualization->setAxisYLabels($columnNameToTranslation);
-
-        $units = $this->getUnitsForColumnsToDisplay();
-        $visualization->setAxisYUnits($units);
+        return [$columnNameToTranslation, $columnNameToValue];
     }
 
-    protected function getUnitsForColumnsToDisplay()
+    private function getComparisonTableSerieses(DataTable $dataTable, $columnsToDisplay)
+    {
+        $seriesLabels = [];
+        $serieses = [];
+
+        foreach ($dataTable->getRows() as $row) {
+            $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+            if (empty($comparisonTable)) {
+                continue;
+            }
+
+            foreach ($comparisonTable->getRows() as $index => $compareRow) {
+                foreach ($columnsToDisplay as $columnName) {
+                    $seriesId = $columnName . '|' . $index;
+
+                    $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName);
+                    $seriesLabels[$seriesId] = $seriesLabel;
+                    $serieses[$seriesId][] = $row->getColumn($columnName);
+                }
+            }
+        }
+
+        return [$seriesLabels, $serieses];
+    }
+
+    private function getComparisonSeriesLabel(Row $compareRow, $columnName)
+    {
+        $columnTranslation = @$this->properties['translations'][$columnName];
+
+        $comparisonLabels = [
+            $compareRow->getMetadata('comparePeriodPretty'),
+            $compareRow->getMetadata('compareSegmentPretty'),
+        ];
+        $comparisonLabels = array_filter($comparisonLabels);
+
+        $label = $columnTranslation . ' (' . implode(') (', $comparisonLabels) . ')';
+        return $label;
+    }
+
+    protected function getUnitsForColumnsToDisplay($yLabels)
     {
         // derive units from column names
-        $units = $this->deriveUnitsFromRequestedColumnNames();
+        $units = $this->deriveUnitsFromRequestedColumnNames($yLabels);
         if (!empty($this->properties['y_axis_unit'])) {
             $units = array_fill(0, count($units), $this->properties['y_axis_unit']);
         }
@@ -152,14 +203,17 @@ class JqplotDataGenerator
         return $units;
     }
 
-    private function deriveUnitsFromRequestedColumnNames()
+    private function deriveUnitsFromRequestedColumnNames($yLabels)
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
 
         $units = array();
-        foreach ($this->properties['columns_to_display'] as $columnName) {
+        foreach ($yLabels as $seriesId => $ignore) {
+            $parts = explode('|', $seriesId, 2);
+            $columnName = $parts[0];
+
             $derivedUnit = Metrics::getUnit($columnName, $idSite);
-            $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
+            $units[$seriesId] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
     }
