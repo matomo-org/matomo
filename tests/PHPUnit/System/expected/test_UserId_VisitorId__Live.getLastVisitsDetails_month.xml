@@ -255,6 +255,9 @@
 						<itemCategory>Surveillance</itemCategory>
 						<price>10000000000</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Surveillance</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
