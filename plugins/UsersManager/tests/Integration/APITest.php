@@ -157,7 +157,14 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
     }
+    
+    public function tearDown()
+    {
+        Config::getInstance()->General['enable_update_users_email'] = 1;
 
+        parent::tearDown(); 
+    }
+    
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
     {
         $eventTriggered = false;
@@ -338,7 +345,6 @@ class APITest extends IntegrationTestCase
 
         $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
         $this->assertEquals([], $subjects);
-        Config::getInstance()->General['enable_update_users_email'] = 1;
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()
