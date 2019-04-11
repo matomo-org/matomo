@@ -827,7 +827,7 @@ tracking_requests_require_authentication_when_custom_timestamp_newer_than = 8640
 
 ; if set to 1, all the SQL queries will be recorded by the profiler
 ; and a profiling summary will be printed at the end of the request
-; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
+; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
 enable_sql_profiler = 0
 
 [Segments]
