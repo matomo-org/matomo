@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
@@ -121,7 +122,9 @@ class Segment
     {
         // segment metadata
         if (empty($this->availableSegments)) {
-            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
+            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+                'idSites' => $this->idSites, '_hideImplementationData' => 0
+            ));
         }
 
         return $this->availableSegments;
