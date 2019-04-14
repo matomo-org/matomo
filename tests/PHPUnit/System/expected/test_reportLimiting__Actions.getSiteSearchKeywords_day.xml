@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>keyword</label>
+		<nb_visits>10</nb_visits>
+		<nb_hits>10</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>10</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==keyword</segment>
+	</row>
+	<row>
+		<label>keyword20</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>1</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==keyword20</segment>
+	</row>
+	<row>
+		<label>keyword21</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>1</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==keyword21</segment>
+	</row>
+	<row>
+		<label>keyword22</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>1</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<segment>siteSearchKeyword==keyword22</segment>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_visits>37</nb_visits>
+		<nb_hits>37</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>37</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+	</row>
+</result>
