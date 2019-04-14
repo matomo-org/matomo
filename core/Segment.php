@@ -124,7 +124,7 @@ class Segment
         if (empty($this->availableSegments)) {
             $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
                 'idSites' => $this->idSites, '_hideImplementationData' => 0, 'filter_limit' => -1, 'filter_offset' => 0
-            ));
+            ), []);
         }
 
         return $this->availableSegments;
