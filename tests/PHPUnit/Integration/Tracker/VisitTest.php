@@ -414,10 +414,9 @@ class VisitTest extends IntegrationTestCase
 
     public function test_markArchivedReportsAsInvalidIfArchiveAlreadyFinished_shouldConsiderWebsitesTimezone()
     {
-        // The juggling below is needed when UTC and UTC+5 are different dates
+        // The double-handling below is needed to work around weird behaviour when UTC and UTC+5 are different dates
         // Example: 4:32am on 1 April in UTC+5 is 11:32pm on 31 March in UTC
-        // Existing methods in the Date class (like Date::today()) don't handle this properly
-        $midnight = Date::now()->addHour(5)->getStartOfDay()->subHour(5);
+        $midnight = Date::factoryInTimezone('today', 'UTC+5')->setTimezone('UTC+5');
 
         $oneHourAfterMidnight = $midnight->addHour(1)->getDatetime();
         $oneHourBeforeMidnight = $midnight->subHour(1)->getDatetime();
