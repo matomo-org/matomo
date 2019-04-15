@@ -8,10 +8,14 @@
  */
 namespace Piwik\Plugins\Tour;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
+use Piwik\Plugins\Tour\Engagement\ChallengeViewRowEvolution;
+use Piwik\Plugins\Tour\Engagement\ChallengeViewVisitorProfile;
+use Piwik\Plugins\Tour\Engagement\ChallengeViewVisitsLog;
 
 class Tour extends \Piwik\Plugin
 {
@@ -25,7 +29,33 @@ class Tour extends \Piwik\Plugin
             'API.Annotations.add.end' => 'onAnnotationAdded',
             'API.Goals.addGoal.end' => 'onGoalAdded',
             'API.UsersManager.addUser' => 'onUserAdded',
+            'Controller.CoreHome.getRowEvolutionPopover' => 'onViewRowEvolution',
+            'Controller.Live.getLastVisitsDetails' => 'onViewVisitorLog',
+            'Controller.Live.getVisitorProfilePopup' => 'onViewVisitorProfile',
         );
+    }
+
+    private function setSimpleChallengeCompleted($className)
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $annotation = StaticContainer::get($className);
+            $annotation->setCompleted();
+        }
+    }
+
+    public function onViewRowEvolution()
+    {
+        $this->setSimpleChallengeCompleted(ChallengeViewRowEvolution::class);
+    }
+
+    public function onViewVisitorLog()
+    {
+        $this->setSimpleChallengeCompleted(ChallengeViewVisitsLog::class);
+    }
+
+    public function onViewVisitorProfile()
+    {
+        $this->setSimpleChallengeCompleted(ChallengeViewVisitorProfile::class);
     }
 
     public function onAnnotationAdded($response)

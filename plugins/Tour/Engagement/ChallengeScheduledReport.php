@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeScheduledReport extends Challenge
 {
@@ -33,6 +34,11 @@ class ChallengeScheduledReport extends Challenge
         return Piwik::translate('Tour_AddReport');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('ScheduledReports_PluginDescription');
+    }
+
     public function getId()
     {
         return 'add_report';
@@ -46,9 +52,9 @@ class ChallengeScheduledReport extends Challenge
         return $this->completed;
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return  array('module' => 'ScheduledReports', 'action' => 'index', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'ScheduledReports', 'action' => 'index', 'widget' => false));
     }
 
 

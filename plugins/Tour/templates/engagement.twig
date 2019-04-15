@@ -1,30 +1,31 @@
 <div class="widgetBody tourEngagement">
     {% if isCompleted %}
-       <p><strong class="completed">{{ 'Tour_CompletionTitle'|translate }}</strong> {{ 'Tour_CompletionMessage'|translate }}
-        <br />
-        You can now call yourself a true <strong>{{ currentLevel }}</strong>.<br /><br />
-        Share your status on
-           <a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text={{ "Just unlocked the Matomo expert achievement by completing all challenges."|e('url') }}&url={{ "https://matomo.org"|e('url') }}|raw">Twitter</a>,
-           <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?t={{ "Just unlocked the Matomo expert achievement by completing all challenges."|e('url') }}&u={{ "https://matomo.org"|e('url')|raw }}">Facebook</a>,
-           <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/shareArticle?mini=true&url={{ "https://matomo.org"|e('url') }}&title={{ "Just unlocked the Matomo expert achievement by completing all challenges."|e('url')|raw }}">LinkedIn</a>
+       <p><strong class="completed">{{ 'Tour_CompletionTitle'|translate }}</strong>
+           {{ 'Tour_CompletionMessage'|translate }}
+            <br />
+           {{ 'Tour_YouCanCallYourselfExpert'|translate('<strong>', '</strong>')|raw }}<br /><br />
+           {{ 'Tour_ShareYourAchievementOn'|translate }}
+           <a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url') }}&url={{ "https://matomo.org"|e('url') }}|raw">Twitter</a>,
+           <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?t={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url') }}&u={{ "https://matomo.org"|e('url')|raw }}">Facebook</a>,
+           <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/shareArticle?mini=true&url={{ "https://matomo.org"|e('url') }}&title={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url')|raw }}">LinkedIn</a>
        </p>
     {% else %}
-        <p>{{ description }}</p>
+        <p>{{ level.description }}</p>
 
-        <p>You are currently a <strong>{{ currentLevel }}</strong>. Complete {{ challengesNeededForNextLevel }} more challenges and you become a <strong>{{ nextLevel }}</strong>.</p>
+        <p>
+            {{ 'Tour_StatusLevel'|translate('<strong>'~ level.currentLevel ~'</strong>', level.challengesNeededForNextLevel, '<strong>'~ level.nextLevel ~'</strong>')|raw }}
+        </p>
 
         <ul>
             {% for challenge in challenges %}
-                <li class="tourChallenge {{ challenge.id }}">
+                <li class="tourChallenge {{ challenge.id|e('html_attr') }}" title="{{ challenge.description|e('html_attr') }}">
                     {%- if challenge.isCompleted or challenge.isSkipped %}
-                        <span class="icon-ok" title="Completed"></span>
+                        <span class="icon-ok" title="{{ 'Tour_ChallengeCompleted'|translate|e('html_attr') }}"></span>
                     {% else %}
-                        <a href="javascript:void 0;" onclick="tourEngagement.skipChallenge('{{ challenge.id|e('js') }}')" title="Skip this challenge"><span class="icon-hide"></span></a>
+                        <a href="javascript:void 0;" onclick="tourEngagement.skipChallenge('{{ challenge.id|e('js') }}')" title="{{ 'Tour_SkipThisChallenge'|translate|e('html_attr') }}"><span class="icon-hide"></span></a>
                     {% endif %}
                     {% if challenge.url is not empty %}
                         <a href="{{ challenge.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">{{ challenge.name }}</a>
-                    {% elseif challenge.inAppLink is not empty %}
-                        <a href="{{ linkTo(challenge.inAppLink) }}{% if challenge.inAppLinkHash is not empty %}#{{ challenge.inAppLinkHash }}{% endif %}" target="_self">{{ challenge.name }}</a>
                     {% else %}
                         {{ challenge.name }}
                     {% endif %}
@@ -32,13 +33,15 @@
             {% endfor %}
         </ul>
         <hr />
-
+        <p style="text-align: center;padding-bottom: 0;">
         {% if previousPage is not null %}
-            <a class="previousChallenges" onclick="tourEngagement.goToPage({{ previousPage|e('js') }})">&lsaquo; Previous challenges</a>
+            <a class="previousChallenges" onclick="tourEngagement.goToPage({{ previousPage|e('js') }})">&lsaquo; {% if nextPage %}{{ 'General_Previous'|translate }}{% else %}{{ 'Tour_PreviousChallenges'|translate }}{% endif %}</a>
         {% endif %}
         {% if nextPage %}
-            <a class="nextChallenges" onclick="tourEngagement.goToPage({{ nextPage|e('js') }})">Next challenges &rsaquo;</a>
+            {% if previousPage is not null %} | {% endif %}
+            <a class="nextChallenges" onclick="tourEngagement.goToPage({{ nextPage|e('js') }})">{% if previousPage is not null %}{{ 'General_Next'|translate }}{% else %}{{ 'Tour_NextChallenges'|translate }}{% endif %} &rsaquo;</a>
         {% endif %}
+        </p>
         <hr />
         <p class="tourSuperUserNote">{{ 'Tour_OnlyVisibleToSuperUser'|translate('<a href="https://matomo.org/faq/general/faq_35/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</p>
     {% endif %}

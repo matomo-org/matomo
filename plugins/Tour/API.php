@@ -51,10 +51,9 @@ class API extends \Piwik\Plugin\API
             $challenges[] = array(
                 'id' => $challenge->getId(),
                 'name' => $challenge->getName(),
+                'description' => $challenge->getDescription(),
                 'isCompleted' => $challenge->isCompleted(),
                 'isSkipped' => $challenge->isSkipped(),
-                'inAppLink' => $challenge->getInAppLink(),
-                'inAppLinkHash' => $challenge->getInAppLinkHash(),
                 'url' => $challenge->getUrl()
             );
         }
@@ -62,6 +61,12 @@ class API extends \Piwik\Plugin\API
         return $challenges;
     }
 
+    /**
+     * Skip a challenge
+     * @param string $id
+     * @return bool
+     * @throws \Exception
+     */
     public function skipChallenge($id)
     {
         Piwik::checkUserHasSuperUserAccess();

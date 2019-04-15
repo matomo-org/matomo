@@ -12,8 +12,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\UserCountry\Diagnostic\GeolocationDiagnostic;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Url;
 
 class ChallengeConfigureGeolocation extends Challenge
 {
@@ -25,6 +24,11 @@ class ChallengeConfigureGeolocation extends Challenge
     public function getName()
     {
         return Piwik::translate('Tour_ConfigureGeolocation');
+    }
+
+    public function getDescription()
+    {
+        return Piwik::translate('Tour_ConfigureGeolocationDescription');
     }
 
     public function getId()
@@ -42,9 +46,9 @@ class ChallengeConfigureGeolocation extends Challenge
         return $this->completed;
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return array('module' => 'UserCountry', 'action' => 'adminIndex', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'UserCountry', 'action' => 'adminIndex', 'widget' => false));
     }
 
 

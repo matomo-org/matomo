@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\Tour\Dao\DataFinder;
 use Piwik\Plugins\UserCountry\UserCountry;
@@ -26,20 +27,42 @@ class Challenges
         $this->finder = $dataFinder;
     }
 
+    private function isActivePlugin($pluginName)
+    {
+        return Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
+
     public function getChallenges()
     {
         /** @var Challenge[] $challenges */
         $challenges = array(
             StaticContainer::get(ChallengeTrackingCode::class),
-            StaticContainer::get(ChallengeCreatedGoal::class),
-            StaticContainer::get(ChallengeCustomLogo::class),
-            StaticContainer::get(ChallengeAddedUser::class),
-            StaticContainer::get(ChallengeAddedWebsite::class),
-            StaticContainer::get(ChallengeScheduledReport::class),
-            StaticContainer::get(ChallengeCustomiseDashboard::class),
-            StaticContainer::get(ChallengeAddedSegment::class),
-            StaticContainer::get(ChallengeAddedAnnotation::class),
         );
+
+        if ($this->isActivePlugin('Goals')) {
+            $challenges[] = StaticContainer::get(ChallengeCreatedGoal::class);
+        }
+
+        $challenges[] = StaticContainer::get(ChallengeCustomLogo::class);
+
+        if ($this->isActivePlugin('UsersManager')) {
+            $challenges[] = StaticContainer::get(ChallengeAddedUser::class);
+        }
+        if ($this->isActivePlugin('SitesManager')) {
+            $challenges[] = StaticContainer::get(ChallengeAddedWebsite::class);
+        }
+        if ($this->isActivePlugin('ScheduledReports')) {
+            $challenges[] = StaticContainer::get(ChallengeScheduledReport::class);
+        }
+        if ($this->isActivePlugin('Dashboard')) {
+            $challenges[] = StaticContainer::get(ChallengeCustomiseDashboard::class);
+        }
+        if ($this->isActivePlugin('SegmentEditor')) {
+            $challenges[] = StaticContainer::get(ChallengeAddedSegment::class);
+        }
+        if ($this->isActivePlugin('Annotations')) {
+            $challenges[] = StaticContainer::get(ChallengeAddedAnnotation::class);
+        }
 
         if (Controller::isGeneralSettingsAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeDisableBrowserArchiving::class);
@@ -47,6 +70,17 @@ class Challenges
 
         if (UserCountry::isGeoLocationAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeConfigureGeolocation::class);
+        }
+
+        if ($this->isActivePlugin('Live')) {
+            $challenges[] = StaticContainer::get(ChallengeViewVisitsLog::class);
+            $challenges[] = StaticContainer::get(ChallengeViewVisitorProfile::class);
+        }
+
+        $challenges[] = StaticContainer::get(ChallengeViewRowEvolution::class);
+
+        if ($this->isActivePlugin('Marketplace')) {
+            $challenges[] = StaticContainer::get(ChallengeBrowseMarketplace::class);
         }
 
         /**

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeTrackingCode extends Challenge
 {
@@ -33,6 +34,11 @@ class ChallengeTrackingCode extends Challenge
         return Piwik::translate('Tour_EmbedTrackingCode');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('CoreAdminHome_TrackingCodeIntro');
+    }
+
     public function getId()
     {
         return 'track_data';
@@ -46,9 +52,9 @@ class ChallengeTrackingCode extends Challenge
         return $this->completed;
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator', 'widget' => false));
     }
 
 

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeCreatedGoal extends Challenge
 {
@@ -19,14 +20,19 @@ class ChallengeCreatedGoal extends Challenge
         return Piwik::translate('Tour_DefineGoal');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('Tour_DefineGoalDescription');
+    }
+
     public function getId()
     {
         return 'define_goal';
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return array('module' => 'Goals', 'action' => 'manage', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Goals', 'action' => 'manage', 'widget' => false));
     }
 
 

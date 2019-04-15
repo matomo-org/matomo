@@ -9,29 +9,32 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Tour\Dao\DataFinder;
 use Piwik\Url;
 
-class ChallengeAddedUser extends Challenge
+class ChallengeBrowseMarketplace extends Challenge
 {
+
     public function getName()
     {
-        return Piwik::translate('Tour_AddUser');
+        return Piwik::translate('Tour_BrowseMarketplace');
     }
 
     public function getDescription()
     {
-        return Piwik::translate('UsersManager_PluginDescription');
+        return Piwik::translate('Marketplace_PluginDescription');
     }
 
     public function getId()
     {
-        return 'add_user';
+        return 'browse_marketplace';
     }
 
     public function getUrl()
     {
-        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'UsersManager', 'action' => 'index', 'widget' => false));
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'Marketplace', 'action' => 'overview', 'widget' => false));
     }
+
 
 
 }

@@ -9,27 +9,28 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Tour\Dao\DataFinder;
 
-class ChallengeAddedAnnotation extends Challenge
+class ChallengeViewVisitorProfile extends Challenge
 {
     public function getName()
     {
-        return Piwik::translate('Tour_AddAnnotation');
+        return Piwik::translate('Tour_ViewX', Piwik::translate('Live_VisitorProfile'));
     }
 
     public function getDescription()
     {
-        return Piwik::translate('Annotations_PluginDescription');
+        return Piwik::translate('Tour_ViewVisitorProfileDescription');
     }
 
     public function getId()
     {
-        return 'add_annotation';
+        return 'view_visitor_profile';
     }
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/annotations/';
+        return 'https://matomo.org/docs/user-profile/';
     }
 
 

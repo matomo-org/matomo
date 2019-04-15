@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeAddedWebsite extends Challenge
 {
@@ -33,6 +34,11 @@ class ChallengeAddedWebsite extends Challenge
         return Piwik::translate('Tour_AddWebsite');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('SitesManager_PluginDescription');
+    }
+
     public function getId()
     {
         return 'add_website';
@@ -46,9 +52,9 @@ class ChallengeAddedWebsite extends Challenge
         return $this->completed;
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return array('module' => 'SitesManager', 'action' => 'index', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'SitesManager', 'action' => 'index', 'widget' => false));
     }
 
 

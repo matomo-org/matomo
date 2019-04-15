@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Tour\Engagement;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Url;
 
 class ChallengeCustomLogo extends Challenge
 {
@@ -34,6 +35,11 @@ class ChallengeCustomLogo extends Challenge
         return Piwik::translate('Tour_UploadLogo');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('CoreAdminHome_CustomLogoHelpText');
+    }
+
     public function getId()
     {
         return 'setup_branding';
@@ -48,15 +54,9 @@ class ChallengeCustomLogo extends Challenge
         return $this->completed;
     }
 
-    public function getInAppLink()
+    public function getUrl()
     {
-        return array('module' => 'CoreAdminHome', 'action' => 'generalSettings', 'widget' => false);
+        return 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'generalSettings', 'widget' => false)) . '#useCustomLogo';
     }
-
-    public function getInAppLinkHash()
-    {
-        return 'useCustomLogo';
-    }
-
 
 }

@@ -33,6 +33,11 @@ class ChallengeCustomiseDashboard extends Challenge
         return Piwik::translate('Tour_CustomiseDashboard');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('Tour_CustomiseDashboardDescription');
+    }
+
     public function getId()
     {
         return 'customise_dashboard';

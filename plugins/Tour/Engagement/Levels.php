@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Tour\Engagement;
 
+use Piwik\API\Request;
 use Piwik\Piwik;
 
 class Levels
@@ -28,11 +29,11 @@ class Levels
 
     public function getNumChallengesCompleted()
     {
-        $challenges = $this->challenges->getChallenges();
+        $challenges = Request::processRequest('Tour.getChallenges', [], []);
 
         $completed = 0;
         foreach ($challenges as $challenge) {
-            if ($challenge->isSkipped() || $challenge->isCompleted()) {
+            if ($challenge['isSkipped'] || $challenge['isCompleted']) {
                 $completed++;
             }
         }
@@ -95,11 +96,11 @@ class Levels
     public function getLevels()
     {
        return array(
-            0 => 'Matomo Beginner',
-            5 => 'Matomo Intermediate',
-            10 => 'Matomo Professional',
-            15 => 'Matomo Expert',
-            20 => 'Matomo Senior Expert'
+            0 => Piwik::translate('Tour_MatomoBeginner'),
+            5 => Piwik::translate('Tour_MatomoIntermediate'),
+            10 => Piwik::translate('Tour_MatomoProfessional'),
+            15 => Piwik::translate('Tour_MatomoSenior'),
+            20 => Piwik::translate('Tour_MatomoExpert'),
        );
     }
 

@@ -40,17 +40,12 @@ abstract class Challenge
         return $this->hasAttribute(self::APPENDIX_COMPLETED);
     }
 
-    public function getInAppLink()
+    public function getDescription()
     {
         return '';
     }
 
     public function getUrl()
-    {
-        return '';
-    }
-
-    public function getInAppLinkHash()
     {
         return '';
     }
@@ -105,8 +100,11 @@ abstract class Challenge
     {
         $pluginSettings = $this->getPluginSettingsInstance();
         $settings = $pluginSettings->load();
-        $settings[$this->getId() . $appendix] = '1';
-        $pluginSettings->save($settings);
-        self::clearCache();
+
+        if (empty($settings[$this->getId() . $appendix])) {
+            $settings[$this->getId() . $appendix] = '1';
+            $pluginSettings->save($settings);
+            self::clearCache();
+        }
     }
 }

@@ -33,6 +33,11 @@ class ChallengeAddedSegment extends Challenge
         return Piwik::translate('Tour_AddSegment');
     }
 
+    public function getDescription()
+    {
+        return Piwik::translate('SegmentEditor_PluginDescription');
+    }
+
     public function getId()
     {
         return 'add_segment';
