@@ -110,6 +110,8 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public function testApiWithFlattening($apiToCall, $params)
     {
+        self::setUpConfigOptions();
+
         if (empty($params['testSuffix'])) {
             $params['testSuffix'] = '';
         }
