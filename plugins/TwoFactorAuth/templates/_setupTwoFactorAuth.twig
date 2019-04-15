@@ -52,7 +52,7 @@
               autocomplete="off"
               >
             <div piwik-field uicontrol="text" name="authCode" maxlength="6"
-                 title="{{ 'TwoFactorAuth_AuthenticationCode'|translate|e('html_attr') }}"
+                 data-title="{{ 'TwoFactorAuth_AuthenticationCode'|translate|e('html_attr') }}"
                  ng-model="setup2fa.authCode"
                  inline-help="{{ 'TwoFactorAuth_VerifyAuthCodeHelp'|translate|e('html_attr') }}"
                  placeholder="123456">

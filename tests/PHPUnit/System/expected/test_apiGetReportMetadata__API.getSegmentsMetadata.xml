@@ -76,8 +76,15 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Browser</name>
+		<segment>browserName</segment>
+		<acceptedValues>FireFox, Internet Explorer, Chrome, Safari, Opera etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Browser code</name>
 		<segment>browserCode</segment>
-		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
+		<acceptedValues>FF, IE, CH, SF, OP etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -134,8 +141,15 @@
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>Operating system</name>
+		<segment>operatingSystemName</segment>
+		<acceptedValues>Windows, Linux, Mac, Android, iOS etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Operating system code</name>
 		<segment>operatingSystemCode</segment>
-		<acceptedValues>WIN, MAC, LIN, AND, IPD, etc.</acceptedValues>
+		<acceptedValues>WIN, LIN, MAX, AND, IOS etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -312,8 +326,15 @@
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Country</name>
+		<segment>countryName</segment>
+		<acceptedValues>Germany, France, Spain, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
+		<name>Country code</name>
 		<segment>countryCode</segment>
-		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
+		<acceptedValues>ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
