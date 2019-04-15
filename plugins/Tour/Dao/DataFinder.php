@@ -22,31 +22,40 @@ class DataFinder
         return !empty($result);
     }
 
-    public function hasCreatedGoal()
+    public function hasAddedWebsite($login)
     {
-        $sql = sprintf('SELECT idsite FROM %s limit 1', Common::prefixTable('goal'));
+        $sql = sprintf("SELECT count(*) as num_websites FROM %s WHERE creator_login = ?", Common::prefixTable('site'));
 
-        $result = \Piwik\Db::fetchOne($sql, array());
-
-        return !empty($result);
-    }
-
-    public function hasAddedUser()
-    {
-        $sql = sprintf("SELECT count(*) as num_users FROM %s WHERE login != 'anonymous'", Common::prefixTable('user'));
-
-        $result = \Piwik\Db::fetchOne($sql, array());
+        $result = \Piwik\Db::fetchOne($sql, array($login));
 
         return $result > 1;
     }
 
-    public function hasAddedWebsite()
+    public function hasAddedNewEmailReport($login)
     {
-        $sql = sprintf("SELECT count(*) as num_websites FROM %s", Common::prefixTable('site'));
+        $sql = sprintf("SELECT count(*) as num_reports FROM %s WHERE login = ?", Common::prefixTable('report'));
 
-        $result = \Piwik\Db::fetchOne($sql, array());
+        $result = \Piwik\Db::fetchOne($sql, array($login));
 
-        return $result > 1;
+        return $result > 0;
+    }
+
+    public function hasAddedOrCustomisedDashboard($login)
+    {
+        $sql = sprintf("SELECT count(*) as num_dashboards FROM %s WHERE login = ?", Common::prefixTable('user_dashboard'));
+
+        $result = \Piwik\Db::fetchOne($sql, array($login));
+
+        return $result > 0;
+    }
+
+    public function hasAddedSegment($login)
+    {
+        $sql = sprintf("SELECT count(*) as num_segments FROM %s WHERE login = ?", Common::prefixTable('segment'));
+
+        $result = \Piwik\Db::fetchOne($sql, array($login));
+
+        return $result > 0;
     }
 
 }

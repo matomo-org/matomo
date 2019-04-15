@@ -5,11 +5,21 @@
         "UploadLogo": "Upload your logo",
         "AddUser": "Add another user",
         "AddWebsite": "Add another website",
+        "AddReport": "Add a scheduled report",
+        "AddSegment": "Add a segment",
+        "AddAnnotation": "Add an annotation",
+        "ConfigureGeolocation": "Configure geolocation for accurate visitor location detection",
+        "DisableBrowserArchiving": "Disable browser archiving for better performance",
+        "CustomiseDashboard": "Customise dashboard",
         "DefineGoal": "Define a goal",
         "EmbedTrackingCode": "Embed tracking code",
         "CompletionTitle": "Well done!",
         "GettingStarted": "Getting Started",
-        "CompletionMessage": "You have completed all the steps. Give yourself a pat on the back.",
-        "Part1Title": "Welcome to the Matomo family. This is a widget within your dashboard to help you become a Matomo guru. You can skip any step or completely remove the widget when you hover the widget title. Only you as a \"Super User\" can see this widget."
+        "CompletionMessage": "You have completed all the challenges. Give yourself a pat on the back.",
+        "Part1Title": "Welcome to Matomo. This widget helps you become a Matomo expert. You can skip any challenge or completely remove the widget when you hover the widget title.",
+        "Part2Title": "You are doing great on your way to become a Matomo expert but there is still a lot to learn.",
+        "Part3Title": "Great progress! If you continue like this, you become an expert in no time!",
+        "Part4Title": "Great progress! Only a few more challenges to complete.",
+        "OnlyVisibleToSuperUser": "Only you as a %1$sSuper User%2$s can see this widget."
     }
 }

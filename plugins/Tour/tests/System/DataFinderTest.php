@@ -9,7 +9,11 @@
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Plugins\Tour\Engagement\ChallengeAddedWebsite;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Plugins\Goals\API as ApiGoals;
 use Piwik\Tests\Framework\Fixture;
@@ -43,31 +47,43 @@ class DataFinderTest extends SystemTestCase
         $this->assertTrue($this->dataFinder->hasTrackedData());
     }
 
-    public function test_hasCreatedGoal()
-    {
-        $this->assertFalse($this->dataFinder->hasCreatedGoal());
-
-        $api = ApiGoals::getInstance();
-        $api->addGoal(self::$fixture->idSite, 'My Goal', 'url', 'foobar', 'contains', $caseSensitive = false, $revenue = 0);
-
-        $this->assertTrue($this->dataFinder->hasCreatedGoal());
-    }
-
-    public function test_hasAddedUser()
-    {
-        $this->assertFalse($this->dataFinder->hasAddedUser());
-
-        Request::processRequest('UsersManager.addUser', array('userLogin' => 'myerwerwer', 'password' => '2342k4234234', 'email' => 'tesr@matomo.org'));
-        $this->assertTrue($this->dataFinder->hasAddedUser());
-    }
-
     public function test_hasAddedWebsite()
     {
-        $this->assertFalse($this->dataFinder->hasAddedWebsite());
+        Fixture::createWebsite('2014-03-04 00:00:00');
 
-        Fixture::createWebsite('2016-03-03 00:00:00');
+        $this->assertFalse($this->dataFinder->hasAddedWebsite('foobar'));
+        $this->assertTrue($this->dataFinder->hasAddedWebsite(Fixture::ADMIN_USER_LOGIN));
+    }
 
-        $this->assertTrue($this->dataFinder->hasAddedWebsite());
+    public function test_hasAddedSegment()
+    {
+        $this->assertFalse($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
+
+        Request::processRequest('SegmentEditor.add', array(
+            'name' => 'foo', 'definition' => 'visitServerHour==5'
+        ));
+        $this->assertTrue($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function test_hasAddedOrCustomisedDashboard()
+    {
+        $this->assertFalse($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
+
+        Request::processRequest('Dashboard.createNewDashboardForUser', array(
+            'login' => Fixture::ADMIN_USER_LOGIN, 'dashboardName' => 'foo'
+        ));
+        $this->assertTrue($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
+    }
+
+    public function test_hasAddedNewEmailReport()
+    {
+        $this->assertFalse($this->dataFinder->hasAddedNewEmailReport(Fixture::ADMIN_USER_LOGIN));
+
+        Request::processRequest('ScheduledReports.addReport', array(
+            'idSite' => self::$fixture->idSite, 'description' => 'foo', 'period' => 'week', 'hour' => 5,
+            'reportType' => 'email', 'reportFormat' => 'html', 'reports' => array('MultiSites_getAll'), 'parameters' => array('emailMe' => true, 'evolutionGraph' => false, 'displayFormat' => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS)
+        ));
+        $this->assertTrue($this->dataFinder->hasAddedNewEmailReport(Fixture::ADMIN_USER_LOGIN));
     }
 
     public static function getOutputPrefix()

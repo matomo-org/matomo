@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<id>track_data</id>
+		<name>Embed tracking code</name>
+		<isCompleted>1</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>CoreAdminHome</module>
+			<action>trackingCodeGenerator</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+	<row>
+		<id>define_goal</id>
+		<name>Define a goal</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>Goals</module>
+			<action>manage</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+	<row>
+		<id>setup_branding</id>
+		<name>Upload your logo</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>CoreAdminHome</module>
+			<action>generalSettings</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash>useCustomLogo</inAppLinkHash>
+		<url />
+	</row>
+	<row>
+		<id>add_user</id>
+		<name>Add another user</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>UsersManager</module>
+			<action>index</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+	<row>
+		<id>add_website</id>
+		<name>Add another website</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>SitesManager</module>
+			<action>index</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+	<row>
+		<id>add_report</id>
+		<name>Add a scheduled report</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>ScheduledReports</module>
+			<action>index</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+	<row>
+		<id>customise_dashboard</id>
+		<name>Customise dashboard</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink />
+		<inAppLinkHash />
+		<url>https://matomo.org/docs/piwik-tour/#dashboard-widgets</url>
+	</row>
+	<row>
+		<id>add_segment</id>
+		<name>Add a segment</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink />
+		<inAppLinkHash />
+		<url>https://matomo.org/docs/segmentation/</url>
+	</row>
+	<row>
+		<id>add_annotation</id>
+		<name>Add an annotation</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink />
+		<inAppLinkHash />
+		<url>https://matomo.org/docs/annotations/</url>
+	</row>
+	<row>
+		<id>disable_browser_archiving</id>
+		<name>Disable browser archiving for better performance</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink />
+		<inAppLinkHash />
+		<url>https://matomo.org/docs/setup-auto-archiving/</url>
+	</row>
+	<row>
+		<id>configure_geolocation</id>
+		<name>Configure geolocation for accurate visitor location detection</name>
+		<isCompleted>0</isCompleted>
+		<isSkipped>0</isSkipped>
+		<inAppLink>
+			<module>UserCountry</module>
+			<action>adminIndex</action>
+			<widget>0</widget>
+		</inAppLink>
+		<inAppLinkHash />
+		<url />
+	</row>
+</result>

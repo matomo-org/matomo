@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<description>Welcome to Matomo. This widget helps you become a Matomo expert. You can skip any challenge or completely remove the widget when you hover the widget title.</description>
+		<currentLevel>Matomo Beginner</currentLevel>
+		<nextLevel>Matomo Intermediate</nextLevel>
+		<challengesNeededForNextLevel>4</challengesNeededForNextLevel>
+	</row>
+</result>

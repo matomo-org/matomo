@@ -27,15 +27,15 @@ describe("Tour", function () {
 
     it('should skip goal step', function (done) {
         expect.screenshot('widget_skipped_goal').to.be.capture(function (page) {
-            page.click('.tourStep.define_goal .icon-hide');
+            page.click('.tourChannel.define_goal .icon-hide');
         }, done);
     });
 
     it('should show complete message once all completed', function (done) {
         expect.screenshot('widget_completed').to.be.capture(function (page) {
-            page.click('.tourStep.setup_branding .icon-hide');
-            page.click('.tourStep.add_user .icon-hide');
-            page.click('.tourStep.add_website .icon-hide');
+            page.click('.tourChannel.setup_branding .icon-hide');
+            page.click('.tourChannel.add_user .icon-hide');
+            page.click('.tourChannel.add_website .icon-hide');
             page.load(widgetUrl);
         }, done);
     });

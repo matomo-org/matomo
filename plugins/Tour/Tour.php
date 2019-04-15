@@ -9,6 +9,9 @@
 namespace Piwik\Plugins\Tour;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
+use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
 
 class Tour extends \Piwik\Plugin
 {
@@ -18,8 +21,35 @@ class Tour extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Dashboard.changeDefaultDashboardLayout' => 'changeDefaultDashboardLayout'
+            'Dashboard.changeDefaultDashboardLayout' => 'changeDefaultDashboardLayout',
+            'API.Annotations.add.end' => 'onAnnotationAdded',
+            'API.Goals.addGoal.end' => 'onGoalAdded',
+            'API.UsersManager.addUser' => 'onUserAdded',
         );
+    }
+
+    public function onAnnotationAdded($response)
+    {
+        if (Piwik::hasUserSuperUserAccess() && !empty($response)) {
+            $annotation = new ChallengeAddedAnnotation();
+            $annotation->setCompleted();
+        }
+    }
+
+    public function onGoalAdded($response)
+    {
+        if (Piwik::hasUserSuperUserAccess() && !empty($response)) {
+            $annotation = new ChallengeCreatedGoal();
+            $annotation->setCompleted();
+        }
+    }
+
+    public function onUserAdded($response)
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $annotation = new ChallengeAddedUser();
+            $annotation->setCompleted();
+        }
     }
 
     public function changeDefaultDashboardLayout(&$defaultLayout)
