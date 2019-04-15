@@ -11,7 +11,7 @@
     <div class="content" style="text-align:left;">
 
         {% set helpMessage %}
-            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/faq/">','</a>','</li><li>')|raw }}
+            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/">','</a>','</li><li>')|raw }}
         {% endset %}
 
         {% if coreError %}
@@ -51,17 +51,20 @@
                 {% endif %}
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
                 <pre>{{ commandUpgradePiwik }}</pre>
-                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fmatomo.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</p>
+                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to/#faq_111">', '</a>')|raw }}</p>
 
-                {% if queries is not empty %}
+                {% if migrations is not empty %}
+                    <p>{{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}</p>
                     <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
-                    <div id="sqlQueries" style="display:none;">
-                        <pre># {{ 'CoreUpdater_ListOfSqlQueriesFYI'|translate(piwik_version) }}<br/>{% for query in queries %}{{ query }}<br/>{% endfor %}</pre>
+                    {% for group in migrations %}
+                    <div class="sqlQueries" style="display:none;">
+                        <pre># {% if group.type == 'sql' %}{{ 'CoreUpdater_TheseSqlQueriesWillBeExecuted'|translate }}{% else %}{{ 'CoreUpdater_TheseCommandsWillBeExecuted'|translate }}{% endif %} <br/>{% for migration in group.migrations %}{{ migration }}<br/>{% endfor %}</pre>
                     </div>
+                    {% endfor %}
                 {% endif %}
 
                 <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
-                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer' target='_blank' href='https://matomo.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
+                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer noopener' target='_blank' href='https://matomo.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
 
                 <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
@@ -79,7 +82,7 @@
             {% if coreToUpdate or pluginNamesToUpdate|length > 0 or dimensionsToUpdate|length > 0  %}
                 <form action="index.php" id="upgradeCorePluginsForm" class="clearfix" data-updating="{{ 'CoreUpdater_Updating'|translate }}...">
                     <input type="hidden" name="updateCorePlugins" value="1"/>
-                    {% if queries|length == 1 %}
+                    {% if queryCount == 1 %}
                         <input type="submit" class="btn right" value="{{ 'General_ContinueToPiwik'|translate }}"/>
                     {% else %}
                         <input type="submit" class="btn right" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>

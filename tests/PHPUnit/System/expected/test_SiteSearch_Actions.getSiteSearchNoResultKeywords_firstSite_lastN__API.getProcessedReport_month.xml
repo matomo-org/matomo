@@ -45,7 +45,11 @@
 		<result prettyDate="July 2010" />
 	</reportData>
 	<reportMetadata>
-		<result prettyDate="January 2010" />
+		<result prettyDate="January 2010">
+			<row>
+				<segment>siteSearchKeyword==No+Result+Keyword%21</segment>
+			</row>
+		</result>
 		<result prettyDate="February 2010" />
 		<result prettyDate="March 2010" />
 		<result prettyDate="April 2010" />
@@ -56,5 +60,9 @@
 	<reportTotal>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
+		<sum_time_spent>288</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<nb_pages_per_search>1</nb_pages_per_search>
 	</reportTotal>
 </result>

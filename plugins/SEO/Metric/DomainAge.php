@@ -74,16 +74,12 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeArchiveOrg($domain)
     {
-        $data = $this->getUrl('https://wayback.archive.org/web/*/' . urlencode($domain));
-        preg_match('#<a href=\"([^>]*)' . preg_quote($domain) . '/\">([^<]*)<\/a>#', $data, $p);
-        if (!empty($p[2])) {
-            $value = strtotime($p[2]);
-            if ($value === false) {
-                return 0;
-            }
-            return $value;
+        $response = $this->getUrl('https://archive.org/wayback/available?timestamp=19900101&url=' . urlencode($domain));
+        $data = json_decode($response, true);
+        if (empty($data["archived_snapshots"]["closest"]["timestamp"])) {
+            return 0;
         }
-        return 0;
+        return strtotime($data["archived_snapshots"]["closest"]["timestamp"]);
     }
 
     /**
@@ -115,7 +111,7 @@ class DomainAge implements MetricsProvider
     private function getAgeWhoisCom($domain)
     {
         $data = $this->getUrl('https://www.whois.com/whois/' . urlencode($domain));
-        preg_match('#(?:Creation Date|Created On|created):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        preg_match('#(?:Creation Date|Created On|created|Registration Date):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
             if ($value === false) {
@@ -130,12 +126,6 @@ class DomainAge implements MetricsProvider
     {
         try {
             return $this->getHttpResponse($url);
-        } catch (\Exception $e) {
-        }
-
-        $httpUrl = str_replace('https://', 'http://', $url);
-        try {
-            return $this->getHttpResponse($httpUrl);
         } catch (\Exception $e) {
             $this->logger->warning('Error while getting SEO stats (domain age): {message}', array('message' => $e->getMessage()));
             return '';

@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "ce site web uniquement",
         "SegmentIsDisplayedForWebsite": "et traité pour",
         "SegmentNotApplied": "Segment \"%s\" non appliqué",
-        "SegmentNotAppliedMessage": "Vous êtes en train de demander des données for le segment personnalisé '%s', la configuration actuelle de Matomo empêche la génération en temps réelle de rapport pour des raisons de performance.",
+        "SegmentNotAppliedMessage": "Vous avez fait la demande de donnée pour le segment personnalisé \"%s\", la configuration de ce Matomo empêche l'analyse en temps réel des rapports pour des raisons de performance.",
         "SelectSegmentOfVisits": "Sélectionnez un segment de visites :",
         "ThisSegmentIsVisibleTo": "Ce segment est visible pour :",
         "VisibleToAllUsers": "tous les utilisateurs",
@@ -36,6 +36,22 @@
         "SegmentXIsAUnionOf": "%s est une union des segments suivants :",
         "CustomSegment": "Segment personnalisé",
         "SegmentOperatorIsNullOrEmpty": "Est nul ou vide",
-        "SegmentOperatorIsNotNullNorEmpty": "n'est pas nul ou vide"
+        "SegmentOperatorIsNotNullNorEmpty": "n'est pas nul ou vide",
+        "UnprocessedSegmentNoData1": "Ces rapports ne contiennent aucune donnée car le segment %1$s que vous avez demandé n'a pas encore été analysé par le système.",
+        "UnprocessedSegmentNoData2": "Les données de ce segment devraient devenir disponible dans quelques heures quand l'analyse se terminera. (ce ne n'est pas le cas il est possible qu'il y ait un problème).",
+        "UnprocessedSegmentInVisitorLog1": "%1$sPendant ce temps vous pouvez utiliser je journal des visiteurs %2$s afin de tester votre segment pour savoir s'il va identifier vos utilisateurs correctement en l'appliquant ici.",
+        "UnprocessedSegmentInVisitorLog2": "Quand appliqué, visualisez immédiatement quelles visites et actions correspondent à votre segment.",
+        "UnprocessedSegmentInVisitorLog3": "Ceci peut vous aider à confirmer que votre segment correspond aux utilisateurs et actions auxquels vous vous attendez.",
+        "UnprocessedSegmentApiError1": "Le segment \"%1$s\" est définit avec \"%2$s\" mais Matomo n'est pas configuré pour analyser les rapports de segments lors de requêtes de l'API.",
+        "UnprocessedSegmentApiError2": "Afin de visualiser les donnés de ce rapport à l'avenir, vous devez modifier votre segment et sélectionner l'option nommée \"%s\".",
+        "UnprocessedSegmentApiError3": "Ensuite après quelques heures les données de votre segment devraient devenir disponibles depuis l'API. (sinon, il est possible qu'il y ait un problème)",
+        "CustomUnprocessedSegmentApiError1": "Le segment que vous avez demandé n'a pas encore été créé dans l'éditeur de segment et les données du rapport n'ont pas été pré-analysées.",
+        "CustomUnprocessedSegmentApiError2": "Afin de voir des données pour ce segment, vous devez vous rendre sur Matomo et créer ce segment manuellement dans l'éditeur de segment.",
+        "CustomUnprocessedSegmentApiError3": "(Autrement vous pouvez créer un nouveau segment de manière programmatique en utilisant la méthode de l'API SegmentEditor.add).",
+        "CustomUnprocessedSegmentApiError4": "Une fois le segment créé depuis l'éditeur (ou depuis l'API), ce message d'erreur va disparaitre et en quelques heures vous verrez des données de rapport segmenté, ce après que les données de ce segment aient été pré-analysées. (sinon, il est possible qu'il y ait un problème)",
+        "CustomUnprocessedSegmentApiError5": "Veuillez noter que vous pouvez tester le fonctionnement de votre segment sans avoir à attendre qu'il soit analysé en utilisant l'API Live.GetLastVisitsDetails.",
+        "CustomUnprocessedSegmentApiError6": "Lorsque vous utilisez la méthode de l'API, vous verrez quels utilisateurs et actions ont été identifiées par votre paramètres &segment=.",
+        "CustomUnprocessedSegmentNoData": "Afin de voir des données pour ce segment, vous devez le créer manuellement dans l'éditeur de segment, puis attendre quelques heures afin que la pré-analyse se termine.",
+        "AddThisToMatomo": "Ajouter ce segment à Matomo"
     }
 }

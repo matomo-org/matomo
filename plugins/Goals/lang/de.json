@@ -43,7 +43,7 @@
         "DaysToConv": "Tage bis zur Konversion",
         "Details": "Ziel-Details",
         "DefaultGoalConvertedOncePerVisit": "(default) Ziel kann nur einmal pro Besuch erreicht werden",
-        "DefaultRevenue": "Standard Zielumsatz ist",
+        "DefaultRevenueLabel": "Standard Ertrags-Ziel",
         "DefaultRevenueHelp": "Das Absenden eines Kontaktformulars durch einen Besucher kann zum Beispiel durchschnittlich 10 € wert sein. Matomo hilft Ihnen, zu verstehen, wie sich Ihre Besucher-Segmente verhalten.",
         "DeleteGoalConfirm": "Wollen sie wirklich das Ziel %s löschen?",
         "DocumentationRevenueGeneratedByProductSales": "Verkaufsumsatz ohne Steuer, Versand und Rabatt",
@@ -64,6 +64,9 @@
         "GoalIsTriggeredWhen": "Ziel ist erreicht, wenn",
         "GoalName": "Name des Ziels",
         "Goals": "Ziele",
+        "NGoals": "%s Ziele",
+        "NRevenue": "%s Umsatz",
+        "NItems": "%s Artikel",
         "ManageGoals": "Ziele verwalten",
         "GoalsOverview": "Ziel-Übersicht",
         "GoalsOverviewDocumentation": "Dies ist eine Übersicht über die Ziel-Konversionen. Zu Beginn zeigt der Graph die Summe aller Konversionen an. %s Darunter können Sie die Berichte zu Konversionen der einzelnen Ziele sehen. Die Sparklines (kleine Graphen) können durch Klicken vergrößert werden.",
@@ -77,7 +80,7 @@
         "MatchesExpression": "entspricht dem Ausdruck %s",
         "NewGoalIntro": "Tracken von Konversions-Zielen ist eine der effizientesten Möglichkeiten zur Messung und Verbesserung Ihrer geschäftlichen Ziele.",
         "NewVisitorsConversionRateIs": "Umsätze pro neuem Besucher: %s",
-        "NoGoalsNeedAccess": "Nur ein (Haupt-)Administrator kann Ziele für eine gegebene Website verwalten. Bitte fragen Sie ihren Matomo Administrator, um Ziele für ihre Webseite aufzustellen. <br> Tracking Ziele sind ein großartiger Weg, ihre Webseite-Performance zu verstehen und zu maximieren!",
+        "NoGoalsNeedAccess2": "Nur ein Benutzer mit Schreibberechtigung, ein Administrator oder ein Benutzer mit Super User Berechtigung kann Ziele für eine bestimmte Website verwalten. Bitte fragen Sie bei Ihrem Matomo Administrator nach, um ein Ziel für Ihre Website vorzugeben. <br>Ziele zu tracken ist gut geeignet um die Leistungsfähigkeit Ihrer Website zu verstehen und zu maximieren!",
         "NoConversionsNoReportsMessage": "Es werden keine Berichte angezeigt, da keine Konversionen für das gewählte Ziel und den Zeitraum existieren.",
         "NeedAccess": "Nur ein (Haupt-)Administrator kann Ziele für eine gegebene Website verwalten.",
         "Optional": "(optional)",
@@ -109,6 +112,10 @@
         "WhenVisitors": "wenn vom Besucher",
         "WhereThe": "bei denen die",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Die besuchte Seite muss einen Aufruf der JavaScript-Methode \"trackGoal\" enthalten (%1$serfahren Sie mehr%2$s)",
-        "YouCanEnableEcommerceReports": "Sie können %1$s für diese Website auf der Seite %2$s aktivieren."
+        "YouCanEnableEcommerceReports": "Sie können %1$s für diese Website auf der Seite %2$s aktivieren.",
+        "UseEventValueAsRevenue": "Den Ereigniswert (falls er existiert) als Zielertragsumsatz verwenden.",
+        "GoalRevenue": "Ertrags-Ziel",
+        "EventValueAsRevenueHelp": "Wenn das passende Ereignis einen Ertrag hat, und dieser Ertrag als Ereignis-Wert getrackt wird, können Sie diese Option verwenden, um den Ereignis-Wert als Zielertragsumsatz aufzuzeichnen. Wenn Ihr Ertrags-Ziel im Umsatz nicht variiert, können Sie diese Option ignorieren und einfach oebn einen Standardertrag setzen.",
+        "EventValueAsRevenueHelp2": "Hinweis: Wenn sowohl ein Ertragsziel als auch ein Ereignis-Wert definiert ist, wird der Ereignis-Wert verwendet. Wenn diese Option aktiviert ist und in einer Anfrage kein Ereignis-Wert gesangt wird, dann wird das Standard Ertrags-Ziel (falls definiert) verwendet."
     }
 }

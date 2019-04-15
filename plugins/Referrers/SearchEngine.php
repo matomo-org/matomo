@@ -23,7 +23,7 @@ class SearchEngine extends Singleton
     const OPTION_STORAGE_NAME = 'SearchEngineDefinitions';
 
     /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/piwik/searchengine-and-social-list/SearchEngines.yml';
+    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/SearchEngines.yml';
 
     protected $definitionList = null;
 
@@ -54,7 +54,7 @@ class SearchEngine extends Singleton
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
             if ($list) {
-                $this->definitionList = unserialize(base64_decode($list));
+                $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
                 $yml                  = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);

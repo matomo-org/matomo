@@ -43,8 +43,8 @@
         "DaysToConv": "Giorni alla Conversione",
         "Details": "Dettagli Goal",
         "DefaultGoalConvertedOncePerVisit": "(default) Un Goal può essere convertito solo una volta per ogni visita",
-        "DefaultRevenue": "Il ricavo predefinito per l'obiettivo è",
-        "DefaultRevenueHelp": "Per esempio, un Form di Contatto inviato da un visitatore può valere mediamente $10. Matomo pu%ograve; aiutarti a capire quanto rendono i tuoi visitatori.",
+        "DefaultRevenueLabel": "Ricavo predefinito obiettivo",
+        "DefaultRevenueHelp": "Per esempio, un Form di Contatto inviato da un visitatore può valere mediamente $10. Matomo può aiutarti a capire quanto rendono i tuoi visitatori.",
         "DeleteGoalConfirm": "Sei sicuro di voler cancellare il Goal %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendite prodotti. Escluse tasse, spedizione e sconto",
         "Download": "Scarica un file",
@@ -64,6 +64,9 @@
         "GoalIsTriggeredWhen": "L'obiettivo si attiva quando",
         "GoalName": "Nome Goal",
         "Goals": "Goals (Obiettivi)",
+        "NGoals": "%s obiettivi",
+        "NRevenue": "%s di ricavo",
+        "NItems": "%s elementi",
         "ManageGoals": "Gestione Obiettivi (Goals)",
         "GoalsOverview": "Panoramica Goal",
         "GoalsOverviewDocumentation": "Questa è una panoramica delle vostre conversioni degli obiettivi. Inizialmente il grafico mostra la somma di tutte le conversioni. %sSotto il grafico è possibile vedere i reports di conversione per ciascuno dei tuoi obiettivi. Le sparklines possono essere ingrandite cliccandoci sopra.",
@@ -77,7 +80,7 @@
         "MatchesExpression": "soddisfa l'espressione %s",
         "NewGoalIntro": "Il tracciamento delle Conversioni Goal è uno dei modi più efficaci per misurare e migliorare i vostri obiettivi di business.",
         "NewVisitorsConversionRateIs": "Il rapporto di conversione dei nuovi visitatori è %s",
-        "NoGoalsNeedAccess": "Solo un Amministratore con privilegi di Super User può gestire gli Obiettivi di un dato sito web. Chiedi al tuo amministratore di Matomo di impostare un Goal per il tuo sito. <br>Tracciare i Goal è un grande modo per aiutare a capire e a massimizzare le prestazioni del tuo sito web!",
+        "NoGoalsNeedAccess2": "Solo un utente con diritti di scrittura, un Amministratore o un Super User può gestire gli Obiettivi per un determinato sito web. Chiedi al tuo amministratore di Matomo di impostare un Obiettivo per il tuo sito web. <br>Il tracciamento dei Goal è un grande modo per capire e massimizzare le prestazioni del tuo sito!",
         "NoConversionsNoReportsMessage": "I report non vengono visualizzati perché non ci sono dati di conversione per il goal e il periodo selezionati.",
         "NeedAccess": "Solo un Amministratore o un utente con privilegi di Super User può gestire gli Obiettivi di un dato sito.",
         "Optional": "(opzionale)",
@@ -109,6 +112,10 @@
         "WhenVisitors": "quando i visitatori",
         "WhereThe": "dove le",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La pagina visitata deve contenere una chiamata al metodo JavaScript 'trackGoal' (%1$sleggi di più%2$s)",
-        "YouCanEnableEcommerceReports": "Puoi abilitare %1$s per questo sito nella pagina %2$s."
+        "YouCanEnableEcommerceReports": "Puoi abilitare %1$s per questo sito nella pagina %2$s.",
+        "UseEventValueAsRevenue": "Usa il valore evento (se esiste) come ricavo della conversione obiettivo.",
+        "GoalRevenue": "Ricavi Obiettivo",
+        "EventValueAsRevenueHelp": "Se l'evento di cui si sta eseguendo la corrispondenza ha dei ricavi, ed essi sono tracciati come valore dell'evento, è possibile abilitare questa opzione per registrare il valore dell'evento come ricavi della conversione dell'obiettivo. Se le entrate del tuo obiettivo non variano in base alla conversione, puoi ignorare questa opzione e impostare solo le entrate predefinite qui sopra.",
+        "EventValueAsRevenueHelp2": "Nota: se sono definiti sia un guadagno obiettivo che un valore evento, verrà utilizzato il valore dell'evento. Se questa opzione è abilitata e nessun valore evento viene inviato in una richiesta, verranno utilizzate le entrate predefinite (se definite)."
     }
 }

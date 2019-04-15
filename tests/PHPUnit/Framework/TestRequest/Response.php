@@ -26,13 +26,13 @@ class Response
 
     private $requestUrl;
 
-    public function __construct($apiResponse, $params, $requestUrl)
+    public function __construct($apiResponse, $params, $requestUrl, $normalize = true)
     {
         $this->params = $params;
         $this->requestUrl = $requestUrl;
 
         $apiResponse = (string) $apiResponse;
-        $this->processedResponseText = $this->normalizeApiResponse($apiResponse);
+        $this->processedResponseText = $normalize ? $this->normalizeApiResponse($apiResponse) : $apiResponse;
     }
 
     public function getResponseText()
@@ -56,7 +56,7 @@ class Response
         return new Response($contents, $params, $requestUrl);
     }
 
-    public static function loadFromApi($params, $requestUrl)
+    public static function loadFromApi($params, $requestUrl, $normalize = true)
     {
         $testRequest = new Request($requestUrl);
 
@@ -64,7 +64,7 @@ class Response
         // with format=original, objects or php arrays can be returned.
         $response = (string) $testRequest->process();
 
-        return new Response($response, $params, $requestUrl);
+        return new Response($response, $params, $requestUrl, $normalize);
     }
 
     public static function assertEquals(Response $expected, Response $actual, $message = false)
@@ -124,7 +124,9 @@ class Response
 
     private function removeTodaysDate($apiResponse)
     {
-        return str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $apiResponse);
+        $result = preg_replace('/' . date('Y-m-d') . ' [0-9]{2}:[0-9]{2}:[0-9]{2}/', 'today-date-removed-in-tests', $apiResponse);
+        $result = str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $result);;
+        return $result;
     }
 
     private function normalizeEncodingPhp533($apiResponse)
@@ -295,6 +297,11 @@ class Response
      */
     private function replacePiwikUrl($apiResponse)
     {
-        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
+        $rootUrl = Fixture::getRootUrl();
+        $rootUrlRel = str_replace(array('http://', 'https://'), '//', $rootUrl);
+
+        $apiResponse = str_replace($rootUrl, "http://example.com/piwik/", $apiResponse);
+        $apiResponse = str_replace($rootUrlRel, "//example.com/piwik/", $apiResponse);
+        return $apiResponse;
     }
 }

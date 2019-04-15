@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	
+	<hasMoreVisits>0</hasMoreVisits>
 	<totalVisits>31</totalVisits>
 	<totalVisitDuration>0</totalVisitDuration>
 	<totalActions>31</totalActions>
@@ -21,21 +22,25 @@
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
-			<idVisit>31</idVisit>
+			<idVisit>32</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
 					<url>http://example.org/my/dir/page2</url>
 					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>6</pageIdAction>
+					<pageIdAction>8</pageIdAction>
 					
 					
-					<pageId>31</pageId>
+					<pageId>32</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -47,6 +52,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -76,12 +82,136 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
+			<operatingSystem>Unknown</operatingSystem>
+			<operatingSystemName>Unknown</operatingSystemName>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
+			<operatingSystemCode>UNK</operatingSystemCode>
+			<operatingSystemVersion>UNK</operatingSystemVersion>
+			<browserFamily />
+			<browserFamilyDescription>Unknown</browserFamilyDescription>
+			<browser>Unknown</browser>
+			<browserName>Unknown</browserName>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
+			<browserCode>UNK</browserCode>
+			<browserVersion />
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+			<events>0</events>
+			<continent>Unknown</continent>
+			<continentCode>unk</continentCode>
+			<country>Unknown</country>
+			<countryCode>xx</countryCode>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+			<region />
+			<regionCode />
+			<city />
+			<location>Unknown</location>
+			<latitude />
+			<longitude />
+			<visitLocalTime>12:34:06</visitLocalTime>
+			<visitLocalHour>12</visitLocalHour>
+			<daysSinceLastVisit>0</daysSinceLastVisit>
+			<customVariables>
+			</customVariables>
+			<resolution>1024x768</resolution>
+			<plugins>cookie, flash, java</plugins>
+			<pluginsIcons>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+					<pluginName>flash</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+					<pluginName>java</pluginName>
+				</row>
+			</pluginsIcons>
+		</row>
+		<row>
+			<idSite>1</idSite>
+			<idVisit>31</idVisit>
+			<visitIp>156.5.3.2</visitIp>
+			
+			<fingerprint>5041e282fc23fef1</fingerprint>
+			<actionDetails>
+				<row>
+					<type>action</type>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>6</pageIdAction>
+					
+					
+					<pageId>31</pageId>
+					<bandwidth />
+					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
+				</row>
+			</actionDetails>
+			<goalConversions>0</goalConversions>
+			<siteCurrency>USD</siteCurrency>
+			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			<siteName>Piwik test</siteName>
+			
+			
+			
+			
+			
+			
+			<userId />
+			<visitorType>new</visitorType>
+			<visitorTypeIcon />
+			<visitConverted>0</visitConverted>
+			<visitConvertedIcon />
+			<visitCount>1</visitCount>
+			<visitEcommerceStatus>none</visitEcommerceStatus>
+			<visitEcommerceStatusIcon />
+			<daysSinceFirstVisit>0</daysSinceFirstVisit>
+			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+			<visitDuration>0</visitDuration>
+			<visitDurationPretty>0s</visitDurationPretty>
+			<searches>0</searches>
+			<actions>1</actions>
+			<interactions>1</interactions>
+			<referrerType>direct</referrerType>
+			<referrerTypeName>Direct Entry</referrerTypeName>
+			<referrerName />
+			<referrerKeyword />
+			<referrerKeywordPosition />
+			<referrerUrl />
+			<referrerSearchEngineUrl />
+			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
+			<languageCode />
+			<language>Unknown</language>
+			<deviceType>Unknown</deviceType>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
+			<deviceBrand>Unknown</deviceBrand>
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -139,18 +269,22 @@
 			<idVisit>30</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 2</pageTitle>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 1</pageTitle>
 					<pageIdAction>4</pageIdAction>
 					
 					
 					<pageId>30</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -162,6 +296,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -191,12 +326,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -254,18 +391,22 @@
 			<idVisit>29</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 1</pageTitle>
-					<pageIdAction>2</pageIdAction>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 0</pageTitle>
+					<pageIdAction>9</pageIdAction>
 					
 					
 					<pageId>29</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -277,6 +418,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -306,12 +448,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -369,18 +513,22 @@
 			<idVisit>28</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page3</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>7</pageIdAction>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>8</pageIdAction>
 					
 					
 					<pageId>28</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -392,6 +540,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -421,12 +570,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -484,18 +635,22 @@
 			<idVisit>27</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page2</url>
-					<pageTitle>incredible title 2</pageTitle>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 1</pageTitle>
 					<pageIdAction>6</pageIdAction>
 					
 					
 					<pageId>27</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -507,6 +662,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -536,12 +692,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -599,18 +757,22 @@
 			<idVisit>26</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 1</pageTitle>
+					<url>http://example.org/my/dir/page0</url>
+					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>4</pageIdAction>
 					
 					
 					<pageId>26</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -622,6 +784,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -651,12 +814,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -714,18 +879,22 @@
 			<idVisit>25</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page0</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>2</pageIdAction>
+					<url>http://example.org/my/dir/page3</url>
+					<pageTitle>incredible title 2</pageTitle>
+					<pageIdAction>9</pageIdAction>
 					
 					
 					<pageId>25</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -737,6 +906,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -766,12 +936,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -829,18 +1001,22 @@
 			<idVisit>24</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page3</url>
-					<pageTitle>incredible title 2</pageTitle>
-					<pageIdAction>7</pageIdAction>
+					<url>http://example.org/my/dir/page2</url>
+					<pageTitle>incredible title 1</pageTitle>
+					<pageIdAction>8</pageIdAction>
 					
 					
 					<pageId>24</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -852,6 +1028,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -881,12 +1058,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -944,18 +1123,22 @@
 			<idVisit>23</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
-					<url>http://example.org/my/dir/page2</url>
-					<pageTitle>incredible title 1</pageTitle>
+					<url>http://example.org/my/dir/page1</url>
+					<pageTitle>incredible title 0</pageTitle>
 					<pageIdAction>6</pageIdAction>
 					
 					
 					<pageId>23</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -967,6 +1150,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -996,127 +1180,14 @@
 			<referrerUrl />
 			<referrerSearchEngineUrl />
 			<referrerSearchEngineIcon />
+			<referrerSocialNetworkUrl />
+			<referrerSocialNetworkIcon />
 			<languageCode />
 			<language>Unknown</language>
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
-			<operatingSystem>Unknown</operatingSystem>
-			<operatingSystemName>Unknown</operatingSystemName>
-			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-			<operatingSystemCode>UNK</operatingSystemCode>
-			<operatingSystemVersion>UNK</operatingSystemVersion>
-			<browserFamily />
-			<browserFamilyDescription>Unknown</browserFamilyDescription>
-			<browser>Unknown</browser>
-			<browserName>Unknown</browserName>
-			<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-			<browserCode>UNK</browserCode>
-			<browserVersion />
-			<totalEcommerceRevenue>0</totalEcommerceRevenue>
-			<totalEcommerceConversions>0</totalEcommerceConversions>
-			<totalEcommerceItems>0</totalEcommerceItems>
-			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-			<totalAbandonedCarts>0</totalAbandonedCarts>
-			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-			<events>0</events>
-			<continent>Unknown</continent>
-			<continentCode>unk</continentCode>
-			<country>Unknown</country>
-			<countryCode>xx</countryCode>
-			<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
-			<region />
-			<regionCode />
-			<city />
-			<location>Unknown</location>
-			<latitude />
-			<longitude />
-			<visitLocalTime>12:34:06</visitLocalTime>
-			<visitLocalHour>12</visitLocalHour>
-			<daysSinceLastVisit>0</daysSinceLastVisit>
-			<customVariables>
-			</customVariables>
-			<resolution>1024x768</resolution>
-			<plugins>cookie, flash, java</plugins>
-			<pluginsIcons>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-					<pluginName>cookie</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-					<pluginName>flash</pluginName>
-				</row>
-				<row>
-					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-					<pluginName>java</pluginName>
-				</row>
-			</pluginsIcons>
-		</row>
-		<row>
-			<idSite>1</idSite>
-			<idVisit>22</idVisit>
-			<visitIp>156.5.3.2</visitIp>
-			
-			<actionDetails>
-				<row>
-					<type>action</type>
-					<url>http://example.org/my/dir/page1</url>
-					<pageTitle>incredible title 0</pageTitle>
-					<pageIdAction>4</pageIdAction>
-					
-					
-					<pageId>22</pageId>
-					<bandwidth />
-					<interactionPosition>1</interactionPosition>
-					<icon />
-					
-					<bandwidth_pretty>0 M</bandwidth_pretty>
-				</row>
-			</actionDetails>
-			<goalConversions>0</goalConversions>
-			<siteCurrency>USD</siteCurrency>
-			<siteCurrencySymbol>$</siteCurrencySymbol>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<userId />
-			<visitorType>new</visitorType>
-			<visitorTypeIcon />
-			<visitConverted>0</visitConverted>
-			<visitConvertedIcon />
-			<visitCount>1</visitCount>
-			<visitEcommerceStatus>none</visitEcommerceStatus>
-			<visitEcommerceStatusIcon />
-			<daysSinceFirstVisit>0</daysSinceFirstVisit>
-			<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-			<visitDuration>0</visitDuration>
-			<visitDurationPretty>0s</visitDurationPretty>
-			<searches>0</searches>
-			<actions>1</actions>
-			<interactions>1</interactions>
-			<referrerType>direct</referrerType>
-			<referrerTypeName>Direct Entry</referrerTypeName>
-			<referrerName />
-			<referrerKeyword />
-			<referrerKeywordPosition />
-			<referrerUrl />
-			<referrerSearchEngineUrl />
-			<referrerSearchEngineIcon />
-			<languageCode />
-			<language>Unknown</language>
-			<deviceType>Unknown</deviceType>
-			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1227,7 +1298,7 @@
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
 				<row>
-					<name>Unknown</name>
+					<name>Generic Desktop</name>
 					<count>1</count>
 				</row>
 			</devices>

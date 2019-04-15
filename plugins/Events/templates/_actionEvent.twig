@@ -3,7 +3,7 @@
         {% if action.pageTitle|default(false) is not empty %}
             <span class="truncated-text-line">{{ action.pageTitle|rawSafeDecoded }}</span>
         {% endif %}
-        <img src='plugins/Morpheus/images/event.png' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
+        <img src='plugins/Morpheus/images/event.svg' title='{{ 'Events_Event'|translate }}' class="action-list-action-icon event">
         <span class="truncated-text-line event">{{ action.eventCategory|rawSafeDecoded }}
             - {{ action.eventAction|rawSafeDecoded }} {% if action.eventName is defined %}- {{ action.eventName|rawSafeDecoded }}{% endif %} {% if action.eventValue is defined %}[{{ action.eventValue }}]{% endif %}</span>
         {% if action.url is not empty %}
@@ -15,7 +15,7 @@
                 action.url|trim|lower starts with 'data:' %}
                     {{ action.url }}
                 {% else %}
-                    <a href="{{ action.url }}" rel="noreferrer" target="_blank" class="truncated-text-line">
+                    <a href="{{ action.url|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="truncated-text-line">
                         {{ action.url|replace({'http://': '', 'https://': ''}) }}
                     </a>
                 {% endif %}

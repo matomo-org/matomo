@@ -9,7 +9,6 @@
         "TopLinkTooltip": "Acceseaza datele tale de Web Analytics in mod organizat prin intermediul unui simplu API in json, xml, etc.",
         "UserAuthentication": "Identificare utilizator",
         "UsingTokenAuth": "Daca vrei sa %1$s preiei date printr-un script, crontab etc. %2$s este necesar sa adaugi parametrul %3$s la URL-urile API care cer autentificare.",
-        "Glossary": "Glosar",
-        "LearnAboutCommonlyUsedTerms": "Învaţă cei mai uzuali termeni de analiză Matomo: %1$s şi %2$s"
+        "Glossary": "Glosar"
     }
 }

@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
+use Piwik\Cache;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -29,6 +31,8 @@ class Update extends TranslationBase
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of all language files')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
+            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -49,6 +53,7 @@ class Update extends TranslationBase
         }
 
         $plugin = $input->getOption('plugin');
+        $forceAllPlugins = $input->getOption('all');
 
         if (!$input->isInteractive()) {
             $output->writeln("(!) Non interactive mode: New languages will be skipped");
@@ -56,7 +61,7 @@ class Update extends TranslationBase
 
         $pluginList = array($plugin);
         if (empty($plugin)) {
-            $pluginList = self::getPluginsInCore();
+            $pluginList = $forceAllPlugins ? self::getAllPlugins() : self::getPluginsInCore();
             array_unshift($pluginList, '');
         } else {
             $input->setOption('force', true); // force plugin only updates
@@ -105,7 +110,21 @@ class Update extends TranslationBase
                     }
 
                     @touch(PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $code . '.json');
-                    API::unsetInstance(); // unset language manager instance, so valid names are refetched
+                    API::unsetAllInstances(); // unset language manager instance, so valid names are refetched
+
+                    $command = $this->getApplication()->find('translations:generate-intl-data');
+                    $arguments = array(
+                        'command' => 'translations:generate-intl-data',
+                        '--language' => $code,
+                    );
+                    $inputObject = new ArrayInput($arguments);
+                    $inputObject->setInteractive($input->isInteractive());
+                    $command->run($inputObject, $output->isVeryVerbose() ? $output : new NullOutput());
+
+                    API::unsetAllInstances(); // unset language manager instance, so valid names are refetched
+                    Cache::flushAll();
+
+                    $languageCodes[] = $code;
                 }
 
                 $command = $this->getApplication()->find('translations:set');
@@ -117,7 +136,7 @@ class Update extends TranslationBase
                 );
                 $inputObject = new ArrayInput($arguments);
                 $inputObject->setInteractive($input->isInteractive());
-                $command->run($inputObject, new NullOutput());
+                $command->run($inputObject, $output->isVeryVerbose() ? $output : new NullOutput());
             }
 
             $progress->finish();
@@ -125,6 +144,31 @@ class Update extends TranslationBase
         }
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
+    }
+
+    /**
+     * Returns all plugins having their own translations that are bundled in core
+     * @return array
+     */
+    public static function getAllPlugins()
+    {
+        static $pluginsWithTranslations;
+
+        if (!empty($pluginsWithTranslations)) {
+            return $pluginsWithTranslations;
+        }
+
+        $pluginsWithTranslations = array();
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginsWithTranslations = array_merge($pluginsWithTranslations, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
+        $pluginsWithTranslations = array_map(function ($elem) {
+            $replace = Manager::getPluginsDirectories();
+            $replace[] = '/lang/en.json';
+            return str_replace($replace, '', $elem);
+        }, $pluginsWithTranslations);
+
+        return $pluginsWithTranslations;
     }
 
     /**
@@ -149,10 +193,14 @@ class Update extends TranslationBase
         $newPlugins = $matches[1];
 
         $pluginsNotInCore = array_merge($submodulePlugins, $newPlugins);
-
-        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = array();
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginsWithTranslations = array_merge($pluginsWithTranslations, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
         $pluginsWithTranslations = array_map(function ($elem) {
-            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+            $replace = Manager::getPluginsDirectories();
+            $replace[] = '/lang/en.json';
+            return str_replace($replace, '', $elem);
         }, $pluginsWithTranslations);
 
         $pluginsInCore = array_diff($pluginsWithTranslations, $pluginsNotInCore);
@@ -174,7 +222,8 @@ class Update extends TranslationBase
             'command' => 'translations:fetch',
             '--username' => $input->getOption('username'),
             '--password' => $input->getOption('password'),
-            '--plugin' => $plugin
+            '--slug'     => $input->getOption('slug'),
+            '--plugin'   => $plugin
         );
 
         if ($input->getOption('force')) {

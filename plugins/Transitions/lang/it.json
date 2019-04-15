@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s rimbalzi",
         "DirectEntries": "Accessi Diretti",
+        "Transitions": "Transizioni",
         "ErrorBack": "Torna all'azione precedente",
         "ExitsInline": "%s uscite",
         "NumPageviews": "%s pagine viste",
         "NumDownloads": "%s download",
         "NumOutlinks": "%s outlinks",
+        "TopX": "Principali %s etichette",
+        "FeatureDescription": "Transizioni ti fornisce un report che mostra le cose che i tuoi visitatori hanno fatto direttamente prima e dopo aver visualizzato una determinata pagina. Questa pagina spiega come accedere, comprendere e utilizzare il potente report Transizioni.",
+        "AvailableInOtherReports": "Lo sapevi? Le transizioni sono disponibili anche come azione di riga nei report seguenti:",
+        "AvailableInOtherReports2": "È sufficiente passare il mouse su uno di questi report e cliccare sull'icona transizioni %s per avviarlo.",
         "FromCampaigns": "Da Campagne",
         "FromPreviousPages": "Da Pagine Interne",
         "FromPreviousPagesInline": "%s da pagine interne",
         "FromPreviousSiteSearches": "Da Ricerca Interna",
         "FromPreviousSiteSearchesInline": "%s da ricerche interne",
         "FromSearchEngines": "Da Motori di Ricerca",
+        "FromSocialNetworks": "Dai Social Networks",
         "FromWebsites": "Da siti web",
         "IncomingTraffic": "Traffico entrante",
         "LoopsInline": "%s pagine ricaricate",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "Ricerche Interne",
         "ToFollowingSiteSearchesInline": "%s ricerche interne",
         "XOfAllPageviews": "%s di tutte le visualizzazioni di questa pagina",
-        "XOutOfYVisits": "%1$s (su %2$s)"
+        "XOutOfYVisits": "%1$s (su %2$s)",
+        "PageURLTransitions": "Transizioni URL di pagina"
     }
 }

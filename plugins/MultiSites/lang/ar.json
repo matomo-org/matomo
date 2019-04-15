@@ -1,5 +1,6 @@
 {
     "MultiSites": {
-        "Evolution": "التطور"
+        "Evolution": "التطور",
+        "Pagination": "%1$s - %2$s من %3$s"
     }
 }

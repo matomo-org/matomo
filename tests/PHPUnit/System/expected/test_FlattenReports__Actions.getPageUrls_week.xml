@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>dir1/sub/dir/page0.html</label>
+		<label>/dir1/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -24,10 +24,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.15</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page0.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage0.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir1/sub/dir/page0.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir1/sub/dir/page1.html</label>
+		<label>/dir1/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -45,10 +46,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page1.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage1.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir1/sub/dir/page1.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir1/sub/dir/page2.html</label>
+		<label>/dir1/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -68,10 +70,11 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page2.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage2.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir1%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir1/sub/dir/page2.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page0.html</label>
+		<label>/dir2/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -94,10 +97,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page0.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage0.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir2/sub/dir/page0.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page1.html</label>
+		<label>/dir2/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -115,10 +119,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.6</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page1.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage1.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir2/sub/dir/page1.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page2.html</label>
+		<label>/dir2/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -138,10 +143,11 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page2.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage2.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir2%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir2/sub/dir/page2.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page0.html</label>
+		<label>/dir3/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -164,10 +170,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page0.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage0.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir3/sub/dir/page0.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page1.html</label>
+		<label>/dir3/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -185,10 +192,11 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page1.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage1.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir3/sub/dir/page1.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page2.html</label>
+		<label>/dir3/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -208,10 +216,11 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>1.35</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page2.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage2.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdir3%252Fsub%252Fdir</segment>
+		<Actions_PageUrl>/dir3/sub/dir/page2.html</Actions_PageUrl>
 	</row>
 	<row>
-		<label>page1.html</label>
+		<label>/page1.html</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -231,10 +240,11 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/page1.html</url>
+		<Actions_PageUrl>/page1.html</Actions_PageUrl>
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
 	</row>
 	<row>
-		<label>sub/dir/dir1/page1.html</label>
+		<label>/sub/dir/dir1/page1.html</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -257,6 +267,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/sub/dir/dir1/page1.html</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fsub%2Fdir%2Fdir1%2Fpage1.html</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub%252Fdir%252Fdir1</segment>
+		<Actions_PageUrl>/sub/dir/dir1/page1.html</Actions_PageUrl>
 	</row>
 </result>

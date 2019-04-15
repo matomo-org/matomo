@@ -234,6 +234,7 @@
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
@@ -247,6 +248,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
@@ -260,6 +262,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
@@ -273,6 +276,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
@@ -286,6 +290,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
@@ -299,6 +304,7 @@
 			</row>
 			<row>
 				<url />
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FPage%2BURL%2Bnot%2Bdefined</segment>
 			</row>
 		</result>
 	</reportMetadata>
@@ -306,10 +312,19 @@
 		<nb_visits>18</nb_visits>
 		<nb_uniq_visitors>18</nb_uniq_visitors>
 		<nb_hits>28</nb_hits>
-		<entry_bounce_count>2</entry_bounce_count>
+		<sum_time_spent>4500</sum_time_spent>
+		<sum_time_generation>5.239</sum_time_generation>
+		<nb_hits_with_time_generation>18</nb_hits_with_time_generation>
+		<min_time_generation>0.223</min_time_generation>
+		<max_time_generation>0.775</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<entry_nb_uniq_visitors>7</entry_nb_uniq_visitors>
 		<entry_nb_visits>7</entry_nb_visits>
 		<entry_nb_actions>27</entry_nb_actions>
-		<exit_nb_visits>7</exit_nb_visits>
+		<entry_sum_visit_length>4505</entry_sum_visit_length>
+		<entry_bounce_count>2</entry_bounce_count>
 		<exit_nb_uniq_visitors>7</exit_nb_uniq_visitors>
+		<exit_nb_visits>7</exit_nb_visits>
 	</reportTotal>
 </result>

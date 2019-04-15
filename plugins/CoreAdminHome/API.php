@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -22,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
+use Piwik\Tracker\Failures;
 use Piwik\Url;
 
 /**
@@ -39,10 +41,16 @@ class API extends \Piwik\Plugin\API
      */
     private $invalidator;
 
-    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator)
+    /**
+     * @var Failures
+     */
+    private $trackingFailures;
+
+    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator, Failures $trackingFailures)
     {
         $this->scheduler = $scheduler;
         $this->invalidator = $invalidator;
+        $this->trackingFailures = $trackingFailures;
     }
 
     /**
@@ -66,7 +74,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         if (!Controller::isGeneralSettingsAdminEnabled()) {
-            throw new Exception('General settings admin is ont enabled');
+            throw new Exception('General settings admin is not enabled');
         }
 
         Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
@@ -83,7 +91,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         if (!Controller::isGeneralSettingsAdminEnabled()) {
-            throw new Exception('General settings admin is ont enabled');
+            throw new Exception('General settings admin is not enabled');
         }
 
         if (!empty($trustedHosts)) {
@@ -177,6 +185,55 @@ class API extends \Piwik\Plugin\API
 
         $archiver = new CronArchive();
         $archiver->main();
+    }
+
+    /**
+     * Deletes all tracking failures this user has at least admin access to.
+     * A super user will also delete tracking failures for sites that don't exist.
+     */
+    public function deleteAllTrackingFailures()
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $this->trackingFailures->deleteAllTrackingFailures();
+        } else {
+            Piwik::checkUserHasSomeAdminAccess();
+            $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            Piwik::checkUserHasAdminAccess($idSites);
+            $this->trackingFailures->deleteTrackingFailures($idSites);
+        }
+    }
+
+    /**
+     * Deletes a specific tracking failure
+     * @param int $idSite
+     * @param int $idFailure
+     */
+    public function deleteTrackingFailure($idSite, $idFailure)
+    {
+        $idSite = (int) $idSite;
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $this->trackingFailures->deleteTrackingFailure($idSite, $idFailure);
+    }
+
+    /**
+     * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
+     * A super user will also retrieve failed requests for sites that don't exist.
+     * @return array
+     */
+    public function getTrackingFailures()
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $failures = $this->trackingFailures->getAllFailures();
+        } else {
+            Piwik::checkUserHasSomeAdminAccess();
+            $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            Piwik::checkUserHasAdminAccess($idSites);
+
+            $failures = $this->trackingFailures->getFailuresForSites($idSites);
+        }
+
+        return $failures;
     }
 
     /**

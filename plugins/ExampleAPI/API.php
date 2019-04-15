@@ -76,6 +76,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getSum($a = 0, $b = 0)
     {
+        if (!is_numeric($a) || !is_numeric($b)) {
+            throw new \Exception('Given parameters need to be numeric');
+        }
+
         return (float)($a + $b);
     }
 

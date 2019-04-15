@@ -82,6 +82,11 @@ class MobileMessaging extends \Piwik\Plugin
         );
     }
 
+    public function requiresInternetConnection()
+    {
+        return true;
+    }
+
     /**
      * Get JavaScript files
      */

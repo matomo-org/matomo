@@ -15,27 +15,21 @@
 
         <div piwik-field uicontrol="text" name="username"
              title="{{ 'General_Username'|translate|e('html_attr') }}"
-             value="{{ userLogin }}" disabled="true"
+             value="{{ userLogin }}" data-disabled="true"
              ng-model="personalSettings.username"
              inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
         </div>
 
-        <div piwik-field uicontrol="text" name="alias"
-             ng-model="personalSettings.alias"
-             maxlength="45"
-             title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
-             value="{{ userAlias|raw }}">
-        </div>
-
         <div piwik-field uicontrol="text" name="email"
              ng-model="personalSettings.email"
+             ng-change="personalSettings.requirePasswordConfirmation()"
              maxlength="100"
              title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
         </div>
 
         <div id="languageHelp" class="inline-help-node">
-            <a href="?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/translations/" target="_blank">
+            <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/translations/">
                 {{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
         </div>
 
@@ -65,7 +59,7 @@
              show-selected-site="true"
              class="sites_autocomplete"
              siteid="{{ defaultReportIdSite }}"
-             sitename="{{ defaultReportSiteName }}"
+             sitename="{{ defaultReportSiteName|rawSafeDecoded }}"
              switch-site-on-select="false"
              show-all-sites-item="false"
              showselectedsite="true"
@@ -82,6 +76,7 @@
 
             <div piwik-field uicontrol="password" name="password" autocomplete="off"
                  ng-model="personalSettings.password"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
                  title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
@@ -89,6 +84,7 @@
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
                  ng-model="personalSettings.passwordBis"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
                  title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
@@ -104,6 +100,23 @@
         <div piwik-save-button onconfirm="personalSettings.save()"
              saving="personalSettings.loading"></div>
 
+        <div class="modal" id="confirmChangesWithPassword">
+            <div class="modal-content">
+                <h2>{{ 'UsersManager_ConfirmWithPassword'|translate }}</h2>
+
+                <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
+                     ng-model="personalSettings.passwordCurrent"
+                     full-width="true"
+                     title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
+                     value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action btn" ng-click="personalSettings.save()">{{ 'General_Ok'|translate }}</a>
+                <a href="javascript:void(0)" class="modal-action modal-close modal-no"  ng-click="personalSettings.cancelSave()">{{ 'General_Cancel'|translate }}</a>
+            </div>
+        </div>
+
     </form>
 </div>
 
@@ -111,11 +124,12 @@
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
     <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>
 
-    <p>{{ 'UsersManager_TokenRegenerateLogoutWarning'|translate }}</p>
     <button class="btn btn-link"
             ng-controller="PersonalSettingsController as personalSettings"
             ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
 </div>
+
+{{ postEvent('Template.userSettings.afterTokenAuth') }}
 
 <div piwik-plugin-settings mode="user"></div>
 

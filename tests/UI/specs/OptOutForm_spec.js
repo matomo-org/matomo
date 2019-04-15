@@ -18,6 +18,8 @@ describe("OptOutForm", function () {
 
     it("should display correctly when embedded in another site", function (done) {
         expect.screenshot('loaded').to.be.captureSelector('iframe#optOutIframe', function (page) {
+            phantom.clearCookies();
+
             page.userAgent = chromeUserAgent;
             page.load(siteUrl);
         }, done);

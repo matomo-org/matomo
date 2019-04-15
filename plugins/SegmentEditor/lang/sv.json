@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "endast denna webbsida",
         "SegmentIsDisplayedForWebsite": "och behandlas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
-        "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Matomo konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
+        "SegmentNotAppliedMessage": "Du begär data för det anpassade segmentet '%s', konfigurationen som Matomo använder förhindrar att realtidsbearbetning av rapporter sker av prestandaskäl.",
         "SelectSegmentOfVisits": "Välj ett segment av besök:",
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",
@@ -36,6 +36,21 @@
         "SegmentXIsAUnionOf": "%s är en sammanslagning av dessa segment:",
         "CustomSegment": "Anpassat segment",
         "SegmentOperatorIsNullOrEmpty": "är null eller tom",
-        "SegmentOperatorIsNotNullNorEmpty": "är inte null och inte tom"
+        "SegmentOperatorIsNotNullNorEmpty": "är inte null och inte tom",
+        "UnprocessedSegmentNoData1": "Dessa rapporter saknar data eftersom Segmentet som du valde %1$s inte har bearbetats av systemet.",
+        "UnprocessedSegmentNoData2": "Data för detta Segment bör vara tillgänglig inom några timmar när bearbetningen slutförts. (Om så inte är fallet, kan det ha uppstått ett problem.)",
+        "UnprocessedSegmentInVisitorLog1": "%1$sUnder tiden kan du använda Besöksloggen%2$s för att testa om ditt segment kommer matcha dina användare korrekt genom att använda det där.",
+        "UnprocessedSegmentInVisitorLog2": "När du tillämpar detta kan du omedelbart se vilka besök och åtgärder som matchades av ditt segment.",
+        "UnprocessedSegmentInVisitorLog3": "Det här kan hjälpa dig att bekräfta att ditt Segment matchar användarna och åtgärderna du förväntade dig.",
+        "UnprocessedSegmentApiError1": "Segmentet '%1$s' är satt till '%2$s' men Matomo är för närvarande inte konfigurerad att bearbeta segmenterade rapporter via API-förfrågningar.",
+        "UnprocessedSegmentApiError2": "För att se data för denna rapport i framtiden måste du redigera ditt segment och välja det alternativ som är märkt '%s'.",
+        "UnprocessedSegmentApiError3": "Efter några timmar ska dina segmentdata bli tillgängliga via API: n. (Om det inte gör det kan det vara ett fel ha uppstått.)",
+        "CustomUnprocessedSegmentApiError1": "Segmentet du begärde har ännu inte skapats i Segmentredigeraren och därför har inte rapportdata bearbetats.",
+        "CustomUnprocessedSegmentApiError2": "Om du vill se data för det här segmentet måste du gå till Matomo och skapa det här segmentet manuellt i Segmentredigeraren.",
+        "CustomUnprocessedSegmentApiError3": "(Alternativt kan du skapa ett nytt segment via programmering med API-metoden SegmentEditor.add).",
+        "CustomUnprocessedSegmentApiError4": "När du skapat segmentet i redigeraren (eller via API), kommer detta felmeddelande att försvinna och inom några timmar ser du din segmenterade rapportdata efter segmentdata har bearbetats. (Om det inte gör det kan ett fel ha uppstått.)",
+        "CustomUnprocessedSegmentApiError5": "Observera att du kan testa om ditt segment kommer fungera utan att behöva vänta på att det ska behandlas med hjälp av Live.getLastVisitsDetails API.",
+        "CustomUnprocessedSegmentApiError6": "När du använder den här API-metoden ser du vilka användare och åtgärder som matchades av din &segment=parameter.",
+        "CustomUnprocessedSegmentNoData": "Om du vill se data för det här segmentet måste du skapa det här segmentet manuellt i Segmentredigeraren och därefter vänta ett par timmar innan bearbetningen har slutförts."
     }
 }

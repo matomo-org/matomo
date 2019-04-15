@@ -57,8 +57,9 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
-	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
+	Name:  matomo.js & piwik.js - JavaScript tracker
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/matomo.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
@@ -116,6 +117,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://mths.be/placeholder
 	License:  Dual licensed: MIT (Expat) or GPL
 
+	Name:  qrcode.js
+	Link:  https://github.com/davidshimjs/qrcodejs
+	License:  MIT
+
 	Name:  json2.js
 	Link:  http://json.org/
 	License:  Public domain
@@ -126,9 +131,9 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: https://github.com/tedivm/jshrink
 	License: BSD-3-Clause
 
-	Name:  sparkline
-	Link:  https//sourceforge.net/projects/sparkline/
-	License:  Dual-licensed: New BSD or GPL v2
+	Name:  Sparkline
+	Link:  https://github.com/jamiebicknell/Sparkline
+	License:  MIT
 
 	Name:  sprintf
 	Link:  http://www.diveintojavascript.com/projects/javascript-sprintf
@@ -270,17 +275,17 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind") in plugins/Morpheus/fonts
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 
-	Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
+	Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive", "icon-rocket", "icon-embed") in plugins/Morpheus/fonts
 	Link: https://icomoon.io/#icons-icomoon
 	License: GPL
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.
-- icons for browsers, operating systems, browser plugins, search engines, and
+- icons for browsers, operating systems, browser plugins, brands, search engines, social media websites 
   and flags of countries are nominative use of third-party trademarks when
   referring to the corresponding product or entity

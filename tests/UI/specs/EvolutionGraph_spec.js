@@ -59,17 +59,11 @@ describe("EvolutionGraph", function () {
         }, done);
     });
 
-    it("should show export formats on click including image", function (done) {
-        expect.screenshot('export_formats').to.be.capture(function (page) {
-            page.click('.activateExportSelection');
-        }, done);
-    });
-
     it("should show graph as image when export as image icon clicked", function (done) {
-        expect.screenshot('export_image').to.be.capture(function (page) {
+        expect.screenshot('export_image').to.be.captureSelector('.ui-dialog', function (page) {
             page.click('#dataTableFooterExportAsImageIcon');
         }, done);
-    });
+    })  ;
 
     it("should display more periods when limit selection changed", function (done) {
         expect.screenshot('limit_changed').to.be.capture(function (page) {
@@ -168,6 +162,18 @@ describe("EvolutionGraph", function () {
         expect.screenshot('label_ticks_cutout').to.be.capture(function (page) {
             page.setViewportSize(320,320);
             page.load(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+        }, done);
+    });
+
+    it("should show available periods", function (done) {
+        expect.screenshot('periods_list').to.be.capture(function (page) {
+            showDataTableFooter(page);
+            page.click('.activatePeriodsSelection');
+        }, done);
+    });
+    it("should be possible to change period", function (done) {
+        expect.screenshot('periods_selected').to.be.capture(function (page) {
+            page.click('.dataTablePeriods [data-period=month]');
         }, done);
     });
 });

@@ -1,6 +1,35 @@
 {
     "Events": {
+        "PluginDescription": "Acompanhar eventos e obter relatórios de atividade dos seus visitantes.",
+        "AvgEventValue": "O valor médio do evento é: %s",
         "AvgValue": "Valor médio",
-        "Event": "Evento"
+        "AvgValueDocumentation": "A média de todos os valores para este evento",
+        "Category": "Categoria",
+        "Event": "Evento",
+        "EventAction": "Ação do evento",
+        "EventActions": "Ações do evento",
+        "EventCategories": "Categorias do evento",
+        "EventCategory": "Categoria do evento",
+        "EventName": "Nome do evento",
+        "EventNames": "Nomes do evento",
+        "EventUrl": "Endereço do evento",
+        "EventUrls": "Endereços do evento",
+        "Events": "Eventos",
+        "EventsWithValue": "Eventos com um valor",
+        "EventsWithValueDocumentation": "Número de eventos onde um valor de Evento foi definido",
+        "EventValue": "Valor do evento",
+        "EventValueTooltip": "O total do valor do evento é o somatório dos valores de %1$s eventos %2$s entre um mínimo de %3$s e um máximo de %4$s.",
+        "MaxValue": "Valor máximo do evento",
+        "MaxValueDocumentation": "O valor máximo para este evento",
+        "MinValue": "Valor mínimo do evento",
+        "MinValueDocumentation": "O valor mínimo para este evento",
+        "SecondaryDimension": "A dimensão secundária é %s.",
+        "SwitchToSecondaryDimension": "Mudar para %s",
+        "TopEvents": "Eventos principais",
+        "TotalEvents": "Eventos totais",
+        "TotalEventsDocumentation": "Número total de eventos",
+        "TotalValue": "Valor do evento",
+        "TotalValueDocumentation": "O somatório dos valores do evento",
+        "ViewEvents": "Ver eventos"
     }
 }

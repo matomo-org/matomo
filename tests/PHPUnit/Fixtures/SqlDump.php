@@ -69,6 +69,8 @@ class SqlDump extends Fixture
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
         }
 
+        Db::destroyDatabaseObject(); // recreate db connection so any cached table metadata in the connection is reset
+
         // make sure archiving will be called
         Rules::setBrowserTriggerArchiving(true);
 
@@ -85,8 +87,6 @@ class SqlDump extends Fixture
     }
 
     /**
-     * maybe this could use downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
-     *
      * @param $dumpPath
      * @return int
      */

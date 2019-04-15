@@ -59,8 +59,8 @@ class Events extends \Piwik\Plugin
     public function getMetricTranslations()
     {
         $metrics = array(
-            'nb_events'            => 'Events_TotalEvents',
-            'sum_event_value'      => 'Events_TotalValue',
+            'nb_events'            => 'Events_Events',
+            'sum_event_value'      => 'Events_EventValue',
             'min_event_value'      => 'Events_MinValue',
             'max_event_value'      => 'Events_MaxValue',
             'avg_event_value'      => 'Events_AvgValue',

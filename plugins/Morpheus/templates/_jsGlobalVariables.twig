@@ -3,6 +3,7 @@
     piwik.token_auth = "{{ token_auth }}";
     piwik.piwik_url = "{{ piwikUrl }}";
     piwik.cacheBuster = "{{ cacheBuster }}";
+    {% if timezoneOffset is defined %}piwik.timezoneOffset = {{ timezoneOffset }};{% endif %}
 
     piwik.numbers = {
         patternNumber: "{{ 'Intl_NumberFormatNumber'|translate }}",
@@ -43,9 +44,11 @@
     {% if language is defined %}piwik.language = "{{ language }}";{% endif %}
 
     piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
+    piwik.userCapabilities = {{ userCapabilities|default([])|json_encode|raw }};
     piwik.config = {};
 {% if clientSideConfig is defined %}
     piwik.config = {{ clientSideConfig|json_encode|raw }};
 {% endif %}
+    piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>

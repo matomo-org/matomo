@@ -8,6 +8,8 @@
         "PrivNone": "אין הרשאות",
         "PrivView": "הצג",
         "User": "משתמש",
-        "UsersManagement": "ניהול משתמשים"
+        "UsersManagement": "ניהול משתמשים",
+        "ShowAll": "הצג הכל",
+        "Username": "שם משתמש"
     }
 }

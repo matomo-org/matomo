@@ -9,9 +9,12 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\DbHelper;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
@@ -19,6 +22,17 @@ use Piwik\View;
  */
 class TrackerCodeGenerator
 {
+    /**
+     * whether matomo.js|php should be forced over piwik.js|php
+     * @var bool
+     */
+    private $shouldForceMatomoEndpoint = false;
+
+    public function forceMatomoEndpoint()
+    {
+        $this->shouldForceMatomoEndpoint = true;
+    }
+
     /**
      * @param int $idSite
      * @param string $piwikUrl http://path/to/piwik/site/
@@ -133,8 +147,15 @@ class TrackerCodeGenerator
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
             'loadAsync'               => true,
-            'trackNoScript'           => $trackNoScript
+            'trackNoScript'           => $trackNoScript,
+            'matomoJsFilename'        => $this->getJsTrackerEndpoint(),
+            'matomoPhpFilename'       => $this->getPhpTrackerEndpoint(),
         );
+
+        if (SettingsPiwik::isHttpsForced()) {
+            $codeImpl['protocol'] = 'https://';
+        }
+
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
             'doNotTrack');
@@ -183,6 +204,34 @@ class TrackerCodeGenerator
         }
 
         return $jsCode;
+    }
+
+    public function getJsTrackerEndpoint()
+    {
+        $name = 'matomo.js';
+        if ($this->shouldPreferPiwikEndpoint()) {
+            $name = 'piwik.js';
+        }
+        return $name;
+    }
+
+    public function getPhpTrackerEndpoint()
+    {
+        $name = 'matomo.php';
+        if ($this->shouldPreferPiwikEndpoint()) {
+            $name = 'piwik.php';
+        }
+        return $name;
+    }
+
+    public function shouldPreferPiwikEndpoint()
+    {
+        if ($this->shouldForceMatomoEndpoint) {
+            return false;
+        }
+
+        // only since 3.7.0 we use the default matomo.js|php... for all other installs we need to keep BC
+        return DbHelper::wasMatomoInstalledBeforeVersion('3.7.0-b1');
     }
 
     private function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)

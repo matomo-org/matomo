@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Db;
@@ -38,6 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
 
         $view->availableLayouts = $this->getAvailableLayouts();
+        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
 
@@ -56,6 +58,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = $this->_getDashboardView('@Dashboard/index');
         $view->dashboardSettingsControl = new DashboardManagerControl();
+        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();
@@ -85,39 +88,18 @@ class Controller extends \Piwik\Plugin\Controller
     public function resetLayout()
     {
         $this->checkTokenInUrl();
-        $layout = $this->dashboard->getDefaultLayout();
-        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         if (Piwik::isUserIsAnonymous()) {
             $session = new SessionNamespace("Dashboard");
-            $session->dashboardLayout = $layout;
+            $session->dashboardLayout = $this->dashboard->getDefaultLayout();
             $session->setExpirationSeconds(1800);
         } else {
-            $this->getModel()->updateLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard, $layout);
+            Request::processRequest('Dashboard.resetDashboardLayout');
         }
     }
 
     private function getModel()
     {
         return new Model();
-    }
-
-    /**
-     * Removes the dashboard with the given id
-     */
-    public function removeDashboard()
-    {
-        $this->checkTokenInUrl();
-
-        if (Piwik::isUserIsAnonymous()) {
-            return;
-        }
-
-        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
-
-        // first layout can't be removed
-        if ($idDashboard != 1) {
-            $this->getModel()->deleteDashboardForUser($idDashboard, Piwik::getCurrentUserLogin());
-        }
     }
 
     /**
@@ -140,56 +122,6 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * Creates a new dashboard for the current user
-     * User needs to be logged in
-     */
-    public function createNewDashboard()
-    {
-        $this->checkTokenInUrl();
-
-        if (Piwik::isUserIsAnonymous()) {
-            return '0';
-        }
-
-        $name   = urldecode(Common::getRequestVar('name', '', 'string'));
-        $type   = urldecode(Common::getRequestVar('type', 'default', 'string'));
-        $layout = '{}';
-        $login  = Piwik::getCurrentUserLogin();
-
-        if ($type == 'default') {
-            $layout = $this->dashboard->getDefaultLayout();
-        }
-
-        $nextId = $this->getModel()->createNewDashboardForUser($login, $name, $layout);
-
-        Json::sendHeaderJSON();
-        return json_encode($nextId);
-    }
-
-    public function copyDashboardToUser()
-    {
-        $this->checkTokenInUrl();
-
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return '0';
-        }
-
-        $login = Piwik::getCurrentUserLogin();
-        $name  = urldecode(Common::getRequestVar('name', '', 'string'));
-        $user  = urldecode(Common::getRequestVar('user', '', 'string'));
-        $idDashboard = Common::getRequestVar('dashboardId', 0, 'int');
-
-        $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);
-
-        if ($layout !== false) {
-            $nextId = $this->getModel()->createNewDashboardForUser($user, $name, $layout);
-
-            Json::sendHeaderJSON();
-            return json_encode($nextId);
-        }
-    }
-
-    /**
      * Saves the layout for the current user
      * anonymous = in the session
      * authenticated user = in the DB
@@ -208,7 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
-            $this->getModel()->updateLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard, $layout);
+            $this->getModel()->createOrUpdateDashboard(Piwik::getCurrentUserLogin(), $idDashboard, $layout);
             if (!empty($name)) {
                 $this->getModel()->updateDashboardName(Piwik::getCurrentUserLogin(), $idDashboard, $name);
             }
@@ -251,12 +183,12 @@ class Controller extends \Piwik\Plugin\Controller
             $layout = $this->dashboard->getLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard);
         }
 
-        if (!empty($layout)) {
-            $layout = $this->dashboard->removeDisabledPluginFromLayout($layout);
-        }
-
         if (empty($layout)) {
             $layout = $this->dashboard->getDefaultLayout();
+        }
+
+        if (!empty($layout)) {
+            $layout = $this->dashboard->removeDisabledPluginFromLayout($layout);
         }
 
         return $layout;

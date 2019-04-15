@@ -12,8 +12,13 @@
         "ColumnUniqueReturningVisitors": "Unika återkommande besökare",
         "ColumnReturningUsers": "Återkommande användare",
         "PluginDescription": "Rapport om förstagångsbesökare och återkommande användare.",
+        "ReturnActions": "händelser av de återkommande besöken",
+        "ReturnAverageVisitDuration": "genomsnittlig besökstid för återkommande besökare",
+        "ReturnAvgActions": "händelser per återkommande besök",
+        "ReturnBounceRate": "återkommande besöken har studsat (lämnat sidan efter en sidvisning)",
         "ReturningVisitDocumentation": "Ett återkommande besök är (till skillnad från ett nytt besök) en besökare som besökt webbplatsen minst en gång tidigare.",
         "ReturningVisitsDocumentation": "Detta är en översikt av återkommande besök.",
+        "ReturnVisits": "återkommande besök",
         "SubmenuFrequency": "Frekvens",
         "WidgetGraphReturning": "Graf över återkommande besök",
         "WidgetOverview": "Frekvensöversikt"

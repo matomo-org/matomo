@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;
@@ -37,9 +38,57 @@ class RequestTest extends IntegrationTestCase
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
+        foreach (range(3,14) as $idSite) {
+            Fixture::createWebsite('2014-01-01 00:00:00');
+        }
+
         Cache::deleteTrackerCache();
 
         $this->request = $this->buildRequest(array('idsite' => '1'));
+    }
+
+    public function test_getIdSite()
+    {
+        $request = $this->buildRequest(array('idsite' => '14'));
+        $this->assertSame(14, $request->getIdSite());
+    }
+
+    /**
+     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @expectedExceptionMessage Invalid idSite: '0'
+     */
+    public function test_getIdSite_shouldNotThrowException_IfValueIsZero()
+    {
+        $request = $this->buildRequest(array('idsite' => '0'));
+        $request->getIdSite();
+    }
+
+    /**
+     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @expectedExceptionMessage Invalid idSite: '-1'
+     */
+    public function test_getIdSite_shouldThrowException_IfValueIsLowerThanZero()
+    {
+        $request = $this->buildRequest(array('idsite' => '-1'));
+        $request->getIdSite();
+    }
+
+    public function test_getIpString_ShouldDefaultToServerAddress()
+    {
+        $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
+    }
+
+    public function test_getIpString_ShouldReturnCustomIp_IfAuthenticated()
+    {
+        $request = $this->buildRequest(array('cip' => '192.192.192.192'));
+        $request->setIsAuthenticated();
+        $this->assertEquals('192.192.192.192', $request->getIpString());
+    }
+
+    public function test_getIp()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $this->assertEquals(IPUtils::stringToBinaryIP($ip), $this->request->getIp());
     }
 
     public function test_getCustomVariablesInVisitScope_ShouldReturnNoCustomVars_IfNoWerePassedInParams()
@@ -227,10 +276,10 @@ class RequestTest extends IntegrationTestCase
 
     public function test_authenticateSuperUserOrAdmin_ShouldFailIfTokenIsEmpty()
     {
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin('', 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite('', 2);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin(null, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite(null, 2);
         $this->assertFalse($isAuthenticated);
     }
 
@@ -241,16 +290,16 @@ class RequestTest extends IntegrationTestCase
             $called++;
         });
 
-        Request::authenticateSuperUserOrAdmin('', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('', 2);
         $this->assertSame(0, $called);
 
-        Request::authenticateSuperUserOrAdmin('atoken', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('atoken', 2);
         $this->assertSame(1, $called);
 
-        Request::authenticateSuperUserOrAdmin('anothertoken', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('anothertoken', 2);
         $this->assertSame(2, $called);
 
-        Request::authenticateSuperUserOrAdmin(null, 2);
+        Request::authenticateSuperUserOrAdminOrWrite(null, 2);
         $this->assertSame(2, $called);
     }
 
@@ -258,10 +307,10 @@ class RequestTest extends IntegrationTestCase
     {
         $token = $this->createAdminUserForSite(2);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, -2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, -2);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 0);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 0);
         $this->assertFalse($isAuthenticated);
     }
 
@@ -269,10 +318,10 @@ class RequestTest extends IntegrationTestCase
     {
         $token = $this->createAdminUserForSite(2);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 1);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 1);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 2);
         $this->assertTrue($isAuthenticated);
     }
 
@@ -281,10 +330,10 @@ class RequestTest extends IntegrationTestCase
         Fixture::createSuperUser(false);
         $token = Fixture::getTokenAuth();
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 1);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 1);
         $this->assertTrue($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 2);
         $this->assertTrue($isAuthenticated);
     }
 
@@ -339,6 +388,7 @@ class RequestTest extends IntegrationTestCase
         $this->assertSame(12, $request->getIdSite());
     }
 
+
     /**
      * @group invalidChars
      * @dataProvider getInvalidCharacterUrls
@@ -364,6 +414,22 @@ class RequestTest extends IntegrationTestCase
             array("http://www.my.url/?param=val𠱸ue", 'http://www.my.url/?param=val�ue'),
             array("http://www.my.url/\xF0\x9F\x87\xB0\xF0\x9F\x87\xB7", 'http://www.my.url/��'), // regional indicator symbol letter k + regional indicator symbol letter r
         );
+    }
+
+    /**
+     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @expectedExceptionMessage An unexpected website was found in the request: website id was set to '155'
+     */
+    public function test_getIdSite_shouldTriggerExceptionWhenSiteNotExists()
+    {
+        $self = $this;
+        Piwik::addAction('Tracker.Request.getIdSite', function (&$idSite, $params) use ($self) {
+            $self->assertSame(14, $idSite);
+            $self->assertEquals(array('idsite' => '14'), $params);
+            $idSite = 155;
+        });
+
+        $this->buildRequest(array('idsite' => '14'))->getIdSite();
     }
 
     private function assertCustomVariablesInVisitScope($expectedCvars, $cvarsJsonEncoded)

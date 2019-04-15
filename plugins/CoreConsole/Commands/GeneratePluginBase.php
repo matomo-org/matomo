@@ -14,6 +14,7 @@ use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Dependency;
+use Piwik\Plugin\Manager;
 use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,12 +28,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     public function getPluginPath($pluginName)
     {
-        return PIWIK_INCLUDE_PATH . $this->getRelativePluginPath($pluginName);
-    }
-
-    private function getRelativePluginPath($pluginName)
-    {
-        return '/plugins/' . $pluginName;
+        return Manager::getPluginDirectory($pluginName);
     }
 
     private function createFolderWithinPluginIfNotExists($pluginNameOrCore, $folder)
@@ -67,10 +63,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
      *
      * @param $pluginName
      * @param $translatedText
+     * @param string $translationKey Optional, by default the key will be generated automatically
      * @return string  Either the generated translation key or the original text if a different translation for this
      *                 generated translation key already exists.
      */
-    protected function makeTranslationIfPossible($pluginName, $translatedText)
+    protected function makeTranslationIfPossible($pluginName, $translatedText, $translationKey = '')
     {
         $defaultLang = array($pluginName => array());
 
@@ -85,7 +82,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $translations[$pluginName] = array();
         }
 
-        $key = $this->buildTranslationKey($translatedText);
+        if (!empty($translationKey)) {
+            $key = $translationKey;
+        } else {
+            $key = $this->buildTranslationKey($translatedText);
+        }
 
         if (array_key_exists($key, $translations[$pluginName])) {
             // we do not want to overwrite any existing translations
@@ -106,7 +107,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
     protected function checkAndUpdateRequiredPiwikVersion($pluginName, OutputInterface $output)
     {
         $pluginJsonPath     = $this->getPluginPath($pluginName) . '/plugin.json';
-        $relativePluginJson = $this->getRelativePluginPath($pluginName) . '/plugin.json';
+        $relativePluginJson = Manager::getPluginDirectory($pluginName) . '/plugin.json';
 
         if (!file_exists($pluginJsonPath) || !is_writable($pluginJsonPath)) {
             return;
@@ -321,11 +322,13 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNames()
     {
-        $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-
         $pluginNames = array();
-        foreach ($pluginDirs as $pluginDir) {
-            $pluginNames[] = basename($pluginDir);
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
+
+            foreach ($pluginDirs as $pluginDir) {
+                $pluginNames[] = basename($pluginDir);
+            }
         }
 
         return $pluginNames;
@@ -333,15 +336,17 @@ abstract class GeneratePluginBase extends ConsoleCommand
 
     protected function getPluginNamesHavingNotSpecificFile($filename)
     {
-        $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-
         $pluginNames = array();
-        foreach ($pluginDirs as $pluginDir) {
-            if (!file_exists($pluginDir . '/' . $filename)) {
-                $pluginNames[] = basename($pluginDir);
-            }
-        }
+        foreach (Manager::getPluginsDirectories() as $pluginsDir) {
+            $pluginDirs = \_glob($pluginsDir . '*', GLOB_ONLYDIR);
 
+            foreach ($pluginDirs as $pluginDir) {
+                if (!file_exists($pluginDir . '/' . $filename)) {
+                    $pluginNames[] = basename($pluginDir);
+                }
+            }
+
+        }
         return $pluginNames;
     }
 

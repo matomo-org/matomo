@@ -83,9 +83,9 @@ class ReportsProvider
         $lazyCacheId = CacheId::pluginAware($cacheKey);
 
         $cache = PiwikCache::getLazyCache();
-        if ($cache->contains($lazyCacheId)) {
-            $mapApiToReport = $cache->fetch($lazyCacheId);
-        } else {
+        $mapApiToReport = $cache->fetch($lazyCacheId);
+
+        if (empty($mapApiToReport)) {
             $reports = new static();
             $reports = $reports->getAllReports();
 
@@ -102,7 +102,7 @@ class ReportsProvider
                 $mapApiToReport[$key] = get_class($report);
             }
 
-            $cache->save($lazyCacheId, $mapApiToReport);
+            $cache->save($lazyCacheId, $mapApiToReport, $lifeTime = 3600);
         }
 
         return $mapApiToReport;
@@ -117,7 +117,7 @@ class ReportsProvider
     public function getAllReports()
     {
         $reports = $this->getAllReportClasses();
-        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
+        $cacheId = CacheId::siteAware(CacheId::languageAware('Reports' . md5(implode('', $reports))));
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
@@ -181,7 +181,21 @@ class ReportsProvider
      */
     private function sort($a, $b)
     {
-        return $this->compareCategories($a->getCategoryId(), $a->getSubcategoryId(), $a->getOrder(), $b->getCategoryId(), $b->getSubcategoryId(), $b->getOrder());
+        $result = $this->compareCategories($a->getCategoryId(), $a->getSubcategoryId(), $a->getOrder(), $b->getCategoryId(), $b->getSubcategoryId(), $b->getOrder());
+
+        // if categories are equal, sort by ID
+        if (!$result) {
+            $aId = $a->getId();
+            $bId = $b->getId();
+
+            if ($aId == $bId) {
+                return 0;
+            }
+
+            return $aId < $bId ? -1 : 1;
+        }
+
+        return $result;
     }
 
     public function compareCategories($catIdA, $subcatIdA, $orderA, $catIdB, $subcatIdB, $orderB)

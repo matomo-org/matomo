@@ -14,16 +14,11 @@
     <div class="donate-form-instructions">({{ 'CoreHome_DonateFormInstructions'|translate }})</div>
 
     <form action="index.php?module=CoreHome&action=redirectToPaypal&idSite=1" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_s-xclick"/>
-        <input type="hidden" name="hosted_button_id" value="DVKLY73RS7JTE"/>
-        <input type="hidden" name="currency_code" value="USD"/>
-        <input type="hidden" name="on0" value="Matomo Supporter"/>
-
         <div class="piwik-donate-slider">
             <div class="slider-range">
                 <div class="slider-position"></div>
             </div>
-            <div style="display:inline-block;">
+            <div style="display:inline-block;float:right;">
                 <div class="slider-donate-amount">$30/{{ 'Intl_Year_Short'|translate }}</div>
 
                 <img class="slider-smiley-face" width="40" height="40" src="plugins/Morpheus/images/smileyprog_1.png"/>
@@ -36,8 +31,8 @@
             <input type="image" src="plugins/Morpheus/images/paypal_subscribe.png" border="0" name="submit"
                 title="{{ 'CoreHome_SubscribeAndBecomePiwikSupporter'|translate }}"/>
 			<a class="donate-spacer">{{ 'CoreHome_MakeOneTimeDonation'|translate }}</a>
-            <a href="index.php?module=CoreHome&action=redirectToPaypal&idSite=1&cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA&bb2_screener_=1357583494+83.233.186.82"
-               rel="noreferrer"  target="_blank" class="donate-one-time">{{ 'CoreHome_MakeOneTimeDonation'|translate }}</a>
+            <a href="index.php?module=CoreHome&action=redirectToPaypal&idSite=1&onetime=true"
+               rel="noreferrer noopener" target="_blank" class="donate-one-time">{{ 'CoreHome_MakeOneTimeDonation'|translate }}</a>
         </div>
 
         <!-- to cache images -->

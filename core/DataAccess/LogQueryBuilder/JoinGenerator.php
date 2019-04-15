@@ -53,6 +53,19 @@ class JoinGenerator
             if (!$logTable->getColumnToJoinOnIdVisit()) {
                 $tableNameToJoin = $logTable->getLinkTableToBeAbleToJoinOnVisit();
 
+                if (empty($tableNameToJoin) && $logTable->getWaysToJoinToOtherLogTables()) {
+                    foreach ($logTable->getWaysToJoinToOtherLogTables() as $otherLogTable => $column) {
+                        if ($this->tables->hasJoinedTable($otherLogTable)) {
+                            $this->tables->addTableDependency($table, $otherLogTable);
+                            continue;
+                        }
+                        if ($this->tables->isTableJoinableOnVisit($otherLogTable) || $this->tables->isTableJoinableOnAction($otherLogTable)) {
+                            $this->addMissingTablesForOtherTableJoin($otherLogTable, $table);
+                        }
+                    }
+                    continue;
+                }
+
                 if ($index > 0 && !$this->tables->hasJoinedTable($tableNameToJoin)) {
                     $this->tables->addTableToJoin($tableNameToJoin);
                 }
@@ -96,6 +109,30 @@ class JoinGenerator
         }
     }
 
+    private function addMissingTablesForOtherTableJoin($tableName, $dependentTable)
+    {
+        $this->tables->addTableDependency($dependentTable, $tableName);
+
+        if ($this->tables->hasJoinedTable($tableName)) {
+            return;
+        }
+
+        $table = $this->tables->getLogTable($tableName);
+
+        if ($table->getColumnToJoinOnIdAction() || $table->getColumnToJoinOnIdVisit() || $table->getLinkTableToBeAbleToJoinOnVisit()) {
+            $this->tables->addTableToJoin($tableName);
+            return;
+        }
+
+        $otherTableJoins = $table->getWaysToJoinToOtherLogTables();
+
+        foreach ($otherTableJoins as $logTable => $column) {
+            $this->addMissingTablesForOtherTableJoin($logTable, $tableName);
+        }
+
+        $this->tables->addTableToJoin($tableName);
+    }
+
     /**
      * Generate the join sql based on the needed tables
      * @throws Exception if tables can't be joined
@@ -106,7 +143,7 @@ class JoinGenerator
         /** @var LogTable[] $availableLogTables */
         $availableLogTables = array();
 
-        $this->tables->sort(array($this, 'sortTablesForJoin'));
+        $this->tables->sort();
 
         foreach ($this->tables as $i => $table) {
             if (is_array($table)) {
@@ -120,9 +157,16 @@ class JoinGenerator
                     $this->joinString .= ' LEFT JOIN';
                 }
 
-                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table']) && !empty($availableLogTables)) {
+                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table'])) {
                     $logTable = $this->tables->getLogTable($table['table']);
-                    $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                    if (!empty($availableLogTables)) {
+                        $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                    }
+                    if (!isset($table['tableAlias'])) {
+                        // eg array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN')
+                        // we treat this like a regular string table which we can join automatically
+                        $availableLogTables[$table['table']] = $logTable;
+                    }
                 }
 
                 $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
@@ -199,6 +243,15 @@ class JoinGenerator
 
                 break;
             }
+
+            $otherJoins = $logTable->getWaysToJoinToOtherLogTables();
+            foreach ($otherJoins as $joinTable => $column) {
+                if($availableLogTable->getName() == $joinTable) {
+                    $join = sprintf("`%s`.`%s` = `%s`.`%s`", $table, $column, $availableLogTable->getName(), $column);
+                    break;
+                }
+            }
+
         }
 
         if (!isset($join)) {
@@ -260,71 +313,4 @@ class JoinGenerator
         $this->nonVisitJoins[$tableName][$tableNameToJoin] = $nonVisitJoin;
         $this->nonVisitJoins[$tableNameToJoin][$tableName] = $nonVisitJoin;
     }
-
-    public function sortTablesForJoin($tA, $tB)
-    {
-        $coreSort = array(
-            'log_link_visit_action' => 0,
-            'log_action' => 1,
-            'log_visit' => 2,
-            'log_conversion' => 3,
-            'log_conversion_item' => 4
-        );
-
-        if (is_array($tA) && is_array($tB)) {
-            $tAName = '';
-            if (isset($tA['tableAlias'])) {
-                $tAName = $tA['tableAlias'];
-            } elseif (isset($tA['table'])) {
-                $tAName = $tA['table'];
-            }
-
-            $tBName = '';
-            if (isset($tB['tableAlias'])) {
-                $tBName = $tB['tableAlias'];
-            } elseif (isset($tB['table'])) {
-                $tBName = $tB['table'];
-            }
-
-            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
-                return 1;
-            }
-
-            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
-                return -1;
-            }
-
-            return 0;
-        }
-
-        if (is_array($tA)) {
-            return 1;
-        }
-
-        if (is_array($tB)) {
-            return -1;
-        }
-
-        if (isset($coreSort[$tA])) {
-            $weightA = $coreSort[$tA];
-        } else {
-            $weightA = 999;
-        }
-        if (isset($coreSort[$tB])) {
-            $weightB = $coreSort[$tB];
-        } else {
-            $weightB = 999;
-        }
-
-        if ($weightA === $weightB) {
-            return 0;
-        }
-
-        if ($weightA > $weightB) {
-            return 1;
-        }
-
-        return -1;
-    }
-    
 }

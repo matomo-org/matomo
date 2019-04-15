@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s Absprünge",
         "DirectEntries": "Direkte Eingaben",
+        "Transitions": "Übergänge",
         "ErrorBack": "Gehe zurück zur letzten Aktion",
         "ExitsInline": "%s Ausstiege",
         "NumPageviews": "%s Seitenansichten",
         "NumDownloads": "%s Downloads",
         "NumOutlinks": "%s ausgehende Verweise",
+        "TopX": "Top %s Beschriftungen",
+        "FeatureDescription": "Übergänge zeigen Ihnen auf, was genau Ihre Besucher machten bevor und nachdem sie eine bestimmte Seite aufgerufen haben. Diese Seite erklärt wie man zum Übergangsbericht kommt, wie man ihn versteht und wie man ihn nutzt.",
+        "AvailableInOtherReports": "Schon gewusst? Übergänge sind auch als Zeilenaktionen in folgenden Berichten verfügbar:",
+        "AvailableInOtherReports2": "Fahren Sie einfach über eine Zeile einer dieser Berichte und klicken Sie auf das Übergangsicon %s um ihn aufzurufen.",
         "FromCampaigns": "Von Kampagnen",
         "FromPreviousPages": "Von internen Seiten",
         "FromPreviousPagesInline": "%s von internen Seiten",
         "FromPreviousSiteSearches": "Von der internen Suche",
         "FromPreviousSiteSearchesInline": "%s von internen Suchen",
         "FromSearchEngines": "Von Suchmaschinen",
+        "FromSocialNetworks": "Aus sozialen Netzwerken",
         "FromWebsites": "Von Websites",
         "IncomingTraffic": "Eingehender Traffic",
         "LoopsInline": "%s Seite erneut geladen",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "Interne Suchen",
         "ToFollowingSiteSearchesInline": "%s interne Suchen",
         "XOfAllPageviews": "%s von allen Seitenansichten",
-        "XOutOfYVisits": "%1$s (von insgesamt %2$s)"
+        "XOutOfYVisits": "%1$s (von insgesamt %2$s)",
+        "PageURLTransitions": "Seiten URL Übergänge"
     }
 }

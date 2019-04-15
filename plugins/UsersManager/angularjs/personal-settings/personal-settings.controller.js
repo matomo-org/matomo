@@ -7,12 +7,14 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi', '$window'];
+    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik'];
 
-    function PersonalSettingsController(piwikApi, $window) {
+    function PersonalSettingsController(piwikApi, $window, piwik) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
+
+        this.doesRequirePasswordConfirmation = false;
 
         function updateSettings(postParams)
         {
@@ -28,11 +30,18 @@
                     id: 'PersonalSettingsSuccess', context: 'success'});
                 notification.scrollToNotification();
 
+                self.doesRequirePasswordConfirmation = !!self.password;
+                self.passwordCurrent = '';
                 self.loading = false;
             }, function (errorMessage) {
                 self.loading = false;
+                self.passwordCurrent = '';
             });
         }
+
+        this.requirePasswordConfirmation = function () {
+            this.doesRequirePasswordConfirmation = true;
+        };
 
         this.regenerateTokenAuth = function () {
             var parameters = { userLogin: piwik.userLogin };
@@ -46,7 +55,6 @@
                     method: 'UsersManager.regenerateTokenAuth'
                 }, parameters).then(function (success) {
                     $window.location.reload();
-
                     self.loading = false;
                 }, function (errorMessage) {
                     self.loading = false;
@@ -54,10 +62,22 @@
             }});
         };
 
+        this.cancelSave = function () {
+            this.passwordCurrent = '';
+        };
+
         this.save = function () {
 
+            if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
+                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false, ready: function () {
+                    $('.modal.open #currentPassword').focus();
+                }});
+                return;
+            }
+
+            angular.element('#confirmChangesWithPassword').closeModal();
+
             var postParams = {
-                alias: this.alias,
                 email: this.email,
                 defaultReport: this.defaultReport == 'MultiSites' ? this.defaultReport : this.site.id,
                 defaultDate: this.defaultDate,
@@ -71,6 +91,10 @@
 
             if (this.passwordBis) {
                 postParams.passwordBis = this.passwordBis;
+            }
+
+            if (this.passwordCurrent) {
+                postParams.passwordConfirmation = this.passwordCurrent;
             }
 
             updateSettings(postParams);

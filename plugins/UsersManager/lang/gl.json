@@ -6,8 +6,6 @@
         "ApplyToAllWebsites": "Aplicar a todos os sitios",
         "DeleteConfirm": "Está seguro de que desexa eliminar ao usuario %s?",
         "Email": "Enderezo electrónico",
-        "ExceptionAccessValues": "O parámetro debe ter acceso a un dos seguintes valores: [%s]",
-        "ExceptionAdminAnonymous": "Non pode concederlle o acceso de 'administrador' a un usuario 'anónimo'.",
         "ExceptionDeleteDoesNotExist": "O usuario '%s' non existe, polo que non pode ser eliminado.",
         "ExceptionEditAnonymous": "O usuario anónimo non pode ser eliminado ou modificado, xa que é empregado por Matomo para identificar a usuarios non conectados. Por exemplo, pode facer as súas estatísticas públicas dando acceso á 'visión' aos visitantes 'anónimos'.",
         "ExceptionInvalidEmail": "O enderezo electrónico non ten un formato correcto.",
@@ -17,6 +15,7 @@
         "PrivAdmin": "Admin",
         "PrivNone": "Acceso denegado",
         "PrivView": "Ver",
-        "User": "Usuario"
+        "User": "Usuario",
+        "Username": "Usuario"
     }
 }

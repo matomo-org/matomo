@@ -6,6 +6,10 @@ piwik-series-picker {
       opacity: .55;
     }
 
+    &.open { // while open, make sure we're above other series picker icons
+      z-index: 1000;
+    }
+
     > a {
       display: inline-block;
       opacity: 0;

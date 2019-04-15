@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s kthime",
         "DirectEntries": "Hyrje të Drejtpërdrejta",
+        "Transitions": "Tranzicione",
         "ErrorBack": "Kthehu te veprimi i mëparshëm",
         "ExitsInline": "%s largime",
         "NumPageviews": "%s parje faqesh",
         "NumDownloads": "%s shkarkime",
         "NumOutlinks": "%s lidhje për jashtë",
+        "TopX": "%s etiketat kryesuese",
+        "FeatureDescription": "Tranzicionet ju japin një raport që tregon gjëra që vizitorët tuaj bënë fill para dhe pas parjes së një faqeje të dhënë. Kjo faqe do të shpjegojë si të hyhet, të kuptohet dhe të përdoret raporti i fuqishëm Tranzicione.",
+        "AvailableInOtherReports": "A e dinit? Tranzicionet janë të passhme edhe si veprim rreshti në raportet vijues:",
+        "AvailableInOtherReports2": "Thjesht kaloni kursorin përsipër një rreshti te cilido prej këtyre raporteve dhe klikoni mbi ikonën e tranzicionit %s për ta vënë në punë.",
         "FromCampaigns": "Prej Fushatash",
         "FromPreviousPages": "Prej Faqesh të Brendshme",
         "FromPreviousPagesInline": "%s prej faqesh të brendshme",
         "FromPreviousSiteSearches": "Prej Kërkimesh të Brendshme",
         "FromPreviousSiteSearchesInline": "%s prej kërkimesh të brendshme",
         "FromSearchEngines": "Prej Motorë Kërkimesh",
+        "FromSocialNetworks": "Prej Rrjetesh Shoqërore",
         "FromWebsites": "Prej Sajtesh",
         "IncomingTraffic": "Trafik ardhës",
         "LoopsInline": "%s ringarkime faqesh",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "Kërkime të Brendshme",
         "ToFollowingSiteSearchesInline": "%s kërkime të brendshme",
         "XOfAllPageviews": "%s e krejt parjeve të kësaj faqeje",
-        "XOutOfYVisits": "%1$s (nga %2$s gjithsej)"
+        "XOutOfYVisits": "%1$s (nga %2$s gjithsej)",
+        "PageURLTransitions": "Tranzicione URL-je Faqeje"
     }
 }

@@ -42,9 +42,9 @@
                 'module': 'Goals',
                 'action': 'manage',
             }) ~ '">', "</a>",
-            '<a href="https://matomo.org/features/" rel="noreferrer" target="_blank">', "</a>",
-            '<a href="https://matomo.org/docs/" rel="noreferrer" target="_blank">', "</a>",
-            '<a href="https://matomo.org/faq/" rel="noreferrer" target="_blank">', "</a>")|raw }}
+            '<a href="https://matomo.org/features/" rel="noreferrer noopener" target="_blank">', "</a>",
+            '<a href="https://matomo.org/docs/" rel="noreferrer noopener" target="_blank">', "</a>",
+            '<a href="https://matomo.org/faq/" rel="noreferrer noopener" target="_blank">', "</a>")|raw }}
 
             <br />
             <br />
@@ -52,8 +52,11 @@
                class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
         </p>
 
+        {{ postEvent('Template.siteWithoutData.afterIntro') }}
+
         {{ trackingHelp|raw }}
 
+        {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
     </div>
 
 {% endblock %}

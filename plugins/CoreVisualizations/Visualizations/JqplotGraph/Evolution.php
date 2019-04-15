@@ -35,6 +35,7 @@ class Evolution extends JqplotGraph
     {
         parent::beforeRender();
 
+        $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
@@ -77,23 +78,25 @@ class Evolution extends JqplotGraph
     private function calculateEvolutionDateRange()
     {
         $period = Common::getRequestVar('period');
+        $idSite = Common::getRequestVar('idSite');
+        $timezone = Site::getTimezoneFor($idSite);
 
         $defaultLastN = self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
             $this->config->show_limit_control = true;
+            $this->config->show_periods = true;
 
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) {
                 // if a multiple period
 
                 // overwrite last_n param using the date range
-                $oPeriod = new Range($period, $originalDate);
+                $oPeriod = new Range($period, $originalDate, $timezone);
                 $lastN   = count($oPeriod->getSubperiods());
 
             } else {
-
                 // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
                 $this->requestConfig->request_parameters_to_modify['date'] = $newDate;

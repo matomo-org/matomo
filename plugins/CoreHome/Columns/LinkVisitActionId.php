@@ -13,9 +13,6 @@ use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
-
 
 class LinkVisitActionId extends ActionDimension
 {
@@ -31,12 +28,6 @@ class LinkVisitActionId extends ActionDimension
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
         $metric->setTranslatedName(Piwik::translate('General_ColumnHits'));
         $metric->setName('hits');
-        $metricsList->addMetric($metric);
-
-        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName(Piwik::translate('General_ColumnPageviews'));
-        $metric->setDocumentation(Piwik::translate('General_ColumnPageviewsDocumentation'));
-        $metric->setName('pageviews');
         $metricsList->addMetric($metric);
     }
 }

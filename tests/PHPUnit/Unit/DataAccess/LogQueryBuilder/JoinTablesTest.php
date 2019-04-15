@@ -39,6 +39,20 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
         $this->makeTables(array('log_visit', 'log_foo_bar_baz'));
     }
 
+    public function test_hasJoinedTable_custom()
+    {
+        $tables = $this->makeTables(array('log_visit', 'log_custom'));
+        $this->assertTrue($tables->hasJoinedTable('log_visit'));
+        $this->assertTrue($tables->hasJoinedTable('log_custom'));
+    }
+
+    public function test_hasJoinedTable_custom2()
+    {
+        $tables = $this->makeTables(array('log_visit', 'log_custom_other'));
+        $this->assertTrue($tables->hasJoinedTable('log_visit'));
+        $this->assertTrue($tables->hasJoinedTable('log_custom_other'));
+    }
+
     public function test_hasJoinedTable_shouldDetectIfTableIsAlreadyAdded()
     {
         $this->assertTrue($this->tables->hasJoinedTable('log_visit'));
@@ -141,23 +155,232 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
 
     public function test_sort_shouldNeverSortFirstEntry_AndNotMaintainKeys()
     {
-        $tables = $this->makeTables(array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item'));
-        $tables->sort(function($a, $b) {
-            return strcmp($a, $b);
-        });
+        $tables = $this->makeTables(array('log_action', 'log_conversion', 'log_visit', 'log_conversion_item'));
+        $tables->sort();
 
-        $expected = array('log_conversion', 'log_action', 'log_conversion_item', 'log_visit');
+        $expected = array('log_action', 'log_visit', 'log_conversion', 'log_conversion_item');
         $this->assertEquals($expected, $tables->getTables());
     }
 
-    public function test_sort_ifAllReturn0_ThenSortByGivenOrder()
+    public function test_sortTablesForJoin_shouldSortTablesAsSpecified()
     {
-        $tables = $this->makeTables(array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item'));
-        $tables->sort(function($a, $b) {
-            return 0;
-        });
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array('table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
+            'log_conversion_item',
+            'log_conversion',
+            'log_visit',
+            array('table' => 'log_foo_bar'),
+        );
 
-        $expected = array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item');
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = array(
+            'log_link_visit_action',
+            'log_visit',
+            array('table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
+            'log_conversion_item',
+            'log_action',
+            'log_conversion',
+            array('table' => 'log_foo_bar'),
+        );
+
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
+    public function test_sortTablesForJoin_anotherTestMakingSureWorksOhPhp5_5()
+    {
+        $tables = array (
+            1 => 'log_link_visit_action',
+            2 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_idaction_name',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                ),
+            3 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_visit_exit_idaction_name',
+                    'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                ),
+        )
+        ;
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = array(
+            'log_link_visit_action',
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+            ),
+        );
+
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
+    public function test_sortTablesForJoin_anotherTest2MakingSureWorksOhPhp5_5()
+    {
+        $tables = array (
+            1 => 'log_link_visit_action',
+            3 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_visit_exit_idaction_name',
+                    'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                ),
+            2 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_idaction_name',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                ),
+        )
+        ;
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = array(
+            'log_link_visit_action',
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+            ),
+        );
+
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther1()
+    {
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            )
+        );
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = array(
+            'log_link_visit_action',
+            'log_action',
+            array (
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => 'log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => 'log_link_visit_action_foo.idaction_url = log_action_foo.idaction',
+            ),
+        );
+
+        $this->assertEquals($expected, $tables->getTables());
+
+        // should still be the same if inverted
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            ),
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+        );
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $this->assertEquals($expected, $tables->getTables());
+
+        // should still be the same if inverted
+        $tables = array(
+            'log_link_visit_action',
+            'log_action',
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            ),
+        );
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther2()
+    {
+        $tables = array(
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            ),
+        );
+
+        $tables = $this->makeTables($tables);
+        $tables->sort();
+
+        $expected = array(
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            )
+        );
+
         $this->assertEquals($expected, $tables->getTables());
     }
 

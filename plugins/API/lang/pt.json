@@ -1,11 +1,17 @@
 {
     "API": {
-        "GenerateVisits": "Se não tiver dados para hoje pode gerar alguns através do plugin %1$s. Pode activar o plugin %2$s, e depois clicar no menu 'Gerador de Visitantes' na área de Administração do Matomo.",
+        "ChangeTokenHint": "Se quiser alterar este código, por favor, aceda à sua %1$spágina de definições pessoais%2$s.",
+        "GenerateVisits": "Se não tiver dados para hoje pode começar por gerar alguns através da extensão %1$s. Pode ativar a extensão %2$s e depois clicar no menu 'Gerador de visitantes' na área de Administração do Matomo.",
         "KeepTokenSecret": "Este token_auth é tão secreto como o seu nome de utilizador e palavra-passe. %1$s não o partilhe%2$s!",
         "LoadedAPIs": "%s APIs carregadas com sucesso",
-        "MoreInformation": "Para mais informação sobre os APIs de Matomo, por favor dê uma vista de olhos na %1$s Introdução ao API Matomo %2$s e a %3$s Referência do API Matomo %4$s.",
+        "MoreInformation": "Para mais informação sobre as APIs do Matomo, por favor dê uma vista de olhos na %1$s Introdução à API do Matomo %2$s e a %3$s referência da API do Matomo %4$s.",
+        "PluginDescription": "Todos os dados no Matomo estão disponíveis através de APIs simples. Esta extensão é o ponto de entrada do web service que pode invocar para obter os seus dados em xml, json, php, csv, etc.",
+        "ReportingApiReference": "Referência da API de relatórios",
         "TopLinkTooltip": "Aceda programaticamente à sua informação através de uma simples API em json, xml, etc.",
         "UserAuthentication": "Autenticação do utilizador",
-        "UsingTokenAuth": "Se quer %1$s pedir dados através de um script, crontab, etc. %2$s tem que adicionar o parâmetro %3$s aos URLs das chamadas do API que necessitam de autenticação."
+        "UsingTokenAuth": "Se quer %1$s pedir dados através de um script, crontab, etc. %2$s tem que adicionar o parâmetro %3$s aos endereços das chamadas à API que necessitam de autenticação.",
+        "Glossary": "Glossário",
+        "LearnAboutCommonlyUsedTerms2": "Saber mais sobre os termos mais utilizados para obter o máximo do Matomo Analytics.",
+        "EvolutionMetricName": "Evolução de %s"
     }
 }

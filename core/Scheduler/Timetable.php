@@ -9,6 +9,7 @@
 
 namespace Piwik\Scheduler;
 
+use Piwik\Common;
 use Piwik\Option;
 use Piwik\Date;
 
@@ -24,7 +25,7 @@ class Timetable
     public function __construct()
     {
         $optionData = Option::get(self::TIMETABLE_OPTION_STRING);
-        $unserializedTimetable = @unserialize($optionData);
+        $unserializedTimetable = Common::safe_unserialize($optionData);
 
         $this->timetable = $unserializedTimetable === false ? array() : $unserializedTimetable;
     }
@@ -53,6 +54,7 @@ class Timetable
                 unset($this->timetable[$taskName]);
             }
         }
+        $this->save();
     }
 
     public function getScheduledTaskNames()
@@ -112,6 +114,17 @@ class Timetable
         $this->save();
 
         return Date::factory($rescheduledTime);
+    }
+
+    public function rescheduleTaskAndRunTomorrow(Task $task)
+    {
+        $tomorrow = Date::factory('tomorrow');
+
+        // update the scheduled time
+        $this->timetable[$task->getName()] = $tomorrow->getTimestamp();
+        $this->save();
+
+        return $tomorrow;
     }
 
     public function save()

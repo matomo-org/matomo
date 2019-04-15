@@ -26,6 +26,7 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
+use Piwik\View;
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -38,8 +39,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 class PrivacyManager extends Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
+    const OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS = "lastDelete_piwik_unused_log_actions";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+    const OPTION_USERID_SALT = 'useridsalt';
+
 
     // options for data purging feature array[configName => configSection]
     public static $purgeDataOptions = array(
@@ -47,7 +51,9 @@ class PrivacyManager extends Plugin
         'delete_logs_schedule_lowest_interval' => 'Deletelogs',
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
+        'delete_logs_unused_actions_schedule_lowest_interval' => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
+        'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
         'delete_reports_older_than'            => 'Deletereports',
         'delete_reports_keep_basic_metrics'    => 'Deletereports',
@@ -71,6 +77,16 @@ class PrivacyManager extends Plugin
 
         $this->dntChecker = new DoNotTrackHeaderChecker();
         $this->ipAnonymizer = new IPAnonymizer();
+    }
+
+    public function install()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
+    public function uninstall()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
     }
 
     /**
@@ -158,24 +174,34 @@ class PrivacyManager extends Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'                 => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Template.pageFooter' => 'renderPrivacyPolicyLinks',
         );
+    }
+
+    public function isTrackerPlugin()
+    {
+        return true;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
+        $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
     }
 
     public function getJsFiles(&$jsFiles)
@@ -186,6 +212,21 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/footerLinks.less";
     }
 
     /**
@@ -308,7 +349,7 @@ class PrivacyManager extends Plugin
         }
 
         // make sure purging should run at this time (unless this is a forced purge)
-        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS)) {
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS, 'delete_logs_schedule_lowest_interval')) {
             return false;
         }
 
@@ -320,14 +361,14 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Deletes old log data based on the options set in the Deletelogs config
+     * Deletes old raw data based on the options set in the Deletelogs config
      * section. This is a scheduled task and will only execute every N days. The number
      * of days is determined by the delete_logs_schedule_lowest_interval config option.
      *
      * If delete_logs_enable is set to 1, old data in the log_visit, log_conversion,
      * log_conversion_item and log_link_visit_action tables is deleted. The following
      * options can tweak this behavior:
-     * - delete_logs_older_than: The number of days after which log data is considered old.
+     * - delete_logs_older_than: The number of days after which raw data is considered old.
      *
      * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting
      *        the day offset;
@@ -342,7 +383,7 @@ class PrivacyManager extends Plugin
         }
 
         // make sure purging should run at this time
-        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS)) {
+        if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS, 'delete_logs_schedule_lowest_interval')) {
             return false;
         }
 
@@ -354,16 +395,21 @@ class PrivacyManager extends Plugin
         $lastDeleteDate = Date::factory("today")->getTimestamp();
         Option::set(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
+        $shouldDeleteUnusedLogActions = $this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, 'delete_logs_unused_actions_schedule_lowest_interval');
+        if ($shouldDeleteUnusedLogActions) {
+            Option::set(self::OPTION_LAST_DELETE_UNUSED_LOG_ACTIONS, $lastDeleteDate);
+        }
+
         // execute the purge
         /** @var LogDataPurger $logDataPurger */
         $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-        $logDataPurger->purgeData($settings['delete_logs_older_than']);
+        $logDataPurger->purgeData($settings['delete_logs_older_than'], $shouldDeleteUnusedLogActions);
 
         return true;
     }
 
     /**
-     * Returns an array describing what data would be purged if both log data & report
+     * Returns an array describing what data would be purged if both raw data & report
      * purging is invoked.
      *
      * The returned array maps table names with the number of rows that will be deleted.
@@ -516,7 +562,7 @@ class PrivacyManager extends Plugin
     /**
      * Returns true if one of the purge data tasks should run now, false if it shouldn't.
      */
-    private function shouldPurgeData($settings, $lastRanOption)
+    private function shouldPurgeData($settings, $lastRanOption, $setting)
     {
         // Log deletion may not run until it is once rescheduled (initial run). This is the
         // only way to guarantee the calculated next scheduled deletion time.
@@ -528,11 +574,12 @@ class PrivacyManager extends Plugin
 
         // Make sure, log purging is allowed to run now
         $lastDelete = Option::get($lastRanOption);
-        $deleteIntervalDays = $settings['delete_logs_schedule_lowest_interval'];
+        $deleteIntervalDays = $settings[$setting];
         $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteIntervalDays);
 
         if ($lastDelete === false ||
-            ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
+            $lastDelete === '' ||
+            ((int)$lastDelete + $deleteIntervalSeconds) <= time()
         ) {
             return true;
         } else // not time to run data purge
@@ -549,5 +596,55 @@ class PrivacyManager extends Plugin
     private static function getMaxGoalId()
     {
         return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
+    }
+
+    /**
+     * Returns a unique salt used for pseudonimisation of user id only
+     *
+     * @return string
+     */
+    public static function getUserIdSalt()
+    {
+        $salt = Option::get(self::OPTION_USERID_SALT);
+        if (empty($salt)) {
+            $salt = Common::getRandomString($len = 40, $alphabet = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789_-$");
+            Option::set(self::OPTION_USERID_SALT, $salt, 1);
+        }
+        return $salt;
+    }
+
+    public function renderPrivacyPolicyLinks(&$out)
+    {
+        $settings = new SystemSettings();
+
+        if (!$this->shouldRenderFooterLinks($settings)) {
+            return;
+        }
+
+        $privacyPolicyUrl     = $settings->privacyPolicyUrl->getValue();
+        $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
+
+        if (empty($privacyPolicyUrl) && empty($termsAndConditionUrl)) {
+            return;
+        }
+
+        $view = new View('@PrivacyManager/footerLinks.twig');
+        $view->privacyPolicyUrl  = $privacyPolicyUrl;
+        $view->termsAndCondition = $termsAndConditionUrl;
+        $out .= $view->render();
+    }
+
+    private function shouldRenderFooterLinks(SystemSettings $settings)
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return true;
+        }
+
+        $module = Common::getRequestVar('module', false);
+        if ($module == 'Widgetize') {
+            return (bool)$settings->showInEmbeddedWidgets->getValue();
+        }
+
+        return false;
     }
 }

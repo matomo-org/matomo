@@ -19,7 +19,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 class Php extends GeoIp
 {
     const ID = 'geoip_php';
-    const TITLE = 'GeoIP (Php)';
+    const TITLE = 'GeoIP Legacy (Php)';
 
     /**
      * The GeoIP database instances used. This array will contain at most three
@@ -324,7 +324,7 @@ class Php extends GeoIp
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Php1') . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Php2',
                 array('<strong>', '</strong>', '<strong>', '</strong>'));
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_163">'
+        $installDocs = '<a rel="noreferrer noopener"  target="_blank" href="https://matomo.org/faq/how-to/#faq_163">'
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 
@@ -345,16 +345,21 @@ class Php extends GeoIp
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Organization');
         }
 
-        $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-            . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
-            . implode(', ', $availableDatabaseTypes) . '</strong>.';
+        if (!empty($availableDatabaseTypes)) {
+            $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
+                . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
+                . implode(', ', $availableDatabaseTypes) . '</strong>.';
+        } else {
+            $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
+                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound') . '<strong>';
+        }
 
         return array('id'            => self::ID,
                      'title'         => self::TITLE,
                      'description'   => $desc,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage,
-                     'order'         => 2);
+                     'order'         => 12);
     }
 
     /**

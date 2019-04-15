@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
+use DateTimeZone;
 use Exception;
 use Piwik\Access;
 use Piwik\Common;
@@ -100,13 +101,14 @@ class API extends \Piwik\Plugin\API
      * @param bool $doNotTrack
      * @param bool $disableCookies
      * @param bool $trackNoScript
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
                                      $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
-                                     $crossDomain = false)
+                                     $crossDomain = false, $forceMatomoEndpoint = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -123,6 +125,10 @@ class API extends \Piwik\Plugin\API
         $customCampaignKeywordParam = Common::unsanitizeInputValue($customCampaignKeywordParam);
 
         $generator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $generator->forceMatomoEndpoint();
+        }
+
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
@@ -138,9 +144,10 @@ class API extends \Piwik\Plugin\API
      * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
+     * @param bool $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @return string The HTML tracking code.
      */
-    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false)
+    public function getImageTrackingCode($idSite, $piwikUrl = '', $actionName = false, $idGoal = false, $revenue = false, $forceMatomoEndpoint = false)
     {
         $urlParams = array('idsite' => $idSite, 'rec' => 1);
 
@@ -167,10 +174,17 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
-        $piwikUrl = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php';
-        return "<!-- Matomo Image Tracker-->
-<img src=\"$piwikUrl?" . Url::getQueryStringFromParameters($urlParams) . "\" style=\"border:0\" alt=\"\" />
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        if ($forceMatomoEndpoint) {
+            $trackerCodeGenerator->forceMatomoEndpoint();
+        }
+        $matomoPhp = $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . rtrim($piwikUrl, '/') . '/'.$matomoPhp.'?' . Url::getQueryStringFromParameters($urlParams);
+        $html = "<!-- Matomo Image Tracker-->
+<img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
+        return htmlspecialchars($html, ENT_COMPAT, 'UTF-8');
     }
 
     /**
@@ -185,7 +199,11 @@ class API extends \Piwik\Plugin\API
         $group = trim($group);
         $sites = $this->getModel()->getSitesFromGroup($group);
 
-        Site::setSitesFromArray($sites);
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -217,6 +235,10 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $site = $this->getModel()->getSiteFromId($idSite);
+
+        if ($site) {
+            $this->enrichSite($site);
+        }
 
         Site::setSiteFromArray($idSite, $site);
 
@@ -258,10 +280,11 @@ class API extends \Piwik\Plugin\API
         $sites  = $this->getModel()->getAllSites();
         $return = array();
         foreach ($sites as $site) {
+            $this->enrichSite($site);
             $return[$site['idsite']] = $site;
         }
 
-        Site::setSitesFromArray($return);
+        $return = Site::setSitesFromArray($return);
 
         return $return;
     }
@@ -327,7 +350,12 @@ class API extends \Piwik\Plugin\API
             $sites = $this->getSitesFromIds($sitesId, $limit);
         } else {
             $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
-            Site::setSitesFromArray($sites);
+
+            foreach ($sites as &$site) {
+                $this->enrichSite($site);
+            }
+
+            $sites = Site::setSitesFromArray($sites);
         }
 
         if ($fetchAliasUrls) {
@@ -389,6 +417,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites ID with the 'write' access for the current user.
+     * For the superUser it doesn't return any result because the superUser has write access on all the websites (use getSitesIdWithAtLeastWriteAccess() instead).
+     *
+     * @return array list of websites ID
+     */
+    public function getSitesIdWithWriteAccess()
+    {
+        return Access::getInstance()->getSitesIdWithWriteAccess();
+    }
+
+    /**
      * Returns the list of websites ID with the 'view' or 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *
@@ -441,7 +480,11 @@ class API extends \Piwik\Plugin\API
     {
         $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
 
-        Site::setSitesFromArray($sites);
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }
@@ -506,6 +549,21 @@ class API extends \Piwik\Plugin\API
         }
 
         return $return;
+    }
+
+    private function enrichSite(&$site)
+    {
+        $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+
+        $key = 'Intl_Currency_' . $site['currency'];
+        $name = Piwik::translate($key);
+
+        $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
+
+        // don't want to expose other user logins here
+        if (!Piwik::hasUserSuperUserAccess()) {
+            unset($site['creator_login']);
+        }
     }
 
     /**
@@ -606,6 +664,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $bind['group'] = "";
         }
+
+        $bind['creator_login'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
@@ -1315,10 +1375,17 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currencies = Site::getCurrencyList();
-        return array_map(function ($a) {
-            return $a[1] . " (" . $a[0] . ")";
-        }, $currencies);
+        $currency = Site::getCurrencyList();
+
+        $return = array();
+        foreach (array_keys(Site::getCurrencyList()) as $currencyCode) {
+            $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
+              ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
+        }
+
+        asort($return);
+
+        return $return;
     }
 
     /**
@@ -1357,40 +1424,85 @@ class API extends \Piwik\Plugin\API
             return array('UTC' => $this->getTimezonesListUTCOffsets());
         }
 
-        $continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
-        $timezones = timezone_identifiers_list();
+        $countries = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider')->getCountryList();
 
         $return = array();
-        foreach ($timezones as $timezone) {
-            // filter out timezones not recognized by strtotime()
-            // @see http://bugs.php.net/46111
-            $testDate = '2008-09-18 13:00:00 ' . $timezone;
-            if (!strtotime($testDate)) {
-                continue;
-            }
+        $continents = array();
+        foreach ($countries as $countryCode => $continentCode) {
+            $countryCode = strtoupper($countryCode);
+            $timezones = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
+            foreach ($timezones as $timezone) {
+                if (!isset($continents[$continentCode])) {
+                    $continents[$continentCode] = Piwik::translate('Intl_Continent_' . $continentCode);
+                }
+                $continent = $continents[$continentCode];
 
-            $timezoneExploded = explode('/', $timezone);
-            $continent = $timezoneExploded[0];
-
-            // only display timezones that are grouped by continent
-            if (!in_array($continent, $continents)) {
-                continue;
+                $return[$continent][$timezone] = $this->getTimezoneName($timezone, $countryCode, count($timezones) > 1);
             }
-            $city = $timezoneExploded[1];
-            if (!empty($timezoneExploded[2])) {
-                $city .= ' - ' . $timezoneExploded[2];
-            }
-            $city = str_replace('_', ' ', $city);
-            $return[$continent][$timezone] = $city;
         }
 
-        foreach ($continents as $continent) {
-            if (!empty($return[$continent])) {
-                ksort($return[$continent]);
-            }
+        // Sort by continent name and then by country name.
+        ksort($return);
+        foreach ($return as $continent => $countries) {
+            asort($return[$continent]);
         }
 
         $return['UTC'] = $this->getTimezonesListUTCOffsets();
+        return $return;
+    }
+
+    /**
+     * Returns a user-friendly label for a timezone.
+     * This is usually the country name of the timezone. For countries spanning multiple timezones,
+     * a city/location name is added to avoid ambiguity.
+     *
+     * @param string $timezone a timezone, e.g. "Asia/Tokyo" or "America/Los_Angeles"
+     * @param string $countryCode an upper-case country code (if not supplied, it will be looked up)
+     * @param bool $multipleTimezonesInCountry whether there are multiple timezones in the country (if not supplied, it will be looked up)
+     * @return string a timezone label, e.g. "Japan" or "United States - Los Angeles"
+     */
+    public function getTimezoneName($timezone, $countryCode = null, $multipleTimezonesInCountry = null)
+    {
+        if (substr($timezone, 0, 3) === 'UTC') {
+            return Piwik::translate('SitesManager_Format_Utc', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
+        }
+
+        if (!isset($countryCode)) {
+            try {
+                $zone = new DateTimeZone($timezone);
+                $location = $zone->getLocation();
+                if (isset($location['country_code']) && $location['country_code'] !== '??') {
+                    $countryCode = $location['country_code'];
+                }
+            } catch (Exception $e) {
+            }
+        }
+
+        if (!$countryCode) {
+            $timezoneExploded = explode('/', $timezone);
+            return str_replace('_', ' ', end($timezoneExploded));
+        }
+
+        if (!isset($multipleTimezonesInCountry)) {
+            $timezonesInCountry = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
+            $multipleTimezonesInCountry = (count($timezonesInCountry) > 1);
+        }
+
+        $return = Piwik::translate('Intl_Country_' . $countryCode);
+
+        if ($multipleTimezonesInCountry) {
+            $translationId = 'Intl_Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone);
+            $city = Piwik::translate($translationId);
+
+            // Fall back to English identifier, if translation is missing due to differences in tzdata in different PHP versions.
+            if ($city === $translationId) {
+                $timezoneExploded = explode('/', $timezone);
+                $city = str_replace('_', ' ', end($timezoneExploded));
+            }
+
+            $return .= ' - ' . $city;
+        }
+
         return $return;
     }
 
@@ -1409,9 +1521,8 @@ class API extends \Piwik\Plugin\API
             } elseif ($offset == 0) {
                 $offset = '';
             }
-            $offset = 'UTC' . $offset;
-            $offsetName = str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), $offset);
-            $return[$offset] = $offsetName;
+            $timezone = 'UTC' . $offset;
+            $return[$timezone] = $this->getTimezoneName($timezone);
         }
         return $return;
     }
@@ -1529,6 +1640,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
+
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }

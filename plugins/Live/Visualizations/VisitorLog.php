@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -43,10 +44,14 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
-        if (!is_numeric($this->requestConfig->filter_limit)) {
-            $this->requestConfig->filter_limit = 20;
+        if (!is_numeric($this->requestConfig->filter_limit)
+            || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
+        ) {
+            $defaultLimit = Config::getInstance()->General['datatable_default_limit'];
+            $this->requestConfig->filter_limit = $defaultLimit;
         }
 
+        $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit+1; // request one more record, to check if a next page is available
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
 
@@ -83,6 +88,7 @@ class VisitorLog extends Visualization
         $this->config->show_all_views_icons        = false;
         $this->config->show_table_all_columns      = false;
         $this->config->show_export_as_rss_feed     = false;
+        $this->config->disable_all_rows_filter_limit = true;
 
         $this->config->documentation = Piwik::translate('Live_VisitorLogDocumentation', array('<br />', '<br />'));
 
@@ -90,8 +96,12 @@ class VisitorLog extends Visualization
             $this->config->custom_parameters = array();
         }
 
-        // set a very high row count so that the next link in the footer of the data table is always shown
-        $this->config->custom_parameters['totalRows'] = 10000000;
+        // ensure to show next link if there are enough rows for a next page
+        if ($this->dataTable->getRowsCount() > $this->requestConfig->filter_limit) {
+            $this->dataTable->deleteRowsOffset($this->requestConfig->filter_limit);
+            $this->config->custom_parameters['totalRows'] = 10000000;
+        }
+
         $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
         $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
@@ -108,6 +118,15 @@ class VisitorLog extends Visualization
                 )
             )
         );
+
+        $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
+        if ($enableAddNewSegment) {
+            $this->config->datatable_actions[] = [
+                'id' => 'addSegmentToMatomo',
+                'title' => Piwik::translate('SegmentEditor_AddThisToMatomo'),
+                'icon' => 'icon-segment',
+            ];
+        }
     }
 
     public static function canDisplayViewDataTable(ViewDataTable $view)

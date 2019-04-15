@@ -12,7 +12,6 @@ use Piwik\Category\Category;
 use Piwik\Category\CategoryList;
 use Piwik\Category\Subcategory;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Tests\Framework\Mock\Category\Categories;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -36,6 +35,7 @@ class CategoryListTest extends IntegrationTestCase
 
         $this->assertSame(array(
             'General_Actions',
+            'General_Generic',
             'General_Visitors',
             'Dashboard_Dashboard',
             'General_MultiSitesSummary',

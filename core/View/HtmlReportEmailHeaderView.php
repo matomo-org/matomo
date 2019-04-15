@@ -9,25 +9,24 @@
 
 namespace Piwik\View;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Mail\EmailStyles;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\View;
+use Piwik\Plugin\Manager;
 
 class HtmlReportEmailHeaderView extends View
 {
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
 
-    const REPORT_TITLE_TEXT_SIZE = 24;
-    const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = '13px';
-    const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
-
     private static $reportFrequencyTranslationByPeriod = [
+        Schedule::PERIOD_NEVER => '',
         Schedule::PERIOD_DAY   => 'General_DailyReport',
         Schedule::PERIOD_WEEK  => 'General_WeeklyReport',
         Schedule::PERIOD_MONTH => 'General_MonthlyReport',
@@ -51,10 +50,6 @@ class HtmlReportEmailHeaderView extends View
         $this->assign("idSite", $idSite);
         $this->assign("period", $period);
 
-        $customLogo = new CustomLogo();
-        $this->assign("isCustomLogo", $customLogo->isEnabled() && CustomLogo::hasUserLogo());
-        $this->assign("logoHeader", $customLogo->getHeaderLogoUrl($pathOnly = false));
-
         $date = Date::now()->setTimezone(Site::getTimezoneFor($idSite))->toString();
         $this->assign("date", $date);
 
@@ -68,21 +63,30 @@ class HtmlReportEmailHeaderView extends View
 
     public static function assignCommonParameters(View $view)
     {
-        $view->assign("reportFontFamily", ReportRenderer::DEFAULT_REPORT_FONT_FAMILY);
-        $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
-        $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
-        $view->assign("tableHeaderBgColor", ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
-        $view->assign("reportTableHeaderTextWeight", ReportRenderer::TABLE_HEADER_TEXT_WEIGHT);
-        $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
-        $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
-        $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-        $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
-        $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
-        $view->assign("logoHeader", API::getInstance()->getHeaderLogoUrl());
+        $themeStyles = ThemeStyles::get();
+        $emailStyles = EmailStyles::get();
+
+        $view->currentPath = SettingsPiwik::getPiwikUrl();
+        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
+
+        $view->themeStyles = $themeStyles;
+        $view->emailStyles = $emailStyles;
+
+        $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
+        $view->styleParagraphText = 'font-size:15px;line-height:24px;';
+        $view->styleParagraph = $view->styleParagraphText . 'margin:0 0 16px;';
+
+        $customLogo = new CustomLogo();
+        $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
+        $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
+
+        $pluginManager = Manager::getInstance();
+
+        $view->hasWhiteLabel = $pluginManager->isPluginLoaded('WhiteLabel')
+            && $pluginManager->isPluginActivated('WhiteLabel')
+            && $pluginManager->isPluginInFilesystem('WhiteLabel');
+
+        $view->idSite = Common::getRequestVar('idSite', false);
     }
 
     private static function getPeriodToFrequencyAsAdjective()

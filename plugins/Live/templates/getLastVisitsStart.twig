@@ -1,90 +1,38 @@
 {# some users view thousands of pages which can crash the browser viewing Live! #}
 {% set maxPagesDisplayedByVisitor=100 %}
 
-<ul id='visitsLive'>
-    {% for visitor in visitors %}
-        <li id="{{ visitor.idVisit }}" class="visit">
+<ul id="visitsLive">
+    {% for visitor in visitors.getRows() %}
+        <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
-            <div title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}" class="datetime">
-                <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
+            <div title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}" class="datetime">
+                <span style="display:none;" class="serverTimestamp">{{ visitor.getColumn('serverTimestamp')|raw }}</span>
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
-                {% set year = visitor.serverTimestamp|date('Y') %}
-                <span class="realTimeWidget_datetime">{{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}({{ visitor.visitDurationPretty|raw }}){% endif %}</span>
-                {% if visitor.visitorId|default(false) is not empty %}
-                  &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
-                        {% if visitor.userId is not empty %}<br/>{% endif %}
-                        <img src="plugins/Live/images/visitorProfileLaunch.png"/>
-                        {{ visitor.userId|default('')|raw }}
+                {% set year = visitor.getColumn('serverTimestamp')|date('Y') %}
+                <span class="realTimeWidget_datetime">{{ visitor.getColumn('serverDatePretty')|replace({(year): ' '}) }} - {{ visitor.getColumn('serverTimePretty') }} {% if visitor.getColumn('visitDuration') > 0 %}({{ visitor.getColumn('visitDurationPretty')|raw }}){% endif %}</span>
+                {% if visitor.getColumn('userId')|default(false) is not empty %}
+                  &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
+                        <span>{{ visitor.getColumn('userId')|rawSafeDecoded}}</span>
                     </a>
                 {% endif %}
-                <br />
 
-                {% if visitor.countryFlag is defined %}&nbsp;<img height="16px" src="{{ visitor.countryFlag }}" title="{{ visitor.location|e('html_attr') }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
-                {% if visitor.browserIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.browserIcon }}" title="{{ visitor.browser|e('html_attr') }}{% if visitor.plugins is defined %}, {{ 'General_Plugins'|translate }}: {{ visitor.plugins }}{% endif %}"/>{% endif %}
-                {% if visitor.operatingSystemIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}{% if visitor.resolution is defined %}, {{ visitor.resolution }}{% endif %}"/>{% endif %}
-                &nbsp;
-                {% if visitor.visitConverted %}
-                <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.goalConversions) }}"
-                      class='visitorRank'>
-                    <img src="{{ visitor.visitConvertedIcon }}" />
-                    <span class='hash'>#</span>
-                    {{ visitor.goalConversions }}
-                    {% if visitor.visitEcommerceStatusIcon %}
-
-                        <img src="{{ visitor.visitEcommerceStatusIcon }}" title="{{ visitor.visitEcommerceStatus|e('html_attr') }}"/>
-                    {% endif %}
-                </span>
-                {% endif %}
-                {% if visitor.visitorTypeIcon %}
-                    <img src="{{ visitor.visitorTypeIcon }}"
-                         title="{{ 'General_ReturningVisitor'|translate }}"/>
+                {{ postEvent('Live.renderVisitorIcons', visitor) }}
+                {% if not userIsAnonymous %}
+                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId') }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
+                    <span class="icon-visitor-profile"></span>
+                </a>
                 {% endif %}
 
-                {% if visitor.visitIp %} <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
-                    IP: {{ visitor.visitIp }}</span>
-                {% endif %}
-            <!--<div class="settings"></div>-->
-            <span class="referrer">
-                {% if visitor.referrerType is defined and visitor.referrerType != 'direct' %}
-                    {{ 'General_FromReferrer'|translate }}
-                    {% if visitor.referrerUrl is not empty %}
-                        <a rel="noreferrer" target="_blank"
-                           href="{{ visitor.referrerUrl|e('html_attr') }}">
-                    {% endif %}
-
-                    {% if visitor.searchEngineIcon is defined %}
-                        <img src="{{ visitor.searchEngineIcon }}" />
-                    {% endif %}
-
-                    {{ visitor.referrerName }}
-
-                    {% if visitor.referrerUrl is not empty %}
-                        </a>
-                    {% endif %}
-
-                    {% if visitor.referrerKeyword is not empty %} - "{{ visitor.referrerKeyword }}"{% endif %}
-
-                    {% set keyword %}{{ visitor.referrerKeyword }}{% endset %}
-                    {% set searchName %}{{ visitor.referrerName }}{% endset %}
-                    {% set position %}#{{ visitor.referrerKeywordPosition}}{% endset %}
-
-                    {% if visitor.referrerKeywordPosition is not empty %}
-                        <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}'
-                              class='visitorRank'>
-                            <span class='hash'>#</span> {{ visitor.referrerKeywordPosition }}
-                        </span>
-                    {% endif %}
-
-                {% elseif visitor.referrerType is defined %}
-                    {{ 'Referrers_DirectEntry'|translate }}
-                {% endif %}
-            </span></div>
-            <div id="{{ visitor.idVisit|e('html_attr') }}_actions" class="settings">
+                <span class="referrer">
+                    {% include "@Referrers/_visitorDetails.twig" with {'visitInfo': visitor} %}
+                 </span>
+            </div>
+            <div id="{{ visitor.getColumn('idVisit')|e('html_attr') }}_actions" class="settings">
                 <span class="pagesTitle"
-                      title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}"
+                      title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}"
                       >{{ 'General_Actions'|translate }}:</span>&nbsp;
                 {% set col = 0 %}
-                {% for action in visitor.actionDetails %}
+                {% for action in visitor.getColumn('actionDetails') %}
                     {% if loop.index <= maxPagesDisplayedByVisitor %}
 
                         {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
@@ -113,7 +61,7 @@
                                 {%- endif %}
                             {% endset %}
                             <span title="{{- title -}}">
-						        <img class='iconPadding' src="{{ action.icon }}"/>
+						        <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"/>
                                 {% if action.type == 'ecommerceOrder' %}
                                     {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }}
                                 {% endif %}
@@ -121,45 +69,42 @@
 
                         {% else %}
 
-                            {% set col = col + 1 %}
-                            {% if col >= 9 %}
-                                {% set col = 0 %}
-                            {% endif %}
-			    
-                            {% if action.url is defined %}
-                            <a href="{{ action.url }}" target="_blank">
+                            {% if action.url is defined and action.url is not empty %}
+                            <a href="{{ action.url|safelink|e('html_attr') }}" target="_blank">
                             {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
 {% set title %}
-{% if action.pageTitle is not empty %}{{ action.pageTitle|rawSafeDecoded }}{% endif %}
+{% if action.url|trim is not empty %}<span class='tooltip-action-url'>{{ action.url }}</span>{% endif %}
 
-{{ action.serverTimePretty }}
-{% if action.timeSpentPretty is defined %}{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}
+{% if action.pageTitle is not empty %}<span class='tooltip-action-page-title'>{{ action.pageTitle }}</span>{% endif %}
+
+<span class="tooltip-action-server-time">{{ action.serverTimePretty }}</span>
+    {% if action.timeSpentPretty is defined %}<span class='tooltip-time-on-page'>{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}</span>{% endif %}
 {%- endset %}
-                                    <img src="plugins/Live/images/file{{ col }}.png" title="{{- title -}}"/>
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}" title="{{- title|e('html_attr') -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
                                 {% elseif action.type == 'search' %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{{ 'Actions_SubmenuSitesearch'|translate }}: {{ action.siteSearchKeyword }} - {{ action.serverTimePretty }}"/>
                                 {% elseif action.eventCategory|default(false) is not empty %}
-                                    <img  class="iconPadding" src='{{ action.icon }}'
+                                    <img  class="iconPadding" src='{{ action.iconSVG|default(action.icon) }}'
                                         title="{{ 'Events_Event'|translate }} {{ action.eventCategory }} - {{ action.eventAction }} {% if action.eventName is defined %}- {{ action.eventName }}{% endif %} {% if action.eventValue is defined %}- {{ action.eventValue }}{% endif %}"/>
                                 {% elseif action.type == 'goal' or action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER') or
                                           action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART') %}
-                                    <img class='iconPadding' src="{{ action.icon }}"
+                                    <img class='iconPadding' src="{{ action.iconSVG|default(action.icon) }}"
                                          title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
-                            {% if action.url is defined %}
+                            {% if action.url is defined and action.url is not empty %}
                             </a>
                             {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
 
-                {% if visitor.actionDetails|length > maxPagesDisplayedByVisitor %}
+                {% if visitor.getColumn('actionDetails')|length > maxPagesDisplayedByVisitor %}
                     ({{ 'Live_MorePagesNotDisplayed'|translate }})
                 {% endif %}
             </div>
@@ -167,9 +112,19 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
-    e.preventDefault();
-    broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-    return false;
+$(function () {
+    $('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
+        e.preventDefault();
+        broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+    }).tooltip({
+        track: true,
+        content: function() {
+            var title = $(this).attr('title');
+            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+        },
+        show: {delay: 100, duration: 0},
+        hide: false
+    });
 });
 </script>

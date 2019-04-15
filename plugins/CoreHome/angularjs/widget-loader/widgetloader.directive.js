@@ -19,9 +19,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidgetLoader', piwikWidgetLoader);
 
-    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location'];
+    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications'];
 
-    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location){
+    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications){
         return {
             restrict: 'A',
             transclude: true,
@@ -97,7 +97,7 @@
                             url += '&showtitle=1';
                         }
 
-                        if (broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('token_auth')) {
+                        if (piwik.shouldPropagateTokenAuth && broadcast.getValueFromUrl('token_auth')) {
                             url += '&token_auth=' + broadcast.getValueFromUrl('token_auth');
                         }
 
@@ -136,17 +136,18 @@
                             if (scope.widgetName) {
                                 // we need to respect the widget title, which overwrites a possibly set report title
                                 var $title = currentElement.find('> .card-content .card-title');
-                                if ($title.length) {
-                                    $title.text(scope.widgetName);
-                                } else {
+                                if (!$title.length) {
                                     $title = currentElement.find('> h2');
-                                    if ($title.length) {
-                                        $title.text(scope.widgetName);
-                                    }
+                                }
+
+                                if ($title.length) {
+                                    $title.html(piwik.helper.htmlEntities(scope.widgetName));
                                 }
                             }
 
                             $compile(currentElement)(newScope);
+
+                            notifications.parseNotificationDivs();
                         })['catch'](function () {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response

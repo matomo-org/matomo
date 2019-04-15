@@ -94,7 +94,7 @@ class Filechecks
             . "<blockquote>$directoryList</blockquote>"
             . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0755 (or 0777 if 0755 is not enough). To do so with your FTP software, right click on the directories then click permissions.</p>"
             . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
-            . "<p>If you need more help, try <a href='?module=Proxy&action=redirect&url=https://matomo.org'>Matomo.org</a>.</p>";
+            . "<p>If you need more help, try <a target='_blank' rel='noreferrer noopener' href='https://matomo.org'>Matomo.org</a>.</p>";
 
         $ex = new MissingFilePermissionException($directoryMessage);
         $ex->setIsHtmlMessage();
@@ -132,9 +132,9 @@ class Filechecks
 						You can try to execute:<br />";
         } else {
             $message .= "For example, on a GNU/Linux server if your Apache httpd user is "
-                        . self::getUser()
+                        . Common::sanitizeInputValue(self::getUser())
                         . ", you can try to execute:<br />\n"
-                        . "<code>chown -R ". self::getUserAndGroup() ." " . $path . "</code><br />";
+                        . "<code>chown -R ". Common::sanitizeInputValue(self::getUserAndGroup()) ." " . Common::sanitizeInputValue($path) . "</code><br />";
         }
 
         $message .= self::getMakeWritableCommand($path);
@@ -179,8 +179,9 @@ class Filechecks
      */
     private static function getMakeWritableCommand($realpath)
     {
+        $realpath = Common::sanitizeInputValue($realpath);
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
+            return "<code>cacls $realpath /t /g " . Common::sanitizeInputValue(self::getUser()) . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }

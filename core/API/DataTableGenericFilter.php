@@ -100,7 +100,7 @@ class DataTableGenericFilter
                       'filter_sort_order'  => array('string', 'desc'),
                       $naturalSort = true,
                       $recursiveSort = true,
-                      $doSortBySecondaryColumn = true
+                      'filter_sort_column_secondary' => true
                   )),
             array('Truncate',
                   array(
@@ -124,6 +124,13 @@ class DataTableGenericFilter
                 if ($filter[0] === 'Sort') {
                     $filters[$index][1]['filter_sort_column'] = array('string', $this->report->getDefaultSortColumn());
                     $filters[$index][1]['filter_sort_order']  = array('string', $this->report->getDefaultSortOrder());
+
+                    $callback = $this->report->getSecondarySortColumnCallback();
+
+                    if (is_callable($callback)) {
+                        $filters[$index][1]['filter_sort_column_secondary'] = $callback;
+                    }
+
                 }
             }
         }
@@ -148,6 +155,7 @@ class DataTableGenericFilter
             return;
         }
 
+        $tableDisabledFilters = $datatable->getMetadata(DataTable::GENERIC_FILTERS_TO_DISABLE_METADATA_NAME) ?: [];
         $genericFilters = $this->getGenericFiltersHavingDefaultValues();
 
         $filterApplied = false;
@@ -157,7 +165,9 @@ class DataTableGenericFilter
             $filterParameters = array();
             $exceptionRaised = false;
 
-            if (in_array($filterName, $this->disabledFilters)) {
+            if (in_array($filterName, $this->disabledFilters)
+                || in_array($filterName, $tableDisabledFilters)
+            ) {
                 continue;
             }
 

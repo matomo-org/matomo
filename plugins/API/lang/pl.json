@@ -11,6 +11,7 @@
         "UserAuthentication": "Uwierzytelnianie użytkownika",
         "UsingTokenAuth": "Jeżeli wysuniesz żądanie %1$s ujęcia pewnych danych w statystyce za pomocą crontab, %2$s musisz dodać poniższy parametr %3$s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania.",
         "Glossary": "Słownik",
-        "LearnAboutCommonlyUsedTerms": "Poznaj powszechnie stosowane terminy i zrozum zebrane przez Matomo dane: %1$s i %2$s."
+        "LearnAboutCommonlyUsedTerms2": "Poznaj najczęściej wykorzystywane zwroty, aby jak najlepiej wykorzystać możliwości Statystyk Matomo.",
+        "EvolutionMetricName": "%s Zmiany"
     }
 }

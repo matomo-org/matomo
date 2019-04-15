@@ -15,6 +15,7 @@ use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Common;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {
@@ -68,7 +69,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function concatenateAssets()
     {
-        $mergedContent = '';
+        $concatenatedContent = '';
 
         foreach ($this->getAssetCatalog()->getAssets() as $uiAsset) {
             $uiAsset->validateFile();
@@ -81,15 +82,25 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
             if (!empty($path) && Common::stringEndsWith($path, '.css')) {
                 // to fix #10173
-                $mergedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
+                $concatenatedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
                 $this->cssAssetsToReplace[] = $uiAsset;
             } else {
                 $content = $this->processFileContent($uiAsset);
-                $mergedContent .= $this->getFileSeparator() . $content;
+                $concatenatedContent .= $this->getFileSeparator() . $content;
             }
         }
 
-        $this->mergedContent = $mergedContent;
+        /**
+         * Triggered after all less stylesheets are concatenated into one long string but before it is
+         * minified and merged into one file.
+         *
+         * This event can be used to add less stylesheets that are not located in a file on the disc.
+         *
+         * @param string $concatenatedContent The content of all concatenated less files.
+         */
+        Piwik::postEvent('AssetManager.addStylesheets', array(&$concatenatedContent));
+
+        $this->mergedContent = $concatenatedContent;
     }
     
     /**
@@ -181,8 +192,9 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     private function getCssPathsRewriter($uiAsset)
     {
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
+        $webDirs = Manager::getAlternativeWebRootDirectories();
 
-        return function ($matches) use ($baseDirectory) {
+        return function ($matches) use ($baseDirectory, $webDirs) {
             $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
@@ -191,13 +203,39 @@ class StylesheetUIAssetMerger extends UIAssetMerger
             }
 
             // Prevent from rewriting full path
-            $absolutePath = realpath($absolutePath);
-            if ($absolutePath) {
+            $absolutePathReal = realpath($absolutePath);
+            if ($absolutePathReal) {
                 $relativePath = $baseDirectory . "/" . $matches[2];
                 $relativePath = str_replace('\\', '/', $relativePath);
                 $publicPath   = $matches[1] . $relativePath;
             } else {
-                $publicPath   = $matches[1] . $matches[2];
+                foreach ($webDirs as $absPath => $relativePath) {
+                    if (strpos($baseDirectory, $relativePath) === 0) {
+                        if (strpos($matches[2], '.') === 0) {
+                            // eg ../images/ok.png
+                            $fileRelative = $baseDirectory . '/' . $matches[2];
+                            $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $fileRelative;
+                            }
+                        } elseif (strpos($matches[2], 'plugins/') === 0) {
+                            // eg plugins/Foo/images/ok.png
+                            $fileRelative = substr($matches[2], strlen('plugins/'));
+                            $fileAbsolute = $absPath . $fileRelative;
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $relativePath . $fileRelative;
+                            }
+                        } elseif ($matches[1] === '@import "') {
+                            $fileRelative = $baseDirectory . '/' . $matches[2];
+                            $fileAbsolute = $absPath . str_replace($relativePath, '', $fileRelative);
+                            if (file_exists($fileAbsolute)) {
+                                return $matches[1] . $baseDirectory . '/' . $matches[2];
+                            }
+                        }
+                    }
+                }
+
+                $publicPath = $matches[1] . $matches[2];
             }
 
             return $publicPath;

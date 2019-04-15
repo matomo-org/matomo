@@ -2,9 +2,18 @@
 {% macro tablePluginUpdates(pluginsHavingUpdate, updateNonce, isMultiServerEnvironment) %}
     {% import '@Marketplace/macros.twig' as marketplaceMacro %}
 
+    <div>
+        <a id="update-selected-plugins" href="javascript:" class="btn">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
+    </div>
     <table piwik-content-table>
         <thead>
         <tr>
+            <th>
+                <span class="checkbox-container">
+                    <input type="checkbox" id="select-plugin-all" />
+                    <label for="select-plugin-all"></label>
+                </span>
+            </th>
             <th>{{ 'General_Plugin'|translate }}</th>
             <th class="num">{{ 'CorePluginsAdmin_Version'|translate }}</th>
             <th>{{ 'General_Description'|translate }}</th>
@@ -15,6 +24,12 @@
         <tbody id="plugins">
         {% for name,plugin in pluginsHavingUpdate %}
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
+                <td class="select-cell">
+                    <span class="checkbox-container">
+                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                        <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
+                    </span>
+                </td>
                 <td class="name">
                     <a href="javascript:void(0);" piwik-plugin-name="{{ plugin.name|e('html_attr') }}" class="plugin-details">
                         {{ plugin.name }}
@@ -23,7 +38,7 @@
                 <td class="vers">
                     {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
                         <a href="{{ plugin.changelog.url|e('html_attr') }}" title="{{ 'CorePluginsAdmin_Changelog'|translate }}"
-                           target="_blank" rel="noreferrer"
+                           target="_blank" rel="noreferrer noopener"
                         >{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                     {% else %}
                         {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
@@ -56,6 +71,37 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        $(function () {
+            $('#update-selected-plugins').on('click', function () {
+                var pluginsToUpdate = [];
+                $('tbody#plugins td.select-cell input').each(function () {
+                    if (!this.checked) {
+                        return;
+                    }
+
+                    var pluginName = $(this).closest('tr').find('.name .plugin-details').attr('piwik-plugin-name');
+                    pluginsToUpdate.push(pluginName);
+                });
+
+                var url = '{{ linkTo({'module':'Marketplace','action':'updatePlugin','nonce':updateNonce})|raw }}&pluginName=' + encodeURIComponent(pluginsToUpdate.join(','));
+                window.location.href = url;
+
+                $(this).prop('disabled', true);
+            });
+
+            $('#select-plugin-all').on('change', function () {
+                var self = this;
+                $('tbody#plugins td.select-cell input[type=checkbox]').each(function () {
+                    if ($(this).prop('disabled')) {
+                        return;
+                    }
+                    $(this).prop('checked', self.checked);
+                });
+            });
+        });
+    </script>
 
 {% endmacro %}
 
@@ -141,7 +187,7 @@
                         </div>
                         <div class="plugin-desc-text">
 
-                            {{ plugin.info.description|raw|nl2br }}
+                            {{ plugin.info.description|nl2br }}
 
                             {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
                             'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/',
@@ -150,7 +196,7 @@
                                 'https://matomo.org', 'https://www.matomo.org', 'https://matomo.org/', 'https://www.matomo.org/'
                             ] %}
                                 <span class="plugin-homepage">
-                            <a target="_blank" href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
+                            <a target="_blank" rel="noreferrer noopener" href="{{ plugin.info.homepage|e('html_attr') }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                         </span>
                             {% endif %}
 
@@ -162,10 +208,10 @@
                                         <p>{{ 'CorePluginsAdmin_ConsiderDonatingCreatorOf'|translate("<b>" ~ name ~ "</b>")|raw }}</p>
                                         <div class="donation-links">
                                             {% if plugin.info.donate.paypal is defined and plugin.info.donate.paypal %}
-                                                <a class="donation-link paypal" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Matomo%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="plugins/CorePluginsAdmin/images/paypal_donate.png" height="30"/></a>
+                                                <a class="donation-link paypal" target="_blank" rel="noreferrer noopener" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Matomo%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="plugins/CorePluginsAdmin/images/paypal_donate.png" height="30"/></a>
                                             {% endif %}
                                             {% if plugin.info.donate.flattr is defined and plugin.info.donate.flattr %}
-                                                <a class="donation-link flattr" target="_blank" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="plugins/CorePluginsAdmin/images/flattr.png" height="29" /></a>
+                                                <a class="donation-link flattr" target="_blank" rel="noreferrer noopener" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="plugins/CorePluginsAdmin/images/flattr.png" height="29" /></a>
                                             {% endif %}
                                             {% if plugin.info.donate.bitcoin is defined and plugin.info.donate.bitcoin %}
                                                 <div class="donation-link bitcoin">
@@ -181,7 +227,7 @@
                         </div>
                         {% if plugin.info.license is defined %}
                             <div class="plugin-license">
-                                {% if plugin.info.license_file is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=showLicense&pluginName={{ name }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_file is defined %}</a>{% endif %}
+                                {% if plugin.info.license_file is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer noopener" target="_blank" href="index.php?module=CorePluginsAdmin&action=showLicense&pluginName={{ name }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_file is defined %}</a>{% endif %}
                             </div>
                         {% endif %}
                         {% if plugin.info.authors is defined %}
@@ -191,7 +237,7 @@
                                     {% spaceless %}
                                         {% for author in plugin.info.authors if author.name %}
                                             {% if author.homepage is defined %}
-                                                <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer" target="_blank">{{ author.name }}</a>
+                                                <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer noopener" target="_blank">{{ author.name }}</a>
                                             {% else %}
                                                 {{ author.name }}
                                             {% endif %}

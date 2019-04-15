@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 
@@ -85,12 +86,25 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in url and replace them with �
+        // check for 4byte utf8 characters in all tracking params and replace them with �
         // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
-        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
-            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
-            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
+        $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+    }
+
+    protected function replaceUnsupportedUtf8Chars($value, $key=false)
+    {
+        if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
+            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
         }
+
+        if (is_array($value)) {
+            array_walk_recursive ($value, function(&$value, $key){
+                $value = $this->replaceUnsupportedUtf8Chars($value, $key);
+            });
+        }
+
+        return $value;
     }
 
     /**
@@ -132,6 +146,7 @@ class Request
             try {
                 $idSite = $this->getIdSite();
             } catch (Exception $e) {
+                Common::printDebug("failed to authenticate: invalid idSite");
                 $this->isAuthenticated = false;
                 return;
             }
@@ -150,7 +165,7 @@ class Request
             }
 
             try {
-                $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $this->isAuthenticated = self::authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite);
                 $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
                 Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
@@ -160,6 +175,8 @@ class Request
 
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
+            } else {
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
             }
         } else {
             $this->isAuthenticated = true;
@@ -167,7 +184,7 @@ class Request
         }
     }
 
-    public static function authenticateSuperUserOrAdmin($tokenAuth, $idSite)
+    public static function authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite)
     {
         if (empty($tokenAuth)) {
             return false;
@@ -190,13 +207,21 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
 
-            if (array_key_exists('admin_token_auth', $website) && in_array((string) $tokenAuth, $website['admin_token_auth'])) {
+            if (array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
                 return true;
             }
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Tracker.Request.authenticate.failed');
 
         return false;
     }
@@ -212,7 +237,7 @@ class Request
             $cookieFirstVisitTimestamp = $this->getCurrentTimestamp();
         }
 
-        $daysSinceFirstVisit = round(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400, $precision = 0);
+        $daysSinceFirstVisit = floor(($this->getCurrentTimestamp() - $cookieFirstVisitTimestamp) / 86400);
 
         if ($daysSinceFirstVisit < 0) {
             $daysSinceFirstVisit = 0;
@@ -397,7 +422,7 @@ class Request
         $paramType = $supportedParams[$name][1];
 
         if ($this->hasParam($name)) {
-            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+            $this->paramsCache[$name] = $this->replaceUnsupportedUtf8Chars(Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params), $name);
         } else {
             $this->paramsCache[$name] = $paramDefaultValue;
         }
@@ -494,15 +519,15 @@ class Request
         }
 
         return $time <= $now
-            && $time > $now - 10 * 365 * 86400;
+            && $time > $now - 20 * 365 * 86400;
     }
 
-    public function getIdSite()
+    /**
+     * @internal
+     * @ignore
+     */
+    public function getIdSiteUnverified()
     {
-        if (isset($this->idSiteCache)) {
-            return $this->idSiteCache;
-        }
-
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -518,8 +543,26 @@ class Request
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
+        return $idSite;
+    }
+
+    public function getIdSite()
+    {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
+        $idSite = $this->getIdSiteUnverified();
 
         if ($idSite <= 0) {
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+        }
+
+        // check site actually exists, should throw UnexpectedWebsiteFoundException directly
+        $site = Cache::getCacheWebsiteAttributes($idSite);
+
+        if (empty($site)) {
+            // fallback just in case exception wasn't thrown...
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
 
@@ -606,6 +649,18 @@ class Request
         return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
 
+    public function getThirdPartyCookieVisitorId()
+    {
+        $cookie = $this->makeThirdPartyCookieUID();
+        $idVisitor = $cookie->get(0);
+        if ($idVisitor !== false
+            && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
+        ) {
+            return $idVisitor;
+        }
+        return null;
+    }
+
     /**
      * Update the cookie information.
      */
@@ -615,12 +670,12 @@ class Request
             return;
         }
 
-        Common::printDebug("We manage the cookie...");
-
         $cookie = $this->makeThirdPartyCookieUID();
-        // idcookie has been generated in handleNewVisit or we simply propagate the old value
-        $cookie->set(0, bin2hex($idVisitor));
+        $idVisitor = bin2hex($idVisitor);
+        $cookie->set(0, $idVisitor);
         $cookie->save();
+
+        Common::printDebug(sprintf("We set the visitor ID to %s in the 3rd party cookie...", $idVisitor));
     }
 
     protected function makeThirdPartyCookieUID()
@@ -629,7 +684,14 @@ class Request
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
+       
+        $domain = $this->getCookieDomain();
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+            
         Common::printDebug($cookie);
+        
         return $cookie;
     }
 
@@ -648,6 +710,11 @@ class Request
         return TrackerConfig::getConfigValue('cookie_path');
     }
 
+    protected function getCookieDomain()
+    {
+        return TrackerConfig::getConfigValue('cookie_domain');
+    }
+
     /**
      * Returns the ID from  the request in this order:
      * return from a given User ID,
@@ -660,7 +727,7 @@ class Request
     public function getVisitorId()
     {
         $found = false;
-
+        
         // If User ID is set it takes precedence
         $userId = $this->getForcedUserId();
         if ($userId) {
@@ -684,14 +751,10 @@ class Request
 
         // - If set to use 3rd party cookies for Visit ID, read the cookie
         if (!$found) {
-            // - By default, reads the first party cookie ID
             $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
             if ($useThirdPartyCookie) {
-                $cookie = $this->makeThirdPartyCookieUID();
-                $idVisitor = $cookie->get(0);
-                if ($idVisitor !== false
-                    && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
-                ) {
+                $idVisitor = $this->getThirdPartyCookieVisitorId();
+                if(!empty($idVisitor)) {
                     $found = true;
                 }
             }
@@ -704,15 +767,44 @@ class Request
         }
 
         if ($found) {
-            $truncated = $this->truncateIdAsVisitorId($idVisitor);
-            $binVisitorId = @Common::hex2bin($truncated);
-            if (!empty($binVisitorId)) {
-                return $binVisitorId;
-            }
+            return $this->getVisitorIdAsBinary($idVisitor);
         }
 
         return false;
     }
+
+    /**
+     * When creating a third party cookie, we want to ensure that the original value set in this 3rd party cookie
+     * sticks and is not overwritten later.
+     */
+    public function getVisitorIdForThirdPartyCookie()
+    {
+        $found = false;
+
+        // For 3rd party cookies, priority is on re-using the existing 3rd party cookie value
+        if (!$found) {
+            $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
+            if ($useThirdPartyCookie) {
+                $idVisitor = $this->getThirdPartyCookieVisitorId();
+                if(!empty($idVisitor)) {
+                    $found = true;
+                }
+            }
+        }
+
+        // If a third party cookie was not found, we default to the first party cookie
+        if (!$found) {
+            $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
+            $found = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
+        }
+
+        if ($found) {
+            return $this->getVisitorIdAsBinary($idVisitor);
+        }
+
+        return false;
+    }
+
 
     public function getIp()
     {
@@ -825,5 +917,19 @@ class Request
     public function getMetadata($pluginName, $key)
     {
         return isset($this->requestMetadata[$pluginName][$key]) ? $this->requestMetadata[$pluginName][$key] : null;
+    }
+
+    /**
+     * @param $idVisitor
+     * @return bool|string
+     */
+    private function getVisitorIdAsBinary($idVisitor)
+    {
+        $truncated = $this->truncateIdAsVisitorId($idVisitor);
+        $binVisitorId = @Common::hex2bin($truncated);
+        if (!empty($binVisitorId)) {
+            return $binVisitorId;
+        }
+        return false;
     }
 }

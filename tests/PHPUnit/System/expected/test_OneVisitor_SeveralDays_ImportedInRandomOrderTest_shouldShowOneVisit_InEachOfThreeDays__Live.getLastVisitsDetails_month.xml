@@ -4,6 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -15,7 +16,10 @@
 				<pageId>1</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
@@ -33,6 +37,7 @@
 		<visitServerHour>10</visitServerHour>
 		<lastActionTimestamp>1365328800</lastActionTimestamp>
 		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
 		<serverTimestamp>1365328800</serverTimestamp>
 		<firstActionTimestamp>1365328800</firstActionTimestamp>
 		<serverTimePretty>10:00:00</serverTimePretty>
@@ -62,12 +67,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -111,6 +118,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -122,7 +130,10 @@
 				<pageId>2</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
@@ -140,6 +151,7 @@
 		<visitServerHour>11</visitServerHour>
 		<lastActionTimestamp>1365246000</lastActionTimestamp>
 		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
 		<serverTimestamp>1365246000</serverTimestamp>
 		<firstActionTimestamp>1365246000</firstActionTimestamp>
 		<serverTimePretty>11:00:00</serverTimePretty>
@@ -169,12 +181,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -218,6 +232,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -229,7 +244,10 @@
 				<pageId>3</pageId>
 				<bandwidth>9625</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title />
+				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>
@@ -247,6 +265,7 @@
 		<visitServerHour>12</visitServerHour>
 		<lastActionTimestamp>1365163200</lastActionTimestamp>
 		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
 		<serverTimestamp>1365163200</serverTimestamp>
 		<firstActionTimestamp>1365163200</firstActionTimestamp>
 		<serverTimePretty>12:00:00</serverTimePretty>
@@ -276,12 +295,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>

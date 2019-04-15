@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
@@ -44,7 +45,7 @@ class Get extends Base
     private function getGoals()
     {
         $idSite = $this->getIdSite();
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         return $goals;
     }
 
@@ -188,7 +189,7 @@ class Get extends Base
                 }
             }
         } else if ($view->isViewDataTableId(Evolution::ID)) {
-            if (!empty($idSite) && Piwik::isUserHasAdminAccess($idSite)) {
+            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite)) {
                 $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified(array(
                     'module' => 'Goals',
                     'action' => 'manage',
@@ -201,9 +202,9 @@ class Get extends Base
 
             $goal = $this->getGoal($idGoal);
             if (!empty($goal['name'])) {
-                $view->config->title = Piwik::translate('Goals_GoalX', "'" . $goal['name'] . "'");
+                $view->config->title = Piwik::translate('Goals_GoalX', "'" . Common::unsanitizeInputValue($goal['name']) . "'");
                 if (!empty($goal['description'])) {
-                    $view->config->description = $goal['description'];
+                    $view->config->description = Common::unsanitizeInputValue($goal['description']);
                 }
             } else {
                 $view->config->title = Piwik::translate('General_EvolutionOverPeriod');
@@ -225,6 +226,6 @@ class Get extends Base
 
         $this->addReportMetadataForEachGoal($availableReports, $infos, function ($goal) {
             return Piwik::translate('Goals_GoalX', $goal['name']);
-        });
+        }, $isSummary = true);
     }
 }

@@ -15,6 +15,7 @@
         var self = this;
 
         this.isLoading = true;
+        this.isSaving = {};
 
         var apiMethod = 'CorePluginsAdmin.getUserSettings';
 
@@ -35,7 +36,7 @@
                 apiMethod = 'CorePluginsAdmin.setSystemSettings';
             }
 
-            this.isLoading = true;
+            this.isSaving[settings.pluginName] = true;
 
             var values = {};
             if (!values[settings.pluginName]) {
@@ -56,7 +57,7 @@
             });
 
             piwikApi.post({method: apiMethod}, {settingValues: values}).then(function (success) {
-                self.isLoading = false;
+                self.isSaving[settings.pluginName] = false;
 
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
@@ -66,7 +67,7 @@
                 notification.scrollToNotification();
 
             }, function () {
-                self.isLoading = false;
+                self.isSaving[settings.pluginName] = false;
             });
         };
     }

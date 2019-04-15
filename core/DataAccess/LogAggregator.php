@@ -423,6 +423,7 @@ class LogAggregator
      * @param $dimensions
      * @param $tableName
      * @param bool $appendSelectAs
+     * @param bool $parseSelectAs
      * @return mixed
      */
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
@@ -432,11 +433,15 @@ class LogAggregator
 
             if (!is_numeric($selectAs)) {
                 $selectAsString = $selectAs;
-            } else {
-                // if function, do not alias or prefix
-                if ($this->isFieldFunctionOrComplexExpression($field)) {
-                    $selectAsString = $appendSelectAs = false;
+            } else if ($this->isFieldFunctionOrComplexExpression($field)) {
+                // if complex expression has a select as, use it
+                if (!$appendSelectAs && preg_match('/\s+AS\s+(.*?)\s*$/', $field, $matches)) {
+                    $field = $matches[1];
+                    continue;
                 }
+
+                // if function w/o select as, do not alias or prefix
+                $selectAsString = $appendSelectAs = false;
             }
 
             $isKnownField = !in_array($field, array('referrer_data'));
@@ -800,7 +805,7 @@ class LogAggregator
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
      * @return \Zend_Db_Statement
      */
-    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array())
+    public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array(), $extraFrom = [])
     {
         $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $tableName  = self::LOG_CONVERSION_TABLE;
@@ -808,7 +813,7 @@ class LogAggregator
 
         $select = $this->getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics);
 
-        $from    = array($tableName);
+        $from    = array_merge([$tableName], $extraFrom);
         $where   = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
         $orderBy = false;

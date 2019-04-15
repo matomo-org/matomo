@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Plugins\API\tests\System\AutoSuggestAPITest;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Framework\Fixture;
@@ -66,6 +67,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
             }
             if ($segment == 'actionType') {
                 $value = 'pageviews';
+            }
+            if ($segment == 'fingerprint') {
+                $value = 'abcdef1234567890';        //Needs to be a valid 16-char hex string
             }
             $matchNone = $segment . '!=' . $value;
 

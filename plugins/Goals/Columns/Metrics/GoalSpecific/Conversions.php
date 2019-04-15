@@ -11,6 +11,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 
 /**
  * The conversions for a specific goal. Returns the conversions for a single goal which
@@ -20,7 +21,7 @@ class Conversions extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_nb_conversions';
+        return Goals::makeGoalColumn($this->idGoal, 'nb_conversions', false);
     }
 
     public function getTranslatedName()

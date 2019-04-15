@@ -28,8 +28,8 @@
             updateWebsitesList: updateWebsitesList,
             getNumberOfFilteredSites: getNumberOfFilteredSites,
             getNumberOfPages: getNumberOfPages,
-            getCurrentPagingOffsetStart: getCurrentPagingOffsetStart,
-            getCurrentPagingOffsetEnd: getCurrentPagingOffsetEnd,
+            getPaginationLowerBound: getPaginationLowerBound,
+            getPaginationUpperBound: getPaginationUpperBound,
             previousPage: previousPage,
             nextPage: nextPage,
             searchSite: searchSite,
@@ -86,12 +86,16 @@
             return Math.ceil(getNumberOfFilteredSites() / model.pageSize - 1);
         }
 
-        function getCurrentPagingOffsetStart() {
+        function getCurrentPagingOffset() {
             return Math.ceil(model.currentPage * model.pageSize);
         }
 
-        function getCurrentPagingOffsetEnd() {
-            var end = getCurrentPagingOffsetStart() + parseInt(model.pageSize, 10);
+        function getPaginationLowerBound() {
+            return getCurrentPagingOffset() + 1;
+        }
+
+        function getPaginationUpperBound() {
+            var end = getCurrentPagingOffset() + parseInt(model.pageSize, 10);
             var max = getNumberOfFilteredSites();
             if (end > max) {
                 end = max;
@@ -145,7 +149,7 @@
                 hideMetricsDoc: '1',
                 filter_sort_order: 'asc',
                 filter_limit: model.pageSize,
-                filter_offset: getCurrentPagingOffsetStart(),
+                filter_offset: getCurrentPagingOffset(),
                 showColumns: 'label,nb_visits,nb_pageviews,visits_evolution,pageviews_evolution,revenue_evolution,nb_actions,revenue'
             };
 

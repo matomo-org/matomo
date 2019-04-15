@@ -34,14 +34,14 @@
 
                     <label for="enableBrowserTriggerArchiving2">
                         {{ 'General_No'|translate }}
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
+                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}</span>
                     </label>
                     </p>
                 </div><div class="col s12 m6">
                     <div class="form-help">
                         {{ 'General_ArchivingInlineHelp'|translate }}
                         <br/>
-                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
+                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/docs/setup-auto-archiving/'>","</a>")|raw }}
                     </div>
                 </div>
             </div>
@@ -149,14 +149,15 @@
 
         {% set help -%}
             {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer' target='_blank'>","</a>")|raw }}
+            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' rel='noreferrer noopener' target='_blank'>","</a>")|raw }}
         {%- endset %}
 
         <div piwik-field uicontrol="checkbox" name="useCustomLogo"
              ng-model="brandingSettings.enabled"
              ng-change="brandingSettings.toggleCustomLogo()"
              title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
-             value="{% if branding.use_custom_logo == 1 %}1{% endif %}" inline-help="{{ help|e('html_attr') }}">
+             value="{% if branding.use_custom_logo == 1 %}1{% endif %}"
+             {% if isPluginsAdminEnabled %}inline-help="{{ help|e('html_attr') }}"{% endif %}>
         </div>
 
         <div id="logoSettings" ng-show="brandingSettings.enabled">
@@ -215,51 +216,9 @@
     </div>
 </div>
 
-<div piwik-content-block content-title="{{ 'CoreAdminHome_TrustedHostSettings'|translate|e('html_attr') }}">
-    <a name="trustedHostsSection"></a>
-    <div class="ui-confirm" id="confirmTrustedHostChange">
-        <h2>{{ 'CoreAdminHome_TrustedHostConfirm'|translate }}</h2>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-    </div>
-    <div id='trustedHostSettings' piwik-trusted-hosts-setting='{{ trustedHosts|json_encode }}'>
-
-        {% include "@CoreHome/_warningInvalidHost.twig" %}
-
-        {% if not isGeneralSettingsAdminEnabled %}
-            {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}: {{ trustedHosts|join(", ") }}
-        {% else %}
-            <div class="form-group row">
-                <label>{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</label>
-            </div>
-            <ul>
-                <li ng-repeat="trustedHost in trustedHosts.hosts">
-                    <input ng-model="trustedHost.host" type="text"/>
-                    <a href="javascript:;" ng-click="trustedHosts.removeTrustedHost($index);"
-                       class="remove-trusted-host btn-flat btn-large" title="{{ 'General_Delete'|translate }}">
-                        <span class="icon-minus"></span>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="add-trusted-host">
-                <input type="text" ng-click="trustedHosts.addTrustedHost();"
-                       placeholder="{{ 'CoreAdminHome_AddNewTrustedHost'|translate|e('html_attr') }}" readonly/>
-
-                <a href="#" ng-click="trustedHosts.addTrustedHost();"
-                   class="btn-flat btn-large" title="{{ 'General_Add'|translate }}">
-                    <span class="icon-add"></span>
-                </a>
-            </div>
-
-            <div onconfirm="trustedHosts.save()" saving="trustedHosts.isLoading" piwik-save-button></div>
-        {% endif %}
-    </div>
-
-</div>
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
-        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
+        <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }}</p>
         <p>
             <a href='{{ linkTo({'module':"PrivacyManager", 'action':"privacySettings"}) }}#deleteLogsAnchor'>
                 {{ 'PrivacyManager_ClickHereSettings'|translate("'" ~ 'PrivacyManager_DeleteDataSettings'|translate ~ "'") }}

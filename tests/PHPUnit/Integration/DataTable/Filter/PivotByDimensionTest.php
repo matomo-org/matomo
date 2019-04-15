@@ -9,14 +9,14 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\API\Proxy;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 
 /**
  * @group DataTableTest
@@ -43,35 +43,16 @@ class PivotByDimensionTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $self = $this;
-
-        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
-        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) use ($self) {
-            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
-                && $methodName == 'getCity'
-            ) {
-                $self->segmentUsedToGetIntersected[] = $parameters['segment'];
-
-                return $self->getSegmentTable();
-            } else {
-                throw new Exception("Unknown API request: $className::$methodName.");
-            }
-        });
-        Proxy::setSingletonInstance($proxyMock);
+        Translate::reset();
+        Cache::clearCacheGeneral();
+        \Piwik\Cache::flushAll();
 
         $this->segmentTableCount = 0;
     }
 
-    public function tearDown()
-    {
-        Proxy::unsetInstance();
-
-        parent::tearDown();
-    }
-
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.ExampleReportName' has no subtable dimension.
+     * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.getExampleReport' has no subtable dimension.
      */
     public function test_construction_ShouldFail_WhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
@@ -82,7 +63,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.Referrers_Keywords' does not match the requested pivotBy dimension.
+     * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.getKeywords' does not match the requested pivotBy dimension.
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
@@ -93,7 +74,7 @@ class PivotByDimensionTest extends IntegrationTestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_Configurations'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.getConfiguration'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {
@@ -272,9 +253,9 @@ class PivotByDimensionTest extends IntegrationTestCase
         $pivotFilter->filter($table);
 
         $expectedRows = array(
-            array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'General_Others' => 1),
-            array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'General_Others' => 3),
-            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'General_Others' => 9)
+            array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'Others' => 1),
+            array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'Others' => 3),
+            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'Others' => 9)
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -395,5 +376,24 @@ class PivotByDimensionTest extends IntegrationTestCase
     private function loadPlugins()
     {
         PluginManager::getInstance()->loadPlugins(func_get_args());
+    }
+
+    public function provideContainerConfig()
+    {
+        $proxyMock = $this->getMockBuilder('stdClass')->setMethods(array('call'))->getMock();
+        $proxyMock->expects($this->any())->method('call')->willReturnCallback(function ($className, $methodName, $parameters) {
+            if ($className == "\\Piwik\\Plugins\\UserCountry\\API"
+                && $methodName == 'getCity'
+            ) {
+                $this->segmentUsedToGetIntersected[] = $parameters['segment'];
+                return $this->getSegmentTable();
+            } else {
+                throw new Exception("Unknown API request: $className::$methodName.");
+            }
+        });
+
+        return [
+            Proxy::class => $proxyMock,
+        ];
     }
 }

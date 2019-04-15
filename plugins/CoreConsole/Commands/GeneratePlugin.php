@@ -47,7 +47,7 @@ class GeneratePlugin extends GeneratePluginBase
         $exampleDescription = $info['description'];
 
         if ($isTheme) {
-            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTheme';
+            $exampleFolder = Plugin\Manager::getPluginDirectory('ExampleTheme');
             $replace       = array(
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
@@ -58,7 +58,7 @@ class GeneratePlugin extends GeneratePluginBase
 
         } else {
 
-            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+            $exampleFolder = Plugin\Manager::getPluginDirectory('ExamplePlugin');
             $replace       = array(
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,

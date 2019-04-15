@@ -35,6 +35,6 @@
         "SMS_Content_Too_Long": "[terlalu panjang]",
         "TopLinkTooltip": "Dapatkan Laporan Analitis Ramatraya dikirim ke kotak masuk surel atau telepon seluler Anda!",
         "TopMenu": "Laporan Surel & SMS",
-        "VerificationText": "Kode adalah %1$s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Piwik, harap menyalin kode ini di borang yang daoat diraih melalui Matomo > %2$s > %3$s."
+        "VerificationText": "Kode adalah %1$s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Matomo, harap menyalin kode ini di borang yang daoat diraih melalui Matomo > %2$s > %3$s."
     }
 }

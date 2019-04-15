@@ -10,8 +10,9 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Development;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
 use Exception;
 
 /**
@@ -21,15 +22,6 @@ use Exception;
  */
 class ActionType extends ActionDimension
 {
-    private $types = array(
-        Action::TYPE_PAGE_URL => 'pageviews',
-        Action::TYPE_CONTENT => 'contents',
-        Action::TYPE_SITE_SEARCH => 'sitesearches',
-        Action::TYPE_EVENT => 'events',
-        Action::TYPE_OUTLINK => 'outlinks',
-        Action::TYPE_DOWNLOAD => 'downloads'
-    );
-
     protected $columnName = 'type';
     protected $dbTableName = 'log_action';
     protected $segmentName = 'actionType';
@@ -40,12 +32,45 @@ class ActionType extends ActionDimension
 
     public function __construct()
     {
-        $this->acceptValues = sprintf('A type of action, such as: %s', implode(', ', $this->types));
+        $this->acceptValues = 'A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads';
     }
 
     public function getEnumColumnValues()
     {
-        return $this->types;
+        $availableTypes = [];
+        /**
+         * Triggered to determine the available action types
+         *
+         * Plugin can use this event to add their own action types, so they are available in segmentation
+         * The array maps internal ids to readable action type names used in visitor details
+         *
+         * **Example**
+         *
+         * public function addActionTypes(&$availableTypes)
+         * {
+         *     $availableTypes[] = array(
+         *         'id' => 76,
+         *         'name' => 'media_play'
+         *      );
+         * }
+         *
+         * @param array $availableTypes
+         */
+        Piwik::postEvent('Actions.addActionTypes', [&$availableTypes]);
+
+        $types = [];
+
+        foreach ($availableTypes as $type) {
+            if (empty($type['id']) || empty($type['name'])) {
+                throw new Exception("Invalid action added with event `Actions.addActionTypes`: " . var_export($type, true));
+            }
+            if (Development::isEnabled() && array_key_exists($type['id'], $types)) {
+                throw new Exception(sprintf("Action '%s' with id %s couldn't be added, as '%s' was already added for this id", $type['name'], $type['id'], $types[$type['id']]));
+            }
+            $types[$type['id']] = $type['name'];
+        }
+
+        return $types;
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)

@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Advanced timezones support was not found in your PHP (supported in PHP>=5.2). You can still choose a manual UTC offset.",
         "AliasUrlHelp": "It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers > Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Changing your time zone will only affect data going forward, and will not be applied retroactively.",
-        "ChooseCityInSameTimezoneAsYou": "Choose a city in the same time zone as you.",
         "Currency": "Currency",
         "CurrencySymbolWillBeUsedForGoals": "The Currency symbol will be displayed next to Goals revenues.",
         "DefaultCurrencyForNewWebsites": "Default Currency for new websites",
@@ -27,6 +26,7 @@
         "ExcludedIps": "Excluded IPs",
         "ExcludedParameters": "Excluded Parameters",
         "ExcludedUserAgents": "Excluded User Agents",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Enter the list of user agents to exclude from being tracked by Matomo.",
         "GlobalExcludedUserAgentHelp2": "You can use this to exclude some bots from being tracked.",
         "GlobalListExcludedIps": "Global list of Excluded IPs",
@@ -35,7 +35,7 @@
         "GlobalListExcludedUserAgents_Desc": "If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.",
         "GlobalSettings": "Global settings",
         "GlobalWebsitesSettings": "Global websites settings",
-        "HelpExcludedIps": "Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use wildcards, eg. %1$s or %2$s",
+        "HelpExcludedIpAddresses": "Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. %1$s or you can use wildcards, eg. %2$s or %3$s",
         "JsTrackingTagHelp": "Here is the JavaScript Tracking code to include on all your pages",
         "KeepURLFragments": "Page URL fragments tracking",
         "KeepURLFragmentsHelp": "If the checkbox below is unchecked, Page URL fragments (everything after the %1$s) will be removed when tracking: %2$s will be tracked as %3$s",
@@ -86,11 +86,12 @@
         "UTCTimeIs": "UTC time is %s.",
         "OnlyMatchedUrlsAllowed": "Only track visits and actions when the action URL starts with one of the above URLs.",
         "OnlyMatchedUrlsAllowedHelp": "When enabled, Matomo will only track internal actions when the Page URL is one of the known URLs for your website. This prevents people from spamming your analytics with URLs for other websites.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "The domain and the path has to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http:\/\/example.com\/path' and 'http:\/\/good.example.com', tracking requests for 'http:\/\/example.com\/otherpath' or 'http:\/\/bad.example.com' are ignored.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "The domain and the path have to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http:\/\/example.com\/path' and 'http:\/\/good.example.com', tracking requests for 'http:\/\/example.com\/otherpath' or 'http:\/\/bad.example.com' are ignored.",
         "WebsitesManagement": "Websites Management",
         "XManagement": "Manage %s",
         "ChooseMeasurableTypeHeadline": "What would you like to measure?",
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
-        "YourCurrentIpAddressIs": "Your current IP address is %s"
+        "YourCurrentIpAddressIs": "Your current IP address is %s",
+        "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone."
     }
 }

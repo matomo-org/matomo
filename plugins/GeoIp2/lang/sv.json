@@ -1,0 +1,14 @@
+{
+    "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "Tar-arkivet %1$sinnehåller ingen GeoIP-databas!",
+        "CannotUnzipGeoIPFile": "Kan inte packa upp GeoIP-filen i %1$s: %2$s",
+        "PluginDescription": "Tillhandahåller platstjänster för GeoIP2.",
+        "LocationProviderDesc_Php": "Den här platstjänsten är enklast att installera och kräver ingen serverkonfiguration (perfekt för delade webbhotell!). Den använder en GeoIP 2-databas och MaxMinds PHP-API för att med stor precision fastställa dina besökares platser.",
+        "LocationProviderDesc_Php_WithExtension": "Den här platstjänsten kan göras snabbare med det installerade %1$smaxminddb%2$s-tillägget.",
+        "LocationProviderDesc_ServerModule": "Den här platstjänsten använder GeoIP 2-modulen som installerats på din HTTP-server. Den här tjänsten är snabb och träffsäker, men %1$skan endast användas tillsammans med normal webbläsarspårning.%2$s",
+        "LocationProviderDesc_ServerModule2": "Om du behöver importera loggfiler eller göra något annat som kräver IP-adresser: Använd %1$sPECL GeoIP (rekommenderas)%2$s eller %3$sPHP GeoIP%4$s.",
+        "ServerBasedVariablesConfiguration": "Konfigurering av servervariabler som används av GeoIP 2-servermoduler",
+        "GeoIPVariablesConfigurationHere": "Du kan konfigurera de använda servervariablerna %1$shär%2$s.",
+        "ServerVariableFor": "Servervariabel för %s"
+    }
+}

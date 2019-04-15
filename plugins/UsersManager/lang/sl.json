@@ -6,7 +6,6 @@
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",
         "Email": "Email",
-        "ExceptionAdminAnonymous": "\"Anonimnemu\" uporabniku ne morate dodeliti administrativnih dovoljenj.",
         "ExceptionDeleteDoesNotExist": "Uporabnik '%s' ne obstaja, ter ga tako ni moč izbrisati.",
         "ExceptionEmailExists": "Uporabnik z emailom \"%s\" že obstaja.",
         "ExceptionInvalidEmail": "Email ni veljavnega formata.",
@@ -26,6 +25,8 @@
         "TypeYourPasswordAgain": "Ponovno vpišite vaše novo geslo.",
         "User": "Uporabnik",
         "UsersManagement": "Upravljanje Uporabnikov",
-        "YourUsernameCannotBeChanged": "Vaše uporabniško ime ne more biti spremenjeno."
+        "YourUsernameCannotBeChanged": "Vaše uporabniško ime ne more biti spremenjeno.",
+        "ShowAll": "Prikaži vse",
+        "Username": "Uporabniško Ime"
     }
 }

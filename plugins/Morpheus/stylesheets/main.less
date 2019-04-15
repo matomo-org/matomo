@@ -1,5 +1,3 @@
-@import "theme";
-@import "theme-advanced";
 @import "base/mixins";
 @import "general/_typography";
 @import "general/_forms";
@@ -84,12 +82,20 @@ p {
 }
 
 #root {
-    margin: 0 0 100px 0;
+    margin: 0 0 20px 0;
     padding: 0;
     .widgetize {
         width: auto;
     }
+}
 
+#pageFooter {
+  min-height: 20px;
+  margin-bottom: 60px;
+
+  .widgetized & {
+    min-height: 0;
+  }
 }
 
 .dashboardSettings {
@@ -267,9 +273,10 @@ table.dataTable {
     thead {
         tr {
             th {
-                background: @theme-color-background-contrast;
+                background: @theme-color-background-base;
+                border-radius: 0;
+                color: @theme-color-text-contrast;
                 text-transform: uppercase;
-                color: @theme-color-text;
                 .font-default(11px, 12px);
                 padding-top: 16px;
                 padding-bottom: 16px;
@@ -372,6 +379,7 @@ table.dataTable {
               padding-left: 28px;
               padding-right: 12px;
               text-align: right;
+              font-variant-numeric: tabular-nums;
             }
 
             a {
@@ -466,7 +474,20 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
 }
 
 div.sparkline {
-    display: block;
+    display: -ms-flexbox;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+   
+    -webkit-justify-content: space-around;
+    -moz-justify-content: space-around;
+    -ms-justify-content: space-around;
+    justify-content: space-around;
+
     border-bottom: 0;
     margin-bottom: 10px;
     &.linked {
@@ -477,6 +498,20 @@ div.sparkline {
         }
     }
 }
+
+div.sparkline img {
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    -ms-flex-shrink: 0;
+    flex-shrink: 0;
+}
+
+div.sparkline script+div {
+    -ms-flex: 1 1 auto; // for getting flex to work on IE10's buggy implementation
+
+    margin: 1px 0 0 1px;
+}
+
 
 .widgetpreview-base li.widgetpreview-choosen {
     background: @color-silver-l95;
@@ -569,4 +604,8 @@ tr:hover #token_auth {
   line-height: 20px;
   height: auto;
   padding-bottom: 20px;
+}
+
+.ui-tooltip {
+    z-index: 9999;
 }

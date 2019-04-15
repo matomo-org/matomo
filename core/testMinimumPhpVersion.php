@@ -62,13 +62,13 @@ if ($minimumPhpInvalid) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
                 . " <br>Then run this command in a terminal in the matomo directory: <br> $ php composer.phar install ";
         }
-        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer noopener' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
                     "<br/>" . $composerInstall.
                     " This will initialize composer for Matomo and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Matomo from the Git repository?</a>." .
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from ".
-                    "<a href='https://builds.matomo.org/piwik.zip'>builds.matomo.org</a>.</p>";
+                    "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
 }
 
@@ -84,6 +84,12 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
+        if (\Piwik\SettingsServer::isArchivePhpTriggered()
+            && \Piwik\Common::isPhpCliMode()
+        ) {
+            return true;
+        }
+
         $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
                 || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
 
@@ -142,11 +148,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if ($optionalLinks) {
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/faq/">Matomo Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/docs/">Matomo Documentation</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Matomo Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">Matomo Documentation</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

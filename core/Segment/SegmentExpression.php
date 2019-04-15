@@ -71,7 +71,6 @@ class SegmentExpression
 
     protected $joins = array();
     protected $valuesBind = array();
-    protected $parsedTree = array();
     protected $tree = array();
     protected $parsedSubExpressions = array();
 
@@ -105,7 +104,7 @@ class SegmentExpression
                 . '){1}(.*)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
-                throw new Exception('The segment \'' . $operand . '\' is not valid.');
+                throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
             }
 
             $leftMember = $matches[1];
@@ -264,12 +263,12 @@ class SegmentExpression
                 break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = '%s IS NOT NULL AND (%s <> \'\' OR %s = 0)';
+                $sqlMatch = '%s IS NOT NULL AND %s <> \'\' AND %s <> \'0\'';
                 $value    = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = '%s IS NULL OR %s = \'\' ';
+                $sqlMatch = '%s IS NULL OR %s = \'\' OR %s = \'0\'';
                 $value    = null;
                 break;
 
@@ -302,9 +301,28 @@ class SegmentExpression
             }
         }
 
-        $this->checkFieldIsAvailable($field, $availableTables);
+        $columns = self::parseColumnsFromSqlExpr($field);
+        foreach ($columns as $column) {
+            $this->checkFieldIsAvailable($column, $availableTables);
+        }
 
         return array($sqlExpression, $value);
+    }
+
+    /**
+     * @param string $field
+     * @return string[]
+     */
+    public static function parseColumnsFromSqlExpr($field)
+    {
+        preg_match_all('/\b`?([a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
+        $result = isset($matches[1]) ? $matches[1] : [];
+        $result = array_map(function ($item) {
+            return str_replace('`', '', $item);
+        }, $result);
+        $result = array_unique($result);
+        $result = array_values($result);
+        return $result;
     }
 
     /**

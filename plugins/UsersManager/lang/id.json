@@ -12,8 +12,6 @@
         "DeleteConfirm": "Apakah Anda yakin menghapus pengguna %s?",
         "Email": "Surel",
         "EmailYourAdministrator": "%1$sKirim surel kepada pengelola Anda tentang masalah ini%2$s.",
-        "ExceptionAccessValues": "Akses parameter harus memiliki salah satu dari nilai berikut: [ %s ]",
-        "ExceptionAdminAnonymous": "Anda tidak dapat memberikan hak `Pengelola` terhadap pengguna `anonim`.",
         "ExceptionDeleteDoesNotExist": "Pengguna '%s' tidak ada sehingga tidak dapat dihapus.",
         "ExceptionEditAnonymous": "Pengguna anonim tidak dapat dihapus atau disunting. Matomo menggunakan pengguna ini untuk menjelaskan pengguna yang belum masuk. Misalnya, Anda dapat membuat statistik publik Anda dengan memberi hak `Tampil` untuk pengguna 'anonim'.",
         "ExceptionEmailExists": "Pengguna dengan surel '%s' telah tersedia.",
@@ -42,9 +40,10 @@
         "User": "Pengguna",
         "UsersManagement": "Pengatur Pengguna",
         "UsersManagementMainDescription": "Menciptakan pengguna baru atau memperbarui pengguna yang telah ada. Anda dapat mengatur perizinan di atas.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Bila pengguna tidak masuk-log dan mengunjungi Matomo, mereka harus mengakses",
         "YourUsernameCannotBeChanged": "Nama-id Anda tidak dapat diubah.",
         "YourVisitsAreIgnoredOnDomain": "%1$sKunjungan Anda diabaikan oleh Matomo dalam %2$s %3$s (kuki pengecualian ditemukan dalam peramban Anda).",
-        "YourVisitsAreNotIgnored": "%1$sKunjungan Anda tidak diabaikan oleh Matomo%2$s (kuki pengecualian tidak ditemukan dalam peramban Anda)."
+        "YourVisitsAreNotIgnored": "%1$sKunjungan Anda tidak diabaikan oleh Matomo%2$s (kuki pengecualian tidak ditemukan dalam peramban Anda).",
+        "ShowAll": "Tampilkan semua",
+        "Username": "Nama-Id"
     }
 }

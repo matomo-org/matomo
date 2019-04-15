@@ -8,12 +8,34 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
+    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
+        if ($enableLogging) {
+            return $previous;
+        } else {
+            return $c->get(\Psr\Log\NullLogger::class);
+        }
+    }),
+
+    'Tests.log.allowAllHandlers' => false,
+
+    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        if ($c->get('Tests.log.allowAllHandlers')) {
+            return $previous;
+        }
+
+        return [
+            $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+        ];
+    }),
 
     'Piwik\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
     },
     'cache.eager.cache_id' => 'eagercache-test-',
+
+    // set in individual tests to override now value when needed
+    'Tests.now' => false,
 
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
@@ -42,13 +64,21 @@ return array(
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');
             $idSitesView = $c->get('test.vars.idSitesViewAccess');
+            $idSitesWrite = $c->get('test.vars.idSitesWriteAccess');
+            $idSitesCapabilities = $c->get('test.vars.idSitesCapabilities');
             $access = new FakeAccess();
 
             if (!empty($idSitesView)) {
                 FakeAccess::$superUser = false;
                 FakeAccess::$idSitesView = $idSitesView;
+                FakeAccess::$idSitesWrite = !empty($idSitesWrite) ? $idSitesWrite : array();
                 FakeAccess::$idSitesAdmin = !empty($idSitesAdmin) ? $idSitesAdmin : array();
                 FakeAccess::$identity = 'viewUserLogin';
+            } elseif (!empty($idSitesWrite)) {
+                FakeAccess::$superUser = false;
+                FakeAccess::$idSitesWrite = !empty($idSitesWrite) ? $idSitesWrite : array();
+                FakeAccess::$idSitesAdmin = !empty($idSitesAdmin) ? $idSitesAdmin : array();
+                FakeAccess::$identity = 'writeUserLogin';
             } elseif (!empty($idSitesAdmin)) {
                 FakeAccess::$superUser = false;
                 FakeAccess::$idSitesAdmin = $idSitesAdmin;
@@ -56,6 +86,9 @@ return array(
             } else {
                 FakeAccess::$superUser = true;
                 FakeAccess::$superUserLogin = 'superUserLogin';
+            }
+            if (!empty($idSitesCapabilities)) {
+                FakeAccess::$idSitesCapabilities = (array) $idSitesCapabilities;
             }
             return $access;
         } else {

@@ -14,6 +14,6 @@ class RealTimeMapSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'UserCountryMap_RealTimeMap';
-    protected $order = 40;
+    protected $order = 9;
 
 }

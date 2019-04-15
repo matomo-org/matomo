@@ -1,13 +1,17 @@
-<span id="logo" class="brand-logo">
-    <a href="index.php" tabindex="-1"
+<span id="logo" class="logo brand-logo {% if centeredLogo is defined and centeredLogo %}center{% endif %}">
+    {% if logoLink is not defined or logoLink is not empty %}
+    <a href="{{ logoLink|default('index.php') }}" tabindex="-1"
        title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo # {{ 'General_OpenSourceWebAnalytics'|translate }}"
     >
+    {% endif %}
     {% if hasSVGLogo %}
         <img src='{{ logoSVG }}?matomo' tabindex="3"
              alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
              class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
     {% else %}
-        <img src='{{ logoHeader }}?matomo' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
+        <img src='{% if useLargeLogo|default(false) %}{{ logoLarge }}{% else %}{{ logoHeader }}{% endif %}?matomo' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
     {% endif %}
-</a>
+        {% if logoLink is not defined or logoLink is not empty %}
+    </a>
+    {% endif %}
 </span>

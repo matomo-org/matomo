@@ -32,7 +32,7 @@
                                 {%- if visitorData.userId is empty %}
                                     {{ 'Live_VisitorProfile'|translate }}
                                 {%- else %}
-                                    <span title="{{ 'General_UserId'|translate }}: {{ visitorData.userId|raw }}">{{ visitorData.userId|raw }}</span>
+                                    <span title="{{ 'General_UserId'|translate }}: {{ visitorData.userId|rawSafeDecoded }}">{{ visitorData.userId|rawSafeDecoded }}</span>
                                 {% endif -%}
                             </h1>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor"
@@ -74,7 +74,13 @@
                                                                                    style="display:none;"
                                                                                    src="plugins/Morpheus/images/loading-blue.gif"/>
                     {% else %}
-                        <span class="visitor-profile-no-visits">{{ 'Live_NoMoreVisits'|translate }}</span>
+                        <span class="visitor-profile-no-visits">
+                            {% if visitorData.hasMoreVisits %}
+                                {{ 'Live_LimitedVisitsShown'|translate('<strong>' ~ visitorData.totalVisits ~ '</strong>')|raw }}
+                            {% else %}
+                                {{ 'Live_NoMoreVisits'|translate }}
+                            {% endif %}
+                        </span>
                     {% endif %}
                 </div>
             </div>

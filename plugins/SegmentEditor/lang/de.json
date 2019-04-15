@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "nur diese Website",
         "SegmentIsDisplayedForWebsite": "und wird berechnet für",
         "SegmentNotApplied": "Segment '%s' nicht angewendet",
-        "SegmentNotAppliedMessage": "Sie fragen Daten für das benutzerdefinierte Segment '%s' an, die Matomo-Konfiguration verhindert jedoch aktuell Echtzeit-Verarbeitung von Berichten aus Performance-Gründen.",
+        "SegmentNotAppliedMessage": "Sie haben Daten für das benutzerdefinierte Segment '%s' angefordert, diese Matomo Konfiguration verhindert aktuell die Echtzeitverarbeitung der Berichte aus Performancegründen.",
         "SelectSegmentOfVisits": "Wählen Sie ein Segment an Besuchen aus:",
         "ThisSegmentIsVisibleTo": "Dieses Segment ist sichtbar für:",
         "VisibleToAllUsers": "alle Benutzer",
@@ -36,6 +36,22 @@
         "SegmentXIsAUnionOf": "%s ist eine Vereinigung dieser Segmente:",
         "CustomSegment": "Benutzerdefiniertes Segment",
         "SegmentOperatorIsNullOrEmpty": "Ist NULL oder leer",
-        "SegmentOperatorIsNotNullNorEmpty": "Ist weder NULL noch leer"
+        "SegmentOperatorIsNotNullNorEmpty": "Ist weder NULL noch leer",
+        "UnprocessedSegmentNoData1": "Diese Bereichte haben keine Daten, weil das von Ihnen gewünschte Segment %1$s noch nicht vom System bearbeitet wurde.",
+        "UnprocessedSegmentNoData2": "Daten für dieses Segment sollten in ein paar Stunden verfügbar sein sobald die Verarbeitung abgeschlossen ist. (Falls nicht, liegt ein Problem vor.)",
+        "UnprocessedSegmentInVisitorLog1": "%1$sEinstweilen können Sie das Visitor Log verwenden%2$s um zu testen ob Ihr Segment Ihre Benutzer korrekt erfasst, in dem Sie es dort anwenden.",
+        "UnprocessedSegmentInVisitorLog2": "Wenn angewandt, können Sie sofort sehen welche Besucher und Aktionen von Ihrem Segment betroffen sind.",
+        "UnprocessedSegmentInVisitorLog3": "Dies kann Ihnen helfen sicherzustellen, dass Ihr Segment die erwarteten Benutzer und Aktionen registriert.",
+        "UnprocessedSegmentApiError1": "Das Segment '%1$s' ist auf '%2$s' gesetzt, aber Matomo ist aktuell nicht konfiguriert um segmentierte Berichte in API Anfragen auszuführen.",
+        "UnprocessedSegmentApiError2": "Um in Zukunft Daten für diesen Bericht zu sehen, werden Sie Ihr Segment ändern müssen und die Option mit Namen '%s' anwählen.",
+        "UnprocessedSegmentApiError3": "Dann nach ein paar Stunden werden Ihre Segmentdaten über die API verfügbar sein. (Falls nicht, liegt ein Problem vor.)",
+        "CustomUnprocessedSegmentApiError1": "Das gesuchte Segment wurde noch nicht im Segment Editor erstellt und dementsprechend konnten die Berichtdaten nicht aufbereitet werden.",
+        "CustomUnprocessedSegmentApiError2": "Um Daten für dieses Segment zu sehen, müssen Sie zu Matomo gehen und das Segment manuell im Segment Editor erstellen.",
+        "CustomUnprocessedSegmentApiError3": "(Alternativ können Sie ein neues Segment mit Hilfe der SegmentEditor.add API Methode programmtechnisch hinzufügen).",
+        "CustomUnprocessedSegmentApiError4": "Sobald das Segment im Editor (oder via API) erstellt wurde, wird diese Fehlermeldung verschwinden und ein paar Stunden später werden Sie Ihre segmentierten Berichtsdaten sehen, nachdem die segmentierten Daten verarbeitet wurden. (Falls nicht, liegt ein Problem vor.)",
+        "CustomUnprocessedSegmentApiError5": "Bitte beachten Sie dass Sie testen können ob Ihr Segment funktioniert ohne dass Sie auf die Verarbeitung warten müssen, in dem Sie die Live.getLastVisitsDetails API verwenden.",
+        "CustomUnprocessedSegmentApiError6": "Wenn sie diese API Methode verwenden, werden Sie sehen welche Benutzer und Aktionen vom Ihrem &segment= Parameter betroffen sind.",
+        "CustomUnprocessedSegmentNoData": "Um Daten für dieses Segment zu sehen, müssen Sie das Segment manuell im Segment Editor erstellen, dann ein paar Stunden auf die Verarbeitung warten.",
+        "AddThisToMatomo": "Dieses Segment zu Matomo hinzufügen"
     }
 }

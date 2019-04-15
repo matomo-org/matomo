@@ -129,7 +129,7 @@ class Updates_1_2_rc1 extends Updates
     {
         // first we disable the plugins and keep an array of warnings messages
         $pluginsToDisableMessage = array(
-            'GeoIP'     => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 1.2. \nYou can download the latest version of the plugin, compatible with Piwik 1.2.\n<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/matomo-org/piwik/issues/45'>Click here.</a>",
+            'GeoIP'     => "GeoIP plugin was disabled, because it is not compatible with the new Piwik 1.2. \nYou can download the latest version of the plugin, compatible with Piwik 1.2.\n<a target='_blank' rel='noopener' href='https://github.com/matomo-org/matomo/issues/45'>Click here.</a>",
             'EntryPage' => "EntryPage plugin is not compatible with this version of Matomo, it was disabled.",
         );
         $disabledPlugins = array();

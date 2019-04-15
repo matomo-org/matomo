@@ -13,8 +13,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugin\ReportsProvider;
-use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -211,6 +209,10 @@ abstract class ViewDataTable implements ViewInterface
             $relatedReports = $report->getRelatedReports();
             if (!empty($relatedReports)) {
                 foreach ($relatedReports as $relatedReport) {
+                    if (!$relatedReport) {
+                        continue;
+                    }
+                    
                     $relatedReportName = $relatedReport->getName();
 
                     $this->config->addRelatedReport($relatedReport->getModule() . '.' . $relatedReport->getAction(),
@@ -455,7 +457,12 @@ abstract class ViewDataTable implements ViewInterface
     protected function getPropertyFromQueryParam($name, $defaultValue)
     {
         $type = is_numeric($defaultValue) ? 'int' : null;
-        return Common::getRequestVar($name, $defaultValue, $type);
+        $value = Common::getRequestVar($name, $defaultValue, $type);
+        // convert comma separated values to arrays if needed
+        if (is_array($defaultValue)) {
+            $value = Piwik::getArrayFromApiParameter($value);
+        }
+        return $value;
     }
 
     /**

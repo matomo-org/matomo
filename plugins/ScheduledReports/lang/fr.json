@@ -46,6 +46,15 @@
         "TopLinkTooltip": "Créer un rapport par courriel afin que les statistiques Matomo soient envoyées automatiquement à votre adresse courriel ou celles de vos clients automatiquement!",
         "TopOfReport": "Retour haut de page",
         "UpdateReport": "Mettre à jour le rapport",
-        "WeeklyScheduleHelp": "Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine."
+        "WeeklyScheduleHelp": "Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine.",
+        "Unsubscribe": "Se désinscrire",
+        "ReportUnsubscribe": "Se désinscrire d'un rapport",
+        "UnsubscribeReportConfirmation": "Etes-vous sûr(e) de vouloir vous désinscrire du rapport %1$s?",
+        "SuccessfullyUnsubscribed": "Vous êtes désinscrit(e) du rapport %1$s avec succès.",
+        "UnsubscribeFooter": "Afin de vous désinscrire de ce rapport veuillez suivre ce lien: %1$s",
+        "NoTokenProvided": "Aucun jeton fourni dans l'URL.",
+        "NoSubscriptionFound": "Aucun abonnement trouvé. Peut-être que l'abonnement a déjà été annulé ou bien le rapport supprimé.",
+        "EvolutionGraphsShowForEachInPeriod": "Les graphiques d'évolution pour %1$s chaque jour %2$s dans le\/la dernier(e) %3$s",
+        "EvolutionGraphsShowForPreviousN": "Les graphiques d'évolution affichent une évolution depuis le dernier N %s"
     }
 }

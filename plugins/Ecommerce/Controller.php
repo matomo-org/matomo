@@ -44,7 +44,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             $goalDefinition['name'] = $this->translator->translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
         } else {
-            $goals = GoalsApi::getInstance()->getGoals($this->idSite);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
             if (!isset($goals[$idGoal])) {
                 Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
             }
@@ -76,11 +76,22 @@ class Controller extends \Piwik\Plugins\Goals\Controller
     {
         $view = new View('@Ecommerce/conversionOverview');
         $idGoal = Common::getRequestVar('idGoal', null, 'string');
+        $period = Common::getRequestVar('period', null, 'string');
+        $segment = Common::getRequestVar('segment', '', 'string');
+        $date = Common::getRequestVar('date', '', 'string');
 
-        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal));
+        $goalMetrics = Request::processRequest('Goals.get', [
+            'idGoal'       => $idGoal,
+            'idSite'       => $this->idSite,
+            'date'         => $date,
+            'period'       => $period,
+            'segment'      => $segment,
+            'filter_limit' => '-1'
+        ], $default = []);
+
         $dataRow = $goalMetrics->getFirstRow();
 
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idSite = $this->idSite;
         $view->idGoal = $idGoal;
 
         if ($dataRow) {

@@ -37,6 +37,8 @@
         "Smartphone": "Telefon i mençur",
         "PortableMediaPlayer": "Lojtës media portativ",
         "Devices": "Pajisje",
+        "GenericDevice": "%s e rëndomtë",
+        "MobileDevice": "Pajisje celulare",
         "Tablet": "Tablet",
         "Phablet": "Fablet",
         "TV": "Tv",

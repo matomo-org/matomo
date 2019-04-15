@@ -5,6 +5,7 @@
 		<idVisit>18</idVisit>
 		<visitIp>1.2.4.8</visitIp>
 		
+		<fingerprint>a36244db4114afa7</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -18,7 +19,10 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -31,6 +35,9 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -45,7 +52,10 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.png</icon>
+				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -64,6 +74,9 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -79,6 +92,9 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file8.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -95,6 +111,9 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/8.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -111,6 +130,9 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -123,6 +145,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -133,7 +156,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -152,12 +175,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -223,18 +248,8 @@
 		<idVisit>17</idVisit>
 		<visitIp>1.2.4.8</visitIp>
 		
+		<fingerprint>a36244db4114afa7</fingerprint>
 		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>45</goalPageId>
-				
-				<url>http://piwik.net/grue/lair</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/grue/lair</url>
@@ -245,7 +260,10 @@
 				<pageId>45</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -259,6 +277,20 @@
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>45</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
+			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
@@ -267,6 +299,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -277,11 +310,11 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>101</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>51</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -296,12 +329,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -367,6 +402,7 @@
 		<idVisit>16</idVisit>
 		<visitIp>1.2.4.7</visitIp>
 		
+		<fingerprint>28a7ee52024f3a89</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -380,7 +416,10 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -393,6 +432,9 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -404,6 +446,9 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -419,6 +464,9 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file7.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -435,6 +483,9 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/7.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -451,6 +502,9 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<iconSVG>plugins/Morpheus/images/event.svg</iconSVG>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -463,6 +517,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -473,7 +528,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
@@ -492,12 +547,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -522,10 +579,10 @@
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>

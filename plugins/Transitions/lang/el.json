@@ -2,17 +2,23 @@
     "Transitions": {
         "BouncesInline": "%s αναπηδήσεις",
         "DirectEntries": "Άμεσες Εισαγωγές",
+        "Transitions": "Μεταβάσεις",
         "ErrorBack": "Μετάβαση στην προηγούμενη ενέργεια",
         "ExitsInline": "%s έξοδοι",
         "NumPageviews": "%s προβολές σελίδων",
         "NumDownloads": "%s λήψεις",
         "NumOutlinks": "%s σύνδεσμοι προς εξωτερικό",
+        "TopX": "Οι κορυφαίες %s ετικέτες",
+        "FeatureDescription": "Οι μεταβάσεις σας παρέχουν μια αναφορά που εμφανίζει τι έκαναν οι επισκέπτες σας αμέσως πριν και μετά που είδαν μια συγκεκριμένη σελίδα. Η σελίδα αυτή θα εξηγήσει πως μπορείτε να προσπελάσετε, καταλάβετε και να χρησιμοποιήσετε την ισχυρή αναφορά Μεταβάσεων.",
+        "AvailableInOtherReports": "Το γνωρίζετε; Οι μεταβάσεις είναι πλέον διαθέσιμες ως ενέργεια γραμμής στις παρακάτω αναφορές:",
+        "AvailableInOtherReports2": "Απλά μεταβείτε με το ποντίκι πάνω από μία γραμμή στις αναφορές αυτές και κάντε κλικ στο εικονίδιο μετάβασης %s για να τις εμφανίσετε.",
         "FromCampaigns": "Από Εκστρατείες",
         "FromPreviousPages": "Από Εσωτερικές Σελίδες",
         "FromPreviousPagesInline": "%s από εσωτερικές σελίδες",
         "FromPreviousSiteSearches": "Από Εσωτερική Αναζήτηση",
         "FromPreviousSiteSearchesInline": "%s από εσωτερικές αναζητήσεις",
         "FromSearchEngines": "Από Μηχανές Αναζήτησης",
+        "FromSocialNetworks": "Από Κοινωνικά Δίκτυα",
         "FromWebsites": "Από Ιστοσελίδες",
         "IncomingTraffic": "Εισερχόμενη κίνηση",
         "LoopsInline": "%s ανανεώσεις σελίδας",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "Εσωτερικές Αναζητήσεις",
         "ToFollowingSiteSearchesInline": "%s εσωτερικές αναζητήσεις",
         "XOfAllPageviews": "%s από όλες τις προβολές αυτής της σελίδας",
-        "XOutOfYVisits": "%1$s (από %2$s)"
+        "XOutOfYVisits": "%1$s (από %2$s)",
+        "PageURLTransitions": "Διευθύνσεις URL μεταβάσεων σελίδων"
     }
 }

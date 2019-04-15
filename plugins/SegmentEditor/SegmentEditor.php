@@ -8,15 +8,30 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Diagnostics\Diagnostics;
+use Piwik\Segment;
+use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
+use Piwik\Site;
+use Piwik\Period;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  */
 class SegmentEditor extends \Piwik\Plugin
 {
+    const NO_DATA_UNPROCESSED_SEGMENT_ID = 'nodata_segment_not_processed';
+
     /**
      * @see Piwik\Plugin::registerEvents
      */
@@ -30,6 +45,8 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
+            'Visualization.onNoData' => 'onNoData',
+            'Archive.noArchivedData' => 'onNoArchiveData',
         );
     }
 
@@ -69,6 +86,136 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         $segments = array_unique($segments);
+    }
+
+    public function onNoArchiveData()
+    {
+        // don't do check unless this is the root API request and it is an HTTP API request
+        if (!Request::isCurrentApiRequestTheRootApiRequest()
+            || !Request::isRootRequestApiRequest()
+        ) {
+            return null;
+        }
+
+        // don't do check during cron archiving
+        if (SettingsServer::isArchivePhpTriggered()
+            || Common::isPhpCliMode()
+        ) {
+            return null;
+        }
+
+        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        if (empty($segmentInfo)) {
+            return;
+        }
+
+        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+
+        throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
+    }
+
+    public function onNoData(View $dataTableView)
+    {
+        // if the archiving hasn't run in a while notification is up, don't display this one
+        if (isset($dataTableView->notifications[Diagnostics::NO_DATA_ARCHIVING_NOT_RUN_NOTIFICATION_ID])) {
+            return;
+        }
+
+        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        if (empty($segmentInfo)) {
+            return;
+        }
+
+        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
+
+        if (!$isSegmentToPreprocess) {
+            return; // do not display the notification for custom segments
+        }
+
+        $segmentDisplayName = !empty($storedSegment['name']) ? $storedSegment['name'] : $segment;
+
+        $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
+        $view->isSegmentToPreprocess = $isSegmentToPreprocess;
+        $view->segmentName = $segmentDisplayName;
+        $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
+            'category' => 'General_Visitors',
+            'subcategory' => 'Live_VisitorLog',
+        ]);
+
+        $notification = new Notification($view->render());
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_INFO;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->raw = true;
+
+        $dataTableView->notifications[self::NO_DATA_UNPROCESSED_SEGMENT_ID] = $notification;
+    }
+
+    private function getSegmentIfIsUnprocessed()
+    {
+        // get idSites
+        $idSite = Common::getRequestVar('idSite', false);
+        if (empty($idSite)
+            || !is_numeric($idSite)
+        ) {
+            return null;
+        }
+
+        // get segment
+        $segment = Request::getRawSegmentFromRequest();
+        if (empty($segment)) {
+            return null;
+        }
+        $segment = new Segment($segment, [$idSite]);
+
+        // get period
+        $date = Common::getRequestVar('date', false);
+        $periodStr = Common::getRequestVar('period', false);
+        $period = Period\Factory::build($periodStr, $date);
+
+        // check if archiving is enabled. if so, the segment should have been processed.
+        $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
+        if (!$isArchivingDisabled) {
+            return null;
+        }
+
+        // check if segment archive does not exist
+        $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
+        $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
+        if (!empty($archiveIdAndStats[0])) {
+            return null;
+        }
+
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
+            $periodStr = 'range';
+        }
+
+        // if no visits recorded, data will not appear, so don't show the message
+        $liveModel = new \Piwik\Plugins\Live\Model();
+        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, null, null, 'ASC');
+        if (empty($visits)) {
+            return null;
+        }
+
+        // check if requested segment is segment to preprocess
+        $isSegmentToPreprocess = Rules::isSegmentPreProcessed([$idSite], $segment);
+
+        // this archive has no data, the report is for a segment that gets preprocessed, and the archive for this
+        // data does not exist. this means the data will be processed later. we let the user know so they will not
+        // be confused.
+        $model = new Model();
+        $storedSegment = $model->getSegmentByDefinition($segment->getString());
+        if (empty($storedSegment)) {
+            $storedSegment = $model->getSegmentByDefinition(urldecode($segment->getString()));
+        }
+        if (empty($storedSegment)) {
+            $storedSegment = null;
+        }
+
+        return [$segment, $storedSegment, $isSegmentToPreprocess];
     }
 
     public function install()

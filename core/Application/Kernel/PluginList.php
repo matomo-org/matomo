@@ -39,9 +39,11 @@ class PluginList
         'ExampleVisualization',
         'ExamplePluginTemplate',
         'ExampleTracker',
+        'ExampleLogTables',
         'ExampleReport',
         'MobileAppMeasurable',
-        'Provider'
+        'Provider',
+        'TagManager'
     );
 
     // Themes bundled with core package, disabled by default

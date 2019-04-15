@@ -10,7 +10,7 @@
         </span>
     </h2>
 
-    <table id="mt" class="dataTable" cellspacing="0">
+    <table id="mt" class="dataTable card-table" cellspacing="0">
         <thead>
         <tr>
             <th id="names" class="label" ng-click="model.sortBy('label')" ng-class="{columnSorted: 'label' == model.sortColumn}">
@@ -63,11 +63,11 @@
                         <br /><br />
                         {{ 'General_NeedMoreHelp'|translate }}
 
-                        <a rel="noreferrer" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a>
+                        <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a>
                         –
-                        <a rel="noreferrer" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+                        <a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
                         <span ng-show="areAdsForProfessionalServicesEnabled"> – </span>
-                        <a ng-show="areAdsForProfessionalServicesEnabled" rel="noreferrer" target="_blank" href="https://matomo.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=MultiSites&pk_source=Piwik_App">{{ 'Feedback_ProfessionalHelp'|translate }}</a>.
+                        <a ng-show="areAdsForProfessionalServicesEnabled" rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=MultiSites&pk_source=Piwik_App">{{ 'Feedback_ProfessionalHelp'|translate }}</a>.
                     </div>
                 </td>
             </tr>
@@ -99,7 +99,7 @@
                         </span>
                         <span class="dataTablePages">
                             <span id="counter">
-                                {{ 'General_Pagination'|translate:model.getCurrentPagingOffsetStart():model.getCurrentPagingOffsetEnd():model.getNumberOfFilteredSites() }}
+                                {{ 'General_Pagination'|translate:model.getPaginationLowerBound():model.getPaginationUpperBound():model.getNumberOfFilteredSites() }}
                             </span>
                         </span>
                         <span id="next" class="next dataTableNext" ng-hide="model.currentPage >= model.getNumberOfPages()" ng-click="model.nextPage()">
@@ -125,4 +125,5 @@
 
         </tfoot>
     </table>
+
 </div>

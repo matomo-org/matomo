@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
@@ -33,6 +35,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'idVisit'             => $this->getIdVisit(),
             'visitIp'             => $this->getIp(),
             'visitorId'           => $this->getVisitorId(),
+            'fingerprint'         => $this->getFingerprint(),
 
             // => false are placeholders to be filled in API later
             'actionDetails'       => false,
@@ -49,6 +52,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $visitor['siteCurrency']         = $currency;
         $visitor['siteCurrencySymbol']   = @$currencies[$visitor['siteCurrency']];
+        $visitor['siteName']             = $website->getName();
         $visitor['serverTimestamp']      = $visitor['lastActionTimestamp'];
         $visitor['firstActionTimestamp'] = strtotime($this->details['visit_first_action_time']);
 
@@ -85,7 +89,11 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
+        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+
         $view                 = new View($template);
+        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
+        $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -150,6 +158,14 @@ class VisitorDetails extends VisitorDetailsAbstract
         return $this->details['idsite'];
     }
 
+    function getFingerprint()
+    {
+        if (isset($this->details['config_id'])) {
+            return bin2hex($this->details['config_id']);
+        }
+        return false;
+    }
+
     function getTimestampLastAction()
     {
         return strtotime($this->details['visit_last_action_time']);
@@ -181,10 +197,31 @@ class VisitorDetails extends VisitorDetailsAbstract
         $profile['totalVisitDurationPretty'] = $formatter->getPrettyTimeFromSeconds($profile['totalVisitDuration'], true);
 
         $rows                        = $visits->getRows();
+
+        $firstVisit = $profile['visit_first'];
+        if (count($rows) >= Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate']) {
+            $firstVisit = $this->fetchFirstVisit();
+        }
+
         $profile['userId']           = $visits->getLastRow()->getColumn('userId');
-        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary(end($rows));
-        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary(reset($rows));
+        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary($firstVisit);
+        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary($profile['visit_last']);
         $profile['visitsAggregated'] = count($rows);
+    }
+
+    /**
+     * Fetch first visit from Live API
+     *
+     * @return DataTable\Row
+     */
+    private function fetchFirstVisit()
+    {
+        $response = Request::processRequest('Live.getFirstVisitForVisitorId', [
+            'idSite' => $this->getIdSite(),
+            'visitorId' => $this->getVisitorId(),
+        ]);
+
+        return $response->getFirstRow();
     }
 
     /**

@@ -7,7 +7,6 @@
     text-align: left;
     margin-left: 50px;
 }
-
 .Transitions_Canvas_Container {
     position: absolute;
 }
@@ -66,6 +65,10 @@
     overflow: hidden;
     color: #255792;
     margin: 0;
+
+    a {
+        color: inherit;
+    }
 }
 
 .Transitions_Pageviews {
@@ -195,4 +198,53 @@ body .ui-tooltip.Transitions_Tooltip_Small {
 .Transitions_SingleLine {
     font-size: 12px;
     height: 21px;
+}
+
+#transitions_report {
+    #Transitions_Container {
+        z-index: 980;
+    }
+    #Transitions_CenterBox {
+        z-index: 987;
+    }
+    .Transitions_Text,
+    #Transitions_Loops {
+        z-index: 986;
+    }
+    #Transitions_Canvas_Background_Left {
+        z-index: 981;
+    }
+    #Transitions_Canvas_Background_Right {
+        z-index: 982;
+    }
+    #Transitions_Canvas_Left {
+        z-index: 983;
+    }
+    #Transitions_Canvas_Right {
+        z-index: 984;
+    }
+    #Transitions_Canvas_Loops {
+        z-index: 985;
+    }
+}
+
+.widget #Transitions_Container h3 {
+    padding: 0 !important;
+}
+
+#transitions_report {
+    div[name=actionType] {
+        margin-left: -0.75rem;
+    }
+    div[name=actionName] {
+        margin-right: -0.75rem;
+    }
+}
+
+#dashboardWidgetsArea {
+    #transitions_report {
+        #Transitions_Container {
+            overflow: scroll;
+        }
+    }
 }

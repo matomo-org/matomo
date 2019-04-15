@@ -17,6 +17,8 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+use Piwik\Segment\SegmentExpression;
+
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -344,35 +346,41 @@ class ArchiveProcessor
      */
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        // By default we shall aggregate all sub-tables.
-        $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+        try {
+            ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
-        $columnsRenamed = false;
+            // By default we shall aggregate all sub-tables.
+            $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
 
-        if ($dataTable instanceof Map) {
-            $columnsRenamed = true;
-            // see https://github.com/piwik/piwik/issues/4377
-            $self = $this;
-            $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
+            $columnsRenamed = false;
 
-                if ($self->areColumnsNotAlreadyRenamed($table)) {
-                    /**
-                     * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
-                     * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
-                     * week archive. When generating month archives, which uses mostly week archives, we do not have
-                     * to replace those columns for the week archives again since we can be sure they were already
-                     * replaced. Same when aggregating year and range archives. This can save up 10% or more when
-                     * aggregating Month, Year and Range archives.
-                     */
-                    $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-                }
-            });
-        }
+            if ($dataTable instanceof Map) {
+                $columnsRenamed = true;
+                // see https://github.com/piwik/piwik/issues/4377
+                $self = $this;
+                $dataTable->filter(function ($table) use ($self, $columnsToRenameAfterAggregation) {
 
-        $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
+                    if ($self->areColumnsNotAlreadyRenamed($table)) {
+                        /**
+                         * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
+                         * rename all columns of each 7 day archives. Afterwards we know the columns will be replaced in a
+                         * week archive. When generating month archives, which uses mostly week archives, we do not have
+                         * to replace those columns for the week archives again since we can be sure they were already
+                         * replaced. Same when aggregating year and range archives. This can save up 10% or more when
+                         * aggregating Month, Year and Range archives.
+                         */
+                        $self->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                    }
+                });
+            }
 
-        if (!$columnsRenamed) {
-            $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+            $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
+
+            if (!$columnsRenamed) {
+                $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+            }
+        } finally {
+            ErrorHandler::popFatalErrorBreadcrumb();
         }
 
         return $dataTable;
@@ -583,5 +591,50 @@ class ArchiveProcessor
         }
 
         return $metrics;
+    }
+
+    /**
+     * Initiate archiving for a plugin during an ongoing archiving. The plugin can be another
+     * plugin or the same plugin.
+     *
+     * This method should be called during archiving when one plugin uses the report of another
+     * plugin with a segment. It will ensure reports for that segment & plugin will be archived
+     * without initiating archiving for every plugin with that segment (which would be a performance
+     * killer).
+     *
+     * @param string $plugin
+     * @param string $segment
+     */
+    public function processDependentArchive($plugin, $segment)
+    {
+        $params = $this->getParams();
+        if (!$params->isRootArchiveRequest()) { // prevent all recursion
+            return;
+        }
+
+        $idSites = [$params->getSite()->getId()];
+
+        $newSegment = Segment::combine($params->getSegment()->getString(), SegmentExpression::AND_DELIMITER, $segment);
+        if ($newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
+            return;
+        }
+
+        $newSegment = new Segment($newSegment, $idSites);
+        if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
+            // will be processed anyway
+            return;
+        }
+
+        $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+        $parameters->onlyArchiveRequestedPlugin();
+        $parameters->setIsRootArchiveRequest(false);
+
+        $archiveLoader = new ArchiveProcessor\Loader($parameters);
+        $archiveLoader->prepareArchive($plugin);
+    }
+
+    public function getArchiveWriter()
+    {
+        return $this->archiveWriter;
     }
 }

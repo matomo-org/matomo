@@ -189,7 +189,7 @@ class VisitorGeolocator
             $this->logger->debug('Updating visit with idvisit = {idVisit} (IP = {ip}). Changes: {changes}', array(
                 'idVisit' => $idVisit,
                 'ip' => $ip,
-                'changes' => $valuesToUpdate
+                'changes' => json_encode($valuesToUpdate)
             ));
 
             $this->dao->updateVisits($valuesToUpdate, $idVisit);

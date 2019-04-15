@@ -12,7 +12,7 @@
             // client-side test for broken tracker (e.g., mod_security rule)
             $('.next-step').hide();
             $.ajax({
-                url: 'piwik.php',
+                url: 'matomo.php',
                 data: 'url=http://example.com',
                 complete: function () {
                     $('.next-step').show();

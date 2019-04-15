@@ -67,7 +67,8 @@
                 cityHighlightLabelColor = colors['city-highlight-label-color'],
                 citySelectedColor = colors['city-selected-color'],
                 citySelectedLabelColor = colors['city-selected-label-color'],
-                regionLayerStrokeColor = colors['region-layer-stroke-color']
+                regionLayerStrokeColor = colors['region-layer-stroke-color'],
+                hasUserZoomed = false;
                 ;
 
             /*
@@ -314,10 +315,12 @@
             function initUserInterface() {
                 // react to changes of country select
                 $$('.userCountryMapSelectCountry').off('change').change(function () {
+                    hasUserZoomed = true;
                     updateState($$('.userCountryMapSelectCountry').val());
                 });
 
                 function zoomOut() {
+                    hasUserZoomed = true;
                     var t = self.lastSelected,
                         tgt = 'world';  // zoom out to world per default..
                     if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
@@ -344,6 +347,7 @@
                         if (self.lastSelected.length == 3) {
                             if (self.mode != "city") {
                                 self.mode = "city";
+                                hasUserZoomed = true;
                                 updateState(self.lastSelected);
                             }
                         }
@@ -356,6 +360,7 @@
                         if (self.mode != "region") {
                             $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                             self.mode = "region";
+                            hasUserZoomed = true;
                             updateState(self.lastSelected);
                         }
                     });
@@ -387,7 +392,6 @@
                 }
 
                 var metric = $$('.userCountryMapSelectMetrics').val();
-
                 // store current map state
                 self.widget.dashboardWidget('setParameters', {
                     lastMap: id, viewMode: self.mode, lastMetric: metric
@@ -464,31 +468,33 @@
                 var mapTitle = id.length == 3 ?
                         UserCountryMap.countriesByIso[id].name :
                         $$('.userCountryMapSelectCountry option[value=' + id + ']').html(),
-                    totalVisits = 0;
+                    totalVisits = 0,
+                    totalMetricValue = 0;
                 // update map title
                 $('.map-title').html(mapTitle);
                 $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – ' + mapTitle);
                 // update total visits for that region
                 if (id.length == 3) {
                     totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
+                    totalMetricValue = UserCountryMap.countriesByIso[id][metric];
                 } else if (id.length == 2) {
                     $.each(UserCountryMap.countriesByIso, function (iso, country) {
                         if (UserCountryMap.ISO3toCONT[iso] == id) {
                             totalVisits += country['nb_visits'];
+                            totalMetricValue += country[metric];
                         }
                     });
                 } else {
                     totalVisits = self.config.visitsSummary['nb_visits'];
+                    totalMetricValue = self.config.visitsSummary[metric];
                 }
 
-                if (id.length == 3) {
-                    $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
-                } else {
-                    $('.map-stats').html(
-                        _.nb_visits.replace('%s', '<strong>' + formatNumber(totalVisits, metric) + '</strong>') + (id != 'world' ? ' (' +
-                            formatPercentage(totalVisits / worldTotalVisits) + ')' : '')
-                    );
-                }
+                var data = {};
+                data[metric] = totalMetricValue;
+                $('.map-stats').html(
+                    '<strong>' + formatValueForTooltips(data, metric, false) + '</strong>' +
+                    (id != 'world' ? (' (' + formatPercentage(totalMetricValue / self.config.visitsSummary[metric]) + ')') : '')
+                );
             }
 
             /*
@@ -605,6 +611,7 @@
                             } else {
                                 tgt = UserCountryMap.ISO3toCONT[data.iso];
                             }
+                            hasUserZoomed = true;
                             updateState(tgt);
                         }
                     });
@@ -902,6 +909,7 @@
                                 sumArea = 0,
                                 f = {
                                     nb_visits: 0.002,
+                                    nb_uniq_visitors: 0.002,
                                     nb_actions: 0.002,
                                     avg_time_on_site: 0.02,
                                     nb_actions_per_visit: 0.02,
@@ -1052,6 +1060,7 @@
                         },
                         click: function (path, p, evt) {   // add click events for surrounding countries
                             evt.stopPropagation();
+                            hasUserZoomed = true;
                             updateState(path.iso);
                         },
                         tooltips: function (data) {
@@ -1237,15 +1246,22 @@
                         var params = self.widget.dashboardWidget('getWidgetObject').parameters;
                         self.mode = params && params.viewMode ? params.viewMode : 'region';
                         if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
-                        //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
-                        updateState(params && params.lastMap ? params.lastMap : 'world');
+                        // alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
 
                         // populate country select
+                        var isoCodes = [];
                         $.each(countryData, function (i, country) {
                             if (!!country.iso) {
+                                isoCodes.push(country.iso);
                                 countrySelect.append('<option value="' + country.iso + '">' + country.name + '</option>');
                             }
                         });
+
+                        if (!hasUserZoomed && isoCodes.length === 1 && isoCodes[0] && isoCodes[0] !== 'UNK') {
+                            updateState(isoCodes[0]);
+                        } else {
+                            updateState(params && params.lastMap ? params.lastMap : 'world');
+                        }
 
                         initUserInterface();
 

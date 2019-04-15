@@ -18,6 +18,7 @@
 		<avg_time_on_page>420</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>25%</exit_rate>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffoo</segment>
 		<subtable>
 			<row>
 				<label>/bar.html</label>
@@ -38,6 +39,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/foo/bar.html</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Ffoo%2Fbar.html</segment>
 			</row>
 			<row>
 				<label>/bar2.html</label>
@@ -53,6 +55,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>https://www.example.org/foo/bar2.html</url>
+				<segment>pageUrl==https%3A%2F%2Fwww.example.org%2Ffoo%2Fbar2.html</segment>
 			</row>
 			<row>
 				<label>/bar3.html</label>
@@ -68,6 +71,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://www.example.org/foo/bar3.html</url>
+				<segment>pageUrl==http%3A%2F%2Fwww.example.org%2Ffoo%2Fbar3.html</segment>
 			</row>
 			<row>
 				<label>/bar4.html</label>
@@ -85,6 +89,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>https://example.org/foo/bar4.html</url>
+				<segment>pageUrl==https%3A%2F%2Fexample.org%2Ffoo%2Fbar4.html</segment>
 			</row>
 		</subtable>
 	</row>

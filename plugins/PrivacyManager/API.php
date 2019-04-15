@@ -8,10 +8,14 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
+use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
+use Piwik\Site;
+use Piwik\Validators\BaseValidator;
 
 /**
  * API for plugin PrivacyManager
@@ -20,11 +24,103 @@ use Piwik\Config as PiwikConfig;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var DataSubjects
+     */
+    private $gdpr;
+
+    /**
+     * @var LogDataAnonymizations
+     */
+    private $logDataAnonymizations;
+
+    /**
+     * @var LogDataAnonymizer
+     */
+    private $logDataAnonymizer;
+
+    public function __construct(DataSubjects $gdpr, LogDataAnonymizations $logDataAnonymizations, LogDataAnonymizer $logDataAnonymizer)
+    {
+        $this->gdpr = $gdpr;
+        $this->logDataAnonymizations = $logDataAnonymizations;
+        $this->logDataAnonymizer = $logDataAnonymizer;
+    }
+
+    private function checkDataSubjectVisits($visits)
+    {
+        BaseValidator::check('visits', $visits, [new VisitsDataSubject()]);
+
+        $idSites = array();
+        foreach ($visits as $index => $visit) {
+            $idSites[] = $visit['idsite'];
+        }
+        Piwik::checkUserHasAdminAccess($idSites);
+    }
+
+    public function deleteDataSubjects($visits)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $this->checkDataSubjectVisits($visits);
+
+        return $this->gdpr->deleteDataSubjects($visits);
+    }
+
+    public function exportDataSubjects($visits)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $this->checkDataSubjectVisits($visits);
+
+        return $this->gdpr->exportDataSubjects($visits);
+    }
+
+    public function anonymizeSomeRawData($idSites, $date, $anonymizeIp = false, $anonymizeLocation = false, $anonymizeUserId = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [])
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if ($idSites === 'all' || empty($idSites)) {
+            $idSites = null; // all websites
+        } else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        }
+        $requester = Piwik::getCurrentUserLogin();
+        $this->logDataAnonymizations->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns);
+    }
+
+    public function getAvailableVisitColumnsToAnonymize()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $columns = $this->logDataAnonymizer->getAvailableVisitColumnsToAnonymize();
+        return $this->formatAvailableColumnsToAnonymize($columns);
+    }
+
+    public function getAvailableLinkVisitActionColumnsToAnonymize()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $columns = $this->logDataAnonymizer->getAvailableLinkVisitActionColumnsToAnonymize();
+        return $this->formatAvailableColumnsToAnonymize($columns);
+    }
+
+    private function formatAvailableColumnsToAnonymize($columns)
+    {
+        ksort($columns);
+        $formatted = array();
+        foreach ($columns as $column => $default) {
+            $formatted[] = array(
+                'column_name' => $column,
+                'default_value' => $default
+            );
+        }
+        return $formatted;
+    }
 
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment)
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -39,6 +135,14 @@ class API extends \Piwik\Plugin\API
         $privacyConfig = new Config();
         $privacyConfig->ipAddressMaskLength = (int) $maskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+
+        if (false !== $anonymizeUserId) {
+            $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
+        }
+
+        if (false !== $anonymizeOrderId) {
+            $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+        }
 
         return true;
     }
@@ -108,8 +212,8 @@ class API extends \Piwik\Plugin\API
         $settings['delete_reports_enable'] = !empty($enableDeleteReports);
 
         $deleteReportsOlderThan = (int) $deleteReportsOlderThan;
-        if ($deleteReportsOlderThan < 3) {
-            $deleteReportsOlderThan = 3;
+        if ($deleteReportsOlderThan < 2) {
+            $deleteReportsOlderThan = 2;
         }
 
         $settings['delete_reports_older_than'] = $deleteReportsOlderThan;
@@ -140,7 +244,7 @@ class API extends \Piwik\Plugin\API
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!Controller::isDataPurgeSettingsEnabled()) {
-            throw new \Exception("Configuring deleting log data and report data has been disabled by Matomo admins.");
+            throw new \Exception("Configuring deleting raw data and report data has been disabled by Matomo admins.");
         }
     }
 }

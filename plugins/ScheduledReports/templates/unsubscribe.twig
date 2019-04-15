@@ -1,0 +1,65 @@
+{% extends '@Morpheus/layout.twig' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex,nofollow">
+{% endblock %}
+
+{% set title %}{{ 'ScheduledReports_ReportUnsubscribe'|translate }}{% endset %}
+
+{% set bodyId = 'loginPage' %}
+
+{% block body %}
+
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
+
+    {% include "_iframeBuster.twig" %}
+
+    <div id="notificationContainer">
+    </div>
+    <nav>
+        <div class="nav-wrapper">
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': true, 'useLargeLogo': false } %}
+        </div>
+    </nav>
+
+    <section class="loginSection row">
+        <div class="col s12 m6 push-m3 l4 push-l4">
+
+            <div class="contentForm loginForm">
+                {% embed 'contentBlock.twig' with {'title': 'ScheduledReports_ReportUnsubscribe'|translate} %}
+                {% block content %}
+                    {% if error is defined %}
+                        <div piwik-notification
+                             noclear="true"
+                             context="error">
+                            <strong>{{ 'General_Error'|translate }}</strong>: {{ error|raw }}<br/>
+                        </div>
+                    {% elseif success is defined %}
+                        <p class="message">{{ 'ScheduledReports_SuccessfullyUnsubscribed'|translate('<strong>'~reportName|rawSafeDecoded~'</strong>')|raw }}</p>
+                    {% else %}
+                        <form method="POST" ng-non-bindable>
+                            <div class="row">
+                                <div class="col s12">
+                                    <br/>
+                                    <p>{{ 'ScheduledReports_UnsubscribeReportConfirmation'|translate('<strong>'~reportName|rawSafeDecoded~'</strong>')|raw }}</p>
+                                    <br /><br /><br />
+                                    <input type="hidden" name="nonce" id="unsubscribe_form_nonce" value="{{ nonce }}"/>
+                                    <input class="submit btn" type="submit" name="confirm" value="{{ 'ScheduledReports_Unsubscribe'|translate }}"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    {% endif %}
+                    {% if isCustomLogo %}
+                        <p id="piwik">
+                            <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                        </p>
+                    {% endif %}
+                {% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

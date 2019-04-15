@@ -1,6 +1,6 @@
 {
     "Goals": {
-        "AbandonedCart": "Opuszczony Koszyk",
+        "AbandonedCart": "Porzucony koszyk",
         "AddGoal": "Dodaj Cel",
         "AddNewGoal": "Dodaj nowy Cel",
         "AddNewGoalOrEditExistingGoal": "%1$sDodaj nowy Cel%2$s lub %3$sedytuj%4$s istniejące Cele",
@@ -43,7 +43,7 @@
         "DaysToConv": "Dni do konwersji",
         "Details": "Szczegóły celu",
         "DefaultGoalConvertedOncePerVisit": "(domyślnie) Konwersja celu może nastąpić tylko raz w ciągu wizyty",
-        "DefaultRevenue": "Domyślny dochód z osiągnięcia celu to",
+        "DefaultRevenueLabel": "Domyślny dochód z osiągnięcia celu",
         "DefaultRevenueHelp": "Na przykład, wysłanie formularza kontaktowego przez odwiedzającego może średnio być warte nawet $10. Matomo pomaga więc zrozumieć zaangażowanie grup Twoich odwiedzających.",
         "DeleteGoalConfirm": "Czy na pewno chcesz skasować cel %s?",
         "DocumentationRevenueGeneratedByProductSales": "Sprzedaż produktu. Nie zawiera podatku, kosztów dostawy i zniżek",
@@ -64,6 +64,9 @@
         "GoalIsTriggeredWhen": "Cel został osiągnięty, gdy",
         "GoalName": "Nazwa celu",
         "Goals": "Cele",
+        "NGoals": "%s celi",
+        "NRevenue": "%s przychodów",
+        "NItems": "%s przedmiotów",
         "ManageGoals": "Zarządzaj celami",
         "GoalsOverview": "Przegląd celów",
         "GoalsOverviewDocumentation": "To jest przegląd konwersji Twoich celów. Wstępnie wykres pokazuje sumę wszystkich konwersji. %s Poniżej wykresu, zobaczysz raporty konwersji poszczególnych celów. Linie wykropkowane można powiększyć klikając na nie.",
@@ -77,7 +80,6 @@
         "MatchesExpression": "odpowiada wyrażeniu %s",
         "NewGoalIntro": "Śledzenie konwersji celu jest jedną z najwydajniejszych metod pomiaru i polepszania osiągania celów biznesowych przy pomocy serwisu www.",
         "NewVisitorsConversionRateIs": "Współczynnik konwersji dla nowych odwiedzających to %s",
-        "NoGoalsNeedAccess": "Tylko Administrator lub użytkownik z uprawnieniami Super Użytkownika może zarządzać Celami wybranej strony. Skontaktuj się z Administratorem Matomo w celu konfiguracji Celu. <br> Śledzenie Celów jest świetnym sposobem na zrozumienie i maksymalizację wydajności Twojej strony!",
         "NoConversionsNoReportsMessage": "Raporty nie są wyświetlane, ponieważ nie odnotowano danych konwersji dla wybranego celu i przedziału czasowego.",
         "NeedAccess": "Tylko Administrator lub użytkownik z uprawnieniami Super Użytkownika może zarządzać Celami wybranej strony.",
         "Optional": "(opcjonalnie)",
@@ -109,6 +111,9 @@
         "WhenVisitors": "przez odwiedzającego",
         "WhereThe": "gdzie",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Odwiedzana strona musi zawierać odwołanie do metody JavaScript 'trackGoal' (%1$s dowiedz się więcej%2$s)",
-        "YouCanEnableEcommerceReports": "Możesz włączyć %1$s dla tego serwisu na stronie %2$s."
+        "YouCanEnableEcommerceReports": "Możesz włączyć %1$s dla tego serwisu na stronie %2$s.",
+        "UseEventValueAsRevenue": "Użyj wartości zdarzenia (jeśli istnieje) jako przychodu zmiany celu.",
+        "GoalRevenue": "Przychody z osiągnięcia celu",
+        "EventValueAsRevenueHelp": "Jeśli dopasowane wydarzenie ma przychód i ten przychód jest śledzony jako wartość zdarzenia, możesz włączyć tę opcję, aby zarejestrować wartość zdarzenia jako przychód zmiany celu. Jeśli Twoje przychody z celu nie różnią się w zależności od konwersji, możesz zignorować tę opcję i ustawić domyślne przychody powyżej."
     }
 }

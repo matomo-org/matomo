@@ -6,8 +6,8 @@
         "AreYouSureDeleteSegment": "Weet u zeker dat u dit segment wilt verwijderen?",
         "AutoArchivePreProcessed": "gesegmenteerde rapporten worden voor verwerkt (sneller, vereist archive.php cron)",
         "AutoArchiveRealTime": "gesegmenteerde rapporten worden realtime verwerkt",
-        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Je staat op het punt het segment te wijzijgen. Het bijbehorende rapport zal niet beschikbaar zijn, totdat deze opnieuw door het proces is gegaan. Het kan een paar uur duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
-        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Je staat op het punt het segment te wijzijgen. Het bijbehorende rapport voor dit nieuwe rapport zal op verzoek gegenereerd worden, wanneer deze de volgende keer opgevraagd wordt. Het kan een paar minuten duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
+        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Je staat op het punt het segment te wijzigen. Het bijbehorende rapport zal niet beschikbaar zijn, totdat deze opnieuw door het proces is gegaan. Het kan een paar uur duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Je staat op het punt het segment te wijzigen. Het bijbehorende rapport voor dit nieuwe rapport zal op verzoek gegenereerd worden, wanneer deze de volgende keer opgevraagd wordt. Het kan een paar minuten duren voordat het rapport data voor dit segment toont. Toch doorgaan?",
         "ChooseASegment": "Kies een segment",
         "CurrentlySelectedSegment": "Geselecteerd segment: %s",
         "DataAvailableAtLaterDate": "De gesegmenteerde analyse rapporten zullen op een later tijdstip beschikbaar komen. Excuses voor het ongemak.",
@@ -22,7 +22,6 @@
         "SegmentDisplayedThisWebsiteOnly": "alleen deze website",
         "SegmentIsDisplayedForWebsite": "en verwerkt voor",
         "SegmentNotApplied": "Segment '%s' niet toegepast",
-        "SegmentNotAppliedMessage": "Je probeert data op te vragen voor aangepast segment '%s', deze Matomo omgeving is op dit moment, vanwege performance redenen, ingericht om geen rapporten in realtime te verwerken.",
         "SelectSegmentOfVisits": "Selecteer een segment van bezoeken:",
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
         "VisibleToAllUsers": "alle gebruikers",
@@ -36,6 +35,7 @@
         "SegmentXIsAUnionOf": "%s is een combinatie van deze segmenten:",
         "CustomSegment": "Aangepast segment",
         "SegmentOperatorIsNullOrEmpty": "is null of leeg",
-        "SegmentOperatorIsNotNullNorEmpty": "is niet null of leeg"
+        "SegmentOperatorIsNotNullNorEmpty": "is niet null of leeg",
+        "UnprocessedSegmentNoData1": "Deze rapporten hebben geen data omdat het opgevraagde segment %1$s nog niet is verwerkt door het systeem."
     }
 }

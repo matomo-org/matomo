@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Plugins\CustomDimensions;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
@@ -22,6 +23,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public $idSite = 1;
     public $dateTime = '2010-01-03 01:22:33';
     public $nextDay = null;
+    public $customDimensionId;
 
     public function __construct()
     {
@@ -31,6 +33,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
+        $this->customDimensionId = CustomDimensions\API::getInstance()->configureNewCustomDimension($this->idSite, 'testdim', 'visit', '1');
+
         $this->setMockLocationProvider();
         $this->trackVisits();
 
@@ -128,7 +132,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->trackOrders($t);
     }
 
-    private function trackActions($t, &$visitorCounter, $actionType, $userAgents, $resolutions,
+    private function trackActions(\PiwikTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
                                   $referrers = null, $customVars = null)
     {
         for ($i = 0; $i != 5; ++$i, ++$visitorCounter) {
@@ -145,6 +149,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $t->setUrl("http://piwik.net/$visitorCounter/");
             $t->setUrlReferrer(null);
             $t->setForceVisitDateTime($visitDate->getDatetime());
+            $t->setCustomTrackingParameter('dimension' . $this->customDimensionId, $i * 5);
             $this->trackAction($t, $actionType, $visitorCounter, null);
 
             for ($j = 0; $j != 4; ++$j) {
@@ -208,6 +213,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
         }
+
+        // Add a site search to some visits
+        if (in_array($actionType, array('download', 'outlink'))) {
+            self::checkResponse($t->doTrackSiteSearch(is_null($actionNum) ? "keyword" : "keyword$actionNum"));
+        }
     }
 
     private function setMockLocationProvider()
@@ -218,11 +228,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         MockLocationProvider::$locations = array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
+            self::makeLocation('Nice', 'PAC', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Melbourne', '07', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
+            self::makeLocation('Melbourne', 'VIC', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
-            self::makeLocation('Yokohama', '19', 'JP'),
+            self::makeLocation('Yokohama', '14', 'JP'),
         );
     }
 }

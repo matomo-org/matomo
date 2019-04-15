@@ -118,7 +118,7 @@ class InvalidLicenses
             $loginUrlEnd = '</a>';
         }
 
-        $message = $this->translator->translate('Marketplace_LicenseMissingDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd. "</strong>"));
+        $message = $this->translator->translate('Marketplace_LicenseMissingDeactivatedDescription', array($plugins, '<br/>', "<strong>" . $loginUrl, $loginUrlEnd. "</strong>"));
 
         if (Piwik::hasUserSuperUserAccess()) {
             $message .= ' ' . $this->getSubscritionSummaryMessage();
@@ -159,7 +159,7 @@ class InvalidLicenses
             return '';
         }
 
-        return '<a href="' . $info['loginUrl'] . '" target="_blank" rel="noreferrer">';
+        return '<a href="' . $info['loginUrl'] . '" target="_blank" rel="noreferrer noopener">';
     }
 
     private function getSubscritionSummaryMessage()
@@ -198,6 +198,9 @@ class InvalidLicenses
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
                         $pluginNames['exceeded'][] = $pluginName;
+                    } elseif (isset($plugin['consumer']['license']['status'])
+                              && $plugin['consumer']['license']['status'] === 'Cancelled') {
+                        $pluginNames['noLicense'][] = $pluginName;
                     } elseif (isset($plugin['consumer']['license']['isValid'])
                            && empty($plugin['consumer']['license']['isValid'])) {
                         $pluginNames['expired'][] = $pluginName;

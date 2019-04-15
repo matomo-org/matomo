@@ -27,6 +27,7 @@ class Common
     const REFERRER_TYPE_SEARCH_ENGINE = 2;
     const REFERRER_TYPE_WEBSITE = 3;
     const REFERRER_TYPE_CAMPAIGN = 6;
+    const REFERRER_TYPE_SOCIAL_NETWORK = 7;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
@@ -253,6 +254,37 @@ class Common
 
         // return unchanged string as using `strtoupper` might cause unicode problems
         return $string;
+    }
+
+    /**
+     * Secure wrapper for unserialize, which by default disallows unserializing classes
+     *
+     * @param string $string String to unserialize
+     * @param array $allowedClasses Class names that should be allowed to unserialize
+     * @param bool $rethrow Whether to rethrow exceptions or not.
+     * @return mixed
+     */
+    public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
+    {
+        if (PHP_MAJOR_VERSION >= 7) {
+            try {
+                return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            } catch (\Throwable $e) {
+                if ($rethrow) {
+                    throw $e;
+                }
+
+                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
+                    'message' => $e->getMessage(),
+                    'backtrace' => $e->getTraceAsString(),
+                    'string' => $string,
+                ]);
+                return false;
+            }
+        }
+
+        return @unserialize($string);
     }
 
     /*
@@ -1139,6 +1171,19 @@ class Common
         // don't send header in CLI mode
         if (!Common::isPhpCliMode() and !headers_sent()) {
             header($header, $replace);
+        }
+    }
+
+    /**
+     * Strips outgoing header.
+     *
+     * @param string $name The header name.
+     */
+    public static function stripHeader($name)
+    {
+        // don't strip header in CLI mode
+        if (!Common::isPhpCliMode() and !headers_sent()) {
+            header_remove($name);
         }
     }
 

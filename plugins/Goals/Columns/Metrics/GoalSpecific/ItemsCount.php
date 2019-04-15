@@ -11,6 +11,7 @@ use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 
 /**
  * The number of ecommerce order items for conversions of a goal. Returns the 'items'
@@ -20,7 +21,7 @@ class ItemsCount extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_items';
+        return Goals::makeGoalColumn($this->idGoal, 'items', false);
     }
 
     public function getTranslatedName()

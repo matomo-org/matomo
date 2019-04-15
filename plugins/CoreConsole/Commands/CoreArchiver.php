@@ -49,6 +49,7 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
+        $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
 
         $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
 
@@ -76,7 +77,7 @@ class CoreArchiver extends ConsoleCommand
 * This script should be executed every hour via crontab, or as a daemon.
 * You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
   but it is recommended to run it via command line/CLI instead.
-* If you have any suggestion about this script, please let the team know at feedback@piwik.org
+* If you have any suggestion about this script, please let the team know at feedback@matomo.org
 * Enjoy!");
         $command->addOption('url', null, InputOption::VALUE_REQUIRED,
             "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
@@ -112,6 +113,8 @@ class CoreArchiver extends ConsoleCommand
             . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
             "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
+        $command->addOption('concurrent-archivers', null, InputOption::VALUE_OPTIONAL,
+            "The number of max archivers to run in parallel. Depending on how you start the archiver as a cronjob, you may need to double the amount of archivers allowed if the same process appears twice in the `ps ex` output.", false);
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,
             "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE,

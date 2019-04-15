@@ -7,9 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 
@@ -35,11 +35,9 @@ class ManySitesImportedLogs extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-        self::downloadGeoIpDbs();
 
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        LocationProvider::setCurrentProvider('geoip_php');
+        LocationProvider::setCurrentProvider('geoip2php');
 
         self::createSuperUser();
 
@@ -50,7 +48,6 @@ class ManySitesImportedLogs extends Fixture
     public function tearDown()
     {
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
@@ -261,13 +258,14 @@ class ManySitesImportedLogs extends Fixture
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false,
                       '--enable-reverse-dns'        => false,
-                      '--force-lowercase-path'      => false);
+                      '--force-lowercase-path'      => false,
+                      '--tracker-endpoint-path'     => '/matomo.php');
 
         self::executeLogImporter($logFile, $opts);
     }
 
     /**
-     * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
+     * Logs a couple visit using log entries that are tracking requests to a matomo.php file.
      * Adds two visits to idSite=1 and two to non-existant sites.
      *
      * @param array $additonalOptions

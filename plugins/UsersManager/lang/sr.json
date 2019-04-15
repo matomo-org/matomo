@@ -17,8 +17,6 @@
         "Email": "Elektronska adresa",
         "EmailYourAdministrator": "%1$sObavestite administratora o ovom problemu%2$s.",
         "EnterUsernameOrEmail": "Upišite korisničko ime ili mejl adresu",
-        "ExceptionAccessValues": "Parametar pristupa mora da ima jednu od sledećih vrednosti: [ %s ]",
-        "ExceptionAdminAnonymous": "Ne možete dozvoliti 'admin' privilegije anonimnom korisniku.",
         "ExceptionDeleteDoesNotExist": "Korisnik '%s' ne postoji pa stoga ni ne može biti obrisan.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Nije moguće obrisati korisnika '%s'.",
         "ExceptionEditAnonymous": "Podaci o anonimnom korisniku ne mogu biti menjani ili obrisani. Anonimni korisnik služi da bi Matomo mogao da razlikuje korisnika koji se još nije prijavio na sistem. Primera radi, svoju statistiku možete učiniti javnom tako što ćete anonimnom korisniku dozvoliti 'prikaz' pristup.",
@@ -65,9 +63,6 @@
         "TheLoginScreen": "Stranica za prijavu",
         "ThereAreCurrentlyNRegisteredUsers": "Trenutno registrovanih korisnika: %s",
         "TokenAuth": "Token za API autentifikaciju",
-        "TokenRegenerateConfirm": "Promena tokena za API autentifikaciju će učiniti nevažećim trenutne korisničke tokene. Ukoliko je korisnik prijavljen, moraće ponovo da se prijavi. Da li ste sigurni da želite da nastavite?",
-        "TokenRegenerateConfirmSelf": "Promena tokena za API autentifikaciju će učiniti nevažećim vaš token. Moraćete ponovo da se prijavite za nastavak. Da li ste sigurni da želite da promenite vaš token za autentifikaciju?",
-        "TokenRegenerateLogoutWarning": "Kada budete regenerisali vaš token, bićete odjavljeni i moraćete da se prijavite ponovo.",
         "TokenRegenerateTitle": "Regenerisanje",
         "TypeYourPasswordAgain": "Upišite novu lozinku ponovo",
         "User": "Korisnik",
@@ -75,9 +70,10 @@
         "UserHasNoPermission": "%1$s trenutno ima %2$s za %3$s.",
         "UsersManagement": "Upravljanje korisnicima",
         "UsersManagementMainDescription": "Dodavanje novih i promena postojećih korisničkih naloga, dodeljivanje privilegija.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kada korisnik koji nije prijavljen pokuša da otvori Matomo, trebalo bi da se otvori:",
         "YourUsernameCannotBeChanged": "Vaše korisničko ime ne može biti promenjeno.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Matomo ignoriše vaše posete %2$s %3$s (pronađen je specijalni kolačić u vašem brauzeru).",
-        "YourVisitsAreNotIgnored": "%1$s Matomo ne ignoriše vaše posete%2$s (nije pronađen kolačić u vašem brauzeru)."
+        "YourVisitsAreNotIgnored": "%1$s Matomo ne ignoriše vaše posete%2$s (nije pronađen kolačić u vašem brauzeru).",
+        "ShowAll": "Prikaži sve",
+        "Username": "Korisničko ime"
     }
 }

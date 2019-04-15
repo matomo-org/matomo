@@ -9,25 +9,6 @@
         <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
     {% endif %}
 
-    <script>
-        function submitForm(e, form) {
-            if (e.preventDefault) { // IE8 and below do not support preventDefault
-                e.preventDefault();
-            }
-
-            var now = Date.now ? Date.now() : (+(new Date())), // Date.now does not exist in < IE8
-                newWindow = window.open(form.action + '&time=' + now);
-
-            setInterval(function () {
-                if (newWindow.closed) {
-                    window.location.reload();
-                }
-            }, 1000);
-
-            return false;
-        }
-    </script>
-
     {% if stylesheets.external|length > 0 %}
         {% for style in stylesheets.external %}
             <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
@@ -57,18 +38,16 @@
     {% endif %}
 
     {% if not trackVisits %}
+        <p>
         {{ 'CoreAdminHome_OptOutComplete'|translate }}
-	    <br/>
+
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+        </p>
     {% else %}
-        {{ 'CoreAdminHome_YouMayOptOut'|translate }}
-        <br/>
-        {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
+        <p>{{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}</p>
     {% endif %}
 
     {% if showConfirmOnly %}</noscript>{% endif %}
-
-    <br/><br/>
 
     {% if not showConfirmOnly %}
     <form method="post" action="?{{ queryParameters|url_encode|raw }}" target="_blank">
@@ -77,9 +56,9 @@
         <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
         {% if trackVisits %}
-            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
+            {{ 'CoreAdminHome_YouAreNotOptedOut'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
         {% else %}
-            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
+            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
         {% endif %}
         </strong></label>
         <noscript>

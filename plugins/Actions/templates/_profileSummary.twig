@@ -11,7 +11,7 @@
                             url|trim|lower starts with 'data:' %}
                                 {{ url }}
                             {% else %}
-                                <a href="{{ url }}" rel="noreferrer" target="_blank"
+                                <a href="{{ url|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank"
                                    class="action-list-url truncated-text-line">
                                     {{ url|replace({'http://': '', 'https://': ''}) }}
                                 </a>

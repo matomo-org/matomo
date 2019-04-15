@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
@@ -85,7 +84,9 @@ class RowEvolution
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
-        if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
+        if (empty($this->apiMethod)) {
+            throw new Exception("Parameter apiMethod not set.");
+        }
 
         $this->label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($this->label)) {
@@ -97,6 +98,10 @@ class RowEvolution
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);
+
+        if ($this->period != 'range' && !($date instanceof Date)) {
+            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
+        }
 
         $this->idSite = $idSite;
         $this->graphType = $graphType;
@@ -231,9 +236,11 @@ class RowEvolution
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
             list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
+            $fractionDigits = max($this->getFractionDigits($first), $this->getFractionDigits($last));
+
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first),
-                NumberFormatter::getInstance()->format($last)
+                NumberFormatter::getInstance()->format($first, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->format($last, $fractionDigits, $fractionDigits) . $unit,
             ));
 
             if ($change !== false) {
@@ -259,12 +266,10 @@ class RowEvolution
             // set metric min/max text (used as tooltip for details)
             $max = isset($metricData['max']) ? $metricData['max'] : 0;
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
-            $min .= $unit;
-            $max .= $unit;
             $minmax = Piwik::translate('RowEvolution_MetricMinMax', array(
                 $metricData['name'],
-                NumberFormatter::getInstance()->formatNumber($min),
-                NumberFormatter::getInstance()->formatNumber($max)
+                NumberFormatter::getInstance()->formatNumber($min, $fractionDigits, $fractionDigits) . $unit,
+                NumberFormatter::getInstance()->formatNumber($max, $fractionDigits, $fractionDigits) . $unit,
             ));
 
             $newMetric = array(
@@ -309,7 +314,7 @@ class RowEvolution
 
         // base64 encode the image and put it in an img tag
         $spark = base64_encode($spark);
-        return '<img src="data:image/png;base64,' . $spark . '" />';
+        return '<img width="100" height="25" src="data:image/png;base64,' . $spark . '" />';
     }
 
     /** Use the available metrics for the metrics of the last requested graph. */
@@ -361,5 +366,12 @@ class RowEvolution
             return $labelPretty;
         }
         return $rowLabel;
+    }
+
+    private function getFractionDigits($value)
+    {
+        $value = (string) $value;
+        $fraction = substr(strrchr($value, "."), 1);
+        return strlen($fraction);
     }
 }

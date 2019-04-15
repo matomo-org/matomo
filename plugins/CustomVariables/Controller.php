@@ -11,14 +11,14 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Site;
 
 class Controller extends \Piwik\Plugin\Controller
 {
     public function manage()
     {
-        $idSite = Common::getRequestVar('idSite');
-
-        Piwik::checkUserHasAdminAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasAdminAccess($this->idSite);
 
         return $this->renderTemplate('manage', array());
     }

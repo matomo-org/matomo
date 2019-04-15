@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Singleton;
@@ -20,7 +21,7 @@ class Social extends Singleton
     const OPTION_STORAGE_NAME = 'SocialDefinitions';
 
     /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/piwik/searchengine-and-social-list/Socials.yml';
+    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/Socials.yml';
 
     protected $definitionList = null;
 
@@ -51,7 +52,7 @@ class Social extends Singleton
             $list = Option::get(self::OPTION_STORAGE_NAME);
 
             if ($list) {
-                $this->definitionList = unserialize(base64_decode($list));
+                $this->definitionList = Common::safe_unserialize(base64_decode($list));
             } else {
                 // Fallback to reading the bundled list
                 $yml = file_get_contents(PIWIK_INCLUDE_PATH . self::DEFINITION_FILE);
@@ -154,6 +155,25 @@ class Social extends Singleton
             }
         }
         return $url;
+    }
+
+    /**
+     * Returns the main url of the given social network
+     *
+     * @param string  $social
+     *
+     * @return string
+     */
+    public function getMainUrlFromName($social)
+    {
+        foreach ($this->getDefinitions() as $domain => $name) {
+
+            if ($name == $social) {
+
+                return $domain;
+            }
+        }
+        return null;
     }
 
 

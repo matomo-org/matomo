@@ -89,6 +89,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // this is also like a self-repair to clear the caches :)
         $this->marketplaceApi->clearAllCacheEntries();
         $this->consumer->clearCache();
+        // invalidate cache for plugin/manager
+        Plugin\Manager::getLicenseCache()->flushAll();
 
         $hasLicenseKey = $this->licenseKey->has();
 
@@ -391,32 +393,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->dieIfPluginsAdminIsDisabled();
         $this->displayWarningIfConfigFileNotWritable();
 
-        $pluginName = $this->getPluginNameIfNonceValid($nonceName);
+        $plugins = $this->getPluginNameIfNonceValid($nonceName);
 
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
         $view->errorMessage = '';
-        $view->plugin = array('name' => $pluginName);
 
-        try {
-            $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+        $pluginInfos = [];
+        foreach ($plugins as $pluginName) {
+            $pluginInfos[] = $this->plugins->getPluginInfo($pluginName);
 
-        } catch (\Exception $e) {
+            try {
+                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
 
-            $notification = new Notification($e->getMessage());
-            $notification->context = Notification::CONTEXT_ERROR;
-            $notification->type = Notification::TYPE_PERSISTENT;
-            $notification->flags = Notification::FLAG_CLEAR;
-            if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
-                $notification->raw = true;
+            } catch (\Exception $e) {
+
+                $notification = new Notification($e->getMessage());
+                $notification->context = Notification::CONTEXT_ERROR;
+                $notification->type = Notification::TYPE_PERSISTENT;
+                $notification->flags = Notification::FLAG_CLEAR;
+                if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
+                    $notification->raw = true;
+                }
+                Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
+
+                Url::redirectToReferrer();
+                return;
             }
-            Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
-
-            Url::redirectToReferrer();
-            return;
         }
 
-        $view->plugin = $this->plugins->getPluginInfo($pluginName);
+        $view->plugins = $pluginInfos;
 
         return $view;
     }
@@ -433,11 +439,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
-        if (!$this->pluginManager->isValidPluginName($pluginName)) {
-            throw new Exception('Invalid plugin name');
+        $plugins = explode(',', $pluginName);
+        $plugins = array_map('trim', $plugins);
+        foreach ($plugins as $name) {
+            if (!$this->pluginManager->isValidPluginName($name)) {
+                throw new Exception('Invalid plugin name: ' . $name);
+            }
         }
-
-        return $pluginName;
+        return $plugins;
     }
 
     private function dieIfPluginsAdminIsDisabled()

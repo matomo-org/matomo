@@ -14,7 +14,7 @@
         "EmailSchedule": "E-posti ajastamine",
         "FrontPage": "Esileht",
         "Pagination": "Lehekülg %1$s \/ %2$s",
-        "PiwikReports": "Piwiku raportid",
+        "PiwikReports": "Matomo raportid",
         "ReportFormat": "Raporti formaat",
         "ReportIncludeNWebsites": "Antud raport sisaldab põhimõõdikuid kõikide veebilehtede kohta, millel on vähemalt üks külastus (%s veebilehest, mis on kokku saadaval).",
         "ReportSent": "Raport saadetud",

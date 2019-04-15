@@ -25,6 +25,7 @@ class ThreeGoalsOnePageview extends Fixture
 
     public function setUp()
     {
+        Fixture::createSuperUser();
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }

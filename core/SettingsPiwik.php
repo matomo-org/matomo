@@ -198,7 +198,7 @@ class SettingsPiwik
             // if URL changes, always update the cache
             || $currentUrl != $url
         ) {
-            $host = Url::getHostFromUrl($url);
+            $host = Url::getHostFromUrl($currentUrl);
 
             if (strlen($currentUrl) >= strlen('http://a/')
                 && !Url::isLocalHost($host)) {
@@ -214,7 +214,17 @@ class SettingsPiwik
     }
 
     /**
+     * @see SettingsPiwik::isPiwikInstalled
+     * @return bool
+     */
+    public static function isMatomoInstalled()
+    {
+        return self::isPiwikInstalled();
+    }
+
+    /**
      * Return true if Piwik is installed (installation is done).
+     * @deprecated since Matomo 3.8.0, please use {@link isMatomoInstalled()} instead.
      * @return bool
      */
     public static function isPiwikInstalled()

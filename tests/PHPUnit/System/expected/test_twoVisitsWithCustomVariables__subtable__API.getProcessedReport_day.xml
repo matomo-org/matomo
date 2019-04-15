@@ -8,7 +8,7 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariablesValuesFromNameId</action>
 		<dimension>Custom Variable value</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
 		<isSubtableReport>1</isSubtableReport>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -75,8 +75,24 @@
 	<reportTotal>
 		<nb_visits>7</nb_visits>
 		<nb_actions>24</nb_actions>
-		<nb_conversions>6</nb_conversions>
+		<nb_users>0</nb_users>
+		<max_actions>13</max_actions>
+		<sum_visit_length>1805</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<goals>
+			<row idgoal="1">
+				<nb_conversions>5</nb_conversions>
+				<nb_visits_converted>5</nb_visits_converted>
+				<revenue>2000</revenue>
+			</row>
+			<row idgoal="2">
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>0</revenue>
+			</row>
+		</goals>
+		<nb_conversions>6</nb_conversions>
 		<revenue>2000</revenue>
+		<nb_actions_per_visit>11</nb_actions_per_visit>
 	</reportTotal>
 </result>

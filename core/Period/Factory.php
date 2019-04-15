@@ -66,7 +66,7 @@ abstract class Factory
      * @param string $period `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
      * @param Date|string $timezone Optional timezone that will be used only when $period is 'range' or $date is 'last|previous'
-     * @throws Exception If `$strPeriod` is invalid.
+     * @throws Exception If `$strPeriod` is invalid or $date is invalid.
      * @return \Piwik\Period
      */
     public static function build($period, $date, $timezone = 'UTC')
@@ -75,13 +75,17 @@ abstract class Factory
 
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period)
-                || $period == 'range') {
+                || $period == 'range'
+            ) {
+
                 return new Range($period, $date, $timezone);
             }
 
             $dateObject = Date::factory($date);
-        } else {
+        } else if ($date instanceof Date) {
             $dateObject = $date;
+        } else {
+            throw new \Exception("Invalid date supplied to Period\Factory::build(): " . gettype($date));
         }
 
         switch ($period) {

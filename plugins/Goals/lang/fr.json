@@ -34,7 +34,7 @@
         "ColumnVisits": "Nombre total de visites, indifféremment du fait qu'un objectif a été atteint ou non.",
         "ColumnVisitsProductDocumentation": "Le nombre de visites sur la page produit \/ catégorie. Ceci est également utilisé pour traiter les taux de conversion %s. Cette mesure est dans le rapport si le suivi E-commerce produit \/ catégorie a été configuré.",
         "Contains": "contient %s",
-        "ConversionByTypeReportDocumentation": "Ce rapport apporte des informations détaillés les à propos de la performance de l'objectif (conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le panneau de gauche. %1$s Veuillez cliquer sur une des catégories pour afficher le rapport. %2$s Pour plus d'informations sur les objectifs, lisez la %3$s documentation sur le suivi des objectifs sur Matomo.org%4$s",
+        "ConversionByTypeReportDocumentation": "Ce rapport apporte des informations détaillés les à propos de la performance de l'objectif (conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le panneau de gauche. %1$s Veuillez cliquer sur une des catégories pour afficher le rapport. %2$s Pour plus d'informations sur les objectifs, lisez la %3$s documentation sur le suivi des objectifs sur Piwik.org%4$s",
         "ConversionRate": "%s taux de conversion",
         "Conversions": "%s conversions",
         "ConversionsDescription": "conversions",
@@ -43,7 +43,7 @@
         "DaysToConv": "Jours par conversion",
         "Details": "Détails de l'objectif",
         "DefaultGoalConvertedOncePerVisit": "(par défaut) Un objectif peut-être converti une seule fois par visite",
-        "DefaultRevenue": "Le revenu par défaut de l'objectif est",
+        "DefaultRevenueLabel": "Revenu de l'objectif par défaut",
         "DefaultRevenueHelp": "Par exemple, un formulaire de contact soumis par un visiteur peut avoir une valeur de 10 € en moyenne. Matomo vous aidera à comprendre comment se comportent vos visiteurs.",
         "DeleteGoalConfirm": "Êtes vous sûr de vouloir supprimer l'objectif %s?",
         "DocumentationRevenueGeneratedByProductSales": "Ventes de produits. Hors taxes, expéditions et remises.",
@@ -64,6 +64,9 @@
         "GoalIsTriggeredWhen": "L'objectif est déclenché quand",
         "GoalName": "Nom de l'objectif",
         "Goals": "Objectifs",
+        "NGoals": "%sobjectifs",
+        "NRevenue": "%s revenu",
+        "NItems": "%s éléments",
         "ManageGoals": "Gérer les objectifs",
         "GoalsOverview": "Vue d'ensemble des Objectifs",
         "GoalsOverviewDocumentation": "Ceci est un aperçu de vos conversions d'objectifs. Initialement, le graphique, affiche la somme des conversions. %s Sous le graphique, vous pouvez voir les rapports de conversion pour chacun de vos objectifs. Les lignes de tendance peuvent être agrandies en cliquant dessus.",
@@ -77,7 +80,7 @@
         "MatchesExpression": "correspond à l'expression %s",
         "NewGoalIntro": "Le suivi de la conversion des objectifs et une des manières les plus efficaces de mesurer et améliorer vos objectifs d'affaires.",
         "NewVisitorsConversionRateIs": "Le taux de conversion des nouveaux visiteurs est %s",
-        "NoGoalsNeedAccess": "Uniquement un Administrateur ou un utilisateur avec un accès Super Utilisateur peut gérer les Objectifs d'un site web donné. Veuillez demander à votre administrateur Matomo de mettre en place un Objectif pour votre site web. <br \/>Le suivi d'objectifs est une bonne manière de mieux comprendre et de maximiser les performances de votre site web!",
+        "NoGoalsNeedAccess2": "Seulement un utilisateur de type Ecriture, Administrateur ou avec un accès super utilisateur peut gérer les objectifs pour un site web. Veuillez demander à votre administrateur Matomo de mettre en place un objectif pour votre site web. <br>Suivre des objectifs est une très bonne façon de comprendre et maximiser les performances de votre site web!",
         "NoConversionsNoReportsMessage": "Aucun rapport n'est affiché car il n'y a pas de données de conversion pour l'objectif et la période sélectionnée.",
         "NeedAccess": "Uniquement un administrateur ou un utilisateur avec le rôle super utilisateur peut gérer les objectifs pour un site web.",
         "Optional": "(optionnel)",
@@ -109,6 +112,10 @@
         "WhenVisitors": "quand les visiteurs",
         "WhereThe": "où le",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La page visité doit contenir un appel à la méthode JavaScript 'trackGoal' (%1$sapprenez-en plus%2$s)",
-        "YouCanEnableEcommerceReports": "Vous pouvez activer %1$s pour ce site web sur la page %2$s."
+        "YouCanEnableEcommerceReports": "Vous pouvez activer %1$s pour ce site web sur la page %2$s.",
+        "UseEventValueAsRevenue": "Utilisez la valeur de l'évènement (si elle existe) en tant que revenu lié à la conversion de l'objectif.",
+        "GoalRevenue": "Revenu de l'objectif",
+        "EventValueAsRevenueHelp": "Si l'évènement correspondant a un revenu, et que ce revenu est suivi en tant que valeur de l'évènement, vous pouvez activer cette option pour enregistrement la valeur de l'évènement en tant que revenu de conversion d'objectif. Si votre revenu objectif ne varie pas par conversion, vous pouvez ignorer cette option et simplement définir un revenu par défaut ci-dessus.",
+        "EventValueAsRevenueHelp2": "Note: si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie)."
     }
 }

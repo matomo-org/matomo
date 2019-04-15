@@ -1,0 +1,48 @@
+{% extends '@Morpheus/layout.twig' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex,nofollow">
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+{% endblock %}
+
+{% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
+
+{% block pageDescription %}{{ 'General_OpenSourceWebAnalytics'|translate }}{% endblock %}
+
+{% set bodyId = 'loginPage' %}
+
+{% block body %}
+
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
+
+    {% include "_iframeBuster.twig" %}
+
+    <div id="notificationContainer">
+    </div>
+    <nav>
+        <div class="nav-wrapper">
+            {% include "@CoreHome/_logo.twig" with { 'logoLink': 'https://matomo.org', 'centeredLogo': true, 'useLargeLogo': false } %}
+        </div>
+    </nav>
+
+    <section class="loginSection row">
+        <div class="col s12 m6 push-m3 l4 push-l4">
+
+        {# untrusted host warning #}
+        {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
+            {% include '@CoreHome/_warningInvalidHost.twig' %}
+        {% else %}
+            {% block loginContent %}
+            {% endblock %}
+        {% endif %}
+
+        </div>
+    </section>
+
+{% endblock %}

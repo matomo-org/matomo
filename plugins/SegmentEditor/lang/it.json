@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Crea e reimpiega dei Segmenti visitatore personali con Segment Editor",
+        "PluginDescription": "Crea e reimpiega dei Segmenti visitatore personali con l'Editor dei Segmenti.",
         "AddANDorORCondition": "Aggiungi condizione %s",
         "AddNewSegment": "Aggiungi un nuovo segmento",
         "AreYouSureDeleteSegment": "Sei sicuro di voler eliminare questo segmento?",
@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "solo questo sito",
         "SegmentIsDisplayedForWebsite": "ed elaborato per",
         "SegmentNotApplied": "Segmento '%s' non applicato",
-        "SegmentNotAppliedMessage": "Stai richiedendo i dati per il Segmento Personalizzato '%s', questa configurazione di Matomo attualmente esclude l'elaborazione in tempo reale dei report per ragioni di velocità.",
+        "SegmentNotAppliedMessage": "Stai richiedendo dati per il Segmento Personalizzato '%s', al momento questa configurazione di Matomo impedisce l'elaborazione in tempo reale dei report per ragioni di prestazioni.",
         "SelectSegmentOfVisits": "Seleziona un segmento di visite:",
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",
@@ -36,6 +36,22 @@
         "SegmentXIsAUnionOf": "%s è un'unione di questi segmenti:",
         "CustomSegment": "Segmento Speciale",
         "SegmentOperatorIsNullOrEmpty": "è nullo o vuoto",
-        "SegmentOperatorIsNotNullNorEmpty": "non è nullo nè vuoto"
+        "SegmentOperatorIsNotNullNorEmpty": "non è nullo nè vuoto",
+        "UnprocessedSegmentNoData1": "Questi report non hanno dati, perché il Segmento %1$s da te richiesto non è stato ancora elaborato dal sistema.",
+        "UnprocessedSegmentNoData2": "I dati per questo Segmento dovrebbero diventare disponibili in poche ore, quando sarà stata completata l'elaborazione. (In caso contrario, potrebbe esserci un problema.)",
+        "UnprocessedSegmentInVisitorLog1": "%1$sNel frattempo puoi usare il Log Visitatore%2$s, applicandolo qui, per testare se il tuo segmento corrisponderà correttamente ai tuoi utenti.",
+        "UnprocessedSegmentInVisitorLog2": "Una volta applicato, puoi vedere immediatamente quali visite e azioni sono state abbinate al tuo segmento.",
+        "UnprocessedSegmentInVisitorLog3": "Questo può aiutarti a confermare che il tuo segmento corrisponde agli utenti e alle azioni che ti aspetti.",
+        "UnprocessedSegmentApiError1": "Il segmento '%1$s' è impostato su '%2$s' ma Matomo non è attualmente configurato per elaborare report segmentati nelle richieste API.",
+        "UnprocessedSegmentApiError2": "Per visualizzare i dati per questo report in futuro, dovrai modificare il segmento e scegliere l'opzione con l'etichetta '%s'.",
+        "UnprocessedSegmentApiError3": "Quindi, dopo alcune ore, i dati del segmento dovrebbero essere disponibili tramite l'API. (In caso contrario, potrebbe esserci un problema.)",
+        "CustomUnprocessedSegmentApiError1": "Il segmento che hai richiesto non è ancora stato creato nell'Editor dei Segmenti e quindi i dati del report non sono stati pre-elaborati.",
+        "CustomUnprocessedSegmentApiError2": "Per vedere i dati di questo segmento, devi andare su Matomo e creare manualmente questo segmento nell'Editor dei Segmenti",
+        "CustomUnprocessedSegmentApiError3": "(In alternativa, puoi creare un nuovo segmento a livello di codice utilizzando il metodo API SegmentEditor.add).",
+        "CustomUnprocessedSegmentApiError4": "Una volta creato il segmento nell'editor (o tramite API), questo messaggio di errore scompare e in poche ore verranno visualizzati i dati del report segmentato, dopo che i dati del segmento saranno stati pre-elaborati. (In caso contrario, potrebbe esserci un problema.)",
+        "CustomUnprocessedSegmentApiError5": "Tieni presente che puoi verificare se il tuo segmento funzionerà, senza dover attendere che venga elaborato, utilizzando l'API Live.getLastVisitsDetails.",
+        "CustomUnprocessedSegmentApiError6": "Quando utilizzi questo metodo API, vedrai quali utenti e azioni hanno avuto corrispondenza dal tuo parametro &segment.",
+        "CustomUnprocessedSegmentNoData": "Per visualizzare i dati di questo segmento, è necessario creare manualmente questo segmento nell'Editor dei Segmenti, quindi attendere un paio d'ore per il completamento della pre-elaborazione.",
+        "AddThisToMatomo": "Aggiungi a Matomo questo segmento"
     }
 }

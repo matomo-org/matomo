@@ -4,8 +4,11 @@
          class="sites_autocomplete"
          ng-model="formField.value"
          id="{{ formField.name }}"
-         show-all-sites-item="false"
+         show-all-sites-item="formField.uiControlAttributes.showAllSitesItem || false"
          switch-site-on-select="false"
          show-selected-site="true"
-         piwik-attributes="{{formField.uiControlAttributes}}"></div>
+         only-sites-with-admin-access="formField.uiControlAttributes.onlySitesWithAdminAccess || false"
+         placeholder="{{ formField.uiControlAttributes.placeholder }}"
+         piwik-attributes="{{formField.uiControlAttributes}}"
+    ></div>
 </div>

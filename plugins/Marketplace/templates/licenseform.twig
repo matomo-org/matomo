@@ -9,7 +9,7 @@
         <div piwik-save-button
              class="valign"
              onconfirm="licenseController.updateLicense()"
-             disabled="!licenseController.enableUpdate"
+             data-disabled="!licenseController.enableUpdate"
              value="{% if hasLicenseKey %}{{ 'CoreUpdater_UpdateTitle'|translate|e('html_attr') }}{% else %}{{ 'Marketplace_ActivateLicenseKey'|translate|e('html_attr') }}{% endif %}"
              id="submit_license_key"></div>
 {% endset %}
@@ -49,7 +49,7 @@
 
     {% else %}
         {% if isSuperUser %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
 
             <br/>
 
@@ -60,7 +60,7 @@
             <div piwik-activity-indicator loading="licenseController.isUpdating"></div>
 
         {% else %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
         {% endif %}
 
     {% endif %}

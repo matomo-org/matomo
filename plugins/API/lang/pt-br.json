@@ -1,5 +1,6 @@
 {
     "API": {
+        "ChangeTokenHint": "Se você quiser alterar esse token, vá para a 1%1$s página de configurações pessoais 2%2$s.",
         "GenerateVisits": "Se você não tem nenhum dado hoje, primeiro você pode gerar alguns dados usando o plugin %1$s. Basta ativar o plugin %2$s e clicar no menu \"Gerador de Visitantes\" na área de Admin do Matomo.",
         "KeepTokenSecret": "Esse token_auth é tão secreto quanto seu login e sua senha, %1$s não compartilhe isso %2$s!",
         "LoadedAPIs": "%s APIs carregadas com sucesso",
@@ -10,6 +11,7 @@
         "UserAuthentication": "Autenticação de usuário",
         "UsingTokenAuth": "Se você quer %1$s requisitar dados dentro de um script, um crontab, etc. %2$s você precisa adicionar o parâmetro %3$s para a API chamar URLS que requerem autenticação.",
         "Glossary": "Glossário",
-        "LearnAboutCommonlyUsedTerms": "Saiba mais sobre os termos comumente utilizados ​​para tirar o máximo do Matomo Analytics: %1$s e %2$s."
+        "LearnAboutCommonlyUsedTerms2": "Saiba mais sobre os termos comumente usados para tirar o máximo do Matomo Analytics.",
+        "EvolutionMetricName": "%s Evolução"
     }
 }

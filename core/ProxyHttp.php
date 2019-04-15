@@ -217,8 +217,8 @@ class ProxyHttp
     public static function overrideCacheControlHeaders($override = null)
     {
         if ($override || self::isHttps()) {
-            Common::sendHeader('Pragma: ');
-            Common::sendHeader('Expires: ');
+            Common::stripHeader('Pragma');
+            Common::stripHeader('Expires');
             if (in_array($override, array('public', 'private', 'no-cache', 'no-store'))) {
                 Common::sendHeader("Cache-Control: $override, must-revalidate");
             } else {
@@ -239,11 +239,10 @@ class ProxyHttp
     private static function getCompressionEncodingAcceptedByClient()
     {
         $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
-
-        if (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
-            return array('deflate', '.deflate');
-        } elseif (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
+        if (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('gzip', '.gz');
+        } elseif (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
+            return array('deflate', '.deflate');
         } else {
             return array(false, false);
         }

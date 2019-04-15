@@ -3,6 +3,7 @@
         "Currency": "Valuta",
         "DefaultCurrencyForNewWebsites": "Pretpostavljena valuta za nove stranice",
         "DefaultTimezoneForNewWebsites": "Pretpostavljena vremenska zona za nove stranice",
-        "Timezone": "Vremenska zona"
+        "Timezone": "Vremenska zona",
+        "Type": "Vrsta"
     }
 }

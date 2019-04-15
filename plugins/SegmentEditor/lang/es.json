@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "este sitio de internet únicamente",
         "SegmentIsDisplayedForWebsite": "y procesado por",
         "SegmentNotApplied": "Segmento '%s' no aplicado",
-        "SegmentNotAppliedMessage": "Está solicitando datos para el segmento personalizado '%s', esta configuración de Matomo actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
+        "SegmentNotAppliedMessage": "Está solicitando datos para el segmento personalizado '%s', esta configuración Matomo actualmente impide el proceso en tiempo real de informes por razones de rendimiento.",
         "SelectSegmentOfVisits": "Seleccione un segmento de visitas:",
         "ThisSegmentIsVisibleTo": "Este segmento es visible para:",
         "VisibleToAllUsers": "todos los usuarios",
@@ -36,6 +36,22 @@
         "SegmentXIsAUnionOf": "%s es una unión de estos segmentos:",
         "CustomSegment": "Segmento personalizado",
         "SegmentOperatorIsNullOrEmpty": "es nulo o vacío",
-        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío"
+        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío",
+        "UnprocessedSegmentNoData1": "Estos informes no tienen datos, porque el segmento solicitado %1$s aún no ha sido procesado por el sistema.",
+        "UnprocessedSegmentNoData2": "Los datos para este segmento deberían estar disponibles en unas pocas horas cuando se complete el procesamiento. (Si no es así, puede haber un problema.)",
+        "UnprocessedSegmentInVisitorLog1": "%1$sMientras tanto, puede usar el registro de visitantes %2$s para comprobar si su segmento coincidirá con sus usuarios correctamente aplicándolo allí.",
+        "UnprocessedSegmentInVisitorLog2": "Cuando se aplica, puede ver inmediatamente qué visitas y acciones coincidieron con su segmento.",
+        "UnprocessedSegmentInVisitorLog3": "Esto puede ayudarlo a confirmar que su segmento coincide con los usuarios y las acciones que espera.",
+        "UnprocessedSegmentApiError1": "El segmento '%1$s' está configurado en '%2$s' pero Matomo no está configurado actualmente para procesar informes segmentados en las solicitudes hechas vía API.",
+        "UnprocessedSegmentApiError2": "Para ver los datos de este informe en el futuro, deberá editar su segmento y elegir la opción etiquetada '%s'.",
+        "UnprocessedSegmentApiError3": "Luego, después de unas horas, sus datos de segmento deberían estar disponibles a través de la API. (Si no es así, puede haber un problema.)",
+        "CustomUnprocessedSegmentApiError1": "El segmento que solicitó aún no se ha creado en el Editor de segmentos y, por lo tanto, los datos del informe no se han preprocesado.",
+        "CustomUnprocessedSegmentApiError2": "Para ver datos de este segmento, debe dirigirse a Matomo y crear este segmento manualmente dentro del Editor de Segmentos",
+        "CustomUnprocessedSegmentApiError3": "(Alternativamente, puede crear un nuevo segmento mediante programación utilizando el método de API SegmentEditor.add).",
+        "CustomUnprocessedSegmentApiError4": "Una vez creado el segmento en el editor (o vía API), este mensaje de error desaparecerá y en pocas horas verá los datos de su informe segmentado, una vez que los datos del segmento hayan sido preprocesados. (Si no es así, puede haber un problema.)",
+        "CustomUnprocessedSegmentApiError5": "Tenga en cuenta que puede comprobar si su segmento funcionará sin tener que esperar a que se procese, simplemente utilizando la API Live.getLastVisitsDetails.",
+        "CustomUnprocessedSegmentApiError6": "Cuando utilice este método API, verá qué usuarios y acciones coincidieron con su parámetro &segment=.",
+        "CustomUnprocessedSegmentNoData": "Para ver los datos de este segmento, debe crear este segmento manualmente en el Editor de segmentos y luego esperar un par de horas para que se complete el preprocesamiento.",
+        "AddThisToMatomo": "Agregar este segmento a Matomo"
     }
 }

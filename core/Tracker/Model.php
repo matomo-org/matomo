@@ -357,23 +357,26 @@ class Model
         // 		this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
-        $whereCommon = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";
-        $bindSql = array(
+        $configIdWhere = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";
+        $configIdbindSql = array(
             $timeLookBack,
             $timeLookAhead,
             $idSite
         );
 
+        $visitorIdWhere = 'idsite = ? AND visit_last_action_time <= ?';
+        $visitorIdbindSql = [$idSite, $timeLookAhead];
+
         if ($shouldMatchOneFieldOnly && $isVisitorIdToLookup) {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $whereCommon, $bindSql);
+            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
         } elseif ($shouldMatchOneFieldOnly) {
-            $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $whereCommon, $bindSql);
+            $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
         } else {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $whereCommon, $bindSql);
+            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
 
             if (empty($visitRow)) {
-                $whereCommon .= ' AND user_id IS NULL ';
-                $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $whereCommon, $bindSql);
+                $configIdWhere .= ' AND user_id IS NULL ';
+                $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
             }
         }
 
@@ -410,7 +413,7 @@ class Model
     }
 
     /**
-     * Returns true if the site doesn't have log data.
+     * Returns true if the site doesn't have raw data.
      *
      * @param int $siteId
      * @return bool

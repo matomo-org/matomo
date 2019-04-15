@@ -8,13 +8,79 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\ErrorException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Piwik's error handler function.
  */
 class ErrorHandler
 {
+    private static $fatalErrorStackTrace = [];
+
+    /**
+     * Fatal errors in PHP do not leave behind backtraces, which can make it impossible to determine
+     * the exact cause of one. We can, however, save a partial stack trace by remembering certain execution
+     * points. This method and popFatalErrorBreadcrumb() are used for that purpose.
+     *
+     * To use this method, surround a function call w/ pushFatalErrorBreadcrumb() & popFatalErrorBreadcrumb()
+     * like so:
+     *
+     *     public function theMethodIWantToAppearInFatalErrorStackTraces()
+     *     {
+     *         try {
+     *             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+     *
+     *             // ...
+     *         } finally {
+     *             ErrorHandler::popFatalErrorBreadcrumb();
+     *         }
+     *     }
+     *
+     * If a fatal error occurs, theMethodIWantToAppearInFatalErrorStackTraces will appear in the stack trace,
+     * if PIWIK_PRINT_ERROR_BACKTRACE is true.
+     */
+    public static function pushFatalErrorBreadcrumb($className = null, $importantArgs = null)
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 2);
+        $backtrace[1]['class'] = $className; // knowing the derived class name is far more useful
+        $backtrace[1]['args'] = empty($importantArgs) ? [] : array_map('json_encode', $importantArgs);
+        array_unshift(self::$fatalErrorStackTrace, $backtrace[1]);
+    }
+
+    public static function popFatalErrorBreadcrumb()
+    {
+        array_shift(self::$fatalErrorStackTrace);
+    }
+
+    public static function getFatalErrorPartialBacktrace()
+    {
+        $result = '';
+        foreach (self::$fatalErrorStackTrace as $index => $entry) {
+            $function = $entry['function'];
+            if (!empty($entry['class'])) {
+                $function = $entry['class'] . $entry['type'] . $function;
+            }
+
+            $args = '';
+            if (!empty($entry['args'])) {
+                $isFirst = true;
+                foreach ($entry['args'] as $name => $value) {
+                    if ($isFirst) {
+                        $isFirst = false;
+                    } else {
+                        $args .= ', ';
+                    }
+                    $args .= $name . '=' . $value;
+                }
+            }
+
+            $result .= sprintf("#%s %s(%s): %s(%s)\n", $index, $entry['file'], $entry['line'], $function, $args);
+        }
+        return $result;
+    }
+
     /**
      * Returns a string description of a PHP error number.
      *
@@ -96,7 +162,7 @@ class ErrorHandler
             case E_USER_DEPRECATED:
             default:
                 try {
-                    Log::warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
+                    StaticContainer::get(LoggerInterface::class)->warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
                 } catch (\Exception $ex) {
                     // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
                 }
@@ -123,7 +189,7 @@ class ErrorHandler
         $message = ErrorHandler::getErrNoString($errno) . ' - ' . $errstr;
 
         $html = "<p>There is an error. Please report the message (Matomo " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
-        and full backtrace in the <a href='?module=Proxy&action=redirect&url=https://forum.matomo.org' target='_blank'>Matomo forums</a> (please do a search first as it might have been reported already!).</p>";
+        and full backtrace in the <a target='_blank' rel='noreferrer noopener' href='https://forum.matomo.org'>Matomo forums</a> (please do a search first as it might have been reported already!).</p>";
         $html .= "<p><strong>{$message}</strong> in <em>{$errfile}</em>";
         $html .= " on line {$errline}</p>";
         $html .= "Backtrace:<pre>";

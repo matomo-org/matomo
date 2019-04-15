@@ -46,7 +46,7 @@ class FormSuperUser extends QuickForm2
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));
         $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), $password);
+        $passwordBis->addRule('eq', Piwik::translate('Installation_PasswordDoNotMatch'), ['operand' => $password]);
 
         $email = $this->addElement('text', 'email')
             ->setLabel(Piwik::translate('Installation_Email'));
@@ -59,22 +59,24 @@ class FormSuperUser extends QuickForm2
             ));
 
         $professionalServicesNewsletter = Piwik::translate('Installation_ProfessionalServicesNewsletter',
-            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
+            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer noopener' target='_blank'>", "</a>")
         );
 
-        $currentLanguage = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
+        $privacyNoticeLink = '<a href="https://matomo.org/privacy-policy/" target="_blank" rel="noreferrer noopener">';
+        $privacyNotice = '<div class="form-help email-privacy-notice">' . Piwik::translate('Installation_EmailPrivacyNotice', [$privacyNoticeLink, '</a>'])
+            . '</div>';
 
         $this->addElement('checkbox', 'subscribe_newsletter_professionalservices', null,
             array(
-                'content' => '&nbsp;&nbsp;' . $professionalServicesNewsletter,
+                'content' => $privacyNotice . '&nbsp;&nbsp;' . $professionalServicesNewsletter
             ));
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-            'subscribe_newsletter_piwikorg' => 1,
-            'subscribe_newsletter_professionalservices' => $currentLanguage == 'de' ? 0 : 1,
+            'subscribe_newsletter_piwikorg' => 0,
+            'subscribe_newsletter_professionalservices' => 0,
         )));
     }
 }

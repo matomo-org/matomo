@@ -1,9 +1,7 @@
 {
     "Installation": {
-        "ConfigurationHelp": "Úgy tűnik, a Matomo konfigurációs fájl hibás. Törölheted a config\/config.ini.php fájlt — újrakezdve a telepítést, vagy kijavíthatod az adatbázis-kapcsolathoz szükséges beállításokat.",
         "ConfirmDeleteExistingTables": "Biztos vagy benne, hogy törölni akarod a %s táblákat az adatbázisból? FIGYELEM: A TÖRÖLT TÁBLÁK ADATAI NEM ÁLLÍTHATÓK VISSZA!",
         "Congratulations": "Gratulálunk",
-        "CongratulationsHelp": "<p>Gratulálunk! A Matomo telepítése kész!<\/p><p>Bizonyosodj meg róla, hogy a JavaScript követőkód beillesztésre került minden weblapba. Ebben az esetben nincs más hátra, mint várnod az első látogatókat!<\/p>",
         "DatabaseCreation": "Adatbázis létrehozása",
         "DatabaseErrorConnect": "Hiba lépett fel az adatbázishoz történő csatlakozáskor.",
         "DatabaseServerVersion": "Adatbázisszerver verziója",
@@ -13,6 +11,7 @@
         "DatabaseSetupLogin": "felhasználó",
         "DatabaseSetupServer": "Adatbázisszerver",
         "DatabaseSetupTablePrefix": "táblanév előtagja",
+        "Email": "E-mail cím",
         "Extension": "kiterjesztés",
         "GoBackAndDefinePrefix": "Lépj vissza, és add meg a Matomo táblák nevének előtagját!",
         "Installation": "Telepítés",
@@ -20,17 +19,18 @@
         "LargePiwikInstances": "Súgó nagyobb weboldalakra telepítéshez",
         "Legend": "Magyarázó felirat",
         "Optional": "Opcionális",
+        "Password": "Jelszó",
         "PasswordDoNotMatch": "jelszó nem egyezik",
         "PercentDone": "%s %% kész",
         "PleaseFixTheFollowingErrors": "Kérjük, javítsd a következő hibákat",
-        "Requirements": "Piwik Rendszerkövetelmények",
+        "Requirements": "Matomo Rendszerkövetelmények",
         "SetupWebsite": "Weboldal beállítása",
         "SetupWebsiteError": "Hiba a weboldal hozzáadása közben!",
         "SetupWebsiteSetupSuccess": "A %s weboldal sikeresen létrehozva!",
         "SuperUser": "Mindenható (Super User)",
         "SuperUserSetupSuccess": "Mindenható (Super User) felhasználó sikeresen létrehozva!",
         "SystemCheck": "rendszerellenőrzés",
-        "SystemCheckAutoUpdateHelp": "Megjegyzés: Az egyklikkes Piwik frissítés működéséhez írási jogosultság szükséges a Matomo mappára és annak tartalmára egyaránt.",
+        "SystemCheckAutoUpdateHelp": "Megjegyzés: Az egyklikkes Matomo frissítés működéséhez írási jogosultság szükséges a Matomo mappára és annak tartalmára egyaránt.",
         "SystemCheckCreateFunctionHelp": "A Matomo anonim funkciókat használ a callback-okhoz.",
         "SystemCheckDatabaseHelp": "A Matomo-nek szüksége van vagy a mysqli kiterjesztésre vagy a PDO és a pdo_mysql kiterjesztésekre.",
         "SystemCheckDebugBacktraceHelp": "View::factory nem áll rendelkezésre a nézetek legenerálásához az azt meghívó modul számára.",
@@ -40,7 +40,7 @@
         "SystemCheckFileIntegrity": "Fájlitegritás",
         "SystemCheckFunctions": "Szükséges funkciók",
         "SystemCheckGDHelp": "A szikravonalak (mini grafikonok) nem fognak működni.",
-        "SystemCheckGlobHelp": "Ez a beépített funkció le van tiltva a szervereden. Piwik megpróbálja emulálni ezt a funkciót, de további biztonsági korlátozások akadályozhatják ezt. A Matomo működésére kihatással lehet mindez.",
+        "SystemCheckGlobHelp": "Ez a beépített funkció le van tiltva a szervereden. Matomo megpróbálja emulálni ezt a funkciót, de további biztonsági korlátozások akadályozhatják ezt. A Matomo működésére kihatással lehet mindez.",
         "SystemCheckGzcompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzcompress funkciót.",
         "SystemCheckGzuncompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzuncompress funkciót.",
         "SystemCheckIconvHelp": "Konfigurálni és rebuildelni kell a PHP-t az \"iconv\" támogatás engedélyezésével: --with-iconv",
@@ -77,7 +77,6 @@
         "TablesReuse": "Meglévő táblák felhasználása",
         "TablesWarningHelp": "Dönts a meglévő adatbázis táblák újrafelhasználása mellett vagy válaszd az teljes újratelepítést az adatbázisban található korábbi adatok törlésével.",
         "TablesWithSameNamesFound": "Néhány táblának (%1$s) az adatbázisodban (%2$s) ugyanaz a neve, mint amilyet a Matomo próbál létrehozni.",
-        "Welcome": "Üdvözöllek!",
-        "WelcomeHelp": "<p>A Matomo egy nyílt forráskódú webanalitikai szoftver, mellyel könnyedén juthatsz információkhoz weboldalad látogatottságáról.<\/p><p>A telepítési folyamat %s egyszerű lépésből áll és kb. 5 percet vesz igénybe.<\/p>"
+        "Welcome": "Üdvözöllek!"
     }
 }

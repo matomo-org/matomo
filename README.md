@@ -7,24 +7,21 @@
 ## Code Status
 
 [![Build Status](https://travis-ci.org/matomo-org/matomo.svg?branch=master)](https://travis-ci.org/matomo-org/matomo/branches)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
-[![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
 ## Description
 
 Matomo is the leading Free/Libre open analytics platform.
 
 Matomo is a full featured PHP MySQL software program that you download and install on your own webserver.
-At the end of the five minute installation process you will be given a JavaScript code.
+At the end of the five minute installation process, you will be given a JavaScript code.
 Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
 
-Matomo aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
+Matomo aims to be a Free software alternative to Google Analytics and is already used on more than 1,400,000 websites. Privacy is built-in!
 
 ## Mission Statement
 
-> « To create, as a community, the leading international Free/Libre web analytics platform, providing access to all functionality through open components and open APIs. »
+> « To create, as a community, the leading international open source digital analytics platform, that gives every user full control of their data. »
 
 Or in short:
 > « Liberate Web Analytics »
@@ -81,7 +78,7 @@ We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help ch
 
 Security is a top priority at Matomo. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
 
-[Learn more](https://matomo.org/security/)
+[Learn more](https://matomo.org/security/) or check out our [HackerOne program](https://hackerone.com/matomo).
 
 ## Support for Matomo
 
@@ -102,7 +99,7 @@ Contact us: [matomo.org/contact/](https://matomo.org/contact/)
 
 What makes Matomo unique from the competition:
 
-  * Real time web analytics reports: in Matomo, reports are by default generated in real time.
+  * Real-time web analytics reports: in Matomo, reports are by default generated in real time.
     For high traffic websites, you can choose the frequency for reports to be processed.
 
   * You own your web analytics data: since Matomo is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Matomo Analytics API.
@@ -112,11 +109,11 @@ What makes Matomo unique from the competition:
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
   * Matomo features are built inside plugins: you can add new features and remove the ones you don’t need.
-    You can build your own web analytics plugins or hire a consultant to have your custom feature built in Matomo
+    You can build your own web analytics plugins or hire a consultant to have your custom feature built-in Matomo
 
-  * Vibrant international Open community of more than 200,000 active users (tracking even more websites!)
+  * A vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 
-  * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking,
-    Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
+  * Advanced Web Analytics capabilities such as E-commerce Tracking, Goal tracking, Campaign tracking,
+    Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real-time maps, and more!
 
 Documentation and more info on https://matomo.org

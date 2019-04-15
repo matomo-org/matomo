@@ -12,6 +12,7 @@ namespace Piwik\Settings\Storage\Backend;
 use Piwik\Common;
 use Piwik\Db;
 use Exception;
+use Piwik\Version;
 
 /**
  * Plugin settings backend. Stores all settings in a "plugin_setting" database table.
@@ -77,42 +78,61 @@ class PluginSettingsTable implements BackendInterface
         $this->delete();
 
         foreach ($values as $name => $value) {
-
-            if (!is_array($value)) {
-                $value = array($value);
+            if (!isset($value)) {
+                continue;
             }
 
-            foreach ($value as $val) {
-                if (!isset($val)) {
-                    continue;
+            if (is_array($value) || is_object($value)) {
+                $jsonEncoded = 1;
+                $value = json_encode($value);
+            } else {
+                $jsonEncoded = 0;
+                if (is_bool($value)) {
+                    // we are currently not storing booleans as json as it could result in trouble with the UI and regress
+                    // preselecting the correct value
+                    $value = (int) $value;
                 }
-
-                if (is_bool($val)) {
-                    $val = (int) $val;
-                }
-
-                $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`) VALUES (?, ?, ?, ?)";
-                $bind = array($this->pluginName, $this->userLogin, $name, $val);
-
-                $this->db->query($sql, $bind);
             }
+
+            $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
+            $bind = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
+
+            $this->db->query($sql, $bind);
         }
+    }
+
+    private function jsonEncodedMissingError(Exception $e)
+    {
+        return strpos($e->getMessage(), 'json_encoded') !== false;
     }
 
     public function load()
     {
         $this->initDbIfNeeded();
 
-        $sql  = "SELECT `setting_name`, `setting_value` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
+        $sql  = "SELECT `setting_name`, `setting_value`, `json_encoded` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
         $bind = array($this->pluginName, $this->userLogin);
 
-        $settings = $this->db->fetchAll($sql, $bind);
+        try {
+            $settings = $this->db->fetchAll($sql, $bind);
+        } catch (\Exception $e) {
+            // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
+            // may run this query
+            if ($this->jsonEncodedMissingError($e)) {
+                $sql  = "SELECT `setting_name`, `setting_value` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
+                $settings = $this->db->fetchAll($sql, $bind);
+            } else {
+                throw $e;
+            }
+        }
 
         $flat = array();
         foreach ($settings as $setting) {
             $name = $setting['setting_name'];
 
-            if (array_key_exists($name, $flat)) {
+            if (!empty($setting['json_encoded'])) {
+                $flat[$name] = json_decode($setting['setting_value'], true);
+            } elseif (array_key_exists($name, $flat)) {
                 if (!is_array($flat[$name])) {
                     $flat[$name] = array($flat[$name]);
                 }

@@ -26,7 +26,9 @@ use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
+use Piwik\SettingsPiwik;
 use Piwik\Unzip;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -63,6 +65,11 @@ class GeoIPAutoUpdater extends Task
      */
     public function __construct()
     {
+        if (!SettingsPiwik::isInternetEnabled()) {
+            // no automatic updates possible if no internet available
+            return;
+        }
+
         $schedulePeriodStr = self::getSchedulePeriod();
 
         // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,
@@ -107,7 +114,10 @@ class GeoIPAutoUpdater extends Task
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIPAutoUpdater: '
-            Log::error($ex);
+            StaticContainer::get(LoggerInterface::class)->error('Auto-update failed: {exception}', [
+                'exception' => $ex,
+                'ignoreInScreenWriter' => true,
+            ]);
             $this->performRedundantDbChecks();
             throw $ex;
         }
@@ -130,6 +140,11 @@ class GeoIPAutoUpdater extends Task
     protected function downloadFile($dbType, $url)
     {
         $url = trim($url);
+
+        if (strpos($url, 'GeoLite')) {
+            Log::info('GeoLite databases have been discontinued. Skipping download of '.$url.'. Consider switching to GeoIP 2.');
+            return;
+        }
 
         $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
 
@@ -354,8 +369,19 @@ class GeoIPAutoUpdater extends Task
             /** @var Scheduler $scheduler */
             $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
 
-            $scheduler->rescheduleTask(new GeoIPAutoUpdater());
+            $scheduler->rescheduleTaskAndRunTomorrow(new GeoIPAutoUpdater());
         }
+    }
+
+    /**
+     * Removes all options to disable any configured automatic updates
+     */
+    public static function clearOptions()
+    {
+        foreach (self::$urlOptions as $optionKey => $optionName) {
+            Option::delete($optionName);
+        }
+        Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
     }
 
     /**
@@ -550,9 +576,16 @@ class GeoIPAutoUpdater extends Task
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
 
-                if($logErrors) {
-                    Log::error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
-                        . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
+                if ($logErrors) {
+                    StaticContainer::get(LoggerInterface::class)->error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
+                        . "{type} database: {errno}: {errstr} on line {errline} of {errfile}.", [
+                        'ignoreInScreenWriter' => true,
+                        'type' => $type,
+                        'errno' => $errno,
+                        'errstr' => $errstr,
+                        'errline' => $errline,
+                        'errfile' => $errfile,
+                    ]);
                 }
 
                 // get the current filename for the DB and an available new one to rename it to

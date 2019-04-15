@@ -25,7 +25,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 class ServerBased extends GeoIp
 {
     const ID = 'geoip_serverbased';
-    const TITLE = 'GeoIP (%s)';
+    const TITLE = 'GeoIP Legacy (%s)';
     const TEST_SERVER_VAR = 'GEOIP_ADDR';
     const TEST_SERVER_VAR_ALT = 'GEOIP_COUNTRY_CODE';
     const TEST_SERVER_VAR_ALT_IPV6 = 'GEOIP_COUNTRY_CODE_V6';
@@ -223,10 +223,10 @@ class ServerBased extends GeoIp
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
                 array('<strong>', '</strong>', '<strong>', '</strong>'));
         $installDocs =
-            '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_165">'
+            '<a rel="noreferrer noopener"  target="_blank" href="https://matomo.org/faq/how-to/#faq_165">'
             . Piwik::translate('UserCountry_HowToInstallApacheModule')
             . '</a><br/>'
-            . '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_166">'
+            . '<a rel="noreferrer noopener"  target="_blank" href="https://matomo.org/faq/how-to/#faq_166">'
             . Piwik::translate('UserCountry_HowToInstallNginxModule')
             . '</a>';
 
@@ -251,7 +251,7 @@ class ServerBased extends GeoIp
         return array('id'            => self::ID,
                      'title'         => $title,
                      'description'   => $desc,
-                     'order'         => 4,
+                     'order'         => 14,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage);
     }

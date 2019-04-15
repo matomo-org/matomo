@@ -28,7 +28,7 @@
             ajaxRequest.addParams(ajaxParams, 'get');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.addAnnotation
@@ -49,7 +49,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.saveAnnotation
@@ -72,7 +72,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.deleteAnnotation
@@ -92,7 +92,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.getEvolutionIcons
@@ -114,7 +114,7 @@
             ajaxRequest.addParams(ajaxParams, 'get');
             ajaxRequest.setFormat('html');
             ajaxRequest.setCallback(callback);
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         }
     };
 
@@ -459,7 +459,7 @@
                 date = date.split(',')[0];
             }
 
-            $('.evolution-annotations>span', domElem).each(function () {
+            $('.evolution-annotations>span[data-date]', domElem).each(function () {
                 if ($(this).attr('data-date') == date) {
                     // get counts from attributes (and convert them to ints)
                     var starredCount = +$(this).attr('data-starred'),
@@ -467,12 +467,11 @@
 
                     // modify the starred count & make sure the correct image is used
                     var newStarCount = starredCount + starAmt;
+                    var newAnno = 'icon-annotation';
                     if (newStarCount > 0) {
-                        var newImg = 'plugins/Morpheus/images/annotations_starred.png';
-                    } else {
-                        var newImg = 'plugins/Morpheus/images/annotations.png';
+                        newAnno += ' starred';
                     }
-                    $(this).attr('data-starred', newStarCount).find('img').attr('src', newImg);
+                    $(this).attr('data-starred', newStarCount).find('span').attr('class', newAnno);
 
                     // modify the annotation count & hide/show based on new count
                     var newCount = annotationCount + amt;
@@ -575,12 +574,12 @@
 
         // if no graph available, hide all icons
         if (!canvases || canvases.length == 0) {
-            $('span', annotations).hide();
+            $('span[data-date]', annotations).hide();
             return true;
         }
 
         // set position of each individual icon
-        $('span', annotations).each(function (i) {
+        $('span[data-date]', annotations).each(function (i) {
             var canvas = $(canvases[i]),
                 canvasCenterX = canvas.position().left + (canvas.width() / 2);
             $(this).css({

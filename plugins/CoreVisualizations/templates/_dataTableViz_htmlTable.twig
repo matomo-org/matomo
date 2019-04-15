@@ -38,7 +38,8 @@
                     class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}{% if isSummaryRow %} summaryRow{% endif %}"
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
-                        <td>
+                        {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
+                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}
@@ -50,6 +51,18 @@
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': rowSubtableId} %}
                 {% endif %}
             {%- endfor -%}
+            {% if dataTable.getTotalsRow and properties.show_totals_row %}
+                {% set row = dataTable.getTotalsRow %}
+                {% set rowId = 'totalsRow' %}
+                <tr class="{{ row.getMetadata('css_class') }} totalsRow"
+                        title="Total values for this table">
+                    {% for column in properties.columns_to_display %}
+                        <td>
+                            {% include "@CoreHome/_dataTableCell.twig" with properties %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
         {% endif %}
     {%- if not showingEmbeddedSubtable -%}
         </tbody>

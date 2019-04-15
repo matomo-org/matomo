@@ -32,6 +32,16 @@
                 {
                     if (angular.isObject(attributes)) {
                         angular.forEach(attributes, function (value, key) {
+                            if (angular.isObject(value)) {
+                                value = JSON.stringify(value);
+                            }
+
+                            // replace line breaks in placeholder with big amount of spaces for safari,
+                            // as line breaks are not support there
+                            if (key === 'placeholder' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+                                value = value.replace(/(?:\r\n|\r|\n)/g, (new Array(200)).join(' '));
+                            }
+
                             if (key === 'disabled') {
                                 element.prop(key, value);
                             } else {

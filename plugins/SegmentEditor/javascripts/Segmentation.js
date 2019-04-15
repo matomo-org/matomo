@@ -123,6 +123,13 @@ Segmentation = (function($) {
             }
         };
 
+        function handleAddNewSegment() {
+            var segmentToAdd = broadcast.getValueFromHash('addSegmentAsNew') || broadcast.getValueFromUrl('addSegmentAsNew');
+            if (segmentToAdd) {
+                showAddNewSegmentForm({ definition: decodeURIComponent(segmentToAdd) });
+            }
+        }
+
         var getSegmentFromId = function (id) {
             if(self.availableSegments.length > 0) {
                 for(var i = 0; i < self.availableSegments.length; i++)
@@ -298,10 +305,21 @@ Segmentation = (function($) {
             });
         };
 
-        var displayFormAddNewSegment = function (e) {
+        var displayFormAddNewSegment = function (segment) {
             closeAllOpenLists();
-            addForm("new");
+            addForm("new", segment);
         };
+
+        function showAddNewSegmentForm(segment) {
+            var parameters = {isAllowed: true};
+            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+            $rootScope.$emit('Segmentation.initAddSegment', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
+            displayFormAddNewSegment(segment);
+        }
 
         var filterSegmentList = function (keyword) {
             var curTitle;
@@ -327,7 +345,7 @@ Segmentation = (function($) {
             if ($(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser li:visible").length == 0) {
                 $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").hide();
             }
-        }
+        };
 
         var clearFilterSegmentList = function () {
             $(self.target).find(" .filterNoResults").remove();
@@ -336,7 +354,7 @@ Segmentation = (function($) {
             });
             $(self.target).find(".segmentList .segmentsVisibleToSuperUser").show();
             $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").show();
-        }
+        };
 
         var bindEvents = function () {
             self.target.on('click', '.segmentationContainer', function (e) {
@@ -391,16 +409,9 @@ Segmentation = (function($) {
             });
 
             self.target.on('click', '.add_new_segment', function (e) {
-
-                var parameters = {isAllowed: true};
-                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-                $rootScope.$emit('Segmentation.initAddSegment', parameters);
-                if (parameters && !parameters.isAllowed) {
-                    return;
-                }
-
                 e.stopPropagation();
-                displayFormAddNewSegment(e);
+
+                showAddNewSegmentForm();
             });
 
             // attach event that will clear segment list filtering input after clicking x
@@ -574,7 +585,7 @@ Segmentation = (function($) {
             }
 
             if(mode == "edit") {
-                var userSelector = $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
+                $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
 
                 // Replace "Visible to me" by "Visible to $login" when user is super user
                 if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
@@ -582,10 +593,10 @@ Segmentation = (function($) {
                 }
                 $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
+            }
 
-                if (segment.definition != ""){
-                    self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
-                }
+            if (segment !== undefined && segment.definition != ""){
+                self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
             }
 
             makeDropList(".enable_all_users" , ".enable_all_users_select");
@@ -671,7 +682,7 @@ Segmentation = (function($) {
                                 ajaxHandler.setCallback(function (response) {
                                     self.updateMethod(params);
                                 });
-                                ajaxHandler.send(true);
+                                ajaxHandler.send();
                             } else {
                                 self.updateMethod(params);
                             }
@@ -782,6 +793,7 @@ Segmentation = (function($) {
 
         this.initHtml();
         bindEvents();
+        handleAddNewSegment();
     };
 
     return segmentation;
@@ -842,20 +854,20 @@ $(document).ready(function() {
 
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-            
+
             if (piwikHelper.isAngularRenderingThePage()) {
-                return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
+                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition);
             } else {
                 // eg in case of exported dashboard
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'segment=' + segmentDefinition);
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition);
             }
         };
 
         this.changeSegmentList = function () {};
 
         var cleanupSegmentDefinition = function(definition) {
-            definition = definition.replace("'", "%27");
-            definition = definition.replace("&", "%26");
+            definition = definition.replace(/'/g, "%27");
+            definition = definition.replace(/&/g, "%26");
             return definition;
         };
 

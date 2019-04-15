@@ -40,9 +40,16 @@ nav {
     }
   }
 
+  ul.right.hide-on-med-and-down {
+    margin-right: 4px;
+  }
+
   .languageSelection {
     &:hover {
       background-color: rgba(0,0,0,0.1);
+    }
+    .title {
+      color: @theme-color-header-text;
     }
   }
 
@@ -90,17 +97,34 @@ nav {
 #root {
 
   .pageWrap {
-    padding-left: 19px;
-    padding-right: 16px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  #secondNavBar {
+    box-shadow: none !important;
   }
 
   #secondNavBar + .pageWrap {
     margin-left: 224px;
   }
 
-  #root>.top_controls {
-    margin-left:15px;
-    margin-right:15px;
+    &>.top_controls {
+      .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0px;
+      display: inline-block;
+      cursor: pointer;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 993px) {
+    ~ .drag-target {
+      display: none !important;
+    }
   }
 
   @media all and (max-width: 992px) {
@@ -117,7 +141,7 @@ nav {
       .piwikTopControl {
         position: static !important;
         float: none;
-        margin: 0 23px 10px 20px !important;
+        margin: 0 23px 10px 17px !important;
         display: block !important;
       }
 
@@ -197,6 +221,7 @@ nav {
               &:hover, &:focus {
                 text-decoration: none;
                 color: @theme-color-menu-contrast-textActive;
+                background-color: @theme-color-background-base;
               }
             }
 
@@ -237,6 +262,8 @@ nav {
           padding: 15px 22px 11px 45px;
           font-size: 13px;
           font-weight: normal;
+          word-wrap: break-word;
+          word-break: break-all;
 
           &:hover, &:focus {
             color: @theme-color-menu-contrast-textActive;
@@ -292,16 +319,30 @@ nav {
 
 #root {
   .top_controls {
-
     visibility: hidden;
     opacity: 0;
     z-index: 45;
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px){
+      visibility: hidden;
+      opacity: 0;
+      z-index: 45;
+      padding-left: 0;
+    }
 
     .quick-access {
       z-index: 1000;
       position: absolute;
       width: 208px;
-      margin-left: 16px;
+      margin-left: 0;
+
+      @media screen and (max-width: 600px){
+        z-index: 1000;
+        position: absolute;
+        width: 208px;
+        margin-left: 16px;
+      }
 
       .dropdown {
         width: 209px;
@@ -321,8 +362,8 @@ nav {
     }
 
     .piwikTopControl {
-      margin-top: 8px;
-      margin-bottom: 8px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 }
@@ -340,7 +381,7 @@ nav {
       display: inline-block;
       float: none;
       position: relative;
-      margin-right: 16px;
+      margin-right: 14px;
       vertical-align: top;
       font-size: 11px;
     }
@@ -415,3 +456,9 @@ nav {
   }
 }
 
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+  box-shadow: @default-box-shade;
+}
+#root .borderedControl, #standalone .borderedControl, .ui-dialog .borderedControl, .ngdialog .borderedControl {
+  box-shadow: @default-box-shade;
+}

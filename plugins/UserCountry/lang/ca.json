@@ -6,7 +6,7 @@
         "CannotFindPeclGeoIPDb": "No s'ha pogut trobar una base de dades de països, regions o ciutats pel modul GeoIP PECL. Assegureu-vos que la vostra base de dades GeoIP es troba a %1$s, i s'anomena %2$s o %3$s, sinó el mòdul PECL lo la detectarà.",
         "CannotListContent": "No s'ha pogut llistar el contingut de %1$s: %2$s",
         "CannotLocalizeLocalIP": "L'adreça IP %s és una adreça local i no pot ser Geolocalitzada.",
-        "CannotSetupGeoIPAutoUpdating": "Sembla que esteu guardant la vostra base de dades de GeoIP fora del Piwik (ho podem assegurar perquè no hi ha bases de dades al directori misc, però la GeoIP està funcionant). El Matomo no podrà actualitzar automàticament les vostres bases de dades GeoIP si aquestes es troben fora del directori misc.",
+        "CannotSetupGeoIPAutoUpdating": "Sembla que esteu guardant la vostra base de dades de GeoIP fora del Matomo (ho podem assegurar perquè no hi ha bases de dades al directori misc, però la GeoIP està funcionant). El Matomo no podrà actualitzar automàticament les vostres bases de dades GeoIP si aquestes es troben fora del directori misc.",
         "CannotUnzipDatFile": "No s'ha pogut descomprimir el fitxer dat de %1$s: %2$s",
         "City": "Ciutat",
         "Continent": "Continent",

@@ -9,6 +9,7 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -227,6 +228,15 @@ abstract class Renderer extends BaseFactory
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
+                }
+            }
+
+            foreach (Dimension::getAllDimensions() as $dimension) {
+                $dimensionId   = str_replace('.', '_', $dimension->getId());
+                $dimensionName = $dimension->getName();
+
+                if (!empty($dimensionId) && !empty($dimensionName)) {
+                    $t[$dimensionId] = $dimensionName;
                 }
             }
 

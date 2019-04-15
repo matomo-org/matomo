@@ -67,6 +67,12 @@ class API extends \Piwik\Plugin\API
      */
     private $processedReport;
 
+    /**
+     * For Testing purpose only
+     * @var int
+     */
+    public static $_autoSuggestLookBack = 60;
+
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
         $this->settingsProvider = $settingsProvider;
@@ -81,6 +87,23 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
+    }
+
+    /**
+     * Get PHP version
+     * @return array
+     */
+    public function getPhpVersion()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        return array(
+            'version' => PHP_VERSION,
+            'major' => PHP_MAJOR_VERSION,
+            'minor' => PHP_MINOR_VERSION,
+            'release' => PHP_RELEASE_VERSION,
+            'versionId' => PHP_VERSION_ID,
+            'extra' => PHP_EXTRA_VERSION,
+        );
     }
 
     /**
@@ -171,17 +194,17 @@ class API extends \Piwik\Plugin\API
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
-        $cachKey = CacheId::pluginAware($cachKey);
+        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cacheKey = CacheId::pluginAware($cacheKey);
 
-        if ($cache->contains($cachKey)) {
-            return $cache->fetch($cachKey);
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
         }
 
         $metadata = new SegmentMetadata();
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
-        $cache->save($cachKey, $segments);
+        $cache->save($cacheKey, $segments);
 
         return $segments;
     }
@@ -392,7 +415,7 @@ class API extends \Piwik\Plugin\API
         krsort($columnsByPlugin);
 
         $mergedDataTable = false;
-        $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
+        $params = compact('idSite', 'period', 'date', 'segment');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
@@ -443,12 +466,16 @@ class API extends \Piwik\Plugin\API
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
     {
+        // check if site exists
+        $idSite = (int) $idSite;
+        $site = new Site($idSite);
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $apiParameters = array();
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
-            if ($entityName === 'idGoal' && $idGoal) {
+            if ($entityName === 'idGoal' && is_numeric($idGoal)) {
                 $apiParameters['idGoal'] = $idGoal;
             } elseif ($entityName === 'idDimension' && $idDimension) {
                 $apiParameters['idDimension'] = $idDimension;
@@ -602,7 +629,7 @@ class API extends \Piwik\Plugin\API
 
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
-        $startDate = Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -687,7 +714,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $values
-     * @param $value
+     *
      * @return array
      */
     private function getMostFrequentValues($values)
@@ -704,9 +731,25 @@ class API extends \Piwik\Plugin\API
         // we have a list of all values. let's show the most frequently used first.
         $values = array_count_values($values);
 
-        arsort($values);
-        $values = array_keys($values);
-        return $values;
+        // Sort this list by converting and sorting the array with custom method, so the result doesn't differ between PHP versions
+        $sortArray = [];
+
+        foreach ($values as $value => $count) {
+            $sortArray[] = [
+                'value' => $value,
+                'count' => $count
+            ];
+        }
+
+        usort($sortArray, function($a, $b) {
+            if ($a['count'] == $b['count']) {
+                return strcmp($a['value'], $b['value']);
+            }
+
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
+
+        return array_column($sortArray, 'value');
     }
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)
@@ -738,17 +781,24 @@ class Plugin extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Platform.initialized' => 'detectIsApiRequest'
         );
+    }
+
+    public function detectIsApiRequest()
+    {
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
+        $stylesheets[] = "plugins/API/stylesheets/glossary.less";
     }
 }

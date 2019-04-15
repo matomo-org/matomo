@@ -5,6 +5,7 @@
 		<idVisit>56</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
+		<fingerprint>8ca20e3b82c2cd8e</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -18,7 +19,10 @@
 				<generationTimeMilliseconds>292</generationTimeMilliseconds>
 				<generationTime>0.29s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -36,6 +40,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -65,12 +70,14 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -136,6 +143,7 @@
 		<idVisit>49</idVisit>
 		<visitIp>206.190.75.8</visitIp>
 		
+		<fingerprint>cca042bdad090064</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -149,7 +157,10 @@
 				<timeSpent>79</timeSpent>
 				<timeSpentPretty>1 min 19s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Changelog Archive - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/changelog/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -169,7 +180,10 @@
 				<pageId>68</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
+				<title>Contact the Piwik team - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/contact/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -187,6 +201,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -201,7 +216,7 @@
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>181</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>80</visitDuration>
 		<visitDurationPretty>1 min 20s</visitDurationPretty>
@@ -216,12 +231,14 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -270,6 +287,7 @@
 		<idVisit>55</idVisit>
 		<visitIp>193.159.20.129</visitIp>
 		
+		<fingerprint>812bd9b9728d78fb</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -283,7 +301,10 @@
 				<generationTimeMilliseconds>413</generationTimeMilliseconds>
 				<generationTime>0.41s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>demo.piwik.org/Piwik Forums - Piwik › Web Analytics Reports</title>
+				<subtitle>http://demo.piwik.org/index.php?module=CoreHome&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=7</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -301,6 +322,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -330,12 +352,14 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -413,6 +437,7 @@
 		<idVisit>53</idVisit>
 		<visitIp>50.244.17.130</visitIp>
 		
+		<fingerprint>3ac61952f99e2d53</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -426,7 +451,10 @@
 				<timeSpent>32</timeSpent>
 				<timeSpentPretty>32s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -446,7 +474,10 @@
 				<pageId>66</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
+				<title>What is Piwik? - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/what-is-piwisk/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -464,6 +495,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -478,7 +510,7 @@
 		<visitCount>7</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>17</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>33</visitDuration>
 		<visitDurationPretty>33s</visitDurationPretty>
@@ -493,12 +525,14 @@
 		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -568,6 +602,7 @@
 		<idVisit>54</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -580,6 +615,9 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition />
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
+				<title>Outlink</title>
+				<subtitle>http://demo.piwik.org/</subtitle>
 				
 				<customVariables>
 					<row>
@@ -597,6 +635,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -626,12 +665,14 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -656,10 +697,10 @@
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
+		<region>Vlaams Gewest</region>
+		<regionCode>VLG</regionCode>
 		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
+		<location>Maaseik, Vlaams Gewest, Belgium</location>
 		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:24</visitLocalTime>
@@ -701,6 +742,7 @@
 		<idVisit>52</idVisit>
 		<visitIp>108.211.181.12</visitIp>
 		
+		<fingerprint>18feb08b734d8ada</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -714,7 +756,10 @@
 				<generationTimeMilliseconds>391</generationTimeMilliseconds>
 				<generationTime>0.39s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Integrate Piwik into your Rails Application - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -732,6 +777,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -761,12 +807,14 @@
 		<referrerUrl>https://www.google.com/</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -844,6 +892,7 @@
 		<idVisit>51</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
+		<fingerprint>119d38feb66b039a</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -855,7 +904,10 @@
 				<pageId>62</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -873,6 +925,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -887,7 +940,7 @@
 		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>3</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -902,12 +955,14 @@
 		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -933,7 +988,7 @@
 		<countryCode>jp</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region>Kanagawa</region>
-		<regionCode>19</regionCode>
+		<regionCode>14</regionCode>
 		<city>Nihon'odori</city>
 		<location>Nihon'odori, Kanagawa, Japan</location>
 		<latitude>35.450000</latitude>
@@ -973,6 +1028,7 @@
 		<idVisit>50</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
+		<fingerprint>4250ad6a1eb0d7d1</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -986,7 +1042,10 @@
 				<generationTimeMilliseconds>119</generationTimeMilliseconds>
 				<generationTime>0.12s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Piwik 2.1 — Massive Performance and Reliability Improvements - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1004,6 +1063,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1033,12 +1093,14 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Smartphone</deviceModel>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
@@ -1064,7 +1126,7 @@
 		<countryCode>de</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region>Nordrhein-Westfalen</region>
-		<regionCode>07</regionCode>
+		<regionCode>NW</regionCode>
 		<city>Weilerswist</city>
 		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
 		<latitude>50.767000</latitude>
@@ -1096,6 +1158,7 @@
 		<idVisit>48</idVisit>
 		<visitIp>188.107.238.9</visitIp>
 		
+		<fingerprint>589d8bdb92c383bd</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1109,7 +1172,10 @@
 				<generationTimeMilliseconds>145</generationTimeMilliseconds>
 				<generationTime>0.15s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Log Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/log-analytics/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1127,6 +1193,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1141,7 +1208,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>1</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1156,12 +1223,14 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1187,7 +1256,7 @@
 		<countryCode>de</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region>Rheinland-Pfalz</region>
-		<regionCode>08</regionCode>
+		<regionCode>RP</regionCode>
 		<city>Mainz</city>
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
@@ -1239,6 +1308,7 @@
 		<idVisit>46</idVisit>
 		<visitIp>93.80.130.163</visitIp>
 		
+		<fingerprint>ea1589bc543ab4c0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1254,7 +1324,10 @@
 				<generationTimeMilliseconds>182</generationTimeMilliseconds>
 				<generationTime>0.18s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1278,7 +1351,10 @@
 				<generationTimeMilliseconds>113</generationTimeMilliseconds>
 				<generationTime>0.11s</generationTime>
 				<interactionPosition>2</interactionPosition>
+				<title>Download - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/download/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1299,6 +1375,9 @@
 				<bandwidth>43</bandwidth>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
+				<title>Download</title>
+				<subtitle>http://builds.piwik.org/latest.zip</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1316,6 +1395,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1345,12 +1425,14 @@
 		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1375,10 +1457,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Moscow City</region>
-		<regionCode>48</regionCode>
+		<region>Moskva</region>
+		<regionCode>MOW</regionCode>
 		<city>Moscow</city>
-		<location>Moscow, Moscow City, Russia</location>
+		<location>Moscow, Moskva, Russia</location>
 		<latitude>55.752000</latitude>
 		<longitude>37.616000</longitude>
 		<visitLocalTime>04:28:18</visitLocalTime>
@@ -1412,6 +1494,7 @@
 		<idVisit>47</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
+		<fingerprint>1a2817a163b2805e</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1425,7 +1508,10 @@
 				<generationTimeMilliseconds>134</generationTimeMilliseconds>
 				<generationTime>0.13s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Hello Installing Piwik - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/docs/installation/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1443,6 +1529,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1457,7 +1544,7 @@
 		<visitCount>5</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>30</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1472,12 +1559,14 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1547,6 +1636,7 @@
 		<idVisit>45</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		<fingerprint>01b5ae86be8c23a0</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1560,7 +1650,10 @@
 				<generationTimeMilliseconds>58</generationTimeMilliseconds>
 				<generationTime>0.06s</generationTime>
 				<interactionPosition>1</interactionPosition>
+				<title>Liberate Web Analytics - Analytics - Piwik</title>
+				<subtitle>http://piwik.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1578,6 +1671,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1607,12 +1701,14 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1637,10 +1733,10 @@
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
+		<region>Vlaams Gewest</region>
+		<regionCode>VLG</regionCode>
 		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
+		<location>Maaseik, Vlaams Gewest, Belgium</location>
 		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:18</visitLocalTime>
@@ -1682,6 +1778,7 @@
 		<idVisit>43</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>e8e54c258f211e0c</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1693,7 +1790,10 @@
 				<pageId>50</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>incredible title!</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1719,6 +1819,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1726,8 +1827,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -1748,12 +1849,14 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1815,6 +1918,7 @@
 		<idVisit>44</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>6e7df29fc80d00de</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1826,7 +1930,10 @@
 				<pageId>51</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>1</interactionPosition>
+				<title>Piwik Forums</title>
+				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1844,6 +1951,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -1858,7 +1966,7 @@
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>444</daysSinceFirstVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>0</visitDuration>
 		<visitDurationPretty>0s</visitDurationPretty>
@@ -1873,12 +1981,14 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1956,6 +2066,7 @@
 		<idVisit>30</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>43c578fad9b1f13c</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1969,7 +2080,10 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1991,7 +2105,10 @@
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
+				<title>Another Product page with no category</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -2015,7 +2132,10 @@
 				<pageId>53</pageId>
 				<bandwidth>43</bandwidth>
 				<interactionPosition>3</interactionPosition>
+				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
+				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -2033,6 +2153,7 @@
 		
 		
 		
+		<siteName>Piwik test three</siteName>
 		
 		
 		
@@ -2062,12 +2183,14 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>

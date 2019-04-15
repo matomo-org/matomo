@@ -10,7 +10,8 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\CronArchive\Performance\Logger;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -49,6 +50,12 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
+    /**
+     * Defines if we should aggregate from raw data by using MySQL queries (when true) or aggregate archives (when false)
+     * @var bool
+     */
+    private $shouldAggregateFromRawData;
+
     public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
@@ -60,7 +67,24 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
-        $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
+        $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
+
+        /**
+         * Triggered to detect if the archiver should aggregate from raw data by using MySQL queries (when true)
+         * or by aggregate archives (when false). Typically, data is aggregated from raw data for "day" period, and
+         * aggregregated from archives for all other periods.
+         *
+         * @param bool $shouldAggregateFromRawData  Set to true, to aggregate from raw data, or false to aggregate multiple reports.
+         * @param Parameters $params
+         * @ignore
+         * @deprecated
+         *
+         * In Matomo 4.0 we should maybe remove this event, and instead maybe always archive from raw data when it is daily archive,
+         * no matter if single site or not. We cannot do this in Matomo 3.X as some custom plugin archivers may not be able to handle multiple sites.
+         */
+        Piwik::postEvent('ArchiveProcessor.shouldAggregateFromRawData', array(&$shouldAggregateFromRawData, $this->params));
+
+        $this->shouldAggregateFromRawData = $shouldAggregateFromRawData;
     }
 
     /**
@@ -72,7 +96,7 @@ class PluginsArchiver
     {
         $this->logAggregator->setQueryOriginHint('Core');
 
-        if ($this->isSingleSiteDayArchive) {
+        if ($this->shouldAggregateFromRawData) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -98,6 +122,9 @@ class PluginsArchiver
     {
         Log::debug("PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
             __FUNCTION__, $visits, $visitsConverted);
+
+        /** @var Logger $performanceLogger */
+        $performanceLogger = StaticContainer::get(Logger::class);
 
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
@@ -126,17 +153,19 @@ class PluginsArchiver
 
                 try {
                     $timer = new Timer();
-                    if ($this->isSingleSiteDayArchive) {
+                    if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateDayReport();
+                        $archiver->callAggregateDayReport();
                     } else {
                         Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateMultipleReports();
+                        $archiver->callAggregateMultipleReports();
                     }
 
                     $this->logAggregator->setQueryOriginHint('');
+
+                    $performanceLogger->logMeasurement('plugin', $pluginName, $this->params, $timer);
 
                     Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
                         __FUNCTION__,
@@ -146,15 +175,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    $className = get_class($e);
-
-                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
-                    } else {
-                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
-                    }
-
-                    throw $exception;
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -226,6 +247,11 @@ class PluginsArchiver
         if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
+
+        if ($this->params->shouldOnlyArchiveRequestedPlugin()) {
+            return false;
+        }
+
         if (Rules::shouldProcessReportsAllPlugins(
             $this->params->getIdSites(),
             $this->params->getSegment(),

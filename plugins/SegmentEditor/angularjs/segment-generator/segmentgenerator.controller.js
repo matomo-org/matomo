@@ -34,11 +34,11 @@
             if(singleChar == true){
                 newMetric.segment = metric.substr(0,minPos);
                 newMetric.matches = metric.substr(minPos,1);
-                newMetric.value = metric.substr(minPos+1);
+                newMetric.value = decodeURIComponent(metric.substr(minPos+1));
             } else {
                 newMetric.segment = metric.substr(0,minPos);
                 newMetric.matches = metric.substr(minPos,2);
-                newMetric.value = metric.substr(minPos+2);
+                newMetric.value = decodeURIComponent(metric.substr(minPos+2));
             }
             // if value is only "" -> change to empty string
             if(newMetric.value === '""')
@@ -151,7 +151,7 @@
                 format: 'json',
                 method: 'API.getSuggestedValuesForSegment',
                 segmentName: orCondition.segment
-            }, {createErrorNotification: false})
+            }, {createErrorNotification: false});
 
             promise.then(function(response) {
                 orCondition.isLoading = false;
@@ -196,7 +196,7 @@
                     promise.abort();
                 }
             }, 20000);
-        }
+        };
 
         this.removeOrCondition = function (condition, orCondition) {
             var index = condition.orConditions.indexOf(orCondition);
@@ -228,8 +228,9 @@
                         subSegmentStr += ","; // OR operator
                     }
 
-                    subSegmentStr += orCondition.segment + orCondition.matches +  encodeURIComponent(orCondition.value);
-                })
+                    // one encode for urldecode on value, one encode for urldecode on condition
+                    subSegmentStr += orCondition.segment + orCondition.matches + encodeURIComponent(encodeURIComponent(orCondition.value));
+                });
 
                 if (segmentStr !== '') {
                     segmentStr += ";"; // add AND operator between segment blocks
@@ -238,7 +239,7 @@
                 segmentStr += subSegmentStr;
             });
 
-            return segmentStr
+            return segmentStr;
         };
 
         this.setSegmentString = function (segmentStr) {
@@ -253,7 +254,7 @@
             var blocks = segmentStr.split(';');
 
             for (var key = 0; key < blocks.length; key++) {
-                var condition = {orConditions: []};
+                condition = {orConditions: []};
                 this.addAndCondition(condition);
 
                 blocks[key] = blocks[key].split(',');
@@ -266,7 +267,7 @@
 
         this.updateSegmentDefinition = function () {
             $scope.segmentDefinition = this.getSegmentString();
-        }
+        };
 
         if ($scope.segmentDefinition) {
             this.setSegmentString($scope.segmentDefinition);
@@ -274,14 +275,14 @@
 
         $scope.$watch('idsite', function (newValue, oldValue) {
             if (newValue != oldValue) {
-                reloadSegments(newValue);
+                reloadSegments(newValue, $scope.visitSegmentsOnly);
             }
         });
 
-        reloadSegments($scope.idsite);
+        reloadSegments($scope.idsite, $scope.visitSegmentsOnly);
 
-        function reloadSegments(idsite) {
-            segmentGeneratorModel.loadSegments(idsite).then(function (segments) {
+        function reloadSegments(idsite, visitSegmentsOnly) {
+            segmentGeneratorModel.loadSegments(idsite, visitSegmentsOnly).then(function (segments) {
 
                 self.segmentList = [];
 

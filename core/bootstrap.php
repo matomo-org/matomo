@@ -30,6 +30,8 @@ if (!defined('PIWIK_VENDOR_PATH')) {
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 session_cache_limiter('nocache');
+
+define('PIWIK_DEFAULT_TIMEZONE', @date_default_timezone_get());
 @date_default_timezone_set('UTC');
 
 disableEaccelerator();
@@ -38,6 +40,8 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 // Composer autoloader
 require_once PIWIK_VENDOR_PATH . '/autoload.php';
+
+\Piwik\Plugin\Manager::initPluginDirectories();
 
 /**
  * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dependency;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
 
 /**
@@ -194,6 +195,11 @@ class Plugin
         return $this->pluginInformation;
     }
 
+    final public function isPremiumFeature()
+    {
+        return !empty($this->pluginInformation['price']['base']);
+    }
+
     /**
      * Returns a list of events with associated event observers.
      *
@@ -236,6 +242,18 @@ class Plugin
     public function postLoad()
     {
         return;
+    }
+
+    /**
+     * Defines whether the whole plugin requires a working internet connection
+     * If set to true, the plugin will be automatically unloaded if `enable_internet_features` is 0,
+     * even if the plugin is activated
+     *
+     * @return bool
+     */
+    public function requiresInternetConnection()
+    {
+        return false;
     }
 
     /**
@@ -337,7 +355,9 @@ class Plugin
 
         $cacheId = 'Plugin' . $this->pluginName . $componentName . $expectedSubclass;
 
-        $componentFile = sprintf('%s/plugins/%s/%s.php', PIWIK_INCLUDE_PATH, $this->pluginName, $componentName);
+        $pluginsDir = Manager::getPluginDirectory($this->pluginName);
+
+        $componentFile = sprintf('%s/%s.php', $pluginsDir, $componentName);
 
         if ($this->cache->contains($cacheId)) {
             $classname = $this->cache->fetch($cacheId);
@@ -430,6 +450,10 @@ class Plugin
      */
     public function getMissingDependenciesAsString($piwikVersion = null)
     {
+        if ($this->requiresInternetConnection() && !SettingsPiwik::isInternetEnabled()) {
+            return Piwik::translate('CorePluginsAdmin_PluginRequiresInternet');
+        }
+
         if (empty($this->pluginInformation['require'])) {
             return '';
         }
@@ -513,7 +537,9 @@ class Plugin
     {
         $components = array();
 
-        $baseDir = PIWIK_INCLUDE_PATH . '/plugins/' . $this->pluginName . '/' . $directoryWithinPlugin;
+        $pluginsDir = Manager::getPluginDirectory($this->pluginName);
+        $baseDir = $pluginsDir . '/' . $directoryWithinPlugin;
+
         $files   = Filesystem::globr($baseDir, '*.php');
 
         foreach ($files as $file) {

@@ -23,7 +23,7 @@
 
 	<div class="content">
         <p>
-            We will be back up and running again soon, so please try again later. Your analytics data will continue to be tracked as normal. Thank you for your patience.
+            We will be back up and running again soon, so please try again later. %trackMessage% Thank you for your patience.
         </p>
 	</div>
 

@@ -10,16 +10,13 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
-use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -307,7 +304,7 @@ class Report
         $apiProxy = Proxy::getInstance();
 
         if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new Exception("Invalid action name '$module' for '$action' plugin.");
+            throw new Exception("Invalid action name '$action' for '$module' plugin.");
         }
 
         $apiAction = $apiProxy->buildApiActionName($module, $action);
@@ -597,6 +594,12 @@ class Report
             $report['isSubtableReport'] = $this->isSubtableReport;
         }
 
+        $dimensions = $this->getDimensions();
+
+        if (count($dimensions) > 1) {
+            $report['dimensions'] = $dimensions;
+        }
+
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
@@ -646,6 +649,30 @@ class Report
         }
 
         return Sort::ORDER_ASC;
+    }
+
+    /**
+     * Allows to define a callback that will be used to determine the secondary column to sort by
+     *
+     * ```
+     * public function getSecondarySortColumnCallback()
+     * {
+     *     return function ($primaryColumn) {
+     *         switch ($primaryColumn) {
+     *             case Metrics::NB_CLICKS:
+     *                 return Metrics::NB_IMPRESSIONS;
+     *             case 'label':
+     *             default:
+     *                 return Metrics::NB_CLICKS;
+     *         }
+     *     };
+     * }
+     * ```
+     * @return null|callable
+     */
+    public function getSecondarySortColumnCallback()
+    {
+        return null;
     }
 
     /**
@@ -725,6 +752,34 @@ class Report
     }
 
     /**
+     * Get dimensions used for current report and its subreports
+     *
+     * @return array [dimensionId => dimensionName]
+     * @ignore
+     */
+    public function getDimensions()
+    {
+        $dimensions = [];
+
+        if (!empty($this->getDimension())) {
+            $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
+            $dimensions[$dimensionId] = $this->getDimension()->getName();
+        }
+
+        if (!empty($this->getSubtableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getSubtableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
+        }
+
+        if (!empty($this->getThirdLeveltableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getThirdLeveltableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getThirdLeveltableDimension()->getName();
+        }
+
+        return $dimensions;
+    }
+
+    /**
      * Returns the order of the report
      * @return int
      * @ignore
@@ -765,6 +820,36 @@ class Report
         }
 
         return $subtableReport->getDimension();
+    }
+
+    /**
+     * Returns the Dimension instance of the subtable report of this report's subtable report.
+     *
+     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
+     *                        no dimension for the subtable report.
+     * @api
+     */
+    public function getThirdLeveltableDimension()
+    {
+        if (empty($this->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
+
+        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
+        if (empty($subtableReport) || empty($subtableReport->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subSubtableReportModule, $subSubtableReportAction) = $subtableReport->getSubtableApiMethod();
+
+        $subSubtableReport = ReportsProvider::factory($subSubtableReportModule, $subSubtableReportAction);
+        if (empty($subSubtableReport)) {
+            return null;
+        }
+
+        return $subSubtableReport->getDimension();
     }
 
     /**
@@ -843,11 +928,17 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
-            return !$report->isSubtableReport()
+        $provider = new ReportsProvider();
+        $reports = $provider->getAllReports();
+        foreach ($reports as $report) {
+            if (!$report->isSubtableReport()
                 && $report->getDimension()
-                && $report->getDimension()->getId() == $dimension->getId();
-        });
+                && $report->getDimension()->getId() == $dimension->getId()
+            ) {
+                return $report;
+            }
+        }
+        return null;
     }
 
     /**
@@ -913,6 +1004,42 @@ class Report
      */
     public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
     {
-        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+        /** @var ProcessedMetric[] $metrics */
+        $metrics = self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+
+        // sort metrics w/ dependent metrics calculated before the metrics that depend on them
+        $result = [];
+        self::processedMetricDfs($metrics, function ($metricName) use (&$result, $metrics) {
+            $result[$metricName] = $metrics[$metricName];
+        });
+        return $result;
+    }
+
+    /**
+     * @param ProcessedMetric[] $metrics
+     * @param $callback
+     * @param array $visited
+     */
+    private static function processedMetricDfs($metrics, $callback, &$visited = [], $toVisit = null)
+    {
+        $toVisit = $toVisit === null ? $metrics : $toVisit;
+        foreach ($toVisit as $name => $metric) {
+            if (!empty($visited[$name])) {
+                continue;
+            }
+
+            $visited[$name] = true;
+
+            $dependentMetrics = [];
+            foreach ($metric->getDependentMetrics() as $metricName) {
+                if (!empty($metrics[$metricName])) {
+                    $dependentMetrics[$metricName] = $metrics[$metricName];
+                }
+            }
+
+            self::processedMetricDfs($metrics, $callback, $visited, $dependentMetrics);
+
+            $callback($name);
+        }
     }
 }

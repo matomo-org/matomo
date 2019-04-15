@@ -25,9 +25,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
-		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
+		<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
-		<region>P3</region>
+		<region>WAR</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
@@ -38,7 +38,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -56,9 +56,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>city==Nuneaton+and+Bedworth;regionCode==P3;countryCode==gb</segment>
+		<segment>city==Nuneaton+and+Bedworth;regionCode==WAR;countryCode==gb</segment>
 		<city_name>Nuneaton and Bedworth</city_name>
-		<region>P3</region>
+		<region>WAR</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>

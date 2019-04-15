@@ -167,14 +167,12 @@ class Archiver extends \Piwik\Plugin\Archiver
             )
         );
 
-        $where = "log_link_visit_action.server_time >= ?
-                    AND log_link_visit_action.server_time <= ?
-                    AND log_link_visit_action.idsite = ?
-                    AND log_link_visit_action.idaction_event_category IS NOT NULL";
+        $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.idaction_event_category IS NOT NULL";
 
-        $groupBy = "log_action_event_category.idaction,
-                    log_action_event_action.idaction,
-                    log_action_event_name.idaction";
+        $groupBy = "log_link_visit_action.idaction_event_category,
+                    log_link_visit_action.idaction_event_action,
+                    log_link_visit_action.idaction_name";
 
         $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC";
 

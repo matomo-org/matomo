@@ -123,6 +123,20 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->config->addSparkline($searchEngineParams, $values, $descriptions, @$metrics['visitorsFromSearchEnginesEvolution']);
 
+        // SOCIAL NETWORKS
+        $metrics['visitorsFromSocialNetworks'] = $numberFormatter->formatNumber($metrics['visitorsFromSocialNetworks']);
+        $values = array($metrics['visitorsFromSocialNetworks']);
+        $descriptions = array(Piwik::translate('Referrers_TypeSocialNetworks'));
+
+        if (!empty($metrics['visitorsFromSocialNetworksPercent'])) {
+            $metrics['visitorsFromSocialNetworksPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromSocialNetworksPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromSocialNetworksPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
+        }
+        $socialNetworkParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_SOCIAL_NETWORK);
+
+        $view->config->addSparkline($socialNetworkParams, $values, $descriptions, @$metrics['visitorsFromSocialNetworksEvolution']);
+
 
         // CAMPAIGNS
         $metrics['visitorsFromCampaigns'] = $numberFormatter->formatNumber($metrics['visitorsFromCampaigns']);
@@ -147,6 +161,15 @@ class Controller extends \Piwik\Plugin\Controller
         $description = Piwik::translate('Referrers_DistinctSearchEngines');
 
         $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSearchEnginesEvolution']);
+
+
+        // DISTINCT SOCIAL NETWORKS
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctSocialNetworksGraph');
+        $value = $distinctMetrics['numberDistinctSocialNetworks'];
+        $value = $numberFormatter->formatNumber($value);
+        $description = Piwik::translate('Referrers_DistinctSocialNetworks');
+
+        $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSocialNetworksEvolution']);
 
 
         // DISTINCT WEBSITES
@@ -199,10 +222,11 @@ class Controller extends \Piwik\Plugin\Controller
             "Referrers.getReferrerType", array('disable_queued_filters' => '1', 'date' => $date));
 
         $nameToColumnId = array(
-            'visitorsFromSearchEngines' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-            'visitorsFromDirectEntry'   => Common::REFERRER_TYPE_DIRECT_ENTRY,
-            'visitorsFromWebsites'      => Common::REFERRER_TYPE_WEBSITE,
-            'visitorsFromCampaigns'     => Common::REFERRER_TYPE_CAMPAIGN,
+            'visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
+            'visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+            'visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
+            'visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
+            'visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
         );
         $return = array();
         foreach ($nameToColumnId as $nameVar => $columnId) {
@@ -217,10 +241,11 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     protected $referrerTypeToLabel = array(
-        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'Referrers_DirectEntry',
-        Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referrers_SearchEngines',
-        Common::REFERRER_TYPE_WEBSITE       => 'Referrers_Websites',
-        Common::REFERRER_TYPE_CAMPAIGN      => 'Referrers_Campaigns',
+        Common::REFERRER_TYPE_DIRECT_ENTRY   => 'Referrers_DirectEntry',
+        Common::REFERRER_TYPE_SEARCH_ENGINE  => 'Referrers_SearchEngines',
+        Common::REFERRER_TYPE_SOCIAL_NETWORK => 'Referrers_Socials',
+        Common::REFERRER_TYPE_WEBSITE        => 'Referrers_Websites',
+        Common::REFERRER_TYPE_CAMPAIGN       => 'Referrers_Campaigns',
     );
 
     public function getEvolutionGraph($typeReferrer = false, array $columns = array(), array $defaultColumns = array())
@@ -261,6 +286,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($visibleRows !== false) {
             // this happens when the row picker has been used
             $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
+            $visibleRows = array_map('urldecode', $visibleRows);
 
             // typeReferrer is redundant if rows are defined, so make sure it's not used
             $view->config->custom_parameters['typeReferrer'] = false;
@@ -299,6 +325,14 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderView($view);
     }
 
+    public function getLastDistinctSocialNetworksGraph()
+    {
+        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSocialNetworks");
+        $view->config->translations['Referrers_distinctSocialNetworks'] = ucfirst($this->translator->translate('Referrers_DistinctSocialNetworks'));
+        $view->config->columns_to_display = array('Referrers_distinctSocialNetworks');
+        return $this->renderView($view);
+    }
+
     public function getLastDistinctKeywordsGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctKeywords");
@@ -321,127 +355,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->translations['Referrers_distinctCampaigns'] = ucfirst($this->translator->translate('Referrers_DistinctCampaigns'));
         $view->config->columns_to_display = array('Referrers_distinctCampaigns');
         return $this->renderView($view);
-    }
-
-    function getKeywordsForPage()
-    {
-        Piwik::checkUserHasViewAccess($this->idSite);
-
-        $requestUrl = '&date=previous1'
-            . '&period=week'
-            . '&idSite=' . $this->idSite;
-
-        $topPageUrlRequest = $requestUrl
-            . '&method=Actions.getPageUrls'
-            . '&filter_limit=50'
-            . '&format=original';
-        $request = new Request($topPageUrlRequest);
-        $request = $request->process();
-        /** @var $request Map */
-        $tables = $request->getDataTables();;
-
-        $topPageUrl = false;
-        $first = key($tables);
-        if (!empty($first)) {
-            $topPageUrls = $tables[$first];
-            $topPageUrls = $topPageUrls->getRowsMetadata('url');
-            $tmpTopPageUrls = array_values($topPageUrls);
-            $topPageUrl = current($tmpTopPageUrls);
-        }
-        if (empty($topPageUrl)) {
-            $topPageUrl = $this->site->getMainUrl();
-        }
-        $url = $topPageUrl;
-
-        // HTML
-        $api = SettingsPiwik::getPiwikUrl()
-            . '?module=API&method=Referrers.getKeywordsForPageUrl'
-            . '&format=json'
-            . '&filter_limit=10'
-            . '&token_auth=' . Piwik::getCurrentUserTokenAuth();
-
-        $api .= $requestUrl;
-        $code = '
-// This function will call the API to get best keyword for current URL.
-// Then it writes the list of best keywords in a HTML list
-function DisplayTopKeywords($url = "")
-{
-	// Do not spend more than 1 second fetching the data
-	@ini_set("default_socket_timeout", $timeout = 1);
-	// Get the Keywords data
-	$url = empty($url) ? "http://". $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
-	$api = "' . $api . '&url=" . urlencode($url);
-	$keywords = @json_decode(file_get_contents($api), $assoc = true);
-	Common::sendHeader(\'Content-Type: text/html; charset=utf-8\', true);
-	if ($keywords === false || isset($keywords["result"])) {
-		// DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
-		// echo "Error while fetching the <a href=\'$api\'>Top Keywords from Piwik</a>";
-		return;
-	}
-
-	// Display the list in HTML
-	$url = htmlspecialchars($url, ENT_QUOTES, \'UTF-8\');
-	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
-	foreach($keywords as $keyword) {
-		$output .= "<li>". $keyword . "</li>";
-	}
-	if (empty($keywords)) { $output .= "Nothing yet..."; }
-	$output .= "</ul>";
-	echo $output;
-}
-';
-
-        $jsonRequest = str_replace('format=php', 'format=json', $api);
-        echo "<p style='padding: 0 12px;'>This widget is designed to work in your website directly.
-		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
-		<p style='padding: 0 12px;'>
-		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a rel='noreferrer' target='_blank' href='$topPageUrl'>$topPageUrl</a>,
-		in format JSON: you would dynamically fetch the data using <a rel='noreferrer' target='_blank' href='$jsonRequest&url=" . urlencode($topPageUrl) . "'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
-
-		<p style='padding: 0 12px;'><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
-		If you run this code in your page $topPageUrl, it would output the following:";
-
-        echo "<div style='width:400px;margin:10px 10px 0 10px;padding:10px;border:1px solid #333;'>";
-        function DisplayTopKeywords($url = "", $api)
-        {
-            // Do not spend more than 1 second fetching the data
-            @ini_set("default_socket_timeout", $timeout = 1);
-            // Get the Keywords data
-            $url = empty($url) ? "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] : $url;
-            $api = $api . "&url=" . urlencode($url);
-            $keywords = @json_decode(file_get_contents($api), $assoc = true);
-            Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
-            if ($keywords === false || isset($keywords["result"]) || !is_array($keywords)) {
-                // DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
-                //echo "Error while fetching the <a href=\'".$api."\'>Top Keywords from Piwik</a>";
-                return;
-            }
-
-            // Display the list in HTML
-            $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
-            $output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
-            foreach ($keywords as $keyword) {
-                $output .= "<li>" . $keyword . "</li>";
-            }
-            if (empty($keywords)) {
-                $output .= "Nothing yet...";
-            }
-            $output .= "</ul>";
-            echo $output;
-        }
-
-        DisplayTopKeywords($topPageUrl, $api);
-
-        echo "</div><br/>
-		<p style='padding: 0 12px;'>Here is the PHP function that you can paste in your pages:</P>
-		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\n DisplayTopKeywords();</textarea>
-		";
-
-        echo "
-		<p style='padding: 12px;'><strong>Notes</strong>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
-		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
-		</p>
-		";
     }
 
     /**
@@ -486,11 +399,12 @@ function DisplayTopKeywords($url = "")
     private function getDistinctReferrersMetrics($date = false)
     {
         $propertyToAccessorMapping = array(
-            'numberDistinctSearchEngines' => 'getNumberOfDistinctSearchEngines',
-            'numberDistinctKeywords'      => 'getNumberOfDistinctKeywords',
-            'numberDistinctWebsites'      => 'getNumberOfDistinctWebsites',
-            'numberDistinctWebsitesUrls'  => 'getNumberOfDistinctWebsitesUrls',
-            'numberDistinctCampaigns'     => 'getNumberOfDistinctCampaigns',
+            'numberDistinctSearchEngines'  => 'getNumberOfDistinctSearchEngines',
+            'numberDistinctSocialNetworks' => 'getNumberOfDistinctSocialNetworks',
+            'numberDistinctKeywords'       => 'getNumberOfDistinctKeywords',
+            'numberDistinctWebsites'       => 'getNumberOfDistinctWebsites',
+            'numberDistinctWebsitesUrls'   => 'getNumberOfDistinctWebsitesUrls',
+            'numberDistinctCampaigns'      => 'getNumberOfDistinctCampaigns',
         );
 
         $result = array();

@@ -31,7 +31,6 @@
 </div>
 
 <script type="text/javascript">
-    var timeZoneDifference = {{ timeZoneDifference }};
     var ReportPlugin = {};
     ReportPlugin.defaultPeriod = '{{ defaultPeriod }}';
     ReportPlugin.defaultHour = '{{ defaultHour }}';
@@ -40,6 +39,8 @@
     ReportPlugin.reportList = {{ reportsJSON | raw }};
     ReportPlugin.createReportString = "{{ 'ScheduledReports_CreateReport'|translate }}";
     ReportPlugin.updateReportString = "{{ 'ScheduledReports_UpdateReport'|translate }}";
+    ReportPlugin.defaultEvolutionPeriodN = {{ defaultEvolutionPeriodN|json_encode|raw }};
+    ReportPlugin.periodTranslations = {{ periodTranslations|json_encode|raw }};
 </script>
 <style type="text/css">
     .reportCategory {

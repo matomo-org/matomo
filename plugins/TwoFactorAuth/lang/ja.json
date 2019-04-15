@@ -1,0 +1,18 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "2ファクター認証",
+        "TwoFAShort": "2FA",
+        "TwoFactorAuthenticationIsEnabled": "現在、2ファクター認証が有効です。",
+        "TwoFactorAuthenticationIsDisabled": "2ファクター認証は現在無効です。",
+        "ConfigureDifferentDevice": "別のデバイスを設定する",
+        "SetUpTwoFactorAuthentication": "2ファクター認証を設定する（2FA）",
+        "AuthenticationCode": "認証コード",
+        "Verify": "確認",
+        "DontHaveYourMobileDevice": "モバイルデバイスをお持ちではありませんか？",
+        "EnterRecoveryCodeInstead": "リカバリコードを入力してください",
+        "ShowRecoveryCodes": "リカバリコードを表示する",
+        "ConfirmSetup": "セットアップを確認する",
+        "DisableTwoFA": "2ファクター認証を無効にする",
+        "EnableTwoFA": "2ファクター認証を有効にする"
+    }
+}

@@ -175,6 +175,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'disable_generic_filters',
             'columns',
             'flat',
+            'totals',
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
@@ -242,13 +243,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
 
+        var ajaxRequest = new ajaxHelper();
+
+        if (self.param.totalRows) {
+            ajaxRequest.addParams({'totalRows': self.param.totalRows}, 'post');
+            delete self.param.totalRows;
+        }
+
         var params = {};
         for (var key in self.param) {
             if (typeof self.param[key] != "undefined" && self.param[key] != '')
                 params[key] = self.param[key];
         }
-
-        var ajaxRequest = new ajaxHelper();
 
         ajaxRequest.addParams(params, 'get');
         ajaxRequest.withTokenInUrl();
@@ -270,7 +276,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
         ajaxRequest.setFormat('html');
 
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     },
 
     // Function called when the AJAX request is successful
@@ -331,6 +337,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.preBindEventsAndApplyStyleHook(domElem);
         self.handleSort(domElem);
         self.handleLimit(domElem);
+        self.handlePeriod(domElem);
         self.handleOffsetInformation(domElem);
         self.handleAnnotationsButton(domElem);
         self.handleEvolutionAnnotations(domElem);
@@ -621,20 +628,36 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleLimit: function (domElem) {
-            var tableRowLimits = piwik.config.datatable_row_limits,
-            evolutionLimits =
-            {
-                day: [8, 30, 60, 90, 180, 365, 500],
-                week: [4, 12, 26, 52, 104, 500],
-                month: [3, 6, 12, 24, 36, 120],
-                year: [3, 5, 10]
-            };
+        var tableRowLimits = piwik.config.datatable_row_limits,
+        evolutionLimits =
+        {
+            day: [8, 30, 60, 90, 180],
+            week: [4, 12, 26, 52, 104],
+            month: [3, 6, 12, 24, 36, 120],
+            year: [3, 5, 10]
+        };
+
+        // only allow big evolution limits for non flattened reports
+        if (!parseInt(this.param.flat)) {
+            evolutionLimits.day.push(365, 500);
+            evolutionLimits.week.push(500);
+        }
 
         var self = this;
         if (typeof self.parentId != "undefined" && self.parentId != '') {
             // no limit selector for subtables
             $('.limitSelection', domElem).remove();
             return;
+        }
+
+        if (self.props.disable_all_rows_filter_limit) { // remove the -1 value from the limits array
+            var tempTableRowLimits = [];
+            tableRowLimits.forEach(function (limit) {
+                if (limit != -1) {
+                    tempTableRowLimits.push(limit);
+                }
+            });
+            tableRowLimits = tempTableRowLimits;
         }
 
         // configure limit control
@@ -704,10 +727,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             $limitSelect.material_select();
+
+            $('.limitSelection input', domElem).attr('title', _pk_translate('General_RowsToDisplay'));
         }
         else {
             $('.limitSelection', domElem).hide();
         }
+    },
+    handlePeriod: function (domElem) {
+        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
+
+        var self = this;
+        $periodSelect.click(function () {
+            var period = $(this).attr('data-period');
+            if (!period || period == self.param['period']) {
+                return;
+            }
+
+            self.param['period'] = period;
+            self.reloadAjaxDataTable();
+        });
     },
 
     // if sorting the columns is enabled, when clicking on a column,
@@ -902,7 +941,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
-                    var str = sprintf(_pk_translate('CoreHome_PageOf'), offset + '-' + offsetEndDisp, totalRows);
+                    var str = sprintf(_pk_translate('General_Pagination'), offset, offsetEndDisp, totalRows);
                     $(this).text(str);
                 } else {
                     $(this).hide();
@@ -1163,157 +1202,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.graphViewEnabled = 0;
         self.graphViewStartingThreads = 0;
         self.graphViewStartingKeep = false; //show keep flag
-
-        //handle exportToFormat icons
-        self.exportToFormat = null;
-        $('.exportToFormatIcons a', domElem).click(function () {
-            self.exportToFormat = {};
-            self.exportToFormat.lastActiveIcon = this;
-            self.exportToFormat.target = $(this).parent().siblings('.exportToFormatItems').show('fast');
-            self.exportToFormat.obj = $(this).hide();
-        });
-
-        //close exportToFormat onClickOutside
-        self._bodyMouseUp = function (e) {
-            if (self.exportToFormat) {
-                self.exportToFormatHide(domElem);
-            }
-        };
-        $('body').on('mouseup', self._bodyMouseUp);
-
-        $('.exportToFormatItems a', domElem)
-            // prevent click jacking attacks by dynamically adding the token auth when the link is clicked
-            .click(function () {
-                $(this).attr('href', function () {
-                    var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
-
-                    var limit = $('.limitSelection>div>span', domElem).attr('value');
-                    var defaultLimit = $(this).attr('filter_limit');
-                    if (!limit || 'undefined' === limit || defaultLimit == -1) {
-                        limit = defaultLimit;
-                    }
-                    url += '&filter_limit=' + limit;
-
-                    return url;
-                })
-            })
-            .attr('href', function () {
-                var format = $(this).attr('format');
-                var method = $(this).attr('methodToCall');
-                var params = $(this).attr('requestParams');
-
-                if (params) {
-                    params = JSON.parse(params)
-                } else {
-                    params = {};
-                }
-
-                var segment = self.param.segment;
-                var label = self.param.label;
-                var idGoal = self.param.idGoal;
-                var idDimension = self.param.idDimension;
-                var param_date = self.param.date;
-                var date = $(this).attr('date');
-                if (typeof date != 'undefined') {
-                    param_date = date;
-                }
-                if (typeof self.param.dateUsedInGraph != 'undefined') {
-                    param_date = self.param.dateUsedInGraph;
-                }
-                var period = self.param.period;
-
-                var formatsUseDayNotRange = piwik.config.datatable_export_range_as_day.toLowerCase();
-                if (!format) {
-                    // eg export as image has no format
-                    return;
-                }
-
-                if (formatsUseDayNotRange.indexOf(format.toLowerCase()) != -1
-                    && self.param.period == 'range') {
-                    period = 'day';
-                }
-
-                // Below evolution graph, show daily exports
-                if(self.param.period == 'range'
-                    && self.param.viewDataTable == "graphEvolution") {
-                    period = 'day';
-                }
-
-                var str = 'index.php?module=API'
-                    + '&method=' + method
-                    + '&format=' + format
-                    + '&idSite=' + self.param.idSite
-                    + '&period=' + period
-                    + '&date=' + param_date
-                    + ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
-                    + ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
-
-                if ($.isPlainObject(params)) {
-                    $.each(params, function (index, param) {
-                        str += '&' + index + '=' + encodeURIComponent(param);
-                    });
-                }
-
-                if (typeof self.param.flat != "undefined") {
-                    str += '&flat=' + (self.param.flat == 0 ? '0' : '1');
-                    if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows == '1') {
-                        str += '&include_aggregate_rows=1';
-                    }
-                    if (!self.param.flat
-                        && typeof self.param.filter_pattern_recursive != "undefined"
-                        && self.param.filter_pattern_recursive) {
-                        str += '&expanded=1';
-                    }
-
-                } else {
-                    str += '&expanded=1';
-                }
-                if (self.param.pivotBy) {
-                    str += '&pivotBy=' + self.param.pivotBy + '&pivotByColumnLimit=20';
-                    if (self.props.pivot_by_column) {
-                        str += '&pivotByColumn=' + self.props.pivot_by_column;
-                    }
-                }
-                if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
-                    str += '&translateColumnNames=1&language=' + piwik.language;
-                }
-                if (typeof segment != 'undefined') {
-                    str += '&segment=' + segment;
-                }
-                // Export Goals specific reports
-                if (typeof idGoal != 'undefined'
-                    && idGoal != '-1') {
-                    str += '&idGoal=' + idGoal;
-                }
-                // Export Dimension specific reports
-                if (typeof idDimension != 'undefined'
-                    && idDimension != '-1') {
-                    str += '&idDimension=' + idDimension;
-                }
-                if (label) {
-                    label = label.split(',');
-
-                    if (label.length > 1) {
-                        for (var i = 0; i != label.length; ++i) {
-                            str += '&label[]=' + encodeURIComponent(label[i]);
-                        }
-                    } else {
-                        str += '&label=' + encodeURIComponent(label[0]);
-                    }
-                }
-                return str;
-            }
-        );
-    },
-
-    exportToFormatHide: function (domElem, noAnimation) {
-        var self = this;
-        if (self.exportToFormat) {
-            var animationSpeed = noAnimation ? 0 : 'fast';
-            self.exportToFormat.target.hide(animationSpeed);
-            self.exportToFormat.obj.show(animationSpeed);
-            self.exportToFormat = null;
-        }
     },
 
     handleConfigurationBox: function (domElem, callbackSuccess) {
@@ -1413,6 +1301,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             })
             .click(generateClickCallback('flat'));
 
+        // handle flatten
+        $('.dataTableShowTotalsRow', domElem)
+            .each(function () {
+                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
+            })
+            .click(generateClickCallback('keep_totals_row'));
+
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {
                 setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows',
@@ -1472,22 +1367,25 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
 
-    // Tell parent widget that the parameters of this table was updated,
     notifyWidgetParametersChange: function (domWidget, parameters) {
-        var widget = $(domWidget).closest('[widgetId]');
+        var widget = $(domWidget).closest('[widgetId],[containerid]');
         // trigger setParameters event on base element
 
-        if (widget && widget.length) {
+        // Tell parent widget that the parameters of this table were updated, but only if we're not part of a widget
+        // container. widget containers send ajax requests for each child widget, and the child widgets' parameters
+        // are not saved with the container widget.
+        if (widget && widget.length && widget[0].hasAttribute('widgetId')) {
             widget.trigger('setParameters', parameters);
         } else {
-
+            var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
             var reportId = $(domWidget).closest('[data-report]').attr('data-report');
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({
                 module: 'CoreHome',
                 action: 'saveViewDataTableParameters',
-                report_id: reportId
+                report_id: reportId,
+                containerId: containerId
             }, 'get');
             ajaxRequest.withTokenInUrl();
             ajaxRequest.addParams({
@@ -1495,7 +1393,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }, 'post');
             ajaxRequest.setCallback(function () {});
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         }
     },
 
@@ -1755,12 +1653,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
+            var $title = '';
             var $headline = domElem.prev('h2');
-            if (!$headline.length) {
-                return;
+
+            if ($headline.length) {
+                $title = $headline.find('.title:not(.ng-hide)');
+            } else {
+                var $widget = domElem.parents('.widget');
+                if ($widget.length) {
+                    $title = $widget.find('.widgetName > span');
+                }
             }
 
-            var $title = $headline.find('.title:not(.ng-hide)');
             if ($title.length) {
                 $title.text(relatedReportName);
 
@@ -1847,7 +1751,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleSummaryRow: function (domElem) {
-        var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer"  target="_blank">', '</a>)']);
+        var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
             var labelSpan = $(this).find('.label .value');
@@ -2056,6 +1960,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.filter_sort_column;
     delete dataTable.param.filter_sort_order;
     delete dataTable.param.columns;
+    delete dataTable.param.totals;
     dataTable.reloadAjaxDataTable();
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
@@ -2085,6 +1990,7 @@ DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceV
 DataTable.switchToGraph = function (dataTable, viewDataTable) {
     var filters = dataTable.resetAllFilters();
     dataTable.param.flat = filters.flat;
+    dataTable.param.keep_totals_row = filters.keep_totals_row;
     dataTable.param.columns = filters.columns;
 
     dataTable.param.viewDataTable = viewDataTable;

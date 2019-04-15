@@ -21,7 +21,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 class Pecl extends GeoIp
 {
     const ID = 'geoip_pecl';
-    const TITLE = 'GeoIP (PECL)';
+    const TITLE = 'GeoIP Legacy (PECL)';
 
     /**
      * For tests.
@@ -217,7 +217,7 @@ class Pecl extends GeoIp
     {
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_164">'
+        $installDocs = '<a rel="noreferrer noopener"  target="_blank" href="https://matomo.org/faq/how-to/#faq_164">'
             . Piwik::translate('UserCountry_HowToInstallGeoIpPecl')
             . '</a>';
 
@@ -258,7 +258,7 @@ class Pecl extends GeoIp
                      'description'   => $desc,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage,
-                     'order'         => 3);
+                     'order'         => 13);
     }
 
     /**

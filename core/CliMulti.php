@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
  */
 class CliMulti
 {
+    const BASE_WAIT_TIME = 250000; // 250 * 1000 = 250ms
 
     /**
      * If set to true or false it will overwrite whether async is supported or not.
@@ -57,6 +58,11 @@ class CliMulti
     private $urlToPiwik = null;
 
     private $phpCliOptions = '';
+
+    /**
+     * @var callable
+     */
+    private $onProcessFinish = null;
 
     public function __construct()
     {
@@ -126,12 +132,21 @@ class CliMulti
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
+            $shouldStart = null;
             if ($url instanceof Request) {
-                $url->start();
+                $shouldStart = $url->start();
             }
 
             $cmdId = $this->generateCommandId($url) . $index;
-            $this->executeUrlCommand($cmdId, $url);
+
+            if ($shouldStart === Request::ABORT) {
+                // output is needed to ensure same order of url to response
+                $output = new Output($cmdId);
+                $output->write(serialize(array('aborted' => '1')));
+                $this->outputs[] = $output;
+            } else {
+                $this->executeUrlCommand($cmdId, $url);
+            }
         }
     }
 
@@ -148,13 +163,18 @@ class CliMulti
         $this->outputs[] = $output;
     }
 
-    private function buildCommand($hostname, $query, $outputFile)
+    private function buildCommand($hostname, $query, $outputFile, $doEsacpeArg = true)
     {
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
 
-        return sprintf('%s %s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
-                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), $superuserCommand, escapeshellarg($query), $outputFile);
+        if ($doEsacpeArg) {
+            $hostname = escapeshellarg($hostname);
+            $query = escapeshellarg($query);
+        }
+
+        return sprintf('%s %s %s/console climulti:request -q --matomo-domain=%s %s %s > %s 2>&1 &',
+                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, $hostname, $superuserCommand, $query, $outputFile);
     }
 
     private function getResponse()
@@ -197,6 +217,11 @@ class CliMulti
             if ($process->hasFinished()) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
+
+                if ($this->onProcessFinish) {
+                    $onProcessFinish = $this->onProcessFinish;
+                    $onProcessFinish($pid);
+                }
             }
         }
 
@@ -266,12 +291,44 @@ class CliMulti
         return StaticContainer::get('path.tmp') . '/climulti';
     }
 
+    public function isCommandAlreadyRunning($url)
+    {
+        if (defined('PIWIK_TEST_MODE')) {
+            return false; // skip check in tests as it might result in random failures
+        }
+
+        if (!$this->supportsAsync) {
+            // we cannot detect if web archive is still running
+            return false;
+        }
+
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => 'removeme'));
+        $hostname = Url::getHost($checkIfTrusted = false);
+        $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
+
+        $currentlyRunningJobs = `ps aux`;
+
+        $posStart = strpos($commandToCheck, 'console climulti');
+        $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
+        $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
+        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
+        $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
+
+        if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
+            Log::debug($shortendCommand . ' is already running');
+            return true;
+        }
+
+        return false;
+    }
+
     private function executeAsyncCli($url, Output $output, $cmdId)
     {
         $this->processes[] = new Process($cmdId);
 
         $url = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId, 'runid' => getmypid()));
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
@@ -344,11 +401,15 @@ class CliMulti
     {
         $this->start($piwikUrls);
 
+        $startTime = time();
         do {
-            usleep(100000); // 100 * 1000 = 100ms
+            $elapsed = time() - $startTime;
+            $timeToWait = $this->getTimeToWaitBeforeNextCheck($elapsed);
+
+            usleep($timeToWait);
         } while (!$this->hasFinished());
 
-        $results = $this->getResponse($piwikUrls);
+        $results = $this->getResponse();
         $this->cleanup();
 
         self::cleanupNotRemovedFiles();
@@ -373,5 +434,22 @@ class CliMulti
     public function setUrlToPiwik($urlToPiwik)
     {
         $this->urlToPiwik = $urlToPiwik;
+    }
+
+    public function onProcessFinish(callable $callback)
+    {
+        $this->onProcessFinish = $callback;
+    }
+
+    // every minute that passes adds an extra 100ms to the wait time. so 5 minutes results in 500ms extra, 20mins results in 2s extra.
+    private function getTimeToWaitBeforeNextCheck($elapsed)
+    {
+        $minutes = floor($elapsed / 60);
+        return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
+    }
+
+    public static function isCliMultiRequest()
+    {
+        return Common::getRequestVar('pid', false) !== false;
     }
 }

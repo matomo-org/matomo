@@ -2,21 +2,27 @@
     "Transitions": {
         "BouncesInline": "%s hemen çıkma",
         "DirectEntries": "Doğrudan Girişler",
+        "Transitions": "Dönüşümler",
         "ErrorBack": "Önceki işleme dön",
         "ExitsInline": "%s çıkış",
         "NumPageviews": "%s sayfa görüntüleme",
         "NumDownloads": "%s indirme",
         "NumOutlinks": "%s giden bağlantı",
+        "TopX": "İlk %s etiket",
+        "FeatureDescription": "Dönüşümler raporu, kullanıcıların belirli bir sayfaya gelmeden önce ve sonra yaptıkları işlemleri görüntüler. Bu bölümde, güçlü Dönüşümler raporuna nasıl erişileceğini ve raporun içeriğini nasıl anlayıp kullanabileceğinizi anlatan bilgiler bulunur.",
+        "AvailableInOtherReports": "Dönüşümlerin ayrıca şu raporlarda da satır işlemi olarak bulunduğunu biliyor musunuz:",
+        "AvailableInOtherReports2": "Bu raporlardaki ilgili satırın üzerine gelip dönüşüm simgesine %s tıklayarak görüntüleyebilirsiniz.",
         "FromCampaigns": "Kampanyalardan Geçişler",
         "FromPreviousPages": "İç Sayfalardan",
         "FromPreviousPagesInline": "%s iç sayfalardan",
         "FromPreviousSiteSearches": "İç Aramalardan",
         "FromPreviousSiteSearchesInline": "%s iç aramalardan",
         "FromSearchEngines": "Arama Motorlarından",
+        "FromSocialNetworks": "Sosyal Ağlardan",
         "FromWebsites": "Web Sitelerinden",
         "IncomingTraffic": "Gelen Trafik",
         "LoopsInline": "%s sayfa yüklemesi",
-        "NoDataForAction": "%s için herhangi bir veri yok",
+        "NoDataForAction": "%s için henüz bir veri yok",
         "NoDataForActionDetails": "%s zaman aralığından işlem için hiç bir sayfa görüntülenmemiş ya da geçersiz.",
         "OutgoingTraffic": "Giden Trafik",
         "PluginDescription": "Bu rapor, işlem raporları bölümündeki yeni simgesi ile erişilebilen yeni geçiş raporunda her sayfa adresi için önceki ve sonraki işlemleri içerir.",
@@ -26,6 +32,7 @@
         "ToFollowingSiteSearches": "İç Aramalar",
         "ToFollowingSiteSearchesInline": "%s iç arama",
         "XOfAllPageviews": "Bu sayfanın tüm görüntülenmelerinden %s",
-        "XOutOfYVisits": "%1$s (toplam %2$s)"
+        "XOutOfYVisits": "%1$s (toplam %2$s)",
+        "PageURLTransitions": "Sayfa Adresi Dönüşümleri"
     }
 }

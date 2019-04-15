@@ -150,7 +150,7 @@ class Url
             }
 
             // strip path_info
-            if ($removePathInfo && isset($_SERVER['PATH_INFO'])) {
+            if ($removePathInfo && !empty($_SERVER['PATH_INFO'])) {
                 $url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
             }
         }
@@ -572,7 +572,14 @@ class Url
             return false;
         }
 
-        return in_array($host, Url::getLocalHostnames(), true);
+        // remove port
+        $hostWithoutPort = explode(':', $host);
+        array_pop($hostWithoutPort);
+        $hostWithoutPort = implode(':', $hostWithoutPort);
+
+        $localHostnames = Url::getLocalHostnames();
+        return in_array($host, $localHostnames, true)
+            || in_array($hostWithoutPort, $localHostnames, true);
     }
 
     public static function getTrustedHostsFromConfig()
@@ -720,6 +727,14 @@ class Url
      */
     protected static function getCurrentSchemeFromRequestHeader()
     {
+        if (isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) === 'https') {
+            return 'https';
+        }
+
+        if (isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) === 'https') {
+            return 'https';
+        }
+
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http') {
             return 'http';
         }

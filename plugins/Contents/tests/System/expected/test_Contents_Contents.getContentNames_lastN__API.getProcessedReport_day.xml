@@ -48,7 +48,7 @@
 			</row>
 			<row>
 				<label>Video Ad</label>
-				<nb_impressions>2</nb_impressions>
+				<nb_impressions>4</nb_impressions>
 				<nb_interactions>0</nb_interactions>
 				<interaction_rate>0%</interaction_rate>
 			</row>
@@ -86,7 +86,9 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>16</nb_visits>
 		<nb_uniq_visitors>16</nb_uniq_visitors>
+		<nb_visits>16</nb_visits>
+		<nb_impressions>18</nb_impressions>
+		<nb_interactions>6</nb_interactions>
 	</reportTotal>
 </result>

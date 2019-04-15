@@ -5,7 +5,7 @@
         "EmailReports": "Senda skýrslur með tölvupósti",
         "EmailSchedule": "Tímaáætlun fyrir tölvupóst",
         "MonthlyScheduleHelp": "Mánaðarleg tímaáætlun: skýrsla er send fyrsta dag hvers mánaðar.",
-        "PiwikReports": "Piwik skýrslur",
+        "PiwikReports": "Matomo skýrslur",
         "SendReportNow": "Senda skýrslu strax",
         "SendReportTo": "Senda skýrslu til",
         "SentToMe": "Senda mér",

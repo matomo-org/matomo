@@ -4,7 +4,6 @@
         "ClickHereSettings": "Vajuta siia, et minna %s seadete lehele.",
         "CurrentDBSize": "Praegune andmebaasi suurus",
         "DBPurged": "Andmebaas tühjendatud.",
-        "DeleteDataDescription": "Sa saad seadistada Matomou regulaarselt kustutama vanu külastajate logisid ja\/või töödeldud raporteid, et hoida oma andmebaasi suurus väiksemana.",
         "DeleteDataInterval": "Kustuta vanad andmed iga",
         "DeleteDataSettings": "Kustuta vanad külastajate logid ja raportid",
         "EstimatedSpaceSaved": "Ennustatud kettaruumi sääst",
@@ -12,7 +11,6 @@
         "PurgeNow": "Tühjenda andmebaas kohe",
         "ReportsDataSavedEstimate": "Andmebaasi suurus",
         "TeaserHeadline": "Privaatsusseaded",
-        "UseDeleteLog": "Kustuta regulaarselt vanad külastajate logid andmebaasist",
         "UseDeleteReports": "Kustuta regulaarselt vanad raportid andmebaasist"
     }
 }

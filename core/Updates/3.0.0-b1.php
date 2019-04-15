@@ -11,7 +11,6 @@ namespace Piwik\Updates;
 
 use Piwik\Access;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
@@ -77,9 +76,10 @@ class Updates_3_0_0_b1 extends Updates
         $isEnabled = Option::get('enableUpdateCommunicationPlugins');
 
         Access::doAsSuperUser(function () use ($isEnabled) {
-            $settings = StaticContainer::get('Piwik\Plugins\CoreUpdater\SystemSettings');
-            $settings->sendPluginUpdateEmail->setValue(!empty($isEnabled));
-            $settings->save();
+            $table = Common::prefixTable('plugin_setting');
+            $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`) VALUES (?, ?, ?, ?)";
+            $bind = array('CoreUpdater', '', 'enable_plugin_update_communication', (int) !empty($isEnabled));
+            Db::query($sql, $bind);
         });
     }
 
@@ -134,7 +134,7 @@ class Updates_3_0_0_b1 extends Updates
         foreach ($options as $option) {
             $name = $option['option_name'];
             $pluginName = str_replace(array('Plugin_', '_Settings'), '', $name);
-            $values = @unserialize($option['option_value']);
+            $values = Common::safe_unserialize($option['option_value']);
 
             if (empty($values)) {
                 continue;

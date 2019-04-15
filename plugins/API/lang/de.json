@@ -11,6 +11,7 @@
         "UserAuthentication": "Benutzerauthentifizierung",
         "UsingTokenAuth": "Wenn Sie %1$s Daten mit einem Script, einem Crontab, etc. abrufen wollen, %2$s müssen Sie den Parameter %3$s an die URLs anhängen, deren API-Aufrufe eine Authentifizierung benötigen.",
         "Glossary": "Glossar",
-        "LearnAboutCommonlyUsedTerms": "Lernen Sie mehr über die häufig verwendeten Begriffe, um das Beste aus Ihren Matomo Analysen zu machen: %1$s und %2$s"
+        "LearnAboutCommonlyUsedTerms2": "Lernen Sie mehr über die häufig verwendeten Begriffe, um das Beste aus Ihren Matomo Analysen zu machen.",
+        "EvolutionMetricName": "%s Entwicklung"
     }
 }

@@ -160,7 +160,6 @@ a.rowevolution-startmulti {
 .rowevolution table.metrics td.text img {
     max-width: 16px;
     max-height: 16px;
-    vertical-align: bottom;
 }
 
 .multirowevolution table.metrics td.text {
@@ -179,11 +178,11 @@ a.rowevolution-startmulti {
 }
 
 .rowevolution table.metrics td.text span.good {
-    color: #008000;
+    color: #43a047;
 }
 
 .rowevolution table.metrics td.text span.bad {
-    color: #f00;
+    color: #D4291F;
 }
 
 .rowevolution .metric-selectbox,

@@ -46,8 +46,8 @@ abstract class Action
 
     private static $factoryPriority = array(
         self::TYPE_PAGE_URL,
-        self::TYPE_CONTENT,
         self::TYPE_SITE_SEARCH,
+        self::TYPE_CONTENT,
         self::TYPE_EVENT,
         self::TYPE_OUTLINK,
         self::TYPE_DOWNLOAD
@@ -197,13 +197,13 @@ abstract class Action
     protected function setActionUrl($url)
     {
         $this->rawActionUrl = PageUrl::getUrlIfLookValid($url);
-        $url = PageUrl::excludeQueryParametersFromUrl($url, $this->request->getIdSite());
+        $url2 = PageUrl::excludeQueryParametersFromUrl($url, $this->request->getIdSite());
 
-        $this->actionUrl = PageUrl::getUrlIfLookValid($url);
+        $this->actionUrl = PageUrl::getUrlIfLookValid($url2);
 
         if ($url != $this->rawActionUrl) {
             Common::printDebug(' Before was "' . $this->rawActionUrl . '"');
-            Common::printDebug(' After is "' . $url . '"');
+            Common::printDebug(' After is "' . $url2 . '"');
         }
     }
 
@@ -248,7 +248,7 @@ abstract class Action
 
     public function getIdActionUrl()
     {
-        $idUrl = $this->actionIdsCached['idaction_url'];
+        $idUrl = isset($this->actionIdsCached['idaction_url']) ? $this->actionIdsCached['idaction_url'] : 0;
         // note; idaction_url = 0 is displayed as "Page URL Not Defined"
         return (int)$idUrl;
     }
@@ -336,7 +336,7 @@ abstract class Action
             }
         }
 
-        $actions = array_filter($actions, 'count');
+        $actions = array_filter($actions);
 
         if (empty($actions)) {
             return;
@@ -393,7 +393,7 @@ abstract class Action
         }
 
         $customValue = $this->getCustomFloatValue();
-        if (!empty($customValue)) {
+        if ($customValue !== false && $customValue !== null && $customValue !== '') {
             $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 

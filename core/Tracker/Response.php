@@ -79,7 +79,7 @@ class Response
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Matomo page");
-            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");
@@ -138,6 +138,10 @@ class Response
         }
 
         $request = $_GET + $_POST;
+
+        if ($this->isHttpGetRequest()) {
+            Common::sendHeader('Cache-Control: no-store');
+        }
 
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
             Common::sendResponseCode(204);

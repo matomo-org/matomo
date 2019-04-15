@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[太长]",
         "TopLinkTooltip": "设置网站分析报表发送到邮箱或者手机!",
         "TopMenu": "邮件和短信报表",
-        "VerificationText": "代码为 %1$s。要验证电话号码及接收 Piwik 短信报表，请复制本代码到 Matomo > %2$s > %3$s 的表格中。"
+        "VerificationText": "代码为 %1$s。要验证电话号码及接收 Matomo 短信报表，请复制本代码到 Matomo > %2$s > %3$s 的表格中。"
     }
 }

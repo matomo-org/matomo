@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -330,7 +331,7 @@ class AnnotationList
             $serialized = Option::get($optionName);
 
             if ($serialized !== false) {
-                $result[$id] = @unserialize($serialized);
+                $result[$id] = Common::safe_unserialize($serialized);
                 if (empty($result[$id])) {
                     // in case unserialize failed
                     $result[$id] = array();
@@ -377,7 +378,7 @@ class AnnotationList
     /**
      * Returns true if the current user can modify or delete a specific annotation.
      *
-     * A user can modify/delete a note if the user has admin access for the site OR
+     * A user can modify/delete a note if the user has write access for the site OR
      * the user has view access, is not the anonymous user and is the user that
      * created the note in question.
      *
@@ -388,7 +389,7 @@ class AnnotationList
     public static function canUserModifyOrDelete($idSite, $annotation)
     {
         // user can save if user is admin or if has view access, is not anonymous & is user who wrote note
-        $canEdit = Piwik::isUserHasAdminAccess($idSite)
+        $canEdit = Piwik::isUserHasWriteAccess($idSite)
             || (!Piwik::isUserIsAnonymous()
                 && Piwik::getCurrentUserLogin() == $annotation['user']);
         return $canEdit;

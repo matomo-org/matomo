@@ -35,7 +35,13 @@
                     // .select() + focus and blur seems to not work on pre elements
                     var range = document.createRange();
                     range.selectNode(this);
-                    window.getSelection().addRange(range);
+                    var selection = window.getSelection();
+                    if (selection && selection.rangeCount > 0) {
+                        selection.removeAllRanges();
+                    }
+                    if (selection) {
+                        selection.addRange(range);
+                    }
                 }
 
                 function onBlurHandler(event) {

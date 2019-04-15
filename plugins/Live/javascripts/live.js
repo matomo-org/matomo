@@ -94,7 +94,7 @@
                     }
                 }
             });
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         /**
@@ -108,10 +108,28 @@
                 return;
             }
 
-            var items = $('li', $(data));
+            var items = $('li.visit', $(data));
             for (var i = items.length; i--;) {
                 this._parseItem(items[i]);
             }
+
+            this._initTooltips();
+        },
+
+        /**
+         * Initializes the icon tooltips
+         */
+        _initTooltips: function() {
+            $('li.visit').tooltip({
+                items: '.visitorLogIconWithDetails',
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    return $('<ul>').html($('ul', $(this)).html());
+                },
+                tooltipClass: 'small'
+            });
         },
 
         /**
@@ -135,7 +153,7 @@
                 $(item).fadeIn(this.options.fadeInSpeed);
             }
             // remove rows if there are more than the maximum
-            $('li:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
+            $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
         },
 
         /**
@@ -153,6 +171,8 @@
             this.currentInterval = this.options.interval;
 
             var self = this;
+
+            window.setTimeout(function() { self._initTooltips(); }, 250);
 
             this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
         },

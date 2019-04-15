@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Lets you configure a form field.
@@ -67,6 +68,16 @@ class FieldConfig
      * To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
+
+    /**
+     * Lets a user configure an array of form fields.
+     */
+    const UI_CONTROL_FIELD_ARRAY = 'field-array';
+
+    /**
+     * Lets a user configure two form fields next to each other, and add multiple entries of those two pairs.
+     */
+    const UI_CONTROL_MULTI_TUPLE = 'multituple';
 
     /**
      * Generates a hidden form field. To use this field assign it to the `$uiControl` property.
@@ -229,5 +240,23 @@ class FieldConfig
      * @var string
      */
     public $condition;
+
+    /**
+     * Here you can add one or multiple instances of `Piwik\Validators\BaseValidator` to avoid having to
+     * write the same validators over and over again in {@link $validate}.
+     *
+     * Examples
+     * Want to require a value to be set?
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
+     *
+     * Want to require an email?
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
+     * $fieldConfig->validators[] = new Piwik\Validators\Email();
+     *
+     * The core comes with a set of various validators that can be used.
+     *
+     * @var BaseValidator[]
+     */
+    public $validators = [];
 
 }

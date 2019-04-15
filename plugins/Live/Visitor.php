@@ -146,23 +146,26 @@ class Visitor implements VisitorInterface
     }
 
     /**
-     * Removes fields that are not meant to be displayed (md5 config hash)
-     * Or that the user should only access if they are Super User or admin (cookie, IP)
+     * Removes fields that the user should only access if they are Super User or admin (cookie, IP,
+     * md5 config "fingerprint" hash)
      *
      * @param array $visitorDetails
      * @return array
      */
     public static function cleanVisitorDetails($visitorDetails)
     {
-        $toUnset = array('config_id');
         if (Piwik::isUserIsAnonymous()) {
-            $toUnset[] = 'idvisitor';
-            $toUnset[] = 'user_id';
-            $toUnset[] = 'location_ip';
-        }
-        foreach ($toUnset as $keyName) {
-            if (isset($visitorDetails[$keyName])) {
-                unset($visitorDetails[$keyName]);
+            $toUnset = array(
+                'idvisitor',
+                'user_id',
+                'location_ip',
+                'config_id'
+            );
+
+            foreach ($toUnset as $keyName) {
+                if (isset($visitorDetails[$keyName])) {
+                    unset($visitorDetails[$keyName]);
+                }
             }
         }
 
@@ -322,6 +325,10 @@ class Visitor implements VisitorInterface
         }
 
         if ($ta == $tb) {
+            if ($a['idlink_va'] == $b['idlink_va']) {
+                return strcmp($a['type'], $b['type']);
+            }
+
             if ($a['idlink_va'] > $b['idlink_va']) {
                return 1;
             }

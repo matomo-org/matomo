@@ -35,7 +35,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!self::isDataPurgeSettingsEnabled()) {
-            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+            throw new \Exception("Configuring deleting raw data and report data has been disabled by Piwik admins.");
         }
     }
 
@@ -58,7 +58,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // delete reports settings
         $settings['delete_reports_enable'] = Common::getRequestVar("enableDeleteReports", 0);
         $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
-        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 3 ? 3 : $deleteReportsOlderThan;
+        $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 2 ? 2 : $deleteReportsOlderThan;
         $settings['delete_reports_keep_basic_metrics']   = Common::getRequestVar("keepBasic", 0);
         $settings['delete_reports_keep_day_reports']     = Common::getRequestVar("keepDay", 0);
         $settings['delete_reports_keep_week_reports']    = Common::getRequestVar("keepWeek", 0);
@@ -69,6 +69,78 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
 
         return $settings;
+    }
+
+    public function gdprOverview()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
+
+        $reportRetention = '';
+
+        if ($purgeDataSettings['delete_reports_older_than'] > 12) {
+            $years = floor($purgeDataSettings['delete_reports_older_than']/12);
+            $reportRetention .=  $years . ' ' . Piwik::translate($years > 1 ? 'Intl_PeriodYears' : 'Intl_PeriodYear') . ' ';
+        }
+        if ($purgeDataSettings['delete_reports_older_than'] % 12 > 0) {
+            $months = floor($purgeDataSettings['delete_reports_older_than']%12);
+            $reportRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth');
+        }
+
+        $rawDataRetention = '';
+
+        if ($purgeDataSettings['delete_logs_older_than'] > 30) {
+            $months = floor($purgeDataSettings['delete_logs_older_than']/30);
+            $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
+        }
+        if ($purgeDataSettings['delete_logs_older_than'] % 30 > 0) {
+            $days = floor($purgeDataSettings['delete_logs_older_than']%30);
+            $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
+        }
+
+        return $this->renderTemplate('gdprOverview', [
+            'reportRetention'     => trim($reportRetention),
+            'rawDataRetention'    => trim($rawDataRetention),
+            'deleteLogsEnable'    => $purgeDataSettings['delete_logs_enable'],
+            'deleteReportsEnable' => $purgeDataSettings['delete_reports_enable'],
+        ]);
+    }
+
+    public function usersOptOut()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        $language = LanguagesManager::getLanguageCodeForCurrentUser();
+
+        $doNotTrackOptions = array(
+            array('key' => '1',
+                'value' => Piwik::translate('PrivacyManager_DoNotTrack_Enable'),
+                'description' => Piwik::translate('General_Recommended')),
+            array('key' => '0',
+                'value' => Piwik::translate('PrivacyManager_DoNotTrack_Disable'),
+                'description' => Piwik::translate('General_NotRecommended'))
+        );
+
+        $dntChecker = new DoNotTrackHeaderChecker();
+
+        return $this->renderTemplate('usersOptOut', array(
+            'language' => $language,
+            'doNotTrackOptions' => $doNotTrackOptions,
+            'dntSupport' => $dntChecker->isActive()
+        ));
+    }
+
+    public function consent()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        return $this->renderTemplate('askingForConsent');
+    }
+
+    public function gdprTools()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('gdprTools');
     }
 
     /**
@@ -89,14 +161,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function privacySettings()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
         $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::hasUserSuperUserAccess()) {
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
-            $dntChecker = new DoNotTrackHeaderChecker();
-            $view->dntSupport = $dntChecker->isActive();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
@@ -131,22 +201,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 array('key' => '30',
                       'value' => Piwik::translate('Intl_PeriodMonth'))
             );
-            $view->doNotTrackOptions = array(
-                array('key' => '1',
-                      'value' => Piwik::translate('PrivacyManager_DoNotTrack_Enable'),
-                      'description' => Piwik::translate('General_Recommended')),
-                array('key' => '0',
-                      'value' => Piwik::translate('PrivacyManager_DoNotTrack_Disable'),
-                      'description' => Piwik::translate('General_NotRecommended'))
-            );
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
+
+        $logDataAnonymizations = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations');
+        $view->anonymizations = $logDataAnonymizations->getAllEntries();
         return $view->render();
     }
 
     /**
-     * Executes a data purge, deleting log data and report data using the current config
+     * Executes a data purge, deleting raw data and report data using the current config
      * options. Echo's the result of getDatabaseSize after purging.
      */
     public function executeDataPurge()
@@ -168,7 +233,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($settings['delete_logs_enable']) {
             /** @var LogDataPurger $logDataPurger */
             $logDataPurger = StaticContainer::get('Piwik\Plugins\PrivacyManager\LogDataPurger');
-            $logDataPurger->purgeData($settings['delete_logs_older_than']);
+            $logDataPurger->purgeData($settings['delete_logs_older_than'], true);
         }
         if ($settings['delete_reports_enable']) {
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
@@ -176,7 +241,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
     }
 
-    protected function getDeleteDBSizeEstimate($getSettingsFromQuery = false, $forceEstimate = false)
+    private function getDeleteDBSizeEstimate($getSettingsFromQuery = false, $forceEstimate = false)
     {
         $this->checkDataPurgeAdminSettingsIsEnabled();
 
@@ -234,7 +299,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $result;
     }
 
-    protected function getAnonymizeIPInfo()
+    private function getAnonymizeIPInfo()
     {
         Piwik::checkUserHasSuperUserAccess();
         $anonymizeIP = array();
@@ -242,6 +307,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $privacyConfig = new Config();
         $anonymizeIP["enabled"] = IPAnonymizer::isActive();
         $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
+        $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
+        $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
         $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
         if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
             $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
@@ -250,7 +317,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $anonymizeIP;
     }
 
-    protected function getDeleteDataInfo()
+    private function getDeleteDataInfo()
     {
         Piwik::checkUserHasSuperUserAccess();
         $deleteDataInfos = array();

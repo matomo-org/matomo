@@ -43,6 +43,13 @@ class Parameters
      */
     private $requestedPlugin = false;
 
+    private $onlyArchiveRequestedPlugin = false;
+
+    /**
+     * @var bool
+     */
+    private $isRootArchiveRequest = true;
+
     /**
      * Constructor.
      *
@@ -61,6 +68,22 @@ class Parameters
     public function setRequestedPlugin($plugin)
     {
         $this->requestedPlugin = $plugin;
+    }
+
+    /**
+     * @ignore
+     */
+    public function onlyArchiveRequestedPlugin()
+    {
+        $this->onlyArchiveRequestedPlugin = true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function shouldOnlyArchiveRequestedPlugin()
+    {
+        return $this->onlyArchiveRequestedPlugin;
     }
 
     /**
@@ -178,13 +201,19 @@ class Parameters
      */
     public function isSingleSiteDayArchive()
     {
-        $oneSite = $this->isSingleSite();
+        return $this->isDayArchive() && $this->isSingleSite();
+    }
 
+    /**
+     * @return bool
+     */
+    public function isDayArchive()
+    {
         $period = $this->getPeriod();
         $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
-        $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
+        $oneDay = $secondsInPeriod < Date::NUM_SECONDS_IN_DAY;
 
-        return $oneDay && $oneSite;
+        return $oneDay;
     }
 
     public function isSingleSite()
@@ -208,5 +237,28 @@ class Parameters
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
         );
+    }
+
+    /**
+     * Returns `true` if these parameters are part of an initial archiving request.
+     * Returns `false` if these parameters are for an archiving request that was initiated
+     * during archiving.
+     *
+     * @return bool
+     */
+    public function isRootArchiveRequest()
+    {
+        return $this->isRootArchiveRequest;
+    }
+
+    /**
+     * Sets whether these parameters are part of the initial archiving request or if they are
+     * for a request that was initiated during archiving.
+     *
+     * @param $isRootArchiveRequest
+     */
+    public function setIsRootArchiveRequest($isRootArchiveRequest)
+    {
+        $this->isRootArchiveRequest = $isRootArchiveRequest;
     }
 }

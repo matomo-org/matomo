@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
@@ -16,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -41,6 +43,23 @@ class Goals extends \Piwik\Plugin
         }
 
         return $dimensionsByGroup;
+    }
+
+    public static function getGoalIdFromGoalColumn($columnName)
+    {
+        if (strpos($columnName, 'goal_') === 0) {
+            $column = str_replace(array('goal_'), '', $columnName);
+            return (int) $column;
+        }
+    }
+
+    public static function makeGoalColumn($idGoal, $column, $forceInt = true)
+    {
+        if ($forceInt) { // in non-archiver code idGoal can be, eg, ecommerceOrder
+            $idGoal = (int) $idGoal;
+        }
+
+        return 'goal_'. $idGoal . '_' . $column;
     }
 
     public static function getGoalColumns($idGoal)
@@ -82,17 +101,26 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
-            'Category.addSubcategories' => 'addSubcategories',
-            'Metric.addMetrics' => 'addMetrics',
-            'Metric.addComputedMetrics' => 'addComputedMetrics'
+            'Category.addSubcategories'              => 'addSubcategories',
+            'Metric.addMetrics'                      => 'addMetrics',
+            'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
         );
         return $hooks;
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $goalModel = new Model();
+        $numGoals = $goalModel->getActiveGoalCount();
+
+        $systemSummary[] = new SystemSummary\Item($key = 'goals', Piwik::translate('Goals_NGoals', $numGoals), $value = null, array('module' => 'Goals', 'action' => 'manage'), $icon = 'icon-goal', $order = 7);
     }
 
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
@@ -106,7 +134,7 @@ class Goals extends \Piwik\Plugin
     public function addMetrics(MetricsList $metricsList)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
@@ -163,7 +191,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $order = 900;
         foreach ($goals as $goal) {

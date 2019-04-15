@@ -37,6 +37,8 @@
         "Smartphone": "Téléphone intelligent (smartphone)",
         "PortableMediaPlayer": "Lecteur de medias portable",
         "Devices": "Périphériques",
+        "GenericDevice": "Générique %s",
+        "MobileDevice": "Périphérique mobile",
         "Tablet": "Tablette",
         "Phablet": "Phablette",
         "TV": "TV",

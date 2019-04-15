@@ -10,6 +10,7 @@ var Piwik_Popover = (function () {
     var container = false;
     var isOpen = false;
     var closeCallback = false;
+    var isProgrammaticClose = false;
 
     var createContainer = function () {
         if (container === false) {
@@ -36,19 +37,41 @@ var Piwik_Popover = (function () {
                 $('.ui-widget-overlay').on('click.popover', function () {
                     container.dialog('close');
                 });
+
+                // sometimes the modal can be displayed outside of the current viewport, in this case
+                // we scroll to it to make sure it's visible. this isn't a perfect workaround, since it
+                // doesn't center the modal.g
+                var self = this;
+                setTimeout(function () {
+                    piwikHelper.lazyScrollTo(self, 0);
+                }, 0);
             },
             close: function (event, ui) {
+                // if clicking outside of the dialog, close entire stack
+                if (!event.currentTarget && !$(event.currentTarget).is('button')) {
+                    broadcast.resetPopoverStack();
+                }
+
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
                 container[0].innerHTML = '';
                 container.dialog('destroy').remove();
                 globalAjaxQueue.abort();
                 $('.ui-widget-overlay').off('click.popover');
                 isOpen = false;
-                broadcast.propagateNewPopoverParameter(false);
                 require('piwik/UI').UIControl.cleanupUnusedControls();
                 if (typeof closeCallback == 'function') {
                     closeCallback();
                     closeCallback = false;
+                }
+
+                // just to avoid any annoying race conditions that cause tooltips to remain on the screen permanently,
+                // remove any that still exist
+                $('body > .ui-tooltip').remove();
+
+                // if we were not called by Piwik_Popover.close(), then the user clicked the close button or clicked
+                // the overlay, in which case we want to handle the popover URL as well as the actual modal.
+                if (!isProgrammaticClose) {
+                    broadcast.propagateNewPopoverParameter(false);
                 }
             }
         };
@@ -213,10 +236,17 @@ var Piwik_Popover = (function () {
             closeCallback = callback;
         },
 
-        /** Close the popover */
+        /**
+         * Close the popover.
+         *
+         * Note: this method shouldn't normally be used to close a popover, instead
+         * `broadcast.propagateNewPopoverHandler(false)` should be used.
+         */
         close: function () {
             if (isOpen) {
+                isProgrammaticClose = true;
                 container.dialog('close');
+                isProgrammaticClose = false;
             }
         },
 
@@ -265,7 +295,7 @@ var Piwik_Popover = (function () {
             ajaxRequest.addParams(piwikHelper.getArrayFromQueryString(url), 'get');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         }
     };
 })();

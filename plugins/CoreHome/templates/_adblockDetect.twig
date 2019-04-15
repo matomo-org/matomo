@@ -22,14 +22,20 @@
             }
 
             if (wasMostLikelyCausedByAdblock) {
-                var warning = document.createElement('h3');
-                warning.innerHTML = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
+                var shouldGetHiddenElement = document.getElementById("should-get-hidden");
+                var warning = document.createElement('p');
+                warning.innerText = '{{ 'CoreHome_AdblockIsMaybeUsed'|translate|e('js') }}';
 
-                body[0].appendChild(warning);
-                warning.style.color = 'red';
-                warning.style.fontWeight = 'bold';
-                warning.style.marginLeft = '16px';
-                warning.style.marginBottom = '16px';
+                if (shouldGetHiddenElement) {
+                    shouldGetHiddenElement.appendChild(warning);
+                } else {
+                    body[0].insertBefore(warning, body[0].firstChild);
+                    warning.style.color = 'red';
+                    warning.style.fontWeight = 'bold';
+                    warning.style.marginLeft = '16px';
+                    warning.style.marginBottom = '16px';
+                    warning.style.fontSize = '20px';
+                }
             }
         })();
     }

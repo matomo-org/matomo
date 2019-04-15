@@ -14,6 +14,6 @@ class VisitorsUserSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'UserId_UserReportTitle';
-    protected $order = 6;
+    protected $order = 40;
 
 }

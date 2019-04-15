@@ -15,6 +15,8 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
+use Piwik\Period\PeriodValidator;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\ReportsProvider;
 
@@ -92,7 +94,9 @@ class   Config
         'show_limit_control',
         'pivot_by_dimension',
         'pivot_by_column',
-        'pivot_dimension_name'
+        'pivot_dimension_name',
+        'disable_all_rows_filter_limit',
+        'segmented_visitor_log_segment_suffix',
     );
 
     /**
@@ -123,7 +127,8 @@ class   Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'columns_to_display'
+        'columns_to_display',
+        'segmented_visitor_log_segment_suffix',
     );
 
     /**
@@ -322,6 +327,16 @@ class   Config
     public $show_search = true;
 
     /**
+     * Controls whether the period selector under the datatable is shown.
+     */
+    public $show_periods = false;
+
+    /**
+     * Controls which periods can be selected when the period selector is enabled
+     */
+    public $selectable_periods = [];
+
+    /**
      * Controls whether the export feature under the datatable is shown.
      *
      * @api since Piwik 3.2.0
@@ -473,6 +488,13 @@ class   Config
     public $hide_annotations_view = true;
 
     /**
+     * Controls whether the 'all' row limit option is shown for the limit selector.
+     *
+     * @var bool
+     */
+    public $disable_all_rows_filter_limit = false;
+
+    /**
      * Message to show if not data is available for the report
      * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
      *
@@ -481,6 +503,28 @@ class   Config
      * @var string
      */
     public $no_data_message = '';
+
+    /**
+     * List of extra actions to display as icons in the datatable footer.
+     *
+     * Not API yet.
+     *
+     * @var array
+     * @ignore
+     */
+    public $datatable_actions = [];
+
+    /*
+     * Can be used to add a segment condition to the segment used to launch the segmented visitor log.
+     * This can be useful if you'd like to have this segment condition applied ONLY to the segmented visitor
+     * log, and not to the report itself.
+     *
+     * Contrast with just setting the 'segment', if done this way, the segment will be applied to the report
+     * data as well, which may not be desired.
+     *
+     * @var string
+     */
+    public $segmented_visitor_log_segment_suffix = '';
 
     /**
      * @ignore
@@ -507,6 +551,12 @@ class   Config
             Metrics::getDefaultProcessedMetrics()
         );
 
+        $periodValidator = new PeriodValidator();
+        $this->selectable_periods = $periodValidator->getPeriodsAllowedForUI();
+        $this->selectable_periods = array_diff($this->selectable_periods, array('range'));
+        foreach ($this->selectable_periods as $period) {
+            $this->translations[$period] = ucfirst(Piwik::translate('Intl_Period' . ucfirst($period)));
+        }
         $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');
     }
 

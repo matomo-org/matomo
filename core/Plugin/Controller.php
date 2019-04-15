@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -630,10 +631,14 @@ abstract class Controller
 
         $view->date = $this->strDate;
         $view->prettyDate = self::getCalendarPrettyDate($period);
+        // prettyDateLong is not used by core, leaving in case plugins may be using it
         $view->prettyDateLong = $period->getLocalizedLongString();
         $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
+
+        $timezoneOffsetInSeconds = Date::getUtcOffset($siteTimezone);
+        $view->timezoneOffset = $timezoneOffsetInSeconds;
 
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
@@ -664,6 +669,56 @@ abstract class Controller
     }
 
     /**
+     * Needed when a controller extends ControllerAdmin but you don't want to call the controller admin basic variables
+     * view. Solves a problem when a controller has regular controller and admin controller views.
+     * @param View $view
+     */
+    protected function setBasicVariablesNoneAdminView($view)
+    {
+        $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
+        $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+        $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
+        $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
+        $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
+
+        if (!Piwik::isUserIsAnonymous()) {
+            $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        }
+
+        $capabilities = array();
+        if ($this->idSite && $this->site) {
+            $capabilityProvider = StaticContainer::get(Access\CapabilitiesProvider::class);
+            foreach ($capabilityProvider->getAllCapabilities() as $capability) {
+                if (Piwik::isUserHasCapability($this->idSite, $capability->getId())) {
+                    $capabilities[] = $capability->getId();
+                }
+            }
+        }
+
+        $view->userCapabilities = $capabilities;
+
+        $this->addCustomLogoInfo($view);
+
+        $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
+        $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
+        $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
+        $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
+        $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->themeStyles = ThemeStyles::get();
+
+        $general = PiwikConfig::getInstance()->General;
+        $view->enableFrames = $general['enable_framed_pages']
+            || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
+        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
+        if (!$view->enableFrames && !$embeddedAsIframe) {
+            $view->setXFrameOptions('sameorigin');
+        }
+
+        self::setHostValidationVariablesView($view);
+    }
+
+    /**
      * Assigns a set of generally useful variables to a {@link Piwik\View} instance.
      *
      * The following variables assigned:
@@ -686,34 +741,7 @@ abstract class Controller
      */
     protected function setBasicVariablesView($view)
     {
-        $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
-        $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
-        $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
-        $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
-        $view->hasSuperUserAccess = Piwik::hasUserSuperUserAccess();
-
-        if (!Piwik::isUserIsAnonymous()) {
-            $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
-        }
-
-        $this->addCustomLogoInfo($view);
-
-        $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
-        $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
-        $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
-        $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
-        $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
-
-        $general = PiwikConfig::getInstance()->General;
-        $view->enableFrames = $general['enable_framed_pages']
-                || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
-        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
-        if (!$view->enableFrames && !$embeddedAsIframe) {
-            $view->setXFrameOptions('sameorigin');
-        }
-
-        self::setHostValidationVariablesView($view);
+        $this->setBasicVariablesNoneAdminView($view);
     }
 
     protected function addCustomLogoInfo($view)

@@ -27,6 +27,7 @@ class CreatePull extends TranslationBase
             ->setDescription('Updates translation files')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -88,6 +89,7 @@ class CreatePull extends TranslationBase
             'command'    => 'translations:update',
             '--username' => $input->getOption('username'),
             '--password' => $input->getOption('password'),
+            '--slug'     => $input->getOption('slug'),
             '--plugin'   => $plugin
         );
         $inputObject = new ArrayInput($arguments);
@@ -160,7 +162,7 @@ class CreatePull extends TranslationBase
 
         $message = implode('', $messages);
 
-        $message .= '\n\nHelp us translate Piwik in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@piwik.org';
+        $message .= '\n\nHelp us translate Matomo in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@matomo.org';
 
         $languageCodesTouched = array_unique($languageCodesTouched, SORT_REGULAR);
 
@@ -212,7 +214,7 @@ class CreatePull extends TranslationBase
             switch ($returnCode) {
                 case 401:
                     $output->writeln("Pull request failed. Bad credentials... Please try again");
-                    continue;
+                    continue 2;
 
                 case 422:
                     $output->writeln("Pull request failed. Unprocessable Entity. Maybe a pull request was already created before.");

@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Version;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
@@ -31,14 +32,23 @@ class Console extends Application
     {
         $this->setServerArgsIfPhpCgi();
 
-        parent::__construct('Piwik', Version::VERSION);
+        parent::__construct('Matomo', Version::VERSION);
 
         $this->environment = $environment;
 
-        $option = new InputOption('piwik-domain',
+        $option = new InputOption('matomo-domain',
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
+        );
+
+        $this->getDefinition()->addOption($option);
+
+        // @todo  Remove this alias in Matomo 4.0
+        $option = new InputOption('piwik-domain',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            '[DEPRECATED] Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
@@ -58,7 +68,7 @@ class Console extends Application
             Profiler::setupProfilerXHProf(true, true);
         }
 
-        $this->initPiwikHost($input);
+        $this->initMatomoHost($input);
         $this->initEnvironment($output);
         $this->initLoggerOutput($output);
 
@@ -75,10 +85,27 @@ class Console extends Application
             $this->addCommandIfExists($command);
         }
 
-        $self = $this;
-        return Access::doAsSuperUser(function () use ($input, $output, $self) {
-            return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
-        });
+        $exitCode = null;
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Console.doRun', [&$exitCode, $input, $output]);
+
+        if ($exitCode === null) {
+            $self = $this;
+            $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
+                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+            });
+        }
+
+        $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
+        if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {
+            $output->writeln("Error: error or warning logs detected, exit 1");
+            $exitCode = 1;
+        }
+
+        return $exitCode;
     }
 
     private function addCommandIfExists($command)
@@ -157,16 +184,20 @@ class Console extends Application
         return Common::isPhpCliMode() && !Common::isPhpCgiType();
     }
 
-    protected function initPiwikHost(InputInterface $input)
+    protected function initMatomoHost(InputInterface $input)
     {
-        $piwikHostname = $input->getParameterOption('--piwik-domain');
+        $matomoHostname = $input->getParameterOption('--matomo-domain');
 
-        if (empty($piwikHostname)) {
-            $piwikHostname = $input->getParameterOption('--url');
+        if (empty($matomoHostname)) {
+            $matomoHostname = $input->getParameterOption('--piwik-domain');
         }
 
-        $piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
-        Url::setHost($piwikHostname);
+        if (empty($matomoHostname)) {
+            $matomoHostname = $input->getParameterOption('--url');
+        }
+
+        $matomoHostname = UrlHelper::getHostFromUrl($matomoHostname);
+        Url::setHost($matomoHostname);
     }
 
     protected function initEnvironment(OutputInterface $output)

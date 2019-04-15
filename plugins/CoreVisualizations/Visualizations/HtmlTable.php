@@ -10,9 +10,10 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Visualization;
-use Piwik\View;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
@@ -42,6 +43,19 @@ class HtmlTable extends Visualization
             && $this->config->show_embedded_subtable) {
 
             $this->config->show_visualization_only = true;
+        }
+
+        if ($this->requestConfig->idSubtable) {
+            $this->config->show_totals_row = false;
+        }
+
+        foreach (Metrics::getMetricIdsToProcessReportTotal() as $metricId) {
+            $this->config->report_ratio_columns[] = Metrics::getReadableColumnName($metricId);
+        }
+        if (!empty($this->report)) {
+            foreach ($this->report->getMetricNamesToProcessReportTotals() as $metricName) {
+                $this->config->report_ratio_columns[] = $metricName;
+            }
         }
 
         // we do not want to get a datatable\map
@@ -90,5 +104,17 @@ class HtmlTable extends Visualization
     protected function isPivoted()
     {
         return $this->requestConfig->pivotBy || Common::getRequestVar('pivotBy', '');
+    }
+
+    /**
+     * Override to compute a custom cell HTML attributes (such as style).
+     *
+     * @param Row $row
+     * @param $column
+     * @return array Array of name => value pairs.
+     */
+    public function getCellHtmlAttributes(Row $row, $column)
+    {
+        return null;
     }
 }

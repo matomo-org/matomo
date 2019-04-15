@@ -43,7 +43,7 @@
         "DaysToConv": "Days to Conversion",
         "Details": "Goal details",
         "DefaultGoalConvertedOncePerVisit": "(default) Goal can only be converted once per visit",
-        "DefaultRevenue": "Goal default revenue is",
+        "DefaultRevenueLabel": "Goal default revenue",
         "DefaultRevenueHelp": "For example, a Contact Form submitted by a visitor may be worth $10 on average. Matomo will help you understand how well your visitors segments are performing.",
         "DeleteGoalConfirm": "Are you sure you want to delete the Goal %s?",
         "DocumentationRevenueGeneratedByProductSales": "Product sales. Excludes tax, shipping and discount",
@@ -64,6 +64,9 @@
         "GoalIsTriggeredWhen": "Goal is triggered when",
         "GoalName": "Goal Name",
         "Goals": "Goals",
+        "NGoals": "%s goals",
+        "NRevenue": "%s revenue",
+        "NItems": "%s items",
         "ManageGoals": "Manage Goals",
         "GoalsOverview": "Goals Overview",
         "GoalsOverviewDocumentation": "This is an overview of your goal conversions. Initially, the graph shows the sum of all conversions. %s Below the graph, you can see conversion reports for each of your goals. The sparklines can be enlarged by clicking on them.",
@@ -77,7 +80,7 @@
         "MatchesExpression": "matches the expression %s",
         "NewGoalIntro": "Goal Conversion tracking is one of the most efficient ways to measure and improve your business objectives.",
         "NewVisitorsConversionRateIs": "New visitors conversion rate is %s",
-        "NoGoalsNeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website. Please ask your Matomo administrator to set up a Goal for your website. <br>Tracking Goals is a great way to help understand and maximize your website performance!",
+        "NoGoalsNeedAccess2": "Only a Write user, an Administrator or a user with Super User access can manage Goals for a given website. Please ask your Matomo administrator to set up a Goal for your website. <br>Tracking Goals is a great way to help understand and maximize your website performance!",
         "NoConversionsNoReportsMessage": "Reports are not displayed because there is no conversion data for the selected goal and period.",
         "NeedAccess": "Only an Administrator or a user with Super User access can manage Goals for a given website.",
         "Optional": "(optional)",
@@ -109,6 +112,10 @@
         "WhenVisitors": "when visitors",
         "WhereThe": "where the",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "The visited page needs to contain a call to the JavaScript 'trackGoal' method (%1$slearn more%2$s)",
-        "YouCanEnableEcommerceReports": "You can enable %1$s for this website in the %2$s page."
+        "YouCanEnableEcommerceReports": "You can enable %1$s for this website in the %2$s page.",
+        "UseEventValueAsRevenue": "Use the event value (if it exists) as the goal conversion revenue.",
+        "GoalRevenue": "Goal Revenue",
+        "EventValueAsRevenueHelp": "If the event you are matching has a revenue, and that revenue is tracked as the event value, you can enable this option to record the event value as the goal conversion's revenue. If your goal revenue will not vary per conversion, you can ignore this option and just set a default revenue above.",
+        "EventValueAsRevenueHelp2": "Note: If both a default goal revenue and event value are defined, the event value will be used. If this option is enabled and no event value is sent in a request, the default revenue will be used (if defined)."
     }
 }

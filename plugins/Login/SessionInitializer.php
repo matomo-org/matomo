@@ -21,15 +21,10 @@ use Piwik\ProxyHttp;
 use Piwik\Session;
 
 /**
- * Initializes authenticated sessions using an Auth implementation.
+ * This SessionInitializer is no longer used, but is kept for backwards compatibility.
+ * Session management no longer uses the piwik_auth cookie.
  *
- * If a user is authenticated, a browser cookie is created so the user will be remembered
- * until the cookie is destroyed.
- *
- * Plugins can override SessionInitializer behavior by extending this class and
- * overriding methods. In order for these changes to have effect, however, an instance of
- * the derived class must be used by the Login/Controller.
- *
+ * @deprecated
  * @api
  */
 class SessionInitializer
@@ -192,6 +187,8 @@ class SessionInitializer
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
+
+        return $cookie;
     }
 
     protected function regenerateSessionId()

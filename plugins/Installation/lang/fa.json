@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "پیویک یک پروژه گروهی است که با عشق و علاقه توسط افرادی از سراسر دنیا ساخته شده است.",
-        "ConfigurationHelp": "فایل پیکربندی Matomo شما به نظر می رسد بد باشد. شما هم می توانید پیکربندی \/ config.ini.php و حذف از سر نصب و راه اندازی و یا اصلاح تنظیمات اتصال پایگاه داده.",
         "ConfirmDeleteExistingTables": "آیا شما مطمئن هستید که می خواهید این جدول ها را : %s از پایگاه داده تان حذف کنید؟ هشدار : داده های این جدول ها قابل بازیابی نخواهد بود!",
         "Congratulations": "تبریک",
-        "CongratulationsHelp": "<P> تبریک می گویم! نصب Matomo شما کامل است. <\/P> <P>اطمینان حاصل کنید که کد جاوا اسکریپت در صفحات خود را وارد و منتظر برای اولین بازدیدکنندگان خود را <\/P>",
         "DatabaseAbilities": "امکانات پایگاه داده",
         "DatabaseCreation": "ایجاد پایگاه داده",
         "DatabaseErrorConnect": "خطا در هنگام اتصال به سرور پایگاه داده",
@@ -43,9 +41,9 @@
         "SuperUserSetupError": "در هنگام افزودن کاربر فوق العاده خطایی رخ داد",
         "SuperUserSetupSuccess": "ابرکاربر را با موفقیت ایجاد شد!",
         "SystemCheck": "بررسی سیستم",
-        "SystemCheckAutoUpdateHelp": "توجه: Piwik یک کلیک کنید به روز رسانی نیاز به نوشتن مجوز به پوشه Matomo و محتویات آن است.",
-        "SystemCheckCreateFunctionHelp": "Piwik با استفاده از توابع ناشناس برای تماس مجدد.",
-        "SystemCheckDatabaseHelp": "Piwik نیاز یا پسوند mysqli و یا هر دو PDO و pdo_mysql پسوند.",
+        "SystemCheckAutoUpdateHelp": "توجه: Matomo یک کلیک کنید به روز رسانی نیاز به نوشتن مجوز به پوشه Matomo و محتویات آن است.",
+        "SystemCheckCreateFunctionHelp": "Matomo با استفاده از توابع ناشناس برای تماس مجدد.",
+        "SystemCheckDatabaseHelp": "Matomo نیاز یا پسوند mysqli و یا هر دو PDO و pdo_mysql پسوند.",
         "SystemCheckDebugBacktraceHelp": "مشاهده :: کارخانه قادر نخواهد بود برای ایجاد دیدگاه برای ماژول های فراخوانی شده است.",
         "SystemCheckError": "خطا رخ داده - باید ثابت قبل از شما ادامه",
         "SystemCheckEvalHelp": "مورد نیاز سیستم قالب HTML QuickForm و ناقلا.",
@@ -75,7 +73,7 @@
         "SystemCheckTimeLimitHelp": "در وب سایت پر ترافیک، اجرای فرایند آرشیو ممکن است زمان بیشتری از آنچه در حال حاضر اجازه داده نیاز داشته باشد. در صورت لزوم، تغییر بخشنامه max_execution_time در فایل php.ini خود را.",
         "SystemCheckTracker": "وضعیت نرم افزار",
         "SystemCheckWarnDomHelp": "شما باید پسوند \"DOM\" (به عنوان مثال، نصب PHP-DOM \"و \/ یا\" PHP-XML \"بسته) را فعال کنید.",
-        "SystemCheckWarning": "Piwik به طور معمول کار خواهد کرد اما برخی از ویژگی های ممکن است از دست رفته",
+        "SystemCheckWarning": "Matomo به طور معمول کار خواهد کرد اما برخی از ویژگی های ممکن است از دست رفته",
         "SystemCheckWarnJsonHelp": "شما باید فرمت JSON \"(به عنوان مثال، نصب بسته\" پی اچ پی JSON \") برای عملکرد بهتر را فعال کنید.",
         "SystemCheckWarnLibXmlHelp": "شما باید \"فرمت\" libxml (به عنوان مثال، \"نصب پی اچ پی libxml\" بسته) را به عنوان آن را با پسوند PHP اصلی دیگر مورد نیاز را فعال کنید.",
         "SystemCheckWarnSimpleXMLHelp": "شما باید پسوند \"SimpleXML\" (به عنوان مثال، نصب PHP-simplexml \"و \/ یا\" PHP-XML \"بسته) را فعال کنید.",
@@ -93,7 +91,6 @@
         "TablesWarningHelp": "یا برای استفاده مجدد از جداول پایگاه داده موجود انتخاب کنید و یا انتخاب یک نصب تمیز برای پاک کردن تمام اطلاعات موجود در پایگاه داده است.",
         "WeHopeYouWillEnjoyPiwik": "ما آرزو می کنیم شما از کار با پیویک لذت ببرید همان طوری که مااز ساختن آن لذت بردیم.",
         "Welcome": "خوش آمدید!",
-        "WelcomeHelp": "<p>پیویک یک نرم افزار آمار وب متن باز است که بدست آوردن اطلاعات بازدیدکنندگان وبسایت شما را آسان کرده است.<\/p><p>فرآیند نصب پیویک به %s مرحله ی آسان تقسیم شده است و فقط حدود 5 دقیقه زمان می برد.<\/p>",
         "WelcomeToCommunity": "به انجمن برنامه خوش آمدید",
         "CannotConnectToDb": "نمیتوان با پایگاه داده ارتباط برقرار کرد"
     }

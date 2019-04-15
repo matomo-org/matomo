@@ -57,9 +57,9 @@ class APITest extends IntegrationTestCase
 
     public function test_addGoal_ShouldSucceed_IfAllFieldsGiven()
     {
-        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true);
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'url', 'http://www.test.de', 'exact', true, 50, true, 'desc', true);
 
-        $this->assertGoal($idGoal, 'MyName', '', 'url', 'http://www.test.de', 'exact', 1, 50, 1);
+        $this->assertGoal($idGoal, 'MyName', 'desc', 'url', 'http://www.test.de', 'exact', 1, 50, 1, 1);
     }
 
     public function test_addGoal_ShouldSucceed_IfExactPageTitle()
@@ -67,6 +67,31 @@ class APITest extends IntegrationTestCase
         $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'normal title', 'exact', true, 50, true);
 
         $this->assertGoal($idGoal, 'MyName', '', 'title', 'normal title', 'exact', 1, 50, 1);
+    }
+
+    public function test_addGoal_ShouldSucceed_IfRegexPageTitle()
+    {
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'rere(.*)', 'regex', true, 50, true);
+
+        $this->assertGoal($idGoal, 'MyName', '', 'title', 'rere(.*)', 'regex', 1, 50, 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ValidatorErrorXNotWhitelisted
+     */
+    public function test_addGoal_shouldThrowException_IfPatternTypeIsInvalid()
+    {
+        $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'invalid');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ValidatorErrorNoValidRegex
+     */
+    public function test_addGoal_shouldThrowException_IfPatternRegexIsInvalid()
+    {
+        $this->api->addGoal($this->idSite, 'MyName', 'url', '/(%$f', 'regex');
     }
 
     /**
@@ -98,7 +123,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
      */
     public function test_addGoal_shouldThrowException_IfNotEnoughPermission()
     {
@@ -108,7 +133,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
      */
     public function test_updateGoal_shouldThrowException_IfNotEnoughPermission()
     {
@@ -221,6 +246,7 @@ class APITest extends IntegrationTestCase
             'allow_multiple' => '0',
             'revenue' => '0',
             'deleted' => '0',
+            'event_value_as_revenue' => '0',
         ), $goal);
     }
 
@@ -236,7 +262,8 @@ class APITest extends IntegrationTestCase
         $this->assertEmpty($goals);
     }
 
-    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0)
+    private function assertGoal($idGoal, $name, $description, $url, $pattern, $patternType, $caseSenstive = 0, $revenue = 0, $allowMultiple = 0,
+                                $eventAsRevenue = 0)
     {
         $expected = array($idGoal => array(
             'idsite' => $this->idSite,
@@ -249,7 +276,8 @@ class APITest extends IntegrationTestCase
             'case_sensitive' => $caseSenstive,
             'allow_multiple' => $allowMultiple,
             'revenue' => $revenue,
-            'deleted' => 0
+            'deleted' => 0,
+            'event_value_as_revenue' => $eventAsRevenue,
         ));
 
         $goals = $this->getGoals();

@@ -59,9 +59,9 @@ class OneClickDone
     public function render()
     {
         // set response headers
+        @Common::stripHeader('Pragma');
+        @Common::stripHeader('Expires');
         @Common::sendHeader('Content-Type: text/html; charset=UTF-8');
-        @Common::sendHeader('Pragma: ');
-        @Common::sendHeader('Expires: ');
         @Common::sendHeader('Cache-Control: must-revalidate');
         @Common::sendHeader('X-Frame-Options: deny');
 

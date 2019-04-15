@@ -5,10 +5,13 @@
 <div class="visitor-profile-summary visitor-profile-resume">
     <h1>{{ 'General_Summary'|translate }}</h1>
     <div>
+        {% if visitorData.hasMoreVisits %}
+            <p>{{ 'Live_LimitedSummary'|translate('<strong>' ~ visitorData.totalVisits ~ '</strong>')|raw }}</p>
+        {% endif %}
         {% if visitorData.totalPageViews != visitorData.totalActions %}
             {% set actionDetails = [] %}
             {% if visitorData.totalPageViews > 0 %}{% set actionDetails = actionDetails|merge(['<span title="' ~ pageviewDetails ~ '">' ~ visitorData.totalPageViews ~ ' ' ~ 'General_ColumnPageviews'|translate ~ '</span>']) %}{% endif %}
-            {% if visitorData.totalEvents > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalEvents ~ ' ' ~ 'Events_Events'|translate]) %}{% endif %}
+            {% if visitorData.totalEvents is defined and visitorData.totalEvents > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalEvents ~ ' ' ~ 'Events_Events'|translate]) %}{% endif %}
             {% if visitorData.totalDownloads > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalDownloads ~ ' ' ~ 'General_Downloads'|translate]) %}{% endif %}
             {% if visitorData.totalOutlinks > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalOutlinks ~ ' ' ~ 'General_Outlinks'|translate]) %}{% endif %}
             {% if visitorData.totalSearches > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalSearches ~ ' ' ~ 'Actions_ColumnSearches'|translate]) %}{% endif %}
@@ -18,12 +21,17 @@
         {% endif %}
         {% if visitorData.totalGoalConversions is defined %}
         <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
-        {%- if visitorData.totalGoalConversions %} (
+        {%- if visitorData.totalGoalConversions %}
+            {% set goalList %}
             {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
-            {%- set idGoal = idGoal[7:] -%}
-            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
+                {%- set idGoal = idGoal[7:] -%}
+                {% if goals[idGoal] is defined %}
+                    {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
+                {% endif %}
             {%- endfor -%}
-        ){% endif %}.</p>
+            {% endset %}
+            {% if goalList %}({{ goalList }}){% endif %}
+        {%- endif %}.</p>
         {% endif %}
         {% if visitorData.totalSearches|default(0) %}
         <p>

@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\Events;
 
+use Piwik\Piwik;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
-use Piwik\Tracker\Action;
 use Piwik\View;
 
 class VisitorDetails extends VisitorDetailsAbstract
@@ -22,6 +22,19 @@ class VisitorDetails extends VisitorDetailsAbstract
         if (!empty($action['eventType'])) {
             $action['type'] = 'event';
             $action['icon'] = 'plugins/Morpheus/images/event.png';
+            $action['iconSVG'] = 'plugins/Morpheus/images/event.svg';
+            $action['title'] = Piwik::translate('Events_Event');
+            $action['subtitle'] = Piwik::translate('Event_Category') . ': "' . $action['eventCategory'] . "'";
+
+            if (!empty($action['eventName'])) {
+                $action['subtitle'] .= ', ' . Piwik::translate('General_Name') . ': "' . $action['eventName'] . '"';
+            }
+            if (!empty($action['eventAction'])) {
+                $action['subtitle'] .= ', ' . Piwik::translate('General_Action') . ': "' . $action['eventAction'] . '"';
+            }
+            if (!empty($action['eventValue'])) {
+                $action['subtitle'] .= ', ' . Piwik::translate('General_Value') . ': "' . $action['eventValue'] . '"';
+            }
 
             if (strlen($action['pageTitle']) > 0) {
                 $action['eventName'] = $action['pageTitle'];

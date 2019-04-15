@@ -16,7 +16,7 @@
 
         var model = {
             getSearchParam: getSearchParam
-        }
+        };
 
         return model;
 
@@ -36,11 +36,20 @@
 
             if (!search[paramName]) {
                 // see https://github.com/angular/angular.js/issues/7239 (issue is resolved but problem still exists)
-                search[paramName] = piwik.broadcast.getValueFromUrl(paramName);
+                var paramUrlValue = piwik.broadcast.getValueFromUrl(paramName);
+                if (paramUrlValue !== false
+                    && paramUrlValue !== ''
+                    && paramUrlValue !== null
+                    && paramUrlValue !== undefined
+                    && paramName !== 'token_auth') {
+                    search[paramName] = paramUrlValue;
+                } else {
+                    return paramUrlValue;
+                }
             }
 
             if (search[paramName]) {
-                var value =  search[paramName];
+                var value = search[paramName];
 
                 if (angular.isArray(search[paramName])) {
                     // use last one. Eg when having period=day&period=year angular would otherwise return ['day', 'year']
