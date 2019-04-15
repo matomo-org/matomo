@@ -17,6 +17,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
@@ -214,6 +215,66 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals('superUserLogin', $mail->getLogin());
         $this->assertEquals('hello@example.org', $mail->getEmailAddress());
         $this->assertEquals(2, $mail->getNumFailures());
+    }
+
+    public function test_getSegmentHashesByIdSite_emptyWhenNoSegments()
+    {
+        $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
+        $this->assertEquals(array(), $segmentsByIdSite);
+    }
+
+    public function test_getSegmentHashesByIdSite_allWebsiteAndSiteSpecificSegments()
+    {
+        $model = new Model();
+        $model->createSegment(array(
+            'name' => 'Test Segment 1',
+            'definition' => 'continentCode==eur',
+            'enable_only_idsite' => 0,
+            'deleted' => 0
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 2',
+            'definition' => 'countryCode==nz',
+            'enable_only_idsite' => 0,
+            'deleted' => 0
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 3',
+            'definition' => 'countryCode==au',
+            'enable_only_idsite' => 2,
+            'deleted' => 0
+        ));
+
+        $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
+        $expected = array(
+            0 => array('be90051048558489e1d62f4245a6dc65', 'b92fbb3009b32cf632965802de2fb760'),
+            2 => array('cffd4336c22c6782211f853495076b1a')
+        );
+        $this->assertEquals($expected, $segmentsByIdSite);
+    }
+
+    public function test_getSegmentHashesByIdSite_invalidSegment()
+    {
+        $model = new Model();
+        $model->createSegment(array(
+            'name' => 'Test Segment 4',
+            'definition' => 'countryCode=nz',   //The single "=" is invalid so hash generation will be skipped
+            'enable_only_idsite' => 0,
+            'deleted' => 0
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 5',
+            'definition' => 'countryCode==au',
+            'enable_only_idsite' => 0,
+            'deleted' => 0
+        ));
+
+        $expected = array(
+            0 => array('cffd4336c22c6782211f853495076b1a'),
+        );
+
+        $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
+        $this->assertEquals($expected, $segmentsByIdSite);
     }
 
     /**

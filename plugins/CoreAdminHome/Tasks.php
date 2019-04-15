@@ -285,7 +285,7 @@ class Tasks extends \Piwik\Plugin\Tasks
      * Get a list of all segment hashes that currently exist, indexed by idSite.
      * @return array
      */
-    protected function getSegmentHashesByIdSite()
+    public function getSegmentHashesByIdSite()
     {
         //Get a list of hashes of all segments that exist now
         $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
