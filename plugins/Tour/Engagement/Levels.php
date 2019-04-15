@@ -14,22 +14,22 @@ use Piwik\Piwik;
 class Levels
 {
     /**
-     * @var Challenges
+     * @var array
      */
-    private $challenges;
+    private $challenges = array();
 
-    /**
-     * GetEngagement constructor.
-     * @param Challenges $challenges
-     */
-    public function __construct(Challenges $challenges)
+    private function getChallenges()
     {
-        $this->challenges = $challenges;
+        if (empty($this->challenges)) {
+            $this->challenges = Request::processRequest('Tour.getChallenges', [], []);
+        }
+
+        return $this->challenges;
     }
 
     public function getNumChallengesCompleted()
     {
-        $challenges = Request::processRequest('Tour.getChallenges', [], []);
+        $challenges = $this->getChallenges();
 
         $completed = 0;
         foreach ($challenges as $challenge) {
@@ -44,6 +44,19 @@ class Levels
     {
         $completed = $this->getNumChallengesCompleted();
 
+        $current = 0;
+        foreach ($this->getLevels() as $threshold => $level) {
+            if ($completed >= $threshold) {
+                $current++;
+            }
+        }
+        return $current;
+    }
+
+    public function getCurrentLevelName()
+    {
+        $completed = $this->getNumChallengesCompleted();
+
         $current = '';
         foreach ($this->getLevels() as $threshold => $level) {
             if ($completed >= $threshold) {
@@ -53,7 +66,7 @@ class Levels
         return $current;
     }
 
-    public function getNextLevel()
+    public function getNextLevelName()
     {
         $completed = $this->getNumChallengesCompleted();
 
@@ -62,6 +75,12 @@ class Levels
                return $level;
             }
         }
+    }
+
+    public function getNumLevels()
+    {
+        $levels = $this->getLevels();
+        return count($levels);
     }
 
     public function getNumChallengesNeededToNextLevel()
@@ -78,30 +97,51 @@ class Levels
     public function getCurrentDescription()
     {
         $numChallengesCompleted = $this->getNumChallengesCompleted();
-        if ($numChallengesCompleted <= 5) {
+        $numChallengesTotal = $this->getNumChallengesTotal();
+
+        if ($numChallengesCompleted <= ($numChallengesTotal / 4)) {
             return Piwik::translate('Tour_Part1Title');
         }
 
-        if ($numChallengesCompleted <= 10) {
+        if ($numChallengesCompleted <= ($numChallengesTotal / 2)) {
             return Piwik::translate('Tour_Part2Title');
         }
 
-        if ($numChallengesCompleted <= 14) {
+        if ($numChallengesCompleted <= ($numChallengesTotal / 1.333)) {
             return Piwik::translate('Tour_Part3Title');
         }
 
         return Piwik::translate('Tour_Part4Title');
     }
 
+    private function getNumChallengesTotal()
+    {
+        $challenges = $this->getChallenges();
+        return count($challenges);
+    }
+
     public function getLevels()
     {
-       return array(
+        $numChallengesTotal = $this->getNumChallengesTotal();
+
+        $levels = array(
             0 => Piwik::translate('Tour_MatomoBeginner'),
             5 => Piwik::translate('Tour_MatomoIntermediate'),
-            10 => Piwik::translate('Tour_MatomoProfessional'),
-            15 => Piwik::translate('Tour_MatomoSenior'),
-            20 => Piwik::translate('Tour_MatomoExpert'),
-       );
+        );
+
+        if ($numChallengesTotal > 10) {
+            // the number of challenges varies from Matomo to Matomo depending on activated plugins and activated
+            // features. Therefore we may remove some levels if there aren't too many challenges available.
+            $levels[10] = Piwik::translate('Tour_MatomoProfessional');
+        }
+
+        if ($numChallengesTotal > 15) {
+            $levels[15] = Piwik::translate('Tour_MatomoSenior');
+        }
+
+        $levels[$numChallengesTotal] = Piwik::translate('Tour_MatomoExpert');
+
+        return $levels;
     }
 
 

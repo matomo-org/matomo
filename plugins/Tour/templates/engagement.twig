@@ -1,19 +1,26 @@
 <div class="widgetBody tourEngagement">
+    <p title="{{ 'Tour_StatusLevel'|translate(level.currentLevelName, level.challengesNeededForNextLevel, level.nextLevelName)|e('html_attr') }}">
+    {% for i in 1..level.numLevelsTotal %}
+        <span class="icon-star {% if level.currentLevel >= i %}successStar{% else %}upgradeStar{% endif %}"></span>
+    {% endfor %}
+    </p>
+
     {% if isCompleted %}
        <p><strong class="completed">{{ 'Tour_CompletionTitle'|translate }}</strong>
            {{ 'Tour_CompletionMessage'|translate }}
             <br />
-           {{ 'Tour_YouCanCallYourselfExpert'|translate('<strong>', '</strong>')|raw }}<br /><br />
+            <br />
+           {{ 'Tour_YouCanCallYourselfExpert'|translate('<strong class="successStar">', '</strong>')|raw }}<br /><br />
            {{ 'Tour_ShareYourAchievementOn'|translate }}
-           <a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url') }}&url={{ "https://matomo.org"|e('url') }}|raw">Twitter</a>,
-           <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?t={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url') }}&u={{ "https://matomo.org"|e('url')|raw }}">Facebook</a>,
-           <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/shareArticle?mini=true&url={{ "https://matomo.org"|e('url') }}&title={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevel)|e('url')|raw }}">LinkedIn</a>
+           <a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url') }}&url={{ "https://matomo.org"|e('url')|raw }}">Twitter</a>,
+           <a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/sharer/sharer.php?quote={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url') }}&u={{ "https://matomo.org"|e('url')|raw }}">Facebook</a>,
+           <a target="_blank" rel="noreferrer noopener" href="https://www.linkedin.com/shareArticle?mini=true&url={{ "https://matomo.org"|e('url') }}&summary={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url')|raw }}">LinkedIn</a>
        </p>
     {% else %}
-        <p>{{ level.description }}</p>
+        {% if level.description %}<p>{{ level.description }}</p>{% endif %}
 
         <p>
-            {{ 'Tour_StatusLevel'|translate('<strong>'~ level.currentLevel ~'</strong>', level.challengesNeededForNextLevel, '<strong>'~ level.nextLevel ~'</strong>')|raw }}
+            {{ 'Tour_StatusLevel'|translate('<strong>'~ level.currentLevelName ~'</strong>', level.challengesNeededForNextLevel, '<strong>'~ level.nextLevelName ~'</strong>')|raw }}
         </p>
 
         <ul>

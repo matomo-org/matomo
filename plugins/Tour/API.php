@@ -92,7 +92,9 @@ class API extends \Piwik\Plugin\API
         return array(
             'description' => $this->levels->getCurrentDescription(),
             'currentLevel' => $this->levels->getCurrentLevel(),
-            'nextLevel' => $this->levels->getNextLevel(),
+            'currentLevelName' => $this->levels->getCurrentLevelName(),
+            'nextLevelName' => $this->levels->getNextLevelName(),
+            'numLevelsTotal' => $this->levels->getNumLevels(),
             'challengesNeededForNextLevel' => $this->levels->getNumChallengesNeededToNextLevel(),
         );
     }
