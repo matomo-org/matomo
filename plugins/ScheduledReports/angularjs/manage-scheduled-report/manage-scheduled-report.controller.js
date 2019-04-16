@@ -177,6 +177,26 @@
             resetParameters(this.report.type, this.report);
         };
 
+        this.displayReport = function (url) {
+            // Split the URL into its parts
+            var urlParts = url.split('?');
+            var basePath = urlParts[0];
+            var params = urlParts[1].split('&');
+
+            // Generate an <input> for each query param
+            var form = '';
+            $.each(params, function(key, queryStr) {
+                var queryParts = queryStr.split('=');
+                form += '<input type="hidden" name="' + queryParts[0] + '" value="' + queryParts[1] + '">'
+            });
+
+            // Build and submit the form
+            // The target="_blank" only works if the form's id attribute is also set
+            $('<form action="' + basePath + '" method="POST" target="_blank" id="downloadReportForm">' + form + "</form>")
+                .appendTo($(document.body))
+                .submit();
+        };
+
         // Email now
         this.sendReportNow = function (idReport) {
             var ajaxHandler = getReportAjaxRequest(idReport, 'ScheduledReports.sendReport');
