@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Tour\Dao\DataFinder;
 
 class ChallengeViewVisitsLog extends Challenge
 {

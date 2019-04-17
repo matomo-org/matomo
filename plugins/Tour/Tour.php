@@ -8,11 +8,15 @@
  */
 namespace Piwik\Plugins\Tour;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeChangeVisualisation;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
+use Piwik\Plugins\Tour\Engagement\ChallengeFlattenActions;
+use Piwik\Plugins\Tour\Engagement\ChallengeSelectDateRange;
 use Piwik\Plugins\Tour\Engagement\ChallengeViewRowEvolution;
 use Piwik\Plugins\Tour\Engagement\ChallengeViewVisitorProfile;
 use Piwik\Plugins\Tour\Engagement\ChallengeViewVisitsLog;
@@ -32,7 +36,25 @@ class Tour extends \Piwik\Plugin
             'Controller.CoreHome.getRowEvolutionPopover' => 'onViewRowEvolution',
             'Controller.Live.getLastVisitsDetails' => 'onViewVisitorLog',
             'Controller.Live.getVisitorProfilePopup' => 'onViewVisitorProfile',
+            'Request.dispatch' => 'onDispatchRequest',
         );
+    }
+
+    public function onDispatchRequest()
+    {
+        if (Common::getRequestVar('period', '', 'string') === 'range') {
+            $this->setSimpleChallengeCompleted(ChallengeSelectDateRange::class);
+        }
+        if (Common::getRequestVar('flat', '0', 'string') === '1') {
+            $module = Piwik::getModule();
+            if ($module === 'Actions' || $module === 'Contents' || $module === 'UsersFlow') {
+                $this->setSimpleChallengeCompleted(ChallengeFlattenActions::class);
+            }
+        }
+        if (Common::getRequestVar('viewDataTable', '', 'string')
+            && !Common::getRequestVar('forceView', '', 'string')) {
+            $this->setSimpleChallengeCompleted(ChallengeChangeVisualisation::class);
+        }
     }
 
     private function setSimpleChallengeCompleted($className)

@@ -10,26 +10,26 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 
-class ChallengeViewVisitorProfile extends Challenge
+class ChallengeChangeVisualisation extends Challenge
 {
     public function getName()
     {
-        return Piwik::translate('Tour_ViewX', Piwik::translate('Live_VisitorProfile'));
+        return Piwik::translate('Tour_ChangeVisualisation');
     }
 
     public function getDescription()
     {
-        return Piwik::translate('Tour_ViewVisitorProfileDescription');
+        return Piwik::translate('Tour_ChangeVisualisationDescription');
     }
 
     public function getId()
     {
-        return 'view_visitor_profile';
+        return 'change_visualisations';
     }
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/user-profile/';
+        return 'https://matomo.org/docs/piwik-tour/#a-look-at-a-piwik-report';
     }
 
 

@@ -41,7 +41,7 @@ class ChallengeScheduledReport extends Challenge
 
     public function getId()
     {
-        return 'add_report';
+        return 'add_scheduled_report';
     }
 
     public function isCompleted()

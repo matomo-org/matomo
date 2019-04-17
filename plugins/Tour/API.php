@@ -14,7 +14,7 @@ use Piwik\Plugins\Tour\Engagement\Levels;
 use Piwik\Plugins\Tour\Engagement\Challenges;
 
 /**
- * API for plugin Tour
+ * API for Tour plugin which helps you getting familiar with Matomo.
  *
  * @method static \Piwik\Plugins\Tour\API getInstance()
  */
@@ -38,7 +38,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get all challenges
+     * Get all challenges that can be completed by a super user.
+     *
      * @return array[]
      */
     public function getChallenges()
@@ -62,7 +63,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Skip a challenge
+     * Skip a specific challenge.
+     *
      * @param string $id
      * @return bool
      * @throws \Exception
@@ -82,7 +84,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get current challenge level
+     * Get details about the current level this user has progressed to.
      * @return array
      */
     public function getLevel()

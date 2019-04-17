@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
-use Piwik\Plugins\Tour\Dao\DataFinder;
 
 class ChallengeViewRowEvolution extends Challenge
 {
@@ -20,7 +19,7 @@ class ChallengeViewRowEvolution extends Challenge
 
     public function getDescription()
     {
-        return Piwik::translate('CoreAdminHome_ViewRowEvolutionDescription');
+        return Piwik::translate('Tour_ViewRowEvolutionDescription');
     }
 
     public function getId()

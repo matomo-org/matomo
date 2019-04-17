@@ -42,7 +42,7 @@ class ChallengeCustomLogo extends Challenge
 
     public function getId()
     {
-        return 'setup_branding';
+        return 'custom_logo';
     }
 
     public function isCompleted()

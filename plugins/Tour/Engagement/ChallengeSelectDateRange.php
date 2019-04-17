@@ -10,26 +10,26 @@ namespace Piwik\Plugins\Tour\Engagement;
 
 use Piwik\Piwik;
 
-class ChallengeViewVisitorProfile extends Challenge
+class ChallengeSelectDateRange extends Challenge
 {
     public function getName()
     {
-        return Piwik::translate('Tour_ViewX', Piwik::translate('Live_VisitorProfile'));
+        return Piwik::translate('Tour_SelectDateRange');
     }
 
     public function getDescription()
     {
-        return Piwik::translate('Tour_ViewVisitorProfileDescription');
+        return Piwik::translate('Tour_SelectDateRangeDescription');
     }
 
     public function getId()
     {
-        return 'view_visitor_profile';
+        return 'select_date_range';
     }
 
     public function getUrl()
     {
-        return 'https://matomo.org/docs/user-profile/';
+        return 'https://matomo.org/docs/piwik-tour/#select-a-date-range';
     }
 
 

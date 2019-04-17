@@ -51,6 +51,10 @@ class Challenges
         if ($this->isActivePlugin('SitesManager')) {
             $challenges[] = StaticContainer::get(ChallengeAddedWebsite::class);
         }
+
+        $challenges[] = StaticContainer::get(ChallengeFlattenActions::class);
+        $challenges[] = StaticContainer::get(ChallengeChangeVisualisation::class);
+
         if ($this->isActivePlugin('ScheduledReports')) {
             $challenges[] = StaticContainer::get(ChallengeScheduledReport::class);
         }
@@ -64,6 +68,10 @@ class Challenges
             $challenges[] = StaticContainer::get(ChallengeAddedAnnotation::class);
         }
 
+        if ($this->isActivePlugin('TwoFactorAuth')) {
+            $challenges[] = StaticContainer::get(ChallengeSetupTwoFa::class);
+        }
+
         if (Controller::isGeneralSettingsAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeDisableBrowserArchiving::class);
         }
@@ -71,6 +79,10 @@ class Challenges
         if (UserCountry::isGeoLocationAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeConfigureGeolocation::class);
         }
+
+        // we're adding this simple challenge only later in the process since there might not be enough data yet in
+        // the beginning to actually get much value from it
+        $challenges[] = StaticContainer::get(ChallengeSelectDateRange::class);
 
         if ($this->isActivePlugin('Live')) {
             $challenges[] = StaticContainer::get(ChallengeViewVisitsLog::class);
