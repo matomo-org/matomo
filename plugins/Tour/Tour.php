@@ -8,9 +8,13 @@
  */
 namespace Piwik\Plugins\Tour;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
+use Piwik\Plugins\Tour\Engagement\Challenge;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
 use Piwik\Plugins\Tour\Engagement\ChallengeChangeVisualisation;
@@ -36,32 +40,38 @@ class Tour extends \Piwik\Plugin
             'Controller.CoreHome.getRowEvolutionPopover' => 'onViewRowEvolution',
             'Controller.Live.getLastVisitsDetails' => 'onViewVisitorLog',
             'Controller.Live.getVisitorProfilePopup' => 'onViewVisitorProfile',
-            'Request.dispatch' => 'onDispatchRequest',
+            'ViewDataTable.configure' => array('function' => 'onConfigureView', 'after' => true),
         );
     }
 
-    public function onDispatchRequest()
+    public function onConfigureView()
     {
         if (Common::getRequestVar('period', '', 'string') === 'range') {
             $this->setSimpleChallengeCompleted(ChallengeSelectDateRange::class);
         }
+
         if (Common::getRequestVar('flat', '0', 'string') === '1') {
             $module = Piwik::getModule();
             if ($module === 'Actions' || $module === 'Contents' || $module === 'UsersFlow') {
                 $this->setSimpleChallengeCompleted(ChallengeFlattenActions::class);
             }
         }
-        if (Common::getRequestVar('viewDataTable', '', 'string')
-            && !Common::getRequestVar('forceView', '', 'string')) {
-            $this->setSimpleChallengeCompleted(ChallengeChangeVisualisation::class);
+
+        $viewDataTable = Common::getRequestVar('viewDataTable', '', 'string');
+        if ($viewDataTable && !Common::getRequestVar('forceView', '', 'string')) {
+            if ($viewDataTable !== Sparkline::ID && $viewDataTable !== Evolution::ID) {
+                // sparkline and graphEvolution may be used without forceView
+                $this->setSimpleChallengeCompleted(ChallengeChangeVisualisation::class);
+            }
         }
     }
 
     private function setSimpleChallengeCompleted($className)
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $annotation = StaticContainer::get($className);
-            $annotation->setCompleted();
+            /** @var Challenge $challenge */
+            $challenge = StaticContainer::get($className);
+            $challenge->setCompleted();
         }
     }
 
