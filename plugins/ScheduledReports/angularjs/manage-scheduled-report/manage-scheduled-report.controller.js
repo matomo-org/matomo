@@ -183,16 +183,27 @@
             var basePath = urlParts[0];
             var params = urlParts[1].split('&');
 
-            // Generate an <input> for each query param
-            var form = '';
+            var formContent = '';
+            var separator = '?';
             $.each(params, function(key, queryStr) {
                 var queryParts = queryStr.split('=');
-                form += '<input type="hidden" name="' + queryParts[0] + '" value="' + queryParts[1] + '">'
+                if (queryParts[0] == 'token_auth') {
+                    // Hide the token_auth in an input element
+                    formContent = $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', queryParts[0])
+                        .attr('value', queryParts[1]);
+                } else {
+                    // Everything else can be exposed to the user in the URL
+                    basePath += separator + queryStr;
+                    separator = '&';
+                }
             });
 
             // Build and submit the form
             // The target="_blank" only works if the form's id attribute is also set
-            $('<form action="' + basePath + '" method="POST" target="_blank" id="downloadReportForm">' + form + "</form>")
+            $('<form action="' + basePath + '" method="POST" target="_blank" id="downloadReportForm"></form>')
+                .html(formContent)
                 .appendTo($(document.body))
                 .submit();
         };
