@@ -211,7 +211,7 @@ class ApiTest extends SystemTestCase
 
     public function test_referrersReport_sameUrlButDifferentProtocol_flat()
     {
-        $dateTime = '2015-01-04';
+        $dateTime = '2015-01-07';
         $idSite = self::$fixture->idSite;
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
@@ -233,13 +233,13 @@ class ApiTest extends SystemTestCase
         );
 
         $firstRow = $visits->getFirstRow();
-        $this->assertEquals('t.umblr.com', $firstRow->getColumn('label'));
+        $this->assertEquals('t.umblr.com/index', $firstRow->getColumn('label'));
         $this->assertEquals(2, $firstRow->getColumn('nb_visits'));
     }
 
     public function test_referrersReport_sameUrlButDifferentProtocol_hierarchical()
     {
-        $dateTime = '2015-01-04';
+        $dateTime = '2015-01-08';
         $idSite = self::$fixture->idSite;
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
