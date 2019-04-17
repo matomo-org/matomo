@@ -1,3 +1,3 @@
-FROM matomo:3.8.1-apache
+FROM matomo:3.9.1-apache
 RUN pecl install xdebug-2.7.0 \
     && docker-php-ext-enable xdebug

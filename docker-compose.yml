@@ -12,6 +12,8 @@ networks:
 services:
   db:
     image: mysql:5.6
+    ports:
+      - "3306:3306"
     volumes:
       - database:/var/lib/mysql
       - ./misc/docker/db.sql:/docker-entrypoint-initdb.d/db.sql
@@ -22,10 +24,10 @@ services:
     networks:
     - back
   matomo:
-    image: matomo:3.8.1-apache-dev
+    image: matomo:3.9.1-apache-dev
     build:
       context: .
-      dockerfile: ./misc/docker/Dockerfile-matomo-3.8.1-apache-dev
+      dockerfile: ./misc/docker/Dockerfile-matomo-3.9.1-apache-dev
     ports:
       - "80:80"
     links:
