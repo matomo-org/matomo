@@ -9,13 +9,9 @@
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\API\Request;
-use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\Tour\Dao\DataFinder;
-use Piwik\Plugins\Tour\Engagement\ChallengeAddedWebsite;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
-use Piwik\Plugins\Goals\API as ApiGoals;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 

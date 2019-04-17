@@ -9,31 +9,22 @@
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\API\Request;
-use Piwik\Date;
-use Piwik\Plugins\AbTesting\Model\Experiments;
-use Piwik\Plugins\AbTesting\tests\Fixtures\ExperimentsFixture;
-use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\Challenge;
-use Piwik\Plugins\Tour\Engagement\Challenges;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Tour
- * @group ChallengesTest
+ * @group APITest
  * @group Plugins
  */
-class ChallengesTest extends SystemTestCase
+class APITest extends SystemTestCase
 {
     /**
      * @var SimpleFixtureTrackFewVisits
      */
     public static $fixture = null; // initialized below class definition
-
-    /**
-     * @var Challenges
-     */
-    private $part1;
 
     /**
      * @dataProvider getApiForTesting
@@ -70,6 +61,37 @@ class ChallengesTest extends SystemTestCase
         $this->assertTrue($steps[1]['isSkipped']);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Challenge already completed
+     */
+    public function test_skipStep_alreadyCompleted()
+    {
+        Request::processRequest('Tour.skipChallenge', array('id' => 'track_data'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Challenge not found
+     */
+    public function test_skipStep_invalid()
+    {
+        Request::processRequest('Tour.skipChallenge', array('id' => 'foobarbaz'));
+    }
+
+    public function test_getLevel_WhenNothingCompleted()
+    {
+        Piwik::addAction('API.Tour.getChallenges.end', function (&$challenges) {
+            foreach ($challenges as &$challenge) {
+                $challenge['isSkipped'] = false;
+                $challenge['isCompleted'] = false;
+            }
+        });
+        $this->runApiTests(array('Tour.getLevel'), array(
+            'testSuffix' => 'nothingCompleted'
+        ));
+    }
+
     public static function getOutputPrefix()
     {
         return '';
@@ -82,4 +104,4 @@ class ChallengesTest extends SystemTestCase
 
 }
 
-ChallengesTest::$fixture = new SimpleFixtureTrackFewVisits();
+APITest::$fixture = new SimpleFixtureTrackFewVisits();

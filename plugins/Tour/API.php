@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Tour;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Tour\Engagement\Levels;
 use Piwik\Plugins\Tour\Engagement\Challenges;
@@ -75,8 +74,12 @@ class API extends \Piwik\Plugin\API
 
         foreach ($this->challenges->getChallenges() as $challenge) {
             if ($challenge->getId() === $id) {
-                $challenge->skipChallenge();
-                return true;
+                if (!$challenge->isCompleted()) {
+                    $challenge->skipChallenge();
+                    return true;
+                }
+
+                throw new \Exception('Challenge already completed');
             }
         }
 

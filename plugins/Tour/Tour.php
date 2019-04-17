@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\Tour;
 
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -119,8 +118,9 @@ class Tour extends \Piwik\Plugin
         if (Piwik::hasUserSuperUserAccess()) {
             $defaultLayout = json_decode($defaultLayout);
             $engagementWidget = array('uniqueId' => 'widgetTourgetEngagement', 'parameters' => array('module' => 'Tour', 'action' => 'getEngagement'));
-            array_unshift($defaultLayout[0], $engagementWidget);
-
+            if (isset($defaultLayout[2])) {
+                array_unshift($defaultLayout[2], $engagementWidget);
+            }
             $defaultLayout = json_encode($defaultLayout);
         }
     }
