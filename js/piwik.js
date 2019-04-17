@@ -7367,8 +7367,8 @@ if (typeof window.Piwik !== 'object') {
              * length, ping requests will create a new visit using the last action in the last known visit.
              */
             this.ping = function () {
-                this.trackRequest('ping=1', null, null, 'ping')
-            }
+                this.trackRequest('ping=1', null, null, 'ping');
+            };
 
             /**
              * Disables sending requests queued
