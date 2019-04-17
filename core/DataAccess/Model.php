@@ -349,7 +349,7 @@ class Model
 
         $rows = Db::fetchAll($sql, array($oldestToKeep));
 
-        return array_map(function($row) { return $row['idarchive']; }, $rows);
+        return array_column($rows, 'idarchive');
     }
 
     /**

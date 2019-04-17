@@ -293,12 +293,11 @@ class Tasks extends \Piwik\Plugin\Tasks
         $rows = Db::fetchAll($sql);
         $segmentHashes = array();
         foreach ($rows as $row) {
-            try {
-                $segment = new Segment($row['definition'], array());
-                $segmentHashes[(int)$row['enable_only_idsite']][] = $segment->getHash();
-            } catch (\Exception $ex) {
-                //Segment is invalid ... into the sea its archives shall go
+            $idSite = (int)$row['enable_only_idsite'];
+            if (! isset($segmentHashes[$idSite])) {
+                $segmentHashes[$idSite] = array();
             }
+            $segmentHashes[$idSite][] = Segment::getSegmentHash($row['definition']);
         }
 
         return $segmentHashes;

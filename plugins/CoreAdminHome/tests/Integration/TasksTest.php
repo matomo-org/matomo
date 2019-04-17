@@ -17,6 +17,8 @@ use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\CustomDimensions\CustomDimensions;
+use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Scheduler\Task;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
@@ -258,7 +260,7 @@ class TasksTest extends IntegrationTestCase
         $model = new Model();
         $model->createSegment(array(
             'name' => 'Test Segment 4',
-            'definition' => 'countryCode=nz',   //The single "=" is invalid so hash generation will be skipped
+            'definition' => 'countryCode=nz',   //The single "=" is invalid - we should generate a hash anyway
             'enable_only_idsite' => 0,
             'deleted' => 0
         ));
@@ -270,7 +272,44 @@ class TasksTest extends IntegrationTestCase
         ));
 
         $expected = array(
-            0 => array('cffd4336c22c6782211f853495076b1a'),
+            0 => array('5ffe7e116fae7576c047b1fb811584a5', 'cffd4336c22c6782211f853495076b1a'),
+        );
+
+        $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
+        $this->assertEquals($expected, $segmentsByIdSite);
+    }
+
+    public function test_getSegmentHashesByIdSite_siteSpecificCustomDimension()
+    {
+        // Insert a custom dimension for idsite = 1
+        $configuration = new Configuration();
+        $configuration->configureNewDimension(
+            1, 
+            'mydimension', 
+            CustomDimensions::SCOPE_VISIT, 
+            1, 
+            1, 
+            array(), 
+            true
+        );
+
+        $model = new Model();
+        $model->createSegment(array(
+            'name' => 'Test Segment 6',
+            'definition' => 'mydimension==red',
+            'enable_only_idsite' => 1,
+            'deleted' => 0
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 7',
+            'definition' => 'countryCode==au',
+            'enable_only_idsite' => 2,
+            'deleted' => 0
+        ));
+
+        $expected = array(
+            1 => array('240d2a84a309debd26bdbaa8eb3d363c'),
+            2 => array('cffd4336c22c6782211f853495076b1a')
         );
 
         $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
