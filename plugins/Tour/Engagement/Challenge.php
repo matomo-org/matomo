@@ -12,6 +12,13 @@ use Piwik\Piwik;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 
+/**
+ * Defines a new challenge which a super user needs to complete in order to become a "Matomo expert".
+ * Plugins can add new challenges by listening to the {@hook Tour.filterChallenges} event.
+ *
+ * @since 3.10.0
+ * @api
+ */
 abstract class Challenge
 {
     const APPENDIX_SKIPPED = '_skipped';
@@ -19,8 +26,17 @@ abstract class Challenge
 
     private static $settings = null;
 
+    /**
+     * The human readable name that will be shown in the onboarding widget. Should be max 3 or 4 words and represent an
+     * action, like "Add a report"
+     * @return string
+     */
     abstract public function getName();
 
+    /**
+     * A short unique ID that represents this challenge, for example "add_report".
+     * @return string
+     */
     abstract public function getId();
 
     /**
@@ -38,11 +54,21 @@ abstract class Challenge
         return $this->hasAttribute(self::APPENDIX_COMPLETED);
     }
 
+    /**
+     * A detailed description that describes the value of the action the user needs to complete, or some tips on how
+     * to complete this challenge. Will be shown when hovering a challenge name.
+     * @return string
+     */
     public function getDescription()
     {
         return '';
     }
 
+    /**
+     * A URL that has more information about how to complete the given event or a URL within the Matomo app to directly
+     * complete a challenge. For example "add_user" challenge could directly link to the user management.
+     * @return string
+     */
     public function getUrl()
     {
         return '';
@@ -68,16 +94,30 @@ abstract class Challenge
         self::$settings = null;
     }
 
+    /**
+     * Detect if the challenge was skipped.
+     * @ignore
+     * @return bool
+     */
     public function isSkipped()
     {
         return $this->hasAttribute(self::APPENDIX_SKIPPED);
     }
 
+    /**
+     * Skip this challenge.
+     * @ignore
+     * @return bool
+     */
     public function skipChallenge()
     {
         $this->storeAttribute(self::APPENDIX_SKIPPED);
     }
 
+    /**
+     * Set this challenge was completed successfully by the current user. Only works for a super user.
+     * @return bool
+     */
     public function setCompleted()
     {
         $this->storeAttribute(self::APPENDIX_COMPLETED);
@@ -96,6 +136,9 @@ abstract class Challenge
 
     private function storeAttribute($appendix)
     {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
         $pluginSettings = $this->getPluginSettingsInstance();
         $settings = $pluginSettings->load();
 

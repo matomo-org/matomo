@@ -11,8 +11,7 @@
             <br />
             <br />
            {{ 'Tour_YouCanCallYourselfExpert'|translate('<strong class="successStar">', '</strong>')|raw }}<br /><br />
-           {{ 'Tour_ShareYourAchievementOn'|translate }}
-           <a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text={{ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url') }}&url={{ "https://matomo.org"|e('url')|raw }}">Twitter</a>
+           {{ 'Tour_ShareYourAchievementOn'|translate('<a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text='~ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url') ~ '&url=' ~ "https://matomo.org"|e('url') ~ '">Twitter</a>')|raw }}
        </p>
     {% else %}
         {% if level.description %}<p>{{ level.description }}</p>{% endif %}
