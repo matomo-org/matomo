@@ -162,20 +162,27 @@ abstract class Graph extends Visualization
 
     protected function generateSelectableColumns()
     {
-        $selectableColumns = array('nb_visits', 'nb_actions');
-
-        // Only add unique visitors and users metrics when there is data to support them
-        $firstRow = $this->getDataTable()->getFirstRow();
-        if (!$firstRow || $firstRow->hasColumn('nb_uniq_visitors')) {
-            $selectableColumns[] = 'nb_uniq_visitors';
-        }
-        if (!$firstRow || $firstRow->hasColumn('nb_users')) {
-            $selectableColumns[] = 'nb_users';
-        }
-
+        $defaultColumns = array(
+            'nb_visits',
+            'nb_actions',
+            'nb_uniq_visitors',
+            'nb_users'
+        );
         if ($this->config->show_goals) {
             $goalMetrics       = array('nb_conversions', 'revenue');
-            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+            $defaultColumns    = array_merge($defaultColumns, $goalMetrics);
+        }
+
+        // Use the subset of default columns that are actually present in the datatable
+        $allColumns = $this->getDataTable()->getColumns();
+        $selectableColumns = array_intersect($defaultColumns, $allColumns);
+
+        // If there are no default columns, just strip out the 'label' column and use all the others
+        if (empty($selectableColumns)) {
+            $selectableColumns = $allColumns;
+            if ($selectableColumns[0] == 'label') {
+                array_shift($selectableColumns);
+            }
         }
 
         $this->config->selectable_columns = $selectableColumns;
@@ -190,7 +197,8 @@ abstract class Graph extends Visualization
             array_shift($columnsToDisplay);
         }
 
-        // Chuck out any columns_to_display that are not in list of selectable_columns
-        $this->config->columns_to_display = array_intersect($columnsToDisplay, $this->config->selectable_columns);
+        // Strip out any columns_to_display that are not in the dataset
+        $allColumns = $this->getDataTable()->getColumns();
+        $this->config->columns_to_display = array_intersect($columnsToDisplay, $allColumns);
     }
 }
