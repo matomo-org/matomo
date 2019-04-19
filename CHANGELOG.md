@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * A new tracker method `ping` has been added to send a ping request manually instead of using the heart beat timer.
+* Added new event `ViewDataTable.configure.end`, triggered after view configuration properties have been overwritten by saved settings and query parameters.
 
 ## Matomo 3.9.0
 
