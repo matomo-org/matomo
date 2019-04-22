@@ -1771,7 +1771,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
-            var labelSpan = $(this).find('.label .value');
+            var labelSpan = $(this).find('.label .value').filter(function(index, elem){
+                return $(elem).text() != '-';
+            }).last();
             var defaultLabel = labelSpan.text();
 
             $(this).hover(function() {
