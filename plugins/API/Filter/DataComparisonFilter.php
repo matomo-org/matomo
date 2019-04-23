@@ -21,6 +21,8 @@ use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
 
 // TODO: unit test
 
+// TODO: if comparing days w/ non-days, in html table & elsewhere, we must display nb_visits instead of nb_uniq_visitors
+
 /**
  * TODO
  */
@@ -197,13 +199,11 @@ class DataComparisonFilter extends BaseFilter
                 'totals' => 1,
                 'disable_queued_filters' => 1,
                 'format_metrics' => 0,
-            ],
-            $paramsToModify,
-            [
                 'idSite' => $table->getMetadata('site')->getId(),
                 'period' => $period->getLabel(),
                 'date' => $period->getDateStart()->toString(),
-            ]
+            ],
+            $paramsToModify
         );
 
         return Request::processRequest($method, $params);

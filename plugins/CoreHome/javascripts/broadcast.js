@@ -476,7 +476,6 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-
         var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
@@ -497,7 +496,10 @@ var broadcast = {
             }
         }
 
-        $location.search('popover', popover);
+        var urlStr = window.location.hash;
+        urlStr = broadcast.updateParamValue('popover=' + encodeURIComponent(popover), urlStr);
+        urlStr = urlStr.replace(/^[#?]+/, '');
+        $location.search(urlStr);
 
         setTimeout(function () {
             angular.element(document).injector().get('$rootScope').$apply();

@@ -198,6 +198,10 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
 
 /** Get the label string from a tr dom element */
 DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
+    if (tr.data('label')) {
+        return tr.data('label');
+    }
+
     var label = tr.find('span.label');
 
     // handle truncation
@@ -278,7 +282,11 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.addMultiEvolutionRow(label);
 
     // check whether we have rows marked for multi row evolution
-    var extraParams = {};
+    var extraParams = $(tr).data('param-override');
+    if (typeof extraParams !== 'object') {
+        extraParams = {};
+    }
+
     if (this.multiEvolutionRows.length > 1) {
         extraParams.action = 'getMultiRowEvolutionPopover';
         label = this.multiEvolutionRows.join(',');

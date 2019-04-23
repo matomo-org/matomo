@@ -47,6 +47,7 @@
 
                 {% if row.getMetadata('comparisons') %}
                 {% include "@CoreVisualizations/_dataTableViz_htmlTable_comparisons.twig" with {
+                    'comparedRow': row,
                     'dataTable': row.getMetadata('comparisons'),
                     'rootDataTable': dataTable
                 } %}

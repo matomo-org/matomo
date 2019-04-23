@@ -8,7 +8,12 @@
         </td>
     </tr>
     {% endif %}
-    <tr class="comparisonRow">
+    {% set overrideParams = {} %}
+
+    {% if row.getMetadata('compareSegment')|default is not empty %}{% set overrideParams = overrideParams|merge({ segment: row.getMetadata('compareSegment'), compareSegments: '' }) %}{% endif %}
+    {% if row.getMetadata('comparePeriod')|default is not empty %}{% set overrideParams = overrideParams|merge({ period: row.getMetadata('comparePeriod'), comparePeriods: '' }) %}{% endif %}
+    {% if row.getMetadata('compareDate')|default is not empty %}{% set overrideParams = overrideParams|merge({ date: row.getMetadata('compareDate'), compareDates: '' }) %}{% endif %}
+    <tr class="comparisonRow" data-param-override="{{ overrideParams|json_encode|e('html_attr') }}" data-label="{{ comparedRow.getColumn('label')|e('html_attr') }}">
         <td>
             {%- set comparisonLabel = row.getMetadata('compareSegmentPretty') -%}
             <span class="label">{{ comparisonLabel }}</span>
