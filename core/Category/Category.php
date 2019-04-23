@@ -44,6 +44,12 @@ class Category
     protected $icon = '';
 
     /**
+     * A link to an image to use for this category, if the desired icon does not exist.
+     * @var string|null
+     */
+    protected $imageUrl = null;
+
+    /**
      * @param int $order
      * @return static
      */
@@ -119,6 +125,23 @@ class Category
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string|null $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
     }
 
 }

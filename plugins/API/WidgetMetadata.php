@@ -191,6 +191,7 @@ class WidgetMetadata
             'name'  => $category->getDisplayName(),
             'order' => $category->getOrder(),
             'icon' => $category->getIcon(),
+            'imageUrl' => $category->getImageUrl(),
         );
     }
 

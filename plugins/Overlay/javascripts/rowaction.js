@@ -18,7 +18,7 @@ DataTable_RowActions_Overlay.prototype = new DataTable_RowAction;
 DataTable_RowActions_Overlay.registeredReports = [];
 DataTable_RowActions_Overlay.registerReport = function (handler) {
     DataTable_RowActions_Overlay.registeredReports.push(handler);
-}
+};
 
 
 DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
