@@ -133,11 +133,11 @@ class Levels
         if ($numChallengesTotal > 10) {
             // the number of challenges varies from Matomo to Matomo depending on activated plugins and activated
             // features. Therefore we may remove some levels if there aren't too many challenges available.
-            $levels[10] = Piwik::translate('Tour_MatomoProfessional');
+            $levels[10] = Piwik::translate('Tour_MatomoTalent');
         }
 
         if ($numChallengesTotal > 15) {
-            $levels[15] = Piwik::translate('Tour_MatomoTalent');
+            $levels[15] = Piwik::translate('Tour_MatomoProfessional');
         }
 
         $levels[$numChallengesTotal] = Piwik::translate('Tour_MatomoExpert');
