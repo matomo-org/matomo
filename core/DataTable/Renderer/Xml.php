@@ -374,7 +374,11 @@ class Xml extends Renderer
 
                     // handle the recursive dataTable case by XML outputting the recursive table
                     if (is_array($value)) {
-                        $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
+                        if (is_array(reset($value))) {
+                            $value = "\n" . $this->renderDataTable($value, $prefixLine . "\t\t");
+                        } else {
+                            $value = "\n" . $this->renderArray($value, $prefixLine . "\t\t");
+                        }
                         $value .= $prefixLine . "\t\t";
                     } else {
                         $value = self::formatValueXml($value);

@@ -707,4 +707,46 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         );
         return $table;
     }
+
+    public function testRenderDataTableWithArray()
+    {
+        $data = new DataTable();
+
+        $row = new Row();
+        $row->addColumn('c', array(1, 2, 3, 4));
+        $row->addColumn('e', array('f' => ['k' => [5, 6], 'l' => [7, 8], 'm' => [9, 10]]));
+        $data->addRow($row);
+
+        $render = new Xml();
+        $render->setTable($data);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<c>
+		<row>1</row>
+		<row>2</row>
+		<row>3</row>
+		<row>4</row>
+		</c>
+		<e>
+			<row>
+				<k>
+				<row>5</row>
+				<row>6</row>
+				</k>
+				<l>
+				<row>7</row>
+				<row>8</row>
+				</l>
+				<m>
+				<row>9</row>
+				<row>10</row>
+				</m>
+			</row>
+		</e>
+	</row>
+</result>';
+
+        $this->assertEquals($expected, $render->render());
+    }
 }

@@ -87,14 +87,14 @@
 
         <div piwik-field uicontrol="select" name="currency"
              ng-model="site.currency"
-             title="{{ 'SitesManager_Currency'|translate }}"
+             data-title="{{ 'SitesManager_Currency'|translate }}"
              inline-help="{{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}"
              options='currencies'>
         </div>
 
         <div piwik-field uicontrol="select" name="timezone"
              ng-model="site.timezone"
-             title="{{ 'SitesManager_Timezone'|translate }}"
+             data-title="{{ 'SitesManager_Timezone'|translate }}"
              inline-help="#timezoneHelpText"
              options='timezones'>
         </div>

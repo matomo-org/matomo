@@ -540,8 +540,9 @@ class Twig
         $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginManager->getAllPluginsNames();
 
+        $pluginsDir = Manager::getPluginDirectory($pluginName);
+
         foreach ($plugins as $name) {
-            $pluginsDir = Manager::getPluginDirectory($name);
             $path = sprintf("%s/templates/plugins/%s/", $pluginsDir, $name);
             if (is_dir($path)) {
                 $loader->addPath(rtrim($path, '/'), $name);
