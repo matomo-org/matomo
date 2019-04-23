@@ -33,7 +33,7 @@
         "DisableBrowserArchiving": "Disable browser archiving for better performance",
         "SkipThisChallenge": "Skip this challenge",
         "ShareYourAchievementOn": "Share your achievement on %1$s.",
-        "MatomoSenior": "Matomo Senior",
+        "MatomoSenior": "Matomo Talent",
         "MatomoBeginner": "Matomo Beginner",
         "MatomoIntermediate": "Matomo Intermediate",
         "MatomoProfessional": "Matomo Professional",
@@ -46,10 +46,10 @@
         "EmbedTrackingCode": "Embed tracking code",
         "CompletionTitle": "Well done!",
         "CompletionMessage": "You have completed all the challenges. Give yourself a pat on the back.",
-        "Part1Title": "Welcome to Matomo. This widget helps you become a Matomo expert in no time.",
-        "Part2Title": "You are doing great on your way to become a Matomo expert, keep on going.",
-        "Part3Title": "Great progress! If you continue like this, you become an expert in no time!",
-        "Part4Title": "Great progress! Only a few more challenges to complete.",
+        "Part1Title": "Welcome to Matomo %1$s. This widget will help you become a Matomo expert in no time.",
+        "Part2Title": "Keep it up %1$s! You’re well on your way to becoming a Matomo expert.",
+        "Part3Title": "Great progress %1$s! If you continue like this, you’ll be an expert in no time!",
+        "Part4Title": "Great progress %1$s! Only a few more challenges to complete.",
         "OnlyVisibleToSuperUser": "Only you as a %1$sSuper User%2$s can see this widget."
     }
 }

@@ -96,22 +96,23 @@ class Levels
 
     public function getCurrentDescription()
     {
+        $login = Piwik::getCurrentUserLogin();
         $numChallengesCompleted = $this->getNumChallengesCompleted();
         $numChallengesTotal = $this->getNumChallengesTotal();
 
         if ($numChallengesCompleted <= ($numChallengesTotal / 4)) {
-            return Piwik::translate('Tour_Part1Title');
+            return Piwik::translate('Tour_Part1Title', $login);
         }
 
         if ($numChallengesCompleted <= ($numChallengesTotal / 2)) {
-            return Piwik::translate('Tour_Part2Title');
+            return Piwik::translate('Tour_Part2Title', $login);
         }
 
         if ($numChallengesCompleted <= ($numChallengesTotal / 1.333)) {
-            return Piwik::translate('Tour_Part3Title');
+            return Piwik::translate('Tour_Part3Title', $login);
         }
 
-        return Piwik::translate('Tour_Part4Title');
+        return Piwik::translate('Tour_Part4Title', $login);
     }
 
     private function getNumChallengesTotal()
@@ -136,7 +137,7 @@ class Levels
         }
 
         if ($numChallengesTotal > 15) {
-            $levels[15] = Piwik::translate('Tour_MatomoSenior');
+            $levels[15] = Piwik::translate('Tour_MatomoTalent');
         }
 
         $levels[$numChallengesTotal] = Piwik::translate('Tour_MatomoExpert');
