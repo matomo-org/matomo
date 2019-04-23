@@ -60,7 +60,7 @@ class XssTesting
         return $key;
     }
 
-    private function getXssEntries()
+    public function getXssEntries()
     {
         $value = Option::get(self::OPTION_NAME);
         return json_decode($value, $isAssoc = true) ?: [];
