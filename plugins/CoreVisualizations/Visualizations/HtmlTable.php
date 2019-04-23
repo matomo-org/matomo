@@ -103,10 +103,21 @@ class HtmlTable extends Visualization
             $hasMultipleDimensions = is_array($dimensions) && count($dimensions) > 1;
             $this->assignTemplateVar('hasMultipleDimensions', $hasMultipleDimensions);
 
+            if ($hasMultipleDimensions) {
+                if ($this->config->show_dimensions) {
+                    // ensure first metric translation is used as label if other dimensions are in separate columns
+                    $this->config->addTranslation('label', $this->config->translations[reset($dimensions)]);
+                } else {
+                    // concatenate dimensions if table is shown flattened
+                    foreach ($dimensions as $dimension) {
+                        $labels[] = $this->config->translations[$dimension];
+                    }
+                    $this->config->addTranslation('label', implode(' - ', $labels));
+                }
+            }
+
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
-                // ensure first metric translation is used as label
-                $this->config->addTranslation('label', $this->config->translations[reset($dimensions)]);
 
                 $properties = $this->config;
                 array_shift($dimensions); // shift away first dimension, as that will be shown as label
@@ -151,8 +162,7 @@ class HtmlTable extends Visualization
 
             $hasMultipleDimensions = is_array($dimensions) && count($dimensions) > 1;
 
-            if ($this->config->show_dimensions && $hasMultipleDimensions) {
-
+            if ($hasMultipleDimensions) {
                 foreach (Dimension::getAllDimensions() as $dimension) {
                     $dimensionId = str_replace('.', '_', $dimension->getId());
                     $dimensionName = $dimension->getName();
@@ -161,6 +171,10 @@ class HtmlTable extends Visualization
                         $this->config->translations[$dimensionId] = $dimensionName;
                     }
                 }
+            }
+
+
+            if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
                 $this->dataTable->filter(function($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
