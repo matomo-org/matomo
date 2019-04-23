@@ -105,6 +105,9 @@ class HtmlTable extends Visualization
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
+                // ensure first metric translation is used as label
+                $this->config->addTranslation('label', $this->config->translations[reset($dimensions)]);
+
                 $properties = $this->config;
                 array_shift($dimensions); // shift away first dimension, as that will be shown as label
 
