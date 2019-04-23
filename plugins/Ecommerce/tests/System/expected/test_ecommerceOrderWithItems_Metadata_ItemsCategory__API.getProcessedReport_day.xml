@@ -105,6 +105,16 @@
 			<quantity>0</quantity>
 			<orders>0</orders>
 		</row>
+		<row>
+			<label>second category</label>
+			<nb_visits>2</nb_visits>
+			<avg_price>$ 0</avg_price>
+			<avg_quantity>0</avg_quantity>
+			<conversion_rate>0%</conversion_rate>
+			<revenue>$ 0</revenue>
+			<quantity>0</quantity>
+			<orders>0</orders>
+		</row>
 	</reportData>
 	<reportMetadata />
 	<reportTotal>
@@ -112,8 +122,8 @@
 		<quantity>18</quantity>
 		<price>4111.22</price>
 		<orders>8</orders>
-		<nb_uniq_visitors>8</nb_uniq_visitors>
-		<nb_visits>12</nb_visits>
-		<nb_actions>17</nb_actions>
+		<nb_uniq_visitors>9</nb_uniq_visitors>
+		<nb_visits>14</nb_visits>
+		<nb_actions>19</nb_actions>
 	</reportTotal>
 </result>

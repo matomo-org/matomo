@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\tests;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
 use Piwik\Option;
@@ -156,7 +157,14 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
     }
+    
+    public function tearDown()
+    {
+        Config::getInstance()->General['enable_update_users_email'] = 1;
 
+        parent::tearDown(); 
+    }
+    
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
     {
         $eventTriggered = false;
@@ -320,6 +328,23 @@ class APITest extends IntegrationTestCase
             'UsersManager_EmailChangeNotificationSubject',
             'UsersManager_PasswordChangeNotificationSubject',
         ], $subjects);
+    }
+
+    public function test_updateUser_doesNotSendEmailsIfTurnedOffInConfig()
+    {
+        Config::getInstance()->General['enable_update_users_email'] = 0;
+        $capturedMails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // en
+        $this->api->updateUser($this->login, 'newPassword2', 'email2@example.com', 'newAlias2', false, $this->password);
+        FakeAccess::$identity = $identity;
+
+        $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
+        $this->assertEquals([], $subjects);
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()

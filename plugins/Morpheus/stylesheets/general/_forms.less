@@ -14,7 +14,6 @@
     display: inline-block;
     color: #9e9e9e;
     font-size: 13px;
-
   }
 
   > h3 {
@@ -38,10 +37,12 @@
     .form-description {
       font-size: 90%;
       font-style: italic;
-      &:before {
+
+      &::before {
         content: '(';
       }
-      &:after {
+
+      &::after {
         content: ')';
       }
     }
@@ -50,7 +51,6 @@
   .inline-help .inline-help-node {
     display: block;
   }
-
 }
 
 
@@ -72,23 +72,50 @@ input.browser-default {
   background-color: @theme-color-brand !important;
 }
 
-[type="checkbox"]:checked+label:before {
+[type="checkbox"]:checked + label::before {
   border-right-color: @theme-color-brand;
   border-bottom-color: @theme-color-brand;
 }
+
 nav.blue-grey.darken-3 {
   background-color: @theme-color-header-background !important;
 }
-[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+
+[type="radio"]:checked + label::after,
+ [type="radio"].with-gap:checked + label::after {
   background-color: @theme-color-brand;
   border-color: @theme-color-brand;
 }
 
-input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+input:not([type]):focus:not([readonly]),
+ input[type=text]:focus:not([readonly]),
+ input[type=password]:focus:not([readonly]),
+ input[type=email]:focus:not([readonly]),
+ input[type=url]:focus:not([readonly]),
+ input[type=time]:focus:not([readonly]),
+ input[type=date]:focus:not([readonly]),
+ input[type=datetime]:focus:not([readonly]),
+ input[type=datetime-local]:focus:not([readonly]),
+ input[type=tel]:focus:not([readonly]),
+ input[type=number]:focus:not([readonly]),
+ input[type=search]:focus:not([readonly]),
+ textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom-color: @theme-color-brand;
   box-shadow: 0 1px 0 0 @theme-color-brand;
 }
 
-input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([readonly])+label, input[type=password]:focus:not([readonly])+label, input[type=email]:focus:not([readonly])+label, input[type=url]:focus:not([readonly])+label, input[type=time]:focus:not([readonly])+label, input[type=date]:focus:not([readonly])+label, input[type=datetime]:focus:not([readonly])+label, input[type=datetime-local]:focus:not([readonly])+label, input[type=tel]:focus:not([readonly])+label, input[type=number]:focus:not([readonly])+label, input[type=search]:focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label {
+input:not([type]):focus:not([readonly]) + label,
+ input[type=text]:focus:not([readonly]) + label,
+ input[type=password]:focus:not([readonly]) + label,
+ input[type=email]:focus:not([readonly]) + label,
+ input[type=url]:focus:not([readonly]) + label,
+ input[type=time]:focus:not([readonly]) + label,
+ input[type=date]:focus:not([readonly]) + label,
+ input[type=datetime]:focus:not([readonly]) + label,
+ input[type=datetime-local]:focus:not([readonly]) + label,
+ input[type=tel]:focus:not([readonly]) + label,
+ input[type=number]:focus:not([readonly]) + label,
+ input[type=search]:focus:not([readonly]) + label,
+ textarea.materialize-textarea:focus:not([readonly]) + label {
   color: @theme-color-brand;
 }

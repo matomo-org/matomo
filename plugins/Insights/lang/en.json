@@ -1,6 +1,6 @@
 {
     "Insights": {
-        "PluginDescription": "Provides Insights about your traffic. Insights are available as dashboard widgets as well as a new icon in reports to let you see most important trends in your data.",
+        "PluginDescription": "Provides Insights about your traffic. Insights are available as dashboard widgets as well as a new icon in reports, letting you see most important trends in your data.",
         "ControlComparedToDescription": "Growth compared to the",
         "ControlFilterByDescription": "Show all, only movers, only new or only disappeared",
         "DatePeriodCombinationNotSupported": "It is not possible to generate insights for this date and period combination.",
@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s changed from %2$s to %3$s compared to %4$s. Based on this an evolution of each row of %5$s%% is expected.",
         "TitleRowChangeDetails": "'%1$s' changed from %2$s (%3$s) to %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' decreased by %2$s and disappeared in %3$s compared to %4$s.",
-        "TitleRowMoverAndShaker": "This row had an higher impact than the average.",
+        "TitleRowMoverAndShaker": "This row had a higher impact than the average.",
         "TitleRowNewDetails": "'%1$s' increased by %2$s and is new compared to %3$s.",
         "WeekComparedToPreviousWeek": "previous week",
         "WidgetCategory": "Insights",
