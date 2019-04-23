@@ -3293,6 +3293,30 @@ function PiwikTest() {
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
 
+    test("POST requests are sent with cookies", function() {
+        expect(3);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+
+        tracker.setRequestMethod('POST');
+
+        var callbackCalled = false;
+        tracker.trackPageView('withCredentialsTest', null, function (event) {
+            callbackCalled = true;
+            ok(event.success, 'succeeded');
+            ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
+        });
+
+        stop();
+        setTimeout(function() {
+            ok(callbackCalled, 'called the callback');
+            start();
+
+        }, 2000);
+    });
+
     // support for setCustomRequestProcessing( customRequestContentProcessingLogic )
     test("Tracker setCustomRequestProcessing() and getRequest()", function() {
         expect(4);
