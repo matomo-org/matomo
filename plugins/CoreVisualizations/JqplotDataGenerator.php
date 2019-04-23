@@ -124,7 +124,7 @@ class JqplotDataGenerator
         $visualization->setAxisYValues($serieses);
         $visualization->setAxisYLabels($yLabels);
 
-        $units = $this->getUnitsForColumnsToDisplay($yLabels);
+        $units = $this->getUnitsForSerieses($yLabels);
         $visualization->setAxisYUnits($units);
     }
 
@@ -150,6 +150,7 @@ class JqplotDataGenerator
         $serieses = [];
 
         foreach ($dataTable->getRows() as $row) {
+            /** @var DataTable $comparisonTable */
             $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
             if (empty($comparisonTable)) {
                 continue;
@@ -161,7 +162,7 @@ class JqplotDataGenerator
 
                     $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName);
                     $seriesLabels[$seriesId] = $seriesLabel;
-                    $serieses[$seriesId][] = $row->getColumn($columnName);
+                    $serieses[$seriesId][] = $compareRow->getColumn($columnName);
                 }
             }
         }
@@ -173,17 +174,22 @@ class JqplotDataGenerator
     {
         $columnTranslation = @$this->properties['translations'][$columnName];
 
+        $label = $columnTranslation . ' ' . $this->getComparisonSeriesLabelSuffix($compareRow);
+        return $label;
+    }
+
+    protected function getComparisonSeriesLabelSuffix(Row $compareRow)
+    {
         $comparisonLabels = [
             $compareRow->getMetadata('comparePeriodPretty'),
             $compareRow->getMetadata('compareSegmentPretty'),
         ];
         $comparisonLabels = array_filter($comparisonLabels);
 
-        $label = $columnTranslation . ' (' . implode(') (', $comparisonLabels) . ')';
-        return $label;
+        return '(' . implode(') (', $comparisonLabels) . ')';
     }
 
-    protected function getUnitsForColumnsToDisplay($yLabels)
+    protected function getUnitsForSerieses($yLabels)
     {
         // derive units from column names
         $units = $this->deriveUnitsFromRequestedColumnNames($yLabels);

@@ -200,4 +200,9 @@ class Evolution extends JqplotGraph
 
         return ceil($paddedCount / $steps);
     }
+
+    public function supportsComparison()
+    {
+        return true;
+    }
 }

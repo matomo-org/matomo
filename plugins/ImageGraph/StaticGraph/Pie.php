@@ -23,4 +23,9 @@ class Pie extends PieGraph
             $this->pieConfig
         );
     }
+
+    public function supportsComparison()
+    {
+        return false;
+    }
 }

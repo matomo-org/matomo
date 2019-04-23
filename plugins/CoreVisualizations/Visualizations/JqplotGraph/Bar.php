@@ -40,4 +40,9 @@ class Bar extends JqplotGraph
     {
         return JqplotDataGenerator::factory('bar', $properties, $this);
     }
+
+    public function supportsComparison()
+    {
+        return true;
+    }
 }

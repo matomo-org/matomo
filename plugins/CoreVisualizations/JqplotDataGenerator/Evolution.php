@@ -11,6 +11,8 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -19,6 +21,18 @@ use Piwik\Url;
  */
 class Evolution extends JqplotDataGenerator
 {
+    protected function getUnitsForColumnsToDisplay()
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+
+        $units = [];
+        foreach ($this->properties['columns_to_display'] as $columnName) {
+            $derivedUnit = Metrics::getUnit($columnName, $idSite);
+            $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
+        }
+        return $units;
+    }
+
     /**
      * @param DataTable|DataTable\Map $dataTable
      * @param Chart $visualization
@@ -52,11 +66,38 @@ class Evolution extends JqplotDataGenerator
         $seriesUnits = array();
         foreach ($rowsToDisplay as $rowLabel) {
             foreach ($this->properties['columns_to_display'] as $columnName) {
-                $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
-                $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
+                if (!$this->isComparing) { // TODO: move this & to individual functions
+                    $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
 
-                $allSeriesData[$seriesLabel] = $seriesData;
-                $seriesUnits[$seriesLabel] = $units[$columnName];
+                    $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
+                    $allSeriesData[$seriesLabel] = $seriesData;
+
+                    $seriesUnits[$seriesLabel] = $units[$columnName];
+                } else {
+                    foreach ($dataTable->getDataTables() as $label => $childTable) {
+                        // get the row for this label (use the first if $rowLabel is false)
+                        if ($rowLabel === false) {
+                            $row = $childTable->getFirstRow();
+                        } else {
+                            $row = $childTable->getRowFromLabel($rowLabel);
+                        }
+
+                        // TODO: what happens if label isn't found?
+
+                        /** @var DataTable $comparisonTable */
+                        $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+                        if (empty($comparisonTable)) {
+                            continue;
+                        }
+
+                        foreach ($comparisonTable->getRows() as $index => $compareRow) {
+                            $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName, $compareRow);
+
+                            $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
+                            $seriesUnits[$seriesLabel] = $units[$columnName];
+                        }
+                    }
+                }
             }
         }
 
@@ -117,7 +158,7 @@ class Evolution extends JqplotDataGenerator
      * @param string $columnName
      * @return string
      */
-    private function getSeriesLabel($rowLabel, $columnName)
+    private function getSeriesLabel($rowLabel, $columnName, Row $compareRow = null)
     {
         $metricLabel = @$this->properties['translations'][$columnName];
 
@@ -127,6 +168,10 @@ class Evolution extends JqplotDataGenerator
         } else {
             // eg. "Visits"
             $label = $metricLabel;
+        }
+
+        if (!empty($compareRow)) {
+            $label .= ' ' . $this->getComparisonSeriesLabelSuffix($compareRow);
         }
 
         return $label;

@@ -187,19 +187,24 @@ class DataComparisonFilter extends BaseFilter
         /** @var Period $period */
         $period = $table->getMetadata('period');
 
-        $params = array_merge([
-            'filter_limit' => -1,
-            'filter_offset' => 0,
-            'filter_sort_column' => '',
-            'filter_truncate' => -1,
-            'compare' => 0,
-            'totals' => 1,
-            'disable_queued_filters' => 1,
-            'format_metrics' => 0,
-            'idSite' => $table->getMetadata('site')->getId(),
-            'period' => $period->getLabel(),
-            'date' => $period->getDateStart()->toString(),
-        ], $paramsToModify);
+        $params = array_merge(
+            [
+                'filter_limit' => -1,
+                'filter_offset' => 0,
+                'filter_sort_column' => '',
+                'filter_truncate' => -1,
+                'compare' => 0,
+                'totals' => 1,
+                'disable_queued_filters' => 1,
+                'format_metrics' => 0,
+            ],
+            $paramsToModify,
+            [
+                'idSite' => $table->getMetadata('site')->getId(),
+                'period' => $period->getLabel(),
+                'date' => $period->getDateStart()->toString(),
+            ]
+        );
 
         return Request::processRequest($method, $params);
     }
@@ -292,6 +297,11 @@ class DataComparisonFilter extends BaseFilter
 
     private function compareTables($metadata, DataTable $table, DataTable $compareTable = null)
     {
+        // if there are no rows in the table because the metrics are 0, add one so we can still set comparison values
+        if ($table->getRowsCount() == 0) {
+            $table->addRow(new DataTable\Row());
+        }
+
         foreach ($table->getRows() as $row) {
             $label = $row->getColumn('label');
 
