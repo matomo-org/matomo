@@ -83,9 +83,17 @@
         var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
 
         var extraParams = {};
+
         if (this.dataTable.param.date && this.dataTable.param.period) {
             extraParams = {date: this.dataTable.param.date, period: this.dataTable.param.period};
         }
+
+        // TODO: would be nice if this didn't have to be done in every row action, but that would be a big refactor probably
+        var paramOverride = $(tr).data('param-override');
+        if (typeof extraParams !== 'object') {
+            extraParams = {};
+        }
+        $.extend(extraParams, paramOverride);
 
         $.each(this.dataTable.param, function (index, value) {
             // we automatically add fields like idDimension, idGoal etc.

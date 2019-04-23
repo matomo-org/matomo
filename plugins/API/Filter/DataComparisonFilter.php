@@ -18,6 +18,8 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
+use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 
 // TODO: unit test
 
@@ -199,12 +201,19 @@ class DataComparisonFilter extends BaseFilter
                 'totals' => 1,
                 'disable_queued_filters' => 1,
                 'format_metrics' => 0,
-                'idSite' => $table->getMetadata('site')->getId(),
-                'period' => $period->getLabel(),
-                'date' => $period->getDateStart()->toString(),
             ],
             $paramsToModify
         );
+
+        if (!isset($params['idSite'])) {
+            $params['idSite'] = $table->getMetadata('site')->getId();
+        }
+        if (!isset($params['period'])) {
+            $params['period'] = $period->getLabel();
+        }
+        if (!isset($params['date'])) {
+            $params['date'] = $period->getDateStart()->toString();
+        }
 
         return Request::processRequest($method, $params);
     }
@@ -270,6 +279,15 @@ class DataComparisonFilter extends BaseFilter
             DataTable\Row::COLUMNS => $columns,
             DataTable\Row::METADATA => $metadata,
         ]);
+
+        // add segment metadatas
+        if ($row->getMetadata('segment')) {
+            $newSegment = $row->getMetadata('segment');
+            if ($newRow->getMetadata('compareSegment')) {
+                $newSegment = Segment::combine($newRow->getMetadata('compareSegment'), SegmentExpression::AND_DELIMITER, $newSegment);
+            }
+            $newRow->setMetadata('segment', $newSegment);
+        }
 
         // calculate changes (including processed metric changes)
         foreach ($newRow->getColumns() as $name => $value) {
