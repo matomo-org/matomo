@@ -1,5 +1,6 @@
 $(function () {
 
+    // TODO: modify for comparison table
     function isActionsModule(params)
     {
         return params.module == 'Actions';

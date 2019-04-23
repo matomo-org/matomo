@@ -156,8 +156,8 @@ class DataComparisonFilter extends BaseFilter
 
         // add base compare against segment and date
         array_unshift($segments, isset($this->request['segment']) ? $this->request['segment'] : '');
-        array_unshift($dates, isset($this->request['date']) ? $this->request['date'] : '');
-        array_unshift($periods, isset($this->request['period']) ? $this->request['period'] : '');
+        array_unshift($dates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
+        array_unshift($periods, '');
 
         // NOTE: the order of these loops determines the order of the rows in the comparison table. ie,
         // if we loop over dates then segments, then we'll see comparison rows change segments before changing

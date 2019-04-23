@@ -9,6 +9,7 @@
  * This file registers the Overlay row action on the pages report.
  */
 
+// TODO: modify for comparison table
 function DataTable_RowActions_Overlay(dataTable) {
     this.dataTable = dataTable;
 }
