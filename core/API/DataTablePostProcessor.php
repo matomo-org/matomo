@@ -466,7 +466,7 @@ class DataTablePostProcessor
             return $dataTable;
         }
 
-        $dataTable->filter(DataComparisonFilter::class, [$this->request]);
+        $dataTable->filter(DataComparisonFilter::class, [$this->request, $this->report]);
         return $dataTable;
     }
 }

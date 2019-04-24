@@ -595,6 +595,27 @@ class Row extends \ArrayObject
     }
 
     /**
+     * TODO
+     * @return DataTable|null
+     */
+    public function getComparisons()
+    {
+        $dataTableId = $this->getMetadata(self::COMPARISONS_METADATA_NAME);
+        if (empty($dataTableId)) {
+            return null;
+        }
+        return Manager::getInstance()->getTable($dataTableId);
+    }
+
+    /**
+     * @param DataTable $table
+     */
+    public function setComparisons(DataTable $table)
+    {
+        $this->setMetadata(self::COMPARISONS_METADATA_NAME, $table->getId());
+    }
+
+    /**
      * Helper function: sums 2 values
      *
      * @param number|bool $thisColumnValue

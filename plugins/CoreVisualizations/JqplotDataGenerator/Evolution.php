@@ -85,7 +85,7 @@ class Evolution extends JqplotDataGenerator
                         // TODO: what happens if label isn't found?
 
                         /** @var DataTable $comparisonTable */
-                        $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+                        $comparisonTable = $row->getComparisons();
                         if (empty($comparisonTable)) {
                             continue;
                         }

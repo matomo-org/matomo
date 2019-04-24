@@ -9,7 +9,6 @@
  * This file registers the Overlay row action on the pages report.
  */
 
-// TODO: modify for comparison table
 function DataTable_RowActions_Overlay(dataTable) {
     this.dataTable = dataTable;
 }
@@ -19,7 +18,7 @@ DataTable_RowActions_Overlay.prototype = new DataTable_RowAction;
 DataTable_RowActions_Overlay.registeredReports = [];
 DataTable_RowActions_Overlay.registerReport = function (handler) {
     DataTable_RowActions_Overlay.registeredReports.push(handler);
-}
+};
 
 
 DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
@@ -46,6 +45,15 @@ DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
                     segment = result.segment;
                 }
                 break;
+            }
+        }
+
+        var paramOverride = $(tr).data('param-override');
+        if (paramOverride && paramOverride.segment) {
+            if (segment) {
+                segment += ';' + paramOverride.segment;
+            } else {
+                segment = paramOverride.segment;
             }
         }
 

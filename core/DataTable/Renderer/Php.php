@@ -26,10 +26,6 @@ use Piwik\Piwik;
  */
 class Php extends Renderer
 {
-    private static $rowMetadataToRenderForSimple = [
-        DataTable\Row::COMPARISONS_METADATA_NAME,
-    ];
-
     protected $prettyDisplay = false;
     protected $serialize = true;
 
@@ -249,12 +245,12 @@ class Php extends Renderer
         foreach ($row->getColumns() as $columnName => $columnValue) {
             $array[$columnName] = $columnValue;
         }
-        foreach (self::$rowMetadataToRenderForSimple as $name) {
-            $value = $row->getMetadata($name);
-            if (!empty($value)) {
-                $array[$name] = $value;
-            }
+
+        $comparisons = $row->getComparisons();
+        if (!empty($comparisons)) {
+            $array[DataTable\Row::COMPARISONS_METADATA_NAME] = $comparisons;
         }
+
         return $array;
     }
 }

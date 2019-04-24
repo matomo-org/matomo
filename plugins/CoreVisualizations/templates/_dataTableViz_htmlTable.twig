@@ -45,10 +45,10 @@
                     {% endfor %}
                 </tr>
 
-                {% if row.getMetadata('comparisons') %}
+                {% if row.getComparisons() %}
                 {% include "@CoreVisualizations/_dataTableViz_htmlTable_comparisons.twig" with {
                     'comparedRow': row,
-                    'dataTable': row.getMetadata('comparisons'),
+                    'dataTable': row.getComparisons(),
                     'rootDataTable': dataTable
                 } %}
                 {% endif %}

@@ -205,7 +205,7 @@
                 self.disabledRowDom = $(domElem);
 
                 var numberOfColumns = $(domElem).children().length;
-                $(domElem).after('\
+                $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last().after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
                             <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\

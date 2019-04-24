@@ -90,8 +90,8 @@
 
         // TODO: would be nice if this didn't have to be done in every row action, but that would be a big refactor probably
         var paramOverride = $(tr).data('param-override');
-        if (typeof extraParams !== 'object') {
-            extraParams = {};
+        if (typeof paramOverride !== 'object') {
+            paramOverride = {};
         }
         $.extend(extraParams, paramOverride);
 

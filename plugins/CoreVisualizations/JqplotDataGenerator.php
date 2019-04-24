@@ -151,7 +151,7 @@ class JqplotDataGenerator
 
         foreach ($dataTable->getRows() as $row) {
             /** @var DataTable $comparisonTable */
-            $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+            $comparisonTable = $row->getComparisons();
             if (empty($comparisonTable)) {
                 continue;
             }

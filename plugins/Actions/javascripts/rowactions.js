@@ -32,13 +32,27 @@ $(function () {
                 return isPageUrlReport(dataTableParams);
             },
             isAvailableOnRow: function (dataTableParams, tr) {
+                tr = getRealRowIfComparisonRow(tr);
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
             trigger: function (tr, e, subTableLabel) {
+                tr = getRealRowIfComparisonRow(tr);
+
                 var link = getLinkForTransitionAndOverlayPopover(tr);
-                this.openPopover('url:' + link);
+                var popoverUrl = 'url:' + link;
+                // TODO: need to pass segment + new period/date if there to transitions...
+
+                this.openPopover(popoverUrl);
             }
         });
+
+        function getRealRowIfComparisonRow(tr) {
+            if (tr.is('.comparisonRow')) {
+                var prevUntil = tr.prevUntil('.parentComparisonRow').prev();
+                return prevUntil.length ? prevUntil : tr.prev();
+            }
+            return tr;
+        }
 
         DataTable_RowActions_Transitions.registerReport({
             isAvailableOnReport: function (dataTableParams) {

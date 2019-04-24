@@ -17,6 +17,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -55,7 +56,12 @@ class DataComparisonFilter extends BaseFilter
      */
     private $columnMappings;
 
-    public function __construct(DataTable $table, $request)
+    /**
+     * @var string
+     */
+    private $segmentName;
+
+    public function __construct(DataTable $table, $request, Report $report = null)
     {
         parent::__construct($table);
         $this->request = $request;
@@ -68,6 +74,8 @@ class DataComparisonFilter extends BaseFilter
         $this->checkComparisonLimit($this->periodCompareLimit, 'data_comparison_period_limit');
 
         $this->columnMappings = $this->getColumnMappings();
+
+        $this->segmentName = $this->getSegmentNameFromReport($report);
     }
 
     /**
@@ -223,7 +231,7 @@ class DataComparisonFilter extends BaseFilter
         $formatter = new Formatter();
         foreach ($table->getRows() as $row) {
             /** @var DataTable $comparisonTable */
-            $comparisonTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+            $comparisonTable = $row->getComparisons();
             if (empty($comparisonTable)
                 || $comparisonTable->getRowsCount() === 0
             ) { // sanity check
@@ -244,10 +252,10 @@ class DataComparisonFilter extends BaseFilter
 
     private function compareRow($metadata, DataTable\Row $row, DataTable\Row $compareRow = null)
     {
-        $comparisonDataTable = $row->getMetadata(DataTable\Row::COMPARISONS_METADATA_NAME);
+        $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
             $comparisonDataTable = new DataTable();
-            $row->setMetadata(DataTable\Row::COMPARISONS_METADATA_NAME, $comparisonDataTable);
+            $row->setComparisons($comparisonDataTable);
         }
 
         $this->addPrettifiedMetadata($metadata);
@@ -287,6 +295,11 @@ class DataComparisonFilter extends BaseFilter
                 $newSegment = Segment::combine($newRow->getMetadata('compareSegment'), SegmentExpression::AND_DELIMITER, $newSegment);
             }
             $newRow->setMetadata('segment', $newSegment);
+        } else if ($this->segmentName
+            && $row->getMetadata('segmentValue') !== false
+        ) {
+            $segmentValue = $row->getMetadata('segmentValue');
+            $row->setMetadata('segment', sprintf('%s==%s', $this->segmentName, urlencode($segmentValue)));
         }
 
         // calculate changes (including processed metric changes)
@@ -418,5 +431,27 @@ class DataComparisonFilter extends BaseFilter
             }
         }
         return $totals;
+    }
+
+    private function getSegmentNameFromReport(Report $report = null)
+    {
+        if (empty($report)) {
+            return null;
+        }
+
+        $dimension = $report->getDimension();
+        if (empty($dimension)) {
+            return null;
+        }
+
+        $segments = $dimension->getSegments();
+        if (empty($segments)) {
+            return null;
+        }
+
+        /** @var \Piwik\Plugin\Segment $segment */
+        $segment     = reset($segments);
+        $segmentName = $segment->getSegment();
+        return $segmentName;
     }
 }
