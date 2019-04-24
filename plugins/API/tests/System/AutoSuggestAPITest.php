@@ -20,6 +20,7 @@ use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Fixtures\ManyVisitsWithGeoIPAndEcommerce;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
 
@@ -256,5 +257,5 @@ $lookBack = ceil((time() - $date) / 86400);
 
 API::$_autoSuggestLookBack = $lookBack;
 
-\Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
+\Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIPAndEcommerce();
 \Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();
