@@ -75,12 +75,18 @@
             </td>
             <td>
                 {# download link #}
+                <form action="{{ linkTo({ 'module':'API', 'segment': null,
+                    'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
+                    'outputType':downloadOutputType, 'language':language,
+                    'format': (report.format in ['html', 'csv']) ? report.format : false }) }}"
+                      method="POST"
+                      target="_blank"
+                      id="downloadReportForm_{{ report.idreport }}"
+                >
+                    <input type="hidden" name="token_auth" value="{{ token_auth }}">
+                </form>
                 <a href="#"
-                   ng-click="manageScheduledReport.displayReport('{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth,
-                            'method':'ScheduledReports.generateReport', 'idReport':report.idreport,
-                            'outputType':downloadOutputType, 'language':language,
-                            'format': (report.format in ['html', 'csv']) ? report.format : false
-                       }) }}')"
+                   ng-click="manageScheduledReport.displayReport({{ report.idreport }})"
                    rel="noreferrer noopener" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0" width="16px" height="16px"/>
                     {{ 'General_Download'|translate }}

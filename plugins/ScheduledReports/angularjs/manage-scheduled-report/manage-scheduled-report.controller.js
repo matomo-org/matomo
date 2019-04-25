@@ -177,35 +177,8 @@
             resetParameters(this.report.type, this.report);
         };
 
-        this.displayReport = function (url) {
-            // Split the URL into its parts
-            var urlParts = url.split('?');
-            var basePath = urlParts[0];
-            var params = urlParts[1].split('&');
-
-            var formContent = '';
-            var separator = '?';
-            $.each(params, function(key, queryStr) {
-                var queryParts = queryStr.split('=');
-                if (queryParts[0] == 'token_auth') {
-                    // Hide the token_auth in an input element
-                    formContent = $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', queryParts[0])
-                        .attr('value', queryParts[1]);
-                } else {
-                    // Everything else can be exposed to the user in the URL
-                    basePath += separator + queryStr;
-                    separator = '&';
-                }
-            });
-
-            // Build and submit the form
-            // The target="_blank" only works if the form's id attribute is also set
-            $('<form action="' + basePath + '" method="POST" target="_blank" id="downloadReportForm"></form>')
-                .html(formContent)
-                .appendTo($(document.body))
-                .submit();
+        this.displayReport = function (reportId) {
+            $('#downloadReportForm_' + reportId).submit();
         };
 
         // Email now
