@@ -109,7 +109,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.workingDivId = this._createDivId();
         domElem.attr('id', this.workingDivId);
 
-        this.maxNumRowsToHandleEvents = 255;
+        this.maxNumRowsToHandleEvents = 255; // TODO: need to remove this, but need more data to test
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
@@ -1832,7 +1832,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             tr.on(listenEvent, function () {
-                if ($(this).is('.comparisonRow').length) {
+                if ($(this).is('.parentComparisonRow,.comparePeriod').length) {
                     return;
                 }
 

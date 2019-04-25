@@ -141,7 +141,7 @@
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {
-            var value = getRawSegmentValueFromRow(tr)
+            var value = getRawSegmentValueFromRow(tr);
             if ('undefined' === (typeof value)) {
                 return false;
             }

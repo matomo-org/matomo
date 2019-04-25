@@ -299,7 +299,7 @@ class DataComparisonFilter extends BaseFilter
             && $row->getMetadata('segmentValue') !== false
         ) {
             $segmentValue = $row->getMetadata('segmentValue');
-            $row->setMetadata('segment', sprintf('%s==%s', $this->segmentName, urlencode($segmentValue)));
+            $newRow->setMetadata('segment', sprintf('%s==%s', $this->segmentName, urlencode($segmentValue)));
         }
 
         // calculate changes (including processed metric changes)

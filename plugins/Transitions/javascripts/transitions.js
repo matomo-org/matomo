@@ -71,16 +71,24 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
-    var posSegment = (link+'').indexOf(':segment:');
-    var segment = null;
-
-    // handle and remove ':segment:$SEGMENT' from link
-    if (posSegment && posSegment > 0) {
-        segment = link.substring(posSegment + (':segment:'.length));
-        link = link.substring(0, posSegment);
-    }
+    var ALLOWED_OVERRIDE_PARAMS = ['segment', 'date', 'period', 'idSite'];
 
     var parts = link.split(':');
+
+    var overrideParams = {};
+
+    var i = 0;
+    while (i < parts.length) {
+        var paramName = decodeURIComponent(parts[i]);
+        if (ALLOWED_OVERRIDE_PARAMS.indexOf(paramName) === -1) {
+            i += 1;
+            continue;
+        }
+
+        overrideParams[paramName] = decodeURIComponent(parts[i + 1]);
+        parts.splice(i, 2);
+    }
+
     if (parts.length < 2) {
         return;
     }
@@ -90,7 +98,7 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function (link) {
     var actionName = parts.join(':');
 
     if (this.transitions === null) {
-        this.transitions = new Piwik_Transitions(actionType, actionName, this, segment);
+        this.transitions = new Piwik_Transitions(actionType, actionName, this, overrideParams);
     } else {
         this.transitions.reset(actionType, actionName, segment);
     }
@@ -154,8 +162,8 @@ DataTable_RowActions_Registry.register({
 // TRANSITIONS IMPLEMENTATION
 //
 
-function Piwik_Transitions(actionType, actionName, rowAction, segment) {
-    this.reset(actionType, actionName, segment);
+function Piwik_Transitions(actionType, actionName, rowAction, overrideParams) {
+    this.reset(actionType, actionName, overrideParams);
     this.rowAction = rowAction;
 
     this.ajax = new Piwik_Transitions_Ajax();
@@ -165,10 +173,10 @@ function Piwik_Transitions(actionType, actionName, rowAction, segment) {
     this.rightGroups = ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'];
 }
 
-Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
+Piwik_Transitions.prototype.reset = function (actionType, actionName, overrideParams) {
     this.actionType = actionType;
     this.actionName = actionName;
-    this.segment    = segment;
+    this.overrideParams = overrideParams;
 
     this.popover = null;
     this.canvas = null;
@@ -230,7 +238,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     }
 
     // load the data
-    self.model.loadData(self.actionType, self.actionName, self.segment, function () {
+    self.model.loadData(self.actionType, self.actionName, self.overrideParams, function () {
         if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
             // html not there yet
             callbackForHtml = bothLoaded;
@@ -1316,7 +1324,7 @@ Piwik_Transitions_Model.prototype.htmlLoaded = function () {
     };
 };
 
-Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, segment, callback) {
+Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, overrideParams, callback) {
     var self = this;
 
     this.pageviews = 0;
@@ -1362,8 +1370,8 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, s
         actionName: actionName,
         expanded: 1
     };
-    if (segment) {
-        params.segment = segment;
+    if (overrideParams) {
+        $.extend(params, overrideParams);
     }
 
     this.ajax.callApi('Transitions.getTransitionsForAction', params,

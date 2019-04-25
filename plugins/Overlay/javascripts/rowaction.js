@@ -49,7 +49,7 @@ DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
         }
 
         var paramOverride = $(tr).data('param-override');
-        if (paramOverride && paramOverride.segment) {
+        if (typeof paramOverride === 'object' && paramOverride.segment) {
             if (segment) {
                 segment += ';' + paramOverride.segment;
             } else {

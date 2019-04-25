@@ -1,6 +1,5 @@
 $(function () {
 
-    // TODO: modify for comparison table
     function isActionsModule(params)
     {
         return params.module == 'Actions';
@@ -21,6 +20,8 @@ $(function () {
 
     function getLinkForTransitionAndOverlayPopover(tr)
     {
+        tr = getRealRowIfComparisonRow(tr);
+
         var link = tr.find('> td:first > a').attr('href');
         link = $('<textarea>').html(link).val(); // remove html entities
         return link;
@@ -36,23 +37,27 @@ $(function () {
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
             trigger: function (tr, e, subTableLabel) {
+                var overrideParams = tr.data('param-override');
+                if (typeof overrideParams !== 'object') {
+                    overrideParams = {};
+                }
+
                 tr = getRealRowIfComparisonRow(tr);
 
                 var link = getLinkForTransitionAndOverlayPopover(tr);
                 var popoverUrl = 'url:' + link;
-                // TODO: need to pass segment + new period/date if there to transitions...
+
+                Object.keys(overrideParams).forEach(function (paramName) {
+                    if (!overrideParams[paramName]) {
+                        return;
+                    }
+
+                    popoverUrl += ':' + encodeURIComponent(paramName) + ':' + encodeURIComponent(overrideParams[paramName]);
+                });
 
                 this.openPopover(popoverUrl);
             }
         });
-
-        function getRealRowIfComparisonRow(tr) {
-            if (tr.is('.comparisonRow')) {
-                var prevUntil = tr.prevUntil('.parentComparisonRow').prev();
-                return prevUntil.length ? prevUntil : tr.prev();
-            }
-            return tr;
-        }
 
         DataTable_RowActions_Transitions.registerReport({
             isAvailableOnReport: function (dataTableParams) {
@@ -81,4 +86,11 @@ $(function () {
         });
     }
 
+    function getRealRowIfComparisonRow(tr) {
+        if (tr.is('.comparisonRow')) {
+            var prevUntil = tr.prevUntil('.parentComparisonRow').prev();
+            return prevUntil.length ? prevUntil : tr.prev();
+        }
+        return tr;
+    }
 });
