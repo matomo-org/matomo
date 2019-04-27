@@ -34,6 +34,7 @@ $(function () {
             },
             isAvailableOnRow: function (dataTableParams, tr) {
                 tr = getRealRowIfComparisonRow(tr);
+                console.log(tr);
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
             trigger: function (tr, e, subTableLabel) {

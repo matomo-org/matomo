@@ -217,7 +217,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     // The ajax request contains the function callback to trigger if the request is successful or failed
     // displayLoading = false When we don't want to display the Loading... DIV .loadingPiwik
     // for example when the script add a Loading... it self and doesn't want to display the generic Loading
-    reloadAjaxDataTable: function (displayLoading, callbackSuccess) {
+    reloadAjaxDataTable: function (displayLoading, callbackSuccess, extraParams) {
         var self = this;
 
         if (typeof displayLoading == "undefined") {
@@ -259,6 +259,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         ajaxRequest.addParams(params, 'get');
+        ajaxRequest.addParams(extraParams, 'post');
         ajaxRequest.withTokenInUrl();
 
         ajaxRequest.setCallback(
@@ -1560,9 +1561,27 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
 					delete self.param.totalRows;
 
+                    var extraParams = {};
+                    if ($(this).is('.parentComparisonRow')) {
+                        var comparisonRows = $(this).nextUntil('.parentComparisonRow').filter('.comparisonRow');
+
+                        var comparisonIdSubtables = {};
+                        comparisonRows.each(function () {
+                            var comparisonSegmentIndex = +$(this).data('comparison-segment');
+                            var comparisonPeriodIndex = +$(this).data('comparison-period');
+
+                            if (!comparisonIdSubtables[comparisonSegmentIndex]) {
+                                comparisonIdSubtables[comparisonSegmentIndex] = {};
+                            }
+                            comparisonIdSubtables[comparisonSegmentIndex][comparisonPeriodIndex] = $(this).data('idsubtable');
+                        });
+
+                        extraParams.comparisonIdSubtables = JSON.stringify(comparisonIdSubtables);
+                    }
+
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
-                    });
+                    }, extraParams);
 
                     self.param.action = savedActionVariable;
                     delete self.param.idSubtable;

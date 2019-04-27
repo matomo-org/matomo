@@ -225,10 +225,29 @@
                 self.param.idSubtable = idSubTable;
                 self.param.action = self.props.subtable_controller_action;
 
+                // TODO: code redundancy w/ dataTable.js
+                var extraParams = {};
+                if ($(domElem).is('.parentComparisonRow')) {
+                    var comparisonRows = $(domElem).nextUntil('.parentComparisonRow').filter('.comparisonRow');
+
+                    var comparisonIdSubtables = {};
+                    comparisonRows.each(function () {
+                        var comparisonSegmentIndex = +$(this).data('comparison-segment');
+                        var comparisonPeriodIndex = +$(this).data('comparison-period');
+
+                        if (!comparisonIdSubtables[comparisonSegmentIndex]) {
+                            comparisonIdSubtables[comparisonSegmentIndex] = {};
+                        }
+                        comparisonIdSubtables[comparisonSegmentIndex][comparisonPeriodIndex] = $(this).data('idsubtable');
+                    });
+
+                    extraParams.comparisonIdSubtables = JSON.stringify(comparisonIdSubtables);
+                }
+
                 self.reloadAjaxDataTable(false, function (resp) {
                     self.actionsSubDataTableLoaded(resp, idSubTable);
                     self.repositionRowActions($(domElem));
-                });
+                }, extraParams);
                 self.param.action = savedActionVariable;
 
                 self.restoreAllFilters(filtersToRestore);

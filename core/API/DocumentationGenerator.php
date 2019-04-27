@@ -289,6 +289,7 @@ class DocumentationGenerator
         $aParameters['compareDates'] = false;
         $aParameters['comparePeriods'] = false;
         $aParameters['compareSegments'] = false;
+        $aParameters['comparisonIdSubtables'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {

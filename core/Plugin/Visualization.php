@@ -249,7 +249,8 @@ class Visualization extends ViewDataTable
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
-        $view->isComparing = $this->isComparing();
+
+        $this->setComparisonProperties($view);
 
         if (!$this->supportsComparison()
             && Common::getRequestVar('compare', 0, 'int') == 1
@@ -835,5 +836,26 @@ class Visualization extends ViewDataTable
             $this->cachedRequestArray = $requestArray;
         }
         return $this->cachedRequestArray;
+    }
+
+    private function setComparisonProperties(View $view)
+    {
+        $view->isComparing = $this->isComparing();
+        if ($view->isComparing) {
+            $request = $this->getRequestArray();
+
+            $comparisonSegmentIndices = ['' => 0]; // first is all visits segment
+            foreach ($request['compareSegments'] as $index => $segment) {
+                $comparisonSegmentIndices[$segment] = $index + 1;
+            }
+            $view->comparisonSegmentIndices = $comparisonSegmentIndices;
+
+            $comparePeriodIndices = ['' => ['' => 0]]; // first is selected date/period
+            foreach ($request['comparePeriods'] as $index => $period) {
+                $date = $request['compareDates'][$index];
+                $comparePeriodIndices[$period][$date] = $index + 1;
+            }
+            $view->comparePeriodIndices = $comparePeriodIndices;
+        }
     }
 }

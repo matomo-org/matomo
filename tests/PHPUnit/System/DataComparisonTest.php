@@ -8,6 +8,8 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\API\Request;
+use Piwik\DataTable;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -24,6 +26,71 @@ class DataComparisonTest extends SystemTestCase
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
+    }
+
+    public function testSubtableComparisons()
+    {
+        $segment1 = urlencode('browserCode==ff');
+        $segment2 = urlencode('browserCode==ie');
+
+        $date1 = '2012-08-10';
+        $period1 = 'day';
+
+        $date2 = '2012-08-16';
+        $period2 = 'week';
+
+        $apiToTest = [
+            ['Actions.getPageUrls', 'Actions.getPageUrls'],
+            ['Referrers.getWebsites', 'Referrers.getUrlsFromWebsiteId'],
+        ];
+
+        foreach ($apiToTest as list($superApiMethod, $subtableApiMethod)) {
+            /** @var DataTable $topLevelComparisons */
+            $topLevelComparisons = Request::processRequest($superApiMethod, [
+                'idSite' => self::$fixture->idSite,
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'compareSegments' => [$segment1, $segment2],
+                'compareDates' => [$date1, $date2],
+                'comparePeriods' => [$period1, $period2],
+                'compare' => '1',
+            ]);
+
+            $rowWithSubtable = null;
+            foreach ($topLevelComparisons->getRows() as $row) {
+                if ($row->getIdSubDataTable()) {
+                    $rowWithSubtable = $row;
+                    break;
+                }
+            }
+
+            $comparisonIdSubtables = [];
+            foreach ($rowWithSubtable->getComparisons()->getRows() as $compareRow) {
+                $segment = $compareRow->getMetadata('compareSegment');
+                $date = $compareRow->getMetadata('compareDate');
+                $period = $compareRow->getMetadata('comparePeriod');
+
+                $segmentIndex = array_search($segment, ['', $segment1, $segment2]);
+                $periodIndex = array_search($period . '|' . $date, ['|', $period1 . '|' . $date1, $period2 . '|' . $date2]);
+
+                $comparisonIdSubtables[$segmentIndex][$periodIndex] = $compareRow->getMetadata('idsubdatatable_in_db');
+            }
+
+            $this->runApiTests($subtableApiMethod, [
+                'idSite' => self::$fixture->idSite,
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'testSuffix' => '_subtableActions',
+                'otherRequestParameters' => [
+                    'idSubtable' => $rowWithSubtable->getIdSubDataTable(),
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$date1, $date2],
+                    'comparePeriods' => [$period1, $period2],
+                    'compare' => '1',
+                    'comparisonIdSubtables' => json_encode($comparisonIdSubtables),
+                ],
+            ]);
+        }
     }
 
     public function getApiForTesting()
@@ -135,4 +202,4 @@ class DataComparisonTest extends SystemTestCase
     }
 }
 
-DataComparisonTest::$fixture = new ManySitesImportedLogs();
+DataComparisonTest::$fixture = new ManySitesImportedLogs(); // TODO: use better data

@@ -61,6 +61,31 @@ class DataComparisonFilter extends BaseFilter
      */
     private $segmentName;
 
+    /**
+     * @var string[]
+     */
+    private $compareSegments;
+
+    /**
+     * @var string[]
+     */
+    private $compareDates;
+
+    /**
+     * @var string[]
+     */
+    private $comparePeriods;
+
+    /**
+     * @var int[]
+     */
+    private $compareSegmentIndices;
+
+    /**
+     * @var int[]
+     */
+    private $comparePeriodIndices;
+
     public function __construct(DataTable $table, $request, Report $report = null)
     {
         parent::__construct($table);
@@ -76,6 +101,43 @@ class DataComparisonFilter extends BaseFilter
         $this->columnMappings = $this->getColumnMappings();
 
         $this->segmentName = $this->getSegmentNameFromReport($report);
+
+        $this->compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
+        if (count($this->compareSegments) > $this->segmentCompareLimit) {
+            throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
+        }
+
+        $this->compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
+        $this->compareDates = array_values($this->compareDates);
+
+        $this->comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $this->request);
+        $this->comparePeriods = array_values($this->comparePeriods);
+
+        if (count($this->compareDates) !== count($this->comparePeriods)) {
+            throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
+        }
+
+        if (count($this->compareDates) > $this->periodCompareLimit) {
+            throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
+        }
+
+        if (empty($this->compareSegments)
+            && empty($this->comparePeriods)
+        ) {
+            throw new \Exception("compare=1 set, but no segments or periods to compare.");
+        }
+
+        // add base compare against segment and date
+        array_unshift($this->compareSegments, isset($this->request['segment']) ? $this->request['segment'] : '');
+        array_unshift($this->compareDates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
+        array_unshift($this->comparePeriods, '');
+
+        // map segments/periods to their indexes in the query parameter arrays for comparisonIdSubtable matching
+        $this->compareSegmentIndices = array_flip($this->compareSegments);
+        foreach ($this->comparePeriods as $index => $period) {
+            $date = $this->compareDates[$index];
+            $this->comparePeriodIndices[$period][$date] = $index;
+        }
     }
 
     /**
@@ -89,36 +151,11 @@ class DataComparisonFilter extends BaseFilter
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
 
-        $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
-        if (count($segments) > $this->segmentCompareLimit) {
-            throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
-        }
-
-        $dates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
-        $dates = array_values($dates);
-
-        $periods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $this->request);
-        $periods = array_values($periods);
-
-        if (count($dates) !== count($periods)) {
-            throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
-        }
-
-        if (count($dates) > $this->periodCompareLimit) {
-            throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
-        }
-
-        if (empty($segments)
-            && empty($periods)
-        ) {
-            throw new \Exception("compare=1 set, but no segments or periods to compare.");
-        }
-
         $this->availableSegments = self::getAvailableSegments();
 
         $comparisonTotals = [];
 
-        $reportsToCompare = $this->getReportsToCompare($segments, $dates, $periods);
+        $reportsToCompare = $this->getReportsToCompare();
         foreach ($reportsToCompare as $modifiedParams) {
             $metadata = $this->getMetadataFromModifiedParams($modifiedParams);
 
@@ -158,21 +195,16 @@ class DataComparisonFilter extends BaseFilter
         }
     }
 
-    private function getReportsToCompare($segments, $dates, $periods)
+    private function getReportsToCompare()
     {
         $permutations = [];
 
-        // add base compare against segment and date
-        array_unshift($segments, isset($this->request['segment']) ? $this->request['segment'] : '');
-        array_unshift($dates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
-        array_unshift($periods, '');
-
         // NOTE: the order of these loops determines the order of the rows in the comparison table. ie,
         // if we loop over dates then segments, then we'll see comparison rows change segments before changing
-        // rows. this is because this loop determines in what order we fetch report data.
-        foreach ($dates as $index => $date) {
-            foreach ($segments as $segment) {
-                $period = $periods[$index];
+        // periods. this is because this loop determines in what order we fetch report data.
+        foreach ($this->compareDates as $index => $date) {
+            foreach ($this->compareSegments as $segment) {
+                $period = $this->comparePeriods[$index];
 
                 $params = [];
                 $params['segment'] = $segment;
@@ -221,6 +253,28 @@ class DataComparisonFilter extends BaseFilter
         }
         if (!isset($params['date'])) {
             $params['date'] = $period->getDateStart()->toString();
+        }
+
+        $idSubtable = Common::getRequestVar('idSubtable', 0, 'int', $this->request);
+        if ($idSubtable > 0) {
+            $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', $default = false, 'json', $this->request);
+            if (empty($comparisonIdSubtables)) {
+                throw new \Exception("Comparing segments/periods with subtables only works when the comparison idSubtables are supplied as well.");
+            }
+
+            $segmentIndex = empty($paramsToModify['segment']) ? 0 : $this->compareSegmentIndices[$paramsToModify['segment']];
+            $periodIndex = empty($paramsToModify['period']) ? 0 : $this->comparePeriodIndices[$paramsToModify['period']][$paramsToModify['date']];
+
+            if (!isset($comparisonIdSubtables[$segmentIndex][$periodIndex])) {
+                throw new \Exception("Invalid comparisonIdSubtables parameter: no idSubtable found for segment $segmentIndex and period $periodIndex");
+            }
+
+            $comparisonIdSubtable = $comparisonIdSubtables[$segmentIndex][$periodIndex];
+            if ($comparisonIdSubtable === -1) { // no subtable in comparison row
+                return new DataTable();
+            }
+
+            $params['idSubtable'] = $comparisonIdSubtable;
         }
 
         return Request::processRequest($method, $params);
@@ -287,6 +341,15 @@ class DataComparisonFilter extends BaseFilter
             DataTable\Row::COLUMNS => $columns,
             DataTable\Row::METADATA => $metadata,
         ]);
+
+        // set subtable
+        $newRow->setMetadata('idsubdatatable_in_db', -1);
+        if ($compareRow) {
+            $subtableId = $compareRow->getMetadata('idsubdatatable_in_db') ?: $compareRow->getIdSubDataTable();
+            if ($subtableId) {
+                $newRow->setMetadata('idsubdatatable_in_db', $subtableId);
+            }
+        }
 
         // add segment metadatas
         if ($row->getMetadata('segment')) {

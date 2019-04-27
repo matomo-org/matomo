@@ -122,9 +122,14 @@ class Php extends Renderer
         } elseif ($dataTable instanceof Simple) {
             $flatArray = $this->renderSimpleTable($dataTable);
 
+            reset($flatArray);
+            $firstKey = key($flatArray);
+
             // if we return only one numeric value then we print out the result in a simple <result> tag
             // keep it simple!
-            if (count($flatArray) == 1) {
+            if (count($flatArray) == 1
+                && $firstKey !== DataTable\Row::COMPARISONS_METADATA_NAME
+            ) {
                 $flatArray = current($flatArray);
             }
         } // A normal DataTable needs to be handled specifically
@@ -204,6 +209,10 @@ class Php extends Renderer
 
             if ($id == DataTable::ID_SUMMARY_ROW) {
                 $newRow['issummaryrow'] = true;
+            }
+
+            if (isset($newRow['metadata'][DataTable\Row::COMPARISONS_METADATA_NAME])) {
+                $newRow['metadata'][DataTable\Row::COMPARISONS_METADATA_NAME] = $row->getComparisons();
             }
 
             $subTable = $row->getSubtable();
