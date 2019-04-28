@@ -101,19 +101,48 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('11_flattened');
     });
 
+    it("should show dimensions separately when option is clicked", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_columns');
+    });
+
+    it("should search in subtable dimensions even when they are displayed seperately", async function () {
+        await page.click('.dataTableAction.searchAction');
+        await page.focus('.searchAction .dataTableSearchInput');
+        await page.keyboard.type('Bing');
+        await page.click('.searchAction .icon-search');
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.waitFor(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
+    });
+
+    it("search should still work when showing dimensions combined again", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('flatten_search');
+    });
+
+    it("search should still work when switching to back to separete dimensions", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
+    });
+
     it("should show aggregate rows when the aggregate rows option is clicked", async function () {
+        await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10'));
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableIncludeAggregateRows');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('12_aggregate_shown');
-    });
-
-    it("should show dimensions separately when option is clicked", async function () {
-        await page.click('.dropdownConfigureIcon');
-        await page.click('.dataTableShowDimensions');
-        await page.mouse.move(-10, -10);
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_columns');
     });
 
     it("should make the report hierarchical when the flatten link is clicked again", async function () {
