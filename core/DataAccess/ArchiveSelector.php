@@ -69,7 +69,7 @@ class ArchiveSelector
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, null, $doneFlags, $doneFlagValues);
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
         if (empty($results)) {
             return false;
         }
@@ -82,13 +82,6 @@ class ArchiveSelector
             && !self::getModel()->hasEncounteredVisitsSinceLastArchive($tsArchived, $idSite)
         ) {
             return [$idArchive, 0, 0];
-        }
-
-        if ($minDatetimeIsoArchiveProcessedUTC
-            && !empty($tsArchived)
-            && Date::factory($tsArchived)->getTimestamp() <= $minDatetimeIsoArchiveProcessedUTC->getTimestamp()
-        ) {
-            return false;
         }
 
         $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
