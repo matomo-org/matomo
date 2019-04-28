@@ -853,6 +853,7 @@ class API extends \Piwik\Plugin\API
                                $_isPasswordHashed = false, $passwordConfirmation = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
+        $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
@@ -918,11 +919,11 @@ class API extends \Piwik\Plugin\API
 
         Cache::deleteTrackerCache();
 
-        if ($email != $userInfo['email']) {
+        if ($email != $userInfo['email'] && $isEmailNotificationOnInConfig) {
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 
-        if ($passwordHasBeenUpdated) {
+        if ($passwordHasBeenUpdated && $requirePasswordConfirmation && $isEmailNotificationOnInConfig) {
             $this->sendPasswordChangedEmail($userInfo);
         }
 

@@ -70,11 +70,9 @@
         "UserHasNoPermission": "%1$s в даний час має %2$s до %3$s",
         "UsersManagement": "Керування користувачами",
         "UsersManagementMainDescription": "Створення нових користувачів або редагування існуючих. Також Ви можете задати права доступу для користувача.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Коли незареєстровані користувачі відвідують систему Matomo, вони повинні бачити",
         "YourUsernameCannotBeChanged": "Ім'я вашого користувача не може бути змінено.",
         "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Matomo в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
         "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері).",
-        "XtoYofN": "%1$s - %2$s з %3$s",
         "ShowAll": "Показати все",
         "Username": "Ім'я користувача"
     }

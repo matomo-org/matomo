@@ -47,7 +47,6 @@
         "Menu": "選單",
         "NoPrivilegesAskPiwikAdmin": "你目前以「%1$s」登入，但你似乎在 Matomo 中沒有被授予任何權限。%2$s要求你的管理員（點擊以寄信）%3$s給你網站的「檢視」權限。",
         "OnlyForSuperUserAccess": "這個小工具只顯示於擁有超級使用者權限使用者的預設展示板。",
-        "PageOf": "%1$s \/ %2$s",
         "PeriodRange": "範圍",
         "ReportGeneratedOn": "報表產生於 %s",
         "ReportGeneratedXAgo": "報表產生於 %s 之前",

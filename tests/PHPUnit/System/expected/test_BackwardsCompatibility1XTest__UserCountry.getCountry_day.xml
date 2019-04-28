@@ -6,7 +6,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>8</nb_actions>
 		<max_actions>7</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
+		
 		<bounce_count>1</bounce_count>
 		<goals>
 			<row idgoal='1'>
@@ -22,9 +22,9 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
+		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
-		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

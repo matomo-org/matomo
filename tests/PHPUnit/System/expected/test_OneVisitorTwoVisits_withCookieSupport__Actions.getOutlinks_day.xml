@@ -10,7 +10,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Foutlinks.org</segment>
 		<subtable>
 			<row>
 				<label>/#!outlink-with-fragment-&lt;script&gt;</label>
@@ -50,7 +49,6 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
-		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fdev.piwik.org</segment>
 		<subtable>
 			<row>
 				<label>/svn</label>

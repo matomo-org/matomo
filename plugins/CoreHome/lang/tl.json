@@ -23,7 +23,6 @@
         "InjectedHostWarningIntro": "Ina-access mo na ngayon Matomo mula sa %1$s, ngunit ang Matomo ay na-configure upang tumakbo sa address na ito: %2$s.",
         "MakeOneTimeDonation": "Ang widget na ito ay ipinapakita lamang sa mga user na may Super User na access.",
         "NoPrivilegesAskPiwikAdmin": "Ikaw ay naka-log-in bilang '%1$s' ngunit mukhang wala kang anumang pahintulot na naka-set sa Matomo. %2$s Tanungin ang iyong Matomo administrator (i-click upang i-email) %3$s upang bigyan ka ng 'view' access sa website.",
-        "PageOf": "%1$s ng %2$s",
         "PeriodRange": "Pagitan",
         "ReportGeneratedOn": "Ang ulat ay ginawa sa %s",
         "ReportGeneratedXAgo": "Ang ulat ay ginawa %s na ang nakalilipas",

@@ -21,7 +21,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.443</avg_time_generation>
-		<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fblog</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 		<subtable>
 			<row>
 				<label>category</label>
@@ -43,7 +43,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
-				<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory</segment>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 				<subtable>
 					<row>
 						<label>community</label>
@@ -61,7 +61,7 @@
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.974</avg_time_generation>
-						<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity</segment>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -105,7 +105,7 @@
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
 						<avg_time_generation>0.089</avg_time_generation>
-						<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fmeta</segment>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -155,7 +155,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.443</avg_time_generation>
-		<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fdocs</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 		<subtable>
 			<row>
 				<label>manage-websites</label>
@@ -173,7 +173,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
-				<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites</segment>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -217,7 +217,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.255</avg_time_generation>
-		<segment>pageUrl=^http%3A%2F%2Fpiwik.net%2Ffaq</segment>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 		<subtable>
 			<row>
 				<label>/index</label>

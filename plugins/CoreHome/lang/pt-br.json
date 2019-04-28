@@ -46,7 +46,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Você está logado como '%1$s', mas parece que você não tem nenhuma permissão definida no Matomo. %2$s Pergunte ao seu administrador Matomo (clique para e-mail) %3$s para lhe dar acesso de 'visão' para um site.",
         "OnlyForSuperUserAccess": "Este widget é exibido no painel padrão somente para usuários com acesso de Super Usuário.",
-        "PageOf": "%1$s de %2$s",
         "PeriodRange": "Alcance",
         "ReportGeneratedOn": "Relatório gerado em %s",
         "ReportGeneratedXAgo": "Relatório gerado %s atrás",

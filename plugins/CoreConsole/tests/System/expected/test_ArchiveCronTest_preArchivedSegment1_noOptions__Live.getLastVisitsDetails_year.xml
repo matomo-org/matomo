@@ -5,6 +5,7 @@
 		<idVisit>57</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		<fingerprint>c2bf957df173d3df</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -22,7 +23,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -40,7 +42,8 @@
 				<goalPageId>70</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -61,7 +64,8 @@
 				<interactionPosition>5</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -87,7 +91,8 @@
 				<interactionPosition>9</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -113,7 +118,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -139,7 +145,8 @@
 				<interactionPosition>6</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -165,7 +172,8 @@
 				<interactionPosition>10</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/faq/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -191,7 +199,8 @@
 				<interactionPosition>3</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -217,7 +226,8 @@
 				<interactionPosition>7</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/community/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -243,7 +253,8 @@
 				<interactionPosition>4</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -267,7 +278,8 @@
 				<interactionPosition>8</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/docs/manage-websites/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -365,6 +377,7 @@
 		<idVisit>62</idVisit>
 		<visitIp>175.41.191.47</visitIp>
 		
+		<fingerprint>2b04b8f21bd15e6f</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -378,7 +391,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title />
 				<subtitle>http://www.notdatefiltered.com/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -396,7 +410,8 @@
 				<goalPageId>84</goalPageId>
 				
 				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -489,6 +504,7 @@
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		<fingerprint>d5e0b403271e4142</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -502,7 +518,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -528,7 +545,8 @@
 				<goalPageId>30</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -635,9 +653,169 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
+		<idVisit>28</idVisit>
+		<visitIp>0.0.0.0</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
+				<pageTitle>Piwik Forums</pageTitle>
+				<pageIdAction>31</pageIdAction>
+				
+				
+				<pageId>31</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<title>Piwik Forums</title>
+				<subtitle>http://forum.piwik.org/register.php?0,approve=9a94a02145599</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>43 B</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>31</goalPageId>
+				
+				<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
+				
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>sn110w.snt110.mail.live.com</referrerName>
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>Chrome 11.0</browser>
+		<browserName>Chrome</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
+		<browserCode>CH</browserCode>
+		<browserVersion>11.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<visitLocalTime>08:00:47</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>444</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName3>Forum status</customVariableName3>
+				<customVariableValue3>Anonymous</customVariableValue3>
+			</row>
+		</customVariables>
+		<resolution>1280x800</resolution>
+		<plugins>cookie, director, flash, gears, java, pdf, windowsmedia</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
+				<pluginName>director</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/gears.png</pluginIcon>
+				<pluginName>gears</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/pdf.png</pluginIcon>
+				<pluginName>pdf</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/windowsmedia.png</pluginIcon>
+				<pluginName>windowsmedia</pluginName>
+			</row>
+		</pluginsIcons>
+	</row>
+	<row>
+		<idSite>1</idSite>
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
+		<fingerprint>f8bf68e2e1f37702</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -651,7 +829,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -669,7 +848,8 @@
 				<goalPageId>28</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -766,6 +946,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>::ffff:123.45.67.89</visitIp>
 		
+		<fingerprint>652da4125b007f6a</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -779,7 +960,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/blog/category/meta/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -797,7 +979,8 @@
 				<goalPageId>29</goalPageId>
 				
 				<url>http://piwik.net/blog/category/meta/</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -894,6 +1077,7 @@
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
 		
+		<fingerprint>4838cd5354aa5a0d</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -909,7 +1093,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>301/URL = http%3A%2F%2Fpiwik.net%2Fmoved-permanently</title>
 				<subtitle>http://piwik.net/moved-permanently</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -927,7 +1112,8 @@
 				<goalPageId>26</goalPageId>
 				
 				<url>http://piwik.net/moved-permanently</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -944,7 +1130,8 @@
 				<interactionPosition>2</interactionPosition>
 				<title>307/URL = http%3A%2F%2Fpiwik.net%2Ftemp-redirect</title>
 				<subtitle>http://piwik.net/temp-redirect</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1046,6 +1233,7 @@
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
 		
+		<fingerprint>99e510b5ed1c72ea</fingerprint>
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -1059,7 +1247,8 @@
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/download.svg</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://piwik.net/thing.js</subtitle>
 				
@@ -1083,7 +1272,8 @@
 				<timeSpent>61</timeSpent>
 				<timeSpentPretty>1 min 1s</timeSpentPretty>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/download.svg</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://piwik.net/thing.css</subtitle>
 				
@@ -1105,7 +1295,8 @@
 				<pageId>25</pageId>
 				<bandwidth>3574</bandwidth>
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/download.svg</icon>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://piwik.net/other.png</subtitle>
 				
@@ -1209,6 +1400,7 @@
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
+		<fingerprint>04c32bb5831ccf11</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1222,7 +1414,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1240,7 +1433,8 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1337,6 +1531,7 @@
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
+		<fingerprint>b2e175eab44c7e62</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1350,7 +1545,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>500/URL = http%3A%2F%2Fpiwik.net%2Fto-an-error</title>
 				<subtitle>http://piwik.net/to-an-error</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -1368,7 +1564,8 @@
 				<goalPageId>21</goalPageId>
 				
 				<url>http://piwik.net/to-an-error</url>
-				<icon>plugins/Morpheus/images/goal.svg</icon>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
 				<subtitle>all ($ 5 revenue)</subtitle>
 				
@@ -1454,121 +1651,6 @@
 			<row>
 				<customVariableName1>Not-Bot</customVariableName1>
 				<customVariableValue1>Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0</customVariableValue1>
-			</row>
-		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>18</idVisit>
-		<visitIp>1.2.3.4</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>download</type>
-				<url>http://piwik.net/19.pdf</url>
-				<pageTitle />
-				<pageIdAction>16</pageIdAction>
-				
-				
-				<pageId>18</pageId>
-				<bandwidth>4324023</bandwidth>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/download.svg</icon>
-				<title>Download</title>
-				<subtitle>http://piwik.net/19.pdf</subtitle>
-				
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<bandwidth_pretty>4.1 M</bandwidth_pretty>
-			</row>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>0</interactions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Unknown</deviceModel>
-		<operatingSystem>Unknown</operatingSystem>
-		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
-		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemVersion>UNK</operatingSystemVersion>
-		<browserFamily />
-		<browserFamilyDescription>Unknown</browserFamilyDescription>
-		<browser>Unknown</browser>
-		<browserName>Unknown</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
-		<browserCode>UNK</browserCode>
-		<browserVersion />
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Oceania</continent>
-		<continentCode>oce</continentCode>
-		<country>Australia</country>
-		<countryCode>au</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/au.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Australia</location>
-		<visitLocalTime>17:46:03</visitLocalTime>
-		<visitLocalHour>17</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Apache-HttpClient/4.2.1 (java 1.5)</customVariableValue1>
 			</row>
 		</customVariables>
 		<resolution>unknown</resolution>

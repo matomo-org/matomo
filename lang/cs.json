@@ -326,8 +326,6 @@
         "OverlayRowActionTooltipTitle": "Otevřít vrstvu stránky",
         "Overview": "Přehled",
         "Pages": "Stránky",
-        "Pagination": "%1$s - %2$s z %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Proměnná %1$s musí být číselná hodnota mezi %2$s a %3$s.",
         "Password": "Heslo",
         "Period": "Období",

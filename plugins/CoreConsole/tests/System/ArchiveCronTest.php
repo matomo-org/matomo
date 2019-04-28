@@ -64,17 +64,21 @@ class ArchiveCronTest extends SystemTestCase
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
                           ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
         );
-        foreach($segments as $segment) {
+        foreach($segments as $index => $segment) {
             // Test with a pre-processed segment
             $results[] = array(array('VisitsSummary.get', 'Live.getLastVisitsDetails', 'VisitFrequency.get'),
                                array('idSite'     => '1',
                                      'date'       => '2012-08-09',
                                      'periods'    => array('day', 'year'),
                                      'segment'    => $segment,
-                                     'testSuffix' => '_preArchivedSegment',
+                                     'testSuffix' => '_preArchivedSegment' . $index,
                                      'otherRequestParameters' => array(
                                         'hideColumns' => 'latitude,longitude'
-                                     ))
+                                     ),
+                                     'xmlFieldsToRemove' => array(
+                                         'fingerprint'
+                                     )
+                               )
             );
         }
 

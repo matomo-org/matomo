@@ -45,7 +45,7 @@ class GenerateReport extends GeneratePluginBase
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExampleReport';
+        $exampleFolder  = Manager::getPluginDirectory('ExampleReport');
         $replace        = array('GetExampleReport'  => ucfirst($apiName),
                                 'getExampleReport'  => lcfirst($apiName),
                                 'getApiReport'      => lcfirst($apiName),

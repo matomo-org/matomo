@@ -60,7 +60,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
                 $tld = mb_strtolower($tld);
             }
-            $domainNameExtension = idn_to_utf8($tld);
+            $domainNameExtension = idn_to_utf8($tld, 0, INTL_IDNA_VARIANT_UTS46);
             $email = 'test@example.' . $domainNameExtension;
 
             if(!$this->isValid($email)) {
@@ -101,7 +101,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
                 $tld = mb_strtolower($tld);
             }
             $this->assertFalse(
-                $this->isValid('test@example.' . idn_to_utf8($tld))
+                $this->isValid('test@example.' . idn_to_utf8($tld, 0, INTL_IDNA_VARIANT_UTS46))
             );
         }
     }

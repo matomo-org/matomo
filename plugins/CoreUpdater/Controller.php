@@ -167,8 +167,6 @@ class Controller extends \Piwik\Plugin\Controller
             $messages = $e->getUpdateLogMessages();
         }
 
-        Filesystem::deleteAllCacheOnUpdate();
-
         $view->feedbackMessages = $messages;
         $this->addCustomLogoInfo($view);
         return $view->render();
@@ -176,6 +174,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
+        Filesystem::deleteAllCacheOnUpdate();
+
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
         $error = Common::getRequestVar('error', '', 'string', $_POST);
 

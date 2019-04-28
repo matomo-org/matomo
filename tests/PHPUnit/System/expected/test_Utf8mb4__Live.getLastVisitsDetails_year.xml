@@ -5,6 +5,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -18,9 +19,13 @@
 						<itemCategory>category �</itemCategory>
 						<price>95</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>category �</row>
+						</categories>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
 				<subtitle>$ 100 revenue - 1 items: name �)</subtitle>
 				
@@ -37,7 +42,8 @@
 				<interactionPosition>1</interactionPosition>
 				<title>incredible �</title>
 				<subtitle>http://example.org/foo/�.html</subtitle>
-				<icon>plugins/Morpheus/images/action.svg</icon>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>

@@ -46,7 +46,6 @@
         "Menu": "Valikko",
         "NoPrivilegesAskPiwikAdmin": "Olet kirjautuneena sisään käyttäjänä '%1$s', mutta sinulla ei ole mitään oikeuksia Matomo. %2$sPyydä Matomon ylläpitäjää (klikkaa avataksesi sähköpostin)%3$s antamaan katseluoikeudet verkkosivuun.",
         "OnlyForSuperUserAccess": "Tämä widget näkyy ainoastaan käyttäjille, joilla on superkäyttäjän oikeudet.",
-        "PageOf": "%1$s of %2$s",
         "PeriodRange": "Alue",
         "ReportGeneratedOn": "Raportti luotu %s",
         "ReportGeneratedXAgo": "Raportti luotu %s sitten",

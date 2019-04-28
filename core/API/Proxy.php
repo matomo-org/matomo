@@ -442,7 +442,7 @@ class Proxy
     private function includeApiFile($fileName)
     {
         $module = self::getModuleNameFromClassName($fileName);
-        $path = Manager::getPluginsDirectory() . $module . '/API.php';
+        $path = Manager::getPluginDirectory($module) . '/API.php';
 
         if (is_readable($path)) {
             require_once $path; // prefixed by PIWIK_INCLUDE_PATH
