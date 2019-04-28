@@ -223,22 +223,13 @@ class InvalidLicenses
         $this->activatedPluginNames = $pluginNames;
     }
 
-    protected function isPluginInstalled($pluginName)
-    {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
-        }
-
-        return $this->pluginManager->isPluginInstalled($pluginName);
-    }
-
     protected function isPluginActivated($pluginName)
     {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
+        if (empty($this->activatedPluginNames)){
+            $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
         }
 
-        return $this->pluginManager->isPluginActivated($pluginName);
+        return is_array($this->activatedPluginNames) && in_array($pluginName, $this->activatedPluginNames);
     }
 
 }
