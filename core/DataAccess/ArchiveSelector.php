@@ -20,6 +20,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Segment;
+use Piwik\Site;
 
 /**
  * Data Access object used to query archives
@@ -73,11 +74,12 @@ class ArchiveSelector
             return false;
         }
 
-        list($idArchive, $tsArchived) = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+        $tsArchived = self::getArchiveStartTime($idArchive, $results);
 
         // if no visits since time of archive, do not create a new archive
         if (!empty($tsArchived)
-            && !self::getModel()->hasEncounteredVisitsSinceLastArchive($tsArchived)
+            && !self::getModel()->hasEncounteredVisitsSinceLastArchive($tsArchived, $idSite)
         ) {
             return [$idArchive, 0, 0];
         }
@@ -89,7 +91,7 @@ class ArchiveSelector
             return false;
         }
 
-        list($idArchiveVisitsSummary, $ignore) = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
+        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
@@ -98,6 +100,18 @@ class ArchiveSelector
         }
 
         return array($idArchive, $visits, $visitsConverted);
+    }
+
+    private static function getArchiveStartTime($idArchive, $results)
+    {
+        foreach ($results as $result) {
+            if ($result['idarchive'] == $idArchive
+                && $result['name'] == ArchiveWriter::ARCHIVE_START_RECORD_NAME
+            ) {
+                return $result['ts_archived'];
+            }
+        }
+        return null;
     }
 
     protected static function getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results)
@@ -131,7 +145,6 @@ class ArchiveSelector
     protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
     {
         $idArchive = false;
-        $tsArchived = false;
         $namesRequestedPlugin = Rules::getDoneFlags(array($requestedPlugin), $segment);
 
         foreach ($results as $result) {
@@ -139,12 +152,11 @@ class ArchiveSelector
                 && in_array($result['name'], $namesRequestedPlugin)
             ) {
                 $idArchive = $result['idarchive'];
-                $tsArchived = $result['ts_archived'];
                 break;
             }
         }
 
-        return [$idArchive, $tsArchived];
+        return $idArchive;
     }
 
     /**
@@ -356,7 +368,7 @@ class ArchiveSelector
 
     public static function getLatestArchiveStartTimestampForToday($idSite)
     {
-        $today = Date::today();
+        $today = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite));
         $table = ArchiveTableCreator::getNumericTable($today);
 
         $nameCondition = self::getNameCondition(['VisitsSummary'], new Segment('', [$idSite]));

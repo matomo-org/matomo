@@ -346,6 +346,12 @@ class ArchiveTest extends IntegrationTestCase
         // make sure ts_archived is well before now
         Db::exec("UPDATE " . ArchiveTableCreator::getNumericTable(Date::factory($date)) . ' SET ts_archived = "2019-01-10 07:00:00";');
 
+        // track a visit on idsite = 2 after ts archived date
+        $t = Fixture::getTracker(2, $date, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory('2019-01-10 10:00:00')->getDatetime());
+        $t->setUrl('http://site2.com/index.htm');
+        Fixture::checkResponse($t->doTrackPageView('my_site'));
+
         // initiate archiving again
         $result = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $date));
         $this->assertEquals(1, $result->getFirstRow()->getColumn('nb_visits'));

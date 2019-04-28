@@ -228,7 +228,8 @@ class Model
                          AND period = ?
                          AND ( ($sqlWhereArchiveName)
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
-                               OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
+                               OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "'
+                               OR name = '" . ArchiveWriter::ARCHIVE_START_RECORD_NAME . "')
                          $timeStampWhere
                      ORDER BY idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
@@ -337,11 +338,13 @@ class Model
      * Returns whether there is at least one visit that ended after the given timestamp.
      *
      * @param $tsArchived
+     * @param int $idSite
      * @return bool
      */
-    public function hasEncounteredVisitsSinceLastArchive($tsArchived)
+    public function hasEncounteredVisitsSinceLastArchive($tsArchived, $idSite)
     {
-        $rows = Db::fetchAll("SELECT idvisit FROM " . Common::prefixTable('log_visit') . " WHERE visit_last_action_time >= ? LIMIT 1", [$tsArchived]);
+        $table = Common::prefixTable('log_visit');
+        $rows = Db::fetchAll("SELECT idvisit FROM `$table` WHERE visit_last_action_time >= ? AND idsite = ? LIMIT 1", [$tsArchived, $idSite]);
         return !empty($rows);
     }
 

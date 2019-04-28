@@ -15,10 +15,17 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class ArchiveSelectorTest extends IntegrationTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        Fixture::createWebsite('2012-01-01 00:00:00');
+    }
+
     /**
      * @dataProvider getTestDataForGetLatestArchiveStartTimestampForToday
      */
