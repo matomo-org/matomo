@@ -183,7 +183,7 @@ Application.prototype.loadTestModules = function () {
                 if (fs.existsSync(file)
                     && item.slice(-4) == '.png'
                 ) {
-                    fs.remove(file);
+                    fs.unlinkSync(file);
                 }
             });
 
