@@ -173,20 +173,6 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
-            // remove existing diffs
-            if (!fs.existsSync(suite.diffDir)) {
-                fs.mkdirSync(suite.diffDir);
-            }
-
-            fs.readdirSync(suite.diffDir).forEach(function (item) {
-                var file = path.join(suite.diffDir, item);
-                if (fs.existsSync(file)
-                    && item.slice(-4) == '.png'
-                ) {
-                    fs.unlinkSync(file);
-                }
-            });
-
             testEnvironment.setupFixture(fixture, done);
 
             options = oldOptions;
@@ -219,6 +205,20 @@ Application.prototype.runTests = function (mocha) {
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
             fsExtra.mkdirsSync(path);
+        }
+    });
+
+    // remove existing diffs
+    if (!fs.existsSync(suite.diffDir)) {
+        fs.mkdirSync(suite.diffDir);
+    }
+
+    fs.readdirSync(suite.diffDir).forEach(function (item) {
+        var file = path.join(suite.diffDir, item);
+        if (fs.existsSync(file)
+            && item.slice(-4) == '.png'
+        ) {
+            fs.unlinkSync(file);
         }
     });
 
