@@ -260,7 +260,7 @@ class GeoIP2AutoUpdater extends Task
             // delete the existing GeoIP database (if any) and rename the downloaded file
             $oldDbFile = LocationProviderGeoIp2::getPathForGeoIpDatabase($dbFilename);
             if (file_exists($oldDbFile)) {
-                unlink($oldDbFile);
+                @unlink($oldDbFile);
             }
 
             $tempFile = self::getTemporaryFolder($tempFilename);
