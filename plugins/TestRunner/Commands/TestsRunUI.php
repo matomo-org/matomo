@@ -61,7 +61,7 @@ class TestsRunUI extends ConsoleCommand
         // @todo remove piwik-domain fallback in Matomo 4
         $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
         $enableLogging = $input->getOption('enable-logging');
-        $timeout = (int)$input->getOption('timeout');
+        $timeout = $input->getOption('timeout');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -124,8 +124,8 @@ class TestsRunUI extends ConsoleCommand
             $options[] = $extraOptions;
         }
 
-        if ($timeout >= 0) {
-            $options[] = "--timeout=" . $timeout;
+        if ($timeout !== false && $timeout > 0) {
+            $options[] = "--timeout=" . (int) $timeout;
         }
 
         $options = implode(" ", $options);
