@@ -129,7 +129,7 @@ class GeoIP2AutoUpdater extends Task
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
         $zippedFilename = LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
 
-        $zippedOutputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($zippedFilename);
+        $zippedOutputPath = self::getTemporaryFolder($zippedFilename);
 
         $url = self::removeDateFromUrl($url);
 
@@ -156,6 +156,11 @@ class GeoIP2AutoUpdater extends Task
         }
 
         Log::info("GeoIP2AutoUpdater: successfully updated GeoIP 2 database '%s'", $url);
+    }
+
+    protected static function getTemporaryFolder($file)
+    {
+        return \Piwik\Container\StaticContainer::get('path.tmp') . '/latest/' . $file;
     }
 
     /**
@@ -201,7 +206,7 @@ class GeoIP2AutoUpdater extends Task
 
             $dbFilename = basename($fileToExtract);
             $tempFilename = $dbFilename . '.new';
-            $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
+            $outputPath = self::getTemporaryFolder($tempFilename);
 
             // write unzipped to file
             $fd = fopen($outputPath, 'wb');
@@ -212,7 +217,7 @@ class GeoIP2AutoUpdater extends Task
 
             $dbFilename = basename($path);
             $tempFilename = $dbFilename . '.new';
-            $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
+            $outputPath = self::getTemporaryFolder($tempFilename);
 
             $success = $unzip->extract($outputPath);
 
@@ -235,7 +240,7 @@ class GeoIP2AutoUpdater extends Task
                 'loc' => array(),
                 'isp' => array()
             );
-            $customDbNames[$dbType] = array($tempFilename);
+            $customDbNames[$dbType] = $outputPath;
 
             $phpProvider = new Php($customDbNames);
 
@@ -258,7 +263,7 @@ class GeoIP2AutoUpdater extends Task
                 unlink($oldDbFile);
             }
 
-            $tempFile = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
+            $tempFile = self::getTemporaryFolder($tempFilename);
             if (@rename($tempFile, $oldDbFile) !== true) {
                 //In case the $tempfile cannot be renamed, we copy the file.
                 copy($tempFile, $oldDbFile);
