@@ -21,8 +21,8 @@ describe("Installation", function () {
         testEnvironment.tablesPrefix = 'piwik_';
         testEnvironment.save();
 
-        if (fs.exists(testEnvironment.configFileLocal)) {
-            fs.remove(testEnvironment.configFileLocal);
+        if (fs.existsSync(testEnvironment.configFileLocal)) {
+            fs.unlinkSync(testEnvironment.configFileLocal);
         }
     });
 

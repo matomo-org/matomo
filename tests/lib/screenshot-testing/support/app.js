@@ -40,7 +40,7 @@ var walk = function (dir, pattern, result) {
 var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
-    return !fs.exists(gitDir);
+    return !fs.existsSync(gitDir);
 };
 
 var Application = function () {
@@ -180,7 +180,7 @@ Application.prototype.loadTestModules = function () {
 
             fs.readdirSync(suite.diffDir).forEach(function (item) {
                 var file = path.join(suite.diffDir, item);
-                if (fs.exists(file)
+                if (fs.existsSync(file)
                     && item.slice(-4) == '.png'
                 ) {
                     fs.remove(file);

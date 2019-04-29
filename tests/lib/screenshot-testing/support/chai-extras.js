@@ -65,8 +65,10 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                     app.appendMissingExpected(imageName);
                     this.assert(false, `expected file at '${expectedPath}' does not exist`);
                 } else {
+                    var matches = compareImages(expectedPath, processedPath, comparisonThreshold);
+
                     this.assert(
-                        compareImages(expectedPath, processedPath, comparisonThreshold),
+                        matches,
                         `expected screenshot to match ${expectedPath}`,
                         `expected screenshot to not match ${expectedPath}`
                     );
@@ -84,6 +86,11 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                     expected: fs.isFile(expectedPath) ? expectedPath : null,
                     baseDirectory: app.runner.suite.baseDirectory
                 };
+
+                if (options['assume-artifacts']) {
+                    // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it's slower)
+                    fs.linkSync(expectedPath, getDiffPath(imageName));
+                }
 
                 var expectedPathStr = testInfo.expected ? path.resolve(testInfo.expected) : (expectedPath + " (not found)"),
                     processedPathStr = testInfo.processed ? path.resolve(testInfo.processed) : (processedPath + " (not found)");
@@ -264,4 +271,9 @@ function checkForDangerousLinks() {
         }
     });
     expect(links, "found dangerous links").to.equal('{}');
+}
+
+function getDiffPath(testInfoName) {
+    var baseDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI');
+    return path.resolve(path.join(baseDir, config.screenshotDiffDir, testInfoName));
 }
