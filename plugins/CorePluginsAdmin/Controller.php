@@ -21,6 +21,7 @@ use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -62,18 +63,29 @@ class Controller extends Plugin\ControllerAdmin
     private $marketplacePlugins;
 
     /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
+
+    /**
      * Controller constructor.
      * @param Translator $translator
      * @param Plugin\SettingsProvider $settingsProvider
      * @param PluginInstaller $pluginInstaller
      * @param Plugins $marketplacePlugins
+     * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator, Plugin\SettingsProvider $settingsProvider, PluginInstaller $pluginInstaller, $marketplacePlugins = null)
-    {
+    public function __construct(Translator $translator, 
+                                Plugin\SettingsProvider $settingsProvider, 
+                                PluginInstaller $pluginInstaller,
+                                PasswordVerifier $passwordVerify,
+                                $marketplacePlugins = null
+    ) {
         $this->translator = $translator;
         $this->settingsProvider = $settingsProvider;
         $this->pluginInstaller = $pluginInstaller;
         $this->pluginManager = Plugin\Manager::getInstance();
+        $this->passwordVerify = $passwordVerify;
 
         if (!empty($marketplacePlugins)) {
             $this->marketplacePlugins = $marketplacePlugins;
@@ -86,6 +98,51 @@ class Controller extends Plugin\ControllerAdmin
     }
 
     public function uploadPlugin()
+    {
+        // Default value of -1 (as an integer) cannot be passed from the form (which will always send a string)
+        // This is how we can tell whether the request is the initial submission, or a redirect after password conf
+        $confirmPassword = Common::getRequestVar('confirmPassword', -1);
+        $passwordsMatch = false;
+        if ($confirmPassword !== -1) {
+            $passwordsMatch = $this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $confirmPassword);
+            // They entered the wrong password, so we must always get them to enter it again
+            if (! $passwordsMatch) {
+                $this->passwordVerify->forgetVerifiedPassword();
+            }
+        }
+
+        $redirectParams = array(
+            'module' => 'CorePluginsAdmin',
+            'action' => 'uploadPlugin',
+            'nonce' => Common::getRequestVar('nonce')
+        );
+
+        // Move the uploaded file so that we'll still have access to it after redirecting back from password check
+        if (isset($_FILES['pluginZip'])) {
+            $files = $_FILES['pluginZip'];
+
+            if (empty($files['error']) && file_exists($files['tmp_name'])) {
+                $tmpDir = StaticContainer::get('path.tmp') . '/uploads';
+                if (! file_exists($tmpDir)) {
+                    Filesystem::mkdir($tmpDir);
+                }
+
+                $newPath = $tmpDir . '/' . basename($files['tmp_name']);
+                Filesystem::copy($files['tmp_name'], $newPath);
+
+                $files['tmp_name'] = $newPath;
+            }
+
+            // The keys get lost off the associative array during redirect, so we need to serialize to retain them
+            $redirectParams['files'] = serialize($files);
+        }
+
+        if ($passwordsMatch || $this->passwordVerify->requirePasswordVerified($redirectParams)) {
+            return $this->doUploadPlugin();
+        }
+    }
+
+    private function doUploadPlugin()
     {
         static::dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
@@ -103,14 +160,24 @@ class Controller extends Plugin\ControllerAdmin
         Nonce::discardNonce(MarketplaceController::INSTALL_NONCE);
 
         if (empty($_FILES['pluginZip'])) {
+            $files = array();
+            $filesString = Common::getRequestVar('files', '');
+            if ($filesString) {
+                $files = unserialize(html_entity_decode($filesString));
+            }
+        } else {
+            $files = $_FILES['pluginZip'];
+        }
+
+        if (empty($files)) {
             throw new \Exception('You did not specify a ZIP file.');
         }
 
-        if (!empty($_FILES['pluginZip']['error'])) {
+        if (!empty($files['error'])) {
             throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
         }
 
-        $file = $_FILES['pluginZip']['tmp_name'];
+        $file = $files['tmp_name'];
         if (!file_exists($file)) {
             throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
         }

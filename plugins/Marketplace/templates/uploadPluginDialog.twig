@@ -8,6 +8,11 @@
               action="{{ linkTo({'module':'CorePluginsAdmin', 'action':'uploadPlugin', 'nonce': installNonce}) }}">
             <input type="file" name="pluginZip">
             <br />
+            <div piwik-field uicontrol="password" name="confirmPassword" autocomplete="off"
+                 data-title="{{ 'Login_ConfirmPasswordToContinue'|translate|e('html_attr') }}"
+                 value="">
+            </div>
+
             <input class="startUpload btn" type="submit" value="{{ 'Marketplace_UploadZipFile'|translate }}">
         </form>
     {% else %}
