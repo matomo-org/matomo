@@ -5264,12 +5264,6 @@ if (typeof window.Piwik !== 'object') {
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
 
-                if (link.indexOf('?') > 0) {
-                    link += '&';
-                } else {
-                    link += '?';
-                }
-
                 var crossDomainVisitorId = getCrossDomainVisitorId();
 
                 link = addUrlParameter(link, configVisitorIdUrlParameter, crossDomainVisitorId);
