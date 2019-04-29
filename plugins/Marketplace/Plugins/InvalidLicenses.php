@@ -193,7 +193,7 @@ class InvalidLicenses
                     continue;
                 }
                 $pluginName = $plugin['name'];
-                if ($this->isPluginActivated($pluginName)) {
+                if ($this->isPluginInActivatedPluginsList($pluginName)) {
                     if (empty($plugin['consumer']['license'])) {
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
@@ -223,7 +223,7 @@ class InvalidLicenses
         $this->activatedPluginNames = $pluginNames;
     }
 
-    protected function isPluginActivated($pluginName)
+    protected function isPluginInActivatedPluginsList($pluginName)
     {
         if (empty($this->activatedPluginNames)){
             $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
