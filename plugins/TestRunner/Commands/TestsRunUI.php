@@ -40,6 +40,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
         $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'Enable logging to the configured log file during tests.');
+        $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Custom test timeout value.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -60,6 +61,7 @@ class TestsRunUI extends ConsoleCommand
         // @todo remove piwik-domain fallback in Matomo 4
         $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
         $enableLogging = $input->getOption('enable-logging');
+        $timeout = (int)$input->getOption('timeout');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -120,6 +122,10 @@ class TestsRunUI extends ConsoleCommand
 
         if ($extraOptions) {
             $options[] = $extraOptions;
+        }
+
+        if ($timeout >= 0) {
+            $options[] = "--timeout=" . $timeout;
         }
 
         $options = implode(" ", $options);

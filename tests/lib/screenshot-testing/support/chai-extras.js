@@ -88,6 +88,8 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 };
 
                 if (options['assume-artifacts']) {
+                    console.log('Copying ' + expectedPath + ' to ' + getDiffPath(imageName));
+
                     // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it's slower)
                     fs.linkSync(expectedPath, getDiffPath(imageName));
                 }
