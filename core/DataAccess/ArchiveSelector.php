@@ -59,7 +59,7 @@ class ArchiveSelector
 
         $minDatetimeIsoArchiveProcessedUTC = null;
         if ($minDatetimeArchiveProcessedUTC) {
-            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC);
+            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
         }
 
         $requestedPlugin = $params->getRequestedPlugin();
@@ -359,17 +359,19 @@ class ArchiveSelector
         }
     }
 
-    public static function getLatestArchiveStartTimestampForToday($idSite)
+    public static function getLatestArchiveStartTimestampForToday($idSite, $period, $date, Segment $segment)
     {
         $today = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite));
         $table = ArchiveTableCreator::getNumericTable($today);
 
-        $nameCondition = self::getNameCondition(['VisitsSummary'], new Segment('', [$idSite]));
+        $periodObj = Period\Factory::build($period, $date);
+
+        $nameCondition = self::getNameCondition(['VisitsSummary'], $segment);
 
         $sql = "SELECT MAX(idarchive)
                   FROM $table
                  WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ? AND $nameCondition";
-        $bind = [$idSite, Piwik::$idPeriods['day'], $today->getDatetime(), $today->getDatetime()];
+        $bind = [$idSite, $periodObj->getId(), $periodObj->getDateStart()->getDatetime(), $periodObj->getDateEnd()->getDatetime()];
 
         $idArchive = Db::fetchOne($sql, $bind);
 

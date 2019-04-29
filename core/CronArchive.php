@@ -266,11 +266,6 @@ class CronArchive
     private $isArchiveProfilingEnabled = false;
 
     /**
-     * @var int[]
-     */
-    private $idSitesToArchiveWhenNoVisits;
-
-    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -300,7 +295,6 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
 
         $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
-        $this->idSitesToArchiveWhenNoVisits = Loader::getIdSitesToArchiveWhenNoVisits();
     }
 
     private function isMaintenanceModeEnabled()
@@ -869,6 +863,13 @@ class CronArchive
             return false;
         }
 
+        if (!$this->hasThereBeenVisitsSinceLastArchiveTimestamp($idSite, 'day', $date)) {
+            $this->logArchiveWebsiteSkippedNoVisits($idSite, 'day', $date);
+
+            ++$this->skipped;
+            return false;
+        }
+
         $content = $this->request($url);
         $daysResponse = Common::safe_unserialize($content);
 
@@ -991,15 +992,22 @@ class CronArchive
                 return $success;
             }
 
-            $self = $this;
-            $request = new Request($url);
-            $request->before(function () use ($self, $url, $idSite, $period, $date) {
-                if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
-                     return Request::ABORT;
-                }
-            });
-            $urls[] = $request;
-            $this->logArchiveWebsite($idSite, $period, $date);
+            if ($this->hasThereBeenVisitsSinceLastArchiveTimestamp($idSite, $period, $date)) {
+                $self = $this;
+                $request = new Request($url);
+                $request->before(function () use ($self, $url, $idSite, $period, $date) {
+                    if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
+                        return Request::ABORT;
+                    }
+                });
+                $urls[] = $request;
+                $this->logArchiveWebsite($idSite, $period, $date);
+            } else {
+                $this->logArchiveWebsiteSkippedNoVisits($idSite, $period, $date);
+
+                $success = false;
+                return $success;
+            }
         }
 
         $segmentRequestsCount = 0;
@@ -1042,6 +1050,28 @@ class CronArchive
         $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsInLastPeriod, $periodTimer);
 
         return $success;
+    }
+
+    private function hasThereBeenVisitsSinceLastArchiveTimestamp($idSite, $period, $date, $segment = '')
+    {
+        $latestExistingArchive = ArchiveSelector::getLatestArchiveStartTimestampForToday($idSite, $period, $date, new Segment($segment, [$idSite]));
+        $latestExistingArchive = $latestExistingArchive ? Date::factory($latestExistingArchive)->getTimestamp() : 0;
+
+        $sinceInfo = "(since the latest archive for [site = $idSite, period = $period, date = $date, segment = $segment])";
+
+        $from = Date::factory($latestExistingArchive)->getDatetime();
+        $to   = Date::now()->addHour(1)->getDatetime();
+
+        $dao = new RawLogDao();
+        $hasVisits = $dao->hasSiteVisitsBetweenTimeframe($from, $to, $idSite);
+
+        if ($hasVisits) {
+            $this->logger->info("- tracking data found for website id $idSite since $from UTC $sinceInfo");
+        } else {
+            $this->logger->info("- no new tracking data for website id $idSite since $from UTC $sinceInfo");
+        }
+
+        return $hasVisits;
     }
 
     /**
@@ -1283,15 +1313,7 @@ class CronArchive
             $sinceInfo = "(since midnight)";
         }
 
-        $latestExistingArchive = ArchiveSelector::getLatestArchiveStartTimestampForToday($idSite);
-        $latestExistingArchive = $latestExistingArchive ? Date::factory($latestExistingArchive)->getTimestamp() : 0;
-
-        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getTimestamp();
-        if ($latestExistingArchive > $from) {
-            $from = $latestExistingArchive;
-            $sinceInfo = '(since the latest archive for today)';
-        }
-        $from = Date::factory($from)->getDatetime();
+        $from = Date::now()->subSeconds($secondsBackToLookForVisits)->getDatetime();
 
         $to   = Date::now()->addHour(1)->getDatetime();
 
@@ -1800,6 +1822,11 @@ class CronArchive
                 continue;
             }
 
+            if (!$this->hasThereBeenVisitsSinceLastArchiveTimestamp($idSite, $period, $date, $segment)) {
+                $this->logArchiveWebsiteSkippedNoVisits($idSite, $period, $date, $segment);
+                continue;
+            }
+
             $request = new Request($urlWithSegment);
             $logger = $this->logger;
             $self = $this;
@@ -1879,6 +1906,17 @@ class CronArchive
             $date
         ));
         $this->logger->info('- pre-processing all visits');
+    }
+
+    private function logArchiveWebsiteSkippedNoVisits($idSite, $period, $date, $segment = '')
+    {
+        $this->logger->info("Skipping archiving for website id = {idSite}, period = {period}, date = {date}, segment = {segment}, "
+            . "since there are no visits since the latest archive's creation time.", [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+        ]);
     }
 
     public function isAlreadyArchivingUrl($url, $idSite, $period, $date)
