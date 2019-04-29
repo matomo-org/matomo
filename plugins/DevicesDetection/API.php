@@ -255,7 +255,7 @@ class API extends \Piwik\Plugin\API
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
-        $dataTable->filter('AddSegmentValue');
+        $dataTable->filter('AddSegmentByLabel', ['browserCode']);
 
         // handle legacy archives
         if ($dataTable instanceof DataTable\Map || !$dataTable->getRowsCount()) {

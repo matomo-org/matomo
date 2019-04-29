@@ -27,6 +27,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
 
         testEnvironment.callApi("SitesManager.setSiteAliasUrls", {idSite: 3, urls: []}, done);
+
+        testEnvironment.pluginsToLoad = ['CustomDirPlugin'];
+        testEnvironment.save();
     });
 
     beforeEach(function () {
@@ -83,6 +86,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it("should load the page of a plugin located in a custom directory", function (done) {
+        expect.screenshot("customdirplugin").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
+        }, done);
+    });
     // shortcuts help
     it("should show shortcut help", function (done) {
         expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {

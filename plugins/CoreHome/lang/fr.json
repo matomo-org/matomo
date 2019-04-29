@@ -47,7 +47,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Vous êtes connecté en tant que '%1$s' mais il semble que nous n'ayez aucune permission définie dans Matomo. %2$s Demandez à votre administrateur (cliquez pour envoyer un e-mail)%3$s de vous donner l'accès 'Consultation' à un site web.",
         "OnlyForSuperUserAccess": "Ce gadget est affiché dans le tableau de bord par défaut uniquement aux utilisateurs possédant un accès de type super utilisateur.",
-        "PageOf": "%1$s de %2$s",
         "PeriodRange": "Etendue",
         "ReportGeneratedOn": "Rapport généré le %s",
         "ReportGeneratedXAgo": "Rapport généré il y a %s",

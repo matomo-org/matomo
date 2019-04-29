@@ -2,7 +2,7 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Ecommerce Abandoned Cart / Ecommerce Order #}
-        <img src="{{ action.icon }}" class="action-list-action-icon"/>
+        <img src="{{ action.iconSVG|default(action.icon) }}" class="action-list-action-icon"/>
         {% if action.type == 'ecommerceOrder' %}
             <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
             <span style='color:#666;'>({{ action.orderId }})</span>
@@ -39,9 +39,8 @@
                     <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}22{% endif %}px;'>
                         {% for product in action.itemDetails %}
                             <li>
-                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
-                                {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
-                                ,
+                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif -%}
+                                {%- if product.categories is not empty %} ({% for category in product.categories %}{{ category }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %},
                                 {{ 'General_Quantity'|translate }}: {{ product.quantity }},
                                 {{ 'General_Price'|translate }}: {{ product.price|money(visitInfo.idSite)|raw }}
                             </li>

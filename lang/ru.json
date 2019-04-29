@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Открыть страницу с наложением",
         "Overview": "Обзор",
         "Pages": "Страницы",
-        "Pagination": "%1$s - %2$s из %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Параметр %1$s должен быть целым числом между %2$s и %3$s.",
         "Password": "Пароль",
         "Period": "Период",

@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Ouvrir l'analyse des pages web",
         "Overview": "Récapitulatif",
         "Pages": "Pages",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Le paramètre %1$s doit être un entier compris entre %2$s et %3$s.",
         "Password": "Mot de passe",
         "Period": "Période",

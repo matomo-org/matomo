@@ -49,8 +49,8 @@ charset = utf8
 host = localhost
 username = "@USERNAME@"
 password =
-dbname = piwik_tests
-tables_prefix = piwiktests_
+dbname = matomo_tests
+tables_prefix = matomotests_
 port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
@@ -102,7 +102,7 @@ log_level = WARN
 ; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
-logger_file_path = tmp/logs/piwik.log
+logger_file_path = tmp/logs/matomo.log
 
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
@@ -442,7 +442,7 @@ enable_framed_pages = 0
 enable_framed_settings = 0
 
 ; language cookie name for session
-language_cookie_name = piwik_lang
+language_cookie_name = matomo_lang
 
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
@@ -452,6 +452,9 @@ noreply_email_name = ""
 
 ; set to 0 to disable sending of all emails. useful for testing.
 emails_enabled = 1
+
+; set to 0 to disable sending of emails when a password or email is changed
+enable_update_users_email = 1
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
@@ -486,6 +489,8 @@ datatable_archiving_maximum_rows_actions = 500
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
+; maximum number of rows for the Site Search table
+datatable_archiving_maximum_rows_site_search = 500
 
 ; maximum number of rows for any of the Events tables (Categories, Actions, Names)
 datatable_archiving_maximum_rows_events = 500
@@ -824,6 +829,11 @@ tracking_requests_require_authentication = 1
 ; date is older than 1 day, Matomo requires an authenticated tracking requests. By setting this config to another value
 ; You can change how far back Matomo will track your requests without authentication. The configured value is in seconds.
 tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
+
+; if set to 1, all the SQL queries will be recorded by the profiler
+; and a profiling summary will be printed at the end of the request
+; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
+enable_sql_profiler = 0
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

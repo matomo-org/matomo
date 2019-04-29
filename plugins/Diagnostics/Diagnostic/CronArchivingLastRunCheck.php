@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Option;
 use Piwik\Plugins\Intl\DateTimeFormatProvider;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 
 /**
@@ -36,6 +37,10 @@ class CronArchivingLastRunCheck implements Diagnostic
 
     public function execute()
     {
+        if (!SettingsPiwik::isMatomoInstalled()) {
+            return [];
+        }
+
         $label = $this->translator->translate('Diagnostics_CronArchivingLastRunCheck');
         $commandToRerun = '<code>' . $this->getArchivingCommand() . '</code>';
         $coreArchiveShort = '<code>core:archive</code>';
@@ -65,7 +70,11 @@ class CronArchivingLastRunCheck implements Diagnostic
         $diffTimePretty = $formatter->getPrettyTimeFromSeconds($diffTime);
 
         $errorComment = $this->translator->translate('Diagnostics_CronArchivingHasNotRunInAWhile', [$lastRunTimePretty, $diffTimePretty])
-            . '<br/><br/>' . $this->translator->translate('Diagnostics_CronArchivingRunDetails', [$coreArchiveShort, $mailto, $commandToRerun]);
+            . '<br/><br/>' .
+            $this->translator->translate(
+                'Diagnostics_CronArchivingRunDetails',
+                [$coreArchiveShort, $mailto, $commandToRerun, '<a href="https://matomo.org/docs/setup-auto-archiving/" target="_blank" rel="noreferrer noopener">', '</a>']
+            );
 
         // check archiving has been run recently
         if ($diffTime > self::SECONDS_IN_DAY * 2) {

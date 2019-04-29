@@ -271,8 +271,6 @@
         "OverlayRowActionTooltipTitle": "Odpri prekrivanje strani",
         "Overview": "Pregled",
         "Pages": "Strani",
-        "Pagination": "%1$s - %2$s od %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parameter %1$s mora biti celo število med %2$s in %3$s.",
         "Password": "Geslo",
         "Period": "Obdobje",

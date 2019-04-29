@@ -14,7 +14,7 @@
     <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
         <div piwik-field uicontrol="text" name="username"
-             title="{{ 'General_Username'|translate|e('html_attr') }}"
+             data-title="{{ 'General_Username'|translate|e('html_attr') }}"
              value="{{ userLogin }}" data-disabled="true"
              ng-model="personalSettings.username"
              inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
@@ -24,7 +24,7 @@
              ng-model="personalSettings.email"
              ng-change="personalSettings.requirePasswordConfirmation()"
              maxlength="100"
-             title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
+             data-title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
         </div>
 
@@ -35,7 +35,7 @@
 
         <div piwik-field uicontrol="select" name="language"
              ng-model="personalSettings.language"
-             title="{{ 'General_Language'|translate|e('html_attr') }}"
+             data-title="{{ 'General_Language'|translate|e('html_attr') }}"
              options="{{ languageOptions|json_encode }}"
              inline-help="#languageHelp"
              value="{{ currentLanguageCode }}">
@@ -43,14 +43,14 @@
 
         <div piwik-field uicontrol="select" name="timeformat"
              ng-model="personalSettings.timeformat"
-             title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
+             data-title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
              value="{{ currentTimeformat }}" options="{{ timeFormats|json_encode }}">
         </div>
 
         <div piwik-field uicontrol="radio" name="defaultReport"
              ng-model="personalSettings.defaultReport"
              introduction="{{ 'UsersManager_ReportToLoadByDefault'|translate|e('html_attr') }}"
-             title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
+             data-title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
              value="{{ defaultReport }}" options="{{ defaultReportOptions|json_encode }}">
         </div>
 
@@ -78,14 +78,14 @@
                  ng-model="personalSettings.password"
                  ng-change="personalSettings.requirePasswordConfirmation()"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
-                 title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
+                 data-title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
             </div>
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
                  ng-model="personalSettings.passwordBis"
                  ng-change="personalSettings.requirePasswordConfirmation()"
-                 title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
+                 data-title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
         {% endif %}
@@ -107,7 +107,7 @@
                 <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
                      ng-model="personalSettings.passwordCurrent"
                      full-width="true"
-                     title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
+                     data-title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
                      value="">
                 </div>
             </div>

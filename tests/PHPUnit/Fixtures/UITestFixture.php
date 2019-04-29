@@ -70,6 +70,7 @@ class UITestFixture extends SqlDump
         self::resetPluginsInstalledConfig();
         self::updateDatabase();
         self::installAndActivatePlugins($this->getTestEnvironment());
+        self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),
@@ -78,7 +79,6 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
@@ -127,6 +127,9 @@ class UITestFixture extends SqlDump
         $this->extraTestEnvVars = array(
             'loadRealTranslations' => 1,
         );
+        $this->extraPluginsToLoad = array(
+            'CustomDirPlugin'
+        );
 
         parent::performSetUp($setupEnvironmentOnly);
 
@@ -147,6 +150,7 @@ class UITestFixture extends SqlDump
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
+        $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
         $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
@@ -584,7 +588,7 @@ class CustomApiProxy extends Proxy
 
     public function isExistingApiAction($pluginName, $apiAction)
     {
-        if ($pluginName == 'ExampleAPI' && ($apiAction != 'xssReportforTwig' || $apiAction != 'xssReportforAngular')) {
+        if ($pluginName == 'ExampleAPI' && ($apiAction == 'xssReportforTwig' || $apiAction == 'xssReportforAngular')) {
             return true;
         }
         return parent::isExistingApiAction($pluginName, $apiAction);
