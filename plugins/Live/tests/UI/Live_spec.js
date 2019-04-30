@@ -70,6 +70,7 @@ describe("Live", function () {
 
     it('should show action details', async function() {
         await page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions');
+        await page.waitForNetworkIdle();
 
         var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_action_details');

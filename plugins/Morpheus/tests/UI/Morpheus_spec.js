@@ -18,6 +18,7 @@ describe("Morpheus", function () {
 
     it("should show all UI components and CSS classes", async function() {
         await page.goto(url);
+        await page.evaluate(() => $('img[src~=loading]').hide());
         await page.waitFor(500); // wait for rendering
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });

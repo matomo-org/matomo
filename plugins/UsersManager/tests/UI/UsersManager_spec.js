@@ -54,10 +54,9 @@ describe("UsersManager", function () {
             $('select[name=access-level-filter]').val('string:').change();
         });
 
-        await page.click('th.role_header .siteSelector a.title');
+        await page.evaluate(() => $('th.role_header .siteSelector a.title').click());
         await page.waitForNetworkIdle();
         await page.waitForSelector('.siteSelector .custom_select_container a');
-        await page.waitFor(500);
         await page.evaluate(function () {
             $('.siteSelector .custom_select_container a:contains(relentless)').click();
         });

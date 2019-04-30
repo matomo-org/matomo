@@ -23,6 +23,7 @@ describe("PrivacyManager", function () {
     async function setAnonymizeStartEndDate()
     {
         // make sure tests do not fail every day
+        await page.waitFor('input.anonymizeStartDate');
         await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
             $('input.anonymizeEndDate').val('2018-03-02').change();
@@ -51,6 +52,7 @@ describe("PrivacyManager", function () {
     {
         await page.click('.findDataSubjects .btn');
         await page.waitForNetworkIdle();
+        await page.waitFor(250);
     }
 
     async function anonymizePastData()
@@ -267,6 +269,7 @@ describe("PrivacyManager", function () {
 
     it('should be able to cancel deletion and not delete any data', async function() {
         await selectModalButton('No');
+        await page.evaluate(() => window.scrollTo(0, 0)); // gets rid of grey space at top
         await page.waitFor(500);
         await capturePage('gdpr_tools_delete_visit_cancelled');
     });

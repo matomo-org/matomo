@@ -88,8 +88,12 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 };
 
                 if (options['assume-artifacts']) {
-                    // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it's slower)
-                    fs.linkSync(expectedPath, getDiffPath(imageName));
+                    const diffPath = getDiffPath(imageName);
+
+                    // copy to diff dir for ui tests viewer (we don't generate diffs w/ compare since it slows the tests a bit)
+                    if (!fs.existsSync(diffPath)) {
+                        fs.linkSync(expectedPath, diffPath);
+                    }
                 }
 
                 var expectedPathStr = testInfo.expected ? path.resolve(testInfo.expected) : (expectedPath + " (not found)"),

@@ -138,7 +138,11 @@ describe("Marketplace", function () {
             var isFree = true;
             await loadPluginDetailPage('TreemapVisualization', isFree);
 
-            await captureWithDialog('free_plugin_details_' + mode);
+            await page.waitForFunction("$('.ui-dialog').length > 0");
+            await page.waitForNetworkIdle();
+
+            // using screenshot of viewport since for some reason, this one dialog fails to get captured via a clip
+            expect(await page.screenshot()).to.matchImage('free_plugin_details_' + mode, '.ui-dialog');
         });
 
         it('should show paid plugin details when having no license', async function() {
