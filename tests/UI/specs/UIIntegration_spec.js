@@ -102,11 +102,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
     });
 
-    it("should load the page of a plugin located in a custom directory", function (done) {
-        expect.screenshot("customdirplugin").to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
-        }, done);
+    it("should load the page of a plugin located in a custom directory", async function () {
+        await page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
+
+        const pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('customdirplugin');
     });
+
     // shortcuts help
     it("should show shortcut help", async function () {
         await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
@@ -986,13 +988,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visitor_profile_not_segmented');
     });
 
-    it('should display API errors properly without showing them as notifications', function (done) {
-        expect.screenshot("api_error").to.be.captureSelector('.pageWrap', function (page) {
-            var url = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&category=%7B%7Bconstructor.constructor(%22_x(45)%22)()%7D%7D&subcategory=%7B%7Bconstructor.constructor(%22_x(48)%22)()%7D%7D&forceError=1";
-            var adminUrl = "?" + generalParams + "&module=CoreAdminHome&action=home";
-            page.load(url, 1000);
-            page.load(adminUrl, 1000);
-        }, done);
+    it('should display API errors properly without showing them as notifications', async function () {
+        var url = "?" + generalParams + "&module=CoreHome&action=index#?" + generalParams + "&category=%7B%7Bconstructor.constructor(%22_x(45)%22)()%7D%7D&subcategory=%7B%7Bconstructor.constructor(%22_x(48)%22)()%7D%7D&forceError=1";
+        var adminUrl = "?" + generalParams + "&module=CoreAdminHome&action=home";
+
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        await page.load(adminUrl);
+        await page.waitFor('#notificationContainer');
+
+        const pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('api_error');
     });
 
     // embedding whole app
@@ -1011,11 +1018,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             testEnvironment.save();
         });
 
-        it('should allow embedding the entire app', function (done) {
-            expect.screenshot("embed_whole_app").to.be.capture(function (page) {
-                var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
-                page.load(url, 20000);
-            }, done);
+        it('should allow embedding the entire app', async function () {
+            var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+            await page.load(url);
+            await page.waitFor('iframe');
+
+            const frame = await page.frames().find(f => f.name() === 'embed');
+            await frame.waitFor('.widget');
+            await frame.waitForNetworkIdle();
+
+            expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });
     });
 });
