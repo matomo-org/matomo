@@ -81,11 +81,11 @@
                     'format': (report.format in ['html', 'csv']) ? report.format : false }) }}"
                       method="POST"
                       target="_blank"
-                      id="downloadReportForm_{{ report.idreport }}"
+                      id="downloadReportForm_{{ report.idreport|e('html_attr') }}"
                 >
                     <input type="hidden" name="token_auth" value="{{ token_auth }}">
                 </form>
-                <a href="#"
+                <a href="javascript:void(0)"
                    ng-click="manageScheduledReport.displayReport({{ report.idreport }})"
                    rel="noreferrer noopener" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but withIcon">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0" width="16px" height="16px"/>
