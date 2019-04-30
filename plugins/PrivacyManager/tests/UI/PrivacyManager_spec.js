@@ -226,6 +226,7 @@ describe("PrivacyManager", function () {
     it('should show no visitor found message', async function() {
         await enterSegmentMatchValue('userfoobar');
         await findDataSubjects();
+        await page.waitFor('.manageGdpr tr');
 
         await capturePage('gdpr_tools_no_visits_found');
     });
@@ -266,7 +267,7 @@ describe("PrivacyManager", function () {
 
     it('should be able to cancel deletion and not delete any data', async function() {
         await selectModalButton('No');
-        await page.waitFor(250);
+        await page.waitFor(500);
         await capturePage('gdpr_tools_delete_visit_cancelled');
     });
 

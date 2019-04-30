@@ -49,9 +49,8 @@ describe("TrackingFailures", function () {
 
     it('should show manage page with failures', async function () {
         generateTrackingFailures();
-        await page.waitFor(500);
         await page.goto(manageUrl);
-        const frame = await page.waitForSelector('.matomoTrackingFailures');
+        const frame = await page.waitForSelector('.matomoTrackingFailures td');
         expect(await frame.screenshot()).to.matchImage('manage_with_failures');
     });
 

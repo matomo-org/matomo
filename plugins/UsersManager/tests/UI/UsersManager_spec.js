@@ -170,8 +170,8 @@ describe("UsersManager", function () {
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('piwik-user-edit-form .siteSelector a.title');
-        await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_container a');
-        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_container a:eq(1)')).click();
+        await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_ul_list a');
+        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)')).click();
 
         await page.click('piwik-user-edit-form [piwik-save-button]');
         await page.waitForNetworkIdle();
@@ -342,6 +342,7 @@ describe("UsersManager", function () {
 
     it('should go back to the manage users page when the back link is clicked', async function () {
         await page.click('.userEditForm .entityCancelLink');
+        await page.waitFor('piwik-paged-users-list');
 
         await page.evaluate(function () { // remove filter so new user shows
             $('#user-text-filter').val('').change();

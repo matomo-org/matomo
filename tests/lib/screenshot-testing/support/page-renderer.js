@@ -220,6 +220,14 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
                 url = this.baseUrl + url;
             }
             args[0] = url;
+
+            if (typeof args[1] === 'object') {
+                args[1].timeout = 0;
+            } else {
+                args[1] = {
+                    timeout: 0,
+                };
+            }
         }
 
         let result = this.webpage[methodName](...args);
@@ -363,13 +371,26 @@ PageRenderer.prototype._setupWebpageEvents = function () {
     });
 
     this.webpage.on('console', (consoleMessage) => {
-        const messageText = util.format(consoleMessage.text(), ...consoleMessage.args());
-        this._logMessage(`Log: ${messageText}`);
+        // TODO: support sprintf args (would require calling consoleMessage.args().slice(1).map(a => a.jsonValue()), but jsonValue() is an async function)
+        this._logMessage(`Log: ${consoleMessage.text()}`);
     });
 
     this.webpage.on('dialog', (dialog) => {
         this._logMessage(`Alert: ${dialog.message()}`);
     });
 };
+
+PageRenderer.prototype.getPageLogsString = function(indent) {
+    var result = "";
+    if (this.pageLogs.length) {
+        result = "\n\n" + indent + "Rendering logs:\n";
+        this.pageLogs.slice(0, 5).forEach(function (message) {
+            result += indent + "  " + message.replace(/\n/g, "\n" + indent + "  ") + "\n";
+        });
+        result = result.substring(0, result.length - 1);
+    }
+    return result;
+}
+
 
 exports.PageRenderer = PageRenderer;

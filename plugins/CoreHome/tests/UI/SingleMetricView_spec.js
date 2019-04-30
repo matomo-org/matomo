@@ -29,49 +29,52 @@ describe('SingleMetricView', function () {
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();
         await page.waitFor(250);
+
         expect(await elem.screenshot()).to.matchImage('loaded');
     });
 
     it('should handle formatted metrics properly', async function () {
-        await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker').trigger('mouseenter');
+        await page.evaluate(() => {
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
-        await page.waitFor(100);
         await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker-popover label:contains(Revenue)').click()
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(Revenue)').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(1500);
-        var elem = await page.$('#widgetCoreVisualizationssingleMetricViewcolumn');
+        await page.waitFor(250);
+
+        var elem = await page.waitForSelector('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('formatted_metric');
     });
 
     it('should handle individual goal metrics properly', async function () {
         await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker').trigger('mouseenter');
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').last().trigger('mouseenter');
         });
         await page.waitFor(100);
         await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker-popover label:contains(_x)').click()
+            $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(1500);
-        var elem = await page.$('#widgetCoreVisualizationssingleMetricViewcolumn');
+        await page.waitFor(250);
+
+        var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('goal_metric');
     });
 
     it('should handle range periods correctly', async function () {
         await page.goto(rangeUrl);
         await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker').trigger('mouseenter');
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
         await page.waitFor(100);
         await page.webpage.evaluate(function(){
-            $('.jqplot-seriespicker-popover label:contains(Revenue)').click()
+            $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(1250);
-        var elem = await page.$('#widgetCoreVisualizationssingleMetricViewcolumn');
+        await page.waitFor(250);
+
+        var elem = await page.$('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn');
         expect(await elem.screenshot()).to.matchImage('range');
     });
 });

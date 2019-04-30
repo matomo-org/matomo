@@ -101,7 +101,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 failureInfo += indent + "Generated screenshot: " + processedPathStr + "\n";
                 failureInfo += indent + "Expected screenshot: " + expectedPathStr + "\n";
 
-                failureInfo += getPageLogsString(page.pageLogs, indent);
+                failureInfo += page.getPageLogsString(indent);
 
                 var error = new AssertionError(message);
 
@@ -214,19 +214,6 @@ function endsWith(string, needle)
 {
     return string.substr(-1 * needle.length, needle.length) === needle;
 }
-
-function getPageLogsString(pageLogs, indent) {
-    var result = "";
-    if (pageLogs.length) {
-        result = "\n\n" + indent + "Rendering logs:\n";
-        pageLogs.slice(1, 5).forEach(function (message) {
-            result += indent + "  " + message.replace(/\n/g, "\n" + indent + "  ") + "\n";
-        });
-        result = result.substring(0, result.length - 1);
-    }
-    return result;
-}
-
 
 // other automatically run assertions
 function performAutomaticPageChecks() {

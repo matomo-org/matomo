@@ -259,7 +259,9 @@ Application.prototype.doRunTests = function (mocha) {
 
         var message = err && err.stack ? err.stack : err;
         message = message.replace(/\n/g, "\n" + indent);
-        console.log(indent + message + "\n\n");
+        console.log(indent + message);
+        console.log(indent + "Url to reproduce: " + page.url() + "\n");
+        console.log(page.getPageLogsString(indent) + "\n\n");
     });
 };
 

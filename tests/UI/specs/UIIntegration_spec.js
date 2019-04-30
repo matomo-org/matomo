@@ -48,7 +48,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
-    
+
     // dashboard tests
     it("should load dashboard1 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
@@ -457,11 +457,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.rowEvolutionPopover');
+        await page.waitForSelector('.rowevolution');
         await page.waitForNetworkIdle();
 
-        dialog = await page.$('.ui-dialog');
-        expect(await dialog.screenshot()).to.matchImage('goals_individual_row_evolution');
+        expect(await page.screenshot()).to.matchImage('goals_individual_row_evolution');
     });
 
     // Events pages

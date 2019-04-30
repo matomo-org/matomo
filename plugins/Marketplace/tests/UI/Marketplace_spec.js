@@ -28,7 +28,7 @@ describe("Marketplace", function () {
         const elem = await page.waitForSelector('.card-title [piwik-plugin-name="' + pluginName + '"]');
         await elem.click();
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
+        await page.waitFor('.ui-dialog .pluginDetails');
     }
 
     async function captureSelector(screenshotName, selector)
