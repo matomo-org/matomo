@@ -43,7 +43,8 @@ describe("TwoFactorAuthUsersManager", function () {
     it('should ask for confirmation before resetting 2fa', async function () {
         await page.click('.userEditForm .twofa-reset .resetTwoFa .btn');
         await page.waitFor(500);
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('edit_with_2fa_reset_confirm');
+        const modal = await page.$('.modal.open');
+        expect(await modal.selector()).to.matchImage('edit_with_2fa_reset_confirm');
     });
 
     it('should be possible to confirm the reset', async function () {

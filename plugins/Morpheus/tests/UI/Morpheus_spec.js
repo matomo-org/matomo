@@ -20,7 +20,9 @@ describe("Morpheus", function () {
         await page.goto(url);
         await page.waitFor('.progressbar img');
         await page.evaluate(() => {
-            $('body').append('<style>img[src~=loading] { display: none !important; }</style>');
+            $('img[src~=loading],.progressbar img').each(function () {
+                $(this).hide();
+            });
         });
         await page.waitFor(500); // wait for rendering
         expect(await page.screenshot({ fullPage: true })).to.matchImage('load');

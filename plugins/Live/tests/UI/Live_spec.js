@@ -81,7 +81,8 @@ describe("Live", function () {
         await action.hover();
         await page.waitForSelector('.ui-tooltip');
 
-        expect(await page.screenshotSelector('.ui-tooltip')).to.matchImage('visitor_profile_action_tooltip');
+        const elem = await page.$('.ui-tooltip');
+        expect(await elem.screenshot()).to.matchImage('visitor_profile_action_tooltip');
     });
 
     it('should show limited profile message', async function () {

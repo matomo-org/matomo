@@ -260,6 +260,7 @@ describe("PrivacyManager", function () {
 
     it('should be able to uncheck a visit', async function() {
         await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
+        await page.mouse.move(-10, -10);
         await capturePage('gdpr_tools_uncheck_one_visit');
     });
 

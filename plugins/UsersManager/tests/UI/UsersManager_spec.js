@@ -172,7 +172,8 @@ describe("UsersManager", function () {
         await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_ul_list a');
         await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)')).click();
 
-        await page.click('piwik-user-edit-form [piwik-save-button]');
+        await page.click('piwik-user-edit-form [piwik-save-button] input');
+        await page.waitFor('.usersListPagination');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -220,8 +221,8 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_next');
     });
 
-    it('should remove access to a single site when the trash icon is used', async function () {
-        await page.click('#sitesForPermission .deleteaccess');
+    it('should remove access to a single site when noaccess is selected', async function () {
+        await page.evaluate(() => $('#sitesForPermission .role-select').val('string:noaccess').change());
         await page.waitFor('.delete-access-confirm-modal');
         await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no)')).click();
         await page.waitForNetworkIdle();
