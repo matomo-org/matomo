@@ -397,6 +397,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $params = array(
             'module' => 'Marketplace',
             'action' => 'installPlugin',
+            'mode' => 'admin',
+            'pluginName' => Common::getRequestVar('pluginName'),
             'nonce' => Common::getRequestVar('nonce')
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
