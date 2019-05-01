@@ -99,10 +99,10 @@ class Controller extends Plugin\ControllerAdmin
 
     public function uploadPlugin()
     {
-        $confirmPassword = Common::getRequestVar('confirmPassword', '');
-        $passwordsMatch = $this->passwordVerify->isPasswordCorrect(Piwik::getCurrentUserLogin(), $confirmPassword);
-
-        if (! $passwordsMatch) {
+        if (!$this->passwordVerify->isPasswordCorrect(
+            Piwik::getCurrentUserLogin(),
+            Common::getRequestVar('confirmPassword')
+        )) {
             throw new \Exception($this->translator->translate('Login_LoginPasswordNotCorrect'));
         }
 
@@ -121,7 +121,7 @@ class Controller extends Plugin\ControllerAdmin
 
         Nonce::discardNonce(MarketplaceController::INSTALL_NONCE);
 
-        if (empty($_FILES)) {
+        if (empty($_FILES['pluginZip'])) {
             throw new \Exception('You did not specify a ZIP file.');
         }
 
