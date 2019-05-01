@@ -23,7 +23,8 @@ describe("IntranetMeasurable", function () {
         await (await page.jQuery('.SitesManager .addSite:first')).click();
         await page.waitFor(500);
 
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('add_new_dialog');
+        const elem = await page.$('.modal.open');
+        expect(await elem.screenshot()).to.matchImage('add_new_dialog');
     });
 
     it("should load intranet specific fields", async function () {

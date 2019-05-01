@@ -133,7 +133,9 @@ return;
         await loginUser('with2FADisable');
         await page.goto(userSettings);
         await page.click('.disable2FaLink');
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('usersettings_twofa_disable_step1');
+
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage('usersettings_twofa_disable_step1');
     });
 
     it('should be possible to disable two factor step 2 confirmed', async function () {

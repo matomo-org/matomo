@@ -109,7 +109,8 @@ describe("PrivacyManager", function () {
 
     async function captureModal(screenshotName) {
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage(screenshotName);
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage(screenshotName);
     }
 
     it('should load privacy opt out page', async function() {
@@ -264,7 +265,8 @@ describe("PrivacyManager", function () {
 
     it('should ask for confirmation before deleting any visit', async function() {
         await deleteDataSubjects();
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('gdpr_tools_delete_visit_unconfirmed');
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage('gdpr_tools_delete_visit_unconfirmed');
     });
 
     it('should be able to cancel deletion and not delete any data', async function() {

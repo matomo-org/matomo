@@ -371,9 +371,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should display metric tooltip correctly', async function () {
         elem = await page.$('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
-        await elem.hover()
+        await elem.hover();
 
         await page.waitForSelector('.columnDocumentation');
+        await page.waitFor(100);
 
         pageWrap = await page.$('.pageWrap,.columnDocumentation');
         expect(await page.screenshotSelector('.pageWrap,.columnDocumentation')).to.matchImage('metric_tooltip');
@@ -459,10 +460,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         const icon = await page.waitForSelector('.dataTable tbody tr:first-child a.actionRowEvolution');
         await icon.click();
 
-        await page.waitForSelector('.rowevolution');
+        const elem = await page.waitForSelector('.rowevolution');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot()).to.matchImage('goals_individual_row_evolution');
+        expect(await elem.screenshot()).to.matchImage('goals_individual_row_evolution');
     });
 
     // Events pages

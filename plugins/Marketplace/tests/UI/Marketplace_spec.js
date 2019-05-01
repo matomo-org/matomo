@@ -38,6 +38,15 @@ describe("Marketplace", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage(screenshotName);
     }
 
+    async function captureModal(screenshotName, selector)
+    {
+        await page.waitForFunction("$('" + selector + "').length > 0");
+        await page.waitForNetworkIdle();
+
+        const elem = await page.$(selector);
+        expect(await elem.screenshot()).to.matchImage(screenshotName);
+    }
+
     async function captureMarketplace(screenshotName, selector)
     {
         if (!selector) {
@@ -181,7 +190,7 @@ describe("Marketplace", function () {
         await page.click('.installAllPaidPlugins');
         await page.mouse.move(-10, -10);
 
-        await captureSelector(mode + '_install_all_paid_plugins_at_once', '.modal.open');
+        await captureModal(mode + '_install_all_paid_plugins_at_once', '.modal.open');
     });
 
     it('should show an error message when invalid license key entered', async function() {
@@ -203,13 +212,13 @@ describe("Marketplace", function () {
         await page.goto(pluginsUrl);
         await page.click('#remove_license_key input');
 
-        await captureSelector(mode + '_remove_license_key_confirmation', '.modal.open');
+        await captureModal(mode + '_remove_license_key_confirmation', '.modal.open');
     });
 
     it('should show a confirmation before removing a license key', async function() {
         setEnvironment(mode, noLicense);
 
-        elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes)')
+        elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await elem.click();
 
         await captureMarketplace(mode + '_remove_license_key_confirmed');
