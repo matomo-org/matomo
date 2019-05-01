@@ -9,6 +9,7 @@ return array(
 
         $generate = \Piwik\Container\StaticContainer::get('test.vars.generateTrackingFailures');
         if ($generate) {
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "generating fake failures\n", FILE_APPEND);
             $previous->setNow(\Piwik\Date::factory('2018-07-07 01:02:03'));
             $previous->logFailure(Failures::FAILURE_ID_INVALID_SITE, new Request(array(
                 'idsite' => 998, 'rec' => '1'
