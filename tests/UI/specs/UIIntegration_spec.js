@@ -369,7 +369,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('referrers_allreferrers');
     });
 
-    it.only('should display metric tooltip correctly', async function () {
+    it('should display metric tooltip correctly', async function () {
         elem = await page.$('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
