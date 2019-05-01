@@ -369,14 +369,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('referrers_allreferrers');
     });
 
-    it('should display metric tooltip correctly', async function () {
+    it.only('should display metric tooltip correctly', async function () {
         elem = await page.$('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
-        await page.waitForSelector('.columnDocumentation');
+        await page.waitForSelector('.columnDocumentation', { visible: true });
         await page.waitFor(100);
 
-        pageWrap = await page.$('.pageWrap,.columnDocumentation');
         expect(await page.screenshotSelector('.pageWrap,.columnDocumentation')).to.matchImage('metric_tooltip');
     });
 

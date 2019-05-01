@@ -54,6 +54,12 @@ describe("Theme", function () {
 
     it("should theme the UI demo page", async function () {
         await page.goto("?module=Morpheus&action=demo");
+        await page.waitFor('.progressbar img');
+        await page.evaluate(() => {
+            $('img[src~=loading],.progressbar img').each(function () {
+                $(this).hide();
+            });
+        });
         await page.waitFor(500); // wait for angular finished rendering
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('demo');

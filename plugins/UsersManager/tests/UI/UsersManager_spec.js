@@ -71,6 +71,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('td.select-cell label:eq(3)')).click();
         await (await page.jQuery('td.select-cell label:eq(8)')).click();
         await page.mouse.move(0, 0);
+        await page.wait(250); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('rows_selected');
     });
@@ -78,6 +79,7 @@ describe("UsersManager", function () {
     it('should select all rows when all row select is clicked', async function () {
         await page.click('th.select-cell label');
         await page.mouse.move(0, 0);
+        await page.wait(250); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
     });
@@ -172,8 +174,7 @@ describe("UsersManager", function () {
         await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_ul_list a');
         await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)')).click();
 
-        await page.click('piwik-user-edit-form [piwik-save-button] input');
-        await page.waitFor('.usersListPagination');
+        await page.evaluate(() => $('piwik-user-edit-form [piwik-save-button] input').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
@@ -195,10 +196,9 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         await page.click('.userPermissionsEdit th.select-cell label');
-        await page.evaluate(function(){
-            $('.toggle-select-all-in-search').click();
-        });
         await page.waitFor(100); // for angular to re-render
+        await page.evaluate(() => $('.userPermissionsEdit tr.select-all-row a').click());
+        await page.waitFor(250); // for angular to re-render
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_rows_in_search');
     });
@@ -208,6 +208,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
+        await page.waitFor('.change-access-confirm-modal', { visible: true });
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
         await page.waitForNetworkIdle();
 
@@ -234,6 +235,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(0)')).click();
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
+        await page.wait(250); // for checkbox animations
 
         pageWrap = await page.$('.usersManager');
         expect(await pageWrap.screenshot()).to.matchImage('permissions_select_multiple');
@@ -264,6 +266,7 @@ describe("UsersManager", function () {
 
     it('should select all displayed rows when the select all checkbox is clicked', async function () {
         await page.click('.userPermissionsEdit th.select-cell label');
+        await page.wait(250); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_all');
     });
