@@ -238,14 +238,17 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result;
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
-            result = this.webpage.evaluate(() => JSON.stringify({
-                width: $(document).width(),
-                height: $(document).height(),
-            })).then((dims) => {
-                return this.webpage.setViewport(JSON.parse(dims));
-            }).then(() => {
-                return this.webpage[methodName](...args);
-            });
+            result = this.webpage.waitFor(() => !! window.$)
+                .then(() => {
+                    return this.evaluate(() => JSON.stringify({
+                        width: $(document).width(),
+                        height: $(document).height(),
+                    }));
+                }).then((dims) => {
+                    return this.webpage.setViewport(JSON.parse(dims));
+                }).then(() => {
+                    return this.webpage[methodName](...args);
+                });
         } else {
             result = this.webpage[methodName](...args);
         }
