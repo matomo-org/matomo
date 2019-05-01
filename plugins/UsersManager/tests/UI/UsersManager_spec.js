@@ -109,7 +109,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitFor(350); // wait for animation
 
-        expect(await page.screenshotSelector('.change-user-role-confirm-modal')).to.matchImage('bulk_set_access_confirm');
+        expect(await (await page.$('.change-user-role-confirm-modal')).screenshot()).to.matchImage('bulk_set_access_confirm');
     });
 
     it('should change access for all rows in search when confirmed', async function () {
@@ -197,6 +197,7 @@ describe("UsersManager", function () {
         await page.evaluate(function(){
             $('.toggle-select-all-in-search').click();
         });
+        await page.waitFor(100); // for angular to re-render
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_rows_in_search');
     });
@@ -207,6 +208,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_sites_access');
     });
@@ -220,6 +222,7 @@ describe("UsersManager", function () {
 
     it('should remove access to a single site when the trash icon is used', async function () {
         await page.click('#sitesForPermission .deleteaccess');
+        await page.waitFor('.delete-access-confirm-modal');
         await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no)')).click();
         await page.waitForNetworkIdle();
 
@@ -239,6 +242,8 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin)')).click();
+
+        await page.waitFor('.change-access-confirm-modal');
 
         await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
         await page.waitForNetworkIdle();

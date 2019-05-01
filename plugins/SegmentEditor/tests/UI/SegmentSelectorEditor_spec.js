@@ -172,10 +172,11 @@ describe("SegmentSelectorEditorTest", function () {
         await page.evaluate(function () {
             $('button.saveAndApply').click();
         });
-        await page.waitForNetworkIdle();
+        await page.waitFor('.modal.open');
         await page.waitFor(500); // animation to show confirm
 
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('update_confirmation');
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage('update_confirmation');
     });
 
     it("should correctly update the segment when saving confirmed", async function() {
@@ -196,13 +197,17 @@ describe("SegmentSelectorEditorTest", function () {
     it("should correctly load the updated segment's details when the updated segment is edited", async function() {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
+
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage('updated_details');
     });
 
     it("should correctly show delete dialog when the delete link is clicked", async function() {
         await page.click('.segmentEditorPanel a.delete');
         await page.waitFor(500); // animation
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('deleted_dialog');
+
+        const modal = await page.$('.modal.open');
+        expect(await modal.screenshot()).to.matchImage('deleted_dialog');
     });
 
     it("should correctly remove the segment when the delete dialog is confirmed", async function() {
@@ -223,49 +228,49 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('deleted');
     });
 
-    it('should correctly handle complex segments w/ encoded characters and whitespace', function (done) {
-        expect.screenshot('complex_segment').to.be.capture(function (page) {
-            page.load(url);
+    it('should correctly handle complex segments w/ encoded characters and whitespace', async function () {
+        await page.goto(url);
 
-            page.click('.segmentationContainer .title');
-            page.click('a.add_new_segment');
-            page.sendKeys('input.edit_segment_name', 'complex segment');
+        await page.click('.segmentationContainer .title');
+        await page.click('a.add_new_segment');
+        await page.type('input.edit_segment_name', 'complex segment');
 
-            selectDimension(page, '.segmentRow0', 'Visitors', 'Browser');
-            selectFieldValue(page, '.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
+        await selectDimension(page, '.segmentRow0', 'Visitors', 'Browser');
+        await selectFieldValue(page, '.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
 
-            page.evaluate(function () {
-                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-                $('.segmentRow0 .segment-row:first .metricValueBlock input').val(complexValue).change();
-            });
+        await page.evaluate(function () {
+            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+            $('.segmentRow0 .segment-row:first .metricValueBlock input').val(complexValue).change();
+        });
 
-            page.click('.segment-add-or');
+        await page.click('.segment-add-or');
 
-            // configure or condition
-            selectDimension(page, '.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
-            selectFieldValue(page, '.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
+        // configure or condition
+        await selectDimension(page, '.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
+        await selectFieldValue(page, '.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
 
-            page.evaluate(function () {
-                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-                $('.segmentRow0 .segment-row:eq(1) .metricValueBlock input').val(complexValue).change();
-            });
+        await page.evaluate(function () {
+            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+            $('.segmentRow0 .segment-row:eq(1) .metricValueBlock input').val(complexValue).change();
+        });
 
-            page.click('.segment-add-row');
+        await page.click('.segment-add-row');
 
-            // configure and condition
-            selectDimension(page, '.segmentRow1', 'Visitors', 'Browser');
-            selectFieldValue(page, '.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
+        // configure and condition
+        await selectDimension(page, '.segmentRow1', 'Visitors', 'Browser');
+        await selectFieldValue(page, '.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
 
-            page.evaluate(function () {
-                var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
-                $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
-            });
-            page.evaluate(function () {
-                $('button.saveAndApply').click();
-            });
-            page.evaluate(function () {
-                console.log(window.location.href);
-            });
-        }, done);
+        await page.evaluate(function () {
+            var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
+            $('.segmentRow1 .metricValueBlock input').val(complexValue).change();
+        });
+        await page.evaluate(function () {
+            $('button.saveAndApply').click();
+        });
+        await page.evaluate(function () {
+            console.log(window.location.href);
+        });
+
+        expect(await page.screenshot()).to.matchImage('complex_segment');
     });
 });
