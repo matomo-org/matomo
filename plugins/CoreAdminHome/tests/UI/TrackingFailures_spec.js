@@ -19,7 +19,7 @@ describe("TrackingFailures", function () {
         testEnvironment.save();
     }
 
-    async function confirmModal(page)
+    async function confirmModal()
     {
         await (await page.jQuery('.modal.open .modal-footer a:contains(Yes)')).click();
     }
@@ -50,32 +50,46 @@ describe("TrackingFailures", function () {
     it('should show manage page with failures', async function () {
         generateTrackingFailures();
         await page.goto(manageUrl);
-        const frame = await page.waitForSelector('.matomoTrackingFailures td');
-        expect(await frame.screenshot()).to.matchImage('manage_with_failures');
+        await page.waitForSelector('.matomoTrackingFailures td');
+        await page.waitFor(250);
+
+        const elem = await page.$('.matomoTrackingFailures');
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures');
     });
 
     it('should show ask to confirm delete one', async function () {
+        generateTrackingFailures();
         await page.evaluate(function () {
-            $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click()
+            $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click();
         });
+
+        const elem = await page.waitFor('.modal.open');
         await page.waitFor(250);
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('manage_with_failures_delete_one_ask_confirmation');
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_ask_confirmation');
     });
 
     it('should show delete when confirmed', async function () {
+        generateTrackingFailures();
         await confirmModal();
-        const frame = await page.waitForSelector('.matomoTrackingFailures');
-        expect(await frame.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
+        await page.waitForSelector('.matomoTrackingFailures td');
+        await page.waitFor(250);
+
+        const elem = await page.$('.matomoTrackingFailures');
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
     });
 
     it('should show ask to confirm delete all', async function () {
+        generateTrackingFailures();
         await page.click('.matomoTrackingFailures .deleteAllFailures');
+        await page.waitFor('.modal.open');
         await page.waitFor(250);
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('manage_with_failures_delete_all_ask_confirmation');
+        expect(await (await page.$('.modal.open')).screenshot()).to.matchImage('manage_with_failures_delete_all_ask_confirmation');
     });
 
-    it('should show ask to confirm delete one', async function () {
+    it('should show nothing when confirmed', async function () {
+        generateTrackingFailures();
         await confirmModal();
+        await page.waitFor(250);
         const frame = await page.waitForSelector('.matomoTrackingFailures');
         expect(await frame.screenshot()).to.matchImage('manage_with_failures_delete_all_confirmed');
     });

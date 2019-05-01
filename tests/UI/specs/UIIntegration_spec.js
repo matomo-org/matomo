@@ -103,7 +103,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it("should load the page of a plugin located in a custom directory", async function () {
-        await page.load("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
+        await page.goto("?module=CustomDirPlugin&action=index&idSite=1&period=day&date=yesterday");
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('customdirplugin');
@@ -995,7 +995,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        await page.load(adminUrl);
+        await page.goto(adminUrl);
         await page.waitFor('#notificationContainer');
 
         const pageWrap = await page.$('.pageWrap');
@@ -1020,7 +1020,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         it('should allow embedding the entire app', async function () {
             var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
-            await page.load(url);
+            await page.goto(url);
             await page.waitFor('iframe');
 
             const frame = await page.frames().find(f => f.name() === 'embed');

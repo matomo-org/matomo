@@ -121,14 +121,19 @@ PageRenderer.prototype.jQuery = function (selector) {
 
     ++this.selectorMarkerClass;
 
-    return this.webpage.evaluate((selectorMarkerClass, s) => {
-        $(s).addClass(selectorMarkerClass);
-    }, selectorMarkerClass, selector).then(() => {
-        return this.webpage.$('.' + selectorMarkerClass);
-    });
+    return this.waitFor(() => !! window.$)
+        .then(() => {
+            return this.webpage.evaluate((selectorMarkerClass, s) => {
+                $(s).addClass(selectorMarkerClass);
+            }, selectorMarkerClass, selector)
+        }).then(() => {
+            return this.webpage.$('.' + selectorMarkerClass);
+        });
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector) {
+    await this.waitFor(() => !! window.$);
+
     const result = await this.webpage.evaluate(function (selector) {
         window.jQuery('html').addClass('uiTest');
 
@@ -202,7 +207,7 @@ PageRenderer.prototype.screenshotSelector = async function (selector) {
         return;
     }
 
-    return await this.webpage.screenshot({
+    return await this.screenshot({
         clip: {
             x: result.left,
             y: result.top,
@@ -230,7 +235,20 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
             }
         }
 
-        let result = this.webpage[methodName](...args);
+        let result;
+        if (methodName === 'screenshot') {
+            // change viewport to entire page before screenshot
+            result = this.webpage.evaluate(() => JSON.stringify({
+                width: $(document).width(),
+                height: $(document).height(),
+            })).then((dims) => {
+                return this.webpage.setViewport(JSON.parse(dims));
+            }).then(() => {
+                return this.webpage[methodName](...args);
+            });
+        } else {
+            result = this.webpage[methodName](...args);
+        }
 
         if (result && result.then && AUTO_WAIT_METHODS[methodName]) {
             result = result.then((value) => {
