@@ -459,17 +459,23 @@ class CronArchive
                 // to process the archives for this website (only if there were visits since midnight)
                 if (!$hasWebsiteDayFinishedSinceLastRun && !$isOldReportInvalidatedForWebsite) {
 
-                    if ($this->isWebsiteUsingTheTracker($idSite)) {
+                    try {
+                        if ($this->isWebsiteUsingTheTracker($idSite)) {
 
-                        if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
-                            $this->logger->info("Skipped website id $idSite as archiving is not needed");
+                            if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
+                                $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
-                            $this->skippedDayNoRecentData++;
-                            $this->skipped++;
-                            continue;
+                                $this->skippedDayNoRecentData++;
+                                $this->skipped++;
+                                continue;
+                            }
+                        } else {
+                           $this->logger->info("- website id $idSite is not using the tracker");
                         }
-                    } else {
-                       $this->logger->info("- website id $idSite is not using the tracker");
+                    } catch (UnexpectedWebsiteFoundException $e) {
+                        $this->logger->info("Skipped website id $idSite, got: UnexpectedWebsiteFoundException");
+                        $this->skipped++;
+                        continue;
                     }
 
                 } elseif ($hasWebsiteDayFinishedSinceLastRun) {
@@ -716,7 +722,13 @@ class CronArchive
         /**
          * Trigger archiving for non-day periods
          */
-        $success = $this->processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods);
+        try {
+            $success = $this->processArchiveForPeriods($idSite, $lastTimestampWebsiteProcessedPeriods);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // this website was deleted in the meantime
+            $this->logger->info("Skipped website id $idSite, got: UnexpectedWebsiteFoundException, " . $timerWebsite->__toString());
+            return false;
+        }
 
         // Record successful run of this website's periods archiving
         if ($success) {
