@@ -161,6 +161,7 @@ class UITestFixture extends SqlDump
         print("Archiving in fixture set up...");
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09');
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09', urlencode(OmniFixture::DEFAULT_SEGMENT));
+        VisitsSummaryAPI::getInstance()->get(3, 'week', 'yesterday'); // for overlay
         print("Done.");
     }
 

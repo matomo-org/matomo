@@ -239,8 +239,8 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
             result = this.webpage.evaluate(() => JSON.stringify({
-                    width: document.body.offsetWidth,
-                    height: document.body.offsetHeight,
+                    width: document.documentElement.scrollWidth,
+                    height: document.documentElement.scrollHeight,
                 })).then((dims) => {
                     return this.webpage.setViewport(JSON.parse(dims));
                 }).then(() => {
