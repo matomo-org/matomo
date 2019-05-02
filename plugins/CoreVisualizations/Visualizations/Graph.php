@@ -179,13 +179,23 @@ abstract class Graph extends Visualization
 
         // If there are no default columns, just strip out the 'label' column and use all the others
         if (empty($selectableColumns)) {
-            $selectableColumns = $allColumns;
-            if ($selectableColumns[0] == 'label') {
-                array_shift($selectableColumns);
-            }
+            $selectableColumns = $this->removeLabelFromArray($allColumns);
         }
 
         $this->config->selectable_columns = $selectableColumns;
+    }
+
+    private function removeLabelFromArray($theArray)
+    {
+        if (!empty($theArray) && is_array($theArray)) {
+            $key = array_search('label', $theArray);
+            if ($key !== false) {
+                unset($theArray[$key]);
+                $theArray = array_values($theArray);
+            }
+        }
+
+        return $theArray;
     }
 
     protected function ensureValidColumnsToDisplay()
@@ -193,9 +203,7 @@ abstract class Graph extends Visualization
         $columnsToDisplay = $this->config->columns_to_display;
 
         // Remove 'label' from columns to display if present
-        if (! empty($columnsToDisplay) && $columnsToDisplay[0] == 'label') {
-            array_shift($columnsToDisplay);
-        }
+        $columnsToDisplay = $this->removeLabelFromArray($columnsToDisplay);
 
         // Strip out any columns_to_display that are not in the dataset
         $allColumns = $this->getDataTable()->getColumns();
