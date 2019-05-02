@@ -22,7 +22,7 @@ main();
 
 async function main() {
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-    const page = await browser.newPage();
+    const webpage = await browser.newPage();
 
     // required modules
     let config = require("./../../UI/config.dist");
@@ -37,7 +37,7 @@ async function main() {
         config.phpServer.REQUEST_URI += '/';
     }
 
-    setUpGlobals(config, page);
+    setUpGlobals(config, webpage);
 
     mocha = new Mocha({
         ui: 'bdd',

@@ -181,6 +181,8 @@ Application.prototype.loadTestModules = function () {
         var fixture = typeof suite.fixture === 'undefined' ? "Piwik\\Tests\\Fixtures\\UITestFixture" : suite.fixture;
 
         suite.beforeAll(function (done) {
+            this.timeout(0); // no timeout for fixture setup (this requires normal anonymous function, not fat arrow function)
+
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {
                 for (var key in suite.optionsOverride) {
@@ -188,15 +190,19 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
-            testEnvironment.setupFixture(fixture, done);
+            testEnvironment.setupFixture(fixture, (error, result) => {
+                options = oldOptions;
 
-            options = oldOptions;
+                done(error, result);
+            });
         });
 
         // move to before other hooks
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
+            this.timeout(0); // no timeout for fixture teardown (this requires normal anonymous function, not fat arrow function)
+
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {
                 for (var key in suite.optionsOverride) {
@@ -204,9 +210,11 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
-            testEnvironment.teardownFixture(fixture, done);
+            testEnvironment.teardownFixture(fixture, (error, result) => {
+                options = oldOptions;
 
-            options = oldOptions;
+                done(error, result);
+            });
         });
     });
 };

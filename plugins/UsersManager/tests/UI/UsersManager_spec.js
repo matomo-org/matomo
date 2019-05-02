@@ -260,6 +260,7 @@ describe("UsersManager", function () {
             $('.access-filter select').val('string:admin').change();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor('#sitesForPermission tr');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_filters');
     });
@@ -337,8 +338,10 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+label');
+        await page.waitForm(250);
 
-        expect(await page.screenshotSelector('.superuser-confirm-modal')).to.matchImage('superuser_confirm');
+        const elem = await page.$('.superuser-confirm-modal');
+        expect(await elem.screenshot()).to.matchImage('superuser_confirm');
     });
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
@@ -356,6 +359,7 @@ describe("UsersManager", function () {
             $('#user-text-filter').val('').change();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor(100);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
@@ -384,6 +388,7 @@ describe("UsersManager", function () {
 
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no)');
         await btnNo.click();
+        await page.waitFor(250); // animation
 
         expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
@@ -447,7 +452,8 @@ describe("UsersManager", function () {
             await page.click('.add-existing-user');
             await page.waitFor(500); // wait for animation
 
-            expect(await page.screenshotSelector('.add-existing-user-modal')).to.matchImage('admin_existing_user_modal');
+            const elem = await page.$('.add-existing-user-modal');
+            expect(await elem.screenshot()).to.matchImage('admin_existing_user_modal');
         });
 
         it('should add a user by email when an email is entered', async function () {

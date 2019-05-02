@@ -462,7 +462,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.waitForSelector('.rowevolution');
         await page.waitForNetworkIdle();
 
-        const elem = await elem.$('.ui-dialog');
+        const elem = await page.$('.ui-dialog');
         expect(await elem.screenshot()).to.matchImage('goals_individual_row_evolution');
     });
 
