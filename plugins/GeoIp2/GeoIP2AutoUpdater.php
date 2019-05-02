@@ -240,7 +240,7 @@ class GeoIP2AutoUpdater extends Task
                 'loc' => array(),
                 'isp' => array()
             );
-            $customDbNames[$dbType] = $outputPath;
+            $customDbNames[$dbType] = array($outputPath);
 
             $phpProvider = new Php($customDbNames);
 

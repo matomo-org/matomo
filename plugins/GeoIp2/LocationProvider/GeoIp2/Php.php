@@ -320,15 +320,7 @@ class Php extends GeoIp2
     private function getGeoIpInstance($key)
     {
         if (empty($this->readerCache[$key])) {
-            if (is_string($this->customDbNames[$key])
-                && strpos( $this->customDbNames[$key], '/') !== false
-                && @file_exists($this->customDbNames[$key])) {
-                // for performance reason we only check for file exists if the string contains a slash and is not only a
-                // filename
-                $pathToDb = $this->customDbNames[$key];
-            } else {
-                $pathToDb = self::getPathToGeoIpDatabase($this->customDbNames[$key]);
-            }
+            $pathToDb = self::getPathToGeoIpDatabase($this->customDbNames[$key]);
             if ($pathToDb !== false) {
                 try {
                     $this->readerCache[$key] = new Reader($pathToDb);
