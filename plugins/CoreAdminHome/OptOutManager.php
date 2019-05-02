@@ -175,6 +175,7 @@ class OptOutManager
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
                 'showConfirmOnly' => 1,
                 'setCookieInNewWindow' => 0,
+                'nonce' => Common::getRequestVar('nonce')
             ));
         } else {
             $reloadUrl = false;
