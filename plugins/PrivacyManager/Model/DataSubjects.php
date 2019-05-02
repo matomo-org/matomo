@@ -18,7 +18,7 @@ use Piwik\DbHelper;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\LogTablesProvider;
-use Piwik\Tracker\Cache;
+use Piwik\Site;
 use Piwik\Tracker\LogTable;
 use Piwik\Tracker\PageUrl;
 
@@ -146,8 +146,7 @@ class DataSubjects
 
         $datesToInvalidate = array();
         foreach ($idVisitsByIdSites as $idSite => $idVisits) {
-            $website = Cache::getCacheWebsiteAttributes($idSite);
-            $timezone = $website['timezone'];
+            $timezone = Site::getTimezoneFor($idSite);
 
             $sql = 'SELECT visit_last_action_time FROM '
                 . Common::prefixTable('log_visit') . ' WHERE idsite = ' . $idSite
