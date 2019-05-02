@@ -262,6 +262,12 @@ class Tasks extends \Piwik\Plugin\Tasks
         Option::set(ReferrerSpamFilter::OPTION_STORAGE_NAME, serialize($list));
     }
 
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.purgeOrphanedArchives"`
+     *
+     * @throws \Exception
+     */
     public function purgeOrphanedArchives()
     {
         $segmentHashesByIdSite = $this->getSegmentHashesByIdSite();
