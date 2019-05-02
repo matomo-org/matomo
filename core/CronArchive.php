@@ -474,7 +474,6 @@ class CronArchive
                         }
                     } catch (UnexpectedWebsiteFoundException $e) {
                         $this->logger->info("Skipped website id $idSite, got: UnexpectedWebsiteFoundException");
-                        $this->skipped++;
                         continue;
                     }
 
