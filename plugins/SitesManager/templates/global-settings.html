@@ -27,7 +27,7 @@
     <div piwik-field uicontrol="textarea" name="excludedIpsGlobal"
          var-type="array"
          ng-model="globalSettings.excludedIpsGlobal"
-         title="{{ 'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate }}"
+         data-title="{{ 'SitesManager_ListOfIpsToBeExcludedOnAllWebsites'|translate }}"
          introduction="{{ 'SitesManager_GlobalListExcludedIps'|translate }}"
          inline-help="#excludedIpsGlobalHelp">
     </div>
@@ -35,7 +35,7 @@
     <div piwik-field uicontrol="textarea" name="excludedQueryParametersGlobal"
          var-type="array"
          ng-model="globalSettings.excludedQueryParametersGlobal"
-         title="{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }}"
+         data-title="{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }}"
          introduction="{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}"
          inline-help="#excludedQueryParametersGlobalHelp">
     </div>
@@ -43,20 +43,20 @@
     <div piwik-field uicontrol="textarea" name="excludedUserAgentsGlobal"
          var-type="array"
          ng-model="globalSettings.excludedUserAgentsGlobal"
-         title="{{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }}"
+         data-title="{{ 'SitesManager_GlobalListExcludedUserAgents_Desc'|translate }}"
          introduction="{{ 'SitesManager_GlobalListExcludedUserAgents'|translate }}"
          inline-help="#excludedUserAgentsGlobalHelp">
     </div>
 
     <div piwik-field uicontrol="checkbox" name="siteSpecificUserAgentExcludeEnabled"
          ng-model="globalSettings.siteSpecificUserAgentExcludeEnabled"
-         title="{{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}"
+         data-title="{{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}"
          inline-help="{{ 'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href=\'#excludedUserAgentsGlobal\'>':'</a>' }}">
     </div>
 
     <div piwik-field uicontrol="checkbox" name="keepURLFragmentsGlobal"
          ng-model="globalSettings.keepURLFragmentsGlobal"
-         title="{{ 'SitesManager_KeepURLFragmentsLong'|translate }}"
+         data-title="{{ 'SitesManager_KeepURLFragmentsLong'|translate }}"
          introduction="{{ 'SitesManager_KeepURLFragments'|translate }}"
          inline-help="#keepURLFragmentsHelp">
     </div>
@@ -70,7 +70,7 @@
 
     <div piwik-field uicontrol="text" name="searchKeywordParametersGlobal" var-type="array"
          ng-model="globalSettings.searchKeywordParametersGlobal"
-         title="{{ 'SitesManager_SearchKeywordLabel'|translate }}"
+         data-title="{{ 'SitesManager_SearchKeywordLabel'|translate }}"
          inline-help="{{ 'SitesManager_SearchKeywordParametersDesc' | translate }}">
     </div>
 
@@ -81,14 +81,14 @@
     <div piwik-field uicontrol="text" name="searchCategoryParametersGlobal" var-type="array"
          ng-show="customVariablesActivated"
          ng-model="globalSettings.searchCategoryParametersGlobal"
-         title="{{ 'SitesManager_SearchCategoryLabel'|translate }}"
+         data-title="{{ 'SitesManager_SearchCategoryLabel'|translate }}"
          inline-help="{{ 'Goals_Optional'|translate }} {{ 'SitesManager_SearchCategoryDesc'|translate }} {{ 'SitesManager_SearchCategoryParametersDesc'|translate }}">
     </div>
 
     <div piwik-field uicontrol="select" name="defaultTimezone"
          ng-model="globalSettings.defaultTimezone"
          options="timezones"
-         title="{{ 'SitesManager_SelectDefaultTimezone'|translate }}"
+         data-title="{{ 'SitesManager_SelectDefaultTimezone'|translate }}"
          introduction="{{ 'SitesManager_DefaultTimezoneForNewWebsites'|translate }}"
          inline-help="#timezoneHelp">
     </div>
@@ -96,7 +96,7 @@
     <div piwik-field uicontrol="select" name="defaultCurrency"
          ng-model="globalSettings.defaultCurrency"
          options="currencies"
-         title="{{ 'SitesManager_SelectDefaultCurrency'|translate }}"
+         data-title="{{ 'SitesManager_SelectDefaultCurrency'|translate }}"
          introduction="{{ 'SitesManager_DefaultCurrencyForNewWebsites'|translate }}"
          inline-help="{{ 'SitesManager_CurrencySymbolWillBeUsedForGoals' | translate }}">
     </div>

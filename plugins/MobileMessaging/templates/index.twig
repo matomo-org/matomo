@@ -13,7 +13,7 @@
                  options="{{ delegateManagementOptions|json_encode }}"
                  full-width="true"
                  ng-model="delegateManagement.enabled"
-                 title="{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate|e('html_attr') }}"
+                 data-title="{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate|e('html_attr') }}"
                  value="{% if delegatedManagement %}1{% else %}0{% endif %}">
             </div>
             <div piwik-save-button onconfirm="delegateManagement.save()" saving="delegateManagement.isLoading"></div>
@@ -60,7 +60,7 @@
                              value="{{ defaultCallingCode }}"
                              ng-model="managePhoneNumber.countryCallingCode"
                              full-width="true"
-                             title="{{ 'MobileMessaging_Settings_SelectCountry'|translate|e('html_attr') }}"
+                             data-title="{{ 'MobileMessaging_Settings_SelectCountry'|translate|e('html_attr') }}"
                              options='{{ countries|json_encode }}'>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                  full-width="true"
                                  ng-model="managePhoneNumber.countryCallingCode"
                                  maxlength="4"
-                                 title="{{ 'MobileMessaging_Settings_CountryCode'|translate }}">
+                                 data-title="{{ 'MobileMessaging_Settings_CountryCode'|translate }}">
                             </div>
                         </div>
                         <div class="phoneNumber left">
@@ -87,7 +87,7 @@
                                  ng-change="managePhoneNumber.validateNewPhoneNumberFormat()"
                                  full-width="true"
                                  maxlength="80"
-                                 title="{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}">
+                                 data-title="{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}">
                             </div>
                         </div>
                         <div class="addNumber left valign-wrapper">

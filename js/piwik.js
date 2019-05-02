@@ -997,7 +997,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
@@ -4526,8 +4526,7 @@ if (typeof window.Piwik !== 'object') {
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
-                    var requestPing = getRequest('ping=1', null, 'ping');
-                    sendRequest(requestPing, configTrackerPause);
+                    trackerInstance.ping();
 
                     return true;
                 }
@@ -4986,7 +4985,9 @@ if (typeof window.Piwik !== 'object') {
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
 
                     return request;
                 };
@@ -5262,12 +5263,6 @@ if (typeof window.Piwik !== 'object') {
                 // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
-
-                if (link.indexOf('?') > 0) {
-                    link += '&';
-                } else {
-                    link += '?';
-                }
 
                 var crossDomainVisitorId = getCrossDomainVisitorId();
 
@@ -7130,7 +7125,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7155,7 +7152,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7200,6 +7199,7 @@ if (typeof window.Piwik !== 'object') {
              * @param mixed customData
              */
             this.trackSiteSearch = function (keyword, category, resultsCount, customData) {
+                trackedContentImpressions = [];
                 trackCallback(function () {
                     logSiteSearch(keyword, category, resultsCount, customData);
                 });
@@ -7351,6 +7351,17 @@ if (typeof window.Piwik !== 'object') {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
+            };
+
+            /**
+             * Sends a ping request.
+             *
+             * Ping requests do not track new actions. If they are sent within the standard visit length, they will
+             * extend the existing visit and the current last action for the visit. If after the standard visit
+             * length, ping requests will create a new visit using the last action in the last known visit.
+             */
+            this.ping = function () {
+                this.trackRequest('ping=1', null, null, 'ping');
             };
 
             /**

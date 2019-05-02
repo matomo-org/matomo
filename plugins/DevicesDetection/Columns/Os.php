@@ -8,8 +8,11 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use DeviceDetector\Parser\OperatingSystem;
+use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Settings;
 use Piwik\Tracker\Visitor;
@@ -19,11 +22,44 @@ class Os extends Base
 {
     protected $columnName = 'config_os';
     protected $columnType = 'CHAR(3) NULL';
-    protected $segmentName = 'operatingSystemCode';
+    protected $segmentName = 'operatingSystemName';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
     protected $namePlural = 'DevicesDetection_OperatingSystems';
-    protected $acceptValues = 'WIN, MAC, LIN, AND, IPD, etc.';
+    protected $acceptValues = 'Windows, Linux, Mac, Android, iOS etc.';
     protected $type = self::TYPE_TEXT;
+
+    public function __construct()
+    {
+        $this->sqlFilterValue = function ($val) {
+            $oss = OperatingSystem::getAvailableOperatingSystems();
+            array_map(function($val) {
+                return Common::mb_strtolower($val);
+            }, $oss);
+            $result   = array_search(Common::mb_strtolower($val), $oss);
+
+            if ($result === false) {
+                $result = 'UNK';
+            }
+
+            return $result;
+        };
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return array_values(OperatingSystem::getAvailableOperatingSystems() + ['Unknown']);
+        };
+    }
+
+    protected function configureSegments()
+    {
+        parent::configureSegments();
+
+        $segment = new Segment();
+        $segment->setSegment('operatingSystemCode');
+        $segment->setName('DevicesDetection_OperatingSystemCode');
+        $segment->setAcceptedValues('WIN, LIN, MAX, AND, IOS etc.');
+        $this->suggestedValuesCallback = null;
+        $this->sqlFilterValue = null;
+        $this->addSegment($segment);
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

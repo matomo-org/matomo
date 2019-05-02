@@ -117,8 +117,22 @@ abstract class Graph extends Visualization
     {
         $this->determineWhichRowsAreSelectable();
 
+        // set default selectable columns, if none specified
+        $selectableColumns = $this->config->selectable_columns;
+        if (false === $selectableColumns) {
+            $this->generateSelectableColumns();
+        }
+
+        $this->ensureValidColumnsToDisplay();
+
+        $this->addTranslations();
+
         $this->config->selectable_rows = array_values($this->selectableRows);
 
+    }
+
+    protected function addTranslations()
+    {
         if ($this->config->add_total_row) {
             $totalTranslation = Piwik::translate('General_Total');
             $this->config->selectable_rows[] = array(
@@ -135,26 +149,64 @@ abstract class Graph extends Visualization
             ));
         }
 
-        // set default selectable columns, if none specified
-        $selectableColumns = $this->config->selectable_columns;
-        if (false === $selectableColumns) {
-            $selectableColumns = array('nb_visits', 'nb_actions', 'nb_uniq_visitors', 'nb_users');
-
-            if ($this->config->show_goals) {
-                $goalMetrics       = array('nb_conversions', 'revenue');
-                $selectableColumns = array_merge($selectableColumns, $goalMetrics);
-            }
-        }
-
         $transformed = array();
-        foreach ($selectableColumns as $column) {
+        foreach ($this->config->selectable_columns as $column) {
             $transformed[] = array(
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
                 'displayed'   => in_array($column, $this->config->columns_to_display)
             );
         }
-
         $this->config->selectable_columns = $transformed;
+    }
+
+    protected function generateSelectableColumns()
+    {
+        $defaultColumns = array(
+            'nb_visits',
+            'nb_actions',
+            'nb_uniq_visitors',
+            'nb_users'
+        );
+        if ($this->config->show_goals) {
+            $goalMetrics       = array('nb_conversions', 'revenue');
+            $defaultColumns    = array_merge($defaultColumns, $goalMetrics);
+        }
+
+        // Use the subset of default columns that are actually present in the datatable
+        $allColumns = $this->getDataTable()->getColumns();
+        $selectableColumns = array_intersect($defaultColumns, $allColumns);
+
+        // If there are no default columns, just strip out the 'label' column and use all the others
+        if (empty($selectableColumns)) {
+            $selectableColumns = $this->removeLabelFromArray($allColumns);
+        }
+
+        $this->config->selectable_columns = $selectableColumns;
+    }
+
+    private function removeLabelFromArray($theArray)
+    {
+        if (!empty($theArray) && is_array($theArray)) {
+            $key = array_search('label', $theArray);
+            if ($key !== false) {
+                unset($theArray[$key]);
+                $theArray = array_values($theArray);
+            }
+        }
+
+        return $theArray;
+    }
+
+    protected function ensureValidColumnsToDisplay()
+    {
+        $columnsToDisplay = $this->config->columns_to_display;
+
+        // Remove 'label' from columns to display if present
+        $columnsToDisplay = $this->removeLabelFromArray($columnsToDisplay);
+
+        // Strip out any columns_to_display that are not in the dataset
+        $allColumns = $this->getDataTable()->getColumns();
+        $this->config->columns_to_display = array_intersect($columnsToDisplay, $allColumns);
     }
 }

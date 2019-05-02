@@ -10,6 +10,8 @@
  * small adjustments by @sgiehl / matomo.org
  * - renamed class
  * - removed method getQRCodeGoogleUrl
+ * small adjustments by matomo.org
+ * - use better random secret generator
  */
 
 class TwoFactorAuthenticator
@@ -28,11 +30,8 @@ class TwoFactorAuthenticator
         $validChars = $this->_getBase32LookupTable();
         unset($validChars[32]);
 
-        $secret = '';
-        for ($i = 0; $i < $secretLength; $i++) {
-            $secret .= $validChars[array_rand($validChars)];
-        }
-        return $secret;
+        // modified by matomo.org
+        return \Piwik\Common::getRandomString($secretLength, implode('', $validChars));
     }
 
     /**
