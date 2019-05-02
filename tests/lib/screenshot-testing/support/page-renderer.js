@@ -238,10 +238,13 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result;
         if (methodName === 'screenshot') {
             // change viewport to entire page before screenshot
-            result = this.webpage.evaluate(() => JSON.stringify({
-                    width: document.documentElement.scrollWidth,
-                    height: document.documentElement.scrollHeight,
-                })).then((dims) => {
+            result = this.webpage.waitFor(() => !! document.documentElement)
+                .then(() => {
+                    return this.webpage.evaluate(() => JSON.stringify({
+                        width: document.documentElement.scrollWidth,
+                        height: document.documentElement.scrollHeight,
+                    }));
+                }).then((dims) => {
                     return this.webpage.setViewport(JSON.parse(dims));
                 }).then(() => {
                     return this.webpage[methodName](...args);

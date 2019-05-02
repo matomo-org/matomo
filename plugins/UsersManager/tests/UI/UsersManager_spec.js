@@ -359,7 +359,7 @@ describe("UsersManager", function () {
             $('#user-text-filter').val('').change();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(100);
+        await page.waitFor(250);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
@@ -380,7 +380,10 @@ describe("UsersManager", function () {
         var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn');
         await btnSave.click();
 
-        expect(await page.screenshotSelector('.modal.open')).to.matchImage('edit_user_basic_asks_confirmation');
+        const elem = await page.$('.modal.open');
+        await page.waitFor(250); // animation
+
+        expect(await elem.screenshot()).to.matchImage('edit_user_basic_asks_confirmation');
     });
 
     it('should show error when wrong password entered', async function () {
