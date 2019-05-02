@@ -30,6 +30,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -1066,7 +1067,9 @@ class Manager
 
             if ($cache->contains($cacheKey)) {
                 $pluginLicenseInfo = $cache->fetch($cacheKey);
-            } else {
+            } elseif (!SettingsServer::isTrackerApiRequest()) {
+                // prevent requesting license info during a tracker request see https://github.com/matomo-org/matomo/issues/14401
+                // as possibly many instances would try to do this at the same time
                 try {
                     $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
                     $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
