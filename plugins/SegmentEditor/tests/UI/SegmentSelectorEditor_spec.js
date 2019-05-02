@@ -235,8 +235,8 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('a.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
-        await selectDimension(page, '.segmentRow0', 'Visitors', 'Browser');
-        await selectFieldValue(page, '.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
+        await selectDimension('.segmentRow0', 'Visitors', 'Browser');
+        await selectFieldValue('.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
 
         await page.evaluate(function () {
             var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
@@ -246,8 +246,8 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segment-add-or');
 
         // configure or condition
-        await selectDimension(page, '.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
-        await selectFieldValue(page, '.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
+        await selectDimension('.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
+        await selectFieldValue('.segmentRow0 .segment-row:eq(1) .metricMatchBlock', 'Is');
 
         await page.evaluate(function () {
             var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';
@@ -257,8 +257,8 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segment-add-row');
 
         // configure and condition
-        await selectDimension(page, '.segmentRow1', 'Visitors', 'Browser');
-        await selectFieldValue(page, '.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
+        await selectDimension('.segmentRow1', 'Visitors', 'Browser');
+        await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
 
         await page.evaluate(function () {
             var complexValue = 's#2&#--_*+?#  #5"\'&<>.22,3';

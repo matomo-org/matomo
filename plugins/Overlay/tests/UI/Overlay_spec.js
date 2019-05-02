@@ -139,15 +139,14 @@ describe("Overlay", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_with_segment');
     });
 
-    it('should load correctly with token_auth if enable_framed_pages is set', function (done) {
+    it('should load correctly with token_auth if enable_framed_pages is set', async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
         testEnvironment.save();
 
-        expect.screenshot("framed_loaded").to.be.capture(function (page) {
-            page.load(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
+        await page.goto(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
 
-            removeOptOutIframe(page);
-        }, done);
+        await removeOptOutIframe();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('framed_loaded');
     });
 });

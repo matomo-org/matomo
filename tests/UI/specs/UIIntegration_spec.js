@@ -889,7 +889,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
         await page.waitForNetworkIdle();
         await page.click('#date.title');
-        // we need to make sure there to wait for a bit till date is opened and period selected
+        await page.waitFor('#period_id_range');
         await page.click('#period_id_range');
         await page.evaluate(function () {
             $(document).ready(function () {
@@ -1022,7 +1022,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         it('should allow embedding the entire app', async function () {
             var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
             await page.goto(url);
-            await page.waitFor('iframe');
+            await page.waitFor('iframe', { timeout: 180000 });
 
             const frame = await page.frames().find(f => f.name() === 'embed');
             await frame.waitFor('.widget');
