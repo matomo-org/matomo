@@ -102,8 +102,8 @@ describe("Overlay", function () {
             $('#overlayDateRangeSelect').val('day;yesterday').trigger('change');
         });
 
+        await page.waitFor('.overlayMainMetrics,.overlayNoData');
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('period_change');
@@ -145,6 +145,7 @@ describe("Overlay", function () {
         testEnvironment.save();
 
         await page.goto(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
+        await page.waitFor('.overlayMainMetrics,.overlayNoData');
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('framed_loaded');
