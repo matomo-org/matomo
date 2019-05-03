@@ -690,7 +690,10 @@ piwik_professional_support_ads_enabled = 1
 num_days_before_tracking_code_reminder = 5
 
 ; The path to a custom cacert.pem file Matomo should use.
-; default is none.
+; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
+; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
+; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
+; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
 
 [Tracker]
