@@ -373,11 +373,9 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             // we track over several days to make sure we have some data to aggregate in week reports
             // NOTE: some action times are out of order in visits on purpose
 
-            $trackingTime = Date::factory($this->dateTime);
             if ($day > 0) {
-                $trackingTime = $trackingTime->addDay($day * 3);
+                $this->trackingTime = Date::factory($this->dateTime)->addDay($day * 3)->getDatetime();
             }
-            $this->trackingTime = $trackingTime->getDatetime();
 
             $this->tracker = self::getTracker($idSite, $this->trackingTime, $defaultInit = true);
             $this->tracker->enableBulkTracking();

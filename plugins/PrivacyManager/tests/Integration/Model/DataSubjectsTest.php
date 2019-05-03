@@ -39,6 +39,8 @@ class DataSubjectsTest extends IntegrationTestCase
      */
     private $theFixture;
 
+    private $originalTrackingTime;
+
     private $originalTimezone;
 
     public function setUp()
@@ -52,6 +54,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $logTablesProvider = StaticContainer::get('Piwik\Plugin\LogTablesProvider');
         $this->dataSubjects = new DataSubjects($logTablesProvider);
         $this->originalTimezone = ini_get('date.timezone');
+        $this->originalTrackingTime = $this->theFixture->trackingTime;
     }
 
     public function tearDown()
@@ -60,6 +63,7 @@ class DataSubjectsTest extends IntegrationTestCase
         $this->theFixture->tearDownLocation();
         $this->removeArchiveInvalidationOptions();
         ini_set('date.timezone', $this->originalTimezone);
+        $this->theFixture->trackingTime = $this->originalTrackingTime;
     }
 
     public function test_deleteExport_deleteOneVisit()
@@ -334,6 +338,7 @@ class DataSubjectsTest extends IntegrationTestCase
     {
         $this->theFixture->setUpWebsites();
         for ($idSite = 1; $idSite <= 2; $idSite++) {
+            $this->theFixture->trackingTime = $this->originalTrackingTime;
             $this->theFixture->trackVisits($idSite, 2);
             $this->theFixture->insertArchiveRows($idSite, 2);
         }
@@ -377,14 +382,15 @@ class DataSubjectsTest extends IntegrationTestCase
         $websiteTimezone = 'UTC+5';
 
         // It's 2 January in UTC but 3 January in UTC+5
-        $this->theFixture->dateTime = '2017-01-02 23:00:00';
+        $testTime = '2017-01-02 23:00:00';
+        $this->theFixture->trackingTime = Date::factory($testTime)->getDatetime();
         $this->theFixture->setUpWebsites();
         $this->setWebsiteTimezone($idSite = 1, $websiteTimezone);
         $this->theFixture->trackVisits($idSite, 1);
         $this->theFixture->insertArchiveRows($idSite, 1);
         $this->removeArchiveInvalidationOptions();
 
-        $visitDate = Date::factory($this->theFixture->dateTime, $websiteTimezone);
+        $visitDate = Date::factory($testTime, $websiteTimezone);
 
         $this->assertArchivesHaveNotBeenInvalidated($visitDate, $idSite);
 
