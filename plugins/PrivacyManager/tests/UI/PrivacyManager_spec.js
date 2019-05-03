@@ -230,6 +230,7 @@ describe("PrivacyManager", function () {
         await enterSegmentMatchValue('userfoobar');
         await findDataSubjects();
         await page.waitFor('.manageGdpr tr');
+        await page.mouse.move(-10, -10);
 
         await capturePage('gdpr_tools_no_visits_found');
     });

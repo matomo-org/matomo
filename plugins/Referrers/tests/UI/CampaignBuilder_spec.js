@@ -20,7 +20,9 @@ describe("CampaignBuilder", function () {
     async function captureUrlBuilder(screenshotName, theTest)
     {
         await theTest();
-        expect(await page.screenshotSelector('.campaignUrlBuilder')).to.matchImage(screenshotName);
+
+        const element = await page.$('.campaignUrlBuilder');
+        expect(await element.screenshot()).to.matchImage(screenshotName);
     }
 
     async function ensureHighlightEffectIsGone()

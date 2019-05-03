@@ -52,6 +52,7 @@ describe("VisitorMap", function () {
             var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
             $(path).click();
         });
+        await page.waitFor(1000);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('regions');
     });
@@ -59,7 +60,7 @@ describe("VisitorMap", function () {
     it("should display the cities layer correctly", async function() {
         await page.click('.UserCountryMap-btn-city');
         await page.waitForNetworkIdle();
-        await page.waitFor(500); // wait for map
+        await page.waitFor(1000); // wait for map
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('cities');
     });

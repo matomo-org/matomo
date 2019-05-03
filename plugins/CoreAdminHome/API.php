@@ -13,6 +13,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
@@ -226,16 +227,17 @@ class API extends \Piwik\Plugin\API
         if (Piwik::hasUserSuperUserAccess()) {
             $failures = $this->trackingFailures->getAllFailures();
             file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "failures 1\n", FILE_APPEND);
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', print_r($failures), FILE_APPEND);
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', print_r($failures, true), FILE_APPEND);
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', Common::prefixTable('') . "\n", FILE_APPEND);
+
+            $ex = new \Exception();
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', $ex->getTraceAsString()."\n", FILE_APPEND);
         } else {
             Piwik::checkUserHasSomeAdminAccess();
             $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
             Piwik::checkUserHasAdminAccess($idSites);
 
             $failures = $this->trackingFailures->getFailuresForSites($idSites);
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "failures 2\n", FILE_APPEND);
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', print_r($failures), FILE_APPEND);
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', print_r($idSites), FILE_APPEND);
         }
 
         return $failures;
