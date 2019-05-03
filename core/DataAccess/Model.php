@@ -365,6 +365,14 @@ class Model
         $validSegmentClauses = [];
 
         foreach ($segmentHashesById as $idSite => $segments) {
+            // segments are md5 hashes and such not a problem re sql injection. for performance etc we don't want to use
+            // bound parameters for the query
+            foreach ($segments as $segment) {
+                if (!ctype_xdigit($segment)) {
+                    throw new Exception($segment . ' expected to be an md5 hash');
+                }
+            }
+
             // Special case as idsite=0 means the segments are not site-specific
             if ($idSite === 0) {
                 foreach ($segments as $segmentHash) {
@@ -372,6 +380,8 @@ class Model
                 }
                 continue;
             }
+
+            $idSite = (int)$idSite;
 
             // Vanilla case - segments that are valid for a single site only
             $sql = '(idsite = ' . $idSite . ' AND (';
