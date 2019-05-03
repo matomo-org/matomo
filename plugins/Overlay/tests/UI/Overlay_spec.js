@@ -135,6 +135,8 @@ describe("Overlay", function () {
         await page.goto(urlWithSegment);
         await page.waitForNetworkIdle();
 
+        await page.waitFor(2000);
+
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_with_segment');
     });

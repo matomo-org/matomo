@@ -71,7 +71,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('td.select-cell label:eq(3)')).click();
         await (await page.jQuery('td.select-cell label:eq(8)')).click();
         await page.mouse.move(0, 0);
-        await page.waitFor(250); // for checkbox animations
+        await page.waitFor(300); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('rows_selected');
     });
@@ -79,7 +79,7 @@ describe("UsersManager", function () {
     it('should select all rows when all row select is clicked', async function () {
         await page.click('th.select-cell label');
         await page.mouse.move(0, 0);
-        await page.waitFor(250); // for checkbox animations
+        await page.waitFor(300); // for checkbox animations
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
     });
@@ -226,10 +226,13 @@ describe("UsersManager", function () {
         await page.evaluate(() => $('#sitesForPermission .role-select select').first().val('string:noaccess').change());
         await page.waitFor('.delete-access-confirm-modal');
         await page.waitFor(250); // animation
-        await page.evaluate(() => $('.delete-access-confirm-modal .modal-close:not(.modal-no)').click());
+        expect(await page.screenshot()).to.matchImage('permissions_remove_single');
+
+        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no)').click());
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
+        expect(await page.screenshot()).to.matchImage('permissions_remove_single');
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_single');
     });
 
@@ -246,9 +249,9 @@ describe("UsersManager", function () {
     it('should set access to selected sites when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await page.waitFor(250); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first', {waitFor: true})).hover();
         await page.waitFor(250); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin)')).click();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin)', { waitFor: true })).click();
 
         await page.waitFor('.change-access-confirm-modal');
 
@@ -280,9 +283,9 @@ describe("UsersManager", function () {
     it('should set access to all sites selected when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await page.waitFor(100); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first', { waitFor: true })).hover();
         await page.waitFor(100); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)')).click();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)', { waitFor: true })).click();
         await page.waitFor(250); // animation
 
         await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no)').click());
@@ -325,7 +328,7 @@ describe("UsersManager", function () {
         });
 
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitFor('#perm_edit_select_all', { visible: true });
         await page.click('#perm_edit_select_all');
 
         await page.waitFor('.userPermissionsEdit tr.select-all-row a');
@@ -378,7 +381,7 @@ describe("UsersManager", function () {
     });
 
     it('should show the edit user form when the edit icon in a row is clicked', async function () {
-        await (await page.jQuery('button.edituser:eq(1)')).click();
+        await (await page.jQuery('button.edituser:eq(1)', { waitFor: true })).click();
         await page.waitFor(250);
         await page.waitForNetworkIdle();
 
@@ -390,7 +393,7 @@ describe("UsersManager", function () {
             $('.userEditForm #user_email').val('testlogin3@example.com').change();
         });
 
-        var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn');
+        var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn', { waitFor: true });
         await btnSave.click();
 
         await page.waitFor(250); // animation

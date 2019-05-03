@@ -116,19 +116,22 @@ PageRenderer.prototype.isVisible = function (selector) {
     });
 };
 
-PageRenderer.prototype.jQuery = function (selector) {
+PageRenderer.prototype.jQuery = async function (selector, options = {}) {
     const selectorMarkerClass = '__selector_marker_' + this.selectorMarkerClass;
 
     ++this.selectorMarkerClass;
 
-    return this.waitFor(() => !! window.$)
-        .then(() => {
-            return this.webpage.evaluate((selectorMarkerClass, s) => {
-                $(s).addClass(selectorMarkerClass);
-            }, selectorMarkerClass, selector)
-        }).then(() => {
-            return this.webpage.$('.' + selectorMarkerClass);
-        });
+    await this.waitFor(() => !! window.$);
+
+    if (options.waitFor) {
+        await this.waitFor((selector) => !! $(selector).length, selector);
+    }
+
+    await this.webpage.evaluate((selectorMarkerClass, s) => {
+        $(s).addClass(selectorMarkerClass);
+    }, selectorMarkerClass, selector);
+
+    return await this.webpage.$('.' + selectorMarkerClass);
 };
 
 PageRenderer.prototype.screenshotSelector = async function (selector) {

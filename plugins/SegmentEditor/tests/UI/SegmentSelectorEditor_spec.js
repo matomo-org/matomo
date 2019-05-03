@@ -28,9 +28,9 @@ describe("SegmentSelectorEditorTest", function () {
 
     async function selectDimension(prefixSelector, category, name)
     {
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper')).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList h4:contains(' + category + ')')).click();
-        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')')).click();
+        await (await page.jQuery(prefixSelector + ' .metricListBlock .select-wrapper', { waitFor: true })).click();
+        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList h4:contains(' + category + ')', { waitFor: true })).click();
+        await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
     }
 
     it("should load correctly", async function() {
@@ -197,6 +197,8 @@ describe("SegmentSelectorEditorTest", function () {
     it("should correctly load the updated segment's details when the updated segment is edited", async function() {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
+
+        await page.waitFor('.modal.open');
 
         const modal = await page.$('.modal.open');
         expect(await modal.screenshot()).to.matchImage('updated_details');

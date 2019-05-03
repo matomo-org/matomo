@@ -453,7 +453,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // should load the row evolution [see #11526]
-    it('should show rov evolution for goal tables', async function () {
+    it.only('should show rov evolution for goal tables', async function () {
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
 
@@ -886,11 +886,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // date range clicked
-    it('should reload to the correct date when a date range is selected in the period selector', async function() {
+    it('should reload to the correct date when a date range is selected in the period selector', async function() {// TODO: test
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
         await page.waitForNetworkIdle();
         await page.click('#date.title');
-        await page.waitFor('#period_id_range');
+        await page.waitFor('#period_id_range', { visible: true });
         await page.click('#period_id_range');
         await page.evaluate(function () {
             $(document).ready(function () {
@@ -1020,10 +1020,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             testEnvironment.save();
         });
 
-        it('should allow embedding the entire app', async function () {
+        it('should allow embedding the entire app', async function () { // TODO: Test
             var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
             await page.goto(url);
-            await page.waitFor('iframe', { timeout: 180000 });
+            await page.waitFor('iframe');
 
             const frame = await page.frames().find(f => f.name() === 'embed');
             await frame.waitFor('.widget');
