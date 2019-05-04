@@ -60,7 +60,7 @@
                         var urlIframe = getEmbedUrl(widgetParameters, "iframe");
                         // We first build the HTML code that will load the widget in an IFRAME
                         var widgetIframeHtml = '<div id="widgetIframe">' +
-                            '<iframe width="100%" height="350" src="' + urlIframe + '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0">' +
+                            '<iframe width="100%" height="350" src="' + urlIframe + '" scrolling="yes" frameborder="0" marginheight="0" marginwidth="0">' +
                             '</iframe>' +
                             '</div>';
 
