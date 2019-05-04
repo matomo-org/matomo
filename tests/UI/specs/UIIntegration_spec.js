@@ -453,7 +453,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // should load the row evolution [see #11526]
-    it.only('should show rov evolution for goal tables', async function () {
+    it('should show rov evolution for goal tables', async function () {
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
 
