@@ -124,7 +124,14 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
     await this.waitFor(() => !! window.$);
 
     if (options.waitFor) {
-        await this.waitFor((selector) => !! $(selector).length, selector);
+        try {
+            await this.waitFor((selector) => {
+                return !!$(selector).length;
+            }, {}, selector);
+        } catch (err) {
+            err.message += " (selector = " + selector + ")";
+            throw err;
+        }
     }
 
     await this.webpage.evaluate((selectorMarkerClass, s) => {

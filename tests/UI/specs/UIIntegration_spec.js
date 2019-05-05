@@ -454,6 +454,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // should load the row evolution [see #11526]
     it('should show rov evolution for goal tables', async function () {
+        await page.waitForNetworkIdle();
+
         const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
 
@@ -463,8 +465,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.waitForSelector('.rowevolution');
         await page.waitForNetworkIdle();
 
-        const elem = await page.$('.ui-dialog');
-        expect(await elem.screenshot()).to.matchImage('goals_individual_row_evolution');
+        expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('goals_individual_row_evolution');
     });
 
     // Events pages

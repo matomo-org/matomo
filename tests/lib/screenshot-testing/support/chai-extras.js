@@ -109,8 +109,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                 var error = new AssertionError(message);
 
-                // stack traces are useless so we avoid the clutter w/ this
-                error.stack = failureInfo;
+                error.message = failureInfo;
 
                 throw error;
             }
@@ -136,7 +135,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
             chai.assert(!isNaN(pixelError),
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
-                ` an integer, got: ${allOutput}`);
+                ` an integer, got: ${allOutput.replace(/\s+$/g, '')}`);
 
             // allow a single pixel difference only
             chai.assert(pixelError <= 1, `images differ in ${pixelError} pixels`);

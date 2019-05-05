@@ -81,6 +81,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentationContainer .title');
         await page.click('.add_new_segment');
         await page.waitForNetworkIdle();
+        await page.waitFor('.segmentRow0');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('8_segment_editor_create');
     });
 
@@ -90,14 +91,16 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('dimension_drag_drop');
     });
 
-    // phantomjs won't take screenshots of dropdown windows, so skip this test
-    it.skip("should show suggested segment values when a segment value input is focused", async function() {
-        await page.click('.segmentEditorPanel .ui-autocomplete-input');
+    it("should show suggested segment values when a segment value input is focused", async function() {
+        await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
+        await page.waitForNetworkIdle();
+        await page.waitFor(250);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
     });
 
     it("should add an OR condition when clicking on add OR", async function() {
         await page.click('.segmentEditorPanel .segment-add-or');
+        await page.waitFor(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_or_condition');
     });
@@ -110,6 +113,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should add an AND condition when clicking on add AND", async function() {
         await page.click('.segmentEditorPanel .segment-add-row');
+        await page.waitFor('.segmentRow1');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_and_condition');
     });
@@ -237,6 +241,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('a.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
+        await page.waitFor('.segmentRow0');
         await selectDimension('.segmentRow0', 'Visitors', 'Browser');
         await selectFieldValue('.segmentRow0 .segment-row:eq(0) .metricMatchBlock', 'Is not');
 
@@ -246,6 +251,7 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.click('.segment-add-or');
+        await page.waitFor(() => !! $('.segmentRow0 .segment-row:eq(1)').length);
 
         // configure or condition
         await selectDimension('.segmentRow0 .segment-row:eq(1)', 'Visitors', 'Browser');
@@ -257,6 +263,7 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.click('.segment-add-row');
+        await page.waitFor('.segmentRow1 .segment-row');
 
         // configure and condition
         await selectDimension('.segmentRow1', 'Visitors', 'Browser');
@@ -268,9 +275,6 @@ describe("SegmentSelectorEditorTest", function () {
         });
         await page.evaluate(function () {
             $('button.saveAndApply').click();
-        });
-        await page.evaluate(function () {
-            console.log(window.location.href);
         });
 
         expect(await page.screenshot()).to.matchImage('complex_segment');

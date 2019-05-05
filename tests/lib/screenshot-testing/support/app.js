@@ -216,6 +216,44 @@ Application.prototype.loadTestModules = function () {
                 done(error, result);
             });
         });
+
+        // if a test fails, print failure info and for non-comparison fails, save failure screenshot
+        suite.afterEach(async function() {
+            const test = this.currentTest;
+            const err = this.currentTest.err;
+            if (!err) {
+                return;
+            }
+
+            var indent = "     ";
+
+            var message = err && err.message ? err.message : err;
+            if (message.indexOf(indent) !== 0) {
+                message = indent + message.replace(/\n/g, "\n" + indent);
+            }
+
+            if (message.indexOf('Url to reproduce') === -1) {
+                const failurePath = path.join(self.diffviewerDir, test.title.replace(/\s+/g, '_') + '_failure.png');
+
+                message += "\n" + indent + indent + "Url to reproduce: " + page.url() + "\n";
+                message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
+
+                var renderingLogs = page.getPageLogsString(indent);
+                if (renderingLogs) {
+                    message += renderingLogs + "\n";
+                } else {
+                    message += indent + indent + "No captured console logs.\n";
+                }
+
+                const screenshot = await page.screenshot({ fullPage: true });
+                fs.writeFileSync(failurePath, screenshot);
+            } else {
+                delete this.currentTest.err.stack;
+            }
+
+            console.log(message); // so it prints out as the test fails (for builds that run too long)
+            this.currentTest.err.message = message.replace(/\n/g, "\n  ");
+        });
     });
 };
 
@@ -260,16 +298,6 @@ Application.prototype.doRunTests = function (mocha) {
 
     this.runner.on('test', function () {
         page._reset();
-    });
-
-    this.runner.on('fail', function(test, err) {
-        var indent = "     ";
-
-        var message = err && err.stack ? err.stack : err;
-        message = message.replace(/\n/g, "\n" + indent);
-        console.log(indent + message);
-        console.log(indent + "Url to reproduce: " + page.url() + "\n");
-        console.log(page.getPageLogsString(indent) + "\n\n");
     });
 };
 
