@@ -368,7 +368,7 @@ class Model
             // segments are md5 hashes and such not a problem re sql injection. for performance etc we don't want to use
             // bound parameters for the query
             foreach ($segments as $segment) {
-                if (!ctype_xdigit($segment)) {
+                if (!preg_match('/^[a-z0-9A-Z]+$/', $segment)) {
                     throw new Exception($segment . ' expected to be an md5 hash');
                 }
             }
