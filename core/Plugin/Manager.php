@@ -1080,6 +1080,9 @@ class Manager
                 $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
                 $sixHours = 3600 * 6;
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
+            } else {
+                // tracker mode, we assume it is not missing until cache is written
+                $pluginLicenseInfo = array('missing' => false); 
             }
 
             if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
