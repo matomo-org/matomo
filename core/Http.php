@@ -802,7 +802,12 @@ class Http
      */
     public static function configCurlCertificate(&$ch)
     {
-        $cacertPath = (Config::getInstance()->General['custom_cacert_pem']) ? Config::getInstance()->General['custom_cacert_pem'] : PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem';
+        $general = Config::getInstance()->General;
+        if (!empty($general['custom_cacert_pem'])) {
+            $cacertPath = $general['custom_cacert_pem'];
+        } else {
+            $cacertPath = PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem';
+        }
         @curl_setopt($ch, CURLOPT_CAINFO, $cacertPath);
     }
 
