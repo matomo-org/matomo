@@ -312,9 +312,11 @@ describe("UsersManager", function () {
 
     it('should set access to single site when select in table is used', async function () {
         await page.evaluate(function () {
-            $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
+            $('.userPermissionsEdit .role-select:eq(0) select').val('string:admin').change();
         });
 
+        await page.waitFor('.userPermissionsEdit .change-access-confirm-modal', { visible: true });
+        await page.waitFor(100); // animation
         await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
@@ -494,6 +496,7 @@ describe("UsersManager", function () {
 
         it('should add a user by email when an email is entered', async function () {
             await page.type('input[name="add-existing-user-email"]', '0_login3conchords@example.com');
+            await page.waitFor('.add-existing-user-modal');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
@@ -509,6 +512,7 @@ describe("UsersManager", function () {
 
         it('should add a user by username when a username is entered', async function () {
             await page.click('.add-existing-user');
+            await page.waitFor('.add-existing-user-modal');
             await page.type('input[name="add-existing-user-email"]', '10_login8');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
@@ -529,6 +533,7 @@ describe("UsersManager", function () {
         it('should fail if an email/username that does not exist is entered', async function () {
             await page.click('.add-existing-user');
             await page.type('input[name="add-existing-user-email"]', 'sldkjfsdlkfjsdkl');
+            await page.waitFor('.add-existing-user-modal');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 

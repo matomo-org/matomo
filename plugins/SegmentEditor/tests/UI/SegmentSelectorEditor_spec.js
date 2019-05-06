@@ -277,6 +277,8 @@ describe("SegmentSelectorEditorTest", function () {
             $('button.saveAndApply').click();
         });
 
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshot()).to.matchImage('complex_segment');
     });
 });

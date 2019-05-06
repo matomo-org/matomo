@@ -63,6 +63,7 @@ class VisitExcluded
         $excluded = false;
 
         if ($this->isNonHumanBot()) {
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "search bot detected\n", FILE_APPEND);
             Common::printDebug('Search bot detected, visit excluded');
             $excluded = true;
         }
@@ -75,6 +76,7 @@ class VisitExcluded
         if (!$excluded) {
             $toRecord = $this->request->getParam($parameterForceRecord = 'rec');
             if (!$toRecord) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "parameter not found\n", FILE_APPEND);
                 Common::printDebug(@$_SERVER['REQUEST_METHOD'] . ' parameter ' . $parameterForceRecord . ' not found in URL, request excluded');
                 $excluded = true;
                 Common::printDebug("'$parameterForceRecord' parameter not found.");
@@ -93,7 +95,9 @@ class VisitExcluded
          *
          */
         Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded, $this->request));
-
+if ($excluded) {
+    file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "event\n", FILE_APPEND);
+}
         /*
          * Following exclude operations happen after the hook.
          * These are of higher priority and should not be overwritten by plugins.
@@ -103,6 +107,7 @@ class VisitExcluded
         if (!$excluded) {
             $excluded = $this->isIgnoreCookieFound();
             if ($excluded) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "ignore cookie\n", FILE_APPEND);
                 Common::printDebug("Ignore cookie found.");
             }
         }
@@ -111,6 +116,7 @@ class VisitExcluded
         if (!$excluded) {
             $excluded = $this->isVisitorIpExcluded();
             if ($excluded) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "ip excluded\n", FILE_APPEND);
                 Common::printDebug("IP excluded.");
             }
         }
@@ -119,6 +125,7 @@ class VisitExcluded
         if (!$excluded) {
             $excluded = $this->isUserAgentExcluded();
             if ($excluded) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "user agent excluded\n", FILE_APPEND);
                 Common::printDebug("User agent excluded.");
             }
         }
@@ -127,6 +134,7 @@ class VisitExcluded
         if (!$excluded) {
             $excluded = $this->isReferrerSpamExcluded();
             if ($excluded) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "referrer spam\n", FILE_APPEND);
                 Common::printDebug("Referrer URL is blacklisted as spam.");
             }
         }
@@ -135,6 +143,7 @@ class VisitExcluded
         if (!$excluded) {
             $excluded = $this->isUrlExcluded();
             if ($excluded) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "url excluded\n", FILE_APPEND);
                 Common::printDebug("Unknown URL is not allowed to track.");
             }
         }
@@ -142,11 +151,13 @@ class VisitExcluded
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "prefetch\n", FILE_APPEND);
                 Common::printDebug("Prefetch request detected, not a real visit so we Ignore this visit/pageview");
             }
         }
 
         if ($excluded) {
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "excluded. definitely excluded.\n", FILE_APPEND);
             Common::printDebug("Visitor excluded.");
             return true;
         }
