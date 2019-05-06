@@ -887,19 +887,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // date range clicked
-    it('should reload to the correct date when a date range is selected in the period selector', async function() {// TODO: test
+    it('should reload to the correct date when a date range is selected in the period selector', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
         await page.waitForNetworkIdle();
         await page.click('#date.title');
-        await page.waitFor('#period_id_range', { visible: true });
-        await page.click('#period_id_range');
+        await page.click('label[for=period_id_range]');
         await page.evaluate(function () {
-            $(document).ready(function () {
-                $('#inputCalendarFrom').val('2012-08-02');
-                $('#inputCalendarTo').val('2012-08-12');
-                setTimeout(function () {$('#calendarApply').click();}, 500);
-            });
+            $('#inputCalendarFrom').val('2012-08-02');
+            $('#inputCalendarTo').val('2012-08-12');
         });
+        await page.waitFor(500);
+        await page.evaluate(() => $('#calendarApply').click());
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('period_select_date_range_click');
     });
@@ -1007,13 +1006,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // embedding whole app
     describe('enable_framed_pages', function () {
-        before(function () {
+        beforeEach(function () {
             testEnvironment.testUseMockAuth = 0;
             testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
             testEnvironment.save();
         });
 
-        after(function () {
+        afterEach(function () {
             testEnvironment.testUseMockAuth = 1;
             if (testEnvironment.configOverride.General && testEnvironment.configOverride.General.enable_framed_pages) {
                 delete testEnvironment.configOverride.General.enable_framed_pages;
@@ -1021,14 +1020,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             testEnvironment.save();
         });
 
-        it('should allow embedding the entire app', async function () { // TODO: Test
-            var url = "/tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + '?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
+        it('should allow embedding the entire app', async function () {
+            var url = "tests/resources/embed-file.html#" + encodeURIComponent(page.baseUrl + 'index.php?' + urlBase + '&token_auth=' + testEnvironment.tokenAuth);
             await page.goto(url);
-            await page.waitFor('iframe');
+            await page.waitForNetworkIdle();
 
-            const frame = await page.frames().find(f => f.name() === 'embed');
+            const frame = page.frames().find(f => f.name() === 'embed');
             await frame.waitFor('.widget');
-            await frame.waitForNetworkIdle();
 
             expect(await page.screenshot({ fullPage: true })).to.matchImage('embed_whole_app');
         });

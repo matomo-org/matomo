@@ -23,7 +23,7 @@ main();
 async function main() {
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const webpage = await browser.newPage();
-    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 15 }); // make animations run 15 times faster, so we don't have to wait as much
+    await webpage._client.send('Animation.setPlaybackRate', { playbackRate: 50 }); // make animations run 50 times faster, so we don't have to wait as much
 
     // required modules
     let config = require("./../../UI/config.dist");

@@ -99,7 +99,7 @@ describe("EvolutionGraph", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
     });
 
-    it("should show all annotations when annotations footer link clicked", async function () {
+    it("should show all annotations when annotations footer link clicked", async function () { // TODO: fails
         await showDataTableFooter();
         await page.click('.annotationView');
         await page.waitForNetworkIdle();
@@ -120,9 +120,10 @@ describe("EvolutionGraph", function () {
         await page.click('.add-annotation');
         await page.click('.annotation-period-edit>a');
         await page.evaluate(function () {
-            $('.datepicker').datepicker("setDate", new Date(2012,0,02) );
+            $('.datepicker').datepicker("setDate", new Date(2012,0,2) );
             $(".ui-datepicker-current-day").trigger("click"); // this triggers onSelect event which sets .annotation-period-edit>a
         });
+        await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('new_annotation_form');
     });

@@ -22,8 +22,12 @@ describe("OptOutForm", function () {
         });
     }
 
+    after(async () => {
+        await page.clearCookies();
+    });
+
     it("should display correctly when embedded in another site", async function () {
-        // clear cookies?
+        await page.clearCookies();
 
         page.setUserAgent(chromeUserAgent);
         await page.goto(siteUrl);

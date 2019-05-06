@@ -379,7 +379,7 @@ describe("UsersManager", function () {
     });
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
-        await page.click('.superuser-confirm-modal .modal-close:not(.modal-no):visible');
+        await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_set');

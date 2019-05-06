@@ -232,23 +232,25 @@ Application.prototype.loadTestModules = function () {
                 message = indent + message.replace(/\n/g, "\n" + indent);
             }
 
-            if (message.indexOf('Url to reproduce') === -1) {
+            const url = await page.getWholeCurrentUrl();
+            message += "\n" + indent + indent + "Url to reproduce: " + url + "\n";
+
+            if (message.indexOf('Generated screenshot') === -1) {
                 const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/\s+/g, '_') + '_failure.png');
 
-                message += "\n" + indent + indent + "Url to reproduce: " + page.url() + "\n";
                 message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
-
-                var renderingLogs = page.getPageLogsString(indent);
-                if (renderingLogs) {
-                    message += renderingLogs + "\n";
-                } else {
-                    message += indent + indent + "No captured console logs.\n";
-                }
 
                 const screenshot = await page.screenshot({ fullPage: true });
                 fs.writeFileSync(failurePath, screenshot);
             } else {
                 delete this.currentTest.err.stack;
+            }
+
+            var renderingLogs = page.getPageLogsString(indent);
+            if (renderingLogs) {
+                message += renderingLogs + "\n";
+            } else {
+                message += indent + indent + "No captured console logs.\n";
             }
 
             console.log(message); // so it prints out as the test fails (for builds that run too long)

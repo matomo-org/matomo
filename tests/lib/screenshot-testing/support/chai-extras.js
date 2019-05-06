@@ -101,14 +101,10 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                 var indent = "     ";
                 var failureInfo = message + "\n";
-                failureInfo += indent + "Url to reproduce: " + page.url() + "\n";
                 failureInfo += indent + "Generated screenshot: " + processedPathStr + "\n";
                 failureInfo += indent + "Expected screenshot: " + expectedPathStr + "\n";
 
-                failureInfo += page.getPageLogsString(indent);
-
                 var error = new AssertionError(message);
-
                 error.message = failureInfo;
 
                 throw error;

@@ -427,7 +427,11 @@ PageRenderer.prototype.getPageLogsString = function(indent) {
         result = result.substring(0, result.length - 1);
     }
     return result;
-}
+};
+
+PageRenderer.prototype.getWholeCurrentUrl = function () {
+    return this.webpage.evaluate(() => window.location.href);
+};
 
 
 exports.PageRenderer = PageRenderer;
