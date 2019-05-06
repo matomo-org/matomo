@@ -21,7 +21,7 @@ describe("TrackingFailures", function () {
 
     async function confirmModal()
     {
-        await (await page.jQuery('.modal.open .modal-footer a:contains(Yes)')).click();
+        await (await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible')).click();
     }
 
     afterEach(function () {
@@ -48,7 +48,6 @@ describe("TrackingFailures", function () {
     });
 
     it('should show manage page with failures', async function () {
-        generateTrackingFailures();
         await page.goto(manageUrl);
         await page.waitForSelector('.matomoTrackingFailures td');
         await page.waitFor(250);
@@ -58,7 +57,6 @@ describe("TrackingFailures", function () {
     });
 
     it('should show ask to confirm delete one', async function () {
-        generateTrackingFailures();
         await page.evaluate(function () {
             $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click();
         });
@@ -69,17 +67,16 @@ describe("TrackingFailures", function () {
     });
 
     it('should show delete when confirmed', async function () {
-        generateTrackingFailures();
         await confirmModal();
-        await page.waitForSelector('.matomoTrackingFailures td');
         await page.waitFor(250);
+
+        await page.waitFor('.matomoTrackingFailures td .icon-delete');
 
         const elem = await page.$('.matomoTrackingFailures');
         expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
     });
 
     it('should show ask to confirm delete all', async function () {
-        generateTrackingFailures();
         await page.click('.matomoTrackingFailures .deleteAllFailures');
         await page.waitFor('.modal.open');
         await page.waitFor(250);
