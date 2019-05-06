@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -24,6 +25,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\SpecificTime;
+use Piwik\Segment;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Failures;
 use Piwik\Site;
@@ -63,6 +65,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         // general data purge on invalidated archive records, executed daily
         $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
+
+        $this->weekly('purgeOrphanedArchives', null, self::NORMAL_PRIORITY);
 
         // lowest priority since tables should be optimized after they are modified
         $this->monthly('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
@@ -256,6 +260,53 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         Option::set(ReferrerSpamFilter::OPTION_STORAGE_NAME, serialize($list));
+    }
+
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.purgeOrphanedArchives"`
+     *
+     * @throws \Exception
+     */
+    public function purgeOrphanedArchives()
+    {
+        $segmentHashesByIdSite = $this->getSegmentHashesByIdSite();
+        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
+
+        $datesPurged = array();
+        foreach ($archiveTables as $table) {
+            $date = ArchiveTableCreator::getDateFromTableName($table);
+            list($year, $month) = explode('_', $date);
+
+            $dateObj = Date::factory("$year-$month-15");
+
+            $this->archivePurger->purgeDeletedSiteArchives($dateObj);
+            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $segmentHashesByIdSite);
+
+            $datesPurged[$date] = true;
+        }
+    }
+
+    /**
+     * Get a list of all segment hashes that currently exist, indexed by idSite.
+     * @return array
+     */
+    public function getSegmentHashesByIdSite()
+    {
+        //Get a list of hashes of all segments that exist now
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+            . " WHERE deleted = 0";
+        $rows = Db::fetchAll($sql);
+        $segmentHashes = array();
+        foreach ($rows as $row) {
+            $idSite = (int)$row['enable_only_idsite'];
+            if (! isset($segmentHashes[$idSite])) {
+                $segmentHashes[$idSite] = array();
+            }
+            $segmentHashes[$idSite][] = Segment::getSegmentHash($row['definition']);
+        }
+
+        return $segmentHashes;
     }
 
     /**
