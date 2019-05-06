@@ -167,6 +167,8 @@ describe("UsersManager", function () {
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
     });
 
@@ -183,8 +185,7 @@ describe("UsersManager", function () {
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('piwik-user-edit-form .siteSelector a.title');
-        await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_ul_list a');
-        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)')).click();
+        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)', { waitFor: true })).click();
 
         await page.evaluate(() => $('piwik-user-edit-form [piwik-save-button] input').click());
         await page.waitForNetworkIdle();

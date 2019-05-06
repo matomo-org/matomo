@@ -85,7 +85,7 @@ describe("TrackingFailures", function () {
 
     it('should show nothing when confirmed', async function () {
         await confirmModal();
-        await page.waitFor(250);
+        await page.waitFor('.matomoTrackingFailures td .icon-ok');
         const frame = await page.waitForSelector('.matomoTrackingFailures');
         expect(await frame.screenshot()).to.matchImage('manage_with_failures_delete_all_confirmed');
     });

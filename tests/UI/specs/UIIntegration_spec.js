@@ -898,6 +898,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
         await page.waitFor(500);
         await page.evaluate(() => $('#calendarApply').click());
+
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('period_select_date_range_click');
