@@ -43,7 +43,9 @@
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
                 {% for selectablePeriod in properties.selectable_periods %}
                     <li>
-                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon"{% endif %}><span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span></a>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

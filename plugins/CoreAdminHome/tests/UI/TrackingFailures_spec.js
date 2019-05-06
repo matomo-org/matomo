@@ -87,7 +87,6 @@ describe("TrackingFailures", function () {
     });
 
     it('should show nothing when confirmed', async function () {
-        generateTrackingFailures();
         await confirmModal();
         await page.waitFor(250);
         const frame = await page.waitForSelector('.matomoTrackingFailures');
