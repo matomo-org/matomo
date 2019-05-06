@@ -401,9 +401,15 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         }
     });
 
-    this.webpage.on('console', (consoleMessage) => {
-        // TODO: support sprintf args (would require calling consoleMessage.args().slice(1).map(a => a.jsonValue()), but jsonValue() is an async function)
-        this._logMessage(`Log: ${consoleMessage.text()}`);
+    this.webpage.on('console', async (consoleMessage) => {
+        const args = await Promise.all(consoleMessage.args().map(arg => arg.executionContext().evaluate(arg => {
+            if (arg instanceof Error) {
+                return arg.stack || arg.message;
+            }
+            return arg;
+        }, arg)));
+        const message = args.join(' ');
+        this._logMessage(`Log: ${message}`);
     });
 
     this.webpage.on('dialog', (dialog) => {

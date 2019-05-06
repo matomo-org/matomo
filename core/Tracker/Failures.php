@@ -54,6 +54,7 @@ class Failures
                 $visitExcluded = new VisitExcluded($request);
                 $isVisitExcluded = $visitExcluded->isExcluded();
             } catch (InvalidRequestParameterException $e) {
+                file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', $e->getMessage() . $e->getTraceAsString() . "\n", FILE_APPEND);
                 // we ignore this error and assume visit is not excluded... happens eg when using `cip` and request was
                 // not authenticated...
                 $isVisitExcluded = false;
@@ -61,6 +62,7 @@ class Failures
         }
 
         if ($isVisitExcluded) {
+            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "visit is excluded\n", FILE_APPEND);
             return;
         }
 

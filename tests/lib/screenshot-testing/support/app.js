@@ -233,7 +233,7 @@ Application.prototype.loadTestModules = function () {
             }
 
             if (message.indexOf('Url to reproduce') === -1) {
-                const failurePath = path.join(self.diffviewerDir, test.title.replace(/\s+/g, '_') + '_failure.png');
+                const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/\s+/g, '_') + '_failure.png');
 
                 message += "\n" + indent + indent + "Url to reproduce: " + page.url() + "\n";
                 message += indent + indent + "Screenshot of failure: " + failurePath + "\n";

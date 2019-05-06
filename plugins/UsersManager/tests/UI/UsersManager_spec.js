@@ -221,8 +221,9 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
         await page.waitFor('.change-access-confirm-modal', { visible: true });
-        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no)').click());
         await page.waitForNetworkIdle();
+        await page.waitFor(250); // animation
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_sites_access');
     });
@@ -266,6 +267,7 @@ describe("UsersManager", function () {
         await page.waitFor('.change-access-confirm-modal');
 
         await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set');
@@ -313,19 +315,23 @@ describe("UsersManager", function () {
             $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
         });
 
-        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no)').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_single_site_access');
     });
 
     it('should set a capability to single site when capability checkbox is clicked', async function () {
-        await page.evaluate(function () {
-            $('.capability-checkbox:not(:checked):not(:disabled):eq(0)').click();
-        });
+        await page.evaluate(() => $('.addCapability:eq(0)').click());
+        await page.evaluate(() => $('.addCapability:eq(0) .expandableListCategory:contains(Tag Manager)').click());
+        await page.evaluate(() => $('.addCapability:eq(0) .expandableListItem:contains(Publish Live Container)').click());
+
         await page.waitFor(250); // animation
 
         await page.evaluate(() => $('.confirmCapabilityToggle .modal-close:not(.modal-no)').click());
+        await page.waitForNetworkIdle();
+
+        await page.waitFor(250); // animation
 
         expect(await page.screenshotSelector('.admin#content')).to.matchImage('permissions_capability_single_site');
     });
@@ -386,6 +392,7 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitFor('.pagedUsersList:not(.loading)');
+        await page.waitFor(500);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });

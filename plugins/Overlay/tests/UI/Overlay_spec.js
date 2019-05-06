@@ -137,6 +137,9 @@ describe("Overlay", function () {
 
         await page.waitFor(2000);
 
+        const frame = page.frames().find(f => f.name() === 'overlayIframe');
+        await frame.waitFor('div.LinkTag');
+
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('loaded_with_segment');
     });

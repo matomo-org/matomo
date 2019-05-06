@@ -137,6 +137,11 @@
                 }
             });
 
+            if (!vm.capabilityToAddOrRemove) {
+                console.log('Could not find capability with ID: ' + vm.capabilityToAddOrRemoveId);
+                return;
+            }
+
             $element.find('.confirmCapabilityToggle').openModal({
                 dismissible: false,
                 yes: function () {
