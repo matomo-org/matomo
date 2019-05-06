@@ -131,16 +131,12 @@
         function onToggleCapability(isAdd) {
             vm.isAddingCapability = isAdd;
 
+            vm.capabilityToAddOrRemove = null;
             vm.availableCapabilities.forEach(function (capability) {
                 if (capability.id === vm.capabilityToAddOrRemoveId) {
                     vm.capabilityToAddOrRemove = capability;
                 }
             });
-
-            if (!vm.capabilityToAddOrRemove) {
-                console.log('Could not find capability with ID: ' + vm.capabilityToAddOrRemoveId);
-                return;
-            }
 
             $element.find('.confirmCapabilityToggle').openModal({
                 dismissible: false,

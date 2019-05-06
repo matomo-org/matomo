@@ -127,7 +127,7 @@ describe("UsersManager", function () {
     });
 
     it('should change access for all rows in search when confirmed', async function () {
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no)')).click();
+        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
@@ -138,7 +138,7 @@ describe("UsersManager", function () {
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
-        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no)')).click();
+        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_remove_access');
@@ -153,7 +153,7 @@ describe("UsersManager", function () {
 
     it('should delete a single user when the modal is confirmed is clicked', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no)')).click();
+        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
@@ -164,7 +164,7 @@ describe("UsersManager", function () {
 
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
-        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no)')).click();
+        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
@@ -221,7 +221,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
         await page.waitFor('.change-access-confirm-modal', { visible: true });
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
@@ -240,7 +240,7 @@ describe("UsersManager", function () {
         await page.waitFor('.change-access-confirm-modal', { visible: true });
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
         await page.waitFor(250); // animation
 
@@ -266,7 +266,7 @@ describe("UsersManager", function () {
 
         await page.waitFor('.change-access-confirm-modal');
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
@@ -300,7 +300,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)', { waitFor: true })).click();
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
 
         await page.evaluate(function () { // remove filter
             $('.access-filter select').val('string:some').change();
@@ -315,7 +315,7 @@ describe("UsersManager", function () {
             $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
         });
 
-        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.userPermissionsEdit .change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_single_site_access');
@@ -328,7 +328,7 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.confirmCapabilityToggle .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.confirmCapabilityToggle .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         await page.waitFor(250); // animation
@@ -355,7 +355,7 @@ describe("UsersManager", function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await (await page.jQuery('.userPermissionsEdit a:contains(Remove Permissions)')).click();
 
-        await page.evaluate(() => $('.delete-access-confirm-modal .modal-close:not(.modal-no)').click());
+        await page.evaluate(() => $('.delete-access-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
@@ -377,7 +377,7 @@ describe("UsersManager", function () {
     });
 
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
-        await page.click('.superuser-confirm-modal .modal-close:not(.modal-no)');
+        await page.click('.superuser-confirm-modal .modal-close:not(.modal-no):visible');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_set');
@@ -422,7 +422,7 @@ describe("UsersManager", function () {
     it('should show error when wrong password entered', async function () {
         await page.type('.modal.open #currentUserPassword', 'test123456');
 
-        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no)');
+        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
         await page.waitFor(250); // animation
 
@@ -494,7 +494,7 @@ describe("UsersManager", function () {
 
         it('should add a user by email when an email is entered', async function () {
             await page.type('input[name="add-existing-user-email"]', '0_login3conchords@example.com');
-            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
@@ -510,7 +510,7 @@ describe("UsersManager", function () {
         it('should add a user by username when a username is entered', async function () {
             await page.click('.add-existing-user');
             await page.type('input[name="add-existing-user-email"]', '10_login8');
-            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show new user
@@ -529,7 +529,7 @@ describe("UsersManager", function () {
         it('should fail if an email/username that does not exist is entered', async function () {
             await page.click('.add-existing-user');
             await page.type('input[name="add-existing-user-email"]', 'sldkjfsdlkfjsdkl');
-            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
 
             await page.evaluate(function () { // show no user added
