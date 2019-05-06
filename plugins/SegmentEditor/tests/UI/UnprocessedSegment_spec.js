@@ -9,7 +9,6 @@
 
 describe("UnprocessedSegmentTest", function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits';
-    this.timeout(0);
 
     var generalParams = 'idSite=1&period=day&date=2010-03-06';
     var segment = 'browserCode==ff';

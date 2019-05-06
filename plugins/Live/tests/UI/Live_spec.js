@@ -72,6 +72,8 @@ describe("Live", function () {
         await page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions');
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+
         var dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('visitor_profile_action_details');
     });
