@@ -499,10 +499,6 @@ class Access
      */
     public function checkUserHasAdminAccess($idSites)
     {
-        if ($this->hasSuperUserAccess()) {
-            return;
-        }
-
         $idSites = $this->getIdSites($idSites);
         $idSitesAccessible = $this->getSitesIdWithAdminAccess();
 
@@ -522,10 +518,6 @@ class Access
      */
     public function checkUserHasViewAccess($idSites)
     {
-        if ($this->hasSuperUserAccess()) {
-            return;
-        }
-
         $idSites = $this->getIdSites($idSites);
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 
@@ -545,10 +537,6 @@ class Access
      */
     public function checkUserHasWriteAccess($idSites)
     {
-        if ($this->hasSuperUserAccess()) {
-            return;
-        }
-
         $idSites = $this->getIdSites($idSites);
         $idSitesAccessible = $this->getSitesIdWithAtLeastWriteAccess();
 
