@@ -81,6 +81,7 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
                         'date' => $this->date,
                         'segment' => $this->segment,
                         'idSubtable' => $typeReferrer,
+                        'disable_generic_filters' => true,
                         'disable_queued_filters' => !$this->expanded
                     ], []);
 

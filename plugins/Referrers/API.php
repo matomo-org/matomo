@@ -150,7 +150,8 @@ class API extends \Piwik\Plugin\API
             'date' => $date,
             'segment' => $segment,
             'expanded' => true,
-            'disable_queued_filters' => true
+            'disable_generic_filters' => true,
+            'disable_queued_filters' => true,
         ], []);
 
         if ($dataTable instanceof DataTable\Map) {
