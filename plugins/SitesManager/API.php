@@ -692,15 +692,15 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->getModel()->createSite($bind);
 
+        // we reload the access list which doesn't yet take in consideration this new website
+        Access::getInstance()->reloadAccess();
+
         if (!empty($coreProperties)) {
             $this->saveMeasurableSettings($idSite, 'website', $coreProperties);
         }
         if (!empty($settingValues)) {
             $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
         }
-
-        // we reload the access list which doesn't yet take in consideration this new website
-        Access::getInstance()->reloadAccess();
 
         $this->postUpdateWebsite($idSite);
 
