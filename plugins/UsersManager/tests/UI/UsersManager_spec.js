@@ -105,7 +105,7 @@ describe("UsersManager", function () {
         await page.mouse.move(0, 0);
         await page.waitFor(100);
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_deselected');
     });
 
     it('should show bulk action confirm when bulk change access option used', async function () {
