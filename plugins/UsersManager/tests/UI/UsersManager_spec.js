@@ -151,7 +151,6 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitFor('.pagedUsersList:not(.loading)');
 
-
         await page.click('.usersListPagination .btn.prev');
         await page.waitForNetworkIdle();
         await page.waitFor('.pagedUsersList:not(.loading)');
@@ -193,7 +192,7 @@ describe("UsersManager", function () {
         await page.type('#user_email', 'theuser@email.com');
 
         await page.click('piwik-user-edit-form .siteSelector a.title');
-        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1)', { waitFor: true })).click();
+        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
         await page.evaluate(() => $('piwik-user-edit-form [piwik-save-button] input').click());
         await page.waitForNetworkIdle();

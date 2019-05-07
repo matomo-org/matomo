@@ -134,7 +134,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 ` an integer, got: ${allOutput.replace(/\s+$/g, '')}`);
 
             // allow a single pixel difference only
-            chai.assert(pixelError <= 1, `images differ in ${pixelError} pixels`);
+            chai.assert(pixelError <= 1, `images differ in ${pixelError} pixels (command output: ${allOutput.replace(/\s+$/g, '')})`);
 
             return result.status === 0;
 
