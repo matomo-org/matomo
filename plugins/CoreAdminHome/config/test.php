@@ -1,6 +1,5 @@
 <?php
 
-use Piwik\Common;
 use \Piwik\Tracker\Request;
 use \Piwik\Tracker\Failures;
 

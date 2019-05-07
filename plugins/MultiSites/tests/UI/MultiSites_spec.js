@@ -48,7 +48,6 @@ describe("MultiSitesTest", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('all_websites');
     });
 
-    // TODO: debug
     it('should load next page correctly', async function() {
         await page.click('.paging .next');
         await page.mouse.move(-10, -10);

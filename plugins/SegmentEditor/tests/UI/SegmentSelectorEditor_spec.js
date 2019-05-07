@@ -234,7 +234,7 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('deleted');
     });
 
-    it('should correctly handle complex segments w/ encoded characters and whitespace', async function () {
+    it('should correctly handle complex segments with encoded characters and whitespace', async function () {
         await page.goto(url);
 
         await page.click('.segmentationContainer .title');
@@ -278,7 +278,7 @@ describe("SegmentSelectorEditorTest", function () {
         });
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget');
+        await page.waitFor('.dataTable');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot()).to.matchImage('complex_segment');

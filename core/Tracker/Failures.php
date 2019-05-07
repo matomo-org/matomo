@@ -136,14 +136,12 @@ class Failures
 
     public function deleteTrackingFailure($idSite, $idFailure)
     {
-        file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "deleting failure\n", FILE_APPEND);
         PiwikDb::query(sprintf('DELETE FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed), array($idSite, $idFailure));
     }
 
     public function deleteTrackingFailures($idSites)
     {
         if (!empty($idSites)) {
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "deleting failures\n", FILE_APPEND);
             $idSites = array_map('intval', $idSites);
             $idSites = implode(',', $idSites);
             PiwikDb::query(sprintf('DELETE FROM %s WHERE idsite IN(%s)', $this->tablePrefixed, $idSites));
@@ -152,7 +150,6 @@ class Failures
 
     public function deleteAllTrackingFailures()
     {
-        file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "deleting all failure\n", FILE_APPEND);
         PiwikDb::query(sprintf('DELETE FROM %s', $this->tablePrefixed));
     }
 

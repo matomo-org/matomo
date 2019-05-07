@@ -52,8 +52,7 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitFor(500); // wait for rendering
 
-        const elem = await page.$('.usersManager');
-        expect(await elem.screenshot()).to.matchImage('filters');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('filters');
     });
 
     it('should display access for a different site when the roles for select is changed', async function () {
@@ -153,6 +152,8 @@ describe("UsersManager", function () {
 
         await page.click('.usersListPagination .btn.prev');
         await page.waitForNetworkIdle();
+
+        await page.mouse.move(-10, -10);
         await page.waitFor('.pagedUsersList:not(.loading)');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
