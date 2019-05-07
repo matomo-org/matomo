@@ -226,8 +226,6 @@ class API extends \Piwik\Plugin\API
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $failures = $this->trackingFailures->getAllFailures();
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', "failures 1\n", FILE_APPEND);
-            file_put_contents(PIWIK_INCLUDE_PATH . '/test.out', print_r($failures, true), FILE_APPEND);
         } else {
             Piwik::checkUserHasSomeAdminAccess();
             $idSites = Access::getInstance()->getSitesIdWithAdminAccess();

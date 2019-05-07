@@ -68,9 +68,11 @@ describe("TrackingFailures", function () {
 
     it('should show delete when confirmed', async function () {
         await confirmModal();
-        await page.waitFor(250);
+        await page.waitForNetworkIdle();
 
         await page.waitFor('.matomoTrackingFailures td .icon-delete');
+
+        await page.waitFor(250); // animation
 
         const elem = await page.$('.matomoTrackingFailures');
         expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');

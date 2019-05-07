@@ -50,7 +50,11 @@ describe("Marketplace", function () {
     async function captureMarketplace(screenshotName, selector)
     {
         if (!selector) {
-            selector = '';
+            await page.waitForNetworkIdle();
+
+            const element = await page.$('.marketplace');
+            expect(await element.screenshot()).to.matchImage(screenshotName);
+            return;
         }
 
         await captureSelector(screenshotName, '.marketplace' + selector);

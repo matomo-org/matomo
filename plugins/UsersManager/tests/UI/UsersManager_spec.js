@@ -418,6 +418,8 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
+        await page.click('.modal.open h2'); // remove focus from input for screenshot
+
         const elem = await page.$('.modal.open');
         expect(await elem.screenshot()).to.matchImage('edit_user_basic_asks_confirmation');
     });
@@ -427,7 +429,10 @@ describe("UsersManager", function () {
 
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
+
         await page.waitFor(250); // animation
+        await page.waitForNetworkIdle();
+        await page.waitFor('#notificationContainer .notification');
 
         expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
@@ -504,9 +509,12 @@ describe("UsersManager", function () {
             await page.evaluate(function () { // show new user
                 $('#user-text-filter').val('0_login3conchords@example.com').change();
             });
-            await page.waitFor(250);
+
+            await page.mouse.move(-10, -10);
+
             await page.waitForNetworkIdle();
-            await page.waitFor(250);
+            await page.waitFor('.pagedUsersList:not(.loading)');
+            await page.waitFor(500); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_email');
         });
@@ -514,6 +522,7 @@ describe("UsersManager", function () {
         it('should add a user by username when a username is entered', async function () {
             await page.click('.add-existing-user');
             await page.waitFor('.add-existing-user-modal');
+            await page.evaluate(() => $('input[name="add-existing-user-email"]').val('').change());
             await page.type('input[name="add-existing-user-email"]', '10_login8');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
             await page.waitForNetworkIdle();
@@ -524,15 +533,16 @@ describe("UsersManager", function () {
 
             await page.mouse.move(-10, -10);
 
-            await page.waitFor(250);
             await page.waitForNetworkIdle();
-            await page.waitFor(250);
+            await page.waitFor('.pagedUsersList:not(.loading)');
+            await page.waitFor(500); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_login');
         });
 
         it('should fail if an email/username that does not exist is entered', async function () {
             await page.click('.add-existing-user');
+            await page.evaluate(() => $('input[name="add-existing-user-email"]').val('').change());
             await page.type('input[name="add-existing-user-email"]', 'sldkjfsdlkfjsdkl');
             await page.waitFor('.add-existing-user-modal');
             await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no):visible')).click();
@@ -544,9 +554,9 @@ describe("UsersManager", function () {
 
             await page.mouse.move(-10, -10);
 
-            await page.waitFor(250);
             await page.waitForNetworkIdle();
-            await page.waitFor(250);
+            await page.waitFor('.pagedUsersList:not(.loading)');
+            await page.waitFor(500); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_not_exists');
         });
