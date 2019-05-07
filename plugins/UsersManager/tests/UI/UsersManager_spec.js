@@ -143,8 +143,18 @@ describe("UsersManager", function () {
     });
 
     it('should go back to first page when previous button is clicked', async function () {
+        await page.click('.usersListPagination .btn.next');
+        await page.waitForNetworkIdle();
+        await page.waitFor('.pagedUsersList:not(.loading)');
+
+        await page.click('.usersListPagination .btn.next');
+        await page.waitForNetworkIdle();
+        await page.waitFor('.pagedUsersList:not(.loading)');
+
+
         await page.click('.usersListPagination .btn.prev');
         await page.waitForNetworkIdle();
+        await page.waitFor('.pagedUsersList:not(.loading)');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
