@@ -72,7 +72,7 @@ describe("Login", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });
-return;
+
     it("should redirect to Matomo when correct credentials are supplied", async function() {
         await page.type("#login_form_login", "superUserLogin");
         await page.type("#login_form_password", "superUserPass");
