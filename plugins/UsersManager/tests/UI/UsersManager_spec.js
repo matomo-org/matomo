@@ -50,7 +50,7 @@ describe("UsersManager", function () {
             $('#user-text-filter').val('ight').change();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(500); // wait for rendering
+        await page.waitFor(1000); // wait for rendering
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('filters');
     });
@@ -261,10 +261,9 @@ describe("UsersManager", function () {
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
         await page.mouse.move(-10, -10);
-        await page.waitFor(500); // for checkbox animations
+        await page.waitFor(1000); // for checkbox animations
 
-        pageWrap = await page.$('.usersManager');
-        expect(await pageWrap.screenshot()).to.matchImage('permissions_select_multiple');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_multiple');
     });
 
     it('should set access to selected sites when set bulk access is used', async function () {
@@ -404,7 +403,7 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitFor('.pagedUsersList:not(.loading)');
-        await page.waitFor(500);
+        await page.waitFor(1000); // rendering
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
