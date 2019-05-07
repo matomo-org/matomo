@@ -235,7 +235,9 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
                 url = this.baseUrl + url;
             }
             args[0] = url;
+        }
 
+        if (methodName === 'goto' || methodName === 'reload') {
             if (typeof args[1] === 'object') {
                 args[1].timeout = 0;
             } else {

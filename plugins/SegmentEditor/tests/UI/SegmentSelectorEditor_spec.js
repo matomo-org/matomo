@@ -202,10 +202,9 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
 
-        await page.waitFor('.modal.open');
+        await page.waitFor('.segmentListContainer .metricValueBlock');
 
-        const modal = await page.$('.modal.open');
-        expect(await modal.screenshot()).to.matchImage('updated_details');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
     });
 
     it("should correctly show delete dialog when the delete link is clicked", async function() {

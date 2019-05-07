@@ -342,13 +342,12 @@ describe("UsersManager", function () {
     it('should remove access to displayed rows when remove bulk access is clicked', async function () {
         // remove filters
         await page.evaluate(function () {
-            $('div.site-filter>input').val('').change();
-            $('.access-filter select').val('string:').change();
+            $('.userPermissionsEdit div.site-filter>input').val('').change();
+            $('.userPermissionsEdit .access-filter select').val('string:some').change();
         });
 
         await page.waitForNetworkIdle();
-        await page.waitFor('#perm_edit_select_all', { visible: true });
-        await page.click('#perm_edit_select_all');
+        await page.click('label[for=perm_edit_select_all]');
 
         await page.waitFor('.userPermissionsEdit tr.select-all-row a');
         await page.click('.userPermissionsEdit tr.select-all-row a');
@@ -373,7 +372,7 @@ describe("UsersManager", function () {
 
     it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
         await page.click('.userEditForm #superuser_access+label');
-        await page.waitFor(250);
+        await page.waitFor(500);
 
         const elem = await page.$('.superuser-confirm-modal');
         expect(await elem.screenshot()).to.matchImage('superuser_confirm');
@@ -382,6 +381,7 @@ describe("UsersManager", function () {
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
         await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
+        await page.waitFor(500);
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_set');
     });
@@ -416,7 +416,7 @@ describe("UsersManager", function () {
         var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn', { waitFor: true });
         await btnSave.click();
 
-        await page.waitFor(250); // animation
+        await page.waitFor(500); // animation
 
         await page.click('.modal.open h2'); // remove focus from input for screenshot
 
@@ -430,7 +430,7 @@ describe("UsersManager", function () {
         var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no):visible');
         await btnNo.click();
 
-        await page.waitFor(250); // animation
+        await page.waitFor(500); // animation
         await page.waitForNetworkIdle();
         await page.waitFor('#notificationContainer .notification');
 

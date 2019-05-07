@@ -25,7 +25,7 @@ describe("Overlay", function () {
         hash = '#?l=' + encodeURIComponent(testEnvironment.overlayUrl).replace(/[%]/g, "$");
 
         url = baseUrl + hash;
-        urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==20.56.34.67') + hash;
+        urlWithSegment = baseUrl + '&segment=' + encodeURIComponent('visitIp==50.112.3.5') + hash;
 
         await testEnvironment.callApi("SitesManager.addSiteAliasUrls", {idSite: 3, urls: [config.piwikUrl]});
     });
@@ -126,6 +126,7 @@ describe("Overlay", function () {
         await page.click('button.ui-dialog-titlebar-close');
         await page.click('#overlayTransitions');
         await page.waitForNetworkIdle();
+        await page.waitFor(2000);
 
         await removeOptOutIframe();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('transitions');
