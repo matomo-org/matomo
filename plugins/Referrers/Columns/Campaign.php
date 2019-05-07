@@ -48,6 +48,9 @@ class Campaign extends Base
 
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
+        // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.
+        // if the current referrer is 'direct entry', however. we assume the referrer information was sent in a later request, and
+        // we just update the existing referrer information instead of creating a visit.
         if ($information['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN
             && $this->isReferrerInformationNew($visitor, $information)
             && !$this->isCurrentReferrerDirectEntry($visitor)

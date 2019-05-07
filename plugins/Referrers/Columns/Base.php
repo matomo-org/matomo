@@ -111,9 +111,7 @@ abstract class Base extends VisitDimension
             $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
             $directEntry = new SiteUrls();
-            if ($this->isSiteHasNoUrls($idSite)) {
-                $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
-            }
+            $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
 
             $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
             if (!empty($path) && $path !== '/') {
@@ -350,9 +348,7 @@ abstract class Base extends VisitDimension
         $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
         $directEntry   = new SiteUrls();
-        if ($this->isSiteHasNoUrls($request->getIdSite())) {
-            $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
-        }
+        $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
 
         $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
@@ -615,12 +611,5 @@ abstract class Base extends VisitDimension
     {
         $referrerType = $visitor->getVisitorColumn('referer_type');
         return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
-    }
-
-    private function isSiteHasNoUrls($idSite)
-    {
-        $info = Cache::getCacheWebsiteAttributes($idSite);
-        $urls = array_filter($info['urls']);
-        return empty($urls);
     }
 }
