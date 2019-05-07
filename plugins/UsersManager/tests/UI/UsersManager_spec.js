@@ -259,6 +259,7 @@ describe("UsersManager", function () {
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(0)')).click();
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
         await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
+        await page.mouse.move(-10, -10);
         await page.waitFor(500); // for checkbox animations
 
         pageWrap = await page.$('.usersManager');
@@ -521,7 +522,7 @@ describe("UsersManager", function () {
 
             await page.waitForNetworkIdle();
             await page.waitFor('.pagedUsersList:not(.loading)');
-            await page.waitFor(500); // for opacity to change
+            await page.waitFor(1000); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_email');
         });
@@ -542,7 +543,7 @@ describe("UsersManager", function () {
 
             await page.waitForNetworkIdle();
             await page.waitFor('.pagedUsersList:not(.loading)');
-            await page.waitFor(500); // for opacity to change
+            await page.waitFor(1000); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_login');
         });
@@ -563,7 +564,7 @@ describe("UsersManager", function () {
 
             await page.waitForNetworkIdle();
             await page.waitFor('.pagedUsersList:not(.loading)');
-            await page.waitFor(500); // for opacity to change
+            await page.waitFor(1000); // for opacity to change
 
             expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_not_exists');
         });

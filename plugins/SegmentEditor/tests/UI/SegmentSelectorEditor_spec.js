@@ -138,6 +138,7 @@ describe("SegmentSelectorEditorTest", function () {
             $('button.saveAndApply').click();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor('.segmentationContainer');
 
         await page.click('.segmentationContainer');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
@@ -276,6 +277,8 @@ describe("SegmentSelectorEditorTest", function () {
             $('button.saveAndApply').click();
         });
 
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot()).to.matchImage('complex_segment');
