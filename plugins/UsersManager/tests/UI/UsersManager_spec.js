@@ -46,16 +46,14 @@ describe("UsersManager", function () {
 
     it('should filter by username and access level when the inputs are filled', async function () {
         await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:view').change();
             $('#user-text-filter').val('ight').change();
         });
         await page.waitForNetworkIdle();
-        await page.evaluate(function () {
-            $('select[name=access-level-filter]').val('string:view').change();
-        });
-        await page.waitForNetworkIdle();
-        await page.waitFor(200); // wait for rendering
+        await page.waitFor(500); // wait for rendering
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('filters');
+        const elem = await page.$('.usersManager');
+        expect(await elem.screenshot()).to.matchImage('filters');
     });
 
     it('should display access for a different site when the roles for select is changed', async function () {

@@ -374,7 +374,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await elem.hover();
 
         await page.waitForSelector('.columnDocumentation', { visible: true });
-        await page.waitFor(100);
+        await page.waitFor(500);
 
         elem = await page.$('.columnDocumentation');
         expect(await elem.screenshot()).to.matchImage('metric_tooltip');
