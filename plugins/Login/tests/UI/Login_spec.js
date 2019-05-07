@@ -69,6 +69,7 @@ describe("Login", function () {
         });
         await page.waitForNetworkIdle();
         await page.mouse.click(0, 0);
+        await page.waitFor('.notification');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });
@@ -119,6 +120,7 @@ describe("Login", function () {
         await page.type("#reset_form_password", "superUserPass2");
         await page.click("#reset_form_submit");
         await page.waitForNetworkIdle();
+        await page.waitFor('.notification');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
@@ -177,7 +179,7 @@ describe("Login", function () {
         expect(await element.screenshot()).to.matchImage('ip_not_whitelisted');
     });
 
-    it("should show brute force log url when there are no entries", function (done) {
+    it("should show brute force log url when there are no entries", async function () {
         testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.queryParamOverride;
         delete testEnvironment.bruteForceBlockThisIp;
@@ -185,44 +187,44 @@ describe("Login", function () {
         testEnvironment.overrideConfig('General', 'login_whitelist_ip', []);
         testEnvironment.save();
 
-        expect.screenshot("bruteforcelog_noentries").to.be.capture(function (page) {
-            page.load(bruteForceLogUrl);
-        }, done);
+        await page.goto(bruteForceLogUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_noentries');
     });
 
-    it("should show brute force log url when there are entries", function (done) {
+    it("should show brute force log url when there are entries", async function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.bruteForceBlockIps = 1;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
 
-        expect.screenshot("bruteforcelog_withentries").to.be.capture(function (page) {
-            page.load(bruteForceLogUrl);
-        }, done);
+        await page.goto(bruteForceLogUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_withentries');
     });
 
-    it("should show error when trying to attempt a log in through API", function (done) {
+    it("should show error when trying to attempt a log in through API", async function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
 
-        expect.screenshot("bruteforcelog_blockedapi").to.be.capture(function (page) {
-            page.load(apiAuthUrl);
-        }, done);
+        await page.goto(apiAuthUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_blockedapi');
     });
 
-    it("should show error when trying to log in through logme", function (done) {
+    it("should show error when trying to log in through logme", async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
 
-        expect.screenshot("bruteforcelog_blockedlogme").to.be.capture(function (page) {
-            page.load(formlessLoginUrl);
-        }, done);
+        await page.goto(formlessLoginUrl);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_blockedlogme');
     });
 });
