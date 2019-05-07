@@ -35,6 +35,40 @@ env:
 matrix:
   fast_finish: true
   include:
+    # PDO Mysql
+    - php: 5.6
+      env: TEST_SUITE=SystemTestsCore MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+      sudo: false
+      addons: false
+    # Javascript tests
+    - php: 5.6
+      env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
+      sudo: false
+      addons:
+        apt:
+          packages:
+            - nginx
+            - realpath
+    - php: 5.6
+      env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      sudo: false
+      addons: false
+    # All tests after another
+    - php: 7.3
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
+      sudo: required
+    - php: 7.3
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
+      sudo: required
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
     - php: 5.5.33
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
@@ -59,13 +93,10 @@ install:
   - ./tests/travis/configure_git.sh
 
   # travis now complains about this failing 9 times out of 10, so removing it
-  - travis_retry composer self-update
-  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
+  #- travis_retry composer self-update
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install' 
+ 
 
-  - nvm install 8 && nvm use 8
-  - cd ./tests/lib/screenshot-testing
-  - npm install
-  - cd $PIWIK_ROOT_DIR
 
 before_script:
   - phpenv config-rm xdebug.ini
