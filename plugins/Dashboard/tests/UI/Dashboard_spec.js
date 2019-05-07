@@ -87,7 +87,7 @@ describe("Dashboard", function () {
 
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_refresh');
     });
 
     it("should minimise widget when widget minimise icon clicked", async function() {
@@ -104,7 +104,7 @@ describe("Dashboard", function () {
         await page.click('.button#maximise');
         await page.mouse.move(-10, -10);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unminimise');
     });
 
     it("should maximise widget when widget maximise icon is clicked", async function() {
@@ -120,7 +120,7 @@ describe("Dashboard", function () {
         await widget.hover();
         await page.click('.button#minimise');
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_unmaximise');
     });
 
     it("should add a widget when a widget is selected in the dashboard manager", async function() {
