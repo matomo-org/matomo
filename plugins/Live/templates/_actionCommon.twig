@@ -24,7 +24,12 @@
             {% else %}
                 <a href="{{ action.url|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank"
                    class="action-list-url truncated-text-line">
-                    {{ action.url|replace({'http://': '', 'https://': ''}) }}
+                    {% if not additionalUrls|length %}
+                        {# remove main url from urls if site has no additional urls defined #}
+                        {{ action.url|replace({(mainUrl~'/'): '/', 'http://': '', 'https://': ''}) }}
+                    {% else %}
+                        {{ action.url|replace({'http://': '', 'https://': ''}) }}
+                    {% endif %}
                 </a>
             {% endif %}
             {% if action.type == 'action' and action.pageTitle|default(false) is not empty %}</p>{% endif %}

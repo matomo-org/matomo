@@ -705,6 +705,7 @@ abstract class Controller
         $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
         $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
         $view->superUserEmails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
+        $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']

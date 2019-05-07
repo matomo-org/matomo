@@ -39,6 +39,7 @@ class BlobReportLimitingTest extends SystemTestCase
     {
         $apiToCall = array(
             'Actions.getPageUrls', 'Actions.getPageTitles', 'Actions.getDownloads', 'Actions.getOutlinks',
+            'Actions.getSiteSearchKeywords',
             'CustomVariables.getCustomVariables',
             'Referrers.getReferrerType', 'Referrers.getKeywords', 'Referrers.getSearchEngines',
             'Referrers.getWebsites', 'Referrers.getAll', /* TODO 'Referrers.getCampaigns', */
@@ -109,6 +110,8 @@ class BlobReportLimitingTest extends SystemTestCase
      */
     public function testApiWithFlattening($apiToCall, $params)
     {
+        self::setUpConfigOptions();
+
         if (empty($params['testSuffix'])) {
             $params['testSuffix'] = '';
         }
@@ -152,6 +155,7 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 500;
         $generalConfig['archiving_ranking_query_row_limit'] = 0;
+        $generalConfig['datatable_archiving_maximum_rows_site_search'] = 500;
 
         foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
@@ -181,6 +185,8 @@ class BlobReportLimitingTest extends SystemTestCase
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 3;
         $generalConfig['archiving_ranking_query_row_limit'] = 50000;
+        // Should be more than the datatable_archiving_maximum_rows_actions as code will take the max of these two 
+        $generalConfig['datatable_archiving_maximum_rows_site_search'] = 5;
     }
 }
 

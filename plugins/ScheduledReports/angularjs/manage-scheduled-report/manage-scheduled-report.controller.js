@@ -177,6 +177,10 @@
             resetParameters(this.report.type, this.report);
         };
 
+        this.displayReport = function (reportId) {
+            $('#downloadReportForm_' + reportId).submit();
+        };
+
         // Email now
         this.sendReportNow = function (idReport) {
             var ajaxHandler = getReportAjaxRequest(idReport, 'ScheduledReports.sendReport');

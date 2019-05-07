@@ -52,14 +52,6 @@ class GeoIP2AutoUpdater extends Task
     );
 
     /**
-     * PHP Error caught through a custom error handler while trying to use a downloaded
-     * GeoIP 2 database. See catchGeoIPError for more info.
-     *
-     * @var array
-     */
-    private static $unzipPhpError = null;
-
-    /**
      * Constructor.
      */
     public function __construct()
@@ -527,7 +519,7 @@ class GeoIP2AutoUpdater extends Task
             } catch (\Exception $e) {
                 if($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
-                        . "%s database: %s: %s", $type, $e->getMessage());
+                        . "%s database: %s", $type, $e->getMessage());
                 }
 
                 // get the current filename for the DB and an available new one to rename it to
@@ -565,27 +557,6 @@ class GeoIP2AutoUpdater extends Task
         }
 
         return array($pathToDb, $newPath);
-    }
-
-    /**
-     * Custom PHP error handler used to catch any PHP errors that occur when
-     * testing a downloaded GeoIP 2 file.
-     *
-     * If we download a file that is supposed to be a GeoIP 2 database, we need to make
-     * sure it is one. This is done simply by attempting to use it. If this fails, it
-     * will most of the time fail as a PHP error, which we catch w/ this function
-     * after it is passed to set_error_handler.
-     *
-     * The PHP error is stored in self::$unzipPhpError.
-     *
-     * @param int $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int $errline
-     */
-    public static function catchGeoIPError($errno, $errstr, $errfile, $errline)
-    {
-        self::$unzipPhpError = array($errno, $errstr, $errfile, $errline);
     }
 
     /**
