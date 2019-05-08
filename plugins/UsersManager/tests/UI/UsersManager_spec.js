@@ -136,6 +136,7 @@ describe("UsersManager", function () {
         await page.click('.bulk-actions.btn');
         await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
         await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no):visible')).click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_remove_access');
@@ -263,7 +264,7 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitFor(1000); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+        expect(await (await page.$('.usersManager')).screenshot().to.matchImage({
             imageName: 'permissions_select_multiple',
             comparisonThreshold: 0.0005,
         });
