@@ -43,7 +43,8 @@
                             {% endif %}
                                 <h3 style="color:#4183C4;font-weight: bold;">{{ entry.name }}</h3>
                                 {% if entry.subtitle|default is not empty %}<p style="color:#999;text-transform:uppercase;font-weight:normal;margin-top:-16px;">{{ entry.subtitle|translate }}</p>{% endif %}
-                                <p>{{ entry.documentation|raw }}
+                                <p>
+                                    <span ng-bind-html="{{ entry.documentation|json_encode|e('html_attr') }}"></span>
 
                                     {% if entry.id is defined %}
                                         <br/><span style="color: #bbb;">{{ entry.id }}{% if keyword == 'metrics' or entry.is_metric|default %} (API){% endif %}</span>
