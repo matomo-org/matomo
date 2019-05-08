@@ -1,0 +1,15 @@
+<div class="feedbackPopup" ng-controller="FeedbackPopupController">
+    <div class="ui-confirm" 
+         piwik-dialog="feedbackPopup.dialog.show" 
+         yes="feedbackPopup.remindMeLater()" 
+         no="feedbackPopup.dontShowAgain()"
+    >
+
+        <h2>Your Feedback Please</h2>
+
+        <p>Please help us spread the word by rating Matomo on ...</p>
+
+        <input type="button" value="Remind me later" role="yes"/>
+        <input type="button" value="Never ask me again" role="no" />
+    </div>
+</div>

@@ -37,6 +37,8 @@ class Feedback extends \Piwik\Plugin
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature-model.service.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.controller.js";
         $jsFiles[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.controller.js";
+        $jsFiles[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
