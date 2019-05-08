@@ -102,13 +102,14 @@ describe("Login", function () {
         });
 
         // check dashboard is shown
-        await page.waitForSelector('#dashboard');
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#dashboard');
     });
 
     it("should display password reset form when forgot password link clicked", async function() {
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
+        await page.waitFor("a#login_form_nav");
         await page.click("a#login_form_nav");
         await page.waitForNetworkIdle();
 
@@ -139,8 +140,14 @@ describe("Login", function () {
 
     it("should reset password when password reset link is clicked", async function() {
         var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
-            mailSent = JSON.parse(require("fs").readFileSync(expectedMailOutputFile)),
-            resetUrl = mailSent.contents.match(/http:\/\/.*/)[0];
+            fileContents = require("fs").readFileSync(expectedMailOutputFile),
+            mailSent = JSON.parse(fileContents),
+            resetUrl = mailSent.contents.match(/http:\/\/[^\s]+resetToken[^\s]+<\/p>/);
+
+        if (!resetUrl || !resetUrl[0]) {
+            throw new Error(`Could not find reset URL in email, captured mail info: ${fileContents}`)
+        }
+        resetUrl = resetUrl[0].replace(/<\/p>$/, '');
 
         await page.goto(resetUrl);
         await page.waitForNetworkIdle();
@@ -156,17 +163,18 @@ describe("Login", function () {
         });
 
         // check dashboard is shown
-        await page.waitForSelector('#dashboard');
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#dashboard');
     });
 
     it("should login successfully when formless login used", async function() {
         await page.click("nav .right .icon-sign-out");
+        await page.waitForNetworkIdle();
         await page.goto(formlessLoginUrl);
 
         // check dashboard is shown
-        await page.waitForSelector('#dashboard');
         await page.waitForNetworkIdle();
+        await page.waitForSelector('#dashboard');
     });
 
     it('should not show login page when ips whitelisted and ip is not matching', async function() {

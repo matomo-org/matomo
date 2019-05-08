@@ -112,7 +112,7 @@ PageRenderer.prototype._reset = function () {
 
 PageRenderer.prototype.isVisible = function (selector) {
     return this.webpage.evaluate(() => {
-        return $(selector).is(':visible');
+        return jQuery(selector).is(':visible');
     });
 };
 
@@ -121,12 +121,12 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
 
     ++this.selectorMarkerClass;
 
-    await this.waitFor(() => !! window.$);
+    await this.waitFor(() => !! window.jQuery);
 
     if (options.waitFor) {
         try {
             await this.waitFor((selector) => {
-                return !!$(selector).length;
+                return !!jQuery(selector).length;
             }, {}, selector);
         } catch (err) {
             err.message += " (selector = " + selector + ")";
@@ -135,7 +135,7 @@ PageRenderer.prototype.jQuery = async function (selector, options = {}) {
     }
 
     await this.webpage.evaluate((selectorMarkerClass, s) => {
-        $(s).addClass(selectorMarkerClass);
+        jQuery(s).addClass(selectorMarkerClass);
     }, selectorMarkerClass, selector);
 
     return await this.webpage.$('.' + selectorMarkerClass);
@@ -163,13 +163,13 @@ PageRenderer.prototype.screenshotSelector = async function (selector) {
             var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
 
             element.each(function (index, node) {
-                if (!$(node).is(':visible')) {
+                if (!jQuery(node).is(':visible')) {
                     return;
                 }
 
-                var rect = $(node).offset();
-                rect.width = $(node).outerWidth();
-                rect.height = $(node).outerHeight();
+                var rect = jQuery(node).offset();
+                rect.width = jQuery(node).outerWidth();
+                rect.height = jQuery(node).outerHeight();
                 rect.right = rect.left + rect.width;
                 rect.bottom = rect.top + rect.height;
 
@@ -325,7 +325,7 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         this.webpage.evaluate(function () {
             var $ = window.jQuery;
             if ($) {
-                $('html').addClass('uiTest');
+                jQuery('html').addClass('uiTest');
                 $.fx.off = true;
             }
         });

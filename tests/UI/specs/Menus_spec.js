@@ -21,6 +21,7 @@ describe("Menus", function () {
     // main menu tests
     it('should load the main reporting menu correctly', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+        await page.waitFor('#secondNavBar');
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded');
@@ -43,6 +44,7 @@ describe("Menus", function () {
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
+        await page.waitFor('#secondNavBar');
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('admin_loaded');
@@ -61,6 +63,7 @@ describe("Menus", function () {
     it('should load the admin reporting menu correctly', async function() {
         page.webpage.setViewport({ width: 768, height: 512 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
+        await page.waitFor('.pageWrap');
         await page.evaluate(function(){
             $('.activateTopMenu').click();
         });
