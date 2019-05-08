@@ -153,6 +153,8 @@ class UITestFixture extends SqlDump
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
+        print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
+
         $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
         $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();

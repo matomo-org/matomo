@@ -113,6 +113,7 @@ describe("Overlay", function () {
         await page.evaluate(function(){
             $('#overlayRowEvolution').click();
         });
+        await page.waitFor(500); // for modal to appear
         await page.waitForNetworkIdle();
         await page.evaluate(function () {
             $('.jqplot-xaxis').hide(); // xaxis will change every day so hide it
@@ -124,6 +125,7 @@ describe("Overlay", function () {
 
     it("should open transitions popup when transitions link clicked", async function() {
         await page.click('button.ui-dialog-titlebar-close');
+        await page.waitFor('#overlayTransitions');
         await page.click('#overlayTransitions');
         await page.waitForNetworkIdle();
         await page.waitFor(2000);
@@ -150,6 +152,7 @@ describe("Overlay", function () {
         testEnvironment.overrideConfig('General', 'enable_framed_pages', 1);
         testEnvironment.save();
 
+        console.log(`[Note: token auth is ${testEnvironment.tokenAuth}]`);
         await page.goto(baseUrl + '&token_auth=' + testEnvironment.tokenAuth + hash);
         await page.waitFor('.overlayMainMetrics,.overlayNoData');
 
