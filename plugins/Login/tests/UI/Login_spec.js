@@ -61,6 +61,8 @@ describe("Login", function () {
     it("should load correctly", async function() {
         await page.goto("");
         await page.waitForNetworkIdle();
+        await page.waitFor('input');
+        await page.mouse.click(0, 0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
@@ -72,8 +74,8 @@ describe("Login", function () {
             $('#login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        await page.mouse.click(0, 0);
         await page.waitFor('.notification');
+        await page.mouse.click(0, 0);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });

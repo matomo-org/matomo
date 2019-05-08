@@ -157,14 +157,13 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
         }
 
         function getImageDimensions(imagePath) {
-            // NOTE: this method assumes 'magick' exists if 'compare' exists
+            // NOTE: this method assumes 'identify' exists if 'compare' exists
 
             const commandArgs = [
-                'identify',
                 imagePath,
             ];
 
-            const result = spawnSync('magick', commandArgs);
+            const result = spawnSync('identify', commandArgs);
             const allOutput = (result.stdout || '').toString() + (result.stderr || '').toString();
 
             chai.assert(result.status === 0, `magick command failed, output: ${allOutput}`);
