@@ -21,7 +21,7 @@ describe("Menus", function () {
     // main menu tests
     it('should load the main reporting menu correctly', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
-        await page.waitFor('#secondNavBar');
+        await page.waitFor('#secondNavBar', { visible: true });
 
         const element = await page.jQuery('#secondNavBar');
         expect(await element.screenshot()).to.matchImage('mainmenu_loaded');
