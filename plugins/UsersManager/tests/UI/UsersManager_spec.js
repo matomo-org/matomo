@@ -263,7 +263,10 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitFor(1000); // for checkbox animations
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_multiple');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+            imageName: 'permissions_select_multiple',
+            comparisonThreshold: 0.0005,
+        });
     });
 
     it('should set access to selected sites when set bulk access is used', async function () {

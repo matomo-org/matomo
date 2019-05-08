@@ -133,27 +133,54 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
                 ` an integer, got: ${allOutput.replace(/\s+$/g, '')}`);
 
+            if (result.status !== 0) {
+                return false;
+            }
+
+            if (pixelError === 0) {
+                return true;
+            }
+
+            if (comparisonThreshold) {
+                const { imageWidth, imageHeight } = getImageDimensions(expectedPath);
+                const area = imageWidth * imageHeight;
+                const percentDifference = pixelError / area;
+
+                chai.assert(percentDifference <= comparisonThreshold, `images differ by ${(percentDifference * 100).toFixed(2)}%, `
+                    + `which is greater than threshold ${(comparisonThreshold * 100).toFixed(2)}% (command output: ${allOutput.replace(/\s+$/g, '')})`);
+            }
+
             // allow a 10 pixel difference only
             chai.assert(pixelError <= 10, `images differ in ${pixelError} pixels (command output: ${allOutput.replace(/\s+$/g, '')})`);
 
-            return result.status === 0;
+            return true;
+        }
 
-            if (comparisonThreshold) {
-                // TODO: comparisonThreshold not implemented
-                /*
-                isSame = misMatchPercentage <= 100 * (1 - comparisonThreshold);
+        function getImageDimensions(imagePath) {
+            // NOTE: this method assumes 'magick' exists if 'compare' exists
 
-                // we use image magick only for exact match comparison, if there is a threshold we now check if this one fails
-                resemble("file://" + processedScreenshotPath).compareTo("file://" + expectedScreenshotPath).onComplete(function(data) {
-                    if (!screenshotMatches(data.misMatchPercentage)) {
-                        fail(testFailure + ". (mismatch = " + data.misMatchPercentage + ")");
-                        return;
-                    }
+            const commandArgs = [
+                'identify',
+                imagePath,
+            ];
 
-                    pass();
-                });
-                */
-            }
+            const result = spawnSync('magick', commandArgs);
+            const allOutput = result.stdout.toString() + result.stderr.toString();
+
+            chai.assert(result.status === 0, `magick command failed, output: ${allOutput}`);
+
+            const dimensions = allOutput.split(' ')[2];
+            const [ imageWidth, imageHeight ] = dimensions.split('x');
+
+            const dimsObj = {
+                imageWidth: parseInt(imageWidth),
+                imageHeight: parseInt(imageHeight),
+            };
+
+            chai.assert(!isNaN(dimsObj.imageWidth) && !isNaN(dimsObj.imageHeight),
+                `Could not parse dimensions in magick output. Output: ${allOutput}`);
+
+            return dimsObj;
         }
     };
 };
