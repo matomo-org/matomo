@@ -264,7 +264,7 @@ describe("UsersManager", function () {
         await page.mouse.move(-10, -10);
         await page.waitFor(1000); // for checkbox animations
 
-        expect(await (await page.$('.usersManager')).screenshot().to.matchImage({
+        expect(await (await page.$('.usersManager')).screenshot()).to.matchImage({
             imageName: 'permissions_select_multiple',
             comparisonThreshold: 0.0005,
         });
