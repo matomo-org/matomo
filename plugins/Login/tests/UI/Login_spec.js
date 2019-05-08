@@ -15,10 +15,12 @@ describe("Login", function () {
         bruteForceLogUrl = "?module=Login&action=bruteForceLog",
         apiAuthUrl = "?module=API&method=UsersManager.getTokenAuth&format=json&userLogin=ovliverqueen&md5Password=" + md5Pass;
 
-    before(function () {
+    before(async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.queryParamOverride = {date: "2012-01-01", period: "year"};
         testEnvironment.save();
+
+        await page.clearCookies();
     });
 
     beforeEach(function () {
@@ -27,12 +29,14 @@ describe("Login", function () {
         testEnvironment.save();
     });
 
-    after(function () {
+    after(async function () {
         testEnvironment.testUseMockAuth = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.bruteForceBlockThisIp;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
+
+        await page.clearCookies();
     });
 
     afterEach(function () {

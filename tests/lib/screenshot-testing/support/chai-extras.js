@@ -165,7 +165,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             ];
 
             const result = spawnSync('magick', commandArgs);
-            const allOutput = result.stdout.toString() + result.stderr.toString();
+            const allOutput = (result.stdout || '').toString() + (result.stderr || '').toString();
 
             chai.assert(result.status === 0, `magick command failed, output: ${allOutput}`);
 
