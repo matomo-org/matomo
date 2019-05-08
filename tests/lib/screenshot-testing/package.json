@@ -14,6 +14,7 @@
     "puppeteer": "^1.15.0-next.1556321762762",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "resemblejs": "^2.10.3"
+    "resemblejs": "^2.10.3",
+    "url-parse": "^1.4.3"
   }
 }
