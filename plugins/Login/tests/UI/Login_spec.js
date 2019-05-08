@@ -63,6 +63,7 @@ describe("Login", function () {
         await page.waitForNetworkIdle();
         await page.waitFor('input');
         await page.mouse.click(0, 0);
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
@@ -76,6 +77,7 @@ describe("Login", function () {
         await page.waitForNetworkIdle();
         await page.waitFor('.notification');
         await page.mouse.click(0, 0);
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });
@@ -96,8 +98,11 @@ describe("Login", function () {
     it("should redirect to login when logout link clicked", async function() {
         await page.click("nav .right .icon-sign-out");
         await page.waitForNetworkIdle();
+        await page.waitFor('input');
+        await page.mouse.click(0, 0);
+        await page.waitFor(250);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form_logout');
     });
 
     it("login with email and password should work", async function() {

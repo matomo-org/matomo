@@ -131,6 +131,7 @@ class TestsRunUI extends ConsoleCommand
         $options = implode(" ", $options);
         $phantomJsOptions = implode(" ", $phantomJsOptions);
 
+        $specs = ['Login'];
         $specs = implode(" ", $specs);
 
         $cmd = "node " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
