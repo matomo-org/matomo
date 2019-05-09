@@ -5,6 +5,7 @@
 		<idVisit>9</idVisit>
 		<visitIp>175.41.192.9</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -130,6 +131,7 @@
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
 		<visitIp>175.41.192.9</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -257,6 +259,7 @@
 		<idVisit>7</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -382,6 +385,7 @@
 		<idSite>1</idSite>
 		<idVisit>6</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -509,6 +513,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -634,6 +639,7 @@
 		<idSite>1</idSite>
 		<idVisit>4</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -761,6 +767,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -886,6 +893,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -1013,6 +1021,7 @@
 		<idVisit>59</idVisit>
 		<visitIp>175.41.193.46</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1138,6 +1147,7 @@
 		<idSite>1</idSite>
 		<idVisit>61</idVisit>
 		<visitIp>175.41.191.46</visitIp>
+		
 		
 		<actionDetails>
 			<row>

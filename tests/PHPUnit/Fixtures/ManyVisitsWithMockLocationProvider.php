@@ -213,6 +213,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
         }
+
+        // Add a site search to some visits
+        if (in_array($actionType, array('download', 'outlink'))) {
+            self::checkResponse($t->doTrackSiteSearch(is_null($actionNum) ? "keyword" : "keyword$actionNum"));
+        }
     }
 
     private function setMockLocationProvider()

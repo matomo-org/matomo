@@ -21,17 +21,17 @@ describe("SimpleUITest", function () {
         testEnvironment.save();
     });
 
-    it('should load a simple page by its module and action and take a full screenshot', function (done) {
+    it('should load a simple page by its module and action and take a full screenshot', async function() {
         var screenshotName = 'simplePage';
         // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simplePage.png"
         var urlToTest = "?" + generalParams + "&module=ExamplePlugin&action=index";
 
-        expect.screenshot(screenshotName).to.be.capture(function (page) {
-            page.load(urlToTest);
-        }, done);
+        await page.goto(urlToTest);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage(screenshotName);
     });
 
-    it('should load a simple page by its module and action and take a partial screenshot', function (done) {
+    it('should load a simple page by its module and action and take a partial screenshot', async function() {
         var screenshotName  = 'simplePagePartial';
         // will take a screenshot and store it in "processed-ui-screenshots/SimpleUITest_simplePagePartial.png"
         var contentSelector = '#root,.expandDataTableFooterDrawer';
@@ -39,8 +39,8 @@ describe("SimpleUITest", function () {
         var urlToTest       = "?" + generalParams + "&module=ExamplePlugin&action=index";
         // "?" + urlBase + "#" + generalParams + "&module=ExamplePlugin&action=index"; this defines a URL for a page within the dashboard
 
-        expect.screenshot(screenshotName).to.be.captureSelector(contentSelector, function (page) {
-            page.load(urlToTest);
-        }, done);
+        await page.goto(urlToTest);
+
+        expect(await page.screenshotSelector(contentSelector)).to.matchImage(screenshotName);
     });
 });
