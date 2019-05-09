@@ -132,7 +132,6 @@
         "SystemCheckCronArchiveProcessCLI": "CLI を経由して処理を管理する",
         "SystemCheckPhpSetting": "いくつかの重大な問題を防ぐためには、php.ini ファイルで以下を設定する必要があります: %s　",
         "SystemCheckUpdateHttps": "HTTPS の上のアップデート",
-        "SystemCheckUpdateHttpsNotSupported": "Matomo は HTTPS を使用して更新することはできませんが、安全でない HTTP 更新にフォールバックします。 CURL または allow_url_fopen がサポートされており、openssl PHP 拡張機能がインストールされていることを確認してください：http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/",
         "NotSupported": "サポートされていません",
         "Tables": "テーブルの作成",
         "TablesCreatedSuccess": "テーブルは正常に作成されました！",

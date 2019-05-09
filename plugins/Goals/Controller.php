@@ -172,10 +172,11 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         if (empty($idGoal)) {
-            $idGoal = Common::getRequestVar('idGoal', false, 'string');
+            $idGoal = Common::getRequestVar('idGoal', '', 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
         $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
+        $view->requestConfig->request_parameters_to_modify['showAllGoalSpecificMetrics'] = 1;
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
@@ -188,26 +189,26 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
+        $goalSelectableColumns = $selectableColumns;
         if ($this->site->isEcommerceEnabled()) {
             $selectableColumns[] = 'items';
             $selectableColumns[] = 'avg_order_revenue';
         }
 
         foreach (array_merge($columns ? $columns : array(), $selectableColumns) as $columnName) {
-            $columnTranslation = '';
-            // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
-            foreach ($nameToLabel as $metric => $metricTranslation) {
-                if (strpos($columnName, $metric) !== false) {
-                    $columnTranslation = $this->translator->translate($metricTranslation);
-                    break;
+            $columnTranslation = $this->getColumnTranslation($nameToLabel, $columnName, $idGoal);
+            $view->config->addTranslation($columnName, $columnTranslation);
+        }
+
+        if ($idGoal === '') {
+            foreach ($this->goals as $aGoal) {
+                foreach ($goalSelectableColumns as $goalColumn) {
+                    $goalMetricName = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
+                    $selectableColumns[] = $goalMetricName;
+                    $columnTranslation = $this->getColumnTranslation($nameToLabel, $goalColumn, $aGoal['idgoal']);
+                    $view->config->addTranslation($goalMetricName, $columnTranslation);
                 }
             }
-
-            if (!empty($idGoal) && isset($this->goals[$idGoal])) {
-                $goalName = $this->goals[$idGoal]['name'];
-                $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
-            }
-            $view->config->translations[$columnName] = $columnTranslation;
         }
 
         if (!empty($columns)) {
@@ -222,6 +223,27 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->documentation = $this->translator->translate($langString, '<br />');
 
         return $this->renderView($view);
+    }
+
+    private function getColumnTranslation($nameToLabel, $columnName, $idGoal)
+    {
+        $columnTranslation = '';
+        // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
+        foreach ($nameToLabel as $metric => $metricTranslation) {
+            if (strpos($columnName, $metric) !== false) {
+                $columnTranslation = $this->translator->translate($metricTranslation);
+                break;
+            }
+        }
+
+        if (!empty($idGoal)
+            && isset($this->goals[$idGoal])
+        ) {
+            $goalName = $this->goals[$idGoal]['name'];
+            $columnTranslation = "$columnTranslation (" . $this->translator->translate('Goals_GoalX', "$goalName") . ")";
+        }
+
+        return $columnTranslation;
     }
 
     protected function getTopDimensions($idGoal)

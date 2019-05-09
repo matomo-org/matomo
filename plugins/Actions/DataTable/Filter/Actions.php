@@ -13,20 +13,21 @@ use Piwik\Config;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Tracker\Action;
 
 class Actions extends BaseFilter
 {
-    private $isPageTitleType;
+    private $actionType;
     /**
      * Constructor.
      *
      * @param DataTable $table The table to eventually filter.
      * @param bool $isPageTitleType Whether we are handling page title or regular URL
      */
-    public function __construct($table, $isPageTitleType)
+    public function __construct($table, $actionType)
     {
         parent::__construct($table);
-        $this->isPageTitleType = $isPageTitleType;
+        $this->actionType = $actionType;
     }
 
     /**
@@ -35,13 +36,17 @@ class Actions extends BaseFilter
     public function filter($table)
     {
         $table->filter(function (DataTable $dataTable) {
+            $site = $dataTable->getMetadata('site');
+            $urlPrefix = $site ? $site->getMainUrl() : null;
 
             $defaultActionName = Config::getInstance()->General['action_default_name'];
+
+            $isPageTitleType = $this->actionType == Action::TYPE_PAGE_TITLE;
 
             // for BC, we read the old style delimiter first (see #1067)
             $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
             if (empty($actionDelimiter)) {
-                if ($this->isPageTitleType) {
+                if ($isPageTitleType) {
                     $actionDelimiter = Config::getInstance()->General['action_title_category_delimiter'];
                 } else {
                     $actionDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
@@ -50,8 +55,28 @@ class Actions extends BaseFilter
 
             foreach ($dataTable->getRows() as $row) {
                 $url = $row->getMetadata('url');
+                $pageTitlePath = $row->getMetadata('page_title_path');
+                $folderUrlStart = $row->getMetadata('folder_url_start');
+                $label = $row->getColumn('label');
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
+                } else if ($folderUrlStart) {
+                    $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
+                } else if ($pageTitlePath) {
+                    if ($row->getIdSubDataTable()) {
+                        $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
+                    } else {
+                        $row->setMetadata('segmentValue', trim(urldecode($pageTitlePath)));
+                    }
+                } else if ($isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
+                    // for older data w/o page_title_path metadata
+                    if ($row->getIdSubDataTable()) {
+                        $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($label)))));
+                    } else {
+                        $row->setMetadata('segmentValue', trim(urldecode($label)));
+                    }
+                } else if ($this->actionType == Action::TYPE_PAGE_URL && $urlPrefix) { // folder for older data w/ no folder URL metadata
+                    $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
                 }
 
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
@@ -65,6 +90,9 @@ class Actions extends BaseFilter
                     }
                     $dataTable->setLabelsHaveChanged();
                 }
+
+                $row->deleteMetadata('folder_url_start');
+                $row->deleteMetadata('page_title_path');
             }
         });
 

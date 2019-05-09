@@ -8,6 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Exception;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
@@ -24,6 +25,7 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Plugins\Monolog\Handler\WebNotificationHandler;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
@@ -35,9 +37,11 @@ use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Psr\Container\ContainerInterface;
 
 /**
  * Fixture for UI tests.
+ * @property  angularXssLabel
  */
 class UITestFixture extends SqlDump
 {
@@ -47,6 +51,10 @@ class UITestFixture extends SqlDump
      * @var XssTesting
      */
     private $xssTesting;
+
+    private $angularXssLabel;
+
+    private $twigXssLabel;
 
     public function __construct()
     {
@@ -62,6 +70,7 @@ class UITestFixture extends SqlDump
         self::resetPluginsInstalledConfig();
         self::updateDatabase();
         self::installAndActivatePlugins($this->getTestEnvironment());
+        self::updateDatabase();
 
         // make sure site has an early enough creation date (for period selector tests)
         Db::get()->update(Common::prefixTable("site"),
@@ -70,7 +79,6 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
@@ -119,6 +127,9 @@ class UITestFixture extends SqlDump
         $this->extraTestEnvVars = array(
             'loadRealTranslations' => 1,
         );
+        $this->extraPluginsToLoad = array(
+            'CustomDirPlugin'
+        );
 
         parent::performSetUp($setupEnvironmentOnly);
 
@@ -139,14 +150,20 @@ class UITestFixture extends SqlDump
         }
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
+        $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
+        print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
+
+        $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
+        $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
 
         // launch archiving so tests don't run out of time
         print("Archiving in fixture set up...");
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09');
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09', urlencode(OmniFixture::DEFAULT_SEGMENT));
+        VisitsSummaryAPI::getInstance()->get(3, 'week', 'yesterday'); // for overlay
         print("Done.");
     }
 
@@ -173,21 +190,22 @@ class UITestFixture extends SqlDump
         );
 
         $ips = array( // ip's chosen for geolocation data
-            "20.56.34.67",
-            "24.17.88.121",
-            "24.12.45.67",
-            "24.120.12.5",
-            "24.100.12.5",
-            "24.110.12.5",
-            "24.17.88.122",
-            "24.12.45.68",
-            "24.17.88.123",
-            "24.18.127.34",
-            "18.50.45.71",
-            "24.20.127.34",
-            "24.23.40.34",
-            "18.50.45.70",
-            "24.50.12.5",
+            "72.44.32.12",
+            "50.112.3.5",
+            "70.117.169.113",
+            "73.77.55.45",
+            "206.190.75.8",
+            "108.211.181.12",
+            "174.97.139.63",
+            "24.125.31.147",
+            "67.51.31.21",
+            "156.5.3.1",
+            "194.57.91.215",
+            "137.82.130.1",
+            "113.62.1.1",
+            "151.100.101.92",
+            "72.44.32.10",
+            "95.81.66.139",
         );
 
         $date = Date::factory('yesterday');
@@ -287,14 +305,13 @@ class UITestFixture extends SqlDump
             return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
         });
 
-        $widgetsPerDashboard = ceil(count($allWidgets) / $dashboardCount);
+        $widgetsPerDashboard = ceil((count($allWidgets)+1) / $dashboardCount);
 
         // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
         $dashboard = 0;
         foreach ($allWidgets as $widget) {
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
@@ -419,18 +436,27 @@ class UITestFixture extends SqlDump
                         return;
                     }
 
+                    if (!empty($_GET['forceError']) || !empty($_POST['forceError'])) {
+                        throw new \Exception("forced exception");
+                    }
+
                     $dataTable = new DataTable();
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $this->xssTesting->forAngular('datatablerow'),
+                        'label' => $this->angularXssLabel,
                         'nb_visits' => 10,
                     ]);
                     $dataTable->addRowFromSimpleArray([
-                        'label' => $this->xssTesting->forTwig('datatablerow'),
+                        'label' => $this->twigXssLabel,
                         'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
                 }],
             ]),
+            Proxy::class => \DI\get(CustomApiProxy::class),
+            'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+                $previous[] = $c->get(WebNotificationHandler::class);
+                return $previous;
+            }),
         ];
     }
 
@@ -478,16 +504,6 @@ class XssReport extends Report
         $this->module = 'ExampleAPI';
         $this->action = 'xssReport' . $type;
         $this->id = 'ExampleAPI.xssReport' . $type;
-    }
-
-    public function configureView(ViewDataTable $view)
-    {
-        parent::configureView($view);
-
-        $type = $this->xssType;
-
-        $xssTesting = new XssTesting();
-        $view->config->show_footer_message = $xssTesting->$type('footermessage');
     }
 }
 
@@ -562,5 +578,23 @@ class XssProcessedMetric extends ProcessedMetric
     public function getDependentMetrics()
     {
         return [];
+    }
+}
+
+class CustomApiProxy extends Proxy
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforTwig']['parameters'] = [];
+        $this->metadataArray['\Piwik\Plugins\ExampleAPI\API']['xssReportforAngular']['parameters'] = [];
+    }
+
+    public function isExistingApiAction($pluginName, $apiAction)
+    {
+        if ($pluginName == 'ExampleAPI' && ($apiAction == 'xssReportforTwig' || $apiAction == 'xssReportforAngular')) {
+            return true;
+        }
+        return parent::isExistingApiAction($pluginName, $apiAction);
     }
 }

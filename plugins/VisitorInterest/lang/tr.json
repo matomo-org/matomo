@@ -7,7 +7,7 @@
         "Engagement": "Bağlılık",
         "NPages": "%s sayfa",
         "OnePage": "1 sayfa",
-        "PluginDescription": "Ziyaretçi ilgisi raporu: Açılan sayfa sayısı, web sitesinde harcanan süre, son ziyaretten bu yana geçen zaman ve diğer bilgiler.",
+        "PluginDescription": "Ziyaretçi ilgisi raporu: Açılan sayfa sayısı, web sitesinde geçirilen süre, son ziyaretten bu yana geçen zaman ve diğer bilgiler.",
         "VisitNum": "Ziyaret sayısı",
         "VisitsByDaysSinceLast": "Son ziyaretten bu yana geçen gün sayısı",
         "visitsByVisitCount": "Ziyaret Sayısına Göre Ziyaretler",

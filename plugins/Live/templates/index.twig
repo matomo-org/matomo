@@ -1,42 +1,10 @@
-<script type="text/javascript" charset="utf-8">
-    $(document).ready(function () {
-        var segment = broadcast.getValueFromHash('segment');
-        if (!segment) {
-            segment = broadcast.getValueFromUrl('segment');
-        }
-
-        $('#visitsLive').liveWidget({
-            interval: {{ liveRefreshAfterMs }},
-            onUpdate: function () {
-                //updates the numbers of total visits in startbox
-                var ajaxRequest = new ajaxHelper();
-                ajaxRequest.setFormat('html');
-                ajaxRequest.addParams({
-                    module: 'Live',
-                    action: 'ajaxTotalVisitors',
-                    segment: segment
-                }, 'GET');
-                ajaxRequest.setCallback(function (r) {
-                    $("#visitsTotal").html(r);
-                });
-                ajaxRequest.send();
-            },
-            maxRows: 10,
-            fadeInSpeed: 600,
-            dataUrlParams: {
-                module: 'Live',
-                action: 'getLastVisitsStart',
-                segment: segment
-            }
-        });
-    });
-</script>
-
 {% if not isWidgetized %}<div piwik-content-block content-title="{{ 'Live_VisitorsInRealTime'|translate|e('html_attr') }}">{% endif %}
 
-{% include "@Live/_totalVisitors.twig" %}
+<div piwik-live-widget-refresh live-refresh-after-ms="{{ liveRefreshAfterMs|e('html_attr') }}">
+    {% include "@Live/_totalVisitors.twig" %}
 
-{{ visitors|raw }}
+    {{ visitors|raw }}
+</div>
 
 {% spaceless %}
 <div class="visitsLiveFooter">

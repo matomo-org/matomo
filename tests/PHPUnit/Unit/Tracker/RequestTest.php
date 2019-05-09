@@ -162,7 +162,7 @@ class RequestTest extends UnitTestCase
     {
         $request = $this->buildRequest(array('_idts' => '' . ($this->time - 43200)));
         $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceFirstVisit());
+        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 
     public function test_getDaysSinceFirstVisit_Yesterday()

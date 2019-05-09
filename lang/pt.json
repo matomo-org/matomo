@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Abrir sobreposição na página",
         "Overview": "Visão geral",
         "Pages": "Páginas",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "O parâmetro %1$s tem que ser um valor inteiro entre %2$s e %3$s.",
         "Password": "Palavra-passe",
         "Period": "Período",

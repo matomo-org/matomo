@@ -133,7 +133,7 @@ class MetadataLoader
      */
     private function getPathToPluginFolder()
     {
-        return \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName;
+        return \Piwik\Plugin\Manager::getPluginDirectory($this->pluginName);
     }
 
     /**

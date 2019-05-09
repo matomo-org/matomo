@@ -32,7 +32,6 @@
         "Menu": "메뉴",
         "NoPrivilegesAskPiwikAdmin": "'%1$s'로 로그인되었지만 권한이 설정되어 있지 않습니다. %2$s Matomo 관리자(클릭 이메일) %3$s에 '보기'권한을 부여 받으세요.",
         "OnlyForSuperUserAccess": "이 위젯은 슈퍼 유저 접근 권한이 있는 유저의 기본 대시보드에만 나타납니다.",
-        "PageOf": "%1$s \/ %2$s",
         "PeriodRange": "기간",
         "ReportGeneratedOn": "%s에 생성된 보고서",
         "ReportGeneratedXAgo": "%s 전에 생성된 보고서",

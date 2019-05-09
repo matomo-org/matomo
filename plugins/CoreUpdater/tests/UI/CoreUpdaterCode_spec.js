@@ -14,27 +14,26 @@ describe("CoreUpdaterCode", function () {
 
     var url = "?module=CoreUpdater&action=newVersionAvailable";
 
-    it("should show a new version is available", function (done) {
-        expect.screenshot("newVersion").to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it("should show a new version is available", async function() {
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('newVersion');
     });
 
-    it("should offer to retry using https when updating over https fails", function (done) {
-        expect.screenshot("httpsUpdateFail").to.be.capture(function (page) {
-            page.click('#updateAutomatically');
-        }, done);
+    it("should offer to retry using https when updating over https fails", async function() {
+        await page.click('#updateAutomatically');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('httpsUpdateFail');
     });
 
-    it("should offer to retry over http when updating over https fails", function (done) {
-        expect.screenshot("httpsUpdateFail").to.be.capture(function (page) {
-            page.click('#updateUsingHttps');
-        }, done);
+    it("should offer to retry over http when updating over https fails", async function() {
+        await page.click('#updateUsingHttps');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('httpsUpdateFail');
     });
 
-    it("should show the update steps when updating over http succeeds", function (done) {
-        expect.screenshot("httpUpdateSuccess").to.be.capture(function (page) {
-            page.click('#updateUsingHttp');
-        }, done);
+    it("should show the update steps when updating over http succeeds", async function() {
+        await page.click('#updateUsingHttp');
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('httpUpdateSuccess');
     });
 });

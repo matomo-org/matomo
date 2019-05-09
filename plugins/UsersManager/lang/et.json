@@ -35,7 +35,6 @@
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
         "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta.",
         "YourVisitsAreNotIgnored": "%1$sMatomo ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust).",
-        "XtoYofN": "%1$s - %2$s \\\/ %3$s",
         "ShowAll": "Kuva kõik",
         "Username": "Kasutajanimi"
     }

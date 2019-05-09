@@ -38,7 +38,7 @@
         "PluginNotCompatibleWith": "%1$s udvidelsesmodul er ikke kompatibelt med %2$s.",
         "PluginNotWorkingAlternative": "Hvis du har brugt programudvidelsen,kan du måske finde en nyere version på markedspladen. Hvis ikke, kan du afinstallere den.",
         "PluginRequirement": "%1$s kræver %2$s",
-        "PluginsManagement": "Udvidelsesmodul administration",
+        "PluginsManagement": "Administrer udvidelsesmoduler",
         "Status": "Status",
         "SuccessfullyActicated": "Du har aktiveret <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Udvid Matomo med programudvidelser og temaer",

@@ -63,7 +63,7 @@ class Config extends VisualizationConfig
      *
      * @see self::ROW_PICKER_VALUE_COLUMN
      */
-    public $selectable_rows = 'selectable_rows';
+    public $selectable_rows = [];
 
     /**
      * Controls whether all ticks & labels are shown on a graph's x-axis or just some.

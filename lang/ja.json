@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "ページオーバーレイを開く",
         "Overview": "概観",
         "Pages": "ページ",
-        "Pagination": "%1$s の %2$s - %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "パラメータ %1$s は %2$s から %3$s までの整数値で指定してください。",
         "Password": "パスワード",
         "Period": "期間",

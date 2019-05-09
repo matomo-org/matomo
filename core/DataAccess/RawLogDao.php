@@ -328,20 +328,44 @@ class RawLogDao
         $idColumns = $this->getTableIdColumns();
         foreach ($this->dimensionMetadataProvider->getActionReferenceColumnsByTable() as $table => $columns) {
             $idCol = $idColumns[$table];
+            // Create select query for requesting ALL needed fields at once
+            $sql = "SELECT " . implode(',' ,$columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
 
-            foreach ($columns as $col) {
-                $select = "SELECT $col FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
-                $sql = "INSERT IGNORE INTO $tempTableName $select";
+            if ($olderThan) {
+               // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
+                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));;
+                $finish = $maxIds[$table];
+            } else {
+                $start = $maxIds[$table];
+                $finish = (int) Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+            }
+            // Borrowed from Db::segmentedFetchAll
+            // Request records per $insertIntoTempIterationStep amount
+            // Loop over the result set, mapping all numeric fields in a single insert query
 
-                if ($olderThan) {
-                    $start = 0;
-                    $finish = $maxIds[$table];
-                } else {
-                    $start = $maxIds[$table];
-                    $finish = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+            // Insert query would be: INSERT IGNORE INTO [temp_table] VALUES (X),(Y),(Z) depending on the amount of fields requested per row
+            for ($i = $start; $i <= $finish; $i += $insertIntoTempIterationStep) {
+                $currentParams = array($i, $i + $insertIntoTempIterationStep);
+                $result        = Db::fetchAll($sql, $currentParams);
+                // Now we loop over the result set of max $insertIntoTempIterationStep rows and create insert queries
+                $keepValues = [];
+                foreach ($result as $row) {
+                     $keepValues = array_merge($keepValues, array_filter(array_values($row), "is_numeric"));
+                     if (count($keepValues) >= 1000) {
+                        $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+                        $insert .= implode('),(', $keepValues);
+                        $insert .= ')';
+
+                        Db::exec($insert);
+                        $keepValues = [];
+                     }
                 }
 
-                Db::segmentedQuery($sql, $start, $finish, $insertIntoTempIterationStep);
+               $insert = 'INSERT IGNORE INTO ' . $tempTableName .' VALUES (';
+               $insert .= implode('),(', $keepValues);
+               $insert .= ')';
+
+               Db::exec($insert);
             }
         }
     }

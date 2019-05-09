@@ -209,7 +209,7 @@ function ajaxHelper() {
     /**
      * Set a timeout (in milliseconds) for the request. This will override any global timeout.
      *
-     * @param {integer} timeout  Timeout in milliseconds
+     * @param {int} timeout  Timeout in milliseconds
      * @return {void}
      */
     this.setTimeout = function (timeout) {
@@ -489,7 +489,7 @@ function ajaxHelper() {
     };
 
     this._getDefaultPostParams = function () {
-        if (this.withToken || this._isRequestToApiMethod() || this._isWidgetizedRequest()) {
+        if (this.withToken || this._isRequestToApiMethod() || piwik.shouldPropagateTokenAuth) {
             return {
                 token_auth: piwik.token_auth
             };

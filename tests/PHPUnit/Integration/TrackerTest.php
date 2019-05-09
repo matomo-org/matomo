@@ -10,6 +10,8 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
@@ -35,6 +37,8 @@ class TrackerTest extends IntegrationTestCase
      */
     private $request;
 
+    private $iniTimeZone;
+
     public function setUp()
     {
         parent::setUp();
@@ -43,6 +47,8 @@ class TrackerTest extends IntegrationTestCase
 
         $this->tracker = new TestTracker();
         $this->request = $this->buildRequest(array('idsite' => 1));
+
+        $this->iniTimeZone = ini_get('date.timezone');
     }
 
     public function tearDown()
@@ -56,7 +62,9 @@ class TrackerTest extends IntegrationTestCase
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
-        
+
+        ini_set('date.timezone', $this->iniTimeZone);
+
         parent::tearDown();
     }
 
@@ -250,7 +258,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer nofollow'>web analytics & conversion optimisation platform</a>.";
         $this->assertEquals($expected, $response);
     }
 
@@ -355,6 +363,30 @@ class TrackerTest extends IntegrationTestCase
 
         $this->assertTrue($handler->isOnException);
         $this->assertTrue($called);
+    }
+
+    public function test_archiveInvalidation_differentServerAndWebsiteTimezones()
+    {
+        // Server timezone is UTC
+        ini_set('date.timezone', 'America/New_York');
+
+        // Website timezone is New York
+        $idSite = Fixture::createWebsite('2014-01-01 00:00:00', 0, false, false,
+            1, null, null, 'America/New_York');
+
+        // It's 3 April in UTC but 2 April in New York
+        Date::$now = 1554257039;
+
+        $this->tracker = new TestTracker();
+
+        $this->request = $this->buildRequest(array('idsite' => $idSite));
+        $this->request->setParam('rec', 1);
+        $this->request->setCurrentTimestamp(Date::$now);
+        $this->tracker->trackRequest($this->request);
+
+        // Check for correct detection of whether the request's timestamp is 'today' in the appropriate timezone
+        // See Visit::markArchivedReportsAsInvalidIfArchiveAlreadyFinished() method
+        $this->assertEmpty(Option::getLike('report_to_invalidate_2_2019-04-02%'));
     }
 
     private function getDefaultHandler()

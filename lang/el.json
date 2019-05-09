@@ -327,8 +327,8 @@
         "OverlayRowActionTooltipTitle": "Άνοιγμα Υπερκάλυψης Σελίδας",
         "Overview": "Συνολική εικόνα",
         "Pages": "Σελίδες",
-        "Pagination": "%1$s - %2$s από %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
+        "Pagination": "%1$s–%2$s από %3$s",
+        "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "Η παράμετρος %1$s πρέπει να είναι ακέραιος αριθμός μεταξύ %2$s και %3$s.",
         "Password": "Κωδικός",
         "Period": "Περίοδος",
@@ -490,7 +490,9 @@
         "YouAreCurrentlyUsing": "Χρησιμοποιείτε την έκδοση %s του Matomo.",
         "YouAreViewingDemoMessage": "Βλέπετε μια έκδοση επίδειξης του %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "Πρέπει να συνδεθείτε για να έχετε πρόσβαση στη λειτουργία",
-        "YourChangesHaveBeenSaved": "Οι αλλαγές σας αποθηκεύτηκαν."
+        "YourChangesHaveBeenSaved": "Οι αλλαγές σας αποθηκεύτηκαν.",
+        "ThankYouForUsingMatomo": "Ευχαριστούμε που χρησιμοποιείτε το Matomo",
+        "TheMatomoTeam": "Η ομάδα του Matomo"
     },
     "Mobile": {
         "AboutPiwikMobile": "Σχετικά με το Matomo για κινητά",

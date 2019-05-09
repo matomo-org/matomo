@@ -22,9 +22,6 @@ class ExampleTheme extends Plugin
 
     public function configureThemeVariables(Plugin\ThemeStyles $vars)
     {
-        $vars->fontFamilyBase = 'Arial, Verdana, sans-serif';
-        $vars->colorBrand = '#5793d4';
-        $vars->colorHeaderBackground = '#0091ea';
-        $vars->colorHeaderText = '#0d0d0d';
+        $vars->fontFamilyBase = 'Verdana, sans-serif';
     }
 }
