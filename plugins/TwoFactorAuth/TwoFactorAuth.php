@@ -172,7 +172,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             return false;
         }
 
-        if ($module === 'CoreUpdater') {
+        if ($module === 'CoreUpdater' && $action !== 'newVersionAvailable' && $action !== 'oneClickUpdate') {
             return false;
         }
 

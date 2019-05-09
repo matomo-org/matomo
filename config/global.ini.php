@@ -453,6 +453,9 @@ noreply_email_name = ""
 ; set to 0 to disable sending of all emails. useful for testing.
 emails_enabled = 1
 
+; set to 0 to disable sending of emails when a password or email is changed
+enable_update_users_email = 1
+
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
 feedback_email_address = "feedback@matomo.org"
@@ -691,6 +694,13 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The path to a custom cacert.pem file Matomo should use.
+; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
+; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
+; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
+; breaks and reencrypts SSL connections you can set your custom file here. 
+custom_cacert_pem=
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
@@ -826,6 +836,11 @@ tracking_requests_require_authentication = 1
 ; date is older than 1 day, Matomo requires an authenticated tracking requests. By setting this config to another value
 ; You can change how far back Matomo will track your requests without authentication. The configured value is in seconds.
 tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
+
+; if set to 1, all the SQL queries will be recorded by the profiler
+; and a profiling summary will be printed at the end of the request
+; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
+enable_sql_profiler = 0
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

@@ -153,6 +153,8 @@ class UITestFixture extends SqlDump
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();
 
+        print "Token auth in fixture is {$this->testEnvironment->tokenAuth}\n";
+
         $this->angularXssLabel = $this->xssTesting->forAngular('datatablerow');
         $this->twigXssLabel = $this->xssTesting->forTwig('datatablerow');
         $this->xssTesting->sanityCheck();
@@ -161,6 +163,7 @@ class UITestFixture extends SqlDump
         print("Archiving in fixture set up...");
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09');
         VisitsSummaryAPI::getInstance()->get('all', 'year', '2012-08-09', urlencode(OmniFixture::DEFAULT_SEGMENT));
+        VisitsSummaryAPI::getInstance()->get(3, 'week', 'yesterday'); // for overlay
         print("Done.");
     }
 
@@ -187,21 +190,22 @@ class UITestFixture extends SqlDump
         );
 
         $ips = array( // ip's chosen for geolocation data
-            "20.56.34.67",
-            "24.17.88.121",
-            "24.12.45.67",
-            "24.120.12.5",
-            "24.100.12.5",
-            "24.110.12.5",
-            "24.17.88.122",
-            "24.12.45.68",
-            "24.17.88.123",
-            "24.18.127.34",
-            "18.50.45.71",
-            "24.20.127.34",
-            "24.23.40.34",
-            "18.50.45.70",
-            "24.50.12.5",
+            "72.44.32.12",
+            "50.112.3.5",
+            "70.117.169.113",
+            "73.77.55.45",
+            "206.190.75.8",
+            "108.211.181.12",
+            "174.97.139.63",
+            "24.125.31.147",
+            "67.51.31.21",
+            "156.5.3.1",
+            "194.57.91.215",
+            "137.82.130.1",
+            "113.62.1.1",
+            "151.100.101.92",
+            "72.44.32.10",
+            "95.81.66.139",
         );
 
         $date = Date::factory('yesterday');
