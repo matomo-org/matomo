@@ -38,16 +38,16 @@ class Pie extends JqplotGraph
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
-    public function afterAllFiltersAreApplied()
+    protected function ensureValidColumnsToDisplay()
     {
-        parent::afterAllFiltersAreApplied();
+        parent::ensureValidColumnsToDisplay();
 
-        $metricColumn = reset($this->config->columns_to_display);
+        $columnsToDisplay = $this->config->columns_to_display;
 
-        if ($metricColumn == 'label') {
-            $metricColumn = next($this->config->columns_to_display);
-        }
+        // Ensure only one column_to_display - it is a pie graph after all!
+        $metricColumn = reset($columnsToDisplay);
 
+        // Set to a sensible default if no suitable value was found
         $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 
