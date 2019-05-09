@@ -7,8 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// NOTE: this test actually tests safari-specific opt out form behavior, since phantomjs' user-agent string
-//       is similar to Safari's
 describe("OptOutForm", function () {
     const siteUrl = "/tests/resources/overlay-test-site-real/index.html",
         safariUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A",
