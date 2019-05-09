@@ -14,7 +14,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Metrics\Formatter;
 use Piwik\Network\IP;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
+use Piwik\Plugin\Segment;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
@@ -33,8 +35,41 @@ class Country extends Base
     protected $category =  'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Country';
     protected $namePlural = 'UserCountryMap_Countries';
-    protected $segmentName = 'countryCode';
-    protected $acceptValues = 'de, us, fr, in, es, etc.';
+    protected $segmentName = 'countryName';
+    protected $acceptValues = 'Germany, France, Spain, ...';
+
+    public function __construct()
+    {
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $countryList = $regionDataProvider->getCountryList();
+        array_walk($countryList, function(&$item, $key) {
+            $item = Piwik::translate('Intl_Country_'.strtoupper($key), [], 'en');
+        });
+
+        $this->sqlFilterValue = function ($val) use ($countryList) {
+            $result   = array_search($val, $countryList);
+            if ($result === false) {
+                $result = 'UNK';
+            }
+            return $result;
+        };
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) use ($countryList) {
+            return array_values($countryList + ['Unknown']);
+        };
+    }
+
+    protected function configureSegments()
+    {
+        parent::configureSegments();
+        $segment = new Segment();
+        $segment->setSegment('countryCode');
+        $segment->setName('UserCountry_CountryCode');
+        $segment->setAcceptedValues('ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)');
+        $this->suggestedValuesCallback = null;
+        $this->sqlFilterValue = null;
+        $this->addSegment($segment);
+    }
+
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

@@ -119,7 +119,7 @@ class JoinGenerator
 
         $table = $this->tables->getLogTable($tableName);
 
-        if ($table->getColumnToJoinOnIdAction() || $table->getColumnToJoinOnIdAction() || $table->getLinkTableToBeAbleToJoinOnVisit()) {
+        if ($table->getColumnToJoinOnIdAction() || $table->getColumnToJoinOnIdVisit() || $table->getLinkTableToBeAbleToJoinOnVisit()) {
             $this->tables->addTableToJoin($tableName);
             return;
         }

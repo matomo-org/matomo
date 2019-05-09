@@ -622,24 +622,34 @@ class API extends \Piwik\Plugin\API
         }));
         $urlsTable = $urlsTable->mergeSubtables();
 
-        foreach ($dataTable->getRows() as $row) {
-            $row->removeSubtable();
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+            $urlsTables = $urlsTable->getDataTables();
+        } else {
+            $dataTables = [$dataTable];
+            $urlsTables = [$urlsTable];
+        }
 
-            $social = $row->getColumn('label');
-            $newTable = $urlsTable->getEmptyClone();
+        foreach ($dataTables as $label => $dataTable) {
+            foreach ($dataTable->getRows() as $row) {
+                $row->removeSubtable();
 
-            $rows = $urlsTable->getRows();
-            foreach ($rows as $id => $urlsTableRow) {
-                $url = $urlsTableRow->getColumn('label');
-                if (Social::getInstance()->isSocialUrl($url, $social)) {
-                    $newTable->addRow($urlsTableRow);
-                    $urlsTable->deleteRow($id);
+                $social = $row->getColumn('label');
+                $newTable = $urlsTables[$label]->getEmptyClone();
+
+                $rows = $urlsTables[$label]->getRows();
+                foreach ($rows as $id => $urlsTableRow) {
+                    $url = $urlsTableRow->getColumn('label');
+                    if (Social::getInstance()->isSocialUrl($url, $social)) {
+                        $newTable->addRow($urlsTableRow);
+                        $urlsTables[$label]->deleteRow($id);
+                    }
                 }
-            }
 
-            if ($newTable->getRowsCount()) {
-                $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
-                $row->setSubtable($newTable);
+                if ($newTable->getRowsCount()) {
+                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
+                    $row->setSubtable($newTable);
+                }
             }
         }
 

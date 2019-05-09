@@ -5,6 +5,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -108,7 +109,7 @@
 					</row>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
+						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -125,6 +126,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>10</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
@@ -132,6 +136,8 @@
 						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
@@ -139,6 +145,10 @@
 						<itemCategory>Category TWO LEFT in cart</itemCategory>
 						<price>1000</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
@@ -262,6 +272,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -367,6 +378,13 @@
 						<itemCategory>Multiple Category 1</itemCategory>
 						<price>500</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Multiple Category 1</row>
+						<row>Multiple Category 2</row>
+						<row>Electronics &amp; Cameras</row>
+						<row>Multiple Category 4</row>
+						<row>Multiple Category 5</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>ANOTHER SKU HERE</itemSKU>
@@ -374,6 +392,8 @@
 						<itemCategory />
 						<price>100</price>
 						<quantity>6</quantity>
+						<categories>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -399,6 +419,8 @@
 						<itemCategory />
 						<price>11.22</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU2</itemSKU>
@@ -406,6 +428,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>1500</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -516,7 +541,7 @@
 					</row>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
+						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -533,6 +558,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>10</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
@@ -540,6 +568,8 @@
 						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
@@ -547,6 +577,10 @@
 						<itemCategory>Category TWO LEFT in cart</itemCategory>
 						<price>1000</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
@@ -670,6 +704,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>

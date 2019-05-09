@@ -38,12 +38,7 @@ return array(
 
         $writerNames = array_map('trim', $writerNames);
 
-        $writers = [
-            // we always add the null handler to make sure there is at least one handler specified. otherwise Monolog will
-            // add a stream handler to stderr w/ a DEBUG log level, which will cause archiving requests to fail.
-            $c->get(\Monolog\Handler\NullHandler::class),
-        ];
-
+        $writers = [];
         foreach ($writerNames as $writerName) {
             if ($writerName === 'screen' && \Piwik\Common::isPhpCliMode()) {
                 continue; // screen writer is only valid for web requests
@@ -75,6 +70,12 @@ return array(
             && $isLogBufferingAllowed
         ) {
             $writers[] = $c->get(LogCaptureHandler::class);
+        }
+
+        // we always add the null handler to make sure there is at least one handler specified. otherwise Monolog will
+        // add a stream handler to stderr w/ a DEBUG log level, which will cause archiving requests to fail.
+        if (empty($writers)) {
+            $writers[] = $c->get(\Monolog\Handler\NullHandler::class);
         }
 
         return array_values($writers);

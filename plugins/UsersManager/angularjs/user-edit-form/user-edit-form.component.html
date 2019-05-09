@@ -42,7 +42,7 @@
                         uicontrol="text"
                         name="user_login"
                         ng-model="$ctrl.user.login"
-                        title="Username"
+                        data-title="Username"
                         maxlength="100"
                         data-disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
                 >
@@ -53,7 +53,7 @@
                         uicontrol="password"
                         name="user_password"
                         ng-model="$ctrl.user.password"
-                        title="Password"
+                        data-title="Password"
                         data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
@@ -63,7 +63,7 @@
                         uicontrol="text"
                         name="user_email"
                         ng-model="$ctrl.user.email"
-                        title="Email"
+                        data-title="Email"
                         maxlength="100"
                         data-disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                         ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
@@ -75,7 +75,7 @@
                         uicontrol="site"
                         name="user_site"
                         ng-model="$ctrl.firstSiteAccess"
-                        title="First website permission"
+                        data-title="First website permission"
                         data-disabled="$ctrl.isSavingUserInfo"
                         ng-if="$ctrl.isAdd"
                         ui-control-attributes="{ onlySitesWithAdminAccess: true }"

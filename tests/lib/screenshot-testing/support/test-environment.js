@@ -8,6 +8,9 @@
  */
 
 var fs = require('fs'),
+    path = require('path'),
+    resolveUrl = require('url').resolve,
+    request = require('request-promise'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
 var DEFAULT_UI_TEST_FIXTURE_NAME = "Piwik\\Tests\\Fixtures\\UITestFixture";
@@ -29,8 +32,8 @@ TestingEnvironment.prototype.reload = function () {
     this['optionsOverride'] = {};
     this['environmentVariables'] = {};
 
-    if (fs.exists(testingEnvironmentOverridePath)) {
-        var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
+    if (fs.existsSync(testingEnvironmentOverridePath)) {
+        var data = JSON.parse(fs.readFileSync(testingEnvironmentOverridePath));
         for (var key in data) {
             this[key] = data[key];
         }
@@ -70,107 +73,86 @@ TestingEnvironment.prototype.save = function () {
         copy[key] = this[key];
     }
 
-    fs.write(testingEnvironmentOverridePath, JSON.stringify(copy));
+    fs.writeFileSync(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
 
-TestingEnvironment.prototype.callApi = function (method, params, done) {
+TestingEnvironment.prototype.callApi = function (method, params) {
     params.module = "API";
     params.method = method;
     params.format = 'json';
 
-    this._call(params, done);
+    return this._call(params);
 };
 
-TestingEnvironment.prototype.callController = function (method, params, done) {
+TestingEnvironment.prototype.callController = function (method, params) {
     var parts = method.split('.');
 
     params.module = parts[0];
     params.action = parts[1];
     params.idSite = params.idSite || 1;
 
-    this._call(params, done);
+    return this._call(params);
 };
 
-TestingEnvironment.prototype.request = function (url, params, done) {
-    for (var key in params) {
-        var value = params[key];
-        if (value instanceof Array) {
-            for (var i = 0; i != value.length; ++i) {
-                url += key + "[]=" + encodeURIComponent(value[i]) + "&";
+TestingEnvironment.prototype._call = async function (params) {
+    let response = await request({
+        uri: resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php'),
+        qs: Object.keys(params).reduce(function (obj, name) {
+            if (params[name] instanceof Array) {
+                params[name].forEach(function(value, index) {
+                    obj[name+'['+index+']'] = value;
+                });
+                return obj;
             }
-        } else {
-            url += key + "=" + encodeURIComponent(value) + "&";
-        }
+            obj[name] = params[name];
+            return obj;
+        }, {}),
+    });
+
+    if (response === '') {
+        return '';
     }
-    url = url.substring(0, url.length - 1);
 
-    var page = require('webpage').create();
-    page.open(url, function () {
-        var response = page.plainText.replace(/\s*/g, "");
-        page.close();
-        done(null, response);
-    });
+    response = response.replace(/\s*/g, "");
 
-};
+    try {
+        response = JSON.parse(response);
+    } catch (e) {
+        throw new Error("Unable to parse JSON response: " + response);
+    }
 
-TestingEnvironment.prototype._call = function (params, done) {
-    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
-    this.request(url, params, function (error, response) {
-        if (response) {
-            try {
-                response = JSON.parse(response);
-            } catch (e) {
-                page.close();
+    if (response.result === "error") {
+        throw new Error("API returned error: " + response.message);
+    }
 
-                done(new Error("Unable to parse JSON response: " + response));
-                return;
-            }
-
-            if (response.result === "error") {
-                page.close();
-
-                done(new Error("API returned error: " + response.message));
-                return;
-            }
-        }
-
-        done(error, response);
-    });
+    return response;
 };
 
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
     var consoleFile = path.join(PIWIK_INCLUDE_PATH, 'console'),
-        commandArgs = [consoleFile, command].concat(args || []),
+        commandArgs = [consoleFile, command].concat(args),
         child = require('child_process').spawn(config.php, commandArgs);
-
-    var output = "";
 
     var firstLine = true;
     child.stdout.on("data", function (data) {
-        output += data;
-
         if (firstLine) {
             data = "    " + data;
             firstLine = false;
         }
 
-        fs.write("/dev/stdout", data.replace(/\n/g, "\n    "), "w");
+        process.stdout.write(data.toString().replace(/\n/g, "\n    "));
     });
 
     child.stderr.on("data", function (data) {
-        output += data;
-
         if (firstLine) {
             data = "    " + data;
             firstLine = false;
         }
 
-        fs.write("/dev/stderr", data, "w");
+        process.stderr.write(data);
     });
 
-    child.on("exit", function (code) {
-        callback(code, output);
-    });
+    child.on("exit", callback);
 };
 
 TestingEnvironment.prototype.addPluginOnCmdLineToTestEnv = function () {
@@ -240,7 +222,7 @@ TestingEnvironment.prototype.readDbInfoFromConfig = function () {
 
     var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
 
-    var configFile = fs.read(pathConfigIni);
+    var configFile = fs.readFileSync(pathConfigIni);
 
     if (configFile) {
         var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
@@ -285,11 +267,11 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
         } else {
             done();
         }
-    });
+    })
 };
 
 TestingEnvironment.prototype.deleteAndSave = function () {
-    fs.write(testingEnvironmentOverridePath, "{}");
+    fs.writeFileSync(testingEnvironmentOverridePath, "{}");
     this.reload();
 };
 
