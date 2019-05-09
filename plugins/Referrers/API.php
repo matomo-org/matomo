@@ -365,6 +365,35 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = Archive::createDataTableFromArchive(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
+        $groupIntagramLabel = function($dataTable) use (&$groupIntagramLabel) {
+
+            if ($dataTable instanceof DataTable\Map) {
+                $dataTables = $dataTable->getDataTables();
+            } else {
+                $dataTables = [$dataTable];
+            }
+
+            foreach ($dataTables as $table) {
+                if ($table instanceof DataTable\Map) {
+                    $groupIntagramLabel($table);
+                    continue;
+                }
+
+                if ($table->getRowFromLabel('instagram')) {
+                    $dataTable->filter('GroupBy', ['label', function ($value) {
+                        if ($value === 'instagram') {
+                            return 'Instagram';
+                        }
+                        return $value;
+                    }]);
+                }
+            }
+
+            return false;
+        };
+
+        $groupIntagramLabel($dataTable));
+
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($name) {
             return Social::getInstance()->getMainUrlFromName($name);
         }));
