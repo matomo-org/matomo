@@ -19,6 +19,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\Mode;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -68,8 +69,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $environment;
 
-    public function __construct(LicenseKey $licenseKey, Plugins $plugins, Api\Client $marketplaceApi, Consumer $consumer, PluginInstaller $pluginInstaller, Environment $environment)
-    {
+    /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
+
+    public function __construct(LicenseKey $licenseKey,
+                                Plugins $plugins,
+                                Api\Client $marketplaceApi,
+                                Consumer $consumer,
+                                PluginInstaller $pluginInstaller,
+                                Environment $environment,
+                                PasswordVerifier $passwordVerify
+    ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;
         $this->marketplaceApi = $marketplaceApi;
@@ -77,6 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->pluginInstaller = $pluginInstaller;
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->environment = $environment;
+        $this->passwordVerify = $passwordVerify;
 
         parent::__construct();
     }
@@ -381,10 +394,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function installPlugin()
     {
-        $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-        $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-
-        return $view->render();
+        $params = array(
+            'module' => 'Marketplace',
+            'action' => 'installPlugin',
+            'mode' => 'admin',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce')
+        );
+        if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
+            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+            return $view->render();
+        }
     }
 
     private function createUpdateOrInstallView($template, $nonceName)
@@ -393,32 +414,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->dieIfPluginsAdminIsDisabled();
         $this->displayWarningIfConfigFileNotWritable();
 
-        $pluginName = $this->getPluginNameIfNonceValid($nonceName);
+        $plugins = $this->getPluginNameIfNonceValid($nonceName);
 
         $view = new View('@Marketplace/' . $template);
         $this->setBasicVariablesView($view);
         $view->errorMessage = '';
-        $view->plugin = array('name' => $pluginName);
 
-        try {
-            $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
+        $pluginInfos = [];
+        foreach ($plugins as $pluginName) {
+            $pluginInfos[] = $this->plugins->getPluginInfo($pluginName);
 
-        } catch (\Exception $e) {
+            try {
+                $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
 
-            $notification = new Notification($e->getMessage());
-            $notification->context = Notification::CONTEXT_ERROR;
-            $notification->type = Notification::TYPE_PERSISTENT;
-            $notification->flags = Notification::FLAG_CLEAR;
-            if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
-                $notification->raw = true;
+            } catch (\Exception $e) {
+
+                $notification = new Notification($e->getMessage());
+                $notification->context = Notification::CONTEXT_ERROR;
+                $notification->type = Notification::TYPE_PERSISTENT;
+                $notification->flags = Notification::FLAG_CLEAR;
+                if (method_exists($e, 'isHtmlMessage') && $e->isHtmlMessage()) {
+                    $notification->raw = true;
+                }
+                Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
+
+                Url::redirectToReferrer();
+                return;
             }
-            Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
-
-            Url::redirectToReferrer();
-            return;
         }
 
-        $view->plugin = $this->plugins->getPluginInfo($pluginName);
+        $view->plugins = $pluginInfos;
 
         return $view;
     }
@@ -435,11 +460,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
-        if (!$this->pluginManager->isValidPluginName($pluginName)) {
-            throw new Exception('Invalid plugin name');
+        $plugins = explode(',', $pluginName);
+        $plugins = array_map('trim', $plugins);
+        foreach ($plugins as $name) {
+            if (!$this->pluginManager->isValidPluginName($name)) {
+                throw new Exception('Invalid plugin name: ' . $name);
+            }
         }
-
-        return $pluginName;
+        return $plugins;
     }
 
     private function dieIfPluginsAdminIsDisabled()

@@ -64,9 +64,9 @@
 	</reportData>
 	<reportMetadata>
 		<row>
+			<segment>countryCode==fr</segment>
 			<code>fr</code>
 			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
-			<segment>countryCode==fr</segment>
 			<logoHeight>16</logoHeight>
 		</row>
 	</reportMetadata>
@@ -87,9 +87,6 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
-		<conversion_rate>0%</conversion_rate>
 		<nb_actions_per_visit>1</nb_actions_per_visit>
-		<avg_time_on_site>1086</avg_time_on_site>
-		<bounce_rate>100%</bounce_rate>
 	</reportTotal>
 </result>

@@ -51,6 +51,7 @@ class VisitorLog extends Visualization
             $this->requestConfig->filter_limit = $defaultLimit;
         }
 
+        $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit+1; // request one more record, to check if a next page is available
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
 
@@ -95,8 +96,12 @@ class VisitorLog extends Visualization
             $this->config->custom_parameters = array();
         }
 
-        // set a very high row count so that the next link in the footer of the data table is always shown
-        $this->config->custom_parameters['totalRows'] = 10000000;
+        // ensure to show next link if there are enough rows for a next page
+        if ($this->dataTable->getRowsCount() > $this->requestConfig->filter_limit) {
+            $this->dataTable->deleteRowsOffset($this->requestConfig->filter_limit);
+            $this->config->custom_parameters['totalRows'] = 10000000;
+        }
+
         $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
         $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));

@@ -141,10 +141,8 @@
         };
 
         this.changeSite = function (trackingCodeChangedManually) {
-
-            $('.current-site-name').text(self.site.name);
-
             getSiteData(this.site.id, '#js-code-options', function () {
+                $('.current-site-name').text(self.site.name);
 
                 self.hasManySiteUrls = self.siteUrls[self.site.id] && self.siteUrls[self.site.id].length > 1;
 

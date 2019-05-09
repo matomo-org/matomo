@@ -1,0 +1,29 @@
+{
+    "name": "CustomDirPlugin",
+    "description": "Custom Plugin located in different directory",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "piwik": ">=3.8.1-stable,<4.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "https://matomo.org",
+    "license": "GPL v3+",
+    "keywords": []
+}

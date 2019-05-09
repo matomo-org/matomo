@@ -25,6 +25,7 @@
 			<idVisit>32</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -38,7 +39,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -145,6 +147,7 @@
 			<idVisit>31</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -158,7 +161,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -265,6 +269,7 @@
 			<idVisit>30</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -278,7 +283,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -385,6 +391,7 @@
 			<idVisit>29</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -398,7 +405,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -505,6 +513,7 @@
 			<idVisit>28</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -518,7 +527,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -625,6 +635,7 @@
 			<idVisit>27</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -638,7 +649,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -745,6 +757,7 @@
 			<idVisit>26</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -758,7 +771,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page0</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -865,6 +879,7 @@
 			<idVisit>25</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -878,7 +893,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 2</title>
 					<subtitle>http://example.org/my/dir/page3</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -985,6 +1001,7 @@
 			<idVisit>24</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -998,7 +1015,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 1</title>
 					<subtitle>http://example.org/my/dir/page2</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
@@ -1105,6 +1123,7 @@
 			<idVisit>23</idVisit>
 			<visitIp>156.5.3.2</visitIp>
 			
+			<fingerprint>5041e282fc23fef1</fingerprint>
 			<actionDetails>
 				<row>
 					<type>action</type>
@@ -1118,7 +1137,8 @@
 					<interactionPosition>1</interactionPosition>
 					<title>incredible title 0</title>
 					<subtitle>http://example.org/my/dir/page1</subtitle>
-					<icon>plugins/Morpheus/images/action.svg</icon>
+					<icon />
+					<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>

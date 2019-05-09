@@ -167,6 +167,10 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'play25%', 'Spirited Away (千と千尋の神隠し)'));
 
+        // trackEvent without a name
+        $this->moveTimeForward($vis, 150);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+
         // taking 2+ hours break & resuming this epic moment of cinema
         $this->moveTimeForward($vis, 200);
 
@@ -177,15 +181,8 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'play75%', 'Spirited Away (千と千尋の神隠し)'));
 
-        // trackEvent without a name
-        $this->moveTimeForward($vis, 150);
-        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
         $this->moveTimeForward($vis, 251);
         self::checkResponse($vis->doTrackEvent('Movie', 'Search', 'Search query here'));
-        $this->moveTimeForward($vis, 352);
-        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
-        $this->moveTimeForward($vis, 453);
-        self::checkResponse($vis->doTrackEvent('Movie', 'Purchase'));
 
         $this->moveTimeForward($vis, 266);
         $this->setMovieEventCustomVar($vis);
@@ -204,6 +201,11 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $this->moveTimeForward($vis, 280);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('event category ' . $append, 'event action '.$append, 'event name '.$append, 9.66));
+
+        $this->moveTimeForward($vis, 352);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Search'));
+        $this->moveTimeForward($vis, 453);
+        self::checkResponse($vis->doTrackEvent('Movie', 'Purchase'));
     }
 
     private function setMusicEventCustomVar(PiwikTracker $vis)

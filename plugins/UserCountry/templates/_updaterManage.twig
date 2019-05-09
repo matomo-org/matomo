@@ -13,7 +13,7 @@
 	<div piwik-field uicontrol="text" name="geoip-location-db"
 		 ng-model="locationUpdater.locationDbUrl"
 		 introduction="{{ 'UserCountry_LocationDatabase'|translate|e('html_attr') }}"
-		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 data-title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
 		 value="{{ geoIPLocUrl }}"
 		 inline-help="{{ 'UserCountry_LocationDatabaseHint'|translate|e('html_attr') }}">
 	</div>
@@ -21,7 +21,7 @@
 	<div piwik-field uicontrol="text" name="geoip-isp-db"
 		 ng-model="locationUpdater.ispDbUrl"
 		 introduction="{{ 'UserCountry_ISPDatabase'|translate|e('html_attr') }}"
-		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 data-title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
 		 value="{{ geoIPIspUrl }}">
 	</div>
 
@@ -29,7 +29,7 @@
 	<div piwik-field uicontrol="text" name="geoip-org-db"
 		 ng-model="locationUpdater.orgDbUrl"
 		 introduction="{{ 'UserCountry_OrgDatabase'|translate|e('html_attr') }}"
-		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
+		 data-title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
 		 value="{{ geoIPOrgUrl }}">
 	</div>
 	{% endif %}

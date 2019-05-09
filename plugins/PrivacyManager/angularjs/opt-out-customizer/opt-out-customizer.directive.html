@@ -48,5 +48,5 @@
     <p ng-bind-html="'CoreAdminHome_OptOutExplanationIntro'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer noopener\' target=\'_blank\'>':'&lt;/a>'">
     </p>
     <h3>Preview of the Opt-out as it will appear on your website</h3>
-    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 1px solid #333; height: 200px; width: 600px;" />
+    <iframe id="previewIframe" ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 1px solid #333; height: 200px; width: 600px;" />
 </div>
