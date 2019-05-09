@@ -1039,6 +1039,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -2205,6 +2208,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -2448,6 +2454,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -5282,6 +5291,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -5550,6 +5562,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -5818,6 +5833,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
@@ -6078,6 +6096,9 @@
 						<itemCategory>My Category</itemCategory>
 						<price>100</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>

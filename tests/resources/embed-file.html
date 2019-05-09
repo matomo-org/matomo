@@ -16,13 +16,19 @@
 </head>
 <body>
     <script>
-        (function () {
-            var url = decodeURIComponent(window.location.hash.substring(1));
-            console.log(url);
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            document.body.appendChild(iframe);
-        })();
+        window.onload = function () {
+            try {
+                var url = decodeURIComponent(window.location.hash.substring(1));
+                var iframe = document.createElement('iframe');
+                iframe.name = 'embed';
+                iframe.sandbox = "allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation";
+                iframe.src = url;
+                document.body.appendChild(iframe);
+            } catch (e) {
+                console.log(e.stack || e.message);
+            }
+        };
     </script>
+    <h1>Embedded Matomo</h1>
 </body>
 </html>
