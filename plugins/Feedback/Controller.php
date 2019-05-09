@@ -8,10 +8,6 @@
  */
 namespace Piwik\Plugins\Feedback;
 
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Version;
 use Piwik\View;
 

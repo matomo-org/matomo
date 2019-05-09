@@ -21,6 +21,7 @@ use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
@@ -163,7 +164,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view->showMenu = true;
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
-
         return $view;
     }
 
