@@ -269,44 +269,6 @@
 		</settings>
 	</row>
 	<row>
-		<pluginName>TwoFactorAuth</pluginName>
-		<title>TwoFactorAuth</title>
-		<settings>
-			<row>
-				<name>twoFactorAuthRequired</name>
-				<title>Require two-factor authentication for everyone</title>
-				<value>0</value>
-				<defaultValue>0</defaultValue>
-				<type>boolean</type>
-				<uiControl>checkbox</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>When enabled, every user has to enable two factor authentication.</description>
-				<inlineHelp />
-				<templateFile />
-				<introduction />
-				<condition />
-			</row>
-			<row>
-				<name>twoFactorAuthName</name>
-				<title>Two-factor authentication title</title>
-				<value>Analytics - localhost</value>
-				<defaultValue>Analytics - localhost</defaultValue>
-				<type>string</type>
-				<uiControl>text</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues />
-				<description>The name of the title to display that will be displayed in the Authenticator app.</description>
-				<inlineHelp />
-				<templateFile />
-				<introduction />
-				<condition />
-			</row>
-		</settings>
-	</row>
-	<row>
 		<pluginName>CoreUpdater</pluginName>
 		<title>Update settings</title>
 		<settings>
@@ -326,7 +288,7 @@
 					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
 				</availableValues>
 				<description />
-				<inlineHelp>While our development process includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Matomo.&lt;br/&gt;If Matomo is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<inlineHelp>While our &lt;a target='_blank' rel='noreferrer noopener' href='https://matomo.org/participate/development-process/'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Matomo.&lt;br/&gt;If Matomo is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
 				<templateFile />
 				<introduction>Release channel</introduction>
 				<condition />
@@ -801,69 +763,6 @@ Another line</defaultValue>
 				<availableValues />
 				<description />
 				<inlineHelp>If enabled, we will process all requests within a queue during a normal tracking request once there are enough requests in the queue. This will not slow down the tracking request. If disabled, you have to setup a cronjob that executes the &quot;./console queuedtracking:process&quot; console command eg every minute to process the queue.</inlineHelp>
-				<templateFile />
-				<introduction />
-				<condition />
-			</row>
-		</settings>
-	</row>
-	<row>
-		<pluginName>TagManager</pluginName>
-		<title>TagManager</title>
-		<settings>
-			<row>
-				<name>restrictCustomTemplates</name>
-				<title>Restrict usage of custom templates</title>
-				<value>admin</value>
-				<defaultValue>admin</defaultValue>
-				<type>string</type>
-				<uiControl>select</uiControl>
-				<uiControlAttributes>
-				</uiControlAttributes>
-				<availableValues>
-					<disabled>Disabled, nobody can use them</disabled>
-					<admin>Users with at last admin permission can use them</admin>
-					<superuser>Only Super Users can use them</superuser>
-				</availableValues>
-				<description>This setting defines who can use custom templates or whether they should be completely disabled. Changing this setting can improve the security on your website. When you configure a trigger, tag, or a variable, some of them may allow a Matomo user to enter HTML or JavaScript which will be executed on your website. Entering custom code cannot only break the container in case there is an error, but also allows them to execute any JavaScript code on your website. This can be misused to steal for example sensitive information on your website. If you do not want to allow your team members to enter any JavaScript code, you may want to disable this setting.</description>
-				<inlineHelp />
-				<templateFile />
-				<introduction />
-				<condition />
-			</row>
-			<row>
-				<name>environments</name>
-				<title>Environments</title>
-				<value>
-					<row>
-						<environment>dev</environment>
-					</row>
-					<row>
-						<environment>staging</environment>
-					</row>
-				</value>
-				<defaultValue>
-					<row>
-						<environment>dev</environment>
-					</row>
-					<row>
-						<environment>staging</environment>
-					</row>
-				</defaultValue>
-				<type>array</type>
-				<uiControl>multituple</uiControl>
-				<uiControlAttributes>
-					<field1>
-						<key>environment</key>
-						<title>Environment</title>
-						<uiControl>text</uiControl>
-						<templateFile />
-						<availableValues />
-					</field1>
-				</uiControlAttributes>
-				<availableValues />
-				<description>Define one or multiple additional environments. Please note that if you remove any environment, generated container files that exist for a specific environment will be removed and will be no longer available.</description>
-				<inlineHelp />
 				<templateFile />
 				<introduction />
 				<condition />

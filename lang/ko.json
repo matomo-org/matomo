@@ -261,8 +261,6 @@
         "OverlayRowActionTooltipTitle": "페이지 중첩 열기",
         "Overview": "개요",
         "Pages": "페이지",
-        "Pagination": "%1$s - %2$s 의 %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "%1$s 매개변수는 %2$s에서 %3$s까지의 정수로 값을 지정하세요.",
         "Password": "비밀번호",
         "Period": "기간",

@@ -60,7 +60,7 @@ class Request
             'format' => 'original'
         );
 
-        $toSetEventually = array(
+        $toSetEventually = array_merge(array(
             'filter_limit',
             'keep_totals_row',
             'keep_summary_row',
@@ -76,7 +76,7 @@ class Request
             'pivotBy',
             'pivotByColumn',
             'pivotByColumnLimit'
-        );
+        ), $this->requestConfig->getExtraParametersToSet());
 
         foreach ($toSetEventually as $varToSet) {
             $value = $this->getDefaultOrCurrent($varToSet);

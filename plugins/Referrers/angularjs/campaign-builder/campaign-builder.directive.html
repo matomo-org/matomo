@@ -2,39 +2,39 @@
 
     <form>
         <div piwik-field uicontrol="text" name="websiteurl"
-             title="{{'Actions_ColumnPageURL'|translate}} ({{ 'General_Required2'|translate }})"
+             data-title="{{'Actions_ColumnPageURL'|translate}} ({{ 'General_Required2'|translate }})"
              ng-model="campaignBuilder.websiteUrl"
              inline-help="{{'Referrers_CampaignPageUrlHelp'|translate}}">
         </div>
 
         <div piwik-field uicontrol="text" name="campaignname"
-             title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate }} ({{ 'General_Required2'|translate }})"
+             data-title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate }} ({{ 'General_Required2'|translate }})"
              ng-model="campaignBuilder.campaignName"
              inline-help="{{'Referrers_CampaignNameHelp'|translate}}">
         </div>
 
         <div piwik-field uicontrol="text" name="campaignkeyword"
-             title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate }}"
+             data-title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate }}"
              ng-model="campaignBuilder.campaignKeyword"
              inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignKeywordHelp'|translate}}">
         </div>
 
         <div piwik-field uicontrol="text" name="campaignsource"
-             title="{{ 'Referrers_CampaignSource'|translate }}"
+             data-title="{{ 'Referrers_CampaignSource'|translate }}"
              ng-model="campaignBuilder.campaignSource"
              ng-show="campaignBuilder.hasExtraPlugin"
              inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignSourceHelp'|translate}}">
         </div>
 
         <div piwik-field uicontrol="text" name="campaignmedium"
-             title="{{ 'Referrers_CampaignMedium'|translate }}"
+             data-title="{{ 'Referrers_CampaignMedium'|translate }}"
              ng-model="campaignBuilder.campaignMedium"
              ng-show="campaignBuilder.hasExtraPlugin"
              inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignMediumHelp'|translate}}">
         </div>
 
         <div piwik-field uicontrol="text" name="campaigncontent"
-             title="{{ 'Referrers_CampaignContent'|translate }}"
+             data-title="{{ 'Referrers_CampaignContent'|translate }}"
              ng-model="campaignBuilder.campaignContent"
              ng-show="campaignBuilder.hasExtraPlugin"
              inline-help="{{'Goals_Optional'|translate}} {{'Referrers_CampaignContentHelp'|translate}}">

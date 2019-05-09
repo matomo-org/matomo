@@ -54,7 +54,7 @@
                         ng-model-options="{debounce: 300}"
                         placeholder="{{:: 'UsersManager_UserSearch'|translate }}"
                         full-width="true"
-                        ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
+                        ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter, offset: 0 })"
                 ></div>
             </div>
             <div class="input-field col s12 m4 l4">
@@ -66,7 +66,7 @@
                         placeholder="{{:: 'UsersManager_FilterByAccess'|translate }}"
                         options="$ctrl.filterAccessLevels"
                         full-width="true"
-                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
+                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter, offset: 0 })"
                 ></div>
             </div>
         </div>
@@ -78,7 +78,7 @@
 
                 <div class="counter">
                     <span>
-                        {{ 'UsersManager_XtoYofN'|translate:$ctrl.searchParams.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
+                        {{ 'General_Pagination'|translate:$ctrl.getPaginationLowerBound():$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
                     </span>
                     <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
                 </div>

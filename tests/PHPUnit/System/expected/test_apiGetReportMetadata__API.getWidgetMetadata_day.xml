@@ -1849,23 +1849,6 @@
 		<uniqueId>widgetInsightsgetInsightsOverview</uniqueId>
 	</row>
 	<row>
-		<name>Top Keywords for Page URL</name>
-		<category>
-			<name>SEO</name>
-			<order>99</order>
-			<id>SEO</id>
-		</category>
-		<subcategory />
-		<module>Referrers</module>
-		<action>getKeywordsForPage</action>
-		<order>99</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getKeywordsForPage</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
-	</row>
-	<row>
 		<name>Matomo Changelog</name>
 		<category>
 			<name>Example Widgets</name>

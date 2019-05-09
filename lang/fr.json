@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Ouvrir l'analyse des pages web",
         "Overview": "Récapitulatif",
         "Pages": "Pages",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Le paramètre %1$s doit être un entier compris entre %2$s et %3$s.",
         "Password": "Mot de passe",
         "Period": "Période",
@@ -490,7 +488,9 @@
         "YouAreCurrentlyUsing": "Vous utilisez actuellement Matomo %s",
         "YouAreViewingDemoMessage": "Vous utilisez la démo de%1$s Matomo %2$s",
         "YouMustBeLoggedIn": "Vous devez être connecté(e) pour accéder à cette fonctionnalité.",
-        "YourChangesHaveBeenSaved": "Vos modifications ont été enregistrées."
+        "YourChangesHaveBeenSaved": "Vos modifications ont été enregistrées.",
+        "ThankYouForUsingMatomo": "Merci d'utiliser Matomo",
+        "TheMatomoTeam": "L'équipe Matomo"
     },
     "Mobile": {
         "AboutPiwikMobile": "À propos de Matomo Mobile",

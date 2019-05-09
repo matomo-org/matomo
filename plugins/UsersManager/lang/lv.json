@@ -32,7 +32,6 @@
         "User": "Lietotājs",
         "UsersManagement": "Lietotāju pārvaldīšana",
         "UsersManagementMainDescription": "Izveidojiet jaunus vai labojiet esošu lietotāju iestatījumus. Augstāk Jūs varat uzstādīt šo lietotāju pieejas atļaujas.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kad lietotāji nav pieteikušies un apmeklē Matomo, tiem rādam",
         "YourUsernameCannotBeChanged": "Jūsu lietotājvārdu nav iespējams izmainīt.",
         "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Matomo ignorēšanas sīkdatne).",
         "ShowAll": "Rādīt visu",

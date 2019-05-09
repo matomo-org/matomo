@@ -42,7 +42,7 @@
         "SendReportTo": "Raporu şuraya gönder",
         "SentToMe": "Bana gönder",
         "TableOfContent": "Rapor listesi",
-        "ThereIsNoReportToManage": "%s web sitesinde herhangi bir rapor yok",
+        "ThereIsNoReportToManage": "%s web sitesinde henüz bir rapor yok",
         "TopLinkTooltip": "Matomo istatistiklerini otomatik olarak e-posta ile almak ya da müşterilerinize iletmek için e-posta raporları oluşturun!",
         "TopOfReport": "Başa dön",
         "UpdateReport": "Raporu Güncelle",

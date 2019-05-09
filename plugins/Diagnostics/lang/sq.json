@@ -5,6 +5,13 @@
         "MysqlMaxPacketSizeWarning": "Këshillohet të formësoni te baza juaj e të dhënave MySQL një madhësi 'max_allowed_packet' size të paktën %1$s. Formësimi i tanishëm për të është %2$s.",
         "ConfigFileIntroduction": "Këtu mund të shihni formësimin e Matomo-s. Nëse Matomo-n e xhironi në një mjedis me ngarkesë të balancuar, faqja mund të jetë ndryshe, varet se nga cili shërbyes ngarkohet faqja. Rreshtat me një ngjyrë tjetër për sfondin përfaqësojnë vlera formësimi që janë dhënë si shembull te kartela %1$s.",
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
-        "Sections": "Ndarje"
+        "Sections": "Ndarje",
+        "CronArchivingLastRunCheck": "Plotësimi i Fundit i Suksesshëm i Arkivimit",
+        "CronArchivingHasNotRun": "Arkivimi ende s’është xhiruar me sukses.",
+        "CronArchivingHasNotRunInAWhile": "Hera e fundit që arkivimi u bë me sukses qe më %1$s, që do të thotë %2$s më parë.",
+        "CronArchivingRunDetails": "Ju lutemi, shihni të keni ujdisur një akt crontab për vënie në punë tëurdhrit %1$s të konsolës, dhe se keni formësuar një %2$s për të marrë me email njoftime gabimesh, nëse arkivimi dështon. Mund të provoni edhe të xhironi urdhër konsole për arkivim dorazi të raporteve tuaja: %3$s",
+        "CronArchivingRanSuccessfullyXAgo": "Procesi i arkivimit u plotësua me sukses %1$s më parë.",
+        "BrowserTriggeredArchivingEnabled": "Për funksionimin më të mirë dhe një Matomo të shpejtë, këshillohet me forcë të ujdisni një akt crontab për arkivim automatik të raporteve tuaja, dhe të çaktivizoni që nga rregullimet e Matomo-s ngacmimin e shfletuesit. %1$sMësoni më tepër.%2$s",
+        "NoDataForReportArchivingNotRun": "Arkivimi i raporteve tuaja nuk ka ngjarë tani së fundi, %1$smësoni më tepër se si të prodhoni raportet tuaja.%2$s"
     }
 }

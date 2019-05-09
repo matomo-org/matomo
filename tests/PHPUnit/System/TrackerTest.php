@@ -148,6 +148,25 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(0, count($this->getConversionItems()));
     }
 
+    public function test_trackingEcommerceOrder_FailsWhenNonUniqueOrderIsUsed()
+    {
+        $ecItems = array(array("\"scarysku&", "superscarymovie'", 'scary <> movies', 12.99, 1));
+
+        $urlToTest = $this->getEcommerceItemsUrl($ecItems);
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        Fixture::checkResponse($response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+        $this->assertEquals(1, count($this->getConversionItems()));
+
+        $response = $this->sendTrackingRequestByCurl($urlToTest);
+        $this->assertContains('This resource is part of Matomo.', $response);
+
+        $this->assertEquals(1, $this->getCountOfConversions());
+        $this->assertEquals(1, count($this->getConversionItems()));
+    }
+
     public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
     {
         LocationProvider::$providers = null;

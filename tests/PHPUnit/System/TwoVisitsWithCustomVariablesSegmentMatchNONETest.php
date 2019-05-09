@@ -68,6 +68,9 @@ class TwoVisitsWithCustomVariablesSegmentMatchNONETest extends SystemTestCase
             if ($segment == 'actionType') {
                 $value = 'pageviews';
             }
+            if ($segment == 'fingerprint') {
+                $value = 'abcdef1234567890';        //Needs to be a valid 16-char hex string
+            }
             $matchNone = $segment . '!=' . $value;
 
             // deviceType != campaign matches ALL visits, but we want to match None

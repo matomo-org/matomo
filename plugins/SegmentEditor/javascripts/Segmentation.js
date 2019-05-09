@@ -595,7 +595,7 @@ Segmentation = (function($) {
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
             }
 
-            if (segment.definition != ""){
+            if (segment !== undefined && segment.definition != ""){
                 self.form.find('[piwik-segment-generator]').attr('segment-definition', segment.definition);
             }
 
@@ -854,12 +854,12 @@ $(document).ready(function() {
 
         this.forceSegmentReload = function (segmentDefinition) {
             segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
-            
+
             if (piwikHelper.isAngularRenderingThePage()) {
-                return broadcast.propagateNewPage('', true, 'segment=' + segmentDefinition);
+                return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition);
             } else {
                 // eg in case of exported dashboard
-                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'segment=' + segmentDefinition);
+                return broadcast.propagateNewPage('segment=' + segmentDefinition, true, 'addSegmentAsNew=&segment=' + segmentDefinition);
             }
         };
 

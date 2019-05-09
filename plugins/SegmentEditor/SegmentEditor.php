@@ -17,6 +17,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Diagnostics\Diagnostics;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -115,6 +116,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoData(View $dataTableView)
     {
+        // if the archiving hasn't run in a while notification is up, don't display this one
+        if (isset($dataTableView->notifications[Diagnostics::NO_DATA_ARCHIVING_NOT_RUN_NOTIFICATION_ID])) {
+            return;
+        }
+
         $segmentInfo = $this->getSegmentIfIsUnprocessed();
         if (empty($segmentInfo)) {
             return;
