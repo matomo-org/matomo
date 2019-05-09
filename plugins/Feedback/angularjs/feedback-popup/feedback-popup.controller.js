@@ -1,25 +1,21 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link http://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 (function () {
     angular.module('piwikApp').controller('FeedbackPopupController', FeedbackPopupController);
 
-    FeedbackPopupController.$inject = ['$scope', '$timeout'];
+    FeedbackPopupController.$inject = ['$scope', '$timeout', 'piwikApi'];
 
-    function FeedbackPopupController($scope, $timeout) {
-        // remember to keep controller very simple. Create a service/factory (model) if needed
+    function FeedbackPopupController($scope, $timeout, piwikApi) {
 
         var saveNextReminder = function(nextReminder) {
-            var request = new ajaxHelper();
-            request.addParams({
-                module: 'Feedback',
-                action: 'updateFeedbackReminder',
+            piwikApi.fetch({
+                method: 'Feedback.updateFeedbackReminderDate',
                 nextReminder: nextReminder
-            }, 'GET');
-            request.send();
+            });
         };
 
         var remindMeLater = function() {
@@ -27,7 +23,6 @@
         };
 
         var dontShowAgain = function() {
-            debugger;
             saveNextReminder(-1);
         };
 

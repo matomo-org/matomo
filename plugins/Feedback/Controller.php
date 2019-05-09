@@ -27,16 +27,4 @@ class Controller extends \Piwik\Plugin\Controller
         $view->piwikVersion = Version::VERSION;
         return $view->render();
     }
-
-    public function updateFeedbackReminder()
-    {
-        // -1 means "never remind me again", otherwise add the interval onto today's date
-        $nextReminder = Common::getRequestVar('nextReminder', -1, 'int');
-        if ($nextReminder !== -1) {
-            $nextReminder = Date::today()->addDay($nextReminder)->toString('Y-m-d');
-        }
-        $optionKey = 'CoreHome.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        Option::set($optionKey, $nextReminder);
-        return '';
-    }
 }

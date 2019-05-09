@@ -14,16 +14,13 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Notification\Manager as NotificationManager;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\UsersManager\Model;
 use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
-use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
@@ -167,35 +164,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
 
-        $view->promptForFeedback = (int)$this->getShouldPromptForFeedback();
         return $view;
-    }
-
-    protected function getShouldPromptForFeedback()
-    {
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-
-        $login = Piwik::getCurrentUserLogin();
-        $feedbackReminderKey = 'CoreHome.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        $nextReminderDate = Option::get($feedbackReminderKey);
-
-        // -1 = "never remind me again"
-        if ($nextReminderDate === "-1") {
-            return false;
-        }
-
-        if ($nextReminderDate === false) {
-            $model = new Model();
-            $user = $model->getUser($login);
-            $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
-        } else {
-            $nextReminderDate = Date::factory($nextReminderDate);
-        }
-
-        $now = Date::now()->getTimestamp();
-        return $nextReminderDate->getTimestamp() < $now;
     }
 
     protected function setDateTodayIfWebsiteCreatedToday()
