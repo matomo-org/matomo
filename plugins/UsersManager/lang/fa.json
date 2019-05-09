@@ -40,9 +40,7 @@
         "User": "کاربر",
         "UsersManagement": "مدیریت کاربران",
         "UsersManagementMainDescription": "ایجاد کاربران جدید و یا به روز رسانی کاربران موجود است. بعد از آن شما می توانند مجوز خود را به صورت فوق تنظیم شده است.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "هنگامی که کاربران وارد نشده اید و بازدید Matomo، آنها باید دسترسی داشته باشید",
         "YourUsernameCannotBeChanged": "نام کاربری شما نمی تواند تغییر کند.",
-        "XtoYofN": "%1$s-%2$s از %3$s",
         "ShowAll": "همه را نشان بده",
         "Username": "نام کاریری"
     }

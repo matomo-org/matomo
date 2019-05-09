@@ -39,7 +39,6 @@
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "U bent aangemeld as '%1$s'. Maar het lijkt er op dat u geen rechten hebt op Matomo te bezoeken. %2$sVraag aan uw webmaster (klik hier voor e-mail)%3$s of hij u de juiste rechten wilt geven om de statistieken te bekijken.",
         "OnlyForSuperUserAccess": "Het widget wordt alleen getoond in het standaard dashbord aan gebruikers met Super User toegang.",
-        "PageOf": "%1$s van %2$s",
         "PeriodRange": "Bereik",
         "ReportGeneratedOn": "Rapport gegenereerd op %s",
         "ReportGeneratedXAgo": "Rapport %s geleden gegenereerd",

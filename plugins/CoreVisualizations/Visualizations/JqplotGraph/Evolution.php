@@ -87,9 +87,6 @@ class Evolution extends JqplotGraph
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
-            $this->config->show_limit_control = true;
-            $this->config->show_periods = true;
-
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) {
                 // if a multiple period

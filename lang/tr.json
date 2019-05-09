@@ -80,7 +80,7 @@
         "ColumnPageviewsDocumentation": "Bu sayfanın ziyaret edilme sayısı.",
         "ColumnPercentageVisits": "%% Ziyaretler",
         "ColumnRevenue": "Gelir",
-        "ColumnSumVisitLength": "Ziyaretçiler tarafından harcanan toplam süre (saniye)",
+        "ColumnSumVisitLength": "Ziyaretçilerin geçirdiği toplam süre (saniye)",
         "ColumnTotalPageviews": "Görüntülenen Sayfa Sayısı",
         "ColumnUniqueEntrances": "Tekil girişler",
         "ColumnUniqueExits": "Tekil çıkışlar",
@@ -327,8 +327,8 @@
         "OverlayRowActionTooltipTitle": "Sayfa Kaplamasını Aç",
         "Overview": "Özet",
         "Pages": "Sayfalar",
-        "Pagination": "%1$s - %2$s \/ %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
+        "Pagination": "%1$s–%2$s \/ %3$s",
+        "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "%1$s değeri %2$s ve %3$s arasında bir tamsayı değeri olmalıdır.",
         "Password": "Parola",
         "Period": "Zaman aralığı",
@@ -490,7 +490,9 @@
         "YouAreCurrentlyUsing": "Matomo %s sürümünü kullanıyorsunuz.",
         "YouAreViewingDemoMessage": "%1$sMatomo%2$s tanıtımına bakıyorsunuz",
         "YouMustBeLoggedIn": "Bu özelliği kullanabilmek için oturumu açmalısınız.",
-        "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi."
+        "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi.",
+        "ThankYouForUsingMatomo": "Matomo kullandığınız için teşekkürler",
+        "TheMatomoTeam": "Matomo Ekibi"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

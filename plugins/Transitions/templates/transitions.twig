@@ -9,7 +9,7 @@
             <div piwik-field uicontrol="select" name="actionType"
                  ng-model="transitionSwitcher.actionType"
                  ng-change="transitionSwitcher.onActionTypeChange(transitionSwitcher.actionType)"
-                 title="{{ 'Actions_ActionType'|translate|e('html_attr') }}"
+                 data-title="{{ 'Actions_ActionType'|translate|e('html_attr') }}"
                  full-width="true"
                  options='transitionSwitcher.actionTypeOptions'>
             </div>
@@ -18,7 +18,7 @@
             <div piwik-field uicontrol="select" name="actionName"
                  ng-model="transitionSwitcher.actionName"
                  ng-change="transitionSwitcher.onActionNameChange(transitionSwitcher.actionName)"
-                 title="{{ 'Transitions_TopX'|translate(100)|e('html_attr') }}"
+                 data-title="{{ 'Transitions_TopX'|translate(100)|e('html_attr') }}"
                  full-width="true"
                  data-disabled="!transitionSwitcher.isEnabled"
                  options='transitionSwitcher.actionNameOptions'>

@@ -5,6 +5,7 @@
 		<idVisit>42</idVisit>
 		<visitIp>174.97.139.63</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -155,6 +156,7 @@
 		<idSite>1</idSite>
 		<idVisit>35</idVisit>
 		<visitIp>206.190.75.8</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -312,6 +314,7 @@
 		<idSite>1</idSite>
 		<idVisit>41</idVisit>
 		<visitIp>193.159.20.129</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -475,6 +478,7 @@
 		<idSite>1</idSite>
 		<idVisit>39</idVisit>
 		<visitIp>50.244.17.130</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -654,6 +658,7 @@
 		<idVisit>40</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>outlink</type>
@@ -792,6 +797,7 @@
 		<idSite>1</idSite>
 		<idVisit>38</idVisit>
 		<visitIp>108.211.181.12</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -956,6 +962,7 @@
 		<idVisit>37</idVisit>
 		<visitIp>219.101.46.222</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1105,6 +1112,7 @@
 		<idVisit>36</idVisit>
 		<visitIp>80.136.160.65</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1247,6 +1255,7 @@
 		<idSite>1</idSite>
 		<idVisit>34</idVisit>
 		<visitIp>188.107.238.9</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -1410,6 +1419,7 @@
 		<idSite>1</idSite>
 		<idVisit>32</idVisit>
 		<visitIp>93.80.130.163</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -1610,6 +1620,7 @@
 		<idVisit>33</idVisit>
 		<visitIp>176.41.226.154</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1765,6 +1776,7 @@
 		<idVisit>31</idVisit>
 		<visitIp>84.194.72.21</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1919,6 +1931,7 @@
 		<idSite>1</idSite>
 		<idVisit>57</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -2293,6 +2306,7 @@
 		<idVisit>62</idVisit>
 		<visitIp>192.0.2.10</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2423,6 +2437,7 @@
 		<idVisit>73</idVisit>
 		<visitIp>175.41.191.47</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2550,6 +2565,7 @@
 		<idSite>1</idSite>
 		<idVisit>61</idVisit>
 		<visitIp>172.20.1.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -2704,6 +2720,7 @@
 		<idVisit>68</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -2845,6 +2862,7 @@
 		<idSite>1</idSite>
 		<idVisit>58</idVisit>
 		<visitIp>70.95.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -3040,6 +3058,7 @@
 		<idVisit>59</idVisit>
 		<visitIp>173.5.0.0</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3169,6 +3188,7 @@
 		<idSite>1</idSite>
 		<idVisit>60</idVisit>
 		<visitIp>173.5.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -3335,6 +3355,7 @@
 		<idVisit>67</idVisit>
 		<visitIp>70.95.32.0</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3474,6 +3495,7 @@
 		<idSite>1</idSite>
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -3627,6 +3649,7 @@
 		<idSite>1</idSite>
 		<idVisit>28</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -3789,6 +3812,7 @@
 		<idVisit>65</idVisit>
 		<visitIp>72.45.67.32</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -3918,6 +3942,7 @@
 		<idSite>1</idSite>
 		<idVisit>66</idVisit>
 		<visitIp>73.77.55.45</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -4049,6 +4074,7 @@
 		<idVisit>64</idVisit>
 		<visitIp>192.0.2.222</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -4165,6 +4191,7 @@
 		<idVisit>63</idVisit>
 		<visitIp>192.0.2.147</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>event</type>
@@ -4279,6 +4306,7 @@
 		<idSite>1</idSite>
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -4412,6 +4440,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>::ffff:123.45.67.89</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -4543,6 +4572,7 @@
 		<idSite>1</idSite>
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -4700,6 +4730,7 @@
 		<idSite>1</idSite>
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -4869,6 +4900,7 @@
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5000,6 +5032,7 @@
 		<idSite>1</idSite>
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -5133,6 +5166,7 @@
 		<idVisit>18</idVisit>
 		<visitIp>1.2.3.4</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -5250,6 +5284,7 @@
 		<idSite>1</idSite>
 		<idVisit>20</idVisit>
 		<visitIp>175.41.192.41</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -5383,6 +5418,7 @@
 		<idVisit>19</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5515,6 +5551,7 @@
 		<idVisit>17</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5642,6 +5679,7 @@
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -5771,6 +5809,7 @@
 		<idVisit>15</idVisit>
 		<visitIp>177.71.128.21</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -5898,6 +5937,7 @@
 		<idSite>1</idSite>
 		<idVisit>14</idVisit>
 		<visitIp>177.71.128.21</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -6027,6 +6067,7 @@
 		<idVisit>13</idVisit>
 		<visitIp>177.71.128.21</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6154,6 +6195,7 @@
 		<idSite>1</idSite>
 		<idVisit>12</idVisit>
 		<visitIp>175.41.192.34</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -6283,6 +6325,7 @@
 		<idVisit>11</idVisit>
 		<visitIp>175.41.192.34</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6410,6 +6453,7 @@
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
 		<visitIp>0.0.0.0</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -6539,6 +6583,7 @@
 		<idVisit>69</idVisit>
 		<visitIp>175.41.193.45</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6667,6 +6712,7 @@
 		<idVisit>71</idVisit>
 		<visitIp>175.41.191.45</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -6793,7 +6839,8 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>9</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -6898,17 +6945,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<visitLocalTime>21:00:42</visitLocalTime>
 		<visitLocalHour>21</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6921,7 +6968,8 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>8</idVisit>
-		<visitIp>0.0.0.0</visitIp>
+		<visitIp>175.41.192.9</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -7026,17 +7074,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Unknown</continent>
-		<continentCode>unk</continentCode>
-		<country>Unknown</country>
-		<countryCode>xx</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Japan</country>
+		<countryCode>jp</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Unknown</location>
-		<latitude />
-		<longitude />
+		<location>Japan</location>
+		<latitude>36</latitude>
+		<longitude>138</longitude>
 		<visitLocalTime>20:56:45</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -7050,6 +7098,7 @@
 		<idSite>1</idSite>
 		<idVisit>7</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -7179,6 +7228,7 @@
 		<idVisit>6</idVisit>
 		<visitIp>72.44.32.10</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7306,6 +7356,7 @@
 		<idSite>1</idSite>
 		<idVisit>5</idVisit>
 		<visitIp>72.44.32.10</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -7435,6 +7486,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7562,6 +7614,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -7691,6 +7744,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -7818,6 +7872,7 @@
 		<idSite>1</idSite>
 		<idVisit>70</idVisit>
 		<visitIp>175.41.193.46</visitIp>
+		
 		
 		<actionDetails>
 			<row>
@@ -7947,6 +8002,7 @@
 		<idVisit>72</idVisit>
 		<visitIp>175.41.191.46</visitIp>
 		
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -8074,6 +8130,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>175.41.192.40</visitIp>
+		
 		
 		<actionDetails>
 			<row>

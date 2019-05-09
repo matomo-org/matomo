@@ -30,6 +30,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -71,7 +72,6 @@ class Manager
     // These are always activated and cannot be deactivated
     protected $pluginToAlwaysActivate = array(
         'CoreHome',
-        'Diagnostics',
         'CoreUpdater',
         'CoreAdminHome',
         'CoreConsole',
@@ -447,7 +447,7 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
-        $corePluginsDir = PIWIK_INCLUDE_PATH . 'plugins/' . $pluginName;
+        $corePluginsDir = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName;
         if (is_dir($corePluginsDir)) {
             // for faster performance
             self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($corePluginsDir);
@@ -1067,7 +1067,9 @@ class Manager
 
             if ($cache->contains($cacheKey)) {
                 $pluginLicenseInfo = $cache->fetch($cacheKey);
-            } else {
+            } elseif (!SettingsServer::isTrackerApiRequest()) {
+                // prevent requesting license info during a tracker request see https://github.com/matomo-org/matomo/issues/14401
+                // as possibly many instances would try to do this at the same time
                 try {
                     $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
                     $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
@@ -1078,6 +1080,9 @@ class Manager
                 $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
                 $sixHours = 3600 * 6;
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
+            } else {
+                // tracker mode, we assume it is not missing until cache is written
+                $pluginLicenseInfo = array('missing' => false); 
             }
 
             if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {

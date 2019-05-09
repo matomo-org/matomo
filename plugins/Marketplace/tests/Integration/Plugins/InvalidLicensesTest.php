@@ -26,7 +26,7 @@ class CustomInvalidLicenses extends InvalidLicenses {
         $this->isActivated = $isActivated;
     }
 
-    public function isPluginActivated($pluginName)
+    public function isPluginInActivatedPluginsList($pluginName)
     {
         return $this->isActivated;
     }

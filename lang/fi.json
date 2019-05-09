@@ -327,8 +327,6 @@
         "OverlayRowActionTooltipTitle": "Avaa sivuleijuke",
         "Overview": "Yleiskatsaus",
         "Pages": "Sivut",
-        "Pagination": "%1$s - %2$s %3$s:sta.",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "Parametrin %1$s täytyy olla kokonaisluku väliltä %2$s ja %3$s.",
         "Password": "Salasana",
         "Period": "Aikaväli",

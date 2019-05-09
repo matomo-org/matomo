@@ -317,8 +317,6 @@
         "OverlayRowActionTooltipTitle": "显示页面叠加",
         "Overview": "概览",
         "Pages": "页面",
-        "Pagination": "%1$s - %2$s of %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
         "ParameterMustIntegerBetween": "参数 %1$s 必须为介于 %2$s 和 %3$s 之间的整数",
         "Password": "密码",
         "Period": "统计时间",

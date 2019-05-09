@@ -131,6 +131,7 @@
         function onToggleCapability(isAdd) {
             vm.isAddingCapability = isAdd;
 
+            vm.capabilityToAddOrRemove = null;
             vm.availableCapabilities.forEach(function (capability) {
                 if (capability.id === vm.capabilityToAddOrRemoveId) {
                     vm.capabilityToAddOrRemove = capability;
