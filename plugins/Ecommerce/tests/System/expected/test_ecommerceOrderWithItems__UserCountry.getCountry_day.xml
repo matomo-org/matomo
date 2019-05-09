@@ -29,9 +29,9 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
-		<segment>countryCode==pl</segment>
 		<code>pl</code>
 		<logo>plugins/Morpheus/icons/dist/flags/pl.png</logo>
+		<segment>countryCode==pl</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -52,9 +52,9 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
-		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>
