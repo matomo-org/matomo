@@ -52,6 +52,7 @@ describe("CampaignBuilder", function () {
     it('can reset form', async function () {
         await captureUrlBuilder('generate_url_reset', async function () {
             await page.click('.resetCampaignUrl');
+            await page.waitFor(500); // wait to re-render
         });
     });
 

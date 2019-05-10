@@ -110,6 +110,11 @@ function initializeVisitorActions(elem) {
         var $pageviewAction = $(this).prev();
         $pageviewAction.find('>div').prepend($("<span>"+viewCount+"</span>").attr({'class': 'repeat icon-refresh', 'title': _pk_translate('Live_PageRefreshed')}));
 
+        var actionsCount = +$(this).attr('data-actions-on-page');
+        if (actionsCount === 0) {
+            $pageviewAction.addClass('noPageviewActions');
+        }
+
         $('a', $(this)).on('focus', function () {
             // see https://github.com/piwik/piwik/issues/4099
             if (tooltipIsOpened) {
@@ -124,6 +129,7 @@ function initializeVisitorActions(elem) {
             e.preventDefault();
             e.stopPropagation();
 
+            $pageviewAction.addClass('refreshesExpanded');
             $this.children('.actionList').children().first().removeClass('duplicate').nextUntil('li:not(.duplicate)').removeClass('duplicate');
 
             window.setTimeout(function() {

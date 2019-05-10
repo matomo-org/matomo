@@ -240,6 +240,15 @@ ol.actionList > li.pageviewActions {
   &:last-child:after {
     height: calc(100%);
   }
+
+  > ol > li:nth-last-child(2):after {
+    border-left: none;
+  }
+}
+
+// when last action group is just refreshes
+ol.actionList > li:nth-last-child(2).noPageviewActions:not(.refreshesExpanded):after {
+  border-left: none;
 }
 
 ol.actionList > li:not(.pageviewActions).last-action {

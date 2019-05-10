@@ -8,7 +8,7 @@
 
     {% if actionGroup.actionsOnPage is not empty or actionGroup.refreshActions is not empty %}
     {% if actionGroup.pageviewAction is not empty %}
-    <li class="pageviewActions" data-view-count="{{ actionGroup.refreshActions|length + 1 }}">
+    <li class="pageviewActions" data-view-count="{{ actionGroup.refreshActions|length + 1 }}" data-actions-on-page="{{ actionGroup.actionsOnPage|length }}">
         <ol class="actionList">
     {% endif %}
         {% for action in actionGroup.refreshActions %}
