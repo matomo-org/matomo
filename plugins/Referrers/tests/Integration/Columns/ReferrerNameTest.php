@@ -80,21 +80,21 @@ class ReferrerNameTest extends IntegrationTestCase
 
         return array(
             // domain matches but path does not match for idsite1
-            array('piwik.org',              $this->idSite1, $url, $referrer),
-            array('piwik.org',              $this->idSite1, $url, $referrer . '/'),
+            array(null,              $this->idSite1, $url, $referrer),
+            array(null,              $this->idSite1, $url, $referrer . '/'),
             // idSite2 matches any piwik.org path so this is a direct entry for it
             array($directEntryReferrerName, $this->idSite2, $url, $referrer),
             array($directEntryReferrerName, $this->idSite2, $url, $referrer . '/'),
             // idSite3 has different domain so it is coming from different website
-            array('piwik.org',              $this->idSite3, $url, $referrer),
-            array('piwik.org',              $this->idSite3, $url, $referrer . '/'),
+            array(null,              $this->idSite3, $url, $referrer),
+            array(null,              $this->idSite3, $url, $referrer . '/'),
 
             array($directEntryReferrerName, $this->idSite1, $url, $referrer . '/foo/bar/baz'),
             array($directEntryReferrerName, $this->idSite1, $url, $referrer . '/foo/bar/baz/'),
             array($directEntryReferrerName, $this->idSite1, $url, $referrer . '/foo/bar/baz?x=5'),
             array($directEntryReferrerName, $this->idSite1, $url, $referrer . '/fOo/BaR/baz?x=5'),
             // /not/xyz belongs to different website
-            array('piwik.org',              $this->idSite1, $url, $referrer . '/not/xyz'),
+            array(null,              $this->idSite1, $url, $referrer . '/not/xyz'),
             array($directEntryReferrerName, $this->idSite2, $url, $referrer . '/not/xyz'),
 
             // /foo/bar/baz belongs to different website

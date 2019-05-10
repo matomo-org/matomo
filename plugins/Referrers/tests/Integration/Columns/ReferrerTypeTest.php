@@ -80,20 +80,20 @@ class ReferrerTypeTest extends IntegrationTestCase
         // $expectedType,                             $idSite,        $url, $referrerUrl
         return array(
             // domain matches but path does not match for idsite1
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite1, $url, $referrer),
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite1, $url, $referrer . '/'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/'),
             // idSite2 matches any piwik.org path so this is a direct entry for it
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/'),
             // idSite3 has different domain so it is coming from different website
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, $url, $referrer),
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite3, $url, $referrer . '/'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite3, $url, $referrer . '/'),
 
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz/'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite1, $url, $referrer . '/foo/bar/baz?x=5'),
             // /not/xyz belongs to different website
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite1, $url, $referrer . '/not/xyz'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite1, $url, $referrer . '/not/xyz'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite2, $url, $referrer . '/not/xyz'),
 
             // /foo/bar/baz belongs to different website
@@ -122,13 +122,13 @@ class ReferrerTypeTest extends IntegrationTestCase
             ####### testing specific case:
             ## - ignore unknown urls is activated for idSite4
 
-            // referrer comes from another subdir, but same host   => external website
-            array(Common::REFERRER_TYPE_WEBSITE,      $this->idSite4, 'http://google.com/subdir/site', 'http://google.com/base'),
+            // referrer comes from another subdir, but same host   => direct entry
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY,      $this->idSite4, 'http://google.com/subdir/site', 'http://google.com/base'),
             // referrer comes from same subdir and host   => direct entry
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/page', 'http://google.com/subdir/x'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/', 'http://google.com/subdir/?q=test'),
             // referrer comes from another subdir, but same host, query matches search engine definition  => search engine
-            array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'),
+            array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.com/search?q=test'),
             // referrer comes from search engine not matching site
             array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite4, 'http://google.com/subdir/index.html', 'http://google.fr/search?q=test'),
 
