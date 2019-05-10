@@ -6,7 +6,7 @@
     {% set previousAction = actionGroup.pageviewAction %}
     {% endif %}
 
-    {% if actionGroup.actionsOnPage is not empty %}
+    {% if actionGroup.actionsOnPage is not empty or actionGroup.refreshActions is not empty %}
     {% if actionGroup.pageviewAction is not empty %}
     <li class="pageviewActions" data-view-count="{{ actionGroup.refreshActions|length + 1 }}">
         <ol class="actionList">

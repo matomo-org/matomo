@@ -18,6 +18,7 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
+use Piwik\Tracker\Action;
 use Piwik\View;
 
 /**
@@ -141,12 +142,18 @@ class VisitorLog extends Visualization
         return ($view->requestConfig->getApiModuleToRequest() === 'Live');
     }
 
+    // TODO: need to unit test this
     public static function groupActionsByPageviewId(DataTable $table)
     {
         foreach ($table->getRows() as $row) {
             $actionGroups = [];
-            foreach (array_values($row->getColumn('actionDetails')) as $action) {
-                if (!isset($action['idpageview'])) {
+            foreach ($row->getColumn('actionDetails') as $key => $action) { // TODO: is array_values needed here?
+                // if action is not a pageview action TODO: function
+                if (!isset($action['idpageview'])
+                    && $action['type'] != 'action'
+                    && $action['type'] != Action::TYPE_PAGE_URL
+                    && $action['type'] != Action::TYPE_PAGE_TITLE
+                ) {
                     $actionGroups[] = [
                         'pageviewAction' => null,
                         'actionsOnPage' => [$action],
@@ -155,7 +162,17 @@ class VisitorLog extends Visualization
                     continue;
                 }
 
-                $idPageView = $action['idpageview'];
+                // if there is no idpageview for wahtever reason, invent one
+                $idPageView = isset($action['idpageview']) ? $action['idpageview'] : $key;
+
+                // if the current action has the same url/action name as the last, use the previous' idPageView so they will be combined
+                $lastActionGroup = end($actionGroups);
+                if ($lastActionGroup['pageviewAction']['url'] == $action['url']
+                    && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle']
+                ) {
+                    $idPageView = key($actionGroups);
+                }
+
                 if (empty($actionGroups[$idPageView])) {
                     $actionGroups[$idPageView] = [
                         'pageviewAction' => null,
