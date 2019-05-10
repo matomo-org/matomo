@@ -16,7 +16,6 @@
         "DeleteDataSettings": "删除旧的访问日志和报表",
         "DoNotTrack_Description": "Do Not Track 指一种技术和政策建议，让用户能主动退出包括分析服务、广告网络以及社交平台在内的网站统计分析。",
         "DoNotTrack_Disable": "禁用 Do Not Track 支持",
-        "DoNotTrack_DisabledMoreInfo": "建议您考虑访客隐私并启用 DoNotTrack 支持。",
         "DoNotTrack_Enable": "启用 Do Not Track 支持",
         "DoNotTrack_Enabled": "您重视用户隐私, 很好!",
         "DoNotTrack_SupportDNTPreference": "支持 Do Not Track 参数",
@@ -38,7 +37,6 @@
         "SaveSettingsBeforePurge": "您修改了数据删除选项，请保存后再开始删除。",
         "TeaserHeadline": "隐私设置",
         "UseAnonymizedIpForVisitEnrichment": "当使访问更加丰富时也使用匿名IP地址。",
-        "UseAnonymizedIpForVisitEnrichmentNote": "例如通过IP和提供商的Geo定位等插件提供了关于访问者的更多数据。在默认情况下，这些插件都使用匿名IP地址。如果你选择“NO”，那么将使用非匿名的整个IP地址，从而可以得到更准确的数据，但是透露了更多的私有信息。",
         "UseAnonymizeIp": "隐藏访客的 IP 地址",
         "UseDeleteReports": "定时删除数据库中旧的报表"
     }

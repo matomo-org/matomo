@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Fornece perspetivas sobre o seu tráfego. As perspetivas estão disponíveis como widgets nos painéis bem como um novo ícone nos relatórios para que possa ver as tendências mais importantes nos seus dados.",
         "ControlComparedToDescription": "Crescimento comparado ao",
         "ControlFilterByDescription": "Mostrar tudo, apenas movidos, apenas novos ou apenas os que desapareceram",
         "DatePeriodCombinationNotSupported": "Não é possível gerar perspetivas para esta combinação de datas e de períodos.",
@@ -26,7 +25,6 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s mudaram de %2$s para %3$s comparativamente a %4$s. Com base nesta evolução para cada linha de %5$s%% é esperado.",
         "TitleRowChangeDetails": "'%1$s' mudou de %2$s (%3$s) para %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "'%1$s' decresceu por %2$s e desapareceu em %3$s comparativamente a %4$s.",
-        "TitleRowMoverAndShaker": "Esta linha teve um impacto maior do que a média.",
         "TitleRowNewDetails": "'%1$s' cresceu por %2$s e é nova comparativamente a %3$s.",
         "WeekComparedToPreviousWeek": "semana anterior",
         "WidgetCategory": "Perspetivas",

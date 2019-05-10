@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "A mensagem acima é um erro do núcleo. Deve ajudar a explicar a causa, mas se precisar de mais ajuda por favor:",
         "HelpMessageIntroductionWhenWarning": "A atualização foi concluída com sucesso. No entanto, ocorreram problemas durante o processo. Por favor, leia as descrições acima para mais detalhes. Para mais ajuda:",
         "HighTrafficPiwikServerEnableMaintenance": "Se gere um servidor Matomo com um grande volume de tráfego, recomendamos que %1$sdesative momentaneamente o Acompanhamento de visitantes e coloque o interface de utilizador do Matomo em modo de manutenção%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Nota: algumas extensões não são compatíveis com o Matomo %s. Nós iremos atualizá-las, se existir uma atualização na loja, caso contrário iremos desativar as mesmas quando fizer a atualização:",
         "InstallingTheLatestVersion": "A instalar a versão mais recente",
         "LatestBetaRelease": "Último lançamento beta",
         "LatestStableRelease": "Último lançamento estável",

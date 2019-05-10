@@ -89,7 +89,6 @@
         "HelloUser": "სალამი, %s!",
         "HoursMinutes": "%1$s საათი %2$s წუთი",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "თუ თვლით, რომ არქივირება თქვენთვის მნიშვნელოვანია, შეგიძლიათ crontab ფაილი მოაწყოთ ისე, რომ უფრო ხშირად მოხდეს არქივირება.",
         "InvalidResponse": "მიღებული მონაცემები არასწორია.",
         "JsTrackingTag": "JavaScript ტრეკირების ტეგი",
         "Language": "ენა",

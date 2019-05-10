@@ -36,7 +36,6 @@
         "GeoIPIncorrectDatabaseFormat": "你的 GeoIP 資料庫看起來不是正確的格式。它可能損壞了。請確定你正在使用二進制版本並試著使用其他副本覆蓋。",
         "GeoIpLocationProviderDesc_Pecl1": "這個地理位置供應商使用 GeoIP 資料庫和 PECL 模組來精準而且有效率的判別訪客位置。",
         "GeoIpLocationProviderDesc_Pecl2": "這個供應商沒有任何限制，所以我們推薦你使用這個。",
-        "GeoIpLocationProviderDesc_Php1": "這個地理位置供應商是安裝方式最簡單的，因為它不需要更動任何伺服器設定（共享主機適用！）。它使用 GeoIP 資料庫和 MaxMind 的 PHP API 來精準的判別訪客的位置。",
         "GeoIpLocationProviderDesc_Php2": "如果你的網站有許多流量，你可能會覺得這個地理位置供應商太慢了。在這種情況下你應該安裝 %1$sPECL 擴充功能%2$s或是%3$s伺服器模組%4$s。",
         "GeoIpLocationProviderDesc_ServerBased1": "這個地理位置供應商使用安裝在你 HTTP 伺服器上的 GeoIP 模組。這個供應商快又精準，但是%1$s只適用於一般瀏覽器上的追蹤%2$s。",
         "GeoIpLocationProviderDesc_ServerBased2": "如果你需要匯入紀錄檔或是其他需要設定 IP 位址的事情，使用%1$sPECL GeoIP（推薦）%2$s或是%3$sPHP GeoIP%4$s執行。",
