@@ -147,12 +147,10 @@ class VisitorLog extends Visualization
     {
         foreach ($table->getRows() as $row) {
             $actionGroups = [];
-            foreach ($row->getColumn('actionDetails') as $key => $action) { // TODO: is array_values needed here?
-                // if action is not a pageview action TODO: function
-                if (!isset($action['idpageview'])
-                    && $action['type'] != 'action'
-                    && $action['type'] != Action::TYPE_PAGE_URL
-                    && $action['type'] != Action::TYPE_PAGE_TITLE
+            foreach ($row->getColumn('actionDetails') as $key => $action) {
+                // if action is not a pageview action
+                if (empty($action['idpageview'])
+                    && self::isPageviewAction($action)
                 ) {
                     $actionGroups[] = [
                         'pageviewAction' => null,
@@ -163,16 +161,7 @@ class VisitorLog extends Visualization
                 }
 
                 // if there is no idpageview for wahtever reason, invent one
-                $idPageView = isset($action['idpageview']) ? $action['idpageview'] : $key;
-
-                // if the current action has the same url/action name as the last, use the previous' idPageView so they will be combined
-                $lastActionGroup = end($actionGroups);
-                if ($lastActionGroup['pageviewAction']['url'] == $action['url']
-                    && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle']
-                ) {
-                    $idPageView = key($actionGroups);
-                }
-
+                $idPageView = !empty($action['idpageview']) ? $action['idpageview'] : count($actionGroups);
                 if (empty($actionGroups[$idPageView])) {
                     $actionGroups[$idPageView] = [
                         'pageviewAction' => null,
@@ -196,7 +185,49 @@ class VisitorLog extends Visualization
                     $actionGroups[$idPageView]['actionsOnPage'][] = $action;
                 }
             }
+
+            // merge action groups that have the same page url/action and no pageviewactions
+            $actionGroups = self::mergeRefreshes($actionGroups);
+
             $row->setColumn('actionGroups', $actionGroups);
         }
+    }
+
+    private static function mergeRefreshes(array $actionGroups)
+    {
+        $previousId = null;
+        foreach ($actionGroups as $idPageview => $group) {
+            if (empty($previousId)) {
+                $previousId = $idPageview;
+                continue;
+            }
+
+            $action = $group['pageviewAction'];
+            $lastActionGroup = $actionGroups[$previousId];
+
+            $isCurrentGroupEmpty = empty($group['actionsOnPage']);
+            $isLastGroupEmpty = empty($actionGroups[$previousId]['actionsOnPage']);
+            $isPageviewActionSame = $lastActionGroup['pageviewAction']['url'] == $action['url']
+                && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle'];
+
+            // if the current action has the same url/action name as the last, merge w/ the last action group
+            if ($isCurrentGroupEmpty
+                && $isLastGroupEmpty
+                && $isPageviewActionSame
+            ) {
+                $actionGroups[$previousId]['refreshActions'][] = $action;
+                unset($actionGroups[$idPageview]);
+            } else {
+                $previousId = $idPageview;
+            }
+        }
+        return $actionGroups;
+    }
+
+    private static function isPageviewAction($action)
+    {
+        return $action['type'] != 'action'
+            && $action['type'] != Action::TYPE_PAGE_URL
+            && $action['type'] != Action::TYPE_PAGE_TITLE;
     }
 }
