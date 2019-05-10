@@ -205,17 +205,16 @@ class VisitorLog extends Visualization
             $action = $group['pageviewAction'];
             $lastActionGroup = $actionGroups[$previousId];
 
-            $isCurrentGroupEmpty = empty($group['actionsOnPage']);
             $isLastGroupEmpty = empty($actionGroups[$previousId]['actionsOnPage']);
             $isPageviewActionSame = $lastActionGroup['pageviewAction']['url'] == $action['url']
                 && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle'];
 
             // if the current action has the same url/action name as the last, merge w/ the last action group
-            if ($isCurrentGroupEmpty
-                && $isLastGroupEmpty
+            if ($isLastGroupEmpty
                 && $isPageviewActionSame
             ) {
                 $actionGroups[$previousId]['refreshActions'][] = $action;
+                $actionGroups[$previousId]['actionsOnPage'] = array_merge($actionGroups[$previousId]['actionsOnPage'], $actionGroups[$idPageview]['actionsOnPage']);
                 unset($actionGroups[$idPageview]);
             } else {
                 $previousId = $idPageview;
