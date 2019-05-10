@@ -47,6 +47,8 @@
         "TableNoData": "Ingen data til denne tabel.",
         "ThereIsNoDataForThisReport": "Der er ingen data for denne rapport.",
         "UnFlattenDataTable": "Rapporten er ikke hierarkisk %s lav den hierakisk",
+        "RemoveTotalsRowDataTable": "Rapporten viser en total %s Fjern total",
+        "AddTotalsRowDataTable": "Rapporten viser ikke en total %s Vis total",
         "ViewAllPiwikVideoTutorials": "Vis alle Matomo videoselvstudier",
         "WebAnalyticsReports": "Webanalyse-rapporter",
         "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Matomo!",

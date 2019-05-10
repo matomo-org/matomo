@@ -16,7 +16,6 @@
         "DeleteDataSettings": "Eliminar el registre de visitants i informes antics",
         "DoNotTrack_Description": "La tecnologia de no traquejar permet als usuris donar-se de baixa de les estadístiques pels llocs web que ells no visiten, incloïent els serveis analítiques, les xarxes públicitaries i els xarxes socials.",
         "DoNotTrack_Disable": "Desactiveu el suport per a la desactivació del rastreig.",
-        "DoNotTrack_DisabledMoreInfo": "Recomanem respectar la privacitat dels vostres visitants i activar el suport per la desactivació del rastreig.",
         "DoNotTrack_Enable": "Activeu el suport per la desactivació del restreig",
         "DoNotTrack_Enabled": "Bravo! Esteu respectant la privacitat dels vostres usuaris.",
         "DoNotTrack_SupportDNTPreference": "Suportar la configuració de No Rastreig",

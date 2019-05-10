@@ -35,7 +35,6 @@
         "GeoIPIncorrectDatabaseFormat": "Vypadá to, že vaše GeoIP databáze má nesprávný formát. Může být poškozena. Ujistěte se, že používáte binární formát a zkuste ji nahradit jinou kopií.",
         "GeoIpLocationProviderDesc_Pecl1": "Tento poskytovatel umístění používá GeoIP databázi a PECl modul k přesnému a efektivnímu nalezení umístění vašich návštěvníků.",
         "GeoIpLocationProviderDesc_Pecl2": "Tento poskytovatel nemá žádná omezení, takže to je ten, kterého doporučujeme používat.",
-        "GeoIpLocationProviderDesc_Php1": "Tento poskytovatel umístění je nejjednodušší na instalaci, protože nevyžaduje žádnou konfiguraci serveru (ideální pro sdílené hostingy). K přesnému určení umístění návštěvníků používá GeoIP databázi a MaxMind php API.",
         "GeoIpLocationProviderDesc_Php2": "Pokud má váš web velký provoz, můžete zjistit, že je tento poskytovatel polohy pomalý. V takovém případě nainstalujte %1$srozšíření PECl%2$s nebo %3$sserverový modul%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Tento poskytovatel umístění využívá GeoIP modul, který byl instalován ve vašem HTTP serveru. Tento poskytovatel je přesný a rychlý, ale může být použit pouze s %1$snormálním sledování prohlížečů.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Pokud musíte importovat logy nebo dělat něco jiného, co vyžaduje nastavování IP adres, použijte %1$sPECl implementaci GeoIP (doporučeno%2$s nebo %3$sPHP implementaci GeoIP.%4$s",

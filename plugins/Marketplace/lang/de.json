@@ -65,7 +65,7 @@
         "NoValidSubscriptionNoUpdates": "Sobald ein Abonnement abgelaufen ist, erhalten Sie für dieses Plugin keine Updates mehr.",
         "PluginSubscriptionsList": "Dies ist eine Liste der Abonnements, welche mit Ihrem Lizenzschlüssel verknüpft sind.",
         "PaidPluginsNoLicenseKeyIntro": "Falls Sie ein %1$spremium paid plugin%2$s gekauft haben, geben Sie bitte unten den erhaltenen Lizenzschlüssel ein.",
-        "PaidPluginsWithLicenseKeyIntro": "Ein gültiger Lizenzschlüssel wurde gesetzt. Aus Sicherheitsgründen wird der Lizenzschlüssel hier nicht angezeigt. Falls Sie Ihren Lizenzschlüssel verloren haben, kontaktieren Sie bitte das Mamoto Team.",
+        "PaidPluginsWithLicenseKeyIntro": "Ein gültiger Lizenzschlüssel wurde gesetzt. Aus Sicherheitsgründen wird der Lizenzschlüssel hier nicht angezeigt. Falls Sie Ihren Lizenzschlüssel verloren haben, kontaktieren Sie bitte das Matomo Team.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "Falls Sie ein %1$spremium paid plugin%2$s im Marketplace gekauft haben, fragen Sie bitte einen Benutzer mit Administratorenrechten, um den Lizenzschlüssel hinzuzufügen.",
         "PluginDescription": "Die Funktionalität von Mamoto mit Hilfe des Marketplace per Download von Plugins und Themes ausbauen und erweitern.",
         "PluginKeywords": "Suchbegriffe",

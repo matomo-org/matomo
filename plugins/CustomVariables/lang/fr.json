@@ -15,7 +15,7 @@
         "Unused": "Inutilisé",
         "CreateNewSlot": "Augmenter le nombre d'emplacement de variables personnalisées disponibles",
         "UsageDetails": "%1$s visites et %2$s actions depuis la création de ce site web.",
-        "CreatingCustomVariableTakesTime": "La création de nouveaux emplacement de variable personnalisée peut prendre du temps dépendamment de la taille de votre base de données. De ce fait il est possible d'effectuer cela uniquement via une commande qui doit être exécutée dans la console.",
+        "CreatingCustomVariableTakesTime": "La création d'un nouvel emplacement de variable personnalisée peut prendre du temps dépendamment de la taille de votre base de données. De ce fait il est possible d'effectuer cela uniquement via une commande qui doit être exécutée dans la console.",
         "CurrentAvailableCustomVariables": "Pour l'instant vous pouvez utiliser jusqu'à %s Variables personnalisées par site.",
         "ToCreateCustomVarExecute": "Pour créer un nouvel emplacement de variable personnalisée exécutez la commande suivante dans votre installation de Matamo :",
         "SlotsReportIsGeneratedOverTime": "Les données pour ce rapport vont être peuplées avec le temps. Il se peut que cela prenne un jour ou deux pour voir des informations et quelques semaines avant que le rapport ne soit précis.",
