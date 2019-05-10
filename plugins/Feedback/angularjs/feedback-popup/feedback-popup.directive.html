@@ -1,15 +1,20 @@
-<div class="feedbackPopup" ng-controller="FeedbackPopupController">
-    <div class="ui-confirm" 
+<div ng-controller="FeedbackPopupController">
+    <div class="feedbackPopup ui-confirm" 
          piwik-dialog="feedbackPopup.dialog.show" 
          yes="feedbackPopup.remindMeLater()" 
          no="feedbackPopup.dontShowAgain()"
     >
 
-        <h2>Your Feedback Please</h2>
+        <div class="intro">
+            <h2>{{'Feedback_ReviewMatomoTitle'|translate }}</h2>
 
-        <p>Please help us spread the word by rating Matomo on ...</p>
+        </div>
 
-        <input type="button" value="Remind me later" role="yes"/>
-        <input type="button" value="Never ask me again" role="no" />
+        <div ng-include="'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"></div>
+
+        <div class="footer">
+            <input type="button" value="Remind me later" role="yes"/>
+            <input type="button" value="Never ask me again" role="no" />
+        </div>
     </div>
 </div>

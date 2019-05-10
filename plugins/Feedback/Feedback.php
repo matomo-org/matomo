@@ -37,6 +37,7 @@ class Feedback extends \Piwik\Plugin
     {
         $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
         $stylesheets[] = "plugins/Feedback/angularjs/ratefeature/ratefeature.directive.less";
+        $stylesheets[] = "plugins/Feedback/angularjs/feedback-popup/feedback-popup.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -57,6 +58,8 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_RateFeatureLeaveMessageDislike';
         $translationKeys[] = 'Feedback_SendFeedback';
         $translationKeys[] = 'Feedback_RateFeatureSendFeedbackInformation';
+        $translationKeys[] = 'Feedback_ReviewMatomoTitle';
+        $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
