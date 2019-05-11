@@ -33,7 +33,7 @@
         "NfsFilesystemWarning": "您的服务器使用 NFS 文件系统。",
         "NfsFilesystemWarningSuffixAdmin": "这意味着当 Matomo 使用基于文件的会话时将会极慢。",
         "NfsFilesystemWarningSuffixInstall": "在 NFS 上使用基于文件的会话会极慢，所以 Matomo 将使用数据库会话。如果您有很多并发的面板用户，你可能需要增大客户端连接到服务器的最大数。",
-        "NoConfigFileFound": "您正在访问 Piwk 页面，但 Matomo 配置文件找不到了。",
+        "NoConfigFileFound": "您正在访问 Matomo 页面，但 Matomo 配置文件找不到了。",
         "YouMayInstallPiwikNow": "你可以%1$s立即安装 Matomo%2$s",
         "IfPiwikInstalledBeforeTablesCanBeKept": "如果您以前安装过 Matomo，并且您的数据库中还残留一些表，没关系，您可以重复使用这些表，并且里面现有的数据也会保留下来。",
         "Optional": "可选的",

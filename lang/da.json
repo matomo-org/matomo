@@ -512,7 +512,7 @@
         "LoginCredentials": "Legitimationsoplysninger",
         "LoginToPiwikToChangeSettings": "Log ind på Matomo serveren for at oprette og opdatere hjemmesider, brugere, eller til at ændre Generelle indstillinger som \"Standard rapport\" og \"Standard rapportdato\".",
         "LoginUseHttps": "Brug HTTPS",
-        "MatomoMobile": "Matamo mobil app",
+        "MatomoMobile": "Matomo mobil app",
         "MultiChartLabel": "Vis minidiagrammer",
         "NavigationBack": "Tilbage",
         "NetworkError": "Netværksfejl",
