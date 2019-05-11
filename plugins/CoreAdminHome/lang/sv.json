@@ -110,7 +110,7 @@
         "UncheckToOptOut": "Avmarkera rutan för att inte vara med.",
         "CheckToOptIn": "Markera rutan för att vara med.",
         "MissingTrackingCodeEmailSubject": "Ingen trafik har registrerats i Matomo Analytics för %s , kom igång nu",
-        "JsTrackingCodeMissingEmail1": "För några dagar sedan lade du till webbsidan '1%s' till Matamo Analytics. Vi kontrollerade precis och din Matomo ser inte ut att ha någon trafik registrerad för webbsidan.",
+        "JsTrackingCodeMissingEmail1": "För några dagar sedan lade du till webbsidan '1%s' till Matomo Analytics. Vi kontrollerade precis och din Matomo ser inte ut att ha någon trafik registrerad för webbsidan.",
         "JsTrackingCodeMissingEmail3": "%1$sKlicka här%2$s för att visa eller anpassa din spårningskod (eller ta en titt på %3$sJavaScript Tracking Client-guiden%4$s).",
         "TrackingFailuresIntroduction": "Den här sidan visar spårningsförsök som misslyckats de senaste %s dagarna. Observera att inte alla sorters misslyckade spårningar registreras, bara de vanligaste.",
         "NoKnownFailures": "Det finns inga kända misslyckade spårningar.",

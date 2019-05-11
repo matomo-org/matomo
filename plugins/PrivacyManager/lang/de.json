@@ -1,7 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeData": "Daten anonymisieren",
-        "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Mamoto keine vollständigen IP-Adressen speichern soll.",
+        "AnonymizeIpDescription": "Wählen Sie \"Ja\", wenn Matomo keine vollständigen IP-Adressen speichern soll.",
         "AnonymizeIpInlineHelp": "Um den Datenschutzbestimmungen Ihres Landes gerecht zu werden, können Sie mit diesem Plugin die letzten Bytes der IP-Adresse Ihrer Besucher anonymisieren.",
         "AnonymizeIpExtendedHelp": "Wenn Benutzer Ihre Website besuchen, wird Matomo nicht die komplette IP-Adresse (so wie %1$s) benützen, sondern sie stattdessen zuerst anonymisieren (zu %2$s). Die Anonymisierung der IP-Adresse ist in einigen Ländern eine gesetzliche Pflicht, zum Beispiel in Deutschland vorgegeben durch das Datenschutzrecht.",
         "AnonymizeIpMaskLengtDescription": "Wählen Sie aus, wieviele Bytes der Besucher-IP maskiert werden sollen.",
@@ -32,11 +32,11 @@
         "DeleteDataSettings": "Alte Besucher-Logs und Berichte löschen",
         "DoNotTrack_Description": "Do-not-Track ist eine Technologie und ein Richtlinienvorschlag, der es Benutzern ermöglichen soll, selbständig zu entscheiden, ob ihr Verhalten von Websites, Werbenetzwerken und Sozialen Netzwerken verfolgt wird.",
         "DoNotTrack_Disable": "Do-not-Track Unterstützung deaktivieren",
-        "DoNotTrack_Disabled": "Mamoto verfolgt derzeit das Verhalten aller Besucher, auch derjenigen, die explizit in ihrem Browser \"Ich möchte nicht getrackt werden\" eingestellt haben.",
+        "DoNotTrack_Disabled": "Matomo verfolgt derzeit das Verhalten aller Besucher, auch derjenigen, die explizit in ihrem Browser \"Ich möchte nicht getrackt werden\" eingestellt haben.",
         "DoNotTrack_DisabledMoreInfo": "Wir empfehlen, die DoNotTrack Unterstützung zu aktivieren, damit die Privatsphäre Ihrer Besucher respektiert wird.",
         "DoNotTrack_Enable": "Do-not-Track Unterstützung aktivieren",
         "DoNotTrack_Enabled": "Sie respektieren die Privatsphäre Ihrer Besucher, Bravo!",
-        "DoNotTrack_EnabledMoreInfo": "Wenn Benutzer in ihrem Browser \"Ich möchte nicht getrackt werden\" eingestellt haben (Do-not-Track aktiviert), dann wird Mamoto diese Besuche nicht tracken.",
+        "DoNotTrack_EnabledMoreInfo": "Wenn Benutzer in ihrem Browser \"Ich möchte nicht getrackt werden\" eingestellt haben (Do-not-Track aktiviert), dann wird Matomo diese Besuche nicht tracken.",
         "DoNotTrack_SupportDNTPreference": "Do-not-Track Einstellungen",
         "EstimatedDBSizeAfterPurge": "Erwartete Größe der Datenbank nach dem Löschen",
         "EstimatedSpaceSaved": "Geschätzte Speichereinsparung",

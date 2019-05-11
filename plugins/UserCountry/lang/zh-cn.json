@@ -25,7 +25,7 @@
         "DownloadingDb": "下载%s",
         "DownloadNewDatabasesEvery": "更新数据每",
         "FatalErrorDuringDownload": "下载文件出错。有可能是网络连接、下载的 GeoIP 数据库或者 Matomo 出错，请手动下载并安装。",
-        "FoundApacheModules": "Piwk找到了如下Apache模块",
+        "FoundApacheModules": "Matomo找到了如下Apache模块",
         "FromDifferentCities": "不同城市",
         "GeoIPCannotFindMbstringExtension": "没有找到 %1$s 功能。请确认 %2$s 扩展已安装和加载。",
         "GeoIPDatabases": "GeoIP 数据库",

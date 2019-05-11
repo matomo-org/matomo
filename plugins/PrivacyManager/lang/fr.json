@@ -36,7 +36,7 @@
         "DoNotTrack_DisabledMoreInfo": "Nous recommandons d'activer le support de \"Ne pas Suivre\" afin de respecter la vie privée de vos visiteurs",
         "DoNotTrack_Enable": "Activer la prise en charge de \"Ne pas Suivre\"",
         "DoNotTrack_Enabled": "Vous respectez actuellement actuellement la vie privée de vos utilisateurs, Bravo!",
-        "DoNotTrack_EnabledMoreInfo": "Quand les utilisateurs ont activé dans leurs navigateurs \"Je ne veux pas être suivi\" (Do No Track en anglais) Matamo ne suit plus leurs visites.",
+        "DoNotTrack_EnabledMoreInfo": "Quand les utilisateurs ont activé dans leurs navigateurs \"Je ne veux pas être suivi\" (Do No Track en anglais) Matomo ne suit plus leurs visites.",
         "DoNotTrack_SupportDNTPreference": "Prendre en charge la préférence \"Ne Pas Suivre\"",
         "EstimatedDBSizeAfterPurge": "Taille estimée de la base de données après la purge",
         "EstimatedSpaceSaved": "Espace libéré estimé",

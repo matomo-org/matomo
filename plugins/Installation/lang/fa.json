@@ -31,7 +31,7 @@
         "PasswordRepeat": "رمز عبور (تکرار)",
         "PercentDone": "%s %% انجام شده",
         "PleaseFixTheFollowingErrors": "لطفا خطاهای زیر را تعمیر کنید",
-        "DefaultSettings": "تنظیمات پیشفرض متومو",
+        "DefaultSettings": "تنظیمات پیشفرض Matomo",
         "Requirements": "نیازمندی های پیویک",
         "RestartWebServer": "پس از این تغییر، وب سرورتان را دوباره راه اندازی (restart)کنید",
         "ReusingTables": "استفاده‌ی مجدد از جداول",

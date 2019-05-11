@@ -103,7 +103,7 @@
         "OptingYouOut": "オプトアウト中、お待ちください…",
         "ProtocolNotDetectedCorrectly": "現在、安全な SSL 接続 ( httpsを使用 ) で Matomo はサーバー上の非セキュア接続のみを検出できます。",
         "ProtocolNotDetectedCorrectlySolution": "Matomo が HTTPS 経由でコンテンツを安全に要求して配信するには、%1$sファイルを編集してプロキシ設定を行うか、%3$sセクションの下に%2$s行を追加することができます。 %4$sもっと詳しく知る%5$s",
-        "MissingTrackingCodeEmailSubject": "Matola Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
+        "MissingTrackingCodeEmailSubject": "Matomo Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
         "JsTrackingCodeMissingEmail1": "数日前にあなたはサイト '%s' を matomo 解析に追加しました。チェックしましたが、あなたの matomo はまだいかなるトラフィックも記録していません。",
         "JsTrackingCodeMissingEmail3": "トラッキングコードを検索してカスタマイズするには、%1$sここをクリック%2$sしてください（または%3$sJavaScript トラッキングクライアントガイド%4$sをご覧ください）。",
         "Problem": "問題",

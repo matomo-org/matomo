@@ -77,7 +77,7 @@
         "SystemCheckPhp": "Bersyon ng PHP",
         "SystemCheckPhpPdoAndMysqli": "Marami pang impormasyon sa: : %1$sPHP PDO%2$s at %3$sMYSQLI%4$s.",
         "SystemCheckSplHelp": "kailangan mong i-configure at muling e-build ang PHP na may Standard PHP Library (SPL) na syang gumagana(default).",
-        "SystemCheckSummaryNoProblems": "Huzzah! Walang mga problema sa pag-setup mo ng Piwk. Bigyan ang iyong sarili ng isang magandang pahinga.",
+        "SystemCheckSummaryNoProblems": "Huzzah! Walang mga problema sa pag-setup mo ng Matomo. Bigyan ang iyong sarili ng isang magandang pahinga.",
         "SystemCheckSummaryThereWereErrors": "Naku! Ang Matomo ay may nakitang i-ilang %1$s critical isyo sa %2$s sa iyong Matomo setup. %3$s Ang mga isyung ito ay dapat na maayos ka-agad. %4$s",
         "SystemCheckSummaryThereWereWarnings": "May ilang mga isyu sa iyong system. Ang Matomo ay gagana ngunit maaari kang makaranas ng ilang mga menor na problema.",
         "SystemCheckTimeLimitHelp": "Sa website na may mataas na traffic ang pagsasagawa ng archiving process ay mangangailangan ng karagdagang oras kaysa sa kasaluyang proseso. Kung ito'y kinakailangan baguhin ang max_execution_time na nasa iyong php.ini file.",

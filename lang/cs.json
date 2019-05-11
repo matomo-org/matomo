@@ -395,7 +395,7 @@
         "SmtpServerAddress": "Adresa SMTP serveru",
         "SmtpUsername": "Uživatelské jméno SMTP",
         "Source": "Zdroj",
-        "StatisticsAreNotRecorded": "Zaznamenávání statistik návštěvníků Matomem je aktuálně zakázáno. Povolte ho nastavením record_statistics = 1 ve vašem souboru config\/config.ini.php.",
+        "StatisticsAreNotRecorded": "Zaznamenávání statistik návštěvníků Matomo je aktuálně zakázáno. Povolte ho nastavením record_statistics = 1 ve vašem souboru config\/config.ini.php.",
         "Subtotal": "Mezisoučet",
         "Summary": "Souhrn",
         "Table": "Tabulka",
