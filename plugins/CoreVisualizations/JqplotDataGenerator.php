@@ -95,7 +95,7 @@ class JqplotDataGenerator
 
     /**
      * @param DataTable|DataTable\Map $dataTable
-     * @param $visualization
+     * @param Chart $visualization
      */
     protected function initChartObjectData($dataTable, $visualization)
     {
@@ -131,16 +131,6 @@ class JqplotDataGenerator
         if (!empty($this->properties['y_axis_unit'])) {
             $units = array_fill(0, count($units), $this->properties['y_axis_unit']);
         }
-
-        // the bar charts contain the labels a first series
-        // this series has to be removed from the units
-        reset($units);
-        if ($this->graphType == 'bar'
-            && key($units) == 'label'
-        ) {
-            array_shift($units);
-        }
-
         return $units;
     }
 

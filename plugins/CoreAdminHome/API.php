@@ -18,7 +18,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;

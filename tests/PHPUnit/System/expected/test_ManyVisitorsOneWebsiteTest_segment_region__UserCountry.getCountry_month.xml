@@ -23,9 +23,9 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==gb</segment>
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

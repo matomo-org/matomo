@@ -15,7 +15,7 @@
         "Unused": "Inutilizzate",
         "CreateNewSlot": "Aumenta il numero degli slot di variabili personali disponibili",
         "UsageDetails": "%1$s visite e %2$s azioni dalla creazione di questo sito web.",
-        "CreatingCustomVariableTakesTime": "La creazione di un nuovo slot di variabili personali può richiedere un tempo lungo che dipende dalla dimensione del tuo database. Pertanto è possibile fare ciò solo tramite un comando che deve essere eseguito da riga di comando.",
+        "CreatingCustomVariableTakesTime": "La creazione di un nuovo slot di variabile personalizzata può richiedere molto tempo a seconda delle dimensioni del database. Pertanto, è possibile farlo solo tramite un comando che deve essere eseguito dalla riga di comando.",
         "CurrentAvailableCustomVariables": "Attualmente puoi utilizzare fino a %s variabili personali per sito.",
         "ToCreateCustomVarExecute": "Per creare un nuovo slot di variabili personalizzate esegui il comando seguente nella tua installazione di Matomo:",
         "SlotsReportIsGeneratedOverTime": "I dati per questo report saranno popolati nel tempo. Ciò può richiedere un giorno o due per vedere dei dati, e qualche settimana perché il report sia totalmente accurato.",

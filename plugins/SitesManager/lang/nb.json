@@ -74,7 +74,6 @@
         "UTCTimeIs": "UTC-tid er %s.",
         "OnlyMatchedUrlsAllowed": "Spor kun besøk og handlinger når URL-en starter med en av URL-ene over.",
         "OnlyMatchedUrlsAllowedHelp": "Når dette er aktivert vil Matomo kun spore interne handlinger når side-URL-en er en av de kjente URL-ene for ditt nettsted. Dette forhindrer folk fra å spamme dine analyser med URL-er for andre nettsteder.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Domenen og stien må være en eksakt match og hvert gyldig subdomene må være spesifisert individuelt. For eksempel, når de kjente URL-ene er « http:\/\/example.com\/path» og « http:\/\/good.example.com», vil sporingsspørringer for « http:\/\/example.com\/otherpath» eller « http:\/\/bad.example.com» bli ignorert.",
         "WebsitesManagement": "Administrasjon av nettsteder",
         "XManagement": "Administrer %s",
         "ChooseMeasurableTypeHeadline": "Hva vil du måle?",

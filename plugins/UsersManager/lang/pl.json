@@ -41,7 +41,6 @@
         "GiveViewAccess": "Przyznaj podgląd użytkownikowi %1$s",
         "GiveViewAccessTitle": "Przyznaj istniejącemu użytkownikowi dostęp do raportów dla %s",
         "GiveViewAccessInstructions": "Aby przyznać istniejącemu użytkownikowi uprawnienia do %s wprowadź jego nazwę użytkownika lub adres e-mail.",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jeśli chcesz zmienić hasło, wpisz nowe. W innym przypadku pozostaw puste pole.",
         "InjectedHostCannotChangePwd": "Odwiedzasz tą stronę z nieznanego adresu (%1$s). Nie możesz zmienić swojego hasła do czasu rozwiązania tego problemu.",
         "LastSeen": "Ostatnio widziany",
         "MainDescription": "Zdecyduj, którzy użytkownicy mają dostęp do Twoich serwisów. Możesz również przydzielić dostęp do wszystkich serwisów na raz wybierając \"Wszystkie serwisy\" w selektorze serwisów.",

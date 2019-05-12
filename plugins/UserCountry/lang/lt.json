@@ -1,7 +1,9 @@
 {
     "UserCountry": {
         "City": "Miestas",
+        "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinentas",
+        "Continents": "Kontinentai",
         "Country": "Šalis",
         "country_a1": "Anoniminis įgaliotasis serveris",
         "country_a2": "Palydovinis tiekėjas",
@@ -10,11 +12,18 @@
         "DistinctCountries": "%s atskirti šalis",
         "DownloadingDb": "Atsiunčiama %s",
         "GeoIPDatabases": "GeoIP duomenų bazės",
+        "GeoIPNoServerVars": "Matomo nepavyko rasti jokių GeoIP %s kintamųjų.",
+        "GeoIPServerVarsFound": "Matomo aptinka šiuos GeoIP %s kintamuosius",
+        "GeolocationPageDesc": "Šiame puslapyje galite keisti kaip Matomo nustato lankytojų geografines vietas.",
         "HowToInstallApacheModule": "Kaip man įdiegti Apache skirtą GeoIP modulį?",
         "IWantToDownloadFreeGeoIP": "Aš noriu atsisiųsti nemokamą GeoIP duomenų bazę...",
         "Latitude": "Platuma",
+        "Latitudes": "Platumos",
         "Location": "Vietovė",
         "Longitude": "Ilguma",
-        "SubmenuLocations": "Vietovės"
+        "Longitudes": "Ilgumos",
+        "Region": "Regionas",
+        "SubmenuLocations": "Vietovės",
+        "UnsupportedArchiveType": "Susidurta su nepalaikomu archyvo tipu %1$s."
     }
 }

@@ -24,7 +24,6 @@
         "CurrentlyBlockedIPs": "目前封鎖的 IP",
         "IPsAlwaysBlocked": "這些 IP 將永遠被封鎖",
         "UnblockAllIPs": "解除目前所有被封鎖的 IP",
-        "CurrentlyBlockedIPsUnblockInfo": "如果目前被封鎖 IP 為誤封，你可以解除封鎖讓他們重新登入。",
         "CurrentlyBlockedIPsUnblockConfirm": "你確定要解除目前所有封鎖的 IP？",
         "LoginPasswordNotCorrect": "使用者名稱 & 密碼不正確。",
         "LostYourPassword": "密碼遺失了？",
