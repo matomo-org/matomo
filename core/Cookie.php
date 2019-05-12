@@ -194,26 +194,6 @@ class Cookie
     }
 
     /**
-     * Extract signed content from string: content VALUE_SEPARATOR '_=' signature
-     *
-     * @param string $content
-     * @return string|bool  Content or false if unsigned
-     */
-    private function extractSignedContent($content)
-    {
-        $signature = substr($content, -40);
-
-        if (substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
-            $signature == sha1(substr($content, 0, -40) . SettingsPiwik::getSalt())
-        ) {
-            // strip trailing: VALUE_SEPARATOR '_=' signature"
-            return substr($content, 0, -43);
-        }
-
-        return false;
-    }
-
-    /**
      * Load the cookie content into a php array.
      * Parses the cookie string to extract the different variables.
      * Unserialize the array when necessary.
@@ -221,7 +201,7 @@ class Cookie
      */
     protected function loadContentFromCookie()
     {
-        $cookieStr = $this->extractSignedContent($_COOKIE[$this->name]);
+        $cookieStr = $_COOKIE[$this->name];
 
         if ($cookieStr === false) {
             return;
@@ -232,20 +212,6 @@ class Cookie
             $equalPos = strpos($nameValue, '=');
             $varName = substr($nameValue, 0, $equalPos);
             $varValue = substr($nameValue, $equalPos + 1);
-
-            // no numeric value are base64 encoded so we need to decode them
-            if (!is_numeric($varValue)) {
-                $tmpValue = base64_decode($varValue);
-                $varValue = safe_unserialize($tmpValue);
-
-                // discard entire cookie
-                // note: this assumes we never serialize a boolean
-                if ($varValue === false && $tmpValue !== 'b:0;') {
-                    $this->value = array();
-                    unset($_COOKIE[$this->name]);
-                    break;
-                }
-            }
 
             $this->value[$varName] = $varValue;
         }
@@ -259,25 +225,17 @@ class Cookie
      */
     public function generateContentString()
     {
-        $cookieStr = '';
+        $cookieStrArr = [];
 
         foreach ($this->value as $name => $value) {
-            if (!is_numeric($value)) {
-                $value = base64_encode(safe_serialize($value));
+            if (!is_numeric($value) && !is_string($value)) {
+                die("cookies can only contain strings and numbers"); //TODO: replace with proper handling
             }
-
-            $cookieStr .= "$name=$value" . self::VALUE_SEPARATOR;
+            $cookieStrArr[] = "$name=$value";
         }
 
-        if (!empty($cookieStr)) {
-            $cookieStr .= '_=';
+        return implode(self::VALUE_SEPARATOR, $cookieStrArr);
 
-            // sign cookie
-            $signature = sha1($cookieStr . SettingsPiwik::getSalt());
-            return $cookieStr . $signature;
-        }
-
-        return '';
     }
 
     /**
@@ -314,10 +272,7 @@ class Cookie
      * Registers a new name => value association in the cookie.
      *
      * Registering new values is optimal if the value is a numeric value.
-     * If the value is a string, it will be saved as a base64 encoded string.
-     * If the value is an array, it will be saved as a serialized and base64 encoded
-     * string which is not very good in terms of bytes usage.
-     * You should save arrays only when you are sure about their maximum data size.
+     * Only numbers and strings can be saved in the cookie.
      * A cookie has to stay small and its size shouldn't increase over time!
      *
      * @param string $name Name of the value to save; the name will be used to retrieve this value
