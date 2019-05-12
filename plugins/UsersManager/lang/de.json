@@ -4,7 +4,7 @@
         "UsesTwoFactorAuthentication": "Benutzt Zwei-Faktor-Authentifizierung",
         "TwoFactorAuthentication": "Zwei-Faktor-Authentisierung",
         "ResetTwoFactorAuthentication": "Zwei-Faktor-Authentifizierung zurücksetzen",
-        "ResetTwoFactorAuthenticationInfo": "Wenn der Benutzer sich nicht mehr einloggen kann weil er seine Wiederherstellungscodes oder sein Authentifizierungsgerät verloren hat, können Sie hier die Zwei-Faktor-Authentifizierung für den Benutzer zurücksetzen.",
+        "ResetTwoFactorAuthenticationInfo": "Wenn der Benutzer sich nicht mehr einloggen kann weil er seine Wiederherstellungscodes oder sein Authentifizierungsgerät verloren hat, können Sie hier die Zwei-Faktor-Authentisierung für den Benutzer zurücksetzen, so dass er sich wieder anmelden kann.",
         "AddUser": "Einen neuen Benutzer hinzufügen",
         "AddExistingUser": "Einen existierenden Benutzer hinzufügen",
         "AddNewUser": "Einen neuen Benutzer hinzufügen",

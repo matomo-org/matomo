@@ -14,7 +14,6 @@
         "Unused": "Niewykorzystane",
         "CreateNewSlot": "Zwiększ liczbę dostępnych pól Zmiennych Niestandardowych",
         "UsageDetails": "%1$s wizyt i %2$s akcji od utworzenia tego serwisu.",
-        "CreatingCustomVariableTakesTime": "Utworzenie nowego pola Zmiennej Niestandardowej może zająć sporo czasu w zależności od wielkości Twojej bazy danych. Z tego powodu operacja ta możliwa jest jedynie z poziomu linii poleceń po wydaniu odpowiedniego polecenia.",
         "CurrentAvailableCustomVariables": "Obecnie możesz wykorzystać do %s Zmiennych Niestandardowych per serwis.",
         "ToCreateCustomVarExecute": "Aby utworzyć nowe pole Zmiennej Niestandardowej wykonaj następujące polecenie w ramach swojej instalacji Matomo:",
         "SlotsReportIsGeneratedOverTime": "Dane dla tego raportu pojawią się po jakimś czasie. Dzień lub dwa może potrwać zanim zobaczysz jakiekolwiek dane a uzyskanie dokładnego raportu może potrwać nawet parę tygodni.",

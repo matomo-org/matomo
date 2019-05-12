@@ -35,38 +35,35 @@ class Country extends Base
     protected $category =  'UserCountry_VisitLocation';
     protected $nameSingular = 'UserCountry_Country';
     protected $namePlural = 'UserCountryMap_Countries';
-    protected $segmentName = 'countryName';
-    protected $acceptValues = 'Germany, France, Spain, ...';
+    protected $segmentName = 'countryCode';
+    protected $acceptValues = 'ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)';
 
-    public function __construct()
+    protected function configureSegments()
     {
+        $segment = new Segment();
+        $segment->setName('UserCountry_CountryCode');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('countryName');
+        $segment->setName('UserCountry_Country');
+        $segment->setAcceptedValues('Germany, France, Spain, ...');
         $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
         $countryList = $regionDataProvider->getCountryList();
         array_walk($countryList, function(&$item, $key) {
             $item = Piwik::translate('Intl_Country_'.strtoupper($key), [], 'en');
         });
 
-        $this->sqlFilterValue = function ($val) use ($countryList) {
+        $segment->setSqlFilterValue(function ($val) use ($countryList) {
             $result   = array_search($val, $countryList);
             if ($result === false) {
                 $result = 'UNK';
             }
             return $result;
-        };
-        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) use ($countryList) {
+        });
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) use ($countryList) {
             return array_values($countryList + ['Unknown']);
-        };
-    }
-
-    protected function configureSegments()
-    {
-        parent::configureSegments();
-        $segment = new Segment();
-        $segment->setSegment('countryCode');
-        $segment->setName('UserCountry_CountryCode');
-        $segment->setAcceptedValues('ISO 3166-1 alpha-2 country codes (de, us, fr, in, es, etc.)');
-        $this->suggestedValuesCallback = null;
-        $this->sqlFilterValue = null;
+        });
         $this->addSegment($segment);
     }
 

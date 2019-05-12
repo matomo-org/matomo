@@ -8,172 +8,203 @@
  */
 
 describe("EvolutionGraph", function () {
-    this.timeout(0);
+    const url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
+              + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
+              + "&isFooterExpandedInDashboard=1";
 
-    var url = "?module=Widgetize&action=iframe&idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30"
-            + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
-            + "&isFooterExpandedInDashboard=1";
-
-    before(function (done) {
-        testEnvironment.callApi("Annotations.deleteAll", {idSite: 3}, done);
+    before(function () {
+        return testEnvironment.callApi("Annotations.deleteAll", {idSite: 3});
     });
 
-    function showDataTableFooter(page)
-    {
-        page.mouseMove('.dataTableFeatures');
+    async function showDataTableFooter() {
+        await page.hover('.dataTableFeatures');
     }
 
-    it("should load correctly", function (done) {
-        expect.screenshot('initial').to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it("should load correctly", async function () {
+        await page.goto(url);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
     });
 
-    it("should show percent metrics like bounce rate correctly", function (done) {
-        expect.screenshot('bounce_rate').to.be.capture(function (page) {
-            page.load(url + "&columns=nb_visits,bounce_rate,avg_time_on_site&filter_add_columns_when_show_all_columns=0");
-        }, done);
+    it("should show percent metrics like bounce rate correctly", async function () {
+        await page.goto(url + "&columns=nb_visits,bounce_rate,avg_time_on_site&filter_add_columns_when_show_all_columns=0");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bounce_rate');
     });
 
-    it("should show only one series when a label is specified", function (done) {
-        expect.screenshot('one_series').to.be.capture(function (page) {
-            page.load(url + "&label=Canada");
-        }, done);
+    it("should show only one series when a label is specified", async function () {
+        await page.goto(url + "&label=Canada");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('one_series');
     });
 
-    it("should display the metric picker on hover of metric picker icon", function (done) {
-        expect.screenshot('metric_picker_shown').to.be.capture(function (page) {
-            page.mouseMove('.jqplot-seriespicker');
-        }, done);
+    it("should display the metric picker on hover of metric picker icon", async function () {
+        await page.hover('.jqplot-seriespicker');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
     });
 
-    it("should show multiple metrics when another metric picked", function (done) {
-        expect.screenshot('two_metrics').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
-        }, done);
+    it("should show multiple metrics when another metric picked", async function () {
+        await page.waitForSelector('.jqplot-seriespicker-popover input');
+        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        await element.click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('two_metrics');
     });
 
-    it("should show table actions on hover", function (done) {
-        expect.screenshot('table_actions').to.be.capture(function (page) {
-            showDataTableFooter(page);
-        }, done);
+    it("should show table actions on hover", async function () {
+        await showDataTableFooter();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('table_actions');
     });
 
-    it("should show graph as image when export as image icon clicked", function (done) {
-        expect.screenshot('export_image').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('#dataTableFooterExportAsImageIcon');
-        }, done);
-    })  ;
+    it("should show graph as image when export as image icon clicked", async function () {
+        await page.click('#dataTableFooterExportAsImageIcon');
+        await page.waitForNetworkIdle();
 
-    it("should display more periods when limit selection changed", function (done) {
-        expect.screenshot('limit_changed').to.be.capture(function (page) {
-            page.click('.ui-dialog .ui-widget-header button:visible');
-            showDataTableFooter(page);
-            page.click('.limitSelection input');
-            page.evaluate(function () {
-                $('.limitSelection ul li:contains(60) span').click();
-            });
-        }, done);
+        const dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('export_image');
+    });
+
+    it("should display more periods when limit selection changed", async function () {
+        const element = await page.jQuery('.ui-dialog .ui-widget-header button:visible');
+        await element.click();
+
+        await showDataTableFooter();
+        await page.click('.limitSelection input');
+        await page.evaluate(function () {
+            $('.limitSelection ul li:contains(60) span').click();
+        });
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_changed');
     });
 
     // annotations tests
-    it("should show annotations when annotation icon on x-axis clicked", function (done) {
-        expect.screenshot('annotations_single_period').to.be.capture(function (page) {
-            showDataTableFooter(page);
-            page.click('.limitSelection input');
-            page.evaluate(function () {
-                $('.limitSelection ul li:contains(30) span').click(); // change limit back
-            });
+    it("should show annotations when annotation icon on x-axis clicked", async function () {
+        await showDataTableFooter();
+        await page.click('.limitSelection input');
+        await page.evaluate(function () {
+            $('.limitSelection ul li:contains(30) span').click(); // change limit back
+        });
+        await page.waitForNetworkIdle();
 
-            page.click('.evolution-annotations>span[data-count!=0]', 3000);
-        }, done);
+        const element = await page.jQuery('.evolution-annotations>span[data-count!=0]');
+        await element.click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_single_period');
     });
 
-    it("should show all annotations when annotations footer link clicked", function (done) {
-        expect.screenshot('annotations_all').to.be.capture(function (page) {
-            showDataTableFooter(page);
-            page.click('.annotationView', 3000);
-        }, done);
+    it("should show all annotations when annotations footer link clicked", async function () { // TODO: fails
+        await showDataTableFooter();
+        await page.click('.annotationView');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_all');
     });
 
-    it("should show no annotations message when no annotations for site", function (done) {
-        expect.screenshot('annotations_none').to.be.capture(function (page) {
-            page.load(page.getCurrentUrl().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
-            showDataTableFooter(page);
-            page.click('.annotationView', 3000);
-        }, done);
+    it("should show no annotations message when no annotations for site", async function () {
+        await page.goto(page.url().replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+        await showDataTableFooter();
+        await page.click('.annotationView');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
 
-    it("should show add annotation form when create annotation clicked", function (done) {
-        expect.screenshot('new_annotation_form').to.be.capture(function (page) {
-            page.click('.add-annotation');
-            page.click('.annotation-period-edit>a');
-            page.evaluate(function () {
-                $('.datepicker').datepicker("setDate", new Date(2012,0,02) );
-                $(".ui-datepicker-current-day").trigger("click"); // this triggers onSelect event which sets .annotation-period-edit>a
-            });
-        }, done);
+    it("should show add annotation form when create annotation clicked", async function () {
+        await page.click('.add-annotation');
+        await page.click('.annotation-period-edit>a');
+        await page.evaluate(function () {
+            $('.datepicker').datepicker("setDate", new Date(2012,0,2) );
+            $(".ui-datepicker-current-day").trigger("click"); // this triggers onSelect event which sets .annotation-period-edit>a
+        });
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('new_annotation_form');
     });
 
-    it("should add new annotation when create annotation submitted", function (done) {
-        expect.screenshot('new_annotation_submit').to.be.capture(function (page) {
-            page.sendKeys('.new-annotation-edit', 'new annotation');
-            page.click('.annotation-period-edit>a');
-            page.evaluate(function () {
-                $('.ui-datepicker-calendar td a:contains(15)').click();
-            });
-            page.click('.annotation-list-range');
-            page.click('input.new-annotation-save', 3000);
-        }, done);
+    it("should add new annotation when create annotation submitted", async function () {
+        await page.focus('.new-annotation-edit');
+        await page.keyboard.type('new annotation');
+        await page.click('.annotation-period-edit>a');
+        await page.evaluate(function () {
+            $('.ui-datepicker-calendar td a:contains(15)').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.click('.annotation-list-range');
+        await page.click('input.new-annotation-save');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('new_annotation_submit');
     });
 
-    it("should star annotation when star image clicked", function (done) {
-        expect.screenshot('annotation_starred').to.be.capture(function (page) {
-            page.click('.annotation-star');
-        }, done);
+    it("should star annotation when star image clicked", async function () {
+        await page.click('.annotation-star');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotation_starred');
     });
 
-    it("should show edit annotation form", function (done) {
-        expect.screenshot('annotation_edit_form').to.be.capture(function (page) {
-            page.click('.edit-annotation');
-        }, done);
+    it("should show edit annotation form", async function () {
+        await page.click('.edit-annotation');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotation_edit_form');
     });
 
-    it("should edit annotation when edit form submitted", function (done) {
-        expect.screenshot('annotation_edit_submit').to.be.capture(function (page) {
-            page.sendKeys('.annotation-edit', 'edited annotation');
-            page.click('.annotation-period-edit>a');
-            page.evaluate(function () {
-                $('.annotation-meta .ui-datepicker-calendar td a:contains(16)').click();
-            });
-            page.click('.annotation-list-range');
-            page.click('input.annotation-save', 3000);
-        }, done);
+    it("should edit annotation when edit form submitted", async function () {
+        await page.focus('.annotation-edit');
+        await page.keyboard.type('edited annotation');
+        await page.click('.annotation-period-edit>a');
+        await page.evaluate(function () {
+            $('.annotation-meta .ui-datepicker-calendar td a:contains(16)').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.click('.annotation-list-range');
+        await page.click('input.annotation-save');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotation_edit_submit');
     });
 
-    it("should delete annotation when delete link clicked", function (done) {
-        expect.screenshot('annotation_delete').to.be.capture(function (page) {
-            page.click('.edit-annotation');
-            page.click('.delete-annotation');
-        }, done);
+    it("should delete annotation when delete link clicked", async function () {
+        await page.click('.edit-annotation');
+        await page.waitForFunction("$('.delete-annotation:visible').length > 0");
+        await page.evaluate(function () {
+            $('.delete-annotation').click();
+        });
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('annotations_none');
     });
 
-    it("should cutout two labels so all can fit on screen", function (done) {
-        expect.screenshot('label_ticks_cutout').to.be.capture(function (page) {
-            page.setViewportSize(320,320);
-            page.load(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
-        }, done);
+    it("should cutout two labels so all can fit on screen", async function () {
+        await page.webpage.setViewport({ width: 320, height: 320 });
+        await page.goto(url.replace(/idSite=[^&]*/, "idSite=3") + "&columns=nb_visits");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('label_ticks_cutout');
     });
 
-    it("should show available periods", function (done) {
-        expect.screenshot('periods_list').to.be.capture(function (page) {
-            showDataTableFooter(page);
-            page.click('.activatePeriodsSelection');
-        }, done);
+    it("should show available periods", async function () {
+        await page.webpage.setViewport({
+            width: 1350,
+            height: 768,
+        });
+        await page.reload();
+        await showDataTableFooter();
+        await page.click('.activatePeriodsSelection');
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_list');
     });
-    it("should be possible to change period", function (done) {
-        expect.screenshot('periods_selected').to.be.capture(function (page) {
-            page.click('.dataTablePeriods [data-period=month]');
-        }, done);
+
+    it("should be possible to change period", async function () {
+        await page.click('.dataTablePeriods [data-period=month]');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('periods_selected');
     });
 });

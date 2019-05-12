@@ -55,6 +55,18 @@ class ReferrerType extends Base
         return $information['referer_type'];
     }
 
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
+        if ($this->isCurrentReferrerDirectEntry($visitor)
+            && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
+        ) {
+            return $information['referer_type'];
+        }
+
+        return false;
+    }
+
     /**
      * @param Request $request
      * @param Visitor $visitor

@@ -31,7 +31,6 @@
         "GeoIPImplHasAccessTo": "Penerapan GeoIP ini memiliki akses terhadap jenis-jenis basisdata berikut",
         "GeoIpLocationProviderDesc_Pecl1": "Penyedia lokasi ini menggunakan basisdata GeoIP dan modul PECL untuk akurasi dan efesiensi menentukan lokasi pengunjung.",
         "GeoIpLocationProviderDesc_Pecl2": "Tidak ada batasan untuk penyedia ini, jadi ini adalah salah satu yang kami sarankan untuk digunakan.",
-        "GeoIpLocationProviderDesc_Php1": "Penyedia lokasi ini merupakan cara paling sederhana dalam memasang sebab tidak membutuhkan pengaturan peladen (cocok untuk hosting bagi pakai!). Ini menggunakan basisdata GeoIP dan API PHP MaxMind untuk menentukan lokasi pengunjung Anda.",
         "GeoIpLocationProviderDesc_Php2": "Bila situs Anda memperoleh lalu lintas besar, Anda akan mendapati penyedia lokasi tersebut terlalu lambat. Dalam hal ini, Anda harus memasang %1$sekstensi PECL%2$s atau sebuah %3$smodul peladen%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Lokasi penyedia ini menggunakan modul GeoIP yang telah terpasnag di peladen HTTP Anda. Penyedia ini cepat dan cermat, tapi %1$shanya dapat digunakan dengan pelacakan peramban normal.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Bila Anda mengimpor berkas catatan atau hal lain yang membutuhkan pengaturan alamat IP, gunakan %1$spenerapan GeoIP PECL (disarankan)%2$s atau %3$spenerapan GeoIP PHP%4$s.",

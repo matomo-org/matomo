@@ -45,7 +45,6 @@
         "GiveViewAccess": "Permitir acesso de visualização para %1$s",
         "GiveViewAccessTitle": "Dar a usuário existente acesso para visualizar relatórios de %s",
         "GiveViewAccessInstructions": "Para dar acesso a um usuário existente para %s digite o nome de usuário ou endereço de e-mail de um usuário existente",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se você quiser mudar a senha, digite uma nova. Caso contrário, deixe em branco.",
         "InjectedHostCannotChangePwd": "Você está visitando com um host desconhecido (%1$s). Você não pode mudar sua senha até que este problema seja resolvido.",
         "LastSeen": "Último visto",
         "MainDescription": "Decida quais usuários têm acesso a seus sites. Você também pode dar acesso a todos os sites de uma só vez, escolhendo \"Aplicar a todos os websites\" no seletor de website.",
