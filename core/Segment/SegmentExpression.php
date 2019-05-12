@@ -315,7 +315,7 @@ class SegmentExpression
      */
     public static function parseColumnsFromSqlExpr($field)
     {
-        preg_match_all('/(?:$|[^@a-zA-Z0-9_])`?([@a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
+        preg_match_all('/[^@a-zA-Z0-9_]?`?([@a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
         $result = array_filter($result, function ($value) { // remove uses of session
             return strpos($value, '@') === false;

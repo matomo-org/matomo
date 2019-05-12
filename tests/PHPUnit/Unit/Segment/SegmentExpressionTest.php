@@ -194,6 +194,14 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
                 '(log_visit.column == 5) && ((HOUR(log_visit.column) == 12)) && FUNC(mytable.mycolumn) - OTHERFUNC(`myothertable`.`myothercolumn`) == LASTFUNC(mylasttable.mylastcolumn)',
                 ['log_visit.column', 'mytable.mycolumn', 'myothertable.myothercolumn', 'mylasttable.mylastcolumn'],
             ],
+            [
+                'log_visit.column = 5 || @@session.whatever == 5',
+                ['log_visit.column'],
+            ],
+            [
+                '@something.whatever == 5',
+                [],
+            ],
         ];
     }
 }
