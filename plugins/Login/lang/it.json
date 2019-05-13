@@ -24,7 +24,7 @@
         "CurrentlyBlockedIPs": "IP attualmente bloccati",
         "IPsAlwaysBlocked": "Questi IP sono sempre bloccati",
         "UnblockAllIPs": "Sblocca tutti gli IP attualmente bloccati",
-        "CurrentlyBlockedIPsUnblockInfo": "È possibile sbloccare gli IP che sono attualmente bloccati in modo che possano accedere nuovamente nel caso in cui siano stati falsamente segnalati e devono essere in grado di accedere nuovamente.",
+        "CurrentlyBlockedIPsUnblockInfo": "È possibile sbloccare gli IP che sono attualmente bloccati, in modo che possano accedere di nuovo nel caso in cui siano stati falsamente segnalati e debbano essere in grado di accedere nuovamente.",
         "CurrentlyBlockedIPsUnblockConfirm": "Sei sicuro di voler sbloccare tutti gli IP attualmente bloccati?",
         "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
         "LostYourPassword": "Hai perso la password?",

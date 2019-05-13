@@ -9,9 +9,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
-		<segment>countryCode==ir</segment>
 		<code>ir</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+		<segment>countryCode==ir</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -23,9 +23,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<segment>countryCode==jm</segment>
 		<code>jm</code>
 		<logo>plugins/Morpheus/icons/dist/flags/jm.png</logo>
+		<segment>countryCode==jm</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -37,9 +37,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==ad</segment>
 		<code>ad</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ad.png</logo>
+		<segment>countryCode==ad</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -51,9 +51,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==bm</segment>
 		<code>bm</code>
 		<logo>plugins/Morpheus/icons/dist/flags/bm.png</logo>
+		<segment>countryCode==bm</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -65,9 +65,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==cn</segment>
 		<code>cn</code>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		<segment>countryCode==cn</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -79,9 +79,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==gr</segment>
 		<code>gr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gr.png</logo>
+		<segment>countryCode==gr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -93,9 +93,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==gb</segment>
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -109,6 +109,7 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code />
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<segment>countryCode==</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

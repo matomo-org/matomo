@@ -24,7 +24,7 @@
         "HelpMessageIntroductionWhenError": "Ci-dessus est le message d'erreur du noyau. Cela devrait expliquer la cause, mais si vous nécessitez davantage d'aide merci de :",
         "HelpMessageIntroductionWhenWarning": "La mise à jour a été complétée avec succès. Cependant, des problèmes sont survenus. Lisez la description ci-dessus pour plus de détails. Pour davantage d'aide :",
         "HighTrafficPiwikServerEnableMaintenance": "Si vous gérez un serveur Matomo à haut traffic, nous recommandons de %1$sdésactiver momentanément le suivi des visiteurs et de mettre l'interface utilisateur de Matomo en mode de maintenance%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Note : certains composants ne sont pas compatibles avec Matomo %s. Nous allons les mettre à jour si une mise à jour est disponible que le marché, sinon nous allons les désactiver lorsque vous effecturez la mise à jour :",
+        "IncompatbilePluginsWillBeDisabledInfo": "Note : certains composants ne sont pas compatibles avec Matomo %s. Nous allons les mettre à jour si une nouvelle version existe sur le Marketplace, autrement nous les désactiverons lorsque vous effectuerez la mise à jour :",
         "InstallingTheLatestVersion": "Installation de la dernière version",
         "LatestBetaRelease": "Dernière version beta",
         "LatestStableRelease": "Dernière version stable",

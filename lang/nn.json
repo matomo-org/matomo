@@ -139,7 +139,6 @@
         "Help": "Hjelp",
         "HoursMinutes": "%1$s timar %2$s minutt",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Så framt arkivering er raskt for din installasjon, kan du endra cron-tabellen til å køyra oftare.",
         "InvalidDateRange": "Feil periode",
         "InvalidResponse": "Motteken data er ugyldig.",
         "JsTrackingTag": "JavaScript sporingskode",

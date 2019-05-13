@@ -56,7 +56,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
-        $dataTable->filter('AddSegmentByLabel', ['countryCode']);
+        $dataTable->filter('AddSegmentValue');
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getFlagFromCode'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\countryTranslate'));

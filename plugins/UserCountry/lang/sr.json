@@ -33,7 +33,6 @@
         "GeoIPIncorrectDatabaseFormat": "Izgleda da vaša GeoIP baza nema ispravan format. Moguće je i da je oštećena. Proverite da li koristite binarnu verziju i pokušajte da je zamenite drugom kopijom.",
         "GeoIpLocationProviderDesc_Pecl1": "Ovaj provajder koristi GeoIP bazu i PECL modul kako bi precizno i efikasno odredio lokaciju vaših psoetilaca.",
         "GeoIpLocationProviderDesc_Pecl2": "Nema ograničenja sa ovim provajderom tako da vam ga preporučujemo.",
-        "GeoIpLocationProviderDesc_Php1": "Ovaj provajder lokacija je najjednostavniji za instalaciju zato što ne zahteva podešavanja servera (idealan je za deljeni hosting). Koristi GeoIP bazu i MaxMind PHP API kako bi precizno odredio lokaciju vaših posetilaca.",
         "GeoIpLocationProviderDesc_Php2": "Ukoliko vaš sajt ima puno saobraćaja, može se desiti da je ovaj provajder lokacija previše spor. U tom slučaju, instalirajte %1$sPECL proširenje%2$s ili %3$sserver modul%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Ovaj provajder lokacija koristi GeoIP modul koji je instaliran na vašem HTTP serveru. Provajder je brz i precizan ali %1$smože se koristiti samo za normalna praćenja brauzera.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Ako je potrebno da uvezete datoteke sa zapisima ili da uradite nešto drugo što zahteva podešavanje IP adresa, koristite %1$sPECL GeoIP implementaciju (preporučujemo)%2$s ili %3$sPHP GeoIP implementaciju%4$s.",

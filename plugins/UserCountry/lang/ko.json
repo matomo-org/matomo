@@ -33,7 +33,6 @@
         "GeoIPIncorrectDatabaseFormat": "당신이 사용하는 GeoIP 데이터베이스는 올바른 포멧을 가지고 있지 않는 듯싶습니다. 아마도 손상된 것으로 보입니다. 바이너리 버전을 사용하는지 확인하시고 다른 복사본으로 바꿔 다시 진행해보세요.",
         "GeoIpLocationProviderDesc_Pecl1": "이 위치 공급자는 PECL 모듈과 GeoIP 데이터베이스를 사용하여 정확하고 효율적으로 방문자의 위치를 ​​결정합니다.",
         "GeoIpLocationProviderDesc_Pecl2": "제한이 없는 공급자입니다. 그래서 우리는 이를 사용하는 것을 추천합니다.",
-        "GeoIpLocationProviderDesc_Php1": "이 위치 공급자는 서버에 설치 및 구성을 요구하지 않기 때문에 가장 간단합니다 (공유 호스팅에 적합!). GeoIP 데이터베이스 및 MaxMind의 PHP API를 사용하여 정확하게 방문자의 위치를 ​​결정합니다.",
         "GeoIpLocationProviderDesc_Php2": "웹사이트 트래픽이 높은 경우에 이 위치 공급자는 너무 느립니다. 이 경우는 %1$sPECL 확장%2$s이나 %3$s서버 모듈%4$s을 설치하는 것이 좋습니다.",
         "GeoIpLocationProviderDesc_ServerBased1": "이 위치 공급자는 HTTP 서버에 설치되는 GeoIP 모듈을 사용합니다. 이 것은 빠르고 정확하지만, %1$s일반 브라우저의 추적만 사용할 수 있습니다.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "로그 파일을 가져오거나 IP 주소 설정을 필요로하는 경우 %1$sPECL GeoIP 구현 (권장)%2$s 또는 %3$sPHP GeoIP 구현%4$s을 사용합니다.",
