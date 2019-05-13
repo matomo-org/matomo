@@ -833,6 +833,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await visitorsOT.click();
         await page.waitForNetworkIdle();
 
+        await page.waitFor('.widgetpreview-preview .widget', { visible: true });
+
         await page.evaluate(function () {
             $('.formEmbedCode').each(function () {
                 var val = $(this).val();

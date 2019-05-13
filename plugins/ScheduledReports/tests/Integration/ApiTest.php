@@ -68,6 +68,7 @@ class ApiTest extends IntegrationTestCase
             'description' => 'test description"',
             'type'        => 'email',
             'period'      => Schedule::PERIOD_DAY,
+            'period_param' => 'month',
             'hour'        => '4',
             'format'      => 'pdf',
             'reports'     => array('UserCountry_getCountry'),
@@ -708,7 +709,11 @@ class ApiTest extends IntegrationTestCase
             $data['type'],
             $data['format'],
             $data['reports'],
-            $data['parameters']
+            $data['parameters'],
+            $idSegment = false,
+            $evolutionPeriodFor = 'prev',
+            $evolutionPeriodN = null,
+            $periodParam = isset($data['period_param']) ? $data['period_param'] : null
         );
         return $idReport;
     }
