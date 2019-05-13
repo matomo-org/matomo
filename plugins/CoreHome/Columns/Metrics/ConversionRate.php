@@ -49,19 +49,21 @@ class ConversionRate extends ProcessedMetric
         if ($nbVisitsConverted === false) {
             $goals = $this->getMetric($row, 'goals');
 
-            $nbVisitsConverted = 0;
-            foreach ($goals as $idGoal => $values) {
-                if ($idGoal === 0
-                    || $idGoal === '0'
-                    || $idGoal == 'idgoal=0'
-                    || $idGoal == '-1'
-                    || $idGoal == 'idgoal=-1'
-                    || $idGoal == 'idgoal=' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
-                ) {
-                    continue;
-                }
+            if (!empty($goals)) {
+                $nbVisitsConverted = 0;
+                foreach ($goals as $idGoal => $values) {
+                    if ($idGoal === 0
+                        || $idGoal === '0'
+                        || $idGoal == 'idgoal=0'
+                        || $idGoal == '-1'
+                        || $idGoal == 'idgoal=-1'
+                        || $idGoal == 'idgoal=' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+                    ) {
+                        continue;
+                    }
 
-                $nbVisitsConverted = max($nbVisitsConverted, $this->getMetric($values, 'nb_visits_converted', Metrics::getMappingFromNameToIdGoal()));
+                    $nbVisitsConverted = max($nbVisitsConverted, $this->getMetric($values, 'nb_visits_converted', Metrics::getMappingFromNameToIdGoal()));
+                }
             }
         }
 
