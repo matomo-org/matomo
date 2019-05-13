@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<is_summary>1</is_summary>
 		<Referrers_Keyword>Others</Referrers_Keyword>
 	</row>
 	<row>
@@ -24,6 +25,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/searchEngines/xx.png</logo>
 		<Referrers_Keyword>this search term</Referrers_Keyword>
+		<is_summary>1</is_summary>
 		<Referrers_SearchEngine>Others</Referrers_SearchEngine>
 	</row>
 	<row>

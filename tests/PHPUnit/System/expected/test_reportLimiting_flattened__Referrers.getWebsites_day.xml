@@ -10,6 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<is_summary>1</is_summary>
 		<Referrers_Website>Others</Referrers_Website>
 	</row>
 	<row>
@@ -22,9 +23,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<url>Others</url>
 		<Referrers_Website>whatever0.com</Referrers_Website>
-		<Referrers_WebsitePage> - Others</Referrers_WebsitePage>
+		<is_summary>1</is_summary>
+		<Referrers_WebsitePage>Others</Referrers_WebsitePage>
 	</row>
 	<row>
 		<label>whatever0.com/index</label>
