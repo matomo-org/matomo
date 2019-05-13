@@ -71,7 +71,9 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
-        if ($exception instanceof HttpCodeException) {
+        if ($exception instanceof HttpCodeException
+            && $exception->getCode() > 0
+        ) {
             http_response_code($exception->getCode());
         }
 
