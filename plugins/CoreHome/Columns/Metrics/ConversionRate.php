@@ -51,7 +51,13 @@ class ConversionRate extends ProcessedMetric
 
             $nbVisitsConverted = 0;
             foreach ($goals as $idGoal => $values) {
-                if ($idGoal === 0 || $idGoal === '0' || $idGoal == 'idgoal=0') {
+                if ($idGoal === 0
+                    || $idGoal === '0'
+                    || $idGoal == 'idgoal=0'
+                    || $idGoal == '-1'
+                    || $idGoal == 'idgoal=-1'
+                    || $idGoal == 'idgoal=' . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+                ) {
                     continue;
                 }
 
