@@ -36,7 +36,6 @@
         "JSTracking_PageCustomVarsDesc": "De exemplu, cu variabila nume \"Categorie\" si valoare \"Pagini Aurii\".",
         "JSTracking_VisitorCustomVars": "Urmăreşte variabile personalizate pentru acest vizitator",
         "JSTracking_VisitorCustomVarsDesc": "De exemplu, cu variabila nume \"Tip\" si valoare \"Client\".",
-        "JSTrackingIntro1": "Poti face tracking despre vizitatorii siteului tau in feluri diferite. Cel mai recomandat mod este prin intermediul JavaScript. Pentru a folosi aceasta metoda, trebuie sa fii sigur ca fiecare pagina a siteului are cod JavaScript, pe care il poti genera de aici.",
         "JSTrackingIntro2": "Odata ce ai codul JavaScript de contorizare a vizitelor pentru siteul tau, fa copy si paste in toate paginile pe care vrei sa faci contorizarea vizitatorilor cu Matomo.",
         "JSTrackingIntro4": "Daca nu doresti sa folosesti JavaScript pentru a contoriza vizitatorii, %1$sgenereaza un link tip imagine mai jos%2$s.",
         "JSTrackingIntro5": "Daca doresti mai mult decat a contoriza vizualizarile de pagini, te rugam sa te uiti la %1$sdocumentatia Matomo Javascript Tracking%2$s pentru lista cu functionalitatile disponibile. Folosind aceste functionalitati poti contoriza obiectivele (goals), variabile custom, comenzile pentru magazinul online, cosul de cumparaturi abandonat si altele.",

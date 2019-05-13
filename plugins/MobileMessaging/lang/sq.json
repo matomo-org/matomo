@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Shtoni një Numër Telefoni të ri",
         "Settings_PhoneNumbers_CountryCode_Help": "Nëse nuk e dini kodin e telefonave për vendin tuaj, kontrolloni për vendin tuaj këtu.",
         "Settings_PhoneNumbers_Help": "Përpara se të merren raporte me SMS (mesazhe tekst) në një telefon, duhet dhënë më poshtë numri i telefonit.",
-        "Settings_PhoneNumbers_HelpAdd": "Kur klikoni \"Shtoje\", te telefoni do të dërgohet një SMS që përmban një kod. Përdoruesi që merr kodin, duhet mandej të bëjë hyrjen në Matomo, të klikojë mbi Rregullime, mandej të klikojë mbi Mesazhe Me Celular. Pasi të jepet kodi, përdoruesi do të jetë në gjendje të marrë raporte tekst në celularin e tij.",
+        "Settings_PhoneNumbers_HelpAdd": "Kur klikoni \"Shtoje\", te telefoni do të dërgohet një SMS që përmban një kod. Përdoruesi që merr kodin, duhet mandej të bëjë hyrjen në Matomo, të klikojë mbi Rregullime, mandej të klikojë mbi Mesazhe Me Celular. Pasi të japë kodin, përdoruesi do të jetë në gjendje të marrë raporte tekst në celularin e tij.",
         "Settings_PleaseSignUp": "Që të krijoni dhe të merrni në celularin tuaj raporte SMS me statistika nga sajti juaj, ju lutemi, bëni regjistrimin te API SMS dhe jepni më poshtë të dhënat tuaja.",
         "Settings_SMSAPIAccount": "Administroni Llogari SMS API",
         "Settings_SMSProvider": "Furnizues SMS-sh",

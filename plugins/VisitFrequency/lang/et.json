@@ -10,7 +10,9 @@
         "ColumnReturningVisits": "Korduvad külastused",
         "ColumnSumVisitLengthReturning": "Korduvate külastuste kogu lehel viibitud aeg (sek)",
         "ColumnUniqueReturningVisitors": "Unikaalsed korduvkülastajad",
+        "ReturnAvgActions": "tegevust korduvatel külastustel",
         "ReturningVisitsDocumentation": "See on korduvate külastuste ülevaade.",
+        "ReturnVisits": "korduvad külastused",
         "SubmenuFrequency": "Sagedus",
         "WidgetGraphReturning": "Korduvate külastuste graafik",
         "WidgetOverview": "Sageduse ülevaade"

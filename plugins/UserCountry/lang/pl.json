@@ -36,7 +36,6 @@
         "GeoIPIncorrectDatabaseFormat": "Twoja baza GeoIP ma niepoprawny format. Może być uszkodzona. Dopilnuj by używać wersji binarnej i spróbuj podmienić bazę na nową kopię.",
         "GeoIpLocationProviderDesc_Pecl1": "Ten dostawca usług geolokalizacyjnych korzysta z bazy GeoIP i modułu PECL, aby dokładnie i efektywnie określić lokalizację odwiedzających.",
         "GeoIpLocationProviderDesc_Pecl2": "Ten dostawca nie podlega żadnym ograniczeniom w działaniu, dlatego polecamy jego używanie.",
-        "GeoIpLocationProviderDesc_Php1": "Ten dostawca usług geolokalizacyjnych jest najprostszym do instalacji, ponieważ nie wymaga konfiguracji serwera (idealny dla hostingu współdzielonego!). Wykorzystuje bazę GeoIP i opracowane przez MaxMind API PHP do dokładnego określania lokalizacji Twoich odwiedzających.",
         "GeoIpLocationProviderDesc_Php2": "Jeżeli twoja strona ma bardzo dużo ruchu, ten dostawca usług lokacyjnych może okazać się za wolny. W takim wypadku zaleca się instalację %1$srozszerzenia PECL%2$s lub %3$smoduło serverowego%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Ten dostawca usług geolokalizacyjnych korzysta z modułu GeoIP zainstalowanego w Twoim serwerze HTTP.Ten dostawca jest szybki i dokładny, jednak %1$smoże być wykorzystywany wyłącznie do normalnego śledzenia.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Gdy importujesz pliki logów lub robisz coś innego, co może wymagać ustawienia adresu IP, użyj %1$simplementacji GeoIP PECL (rekomendowana)%2$s lub %3$simplementacji GeoIP PHP%4$s.",

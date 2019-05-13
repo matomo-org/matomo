@@ -10,8 +10,8 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==RM</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
+		<segment>browserCode==RM</segment>
 	</row>
 	<row>
 		<label>Chrome</label>
@@ -23,8 +23,8 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<segment>browserCode==CH</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
+		<segment>browserCode==CH</segment>
 	</row>
 	<row>
 		<label>Internet Explorer</label>
@@ -36,8 +36,8 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==IE</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
+		<segment>browserCode==IE</segment>
 	</row>
 	<row>
 		<label>GNOME Web</label>
@@ -49,8 +49,8 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==EP</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/EP.png</logo>
+		<segment>browserCode==EP</segment>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -62,8 +62,8 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==UNK</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
+		<segment>browserCode==UNK</segment>
 	</row>
 	<row>
 		<label>Android Browser</label>
@@ -75,8 +75,8 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==AN</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/AN.png</logo>
+		<segment>browserCode==AN</segment>
 	</row>
 	<row>
 		<label>Firefox</label>
@@ -88,8 +88,8 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==FF</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
+		<segment>browserCode==FF</segment>
 	</row>
 	<row>
 		<label>Chrome Mobile</label>
@@ -101,7 +101,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>browserCode==CM</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
+		<segment>browserCode==CM</segment>
 	</row>
 </result>

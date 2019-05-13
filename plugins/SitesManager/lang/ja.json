@@ -86,7 +86,6 @@
         "UTCTimeIs": "UTC 時間は %s です。",
         "OnlyMatchedUrlsAllowed": "アクション URL は、上記のいずれかの URLで始まる場合にのみビジットやアクションを追跡します。",
         "OnlyMatchedUrlsAllowedHelp": "有効にすると、Matomo はページ URL があなたのウェブサイトの URL として知られたものである時に内部のアクションを追跡します。これは他のウェブサイトの URL を使用して分析をスパムすることから人々を防ぎます。",
-        "OnlyMatchedUrlsAllowedHelpExamples": "ドメインとパスは完全に一致していなければならず、各有効なサブドメインを個別に指定する必要があります。たとえば、既知の URL が「 http:\/\/example.com\/path 」および「 http:\/\/good.example.com 」である場合、「 http:\/\/example.com\/otherpath 」または「 http:\/\/bad.example.com 」の追跡要求は無視されます。",
         "WebsitesManagement": "ウェブサイトの管理",
         "XManagement": "管理 %s",
         "ChooseMeasurableTypeHeadline": "何を測定しますか？",

@@ -64,7 +64,6 @@
         "NoValidSubscriptionNoUpdates": "Poté co předplatné vyprší, nebudete dostávat aktualizace pro žádný ze svých zakoupených zásuvných modulů.",
         "PluginSubscriptionsList": "Toto je seznam předplatného, navázaný na váš licenční klíč.",
         "PaidPluginsNoLicenseKeyIntro": "Pokud jste zakoupili %1$splacený prémiový zásuvný modul%2$s, zadejte prosím níže obdržený licenční klíč.",
-        "PaidPluginsWithLicenseKeyIntro": "Byl nastaven platný licenční klíč. Z bezpečnostních důvodů ho zde nezobrazujeme. Pokud jste svůj licenční klíč ztratili, kontaktujte prosím Matomo tým.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "V případě, že jste zakoupili %1$splacený prémiový zásuvný modul%2$s v obchodě, požádejte administrátora ať vloží licenční klíč.",
         "PluginDescription": "Rozšiřte a zlepšete funkčnost Matomou pomocí Obchodu a dalšími staženými zásuvnými moduly a vzhledy.",
         "PluginKeywords": "Klíčová slova",
@@ -104,7 +103,6 @@
         "PluginUploadDisabled": "Nahrání zásuvného modulu je zakázáno v konfiguračním souboru. Pokud chcete tuto funkci povolit, upravte konfigurační soubor, nebo kontaktujte administrátora.",
         "LicenseKeyExpiresSoon": "Váš licenční klíč brzy vyprší, kontaktujte prosím %1$s.",
         "LicenseKeyIsExpired": "Váš licenční klíč vypršel, kontaktujte prosím %1$s.",
-        "MultiServerEnvironmentWarning": "Zásuvný modul nelze instalovat nebo aktualizovat přímo, protože používáte Matomo na několika serverech. Modul by byl nainstalován pouze na jednom serveru. Namísto toho modul stáhněte a ručně nainstalujte na všechny své servery.",
         "AutoUpdateDisabledWarning": "Zásuvný modul nelze instalovat nebo aktualizovat přímo, protože jsou v nastavení automatické instalace vypnuty. Pro povolení automatických aktualizací nastavte %1$s v %2$s.",
         "ViewRepositoryChangelog": "Zobrazit změny"
     }
