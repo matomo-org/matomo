@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Ecommerce vám umožňuje sledovat, kdy uživatelé přidají produkt do košíku a kdy dojde ke konverzi na objednávku. Také umožňuje sledovat zobrazení stránek produktů, kategorií a opuštěné košíky.",
         "Sales": "Tržby",
         "Order": "Objednávka",
         "Orders": "Objednávky",

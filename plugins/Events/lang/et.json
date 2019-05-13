@@ -3,9 +3,11 @@
         "AvgValue": "Keskmine väärtus",
         "Event": "Sündmus",
         "EventAction": "Sündmuse tegevus",
+        "EventActions": "Sündmuste tegevused",
         "EventCategories": "Ürituse kategooriad",
         "EventCategory": "Sündmuse kategooria",
         "EventName": "Sündmuse nimi",
+        "EventNames": "Sündmuste nimed",
         "Events": "Sündmused"
     }
 }

@@ -46,7 +46,7 @@
         "GdprOverview": "Kişisel Veri Güvenliği Yönergesi Özeti",
         "GdprTools": "Kişisel Veri Güvenliği Yönergesi Araçları",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
-        "KeepBasicMetrics": "Temel ölçütler korunur (ziyaretler, sayfa görüntülemeleri, hemen çıkma oranı, hedef tutturma, e-ticarete dönüşme gibi)",
+        "KeepBasicMetrics": "Temel ölçümler korunur (ziyaretler, sayfa görüntülemeleri, hemen çıkma oranı, hedef tutturma, e-ticarete dönüşme gibi)",
         "KeepDataFor": "Şunun için tüm veriler korunsun",
         "KeepReportSegments": "Yukarıdaki verileri korumak için dilimlenmiş raporlar da korunmalı",
         "LastDelete": "Son silinme zamanı",

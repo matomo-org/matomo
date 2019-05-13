@@ -21,7 +21,6 @@
         "ExceptionUserDoesNotExist": "Pengguan '%s' tida ada.",
         "ExcludeVisitsViaCookie": "Kecualikan kunjungan Anda menggunakan kuki",
         "ForAnonymousUsersReportDateToLoadByDefault": "Tanggal laporan yang dimuat secara asali untuk pengguna anonim",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Bila Anda ingin mengganti sandi, ketik sandi baru. Bila tidak, biarkan ini kosong.",
         "InjectedHostCannotChangePwd": "Sekarang Anda berkunjung dengan inang yang tidak dikenal (%1$s). Anda tidak dapat mengubah sandi Anda hingga masalah ini diperbaiki.",
         "LastSeen": "Terakhir dilihat",
         "ManageAccess": "Atur akses",

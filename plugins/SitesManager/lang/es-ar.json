@@ -69,7 +69,6 @@
         "Type": "Tipo",
         "UTCTimeIs": "La hora UTC es %s.",
         "OnlyMatchedUrlsAllowed": "Sólo rastrear visitas y acciones cuando la dirección web de acción comienza con una de las direcciones web de arriba.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "El dominio y la ruta tienen que ser una coincidencia exacta y cada subdominio válido tienen que ser especificados separadamente. Por ejemplo, cuando las direcciones web conocidas son \"http:\/\/ejemplo.com\/ruta\" y \"http:\/\/buena.ejemplo.com\", las solicitudes para \"http:\/\/ejemplo.com\/otraruta\" o \"http:\/\/mala.ejemplo.com\" son ignoradas.",
         "WebsitesManagement": "Administración de sitios web",
         "XManagement": "Administrar %s",
         "ChooseMeasurableTypeHeadline": "¿Qué te gustaría medir?",

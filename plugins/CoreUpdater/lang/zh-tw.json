@@ -24,7 +24,6 @@
         "HelpMessageIntroductionWhenError": "以上是核心錯誤訊息。它應該有助於解釋原因，但如果你需要進一步的說明請：",
         "HelpMessageIntroductionWhenWarning": "更新成功完成，但在過程中有發生一些問題。請閱讀以上說明的詳細內容。如需更進一步的說明：",
         "HighTrafficPiwikServerEnableMaintenance": "如果你管理一個高流量的 Matomo 伺服器，我們建議%1$s暫時禁用訪客追踪功能，並把 Matomo 使用者界面設定為維護模式%2$s。",
-        "IncompatbilePluginsWillBeDisabledInfo": "注意：部分外掛和 Matomo %s 不相容。若那些外掛在市集上有更新時我們將會同步進行更新，否則我們將會在你升級時禁用。",
         "InstallingTheLatestVersion": "正在安裝最新版本中",
         "LatestBetaRelease": "最新 Beta 版本",
         "LatestStableRelease": "最新穩定版本",
