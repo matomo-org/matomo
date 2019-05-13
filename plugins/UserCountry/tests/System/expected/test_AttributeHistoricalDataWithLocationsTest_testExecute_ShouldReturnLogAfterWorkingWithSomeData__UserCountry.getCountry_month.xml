@@ -22,9 +22,9 @@
 		<revenue>150</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==cn</segment>
 		<code>cn</code>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		<segment>countryCode==cn</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -49,9 +49,9 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==ca</segment>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -76,9 +76,9 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -103,9 +103,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==id</segment>
 		<code>id</code>
 		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
+		<segment>countryCode==id</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -130,9 +130,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==it</segment>
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		<segment>countryCode==it</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -157,9 +157,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==us</segment>
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		<segment>countryCode==us</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

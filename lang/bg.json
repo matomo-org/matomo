@@ -173,7 +173,6 @@
         "Hide": "скриване",
         "HoursMinutes": "%1$s часа %2$s мин.",
         "Id": "ИД",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ако приемем, архивирането е бързо за Вашата настройка, можете да настроите crontab да се стартира по-често.",
         "InfoFor": "Информация за %s",
         "Installed": "Инсталирано",
         "InvalidDateRange": "Невалиден период от време. Моля, опитайте отново.",

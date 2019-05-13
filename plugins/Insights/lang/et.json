@@ -4,7 +4,10 @@
         "DayComparedToPreviousWeek": "sama päev eelmisel nädalal",
         "DayComparedToPreviousYear": "sama päev eelmisel aastal",
         "Filter": "Filter",
+        "FilterOnlyMovers": "Ainult liikujad",
+        "FilterOnlyNew": "Ainult uus",
         "MonthComparedToPreviousMonth": "eelmine kuu",
-        "WeekComparedToPreviousWeek": "eelmine nädal"
+        "WeekComparedToPreviousWeek": "eelmine nädal",
+        "YearComparedToPreviousYear": "eelmine aasta"
     }
 }

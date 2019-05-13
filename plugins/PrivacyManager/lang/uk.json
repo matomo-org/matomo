@@ -1,7 +1,6 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Приховати останній байт IP-адрес ваших відвідувачів згідно вашим принципам конфіденційності або законодавству.",
-        "AnonymizeIpExtendedHelp": "Коли користувачі відвідують ваш сайт, Matomo не використовуватиме повний IP-адрес (наприклад, %1$s), а анонимизирует его (например, в %2$s). Анонимизация IP-адреса является одним из требований, установленных законами о конфиденциальности в некоторых странах, таких как Германия.",
         "AnonymizeIpMaskLengtDescription": "Виберіть, як багато байтів IP-адреси відвідувачів повинно бути приховано.",
         "AnonymizeIpMaskLength": "%1$s байт(ів), наприклад, %2$s",
         "ClickHereSettings": "Натисніть тут, щоб перейти до налаштувань: %s.",
@@ -19,7 +18,6 @@
         "DeleteDataSettings": "Видалення старих логів відвідувань і звітів",
         "DoNotTrack_Description": "Відмова від відстеження – технологія і пропозиція політики безпеки, яка дозволяє користувачам відмовлятися від того, щоб їх відвідування відстежувалися. Використовується в аналітичних сервісах, рекламних мережах і соціальних платформах.",
         "DoNotTrack_Disable": "Відключити можливість відмови від відстеження",
-        "DoNotTrack_DisabledMoreInfo": "Ми рекомендуємо поважати конфіденційність ваших відвідувачів і включити можливість відмови від відстеження.",
         "DoNotTrack_Enable": "Включити можливість відмови від відстеження",
         "DoNotTrack_Enabled": "На даний момент ви поважаєте конфіденційність ваших відвідувачів. Браво!",
         "DoNotTrack_SupportDNTPreference": "Налаштування Відмови від Відстеження",
@@ -44,7 +42,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Дивіться також офіційне керівництво: %1$sПриватність даних в Matomo%2$s",
         "TeaserHeadline": "Налаштування конфіденційності",
         "UseAnonymizedIpForVisitEnrichment": "Також використовуйте анонімні IP-адреси при логуванні відвідувань.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
         "UseAnonymizeIp": "Приховати IP-адреси відвідувачів",
         "UseDeleteReports": "Завжди видаляти старі звіти з баз даних"
     }

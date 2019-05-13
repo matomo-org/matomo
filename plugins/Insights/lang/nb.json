@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Gir innsikt om din trafikk. Innsikt er tilgjengelig som widgeter, i tillegg til et nytt ikon i rapporter, som lar deg se de viktigste trendene i dine data.",
         "ControlComparedToDescription": "Vekst sammenlignet med",
         "ControlFilterByDescription": "Vis alle, kun klatrere, kun nye eller kun forsvunne",
         "DatePeriodCombinationNotSupported": "Det er ikke mulig å generere innsikt for denne dato- og periodekombinasjonen.",
@@ -26,7 +25,6 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s gikk fra %2$s til %3$s sammenliknet med %4$s Basert på dette forventes en utvikling på %5$s%% for hver rad.",
         "TitleRowChangeDetails": "«%1$s» endret fra %2$s (%3$s) til %4$s (%5$s) %6$s.",
         "TitleRowDisappearedDetails": "«%1$s» minket med %2$s og forsvant i %3$s sammenliknet med %4$s.",
-        "TitleRowMoverAndShaker": "Denne raden hadde en større påvirkning enn gjennomsnittet.",
         "TitleRowNewDetails": "«%1$s» økte med %2$s og er ny sammenliknet med %3$s.",
         "WeekComparedToPreviousWeek": "uken før",
         "WidgetCategory": "Innsikt",
