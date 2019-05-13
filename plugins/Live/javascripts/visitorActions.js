@@ -179,7 +179,8 @@ function initializeVisitorActions(elem) {
          });
 
         $(e.target)
-            .parent().find('.show-less-actions,.show-more-actions').toggle()
+            .parent().find('.show-less-actions,.show-more-actions').toggle();
+        $(e.target)
             .closest('li')
             .toggleClass('expanded collapsed');
     });
