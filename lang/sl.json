@@ -184,7 +184,6 @@
         "Hide": "skrij",
         "HoursMinutes": "%1$s ur %2$s min",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Če bo arhiviranje na vašem sistemu hitro, lahko popravite datoteko crontab, tako, da se bo arhiviranje zagnalo pogosteje.",
         "InfoFor": "Informacija za %s",
         "Installed": "Nameščeno",
         "InvalidDateRange": "Neveljaven Datumski Razpon. Prosimo, Poskusite Znova",

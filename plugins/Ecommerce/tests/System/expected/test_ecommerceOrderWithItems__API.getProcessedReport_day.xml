@@ -74,15 +74,15 @@
 	</reportData>
 	<reportMetadata>
 		<row>
-			<segment>countryCode==pl</segment>
 			<code>pl</code>
 			<logo>plugins/Morpheus/icons/dist/flags/pl.png</logo>
+			<segment>countryCode==pl</segment>
 			<logoHeight>16</logoHeight>
 		</row>
 		<row>
-			<segment>countryCode==fr</segment>
 			<code>fr</code>
 			<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+			<segment>countryCode==fr</segment>
 			<logoHeight>16</logoHeight>
 		</row>
 	</reportMetadata>

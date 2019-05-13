@@ -2,7 +2,6 @@
     "MultiSites": {
         "Evolution": "趋势",
         "LoadingWebsites": "正在加载网站",
-        "TopLinkTooltip": "比较所有网站的分析数据",
-        "Pagination": "%1$s - %2$s of %3$s"
+        "TopLinkTooltip": "比较所有网站的分析数据"
     }
 }

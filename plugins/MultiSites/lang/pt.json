@@ -3,7 +3,6 @@
         "Evolution": "Evolução",
         "LoadingWebsites": "A carregar sites",
         "PluginDescription": "Veja e compare todos os seus sites e aplicações neste útil painel 'Todos os sites'.",
-        "TopLinkTooltip": "Compare as estatísticas de todos os seus sites.",
-        "Pagination": "%1$s - %2$s de %3$s"
+        "TopLinkTooltip": "Compare as estatísticas de todos os seus sites."
     }
 }

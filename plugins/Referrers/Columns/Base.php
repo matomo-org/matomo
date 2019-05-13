@@ -96,7 +96,7 @@ abstract class Base extends VisitDimension
         $referrerDetected = $this->detectReferrerCampaign($request, $visitor);
 
         if (!$referrerDetected) {
-            if ($this->detectReferrerDirectEntry()
+            if ($this->detectReferrerDirectEntry($request)
                 || $this->detectReferrerSearchEngine()
                 || $this->detectReferrerSocialNetwork()
             ) {
@@ -111,6 +111,8 @@ abstract class Base extends VisitDimension
             $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
             $directEntry = new SiteUrls();
+            $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
             $path = $directEntry->getPathMatchingUrl($this->referrerUrlParse, $urlsByHost);
             if (!empty($path) && $path !== '/') {
                 $this->nameReferrerAnalyzed .= rtrim($path, '/');
@@ -337,7 +339,7 @@ abstract class Base extends VisitDimension
      * it is considered a direct entry
      * @return bool
      */
-    protected function detectReferrerDirectEntry()
+    protected function detectReferrerDirectEntry(Request $request)
     {
         if (empty($this->referrerHost)) {
             return false;
@@ -346,6 +348,8 @@ abstract class Base extends VisitDimension
         $urlsByHost = $this->getCachedUrlsByHostAndIdSite();
 
         $directEntry   = new SiteUrls();
+        $directEntry->addRequestUrlToSiteUrls($urlsByHost, $request);
+
         $matchingSites = $directEntry->getIdSitesMatchingUrl($this->referrerUrlParse, $urlsByHost);
 
         if (isset($matchingSites) && is_array($matchingSites) && in_array($this->idsite, $matchingSites)) {
@@ -601,5 +605,11 @@ abstract class Base extends VisitDimension
     private function truncateReferrerKeyword($refererKeyword)
     {
         return Common::mb_substr($refererKeyword, 0, 255);
+    }
+
+    protected function isCurrentReferrerDirectEntry(Visitor $visitor)
+    {
+        $referrerType = $visitor->getVisitorColumn('referer_type');
+        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
     }
 }
