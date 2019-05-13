@@ -121,7 +121,7 @@ class Flattener extends DataTableManipulator
         $origLabel = $label = $row->getColumn('label');
 
         if ($label !== false) {
-            $label = trim($label);
+            $origLabel = $label = trim($label);
 
             if ($this->recursiveLabelSeparator == '/') {
                 if (substr($label, 0, 1) == '/' && substr($labelPrefix, -1) == '/') {
@@ -143,7 +143,11 @@ class Flattener extends DataTableManipulator
             $row->setColumn('label', $label);
 
             if ($row->getMetadata($dimensionName)) {
-                $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                if ($rowId === DataTable::ID_SUMMARY_ROW && $this->recursiveLabelSeparator == '/') {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . ' - ' . $origLabel;
+                } else {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                }
             }
 
             $row->setMetadata($dimensionName, $origLabel);
