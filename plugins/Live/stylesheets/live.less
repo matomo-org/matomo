@@ -130,7 +130,7 @@ ol.visitorLog {
 }
 
 ol.actionList > li:not(.pageviewActions) {
-    margin-bottom: 2px;
+    margin-bottom: 10px;
     line-height: 20px;
     position: relative;
     min-height: 30px;
@@ -225,6 +225,7 @@ ol.actionList > li:not(.pageviewActions) {
 
 ol.actionList > li.pageviewActions {
   position: relative;
+  margin-top: -6px;
 
   &:after {
     content: " ";
@@ -238,7 +239,7 @@ ol.actionList > li.pageviewActions {
   }
 
   &:last-child:after {
-    height: calc(100%);
+    height: calc(100% - 4px);
   }
 
   > ol > li:nth-last-child(2):after {

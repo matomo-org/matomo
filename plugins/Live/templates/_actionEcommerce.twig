@@ -36,7 +36,7 @@
 
                 {# Ecommerce items in Cart/Order #}
                 {% if action.itemDetails is not empty %}
-                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}22{% endif %}px;'>
+                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}22{% endif %}px;margin-bottom: 4px;'>
                         {% for product in action.itemDetails %}
                             <li>
                                 {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif -%}
