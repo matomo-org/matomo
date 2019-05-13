@@ -48,6 +48,7 @@ class API extends \Piwik\Plugin\API
     const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
 
     public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+    public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
 
     /**
      * @var Model
@@ -704,11 +705,19 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation the current user's password.
      * @throws \Exception
      */
-    public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation)
+    public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
-        $this->confirmCurrentUserPassword($passwordConfirmation);
+
+        $requirePasswordConfirmation = self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION;
+        self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
+
+        if (!Common::isPhpCliMode()
+            && $requirePasswordConfirmation
+        ) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
         $this->checkUserExists($userLogin);
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
@@ -855,8 +864,9 @@ class API extends \Piwik\Plugin\API
                                $_isPasswordHashed = false, $passwordConfirmation = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
-        $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+
+        $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
