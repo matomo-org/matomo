@@ -1,7 +1,6 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Maskiranje poslednjeg bajta IP adresa posetioca kako bi sve bilo u skladu sa vašim lokalnim zakonima i preporukama o zaštiti privatnosti.",
-        "AnonymizeIpExtendedHelp": "Kada korisnik poseti vaš sajt, Matomo neće koristiti punu IP adresu (poput %1$s) već će je anonimizirati (u %2$s). Anonimizacija IP adresa je jedan od zahteva koje su postavili zakoni o zaštit privatnosti u zemljama poput Nemačke.",
         "AnonymizeIpMaskLengtDescription": "Izaberite koliko bajtova IP adrese treba da bude maskirano",
         "AnonymizeIpMaskLength": "%1$s bajt(ova) - npr. %2$s",
         "ClickHereSettings": "Kliknite ovde kako biste pristupili %s podešavanjima.",
@@ -19,7 +18,6 @@
         "DeleteDataSettings": "Obriši stare zapise i izveštaje",
         "DoNotTrack_Description": "Do Not Track je predlog tehnologije i polise koji omogućuje korisnicima da se izuzmu iz praćenja od strane sajtova koje oni nisu posetili uključujući analitičke servise, reklamne mreže i društvene platforme.",
         "DoNotTrack_Disable": "Isključi podršku za Do Not Track",
-        "DoNotTrack_DisabledMoreInfo": "Predlažemo vam da poštujete privatnost vaših korisnika i uključite podršku za Do Not Track.",
         "DoNotTrack_Enable": "Uključi podršku za Do Not Track",
         "DoNotTrack_Enabled": "Vi poštujete privatnost vaših korisnika. Bravo!",
         "DoNotTrack_SupportDNTPreference": "Do Not Track podešavanja",
@@ -44,7 +42,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Pogledajte i naš zvanični vodič: %1$sPrivatnost u analitikama%2$s",
         "TeaserHeadline": "Podešavanja privatnosti",
         "UseAnonymizedIpForVisitEnrichment": "Takođe koristi anonimne IP adrese kada obogaćuješ podete.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Dodaci poput Geolokacije putem IP adrese i provajdera unapređuju podatke o posetiocima. Podrazumevano, ovi dodaci anonimiziraju IP adrese. Ukoliko izaberete 'Ne', onda će u upotrebi biti pune IP adrese što će rezultovati slabijom privatnošću ali i većom tačnošću podataka.",
         "UseAnonymizeIp": "Anonimizacija IP adrese posetilaca",
         "UseDeleteReports": "Periodično briši stare izveštaje iz baze"
     }

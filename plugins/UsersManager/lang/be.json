@@ -15,7 +15,6 @@
         "ExceptionUserDoesNotExist": "Карыстач '%s' не існуе.",
         "ExcludeVisitsViaCookie": "Сключыць вашыя наведванні выкарыстоўваючы cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Дата справаздачы для загрузкі па змаўчанні, для ананімных карыстальнікаў",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Калі вы жадаеце змяніць пароль, то ўвядзіце новы. У адваротным выпадку пакіньце поле пустым.",
         "ManageAccess": "Кіраванне правамі дазволу",
         "MenuAnonymousUserSettings": "Ананімныя карыстацкія наладкі",
         "MenuUsers": "Карыстачы",

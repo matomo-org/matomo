@@ -17,7 +17,6 @@
         "ExceptionUserDoesNotExist": "المستخدم '%s' غير موجود.",
         "ExcludeVisitsViaCookie": "استثني زياراتك باستخدام Cookies",
         "ForAnonymousUsersReportDateToLoadByDefault": "للمستخدمين المجهولين، حدد تاريخ التقرير",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "إذا كنت ترغب في تغيير كلمة المرور، اكتب واحدة جديدة، أو اتركها فارغة لعدم تغييرها.",
         "ManageAccess": "إدارة صلاحيات الوصول",
         "MenuAnonymousUserSettings": "إعدادات المستخدمين المجهولين",
         "MenuUsers": "المستخدمون",

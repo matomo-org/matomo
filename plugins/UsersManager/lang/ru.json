@@ -28,7 +28,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Пожалуйста, введите имя пользователя или E-mail адрес.",
         "ExcludeVisitsViaCookie": "Cookie исключения из статистики",
         "ForAnonymousUsersReportDateToLoadByDefault": "Отчет для анонимных пользователей отображается за",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Если вы хотите сменить пароль, введите новый. Иначе оставьте поле пустым.",
         "InjectedHostCannotChangePwd": "В данный момент вы находитесь в Matomo с неизвестного хоста (%1$s). Вы не можете изменить пароль, пока эта проблема не будет решена.",
         "LastSeen": "Последнее посещение",
         "ManageAccess": "Управление правами доступа",

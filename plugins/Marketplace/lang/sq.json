@@ -106,7 +106,7 @@
         "PluginUploadDisabled": "Ngarkimi i shtojcës është i çaktivizuar te kartela e formësimit. Që të mund të aktivizoni këtë veçori, ju lutemi, përditësoni formësimin tuaj ose lidhuni me përgjegjësin tuaj",
         "LicenseKeyExpiresSoon": "Kyçi juaj i licencës skadon së shpejti, ju lutemi, lidhuni me %1$s.",
         "LicenseKeyIsExpired": "Kyçi juaj i licencës ka skaduar, Ju lutemi, lidhuni me %1$s.",
-        "MultiServerEnvironmentWarning": "S’mundeni ta instaloni apo përditësoni shtojcën drejtpërsëdrejti, ngaqë po përdorni Matomo-n në disa shërbyes. Shtojca do të duhej të instalohej vetëm në një shërbyes. Në vend të kësaj, shkarkojeni shtojcën dhe instalojeni dorazi te krejt shërbyesit tuaj.",
+        "MultiServerEnvironmentWarning": "S’mundeni ta instaloni apo përditësoni shtojcën drejtpërsëdrejti, ngaqë po përdorni Matomo-n në disa shërbyes. Shtojca do të instalohej vetëm në një shërbyes. Në vend të kësaj, shkarkojeni shtojcën dhe instalojeni dorazi te krejt shërbyesit tuaj.",
         "AutoUpdateDisabledWarning": "S’mundeni ta instaloni ose përditësoni shtojcën drejtpërsëdrejti, ngaqë përditësimet e vetvetishme janë çaktivizuar te formësimi. Që të aktivizoni përditësimet e vetvetishme vëreni %1$s si %2$s.",
         "ViewRepositoryChangelog": "Shihni ndryshimet"
     }
