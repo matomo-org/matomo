@@ -236,10 +236,10 @@ class NumberFormatter
             // Reconstruct the major digits.
             $majorDigits = implode(',', $groups);
         }
-        if ($minimumFractionDigits < $maximumFractionDigits) {
+        if ($minimumFractionDigits <= $maximumFractionDigits) {
             // Strip any trailing zeroes.
             $minorDigits = rtrim($minorDigits, '0');
-            if (strlen($minorDigits) < $minimumFractionDigits) {
+            if (strlen($minorDigits) && strlen($minorDigits) < $minimumFractionDigits) {
                 // Now there are too few digits, re-add trailing zeroes
                 // until the desired length is reached.
                 $neededZeroes = $minimumFractionDigits - strlen($minorDigits);
