@@ -315,11 +315,13 @@ describe("UsersManager", function () {
         await page.waitFor(250); // animation
 
         await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
             $('.access-filter select').val('string:some').change();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor(250); // animation
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set_all');
     });

@@ -37,6 +37,8 @@ describe("TwoFactorAuthUsersManager", function () {
         await page.evaluate(function () {
             $('.userEditForm .menuUserTwoFa a').click();
         });
+        await page.waitFor(250);
+        await page.waitFor('.twofa-reset > p', { visible: true });
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa');
     });
 
