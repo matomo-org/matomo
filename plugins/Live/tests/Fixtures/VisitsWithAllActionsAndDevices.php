@@ -223,5 +223,8 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('home'));
 
         $t->doTrackContentImpression('product slider', 'product_16.jpg', 'http://example.org/product16');
+        $t->doTrackContentImpression('product slider', 'product_17.jpg', 'http://example.org/product17');
+        $t->doTrackContentImpression('product slider', 'product_18.jpg', 'http://example.org/product18');
+        $t->doTrackContentImpression('product zoom', 'product_18.jpg', 'http://example.org/product18');
     }
 }

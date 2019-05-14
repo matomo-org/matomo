@@ -64,6 +64,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard2 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
@@ -72,6 +73,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard3 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
@@ -80,6 +82,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard4 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
