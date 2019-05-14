@@ -159,7 +159,7 @@ class LatestStableInstall extends Fixture
         }
 
         $command = 'cd "' . PIWIK_INCLUDE_PATH . '/../matomo-package" && ';
-        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" piwik false true';
+        $command .= './scripts/build-package.sh "' . PIWIK_INCLUDE_PATH . '" piwik true';
 
         exec($command, $output, $returnCode);
         if ($returnCode != 0) {
