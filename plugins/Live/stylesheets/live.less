@@ -239,7 +239,7 @@ ol.actionList > li.pageviewActions {
   }
 
   &:last-child:after {
-    height: calc(100% - 4px);
+    height: calc(~"100% - 4px");
   }
 
   > ol > li:nth-last-child(2):after {
@@ -256,6 +256,10 @@ ol.actionList > li:not(.pageviewActions).last-action {
   &:after {
     border-left: none;
   }
+}
+
+.pageviewActions.last-action > ol.actionList > li.last-action {
+  margin-bottom: 0;
 }
 
 li.collapsed-contents > div {
