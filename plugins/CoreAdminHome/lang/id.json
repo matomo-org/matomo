@@ -38,7 +38,6 @@
         "JSTracking_PageCustomVarsDesc": "Sebagai contoh, dengan nama variabel \"Kategori\" dengan nilai \"Kerta Putih\".",
         "JSTracking_VisitorCustomVars": "Lacak variabel kustom untuk pengunjung ini",
         "JSTracking_VisitorCustomVarsDesc": "Sebagai contoh, dengan nama variabel \"Jenis\" dengan nilai \"Pelanggan\".",
-        "JSTrackingIntro1": "Anda dapat melacak pengunjung situs Anda dengan banyak cara. Cara disarankan adalah menggunakan JavaScript. Untuk menggunkan metode ini, Anda harus yakin bahwa setiap halaman situs Anda memiliki beberapa kode JavaScript, yang dapat dibuat di sini.",
         "JSTrackingIntro2": "Sekali Anda memiliki kode pelacakan JavaScript untuk situs Anda, salin dan tempel dalam setiap halaman yang ingin dilacak menggunakan Matomo.",
         "JSTrackingIntro4": "Bila Anda tidak ingin menggunakan JavaScript untuk melacak pengunjung, %1$sbuat sebuah gambar pelacakan di tautan berikut%2$s.",
         "JSTrackingIntro5": "Bila Anda berkeinginan lebih dari melacak tampilan halaman, harap periksa %1$sDokumentas Pelacakan Javascript Matomo%2$s untuk daftar fungsi yang tersedia. Gunakan funsi tersebut untuk melacak tujuan Anda, variabel kustom, pemesanan niaga-e, keranjang dibuang, dan lebih.",

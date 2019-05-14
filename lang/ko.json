@@ -185,7 +185,6 @@
         "Hide": "숨기기",
         "HoursMinutes": "%1$s시간 %2$s분",
         "Id": "ID",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "아카이브 작업을 더 빨리 수행하려면 cron이 더 자주 실행되도록 crontab을 설정합니다.",
         "InfoFor": "%s에 대한 정보",
         "Installed": "설치됨",
         "InvalidDateRange": "기간 지정이 잘못되었습니다. 다시 설정하세요.",

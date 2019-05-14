@@ -124,6 +124,10 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static function getPathForGeoIpDatabase($filename)
     {
+        if (strpos($filename, '/') !== false && file_exists($filename)) {
+            return $filename;
+        }
+
         return StaticContainer::get('path.geoip2') . $filename;
     }
 

@@ -20,7 +20,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "There has to be at least one user with Super User access. Please grant Super User access to another user first.",
         "ExcludeVisitsViaCookie": "Excluir sus visitas usando una cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para los usuarios anónimos, fecha del reporte a cargar por defecto",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si desea cambiar la contraseña ingrese una. De otra forma, deje esto en blanco.",
         "InjectedHostCannotChangePwd": "Está actualmente visitando con un medio desconocido (%1$s). No puede cambiar su contraseña hasta que el problema esté soluionado.",
         "ManageAccess": "Administrar el Acceso",
         "MenuAnonymousUserSettings": "Configuración de usuario Anónimo",

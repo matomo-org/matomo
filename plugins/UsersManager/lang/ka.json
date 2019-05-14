@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "მომხმარებელი '%s' არ არსებობს.",
         "ExcludeVisitsViaCookie": "გამორიცხეთ თქვენი ვიზიტები ქუქიების გამოყენებით",
         "ForAnonymousUsersReportDateToLoadByDefault": "ანონიმური მომხმარებლებისთვის, ნაგულისხმევად ჩასატვირთი რეპორტის თარიღი",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "თუ გსურთ პაროლის შეცვლა, აკრიფეთ ახალი. თუ არა, დატოვეთ ეს ველი ცარიელი.",
         "ManageAccess": "წვდომის მართვა",
         "MenuAnonymousUserSettings": "ანონიმური მომხმარებლის პარამეტრები",
         "MenuUsers": "მომხმარებლები",

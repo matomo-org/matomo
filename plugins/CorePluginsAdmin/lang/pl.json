@@ -66,7 +66,6 @@
         "TagManagerTeaserEmailSuperUserBody": "Cześć, %1$s Matomo Tag Manager jest już dostępny w Matomo i bardzo chciałbym skorzystać z tej nowej funkcji. Masz dostęp do Super Użytkownika, czy możesz aktywować tę funkcję na stronie Tag Manager w górnym menu? %2$s adres Matomo to %3$s. %4$s Pozdrawiam",
         "WhatIsTagManager": "Co to jest Tag Manager?",
         "WhatIsTagManagerDetails1": "Podobnie jak system zarządzania treścią (CMS) zapewnia pełną elastyczność w zakresie publikowania treści na stronie bez wiedzy technicznej na temat HTML \/ CSS, system zarządzania tagami (TMS) ułatwia pracę nad procesem osadzania i znacznikami śledzenia aplikacji innych firm (znane również jako snippets lub pixels) w Twojej witrynie.",
-        "WhatIsTagManagerDetails2": "Załóżmy, że chcesz zobaczyć rezultaty swoich zmian\/celów, zapisów do newslettera, widżetów społecznościowych, wyskakujących okienek i kampanie marketingowyvh; to, co kiedyś było bardzo technicznym i czasochłonnym procesem, teraz jest łatwe do wykonania w TMS i wymaga zaledwie kilku kliknięć do wdrożenia.",
         "TagManagerLearnMoreInUserGuide": "Dowiedź się więcej o Tag Manage w przewodniku użytkownika",
         "WhyUsingATagManager": "Dlaczego Tag Manager?",
         "WhyUsingATagManagerDetails1": "Tag Manager uczyni Twoje życie łatwiejsze! Nie potrzebujesz już czekać na programistę, aby zmodyfikował część strony, ponieważ Tag Manager daje ci swobodę modyfikowania tych zmian i wdrażania ich na Twoją stronę.",
