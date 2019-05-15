@@ -15,7 +15,6 @@ const setUpGlobals = require('./support/globals.js');
 const Mocha = require('mocha');
 const chai = require('chai');
 const chaiFiles = require('chai-files');
-const resemble = require('resemblejs');
 require('./support/fs-extras');
 
 main();
@@ -51,36 +50,6 @@ async function main() {
     const imageAssert = require('./support/chai-extras');
     chai.use(imageAssert());
     chai.use(chaiFiles);
-
-    // TODO: outputSettings is deprecated, should use in chai
-    resemble.outputSettings({
-        errorColor: {
-            red: 255,
-            green: 0,
-            blue: 0,
-            alpha: 125
-        },
-        errorType: 'movement',
-        transparency: 0.3,
-        largeImageThreshold: 20000,
-    });
-
-    // TODO: implement load timeout? not sure if it's needed.
-    /* TODO: timeout should be global mocha timeout
-    timeout = setTimeout(function () {
-        var timeoutDetails = "";
-        timeoutDetails += "Page is loading: " + self._isLoading + "\n";
-        timeoutDetails += "Initializing: " + self._isInitializing + "\n";
-        timeoutDetails += "Navigation requested: " + self._isNavigationRequested + "\n";
-        timeoutDetails += "Pending AJAX request count: " + self._getAjaxRequestCount() + "\n";
-        timeoutDetails += "Loading images count: " + self._getImageLoadingCount() + "\n";
-        timeoutDetails += "Remaining resources: " + JSON.stringify(self._resourcesRequested) + "\n";
-
-        self.abort();
-
-        callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
-    }, 240 * 1000);
-    */
 
     // run script
     if (options['help']) {
