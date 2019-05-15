@@ -13,6 +13,7 @@ use Interop\Container\Exception\ContainerException;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Psr\Log\LoggerInterface;
@@ -70,6 +71,12 @@ class ExceptionHandler
      */
     public static function dieWithHtmlErrorPage($exception)
     {
+        if ($exception instanceof HttpCodeException
+            && $exception->getCode() > 0
+        ) {
+            http_response_code($exception->getCode());
+        }
+
         self::logException($exception);
 
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
