@@ -131,11 +131,6 @@ class InvalidateReportData extends ConsoleCommand
         $periods = array_map('trim', $periods);
 
         foreach ($periods as $periodIdentifier) {
-            if ($periodIdentifier == 'range') {
-                throw new \InvalidArgumentException(
-                    "Invalid period type: invalidating range periods is not currently supported.");
-            }
-
             if (!isset(Piwik::$idPeriods[$periodIdentifier])) {
                 throw new \InvalidArgumentException("Invalid period type '$periodIdentifier' supplied in --periods.");
             }
@@ -171,7 +166,10 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         $result = array();
-        if ($period instanceof Range) {
+        if ($periodType === 'range') {
+            $result[] = $period->getDateStart();
+            $result[] = $period->getDateEnd();
+        } elseif ($period instanceof Range) {
             foreach ($period->getSubperiods() as $subperiod) {
                 $result[] = $subperiod->getDateStart();
             }
