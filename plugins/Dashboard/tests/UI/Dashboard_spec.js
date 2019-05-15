@@ -181,6 +181,7 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
+        await page.waitFor(500); // animation
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });

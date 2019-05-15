@@ -110,7 +110,8 @@ describe("TwoFactorAuth", function () {
         await page.goto(userSettings);
         await page.waitFor('.userSettings2FA', { visible: true });
         await page.waitFor(500); // animation
-        expect(await page.screenshotSelector('.userSettings2FA')).to.matchImage('usersettings_twofa_enabled');
+        const elem = await page.$('.userSettings2FA');
+        expect(await elem.screenshot()).to.matchImage('usersettings_twofa_enabled');
     });
 
     it('should be possible to show recovery codes step1 authentication', async function () {
