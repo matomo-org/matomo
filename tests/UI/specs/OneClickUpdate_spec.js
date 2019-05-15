@@ -22,10 +22,10 @@ describe("OneClickUpdate", function () {
 
         await page.type('#login_form_login', 'superUserLogin');
         await page.type('#login_form_password', 'superUserPass');
-        await page.click('#login_form_password');
+        await page.click('#login_form_submit');
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.page');
+        await page.waitFor('.pageWrap');
 
         await page.load(settingsUrl);
 
@@ -68,7 +68,7 @@ describe("OneClickUpdate", function () {
 
     it('should have a working cron archiving process', async function () {
         // track one action
-        var trackerUrl = path.join(config.piwikUrl, "tests/PHPUnit/proxy/piwik.php?");
+        const trackerUrl = path.join(config.piwikUrl, "tests/PHPUnit/proxy/piwik.php?");
         await request({
             method: 'POST',
             uri: trackerUrl,
