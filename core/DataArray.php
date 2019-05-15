@@ -382,6 +382,9 @@ class DataArray
                 continue;
             }
 
+            // When per goal metrics are processed, general 'visits converted' is not meaningful because
+            // it could differ from visits converted for goal summary
+            unset($values[Metrics::INDEX_NB_VISITS_CONVERTED]);
             $revenue = $conversions = 0;
             foreach ($values[Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
                 // Do not sum Cart revenue since it is a lost revenue

@@ -53,6 +53,9 @@ describe("PivotByDimension", function () {
 
         await page.mouse.move(-15, -15); // make sure nothing is highlighted
 
-        expect(await page.screenshotSelector('.dataTable,.expandDataTableFooterDrawer')).to.matchImage('pivoted_columns_report');
+        expect(await page.screenshotSelector('.dataTable,.expandDataTableFooterDrawer')).to.matchImage({
+            imageName: 'pivoted_columns_report',
+            comparisonThreshold: 0.0003,
+        });
     });
 });
