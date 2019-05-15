@@ -8,8 +8,6 @@
  */
 
 describe("TwoFactorAuthUsersManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorUsersManagerFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
@@ -51,7 +49,7 @@ describe("TwoFactorAuthUsersManager", function () {
 
     it('should be possible to confirm the reset', async function () {
         await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
-        await page.waitFor(250); // wait for modal to close
+        await page.waitFor(500); // wait for modal to close
         expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');
     });
 

@@ -4,6 +4,7 @@
     class="userEditForm"
     ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >
+
     <div class="row" piwik-form>
         <div class="col m2 entityList" ng-if="!$ctrl.isAdd">
             <ul class="listCircle">
@@ -142,6 +143,7 @@
                              full-width="true"
                              title="{{ 'UsersManager_YourCurrentPassword'|translate }}"
                              value="">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">{{:: 'General_Yes'|translate }}</a>
@@ -150,7 +152,7 @@
                 </div>
             </div>
 
-            <div ng-if="$ctrl.activeTab === '2fa' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="twofa-reset">
+            <div ng-show="$ctrl.activeTab === '2fa'" ng-if="$ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="twofa-reset">
                 <p>{{:: 'UsersManager_ResetTwoFactorAuthenticationInfo'|translate }}</p>
 
                 <div piwik-save-button
@@ -174,6 +176,7 @@
         </div>
     </div>
 
+
     <div class="change-password-modal modal">
         <div class="modal-content">
             <h2 piwik-translate="UsersManager_AreYouSureChangeDetails"><strong>{{ $ctrl.user.login }}</strong></h2>
@@ -191,6 +194,5 @@
             <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
-
 
 </div>
