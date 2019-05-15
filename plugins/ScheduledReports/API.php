@@ -27,6 +27,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
+use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\Site;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
@@ -92,11 +93,12 @@ class API extends \Piwik\Plugin\API
      * @param string $evolutionPeriodFor If set to 'each', the evolution graphs cover each day within the period. If set to 'prev',
      *                                   evolution graphs cover the previous N periods.
      * @param int|null $evolutionPeriodN The previous N periods to query in evolution graphs if $evolutionPeriodFor is 'each'.
+     * @param string $periodParam the period for the report, eg 'day', 'week', 'month', 'year'.
      *
      * @return int idReport generated
      */
-    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false, $evolutionPeriodFor = 'prev',
-                              $evolutionPeriodN = null)
+    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false,
+                              $evolutionPeriodFor = 'prev', $evolutionPeriodN = null, $periodParam = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -118,6 +120,7 @@ class API extends \Piwik\Plugin\API
              'description' => $description,
              'idsegment'   => $idSegment,
              'period'      => $period,
+             'period_param'=> $periodParam,
              'hour'        => $hour,
              'type'        => $reportType,
              'format'      => $reportFormat,
@@ -151,8 +154,8 @@ class API extends \Piwik\Plugin\API
      *
      * @see addReport()
      */
-    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false, $evolutionPeriodFor = 'prev',
-                                 $evolutionPeriodN = null)
+    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false,
+                                 $evolutionPeriodFor = 'prev', $evolutionPeriodN = null, $periodParam = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -176,6 +179,7 @@ class API extends \Piwik\Plugin\API
             'description' => $description,
             'idsegment'   => $idSegment,
             'period'      => $period,
+            'period_param'=> $periodParam,
             'hour'        => $hour,
             'type'        => $reportType,
             'format'      => $reportFormat,
@@ -284,6 +288,12 @@ class API extends \Piwik\Plugin\API
             if (empty($report['evolution_graph_period_n'])) {
                 $report['evolution_graph_period_n'] = ImageGraph::getDefaultGraphEvolutionLastPeriods();
             }
+
+            // default the period param to use to the email schedule
+            if (empty($report['period_param'])) {
+                $periodParam = $report['period'] == Schedule::PERIOD_NEVER ? Schedule::PERIOD_DAY : $report['period'];
+                $report['period_param'] = $periodParam;
+            }
         }
 
         // static cache
@@ -332,7 +342,7 @@ class API extends \Piwik\Plugin\API
 
         // override report period
         if (empty($period)) {
-            $period = $report['period'];
+            $period = $report['period_param'];
         }
 
         // override report format
@@ -571,12 +581,8 @@ class API extends \Piwik\Plugin\API
         $reports = $this->getReports($idSite = false, false, $idReport);
         $report = reset($reports);
 
-        if ($report['period'] == 'never') {
-            $report['period'] = 'day';
-        }
-
         if (!empty($period)) {
-            $report['period'] = $period;
+            $report['period_param'] = $period;
         }
 
         if (empty($date)) {
@@ -596,7 +602,7 @@ class API extends \Piwik\Plugin\API
                         $date,
                         $language,
                         self::OUTPUT_SAVE_ON_DISK,
-                        $report['period']
+                        $report['period_param']
                     );
 
             } catch (Exception $e) {

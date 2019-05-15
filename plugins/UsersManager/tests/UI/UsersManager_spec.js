@@ -165,6 +165,9 @@ describe("UsersManager", function () {
         await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no):visible')).click();
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+        await page.waitFor('.pagedUsersList:not(.loading)');
+
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
     });
 
@@ -177,6 +180,7 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-10, -10);
+        await page.waitFor('.pagedUsersList:not(.loading)');
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
     });
