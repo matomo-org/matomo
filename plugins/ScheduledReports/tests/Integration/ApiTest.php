@@ -12,6 +12,7 @@ use Piwik\API\Proxy;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -487,6 +488,31 @@ class ApiTest extends IntegrationTestCase
         $this->assertContains('id="VisitsSummary_get"', $result);
         $this->assertContains('id="Referrers_getWebsites"', $result);
         $this->assertNotContains('id="UserCountry_getCountry"', $result);
+    }
+
+    /**
+     * @expectedException \Piwik\Http\BadRequestException
+     * @expectedExceptionMessage This API method does not support multiple periods.
+     */
+    public function test_generateReport_throwsIfMultiplePeriodsRequested()
+    {
+        $idReport = APIScheduledReports::getInstance()->addReport(
+            1,
+            '',
+            Schedule::PERIOD_DAY,
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            array(
+                'VisitsSummary_get',
+                'UserCountry_getCountry',
+                'Referrers_getWebsites',
+            ),
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        APIScheduledReports::getInstance()->generateReport($idReport, '2012-03-03,2012-03-23',
+            $language = false, $outputType = APIScheduledReports::OUTPUT_RETURN);
     }
 
     /**
