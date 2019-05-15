@@ -108,6 +108,8 @@ describe("TwoFactorAuth", function () {
     it('should show user settings when two-fa enabled', async function () {
         await loginUser('with2FA');
         await page.goto(userSettings);
+        await page.waitFor('.userSettings2FA', { visible: true });
+        await page.waitFor(500); // animation
         expect(await page.screenshotSelector('.userSettings2FA')).to.matchImage('usersettings_twofa_enabled');
     });
 
@@ -190,6 +192,9 @@ describe("TwoFactorAuth", function () {
         await page.evaluate(function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget', { visible: true });
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#content')).to.matchImage('twofa_setup_step4');
     });
 
