@@ -27,7 +27,7 @@ describe("OneClickUpdate", function () {
         await page.waitForNetworkIdle();
         await page.waitFor('.pageWrap');
 
-        await page.load(settingsUrl);
+        await page.goto(settingsUrl);
 
         const element = await page.waitFor('#header_message', { visible: true });
         expect(await element.screenshot()).to.matchImage('latest_version_available');
