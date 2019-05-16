@@ -171,7 +171,8 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
     var args = [
         fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME,
         '--set-phantomjs-symlinks',
-        '--server-global=' + JSON.stringify(config.phpServer)
+        '--server-global=' + JSON.stringify(config.phpServer),
+        '-vvv',
     ];
 
     if (options['persist-fixture-data']) {
@@ -189,8 +190,8 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         args.push('--plugins=' + options['plugin']);
     }
 
-    if (options['piwik-domain']) {
-        args.push('--piwik-domain=' + options['piwik-domain']);
+    if (options['piwik-domain'] || options['matomo-domain']) {
+        args.push('--piwik-domain=' + (options['piwik-domain'] || options['matomo-domain']));
     }
 
     if (options['enable-logging']) {

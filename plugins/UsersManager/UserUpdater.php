@@ -41,4 +41,16 @@ class UserUpdater
         }
     }
 
+    public function setSuperUserAccessWithoutCurrentPassword($userLogin, $hasSuperUserAccess)
+    {
+        API::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
+        try {
+            Request::processRequest('UsersManager.setSuperUserAccess', [
+                'userLogin' => $userLogin,
+                'hasSuperUserAccess' => $hasSuperUserAccess,
+            ], $default = []);
+        } finally {
+            API::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
+        }
+    }
 }
