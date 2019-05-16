@@ -194,7 +194,7 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget', { visible: true });
+        await page.waitFor('#content', { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#content')).to.matchImage('twofa_setup_step4');
     });
