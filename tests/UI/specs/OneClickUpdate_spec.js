@@ -95,7 +95,7 @@ describe("OneClickUpdate", function () {
 
         // run cron archiving
         const output = await new Promise((resolve, reject) => {
-            exec(`${config.php} ${PIWIK_INCLUDE_PATH}/console --matomo-domain=${config.phpServer.HTTP_HOST} core:archive`, (error, stdout, stderr) => {
+            exec(`${config.php} ${PIWIK_INCLUDE_PATH}/latestStableInstall/console --matomo-domain=${config.phpServer.HTTP_HOST} core:archive`, (error, stdout, stderr) => {
                 const output = stdout.toString() + "\n" + stderr.toString();
 
                 if (error) {
