@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-const path = require('path');
 const request = require('request-promise');
 const exec = require('child_process').exec;
 
@@ -73,16 +72,17 @@ describe("OneClickUpdate", function () {
             }
         }
 
-        await page.waitFor('.widget');
+        await page.waitFor('.site-without-data', { visible: true });
         await page.waitForNetworkIdle();
 
-        const element  = await page.$('.pageWrap');
+        const element  = await page.$('.site-without-data');
         expect(await element.screenshot()).to.matchImage('login');
     });
 
     it('should have a working cron archiving process', async function () {
         // track one action
-        const trackerUrl = config.piwikUrl + "tests/PHPUnit/proxy/piwik.php?";
+        const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
+
         await request({
             method: 'POST',
             uri: trackerUrl,
