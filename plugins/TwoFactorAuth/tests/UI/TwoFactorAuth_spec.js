@@ -106,6 +106,7 @@ describe("TwoFactorAuth", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitFor('.widget');
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('logme_verified');
     });
 
@@ -206,7 +207,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 2', async function () {
-        await page.click('.setupTwoFactorAuthentication .backupRecoveryCode:first');
+        await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
