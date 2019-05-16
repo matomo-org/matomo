@@ -229,14 +229,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.mouse.move(pos.x, pos.y);
         await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
+            console.log($('.ui-tooltip:visible').length);
             $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
         });
-
+throw new Error('fail');
         expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
         await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
