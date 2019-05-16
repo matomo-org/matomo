@@ -63,7 +63,7 @@ describe("OneClickUpdate", function () {
 
         // in case a db upgrade is required
         while (true) {
-            const submitButton = page.$('.content input[type=submit]');
+            const submitButton = await page.$('.content input[type=submit]');
             if (submitButton) {
                 await submitButton.click();
                 await page.waitForNetworkIdle();
@@ -82,7 +82,7 @@ describe("OneClickUpdate", function () {
 
     it('should have a working cron archiving process', async function () {
         // track one action
-        const trackerUrl = path.join(config.piwikUrl, "tests/PHPUnit/proxy/piwik.php?");
+        const trackerUrl = config.piwikUrl + "tests/PHPUnit/proxy/piwik.php?";
         await request({
             method: 'POST',
             uri: trackerUrl,

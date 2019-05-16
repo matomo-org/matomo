@@ -95,7 +95,8 @@ describe("TwoFactorAuth", function () {
             $('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.loginSection')).to.matchImage('logme_not_verified_wrong_code');
+        const element = await page.$('.loginSection');
+        expect(await element.screenshot()).to.matchImage('logme_not_verified_wrong_code');
     });
 
     it('when logging in through logme and verifying screen it works to access ui', async function () {
