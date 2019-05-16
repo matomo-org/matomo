@@ -109,6 +109,6 @@ describe("OneClickUpdate", function () {
         });
 
         // check output has no errors
-        expect(output).to.not.match(/error/gi);
+        expect(output).to.not.match(/ERROR|WARN/g);
     });
 });
