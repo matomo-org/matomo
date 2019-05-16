@@ -26,7 +26,7 @@ use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
 use Piwik\Updater;
 use Piwik\Plugins\CoreUpdater;
 
-$subdir = $argv[1];
+$subdir = str_replace(DIRECTORY_SEPARATOR, '', $argv[1]);
 $dbConfig = json_decode($argv[2], $isAssoc = true);
 $host = $argv[3];
 
