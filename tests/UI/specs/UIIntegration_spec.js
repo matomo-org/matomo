@@ -212,27 +212,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('visitors_custom_vars');
     });
 
-    it('should load the visitors > real-time map page correctly', async function () {
+    it.only('should load the visitors > real-time map page correctly', async function () {
         await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap"
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
                     + "&removeOldVisits=0");
 
-        await page.waitForSelector('circle');
-        var pos = await page.webpage.evaluate(() => {
-            var circle = $('circle:first').offset();
-            return {
-                x: circle.left + 5,
-                y: circle.top + 5
-            };
-        });
-        console.log(pos.x, pos.y);
-        await page.mouse.move(pos.x, pos.y);
+        await page.waitForSelector('circle', { visible: true });
+        await (await page.jQuery('circle:eq(0)')).hover();
         await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
-            console.log($('.ui-tooltip:visible').length);
             $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
         });
-throw new Error('fail');
+
         expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
 
