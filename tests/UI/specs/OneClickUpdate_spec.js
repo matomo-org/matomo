@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+const path = require('path');
 const request = require('request-promise');
 const exec = require('child_process').exec;
 
@@ -59,6 +60,19 @@ describe("OneClickUpdate", function () {
     it('should login successfully after the update', async function () {
         await page.click('.footer a');
         await page.waitForNetworkIdle();
+
+        // in case a db upgrade is required
+        while (true) {
+            const submitButton = page.$('.content input[type=submit]');
+            if (submitButton) {
+                await submitButton.click();
+                await page.waitForNetworkIdle();
+                await page.waitFor(250);
+            } else {
+                break;
+            }
+        }
+
         await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 

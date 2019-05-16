@@ -8,8 +8,6 @@
  */
 
 describe("DashboardManager", function () {
-    this.timeout(0);
-
     const selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
@@ -83,6 +81,7 @@ describe("DashboardManager", function () {
         button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 
+        await page.mouse.move(-10, -10);
         await page.waitFor(500);
         await page.waitForNetworkIdle();
 
