@@ -218,26 +218,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                     + "&removeOldVisits=0");
 
         await page.waitForSelector('circle');
-        var pos = await page.webpage.evaluate(() => {
-            var circle = $('circle:first').offset();
-            return {
-                x: circle.left + 5,
-                y: circle.top + 5
-            };
-        });
-        console.log(pos.x, pos.y);
-        await page.mouse.move(pos.x, pos.y);
-        await page.waitFor(100); // wait for tooltip
+        await page.waitFor(250); // rendering
+        await (await page.jQuery('circle:eq(0)')).hover();
+        await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
             $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
         });
 
-        pageWrap = await page.$('.pageWrap,.ui-tooltip');
-        expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_map');
+        expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
         await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
