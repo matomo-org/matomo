@@ -167,7 +167,7 @@
              */
             function _updateMap(svgUrl, callback) {
                 if (svgUrl === undefined) return;
-                map.loadMap('http://cloudtest:8888/tests/PHPUnit/proxy/plugins/UserCountryMap/svg/' + svgUrl, function () {
+                map.loadMap(config.svgBasePath + svgUrl, function () {
                     map.clear();
                     self.resize();
                     callback();
