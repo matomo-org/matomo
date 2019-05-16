@@ -168,8 +168,8 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 
-        await page.waitFor(250);
         await page.mouse.move(-10, -10);
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move_removed');
     });
@@ -181,6 +181,7 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
+        await page.waitFor(500); // animation
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });
@@ -263,6 +264,7 @@ describe("Dashboard", function () {
         await page.type('#createDashboardName', 'newdash2');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');

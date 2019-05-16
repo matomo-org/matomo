@@ -48,9 +48,18 @@ body > .widget {
     display:none;
 }
 
-html body div *, body * {
+*,
+*::after,
+*::before {
     -webkit-transition: none !important;
     transition: none !important;
     -webkit-animation: none !important;
     animation: none !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+    animation-delay: -0.0001s !important;
+    animation-duration: 0s !important;
+    animation-play-state: paused !important;
+    caret-color: transparent !important;
+    color-adjust: exact !important;
 }
