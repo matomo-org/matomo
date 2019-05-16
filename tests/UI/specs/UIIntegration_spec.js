@@ -217,7 +217,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
                     + "&removeOldVisits=0");
 
-        await page.waitForSelector('circle', { visible: true });
+        await page.waitForSelector('circle');
+        await page.waitFor(250); // rendering
         await (await page.jQuery('circle:eq(0)')).hover();
         await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
