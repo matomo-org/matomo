@@ -227,13 +227,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
         console.log(pos.x, pos.y);
         await page.mouse.move(pos.x, pos.y);
-        await page.waitFor(100); // wait for tooltip
+        await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
             $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
         });
 
-        pageWrap = await page.$('.pageWrap,.ui-tooltip');
-        expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_map');
+        expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
