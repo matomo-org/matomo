@@ -44,7 +44,7 @@ async function main() {
         reporter: config.reporter,
         bail: false,
         useColors: true,
-        timeout: options.timeout || 240000
+        timeout: options.timeout || 240000,
     });
 
     const imageAssert = require('./support/chai-extras');

@@ -95,7 +95,8 @@ describe("TwoFactorAuth", function () {
             $('.loginTwoFaForm #login_form_submit').click();
         });
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.loginSection')).to.matchImage('logme_not_verified_wrong_code');
+        const element = await page.$('.loginSection');
+        expect(await element.screenshot()).to.matchImage('logme_not_verified_wrong_code');
     });
 
     it('when logging in through logme and verifying screen it works to access ui', async function () {
@@ -105,6 +106,7 @@ describe("TwoFactorAuth", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitFor('.widget');
+        await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('logme_verified');
     });
 
@@ -193,7 +195,7 @@ describe("TwoFactorAuth", function () {
             $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor('.widget', { visible: true });
+        await page.waitFor('#content', { visible: true });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#content')).to.matchImage('twofa_setup_step4');
     });
@@ -205,7 +207,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 2', async function () {
-        await page.click('.setupTwoFactorAuthentication .backupRecoveryCode:first');
+        await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
