@@ -38,6 +38,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 
+if (!Common::isPhpCliMode()) {
+    print "not available";
+    exit;
+}
+
 function createFreshDatabase($config, $name) {
     Db::createDatabaseObject(array_merge($config, [
         'dbname' => null,
