@@ -67,6 +67,8 @@ class AllColumns extends HtmlTable
 
     public function beforeLoadDataTable()
     {
+        parent::beforeLoadDataTable();
+
         unset($this->requestConfig->request_parameters_to_modify['pivotBy']);
         unset($this->requestConfig->request_parameters_to_modify['pivotByColumn']);
     }

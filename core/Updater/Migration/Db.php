@@ -46,6 +46,11 @@ abstract class Db extends Migration
      * Duplicate entry '%s' for key %d
      */
     const ERROR_CODE_DUPLICATE_ENTRY = 1062;
+    
+    /**
+     * Multiple primary key defined
+     */
+    const ERROR_CODE_DUPLICATE_PRIMARY_KEY = 1068;
 
     /**
      * Key column '%s' doesn't exist in table

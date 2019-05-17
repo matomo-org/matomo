@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\ViewDataTable;
+use Piwik\Common;
 
 
 /**
@@ -344,6 +345,15 @@ class RequestConfig
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
 
         return $method;
+    }
+
+    public function getRequestParam($paramName)
+    {
+        if (isset($this->request_parameters_to_modify[$paramName])) {
+            return $this->request_parameters_to_modify[$paramName];
+        }
+
+        return Common::getRequestVar($paramName, false);
     }
 
     /**

@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "L'usuari '%s' no existeix.",
         "ExcludeVisitsViaCookie": "Exclou les teues visites utilitzant cookies",
         "ForAnonymousUsersReportDateToLoadByDefault": "Pels usuaris anònims, introduïu la data dels informes per defecte",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si voleu canviar la contrasenya teclegeu-n'hi una de nova, sinó deixeu-ho en blanc.",
         "InjectedHostCannotChangePwd": "Actualment esteu visitan amb un host desconegut (%1$s). No podeu canviar la vostra contrasenya fins que corregiu aquest problema.",
         "ManageAccess": "Gestiona els permisos",
         "MenuAnonymousUserSettings": "Preferències de l'usuari anònim",

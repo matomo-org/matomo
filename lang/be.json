@@ -131,7 +131,6 @@
         "Help": "Дапамога",
         "HoursMinutes": "%1$s гадзін %2$s хв",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Здаецца што архіваванне выконваецца хутка для вашай ўстаноўкі, вы можаце наладзіць кронтаб запускацца часцей.",
         "InvalidDateRange": "Няправільны дыяпазон дат, паспрабуйце яшчэ раз",
         "InvalidResponse": "Атрыманыя дадзеныя несапраўдныя.",
         "JsTrackingTag": "Код JavaScript",

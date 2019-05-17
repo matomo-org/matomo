@@ -38,7 +38,6 @@
         "GiveViewAccess": "Dodeli pristup prikaza za %1$s",
         "GiveViewAccessTitle": "Dodeli postojećem korisniku pristup prikaza izveštaja za %s",
         "GiveViewAccessInstructions": "Ukoliko želite da postojećem korisniku dodelite pristup prikaza za %s, upišite korisničko ime ili mejl adresu tog korisnika",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ukoliko želite da promenite lozinku, upišite novu. U suprotnom ostavite polje prazno",
         "InjectedHostCannotChangePwd": "Trenutno pristupate sa nepoznatog hosta (%1$s). Lozinku ne možete promeniti dok ovo ne ispravite.",
         "LastSeen": "Poslednji put viđen",
         "MainDescription": "Odredite koji korisnici imaju pristup vašim sajtovima. Možete im dodeliti prostup svim sajtovima izborom opcije \"Primeni na sve sajtove\".",

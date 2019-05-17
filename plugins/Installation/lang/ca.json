@@ -21,7 +21,6 @@
         "InsufficientPrivilegesHelp": "Podeu afegir aquest usuaris previlegiats utiltizat eines com el phpMyAdmin o executant les sentències SQL corresponents. Si no sabeu com fer cap d'aquestes coses, siusplau poseu-vos amb contacte amb el vostre administrador de sistemes per donar aquestos privilegis per vosaltres.",
         "LargePiwikInstances": "Ajuda per grans instàncies de Matomo",
         "Legend": "Llegenda",
-        "LoadDataInfileRecommended": "Si el vostre servidor de Matomo gestiona llocs web amb un alt tràfic (p.e. > 100,000 pàgines per més), us recomaneu que proveu de sol·lucionar aquest problema.",
         "LoadDataInfileUnavailableHelp": "Fent servir %1$s millorarà la velocitat del proces d'arxiu de Matomo. Per a que estigui disponible per a Matomo, proeu actualitzant el vostre doftwar PHP & MySQL i asegureu-vos que el vostre usuari de base de dades té el privilegi %2$s.",
         "NfsFilesystemWarning": "El vostre servidor està utiltizant un sistema de fitxers NFS.",
         "NfsFilesystemWarningSuffixAdmin": "Això vol dir que el Matomo serà extremadament lent quan utilitzi les sessions basades en fitxers.",
