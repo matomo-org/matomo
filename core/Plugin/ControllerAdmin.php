@@ -124,9 +124,8 @@ abstract class ControllerAdmin extends Controller
      *
      * @param View $view
      * @param string $viewType If 'admin', the admin variables are set as well as basic ones.
-     * @api
      */
-    protected function setBasicVariablesView($view, $viewType = 'admin')
+    protected function setBasicVariablesViewAs($view, $viewType = 'admin')
     {
         $this->setBasicVariablesNoneAdminView($view);
 

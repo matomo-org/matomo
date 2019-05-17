@@ -269,12 +269,25 @@ abstract class Controller
      *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
      *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
      * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
-     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
      * @return string
      * @since 2.5.0
      * @api
      */
-    protected function renderTemplate($template, array $variables = array(), $viewType = null)
+    protected function renderTemplate($template, array $variables = [])
+    {
+        return $this->renderTemplateAs($template, $variables);
+    }
+
+    /**
+     * @see {self::renderTemplate()}
+     *
+     * @param $template
+     * @param array $variables
+     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
+     * @return string
+     * @throws Exception
+     */
+    protected function renderTemplateAs($template, array $variables = array(), $viewType = null)
     {
         if (false === strpos($template, '@') || false === strpos($template, '/')) {
             $template = '@' . $this->pluginName . '/' . $template;
@@ -292,13 +305,11 @@ abstract class Controller
         // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
         // https://github.com/piwik/piwik/issues/6151
         if ($this instanceof ControllerAdmin && $viewType == 'admin') {
-            $this->setBasicVariablesView($view, $viewType);
-        } elseif ((empty($this->site) || empty($this->idSite))
-            && $viewType == 'admin'
-        ) {
-            $this->setBasicVariablesView($view, $viewType);
+            $this->setBasicVariablesViewAs($view, $viewType);
+        } elseif (empty($this->site) || empty($this->idSite)) {
+            $this->setBasicVariablesViewAs($view, $viewType);
         } else {
-            $this->setGeneralVariablesView($view, $viewType);
+            $this->setGeneralVariablesViewAs($view, $viewType);
         }
 
         foreach ($variables as $key => $value) {
@@ -589,7 +600,12 @@ abstract class Controller
      * @return void
      * @api
      */
-    protected function setGeneralVariablesView($view, $viewType = null)
+    protected function setGeneralVariablesView($view)
+    {
+        $this->setGeneralVariablesViewAs($view, $viewType = null);
+    }
+
+    protected function setGeneralVariablesViewAs($view, $viewType)
     {
         $this->checkViewType($viewType);
 
@@ -659,7 +675,7 @@ abstract class Controller
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $this->setBasicVariablesView($view, $viewType);
+        $this->setBasicVariablesViewAs($view, $viewType);
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->adminMenu = MenuAdmin::getInstance()->getMenu();
@@ -756,7 +772,12 @@ abstract class Controller
      * @param string $viewType 'basic' or 'admin'. Used by ControllerAdmin.
      * @api
      */
-    protected function setBasicVariablesView($view, $viewType = null)
+    protected function setBasicVariablesView($view)
+    {
+        $this->setBasicVariablesViewAs($view);
+    }
+
+    protected function setBasicVariablesViewAs($view, $viewType = null)
     {
         $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
 
