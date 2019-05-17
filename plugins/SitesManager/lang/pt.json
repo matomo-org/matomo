@@ -86,7 +86,6 @@
         "UTCTimeIs": "A hora UTC é %s.",
         "OnlyMatchedUrlsAllowed": "Acompanhar apenas as visitas e ações quando o endereço de ação começar com um dos endereços acima.",
         "OnlyMatchedUrlsAllowedHelp": "Quando ativo, o Matomo apenas irá acompanhar ações internas quando o endereço da página for igual a um dos endereços conhecidos para o seu site. Isto impede que pessoas introduzam spam nos seus dados de análise com endereços para outros sites.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "O domínio e caminho têm de ser uma coincidência exata e cada subdomínio válido terá de ser especificado separadamente. Por exemplo, quando os endereços conhecidos forem 'http:\/\/exemplo.pt\/caminho' e 'http:\/\/bom.exemplo.pt', pedidos de acompanhamento para 'http:\/\/exemplo.pt\/outro caminho' ou 'http:\/\/mau.exemplo.pt' são ignorados.",
         "WebsitesManagement": "Gestão de sites",
         "XManagement": "Gerir %s",
         "ChooseMeasurableTypeHeadline": "O que quer medir?",

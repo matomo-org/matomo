@@ -65,7 +65,7 @@
         "NoValidSubscriptionNoUpdates": "Una vez que una suscripción expira, ya no recibirás más actualizaciones para este complemento.",
         "PluginSubscriptionsList": "Esta es una lista de las suscripciones asociadas con tu clave de licencia.",
         "PaidPluginsNoLicenseKeyIntro": "Si has comprado un %1$scomplemento premium de pago%2$s, por favor, introduce aquí abajo la clave de licencia que recibiste.",
-        "PaidPluginsWithLicenseKeyIntro": "Se ha configurado una clave de licencia válida. Por razones de seguridad no mostramos la clave aquí. Si has perdido tu clave de licencia, por favor, contacta con el equipo de Matomo.",
+        "PaidPluginsWithLicenseKeyIntro": "Se ha configurado una clave de licencia válida. Por razones de seguridad no mostramos la clave aquí. Si has perdido tu clave de licencia, por favor, ponte en contacto con el equipo de Matomo.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "In caso de que hayas comprado un %1$scomplemento premium de pago%2$s en el \"Mercado\", por favor, pide a un usuario con acceso de \"Super Usuario\" que añada la clave de licencia.",
         "PluginDescription": "Extiende y expande la funcionalidad de Matomo, por medio del \"Mercado\", descargando complementos y temas.",
         "PluginKeywords": "Palabras claves",
@@ -106,7 +106,7 @@
         "PluginUploadDisabled": "Subir plugins está deshabilitado desde el fichero de configuración. Para habilitar esta funcionalidad, por favor, contacta con tu administrador.",
         "LicenseKeyExpiresSoon": "Tu clave de licencia expira pronto, por favor, contacta con %1$s.",
         "LicenseKeyIsExpired": "Tu clave de licencia ha expirado, por favor, contacta con %1$s.",
-        "MultiServerEnvironmentWarning": "No puedes instalar o actualizar el complemento directamente ya que estás usando Matomo en múltiples servidores y el complemento sería instalado en un solo servidor. Descarga el complemento y despliégalo manualmente en todos tu servidores.",
+        "MultiServerEnvironmentWarning": "No puedes instalar o actualizar el complemento directamente ya que estás usando Matomo en múltiples servidores y el complemento sería instalado en un solo servidor. Descarga el complemento e instálalo manualmente en todos tu servidores.",
         "AutoUpdateDisabledWarning": "No puedes instalar o actualizar el plugin directamente ya que las actualizaciones automáticas están deshabilitadas en la configuración. Para habilitar las actualizaciones automáticas configura %1$s en %2$s.",
         "ViewRepositoryChangelog": "Ver cambios"
     }

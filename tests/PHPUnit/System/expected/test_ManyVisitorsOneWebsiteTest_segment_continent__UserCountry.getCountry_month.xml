@@ -23,9 +23,9 @@
 		<revenue>75</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==gb</segment>
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -51,9 +51,9 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==ru</segment>
 		<code>ru</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
+		<segment>countryCode==ru</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -79,9 +79,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -107,9 +107,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==it</segment>
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		<segment>countryCode==it</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -135,9 +135,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==mk</segment>
 		<code>mk</code>
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
+		<segment>countryCode==mk</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

@@ -80,7 +80,7 @@ class ArchivedMetricTest extends IntegrationTestCase
         return array(
             array($type = Dimension::TYPE_NUMBER, $value = 5.354, $expected = 5),
             array($type = Dimension::TYPE_FLOAT, $value = 5.354, $expected = 5.35),
-            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$ 5.39'),
+            array($type = Dimension::TYPE_MONEY, $value = 5.392, $expected = '$5.39'),
             array($type = Dimension::TYPE_PERCENT, $value = 0.343, $expected = '34.3%'),
             array($type = Dimension::TYPE_DURATION_S, $value = 121, $expected = '2 min 1s'),
             array($type = Dimension::TYPE_DURATION_MS, $value = 392, $expected = '0.39s'),

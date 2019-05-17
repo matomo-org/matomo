@@ -36,7 +36,6 @@
         "GeoIPIncorrectDatabaseFormat": "Din geografiska ip databas verkar inte ha korrekt format. Det finns en möjlighet att den är korrupt. Se till att du använder den binära versionen och försök ersätta den med en annan kopia.",
         "GeoIpLocationProviderDesc_Pecl1": "Den är platstjänsten använder en GeoIP-databas och en PECL-modul för att kunna fastställa besökarnas plats så träffsäkert och effektivt som möjligt.",
         "GeoIpLocationProviderDesc_Pecl2": "Det finns inga begränsningar med den här tjänsten, så det är den vi rekommenderar att använda.",
-        "GeoIpLocationProviderDesc_Php1": "Den här platstjänsten är den som är enklast att installera och kräver ingen serverkonfiguration (perfekt för delade webbhotell!). Den använder en GeoIP-databas och MaxMind's PHP API för att träffsäkert fastställa dina besökares platser.",
         "GeoIpLocationProviderDesc_Php2": "Den här tjänsten kan upplevas som långsam om din webbplats har mycket trafik. I så fall borde du installera %1$sPECL tillägget%2$s eller en %3$sservermodul%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Den här platstjänsten använder GeoIP-modulen som har installerats på din HTTP-server. Den här tjänsten är snabb och träffsäker, men %1$skan endast användas tillsammans med normal webbläsarspårning.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Om du behöver importera loggfiler eller göra något annat som kräver IP-adresser: Använd %1$sPECL GeoIP (rekommenderas)%2$s eller %3$sPHP GeoIP%4$s.",

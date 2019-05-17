@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 
 /**
@@ -364,6 +365,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $dataTable = Archive::createDataTableFromArchive(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
+
+        $dataTable->filter(GroupDifferentSocialWritings::class);
 
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($name) {
             return Social::getInstance()->getMainUrlFromName($name);
