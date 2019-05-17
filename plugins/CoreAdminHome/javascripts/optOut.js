@@ -8,7 +8,7 @@ function submitForm(e, form) {
 
     var interval = setInterval(function () {
         if (newWindow.closed) {
-            window.location.reload();
+            window.location.reload(true);
             clearInterval(interval);
         }
     }, 1000);
