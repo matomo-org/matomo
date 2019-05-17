@@ -25,6 +25,8 @@ class Bar extends JqplotGraph
     {
         parent::beforeLoadDataTable();
 
+        $this->checkRequestIsNotForMultiplePeriods();
+
         $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }
 

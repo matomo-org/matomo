@@ -39,7 +39,6 @@
         "GiveViewAccess": "給予 %1$s 訪問權限",
         "GiveViewAccessTitle": "給現有的使用者查看 %s 的報表權限",
         "GiveViewAccessInstructions": "要給現有的使用者查看 %s 的報表權限，輸入他的使用者名稱或 Email。",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "如果你要變更密碼時請輸入新的密碼。否則留空。",
         "InjectedHostCannotChangePwd": "你目前正使用未知的身分訪問（%1$s）。請先解決此問題後才能變更你的密碼。",
         "LastSeen": "最後訪問",
         "MainDescription": "決定哪個使用者有權訪問你的網站。你也可以在網站選擇清單中選擇「套用到所有網站」來一次給予所有網站的權限。",

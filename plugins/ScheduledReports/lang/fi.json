@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Näyttövalinnat",
         "AggregateReportsFormat_GraphsOnly": "Näytä vain kuvaajat (ei raporttien taulukoita)",
         "AggregateReportsFormat_TablesAndGraphs": "Näytä taulukot ja kuvaajat kaikille raporteille",
         "AggregateReportsFormat_TablesOnly": "(oletus) Näytä rapottien taulukot (kuvaajat vain tärkeimmille arvoille)",
@@ -16,13 +17,17 @@
         "EmailSchedule": "Sähköpostiaikataulu",
         "EvolutionGraph": "Näytä historiakuvaajat top-%s arvolle",
         "FrontPage": "Etusivu",
+        "PersonalEmailReports": "Henkilökohtaiset sähköpostiraportit",
         "MonthlyScheduleHelp": "Kuukausittainen aikataulu: raportti lähetetään kuun ensimmäisenä päivänä.",
         "MustBeLoggedIn": "Sinun täytyy olla kirjautuneena sisään ennen kustomoitujen raporttien luomista ja ajastamista.",
         "NoRecipients": "Tällä raportilla ei ole vastaanottajia",
         "Pagination": "Sivu %1$s\/%2$s",
-        "PiwikReports": "Matomo raportit",
+        "PiwikReports": "Matomo-raportit",
         "PleaseFindBelow": "Alla on raporttisi %1$s sivulle %2$s.",
+        "PluginDescription": "Luo mukautettuja raportteja ja aikatauluta ne lähettäväksi päivittäin, viikoittain tai kuukausittain yhdelle tai useammalle ihmiselle. Useat eri raporttimuodot ovat tuettuja (html, pdf, csv, kuvat).",
         "ReportFormat": "Raportin muoto",
+        "ReportHour": "Lähetä raportti kello %s",
+        "ReportHourWithUTC": "kello %s UTC-aikaa",
         "ReportIncludeNWebsites": "Tämä raportti sisältää tärkeimmät metriikat kaikilta sivuilta, joilla oli vähintään yksi käynti (%s sivusta)",
         "ReportSent": "Raportti lähetetty",
         "ReportsIncluded": "Tilastot mukana",
@@ -39,6 +44,12 @@
         "TopLinkTooltip": "Voit luoda sähköpostiraportin, jotta saat Matomon tilastot suoraan sähköpostiin automaattisesti.",
         "TopOfReport": "Takaisin ylös",
         "UpdateReport": "Päivitä raportti",
-        "WeeklyScheduleHelp": "Viikkoaikataulu: raportti lähetetään joka maanantai."
+        "WeeklyScheduleHelp": "Viikkoaikataulu: raportti lähetetään joka maanantai.",
+        "Unsubscribe": "Lopeta tilaus",
+        "ReportUnsubscribe": "Lopeta raportin tilaus",
+        "UnsubscribeReportConfirmation": "Haluatko varmasti lopettaa raportin %1$s tilauksen?",
+        "SuccessfullyUnsubscribed": "Raportin %1$s tilaus on lopetettu.",
+        "UnsubscribeFooter": "Jos et halua vastaanottaa tätä raporttia enää jatkossa, klikkaa linkkiä: %1$s",
+        "NoSubscriptionFound": "Tilausta ei löytynyt. Kenties raportin tilaus oli jo lopetettu tai se oli poistettu."
     }
 }

@@ -169,7 +169,6 @@
         "Hide": "magtago",
         "HoursMinutes": "%1$s oras %2$s min",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Sabihin natin na ang pag setup ng archiving ay mabilis maaari mong setup ang crontab upang patakbuhin nang mas madalas.",
         "InfoFor": "Impormasyon para sa %s",
         "Installed": "Naka-install",
         "InvalidDateRange": "Hindi wastong Hanay ng Petsa Mangyaring Subukan Muli",
