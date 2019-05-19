@@ -480,6 +480,75 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
             ),
 
+            // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
+            array(
+                array(1),
+                array('2014-12-18', '2014-12-20'),
+                'range',
+                null,
+                true,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, range is right at end of one archived range and right at start of another
+            // the first range won't be invalidated as we don't trawl all of the previous month archives for ranges
+            array(
+                array(1),
+                array('2015-01-01', '2015-01-03'),
+                'range',
+                null,
+                true,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, range that overlaps start of archived range
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-05'),
+                'range',
+                null,
+                true,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, large range that includes the smallest archived range (3 to 4 March)
+            array(
+                array(1),
+                array('2015-01-11', '2015-03-30'),
+                'range',
+                null,
+                true,
+                array(
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
+
+            // range period, doesn't match any archived ranges
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-04'),
+                'range',
+                null,
+                true,
+                array(
+                ),
+            ),
+
             // week period, one site, cascade = true, segment
             array(
                 array(1),

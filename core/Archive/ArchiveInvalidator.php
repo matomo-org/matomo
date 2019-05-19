@@ -230,6 +230,15 @@ class ArchiveInvalidator
     {
         $periodsToInvalidate = array();
 
+        // Get the individual dates for a range, we need to check all of them
+        if ($periodType === 'range') {
+            $allDates = array();
+            for ($date = $dates[0]; $date->getTimestamp() <= $dates[1]->getTimestamp(); $date = $date->addDay(1)) {
+                $allDates[] = $date;
+            }
+            $dates = $allDates;
+        }
+
         foreach ($dates as $date) {
             if ($periodType == 'range') {
                 $date = $date . ',' . $date;
