@@ -123,13 +123,15 @@ abstract class ControllerAdmin extends Controller
      * using the supplied view.
      *
      * @param View $view
-     * @api
+     * @param string $viewType If 'admin', the admin variables are set as well as basic ones.
      */
-    protected function setBasicVariablesView($view)
+    protected function setBasicVariablesViewAs($view, $viewType = 'admin')
     {
         $this->setBasicVariablesNoneAdminView($view);
 
-        self::setBasicVariablesAdminView($view);
+        if ($viewType == 'admin') {
+            self::setBasicVariablesAdminView($view);
+        }
     }
 
     private static function notifyIfURLIsNotSecure()
