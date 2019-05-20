@@ -43,6 +43,38 @@
             this.doesRequirePasswordConfirmation = true;
         };
 
+        this.signupForNewsletter = function () {
+            var signupBtn = $('#newsletterSignupBtn');
+            signupBtn.html('Loading...');
+
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams(
+                {module: 'API', method: 'UsersManager.newsletterSignup', format: 'json'}, '' +
+                'GET'
+            );
+
+            var errorCallback = function() {
+                $('#newsletterSignupMsg').hide();
+                $('#newsletterSignupFailure').show();
+                signupBtn.html('Try Again');
+            };
+
+            ajaxHandler.setCallback(function (response) {
+                if (response[0] && response[0]['success'] == true) {
+                    $('#newsletterSignupMsg').hide();
+                    $('#newsletterSignupFailure').hide();
+                    $('#newsletterSignupSuccess').show();
+                    signupBtn.hide();
+                } else {
+                    errorCallback();
+                }
+            });
+            ajaxHandler.setErrorCallback(errorCallback);
+
+            ajaxHandler.send();
+            return false;
+        };
+
         this.regenerateTokenAuth = function () {
             var parameters = { userLogin: piwik.userLogin };
 

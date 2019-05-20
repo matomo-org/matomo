@@ -120,6 +120,20 @@
     </form>
 </div>
 
+{% if showNewsletterSignup %}
+<div piwik-content-block content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+
+    <div id="newsletterSignupMsg">{{ 'UsersManager_NewsletterSignupMessage'|translate|raw }}<br/><br/></div>
+    <div id="newsletterSignupFailure" style="display:none">{{ 'UsersManager_NewsletterSignupFailureMessage'|translate|raw }}<br/><br/></div>
+    <div id="newsletterSignupSuccess" style="display:none">{{ 'UsersManager_NewsletterSignupSuccessMessage'|translate|raw }}<br/><br/></div>
+
+    <button class="btn btn-link" id="newsletterSignupBtn"
+            ng-controller="PersonalSettingsController as personalSettings"
+            ng-click="personalSettings.signupForNewsletter()"
+    >{{ 'General_Yes'|translate }}</button>
+</div>
+{% endif %}
+
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
     <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>

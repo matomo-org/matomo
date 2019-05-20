@@ -18,6 +18,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Http;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Metrics\Formatter;
@@ -29,6 +30,7 @@ use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -1352,6 +1354,50 @@ class API extends \Piwik\Plugin\API
         }
 
         return $user['token_auth'];
+    }
+
+    public function newsletterSignup()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $userLogin = Piwik::getCurrentUserLogin();
+        $email = Piwik::getCurrentUserEmail();
+
+        $success = $this->signupForNewsletter($userLogin, $email, true);
+        if ($success) {
+            return array('success' => true);
+        } else {
+            return array('error' => true);
+        }
+    }
+
+    public function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false)
+    {
+        // Don't bother if they aren't signing up for at least one newsletter
+        if (! ($matomoOrg || $professionalServices)) {
+            return;
+        }
+
+        $url = Config::getInstance()->General['api_service_url'];
+        $url .= '/1.0/subscribeNewsletter/';
+
+        $params = array(
+            'email'     => $email,
+            'piwikorg'  => (int)$matomoOrg,
+            'piwikpro'  => (int)$professionalServices,
+            'url'       => Url::getCurrentUrlWithoutQueryString(),
+            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
+        );
+
+        $url .= '?' . Http::buildQuery($params);
+        try {
+            Http::sendHttpRequest($url, $timeout = 2);
+            $optionKey = 'UsersManager.newsletterSignup.' . $userLogin;
+            Option::set($optionKey, 1);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     private function isUserHasAdminAccessTo($idSite)

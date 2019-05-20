@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -182,6 +183,9 @@ class Controller extends ControllerAdmin
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
+
+        $newsletterSignupOptionKey = 'UsersManager.newsletterSignup.' . $userLogin;
+        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) !== false;
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();

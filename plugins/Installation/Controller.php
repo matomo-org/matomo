@@ -18,7 +18,6 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -274,14 +273,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form->validate()) {
 
             try {
-                $this->createSuperUser($form->getSubmitValue('login'),
-                                       $form->getSubmitValue('password'),
-                                       $form->getSubmitValue('email'));
-
+                $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');
+
+                $this->createSuperUser($loginName,
+                                       $form->getSubmitValue('password'),
+                                       $email);
+
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
                 $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
-                $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices);
+                $this->registerNewsletter($loginName, $email, $newsletterPiwikORG, $newsletterProfessionalServices);
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -292,6 +293,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->addForm($form);
 
         return $view->render();
+    }
+
+    /**
+     * @param $login
+     * @param $email
+     * @param $newsletterPiwikORG
+     * @param $newsletterProfessionalServices
+     */
+    protected function registerNewsletter($login, $email, $newsletterPiwikORG, $newsletterProfessionalServices)
+    {
+        $usersManagerApi = APIUsersManager::getInstance();
+        $usersManagerApi->signupForNewsletter(
+            $login,
+            $email,
+            $newsletterPiwikORG,
+            $newsletterProfessionalServices
+        );
     }
 
     /**
@@ -711,40 +729,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // deleting the config file removes the salt, which in turns invalidates existing cookies (including the
             // one for selected language), so we re-save that cookie now
             $this->resetLanguageCookie();
-        }
-    }
-
-    /**
-     * @param $email
-     * @param $newsletterPiwikORG
-     * @param $newsletterProfessionalServices
-     */
-    protected function registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices)
-    {
-        $url = Config::getInstance()->General['api_service_url'];
-        $url .= '/1.0/subscribeNewsletter/';
-        $params = array(
-            'email'     => $email,
-            'piwikorg'  => $newsletterPiwikORG,
-            'piwikpro'  => $newsletterProfessionalServices,
-            'url'       => Url::getCurrentUrlWithoutQueryString(),
-            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
-        );
-        if ($params['piwikorg'] == '1'
-            || $params['piwikpro'] == '1'
-        ) {
-            if (!isset($params['piwikorg'])) {
-                $params['piwikorg'] = '0';
-            }
-            if (!isset($params['piwikpro'])) {
-                $params['piwikpro'] = '0';
-            }
-            $url .= '?' . Http::buildQuery($params);
-            try {
-                Http::sendHttpRequest($url, $timeout = 2);
-            } catch (Exception $e) {
-                // e.g., disable_functions = fsockopen; allow_url_open = Off
-            }
         }
     }
 
