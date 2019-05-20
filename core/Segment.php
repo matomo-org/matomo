@@ -324,7 +324,7 @@ class Segment
      *
      * @param string $select The select clause. Should NOT include the **SELECT** just the columns, eg,
      *                       `'t1.col1 as col1, t2.col2 as col2'`.
-     * @param array $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
+     * @param array|string $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
      * @param false|string $where (optional) Where clause, eg, `'t1.col1 = ? AND t2.col2 = ?'`.
      * @param array|string $bind (optional) Bind parameters, eg, `array($col1Value, $col2Value)`.
      * @param false|string $orderBy (optional) Order by clause, eg, `"t1.col1 ASC"`.
