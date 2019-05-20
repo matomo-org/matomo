@@ -65,7 +65,6 @@
         "NoValidSubscriptionNoUpdates": "Depois de uma subscrição ter expirado, não irá mais receber quaisquer atualizações para esta extensão.",
         "PluginSubscriptionsList": "Esta é uma lista de subscrições associadas à sua chave da licença.",
         "PaidPluginsNoLicenseKeyIntro": "Se adquiriu uma %1$sextensão exclusiva paga%2$s, por favor insira a chave da licença recebida abaixo.",
-        "PaidPluginsWithLicenseKeyIntro": "Foi definida uma chave de licença válida. Por questões de segurança, não mostramos a chave da licença aqui. Se perdeu a sua chave da licença, por favor, contacte a equipa do Matomo.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "No caso de ter adquirido uma %1$sextensão exclusiva paga%2$s na loja, por favor peça a um utilizador com acesso de super-utilizador para adicionar a chave da licença.",
         "PluginDescription": "Estenda ou expanda a funcionalidade do Matomo através da loja, transferindo extensões e temas.",
         "PluginKeywords": "Palavras-chave",
@@ -106,7 +105,6 @@
         "PluginUploadDisabled": "O envio de extensões está desativo no ficheiro de configuração. Para ativar esta funcionalidade, por favor, atualize a sua configuração ou contacte o seu administrador",
         "LicenseKeyExpiresSoon": "A sua chave de licença expira em breve, por favor, contacte %1$s.",
         "LicenseKeyIsExpired": "A sua chave de licença expirou, por favor, contacte %1$s.",
-        "MultiServerEnvironmentWarning": "Não pode instalar ou atualizar a extensão diretamente dado que está a utilizar o Matomo em múltiplos servidores. A extensão só seria instalada num servidor. Em vez disso, transfira a extensão e instala a mesma manualmente em todos os seus servidores.",
         "AutoUpdateDisabledWarning": "Não pode instalar ou atualizar a extensão diretamente dados que as atualizações automáticas estão desativadas na configuração. Para ativar as atualizações automáticas, defina %1$s em %2$s.",
         "ViewRepositoryChangelog": "Ver as alterações"
     }

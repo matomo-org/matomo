@@ -9,12 +9,14 @@
 namespace Piwik\Plugins\Referrers;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 
 /**
@@ -24,7 +26,6 @@ use Piwik\Site;
  * "getReferrerType" returns the Referrer overview report. "getCampaigns" returns the list of all campaigns (and all campaign keywords if the parameter &expanded=1 is set).
  *
  * The methods "getKeywordsForPageUrl" and "getKeywordsForPageTitle" are used to output the top keywords used to find a page.
- * Check out the widget <a href='http://demo.matomo.org/index.php?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&actionToWidgetize=getKeywordsForPage&idSite=7&period=day&date=2011-02-15&disableLink=1' rel='noreferrer' target='_blank'>"Top keywords used to find this page"</a> that you can easily re-use on your website.
  * @method static \Piwik\Plugins\Referrers\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -144,7 +145,15 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $this->checkSingleSite($idSite, 'getAll');
-        $dataTable = $this->getReferrerType($idSite, $period, $date, $segment, $typeReferrer = false, $idSubtable = false, $expanded = true);
+        $dataTable = Request::processRequest('Referrers.getReferrerType', [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+            'expanded' => true,
+            'disable_generic_filters' => true,
+            'disable_queued_filters' => true,
+        ], []);
 
         if ($dataTable instanceof DataTable\Map) {
             throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
@@ -195,6 +204,9 @@ class API extends \Piwik\Plugin\API
             : $label;
     }
 
+    /**
+     * @deprecated will be removed in Matomo 4.0.0
+     */
     public function getKeywordsForPageUrl($idSite, $period, $date, $url)
     {
         // Fetch the Top keywords for this page
@@ -204,6 +216,9 @@ class API extends \Piwik\Plugin\API
         return $this->getLabelsFromTable($table);
     }
 
+    /**
+     * @deprecated will be removed in Matomo 4.0.0
+     */
     public function getKeywordsForPageTitle($idSite, $period, $date, $title)
     {
         $segment = 'entryPageTitle==' . $title;
@@ -359,6 +374,8 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $dataTable = Archive::createDataTableFromArchive(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
+
+        $dataTable->filter(GroupDifferentSocialWritings::class);
 
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($name) {
             return Social::getInstance()->getMainUrlFromName($name);
@@ -617,24 +634,34 @@ class API extends \Piwik\Plugin\API
         }));
         $urlsTable = $urlsTable->mergeSubtables();
 
-        foreach ($dataTable->getRows() as $row) {
-            $row->removeSubtable();
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+            $urlsTables = $urlsTable->getDataTables();
+        } else {
+            $dataTables = [$dataTable];
+            $urlsTables = [$urlsTable];
+        }
 
-            $social = $row->getColumn('label');
-            $newTable = $urlsTable->getEmptyClone();
+        foreach ($dataTables as $label => $dataTable) {
+            foreach ($dataTable->getRows() as $row) {
+                $row->removeSubtable();
 
-            $rows = $urlsTable->getRows();
-            foreach ($rows as $id => $urlsTableRow) {
-                $url = $urlsTableRow->getColumn('label');
-                if (Social::getInstance()->isSocialUrl($url, $social)) {
-                    $newTable->addRow($urlsTableRow);
-                    $urlsTable->deleteRow($id);
+                $social = $row->getColumn('label');
+                $newTable = $urlsTables[$label]->getEmptyClone();
+
+                $rows = $urlsTables[$label]->getRows();
+                foreach ($rows as $id => $urlsTableRow) {
+                    $url = $urlsTableRow->getColumn('label');
+                    if (Social::getInstance()->isSocialUrl($url, $social)) {
+                        $newTable->addRow($urlsTableRow);
+                        $urlsTables[$label]->deleteRow($id);
+                    }
                 }
-            }
 
-            if ($newTable->getRowsCount()) {
-                $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
-                $row->setSubtable($newTable);
+                if ($newTable->getRowsCount()) {
+                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
+                    $row->setSubtable($newTable);
+                }
             }
         }
 

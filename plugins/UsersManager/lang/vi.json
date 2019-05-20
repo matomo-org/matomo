@@ -23,7 +23,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Vui lòng nhập một tên người dùng hoặc địa chỉ email.",
         "ExcludeVisitsViaCookie": "Loại bỏ các truy cập của bạn sử dụng một cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Đối với người dùng ẩn danh, báo cáo thep ngày nạp theo mặc định",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Nếu bạn muốn thay đổi các loại mật khẩu thành một cái mới. Nếu không thì để trống.",
         "InjectedHostCannotChangePwd": "Bạn đang truy cập với một máy chủ không xác định (%1$s). Bạn không thể thay đổi mật khẩu của bạn cho đến khi vấn đề này được xử lý.",
         "LastSeen": "Lần xem cuối",
         "ManageAccess": "Quản lý truy cập",
@@ -45,11 +44,9 @@
         "User": "Người dùng",
         "UsersManagement": "Quản lý người dùng",
         "UsersManagementMainDescription": "Tạo người dùng mới hoặc cập nhật các người dùng hiện tại. Sau đó bạn có thể thiết lập quyền của họ.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Matomo, họ nên truy cập",
         "YourUsernameCannotBeChanged": "Tên đăng nhập của bạn không thể thay đổi.",
         "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Matomo trên %2$s %3$s (cookie Matomo bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
         "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Matomo %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn).",
-        "XtoYofN": "%1$s - %2$s trên %3$s",
         "ShowAll": "Hiển thị tất cả",
         "Username": "Tên truy nhập"
     }

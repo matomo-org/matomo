@@ -137,15 +137,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::checkUserHasViewAccess($this->idSite);
         }
 
-        return $this->renderTemplate('siteWithoutData', array(
+        return $this->renderTemplateAs('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
             'idSite' => $this->idSite,
-            'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
+            'trackingHelp' => $this->renderTemplateAs('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
                 'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
                 'idSite'          => $this->idSite,
                 'piwikUrl'        => $piwikUrl,
-            )),
-        ));
+            ), $viewType = 'basic'),
+        ), $viewType = 'basic');
     }
 }

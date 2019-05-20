@@ -27,7 +27,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Det må være minst én bruker med superbrukertilgang. Vennligst gi superbrukertilgang til en annen bruker først.",
         "ExcludeVisitsViaCookie": "Ekskluder dine besøk med en informasjonskapsel",
         "ForAnonymousUsersReportDateToLoadByDefault": "Rapportdato som skal lastes som standard for anonyme brukere",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Hvis du vil endre passordet, skriv inn et nytt. Hvis ikke, lar du feltet være tomt.",
         "InjectedHostCannotChangePwd": "Du besøker nå med et ukjent vertsnavn (%1$s). Du kan ikke endre passord før problemet er rettet opp.",
         "LastSeen": "Sist sett",
         "ManageAccess": "Administrer tilgang",
@@ -52,11 +51,9 @@
         "User": "Bruker",
         "UsersManagement": "Administrasjon av brukere",
         "UsersManagementMainDescription": "Opprett nye brukere eller oppdater eksisterende. Du kan sette deres rettigheter over.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Brukere som ikke er logget og besøker Matomo, skal sendes til",
         "YourUsernameCannotBeChanged": "Brukernavnet ditt kan ikke endres.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine besøk blir ignorert av Matomo på %2$s %3$s (informasjonskapselen for ekskludering fra Matomo ble funnet i din nettleser).",
         "YourVisitsAreNotIgnored": "%1$sDine besøk blir ikke ignorert av Matomo%2$s (informasjonskapselen for ekskludering fra Matomo ble ikke funnet i din nettleser).",
-        "XtoYofN": "%1$s – %2$s av %3$s",
         "ShowAll": "Vis alle",
         "Username": "Brukernavn"
     }

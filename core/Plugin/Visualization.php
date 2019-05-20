@@ -17,10 +17,12 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -28,6 +30,7 @@ use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\API\Request as ApiRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * The base class for report visualizations that output HTML and use JavaScript.
@@ -193,15 +196,15 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            $logMessage = "Failed to get data from API: " . $e->getMessage();
-            $message = $e->getMessage();
+            StaticContainer::get(LoggerInterface::class)->error('Failed to get data from API: {exception}', [
+                'exception' => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
 
+            $message = $e->getMessage();
             if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $logMessage .= "\n" . $e->getTraceAsString();
                 $message .= "\n" . $e->getTraceAsString();
             }
-
-            Log::error($logMessage);
 
             $loadingError = array('message' => $message);
         }
@@ -251,6 +254,26 @@ class Visualization extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    protected function checkRequestIsNotForMultiplePeriods()
+    {
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new BadRequestException("The '" . static::ID . "' visualization does not support multiple periods.");
+        }
+    }
+
+    protected function checkRequestIsOnlyForMultiplePeriods()
+    {
+        try {
+            $this->checkRequestIsNotForMultiplePeriods();
+        } catch (BadRequestException $ex) {
+            return; // ignore
+        }
+
+        throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
     }
 
     private function hasAnyData(DataTable\DataTableInterface $dataTable)

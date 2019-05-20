@@ -22,6 +22,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://othersite10.com/</url>
+				<segment>outlinkUrl==http%3A%2F%2Fothersite10.com%2F</segment>
 			</row>
 			<row>
 				<label>Others</label>
@@ -57,6 +58,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://othersite11.com/</url>
+				<segment>outlinkUrl==http%3A%2F%2Fothersite11.com%2F</segment>
 			</row>
 			<row>
 				<label>Others</label>
@@ -92,6 +94,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://othersite12.com/</url>
+				<segment>outlinkUrl==http%3A%2F%2Fothersite12.com%2F</segment>
 			</row>
 			<row>
 				<label>Others</label>

@@ -19,8 +19,8 @@
         "AnonymousUserHasViewAccess2": "Raportet analitike dhe të dhënat e vizitorëve tuaj janë të dukshme publikisht.",
         "ApplyToAllWebsites": "Zbatoje për tërë sajtet",
         "ChangeAllConfirm": "Jeni i sigurt se doni t’i jepni përdoruesit '%s' hyrje në krejt sajtet?",
-        "ClickHereToDeleteTheCookie": "Klikoni këtu që të fshihet \\\"cookie\\\" dhe që ta bëni Matomo-n të gjurmojë vizitat tuaja",
-        "ClickHereToSetTheCookieOnDomain": "Klikoni këtu që të vendoset një \\\"cookie\\\" që do të përjashtojë vizitat tuaja në sajte të gjurmuar nga Matomo %s",
+        "ClickHereToDeleteTheCookie": "Klikoni këtu që të fshihet \\\"cookie\\\" dhe që ta bëni Matomo-n të ndjekë vizitat tuaja",
+        "ClickHereToSetTheCookieOnDomain": "Klikoni këtu që të vendoset një \\\"cookie\\\" që do të përjashtojë vizitat tuaja në sajte të ndjekur nga Matomo %s",
         "ConfirmGrantSuperUserAccess": "Doni t’i akordoni '%s' hyrje Supepërdoruesi? Kujdes: përdoruesi do të ketë hyrje në krejt sajtet dhe do të jetë në gjendje të kryejë veprime administratori.",
         "ConfirmProhibitMySuperUserAccess": "%s, doni vërtet t’i hiqni vetes të drejta Superpërdoruesi? Do të humbni krejt lejet dhe hyrjen në krejt sajtet dhe do të dilni nga Matomo.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Doni vërtet të hiqni hyrje Superpërdoruesi prej '%s'? Përdoruesi do të humbë krejt lejet dhe hyrjet në krejt sajtet. Sigurohuni t’i lejoni hyrje më pas, në sajtet e nevojshme, nëse është rasti.",
@@ -96,7 +96,7 @@
         "UserHasNoPermission": "%1$s ka %2$s për te %3$s",
         "UsersManagement": "Administrim Përdoruesish",
         "UsersManagementMainDescription": "Krijoni përdorues të rinj ose përditësoni përdoruesit ekzistues. Mandej mund t’u caktoni lejet më sipër.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kur përdoruesit nuk janë të futur dhe vizitojnë Matomo-n, do të duhej të hynin",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kur përdoruesit s’kanë bërë hyrjen në llogari dhe vizitojnë Matomo-n, fillimisht do të duhej të shihnin",
         "YourUsernameCannotBeChanged": "Emri juaj i përdoruesit s’mund të ndryshohet.",
         "YourVisitsAreIgnoredOnDomain": "%1$sVizitat tuaja te %2$s %3$s janë shpërfillur nga Matomo (te shfletuesi juaj u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
         "YourVisitsAreNotIgnored": "%1$sVizitat tuaja nuk janë shpërfillur nga Matomou%2$s (te shfletuesi juaj nuk u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Klikoni që të përzgjidhen krejt %1$s.",
         "AllWebsitesAreSelected": "Janë përzgjedhur krejt %1$s sajtet.",
         "ClickToSelectDisplayedWebsites": "Klikoni që të përzgjidhen %1$s sajtet e shfaqur.",
-        "XtoYofN": "%1$s - %2$s of %3$s",
         "DeletePermConfirmSingle": "Jeni i sigurt se doni të hiqet hyrja te %2$s për %1$s?",
         "DeletePermConfirmMultiple": "Jeni i sigurt se doni të hiqet hyrja te %2$s sajtet e përzgjedhur për %1$s?",
         "ChangePermToSiteConfirmSingle": "Jeni i sigurt se doni të ndryshohet roli për %1$s te %2$s në %3$s?",
@@ -156,6 +155,12 @@
         "AreYouSureAddCapability": "Jeni i sigurt se doni t’i jepet %1$s aftësia %2$s për %3$s?",
         "AreYouSureRemoveCapability": "Jeni i sigurt se doni t’i hiqet aftësia %1$s përdoruesit %2$s për %3$s?",
         "IncludedInUsersRole": "E përfshirë në këtë rol përdoruesi.",
-        "Capability": "Aftësi"
+        "Capability": "Aftësi",
+        "EmailChangeNotificationSubject": "Adresa email e llogarisë tuaj Matomo sapo u ndryshua",
+        "EmailChangedEmail1": "Adresa email përshoqëruar llogarisë tuaj sapo u ndryshua në %1$s",
+        "EmailChangedEmail2": "Ky ndryshim zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Nëse qetë ju, mos ngurroni ta shpërfillni këtë email. Nëse s’qetë ju, ju lutemi, bëni hyrjen në llogarinë tuaj, ndreqni adresën tuaj email, ndryshoni fjalëkalimin tuaj dhe lidhuni me përgjegjësin e instancës tuaj Matomo.",
+        "PasswordChangeNotificationSubject": "Fjalëkalimi i llogarisë tuaj Matomo sapo u ndryshua",
+        "PasswordChangedEmail": "Fjalëkalimi juaj sapo u ndryshua. Ndryshimi zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s)."
     }
 }

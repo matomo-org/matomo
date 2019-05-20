@@ -45,6 +45,13 @@
             };
 
             var urlParams = piwikApi.mixinDefaultGetParams($element.extend(defaultParams, vm.params));
+
+            // Append the token_auth to the URL if it was set (eg. embed dashboard)
+            var token_auth = piwik.broadcast.getValueFromUrl("token_auth");
+            if (token_auth.length && piwik.shouldPropagateTokenAuth) {
+                urlParams.token_auth = token_auth;
+            }
+
             return '?' + $httpParamSerializer(urlParams);
         }
 

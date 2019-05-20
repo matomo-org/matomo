@@ -175,6 +175,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             'disable_generic_filters',
             'columns',
             'flat',
+            'totals',
             'include_aggregate_rows',
             'totalRows',
             'pivotBy',
@@ -627,7 +628,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleLimit: function (domElem) {
-        var tableRowLimits = piwik.config.datatable_row_limits,
+        var tableRowLimits = this.props.datatable_row_limits || piwik.config.datatable_row_limits,
         evolutionLimits =
         {
             day: [8, 30, 60, 90, 180],
@@ -940,7 +941,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
-                    var str = sprintf(_pk_translate('CoreHome_PageOf'), offset + '-' + offsetEndDisp, totalRows);
+                    var str = sprintf(_pk_translate('General_Pagination'), offset, offsetEndDisp, totalRows);
                     $(this).text(str);
                 } else {
                     $(this).hide();
@@ -1959,6 +1960,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.filter_sort_column;
     delete dataTable.param.filter_sort_order;
     delete dataTable.param.columns;
+    delete dataTable.param.totals;
     dataTable.reloadAjaxDataTable();
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };

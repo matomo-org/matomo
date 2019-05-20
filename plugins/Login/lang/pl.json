@@ -10,6 +10,7 @@
         "InvalidUsernameEmail": "Błędna nazwa użytkownika i\/lub adres e-mail",
         "LogIn": "Zaloguj się",
         "LoginOrEmail": "Nazwa użytkownika lub email",
+        "SettingBruteForceEnable": "Włącz Wykrywanie Brute Force",
         "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
         "LostYourPassword": "Nie pamiętasz hasła?",
         "ChangeYourPassword": "Zmień swoje hasło",
@@ -19,6 +20,8 @@
         "PasswordChanged": "Twoje hasło zostało zmienione.",
         "PasswordRepeat": "Hasło (powtórz)",
         "PasswordsDoNotMatch": "Hasła nie pasują.",
+        "WrongPasswordEntered": "Wprowadź poprawne hasło.",
+        "ConfirmPasswordToContinue": "Potwierdź hasło, aby kontynuować",
         "PluginDescription": "Dostarcza funkcjonalności autentykacji przy pomocy nazwy użytkownika i hasła jak również resetu hasła. Metoda autentykacji może być zmieniona przy wykorzystaniu dodatkowej wtyczki Logowania jak choćby LoginLdap dostępnej w Sklepie.",
         "RememberMe": "Zapamiętaj mnie"
     }

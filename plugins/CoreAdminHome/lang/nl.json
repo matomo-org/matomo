@@ -23,7 +23,6 @@
         "JavaScriptTracking": "JavaScript Tracking",
         "JSTracking_CampaignKwdParam": "Campagne sleutelwoord parameter",
         "JSTracking_CampaignNameParam": "Campagna naam parameter",
-        "JSTracking_CodeNoteBeforeClosingHead": "Zorg dat deze code op elke pagina van uw website is geplaatst. We raden aan hem direct vóór de afsluitende %1$s tag te plakken.",
         "JSTracking_CustomCampaignQueryParam": "Gebruik aangepaste query parameter namen voor de campagne naam & sleutelwoorden",
         "JSTracking_CustomCampaignQueryParamDesc": "Opmerking: %1$s Matomo detecteert automatisch Google Analytics parameters.%2$s",
         "JSTracking_DisableCookies": "Schakel alle tracking cookies uit",
@@ -44,7 +43,6 @@
         "JSTracking_VisitorCustomVars": "Hou custom variabelen bij voor deze bezoeker",
         "JSTracking_VisitorCustomVarsDesc": "Bijvoorbeeld met variabele naam \"Type\" en waarde \"Klant\"",
         "JSTracking_EndNote": "Opmerking: Na het installatie proces, kun je custom tracking code genereren in het %1$sTracking Code%2$s admin gedeelte.",
-        "JSTrackingIntro1": "Je kunt bezoekers volgen op verschillende manieren. De aanbevolen manier is via JavaScript. Om van deze methode gebruik te maken, moet elke pagina van je website de JavaScript code bevatten, die je hier kan genereren.",
         "JSTrackingIntro2": "Wanneer je de JavaScript code voor je website hebt, kopieer en plak de code naar alle pagina's die je wilt volgen met Matomo",
         "JSTrackingIntro3b": "In de meeste websites, blogs, CMS-en, etc kan je een plugin gebruiken die de technische integratie van Matomo uit handen nemen. (Zie daarvoor onze %1$slijst van plugins om Matomo%2$s code kan dan door het bewerken van je website template in de &lt;\/head&gt; tag, welke vaak in de 'header.php', 'header.tpl'of een soortgelijke bestandsnaam staat, toegevoegd worden.",
         "JSTrackingIntro4": "Indien je geen gebruik wilt maken van JavaScript om gebruikers te volgen, %1$skun je een afbeelding tracking link hieronder genereren.%2$s",
@@ -94,6 +92,11 @@
         "OptingYouOut": "Opt-out inschakelen, even geduld a.u.b...",
         "ProtocolNotDetectedCorrectly": "Op dit moment bezoek je Matomo geen beveiligde verbinding op de server kunnen vinden.",
         "ProtocolNotDetectedCorrectlySolution": "Om zeker te zijn dat Matomo verzoeken van je content over een beveiligde HTTPS verbinding serveert, kan je in het bestand %1$s de proxy settings aanpassen of je kan de regel %2$s onder sectie %3$s aanpassen. %4$sLeer meer%5$s",
-        "LearnMore": "Meer weten"
+        "UncheckToOptOut": "Schakel dit vakje uit om u af te melden.",
+        "CheckToOptIn": "Vind dit vakje aan om u aan te melden.",
+        "Problem": "Probleem",
+        "Solution": "Oplossing",
+        "LearnMore": "Meer weten",
+        "TrackingFailureInvalidSiteProblem": "Deze website bestaat niet."
     }
 }

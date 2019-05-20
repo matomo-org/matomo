@@ -11,13 +11,16 @@ namespace Piwik\Plugins\UsersManager\tests;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -155,7 +158,14 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
     }
+    
+    public function tearDown()
+    {
+        Config::getInstance()->General['enable_update_users_email'] = 1;
 
+        parent::tearDown(); 
+    }
+    
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
     {
         $eventTriggered = false;
@@ -293,6 +303,11 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser()
     {
+        $capturedMails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
         $identity = FakeAccess::$identity;
         FakeAccess::$identity = $this->login; // ensure password will be checked against this user
         $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false, $this->password);
@@ -307,6 +322,30 @@ class APITest extends IntegrationTestCase
         $passwordHelper = new Password();
 
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
+
+        $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
+        $this->assertEquals([
+            'UsersManager_EmailChangeNotificationSubject', // sent twice to old email and new
+            'UsersManager_EmailChangeNotificationSubject',
+            'UsersManager_PasswordChangeNotificationSubject',
+        ], $subjects);
+    }
+
+    public function test_updateUser_doesNotSendEmailsIfTurnedOffInConfig()
+    {
+        Config::getInstance()->General['enable_update_users_email'] = 0;
+        $capturedMails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // en
+        $this->api->updateUser($this->login, 'newPassword2', 'email2@example.com', 'newAlias2', false, $this->password);
+        FakeAccess::$identity = $identity;
+
+        $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
+        $this->assertEquals([], $subjects);
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()
@@ -343,7 +382,8 @@ class APITest extends IntegrationTestCase
         $access = $this->api->getSitesAccessFromUser($user2);
         $this->assertEmpty($access);
 
-        $this->api->setSuperUserAccess($user2, true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword($user2, true);
 
         // super user has admin access for every site
         $access = $this->api->getSitesAccessFromUser($user2);
@@ -508,7 +548,8 @@ class APITest extends IntegrationTestCase
     public function test_getUsersPlusRole_shouldSearchForSuperUsersCorrectly()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);
-        $this->api->setSuperUserAccess('userLogin2', true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword('userLogin2', true);
         $this->addUserWithAccess('userLogin3', 'view', 1);
         $this->addUserWithAccess('userLogin4', 'superuser', 1);
         $this->addUserWithAccess('userLogin5', null, 1);
@@ -945,6 +986,15 @@ class APITest extends IntegrationTestCase
         $this->assertEquals(array(View::ID, TestCap1::ID), $access);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function test_setSuperUserAccess_failsIfCurrentPasswordIsIncorrect()
+    {
+        $this->api->setSuperUserAccess($this->login, true, 'asldfkjds');
+    }
+
     private function getAccessInSite($login, $idSite)
     {
         $access = $this->model->getSitesAccessFromUser($login);
@@ -980,7 +1030,8 @@ class APITest extends IntegrationTestCase
     {
         $this->api->addUser($username, 'password', $email ?: "$username@password.de", $alias);
         if ($accessLevel == 'superuser') {
-            $this->api->setSuperUserAccess($username, true);
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($username, true);
         } else if ($accessLevel) {
             $this->api->setUserAccess($username, $accessLevel, $idSite);
         }

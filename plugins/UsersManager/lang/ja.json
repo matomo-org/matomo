@@ -1,5 +1,9 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "2ファクター認証を使用する",
+        "TwoFactorAuthentication": "2ファクター認証",
+        "ResetTwoFactorAuthentication": "2ファクター認証をリセットする",
         "AddUser": "新しいユーザーの追加",
         "AddExistingUser": "既存のユーザーを追加",
         "AddNewUser": "新しいユーザーを追加",
@@ -51,9 +55,9 @@
         "GiveViewAccess": "%1$s の閲覧アクセスを許可します",
         "GiveViewAccessTitle": "既存のユーザーに %s のレポートを表示する権限を付与します",
         "GiveViewAccessInstructions": "既存のユーザーに %s のアクセス権限を与えるには、既存のユーザーのユーザー名または電子メールアドレスを入力します",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "パスワードを変更したい場合は、新しいパスワードを入力します。 変更しない場合は、空欄のままにします。",
         "YourCurrentPassword": "あなたの現在のパスワード",
         "CurrentPasswordNotCorrect": "入力した現在のパスワードが正しくありません。",
+        "ConfirmWithPassword": "この変更を確認するには、パスワードを入力してください。",
         "InjectedHostCannotChangePwd": "現在未知のホスト (%1$s) で訪問しています。この問題が解決するまで、パスワードの変更ができません。",
         "LastSeen": "最終表示",
         "MainDescription": "どのユーザーがあなたのウェブサイトにアクセスできるかを決めます。また、ウェブサイトセレクタの ” すべてのウェブサイトに適用 ” を選択すると、すべてのウェブサイトに一度にアクセスできます。",
@@ -90,7 +94,6 @@
         "UserHasNoPermission": "%1$s には現在 %2$s から %3$s があります",
         "UsersManagement": "ユーザーの管理",
         "UsersManagementMainDescription": "新しいユーザーを作成するか、既存のユーザーを更新します。 上記の権限を設定することができます。",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "未ログインのユーザーが Matomo にアクセスした際に表示する画面",
         "YourUsernameCannotBeChanged": "あなたのユーザー名を変更することはできません。",
         "YourVisitsAreIgnoredOnDomain": "%1$sあなたのビジットは%2$sの Matomo によって無視されます%3$s（ Matomo はあなたのブラウザの Cookie を無視しました）。",
         "YourVisitsAreNotIgnored": "%1$sあなたのビジットは Matomo によって無視されません%2$s（あなたのブラウザには Matomo を無視するCookieが見つかりませんでした）。",
@@ -108,7 +111,6 @@
         "ClickToSelectAll": "すべての %1$s をクリックして選択します。",
         "AllWebsitesAreSelected": "すべての %1$s ウェブサイトが選択されています。",
         "ClickToSelectDisplayedWebsites": "%1$s の表示ウェブサイトをクリックして選択します。",
-        "XtoYofN": "%1$s の %2$s - %3$s",
         "DeletePermConfirmSingle": "%1$s の %2$s へのアクセス権を削除してもよろしいですか？",
         "DeletePermConfirmMultiple": "%1$s の %2$s で選択したウェブサイトへのアクセスを削除してもよろしいですか？",
         "ChangePermToSiteConfirmSingle": "%1$s の役割を %2$s から %3$s に変更してもよろしいですか？",
@@ -139,6 +141,8 @@
         "DeleteUserPermConfirmSingle": "%1$s の役割を %3$s の %2$s に変更してもよろしいですか？",
         "DeleteUserPermConfirmMultiple": "選択した %1$s ユーザのロールを %3$s の %2$s に変更してもよろしいですか？",
         "AreYouSureChangeDetails": "%s のユーザー情報を変更してもよろしいですか？",
-        "AnonymousUserRoleChangeWarning": "%2$s の役割を %1$s ユーザーに与えることで、このウェブサイトのデータは、Matomo のログイン情報を持たなくても、誰もが利用できるようになります。"
+        "AnonymousUserRoleChangeWarning": "%2$s の役割を %1$s ユーザーに与えることで、このウェブサイトのデータは、Matomo のログイン情報を持たなくても、誰もが利用できるようになります。",
+        "Capabilities": "機能",
+        "Capability": "機能"
     }
 }

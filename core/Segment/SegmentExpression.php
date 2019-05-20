@@ -104,7 +104,7 @@ class SegmentExpression
                 . '){1}(.*)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
-                throw new Exception('The segment \'' . $operand . '\' is not valid.');
+                throw new Exception('The segment condition \'' . $operand . '\' is not valid.');
             }
 
             $leftMember = $matches[1];
@@ -315,8 +315,11 @@ class SegmentExpression
      */
     public static function parseColumnsFromSqlExpr($field)
     {
-        preg_match_all('/\b`?([a-zA-Z0-9_]+`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
+        preg_match_all('/[^@a-zA-Z0-9_]?`?([@a-zA-Z_][@a-zA-Z0-9_]*`?\.`?[a-zA-Z0-9_`]+)`?\b/', $field, $matches);
         $result = isset($matches[1]) ? $matches[1] : [];
+        $result = array_filter($result, function ($value) { // remove uses of session vars
+            return strpos($value, '@') === false;
+        });
         $result = array_map(function ($item) {
             return str_replace('`', '', $item);
         }, $result);

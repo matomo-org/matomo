@@ -22,6 +22,7 @@
         "SetupIntroFollowSteps": "Ju lutemi, që të rregulloni mirëfilltësimin dyfaltorësh, ndiqni këto hapa:",
         "SetupFinishedTitle": "Përgëzime! Llogaria juaj tani është më e sigurt.",
         "SetupFinishedSubtitle": "E rregulluat me sukses mirëfilltësimin dyfaktorësh. Herës tjetër që bëni hyrjen, do t’ju duhet të jepni edhe kodin e mirëfilltësimit. Sigurohuni të keni me vete pajisjen tuaj celulare ose kodet tuaj të kopjeruajtjeve.",
+        "WarningChangingConfiguredDevice": "Ju ndan një hap nga ndryshimi i pajisjes së formësuar për mirëfilltësim dyfaktorësh. Kjo do të nxjerrë jashtë loje çfarëdo pajisje të formësuar më herët.",
         "ShowRecoveryCodes": "Shfaq kode rimarrjesh",
         "ConfirmSetup": "Ripohoni rregullimin",
         "NotPossibleToLogIn": "S’bëhet dot hyrja te Matomo Analytics",

@@ -162,7 +162,7 @@ class RequestTest extends UnitTestCase
     {
         $request = $this->buildRequest(array('_idts' => '' . ($this->time - 43200)));
         $request->setIsAuthenticated();
-        $this->assertEquals(1.0, $request->getDaysSinceFirstVisit());
+        $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 
     public function test_getDaysSinceFirstVisit_Yesterday()
@@ -181,7 +181,7 @@ class RequestTest extends UnitTestCase
 
     public function test_getDaysSinceFirstVisit_IfTimestampIsNotValidShouldIgnoreParam()
     {
-        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 15 * 365))));
+        $request = $this->buildRequest(array('_idts' => '' . ($this->time - (86400 * 25 * 365))));
         $this->assertEquals(0.0, $request->getDaysSinceFirstVisit());
     }
 

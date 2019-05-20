@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
 use Piwik\View;
 
@@ -97,9 +98,19 @@ class Controller extends \Piwik\Plugin\Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment, array('visits', 'actions'));
+        $last30min = Request::processRequest('Live.getCounters', [
+            'idSite' => $this->idSite,
+            'lastMinutes' => 30,
+            'segment' => $segment,
+            'showColumns' => 'visits,actions',
+        ], $default = []);
         $last30min = $last30min[0];
-        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment, array('visits', 'actions'));
+        $today = Request::processRequest('Live.getCounters', [
+            'idSite' => $this->idSite,
+            'lastMinutes' => 24 * 60,
+            'segment' => $segment,
+            'showColumns' => 'visits,actions',
+        ], $default = []);
         $today = $today[0];
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];
@@ -119,7 +130,9 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($visitorData)) {
             throw new \Exception('Visitor could not be found'); // for example when URL parameter is not set
         }
-        
+
+        VisitorLog::groupActionsByPageviewId($visitorData['lastVisits']);
+
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $this->idSite;
         $view->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);

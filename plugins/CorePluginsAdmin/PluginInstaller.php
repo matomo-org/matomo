@@ -15,6 +15,7 @@ use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -25,7 +26,6 @@ use Piwik\Plugins\Marketplace\Api\Client;
 class PluginInstaller
 {
     const PATH_TO_DOWNLOAD = '/latest/plugins/';
-    const PATH_TO_EXTRACT = '/plugins/';
 
     private $pluginName;
 
@@ -129,10 +129,13 @@ class PluginInstaller
 
     private function makeSureFoldersAreWritable()
     {
-        Filechecks::dieIfDirectoriesNotWritable(array(
+        $dirs = array(
             StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD,
-            self::PATH_TO_EXTRACT
-        ));
+            Manager::getPluginsDirectory()
+        );
+        // we do not require additional plugin directories to be writeable ({@link Manager::getPluginsDirectories()})
+        // as we only upload to core plugins directory anyway
+        Filechecks::dieIfDirectoriesNotWritable($dirs);
     }
 
     /**
@@ -294,11 +297,12 @@ class PluginInstaller
 
     private function copyPluginToDestination($tmpPluginFolder)
     {
-        $pluginTargetPath = PIWIK_USER_PATH . self::PATH_TO_EXTRACT . $this->pluginName;
+        $pluginsDir = Manager::getPluginsDirectory();
+        $pluginTargetPath = $pluginsDir . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
 
-        Filesystem::copyRecursive($tmpPluginFolder, PIWIK_USER_PATH . self::PATH_TO_EXTRACT);
+        Filesystem::copyRecursive($tmpPluginFolder, $pluginsDir);
     }
 
     /**

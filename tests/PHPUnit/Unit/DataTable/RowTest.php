@@ -421,6 +421,23 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('my_array' => $arrayValue), $this->row->getMetadata());
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Trying to sum unsupported operands for column mycol in row with label = row1: array + integer
+     */
+    public function test_sumRow_throwsIfAddingUnsupportedTypes()
+    {
+        $row1 = new Row();
+        $row1->addColumn('label', 'row1');
+        $row1->addColumn('mycol', ['a']);
+
+        $row2 = new Row();
+        $row2->addColumn('label', 'row2');
+        $row2->addColumn('mycol', 45);
+
+        $row1->sumRow($row2);
+    }
+
     private function assertColumnSavesValue($expectedValue, $columnName, $valueToSet)
     {
         $this->row->setColumn($columnName, $valueToSet);

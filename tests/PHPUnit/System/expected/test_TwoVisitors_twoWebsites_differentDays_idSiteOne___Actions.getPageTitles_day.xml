@@ -2,7 +2,7 @@
 <results>
 	<result date="2010-01-03">
 		<row>
-			<label>first page view</label>
+			<label> first page view</label>
 			<nb_visits>2</nb_visits>
 			<nb_uniq_visitors>2</nb_uniq_visitors>
 			<nb_hits>2</nb_hits>
@@ -26,11 +26,12 @@
 			<bounce_rate>100%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.138</avg_time_generation>
+			<segment>pageTitle==first+page+view</segment>
 		</row>
 	</result>
 	<result date="2010-01-04">
 		<row>
-			<label>Page Name not defined</label>
+			<label> Page Name not defined</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -47,11 +48,12 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.223</avg_time_generation>
+			<segment>pageTitle==Page+Name+not+defined</segment>
 		</row>
 	</result>
 	<result date="2010-01-05">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -70,9 +72,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -94,9 +97,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -113,11 +117,12 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.173</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 		</row>
 	</result>
 	<result date="2010-01-06">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -136,9 +141,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -160,9 +166,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -179,11 +186,12 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.173</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 		</row>
 	</result>
 	<result date="2010-01-07">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -202,9 +210,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -226,9 +235,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -245,11 +255,12 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.173</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 		</row>
 	</result>
 	<result date="2010-01-08">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -268,9 +279,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -292,9 +304,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -311,11 +324,12 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.173</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 		</row>
 	</result>
 	<result date="2010-01-09">
 		<row>
-			<label>Checkout / Purchasing...</label>
+			<label> Checkout / Purchasing...</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -334,9 +348,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>100%</exit_rate>
 			<avg_time_generation>0.452</avg_time_generation>
+			<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/a new visit</label>
+			<label> second visitor/two days later/a new visit</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -358,9 +373,10 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.323</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 		</row>
 		<row>
-			<label>second visitor/two days later/second page view</label>
+			<label> second visitor/two days later/second page view</label>
 			<nb_visits>1</nb_visits>
 			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_hits>1</nb_hits>
@@ -377,6 +393,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<avg_time_generation>0.173</avg_time_generation>
+			<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 		</row>
 	</result>
 </results>

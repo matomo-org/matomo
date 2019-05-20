@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits>3</nb_visits>
+	<nb_conversions>3</nb_conversions>
+	<nb_visits_converted>2</nb_visits_converted>
+	<revenue>1000</revenue>
+	<goal_1_nb_conversions>2</goal_1_nb_conversions>
+	<goal_1_nb_visits_converted>2</goal_1_nb_visits_converted>
+	<goal_1_revenue>1000</goal_1_revenue>
+	<goal_2_nb_conversions>1</goal_2_nb_conversions>
+	<goal_2_nb_visits_converted>1</goal_2_nb_visits_converted>
+	<goal_2_revenue>0</goal_2_revenue>
+	<goal_1_conversion_rate>66.67%</goal_1_conversion_rate>
+	<goal_2_conversion_rate>33.33%</goal_2_conversion_rate>
+	<conversion_rate>66.67%</conversion_rate>
+	<nb_visits_new_visit>2</nb_visits_new_visit>
+	<nb_conversions_new_visit>3</nb_conversions_new_visit>
+	<nb_visits_converted_new_visit>2</nb_visits_converted_new_visit>
+	<revenue_new_visit>1000</revenue_new_visit>
+	<goal_1_nb_conversions_new_visit>2</goal_1_nb_conversions_new_visit>
+	<goal_1_nb_visits_converted_new_visit>2</goal_1_nb_visits_converted_new_visit>
+	<goal_1_revenue_new_visit>1000</goal_1_revenue_new_visit>
+	<goal_2_nb_conversions_new_visit>1</goal_2_nb_conversions_new_visit>
+	<goal_2_nb_visits_converted_new_visit>1</goal_2_nb_visits_converted_new_visit>
+	<goal_2_revenue_new_visit>0</goal_2_revenue_new_visit>
+	<goal_1_conversion_rate_new_visit>100%</goal_1_conversion_rate_new_visit>
+	<goal_2_conversion_rate_new_visit>50%</goal_2_conversion_rate_new_visit>
+	<conversion_rate_new_visit>100%</conversion_rate_new_visit>
+	<nb_visits_returning_visit>1</nb_visits_returning_visit>
+	<nb_conversions_returning_visit>0</nb_conversions_returning_visit>
+	<nb_visits_converted_returning_visit>0</nb_visits_converted_returning_visit>
+	<revenue_returning_visit>0</revenue_returning_visit>
+	<goal_1_nb_conversions_returning_visit>0</goal_1_nb_conversions_returning_visit>
+	<goal_1_nb_visits_converted_returning_visit>0</goal_1_nb_visits_converted_returning_visit>
+	<goal_1_revenue_returning_visit>0</goal_1_revenue_returning_visit>
+	<goal_2_nb_conversions_returning_visit>0</goal_2_nb_conversions_returning_visit>
+	<goal_2_nb_visits_converted_returning_visit>0</goal_2_nb_visits_converted_returning_visit>
+	<goal_2_revenue_returning_visit>0</goal_2_revenue_returning_visit>
+	<goal_1_conversion_rate_returning_visit>0%</goal_1_conversion_rate_returning_visit>
+	<goal_2_conversion_rate_returning_visit>0%</goal_2_conversion_rate_returning_visit>
+	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
+</result>

@@ -76,6 +76,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fsite.com%252Fstore</segment>
 		<subtable>
 			<row>
 				<label>/purchase.htm</label>
@@ -98,6 +99,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
 				<url>http://example.org/store/purchase.htm</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
 			</row>
 		</subtable>
 	</row>

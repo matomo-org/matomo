@@ -19,7 +19,6 @@
         "ExceptionUserDoesNotExist": "کاربر \"%s\" وجود ندارد.",
         "ExcludeVisitsViaCookie": "محروم بازدیدکننده داشته است خود را با استفاده از کوکی برای نگهداری اطلاعات استفاده می",
         "ForAnonymousUsersReportDateToLoadByDefault": "برای کاربران ناشناس، تاریخ گزارش به طور پیش فرض باز",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "اگر می خواهید از نوع رمز عبور را تغییر جدید است. در غیر این صورت این قسمت را خالی بگذارید.",
         "InjectedHostCannotChangePwd": "شما هم اکنون در حال بازدید توسط یک میزبان ناشناخته هستید(%1$s). شما نمی توانید رمز عبورتان را تغییر دهید تا زمانی که این مشکل را حل نکرده اید.",
         "LastSeen": "آخرین بازدید",
         "ManageAccess": "مدیریت دسترسی",
@@ -40,9 +39,7 @@
         "User": "کاربر",
         "UsersManagement": "مدیریت کاربران",
         "UsersManagementMainDescription": "ایجاد کاربران جدید و یا به روز رسانی کاربران موجود است. بعد از آن شما می توانند مجوز خود را به صورت فوق تنظیم شده است.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "هنگامی که کاربران وارد نشده اید و بازدید Matomo، آنها باید دسترسی داشته باشید",
         "YourUsernameCannotBeChanged": "نام کاربری شما نمی تواند تغییر کند.",
-        "XtoYofN": "%1$s-%2$s از %3$s",
         "ShowAll": "همه را نشان بده",
         "Username": "نام کاریری"
     }

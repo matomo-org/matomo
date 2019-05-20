@@ -49,8 +49,8 @@ charset = utf8
 host = localhost
 username = "@USERNAME@"
 password =
-dbname = piwik_tests
-tables_prefix = piwiktests_
+dbname = matomo_tests
+tables_prefix = matomotests_
 port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
@@ -102,7 +102,7 @@ log_level = WARN
 ; log_level_file =
 
 ; if configured to log in a file, log entries will be made to this file
-logger_file_path = tmp/logs/piwik.log
+logger_file_path = tmp/logs/matomo.log
 
 [Cache]
 ; available backends are 'file', 'array', 'null', 'redis', 'chained'
@@ -316,7 +316,7 @@ default_period = day
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
 ; This setting is overriden in the UI, under "General Settings".
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
-time_before_today_archive_considered_outdated = 150
+time_before_today_archive_considered_outdated = 900
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
 ; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
@@ -377,7 +377,7 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session. As of Matomo 3.8.0 it is the only supported handler.
+; Matomo uses PHP's dbtable for session.
 ; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
 session_save_handler = dbtable
 
@@ -442,13 +442,19 @@ enable_framed_pages = 0
 enable_framed_settings = 0
 
 ; language cookie name for session
-language_cookie_name = piwik_lang
+language_cookie_name = matomo_lang
 
 ; standard email address displayed when sending emails
 noreply_email_address = "noreply@{DOMAIN}"
 
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
+
+; set to 0 to disable sending of all emails. useful for testing.
+emails_enabled = 1
+
+; set to 0 to disable sending of emails when a password or email is changed
+enable_update_users_email = 1
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
@@ -483,6 +489,8 @@ datatable_archiving_maximum_rows_actions = 500
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
 datatable_archiving_maximum_rows_subtable_actions = 100
+; maximum number of rows for the Site Search table
+datatable_archiving_maximum_rows_site_search = 500
 
 ; maximum number of rows for any of the Events tables (Categories, Actions, Names)
 datatable_archiving_maximum_rows_events = 500
@@ -686,11 +694,18 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The path to a custom cacert.pem file Matomo should use.
+; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
+; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
+; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
+; breaks and reencrypts SSL connections you can set your custom file here. 
+custom_cacert_pem=
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
 ; Matomo will create for this user a fingerprint that will be different across the multiple websites.
-; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
+; If you want to track unique users across websites you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 
@@ -741,10 +756,12 @@ record_statistics = 1
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
 
-; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
+; The amount of time in the past to match the current visitor to a known visitor via fingerprint. Defaults to visit_standard_length.
 ; If you are looking for higher accuracy of "returning visitors" metrics, you may set this value to 86400 or more.
 ; This is especially useful when you use the Tracking API where tracking Returning Visitors often depends on this setting.
-; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length
+; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length.
+; Note: visitors with visitor IDs will be matched by visitor ID from any point in time, this is only for recognizing visitors
+; by device fingerprint.
 window_look_back_for_visitor = 0
 
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
@@ -819,6 +836,11 @@ tracking_requests_require_authentication = 1
 ; date is older than 1 day, Matomo requires an authenticated tracking requests. By setting this config to another value
 ; You can change how far back Matomo will track your requests without authentication. The configured value is in seconds.
 tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
+
+; if set to 1, all the SQL queries will be recorded by the profiler
+; and a profiling summary will be printed at the end of the request
+; NOTE: you must also set "[Tracker] debug = 1" to enable the profiler.
+enable_sql_profiler = 0
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.

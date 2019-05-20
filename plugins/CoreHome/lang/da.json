@@ -33,7 +33,7 @@
         "MakeOneTimeDonation": "Giv et éngangsbidrag i stedet.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%1$s' men det ser ikke ud som du har adgang til Matomo. %2$s Spørg Matomo administratoren (klik for at sende e-mail)%3$s for at give dig 'se' adgang til et websted.",
-        "PageOf": "%1$s af %2$s",
+        "OnlyForSuperUserAccess": "Dette modul vises i standarddashboardet kun til brugere med superbrugeradgang.",
         "PeriodRange": "Interval",
         "ReportGeneratedOn": "Rapport genereret på %s",
         "ReportGeneratedXAgo": "Rapport genereret %s siden",
@@ -47,6 +47,8 @@
         "TableNoData": "Ingen data til denne tabel.",
         "ThereIsNoDataForThisReport": "Der er ingen data for denne rapport.",
         "UnFlattenDataTable": "Rapporten er ikke hierarkisk %s lav den hierakisk",
+        "RemoveTotalsRowDataTable": "Rapporten viser en total %s Fjern total",
+        "AddTotalsRowDataTable": "Rapporten viser ikke en total %s Vis total",
         "ViewAllPiwikVideoTutorials": "Vis alle Matomo videoselvstudier",
         "WebAnalyticsReports": "Webanalyse-rapporter",
         "YouAreUsingTheLatestVersion": "Du bruger den seneste version af Matomo!",
@@ -66,6 +68,6 @@
         "Segments": "Segmenter",
         "AdblockIsMaybeUsed": "Hvis du bruger en annonce blokering skal du deaktivere denne for at sikre, at Matomo arbejder uden problemer.",
         "ChangeCurrentWebsite": "Vælg et website. Det aktuelle website er: %s",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Den førende åbne analyse platform som respekterer dit privatliv."
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Den førende åbne analyseplatform som respekterer dit privatliv."
     }
 }

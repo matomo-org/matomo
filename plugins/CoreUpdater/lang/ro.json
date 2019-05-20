@@ -1,6 +1,5 @@
 {
     "CoreUpdater": {
-        "ClickHereToViewSqlQueries": "Click aici pentru a vedea si a copia lista cu interogarile SQL care vor fi executate",
         "CriticalErrorDuringTheUpgradeProcess": "Eroare critica a procesului de actualizare :",
         "DatabaseUpgradeRequired": "Actualizare necesara a bazei de date",
         "DisablingIncompatiblePlugins": "Se dezactiveaza pluginurile incompatibile: %s",

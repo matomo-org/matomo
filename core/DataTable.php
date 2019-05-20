@@ -192,6 +192,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     const COLUMN_AGGREGATION_OPS_METADATA_NAME = 'column_aggregation_ops';
 
+    /**
+     * Name for metadata that stores array of generic filters that should not be run on the table.
+     */
+    const GENERIC_FILTERS_TO_DISABLE_METADATA_NAME = 'generic_filters_to_disable';
+
     /** The ID of the Summary Row. */
     const ID_SUMMARY_ROW = -1;
 
@@ -1069,7 +1074,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow', 'metadata');
+        return array('rows', 'summaryRow', 'metadata', 'totalsRow');
     }
 
     /**
@@ -1090,6 +1095,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
         if (!is_null($this->summaryRow)) {
             $this->summaryRow->renameColumn($oldName, $newName);
+        }
+        if (!is_null($this->totalsRow)) {
+            $this->totalsRow->renameColumn($oldName, $newName);
         }
     }
 
@@ -1113,6 +1121,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         if (!is_null($this->summaryRow)) {
             foreach ($names as $name) {
                 $this->summaryRow->deleteColumn($name);
+            }
+        }
+        if (!is_null($this->totalsRow)) {
+            foreach ($names as $name) {
+                $this->totalsRow->deleteColumn($name);
             }
         }
     }

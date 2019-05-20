@@ -47,14 +47,18 @@ class Mail extends Zend_Mail
         if (empty($fromEmailName) && $customLogo->isEnabled()) {
             $fromEmailName = $translator->translate('CoreHome_WebAnalyticsReports');
         } elseif (empty($fromEmailName)) {
-            $fromEmailName = $translator->translate('ScheduledReports_PiwikReports');
+            $fromEmailName = $translator->translate('TagManager_MatomoTagName');
         }
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
         $this->setFrom($fromEmailAddress, $fromEmailName);
     }
 
-    public function setWrappedHtmlBody(View $body)
+    /**
+     * @param View|string $body
+     * @throws \DI\NotFoundException
+     */
+    public function setWrappedHtmlBody($body)
     {
         $contentGenerator = StaticContainer::get(ContentGenerator::class);
         $bodyHtml = $contentGenerator->generateHtmlContent($body);
@@ -96,37 +100,11 @@ class Mail extends Zend_Mail
      */
     private function initSmtpTransport()
     {
-        $mailConfig = Config::getInstance()->mail;
-
-        if (empty($mailConfig['host'])
-            || $mailConfig['transport'] != 'smtp'
-        ) {
+        $tr = StaticContainer::get('Zend_Mail_Transport_Abstract');
+        if (empty($tr)) {
             return;
         }
 
-        $smtpConfig = array();
-        if (!empty($mailConfig['type'])) {
-            $smtpConfig['auth'] = strtolower($mailConfig['type']);
-        }
-
-        if (!empty($mailConfig['username'])) {
-            $smtpConfig['username'] = $mailConfig['username'];
-        }
-
-        if (!empty($mailConfig['password'])) {
-            $smtpConfig['password'] = $mailConfig['password'];
-        }
-
-        if (!empty($mailConfig['encryption'])) {
-            $smtpConfig['ssl'] = $mailConfig['encryption'];
-        }
-        
-        if (!empty($mailConfig['port'])) {
-            $smtpConfig['port'] = $mailConfig['port'];
-        }
-
-        $host = trim($mailConfig['host']);
-        $tr = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         Mail::setDefaultTransport($tr);
     }
 
@@ -213,6 +191,12 @@ class Mail extends Zend_Mail
 
     private function shouldSendMail()
     {
+        $config = Config::getInstance();
+        $general = $config->General;
+        if (empty($general['emails_enabled'])) {
+            return false;
+        }
+
         $shouldSendMail = true;
 
         $mail = $this;

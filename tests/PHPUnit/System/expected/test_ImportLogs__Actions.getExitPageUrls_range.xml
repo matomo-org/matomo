@@ -22,6 +22,7 @@
 		<bounce_rate>93%</bounce_rate>
 		<exit_rate>87%</exit_rate>
 		<avg_time_generation>0.389</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 		<subtable>
 			<row>
 				<label>category</label>
@@ -44,6 +45,7 @@
 				<bounce_rate>91%</bounce_rate>
 				<exit_rate>83%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 				<subtable>
 					<row>
 						<label>meta</label>
@@ -66,6 +68,7 @@
 						<bounce_rate>90%</bounce_rate>
 						<exit_rate>90%</exit_rate>
 						<avg_time_generation>0.089</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -92,6 +95,7 @@
 								<exit_rate>90%</exit_rate>
 								<avg_time_generation>0.089</avg_time_generation>
 								<url>http://included1.com/blog/category/meta/</url>
+								<segment>exitPageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -116,6 +120,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<avg_time_generation>0.974</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 						<subtable>
 							<row>
 								<label>/index</label>
@@ -142,6 +147,7 @@
 								<exit_rate>50%</exit_rate>
 								<avg_time_generation>0.974</avg_time_generation>
 								<url>http://piwik.net/blog/category/community/</url>
+								<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -168,6 +174,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.391</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 				<subtable>
 					<row>
 						<label>08</label>
@@ -190,6 +197,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 						<subtable>
 							<row>
 								<label>survey-your-opinion-matters</label>
@@ -208,6 +216,7 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 								<subtable>
 									<row>
 										<label>/index</label>
@@ -230,6 +239,7 @@
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
 										<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
+										<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 									</row>
 								</subtable>
 							</row>
@@ -256,6 +266,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.391</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F10</segment>
 						<subtable>
 							<row>
 								<label>integrate-piwik-into-your-rails-application</label>
@@ -278,6 +289,7 @@
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
 								<avg_time_generation>0.391</avg_time_generation>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F10%252Fintegrate-piwik-into-your-rails-application</segment>
 								<subtable>
 									<row>
 										<label>/index</label>
@@ -304,6 +316,7 @@
 										<exit_rate>100%</exit_rate>
 										<avg_time_generation>0.391</avg_time_generation>
 										<url>http://piwik.org/blog/2012/10/integrate-piwik-into-your-rails-application/</url>
+										<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fblog%2F2012%2F10%2Fintegrate-piwik-into-your-rails-application%2F</segment>
 									</row>
 								</subtable>
 							</row>
@@ -332,6 +345,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.119</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2014</segment>
 				<subtable>
 					<row>
 						<label>03</label>
@@ -354,6 +368,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.119</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2014%252F03</segment>
 						<subtable>
 							<row>
 								<label>piwik-2-1-massive-performance-reliability-improvements</label>
@@ -376,6 +391,7 @@
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
 								<avg_time_generation>0.119</avg_time_generation>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2014%252F03%252Fpiwik-2-1-massive-performance-reliability-improvements</segment>
 								<subtable>
 									<row>
 										<label>/index</label>
@@ -402,6 +418,7 @@
 										<exit_rate>100%</exit_rate>
 										<avg_time_generation>0.119</avg_time_generation>
 										<url>http://piwik.org/blog/2014/03/piwik-2-1-massive-performance-reliability-improvements/</url>
+										<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fblog%2F2014%2F03%2Fpiwik-2-1-massive-performance-reliability-improvements%2F</segment>
 									</row>
 								</subtable>
 							</row>
@@ -461,6 +478,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>83%</exit_rate>
 		<avg_time_generation>0.34</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 		<subtable>
 			<row>
 				<label>manage-websites</label>
@@ -483,6 +501,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>67%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -509,6 +528,7 @@
 						<exit_rate>67%</exit_rate>
 						<avg_time_generation>0.443</avg_time_generation>
 						<url>http://piwik.net/docs/manage-websites/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -537,6 +557,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
 				<url>http://piwik.net/docs/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 			</row>
 			<row>
 				<label>installation</label>
@@ -559,6 +580,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Finstallation</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -585,6 +607,7 @@
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.134</avg_time_generation>
 						<url>http://piwik.org/docs/installation/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fdocs%2Finstallation%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -609,6 +632,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -631,6 +655,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<url>http://piwik.net/docs/manage-users/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -658,6 +683,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.255</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -684,6 +710,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.255</avg_time_generation>
 				<url>http://piwik.net/faq/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 			</row>
 			<row>
 				<label>how-to</label>
@@ -706,6 +733,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -728,6 +756,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<url>http://piwik.net/faq/how-to/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -752,6 +781,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -774,6 +804,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<url>http://piwik.net/faq/how-to-install/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -801,6 +832,7 @@
 		<bounce_rate>67%</bounce_rate>
 		<exit_rate>75%</exit_rate>
 		<avg_time_generation>0.359</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello</segment>
 		<subtable>
 			<row>
 				<label>from</label>
@@ -823,6 +855,7 @@
 				<bounce_rate>50%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<avg_time_generation>0.359</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Ffrom</segment>
 				<subtable>
 					<row>
 						<label>another</label>
@@ -845,6 +878,7 @@
 						<bounce_rate>50%</bounce_rate>
 						<exit_rate>50%</exit_rate>
 						<avg_time_generation>0.359</avg_time_generation>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Ffrom%252Fanother</segment>
 						<subtable>
 							<row>
 								<label>world</label>
@@ -867,6 +901,7 @@
 								<bounce_rate>50%</bounce_rate>
 								<exit_rate>50%</exit_rate>
 								<avg_time_generation>0.359</avg_time_generation>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Ffrom%252Fanother%252Fworld</segment>
 								<subtable>
 									<row>
 										<label>/6,681965</label>
@@ -893,6 +928,7 @@
 										<exit_rate>50%</exit_rate>
 										<avg_time_generation>0.359</avg_time_generation>
 										<url>http://hello.example.com/hello/from/another/world/6,681965</url>
+										<segment>exitPageUrl==http%3A%2F%2Fhello.example.com%2Fhello%2Ffrom%2Fanother%2Fworld%2F6%2C681965</segment>
 									</row>
 								</subtable>
 							</row>
@@ -921,6 +957,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.359</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhello%252Fworld</segment>
 				<subtable>
 					<row>
 						<label>/6,681965</label>
@@ -947,6 +984,7 @@
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.359</avg_time_generation>
 						<url>http://hello.example.com/hello/world/6,681965</url>
+						<segment>exitPageUrl==http%3A%2F%2Fhello.example.com%2Fhello%2Fworld%2F6%2C681965</segment>
 					</row>
 				</subtable>
 			</row>
@@ -974,6 +1012,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix</segment>
 		<subtable>
 			<row>
 				<label>XenApp</label>
@@ -992,6 +1031,7 @@
 				<avg_time_on_page>120</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>50%</exit_rate>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp</segment>
 				<subtable>
 					<row>
 						<label>Wan</label>
@@ -1010,6 +1050,7 @@
 						<avg_time_on_page>120</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>50%</exit_rate>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp%252FWan</segment>
 						<subtable>
 							<row>
 								<label>auth</label>
@@ -1028,6 +1069,7 @@
 								<avg_time_on_page>120</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
 								<exit_rate>50%</exit_rate>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FCitrix%252FXenApp%252FWan%252Fauth</segment>
 								<subtable>
 									<row>
 										<label>/silentDetection.jsp</label>
@@ -1045,6 +1087,7 @@
 										<bounce_rate>0%</bounce_rate>
 										<exit_rate>100%</exit_rate>
 										<url>http://piwik.net/Citrix/XenApp/Wan/auth/silentDetection.jsp</url>
+										<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2FCitrix%2FXenApp%2FWan%2Fauth%2FsilentDetection.jsp</segment>
 									</row>
 								</subtable>
 							</row>
@@ -1076,6 +1119,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.113</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1097,6 +1141,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.113</avg_time_generation>
 				<url>http://piwik.org/download/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fdownload%2F</segment>
 			</row>
 			<row>
 				<label>counter</label>
@@ -1119,6 +1164,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 				<subtable>
 					<row>
 						<label>/index</label>
@@ -1141,6 +1187,7 @@
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
 						<url>http://piwik.net/download/counter/</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1168,6 +1215,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.145</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Flog-analytics</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1194,6 +1242,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.145</avg_time_generation>
 				<url>http://piwik.org/log-analytics/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Flog-analytics%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1219,6 +1268,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FTopic</segment>
 		<subtable>
 			<row>
 				<label>/hw43061</label>
@@ -1241,6 +1291,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>50%</exit_rate>
 				<url>http://example.hello.com/Topic/hw43061</url>
+				<segment>exitPageUrl==http%3A%2F%2Fexample.hello.com%2FTopic%2Fhw43061</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1401,6 +1452,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.009</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fapi</segment>
 		<subtable>
 			<row>
 				<label>/fútbol-user-agent</label>
@@ -1427,6 +1479,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.009</avg_time_generation>
 				<url>http://piwik.net/api/fútbol-user-agent</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fapi%2Ff%C3%BAtbol-user-agent</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1448,6 +1501,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fcontact</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1465,6 +1519,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.org/contact/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fcontact%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1490,6 +1545,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1512,6 +1568,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/hosting/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1537,6 +1594,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1559,6 +1617,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/intranet-analytics/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1584,6 +1643,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1606,6 +1666,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/newsletter/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1631,6 +1692,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.109</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FProducts</segment>
 		<subtable>
 			<row>
 				<label>/theProduct</label>
@@ -1657,6 +1719,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.109</avg_time_generation>
 				<url>http://xzy.example.com/Products/theProduct</url>
+				<segment>exitPageUrl==http%3A%2F%2Fxzy.example.com%2FProducts%2FtheProduct</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1682,6 +1745,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 		<subtable>
 			<row>
 				<label>is</label>
@@ -1700,6 +1764,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis</segment>
 				<subtable>
 					<row>
 						<label>not</label>
@@ -1718,6 +1783,7 @@
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>100%</bounce_rate>
 						<exit_rate>100%</exit_rate>
+						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot</segment>
 						<subtable>
 							<row>
 								<label>the</label>
@@ -1736,6 +1802,7 @@
 								<avg_time_on_page>0</avg_time_on_page>
 								<bounce_rate>100%</bounce_rate>
 								<exit_rate>100%</exit_rate>
+								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe</segment>
 								<subtable>
 									<row>
 										<label>page</label>
@@ -1754,6 +1821,7 @@
 										<avg_time_on_page>0</avg_time_on_page>
 										<bounce_rate>100%</bounce_rate>
 										<exit_rate>100%</exit_rate>
+										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage</segment>
 										<subtable>
 											<row>
 												<label>i</label>
@@ -1772,6 +1840,7 @@
 												<avg_time_on_page>0</avg_time_on_page>
 												<bounce_rate>100%</bounce_rate>
 												<exit_rate>100%</exit_rate>
+												<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi</segment>
 												<subtable>
 													<row>
 														<label>am</label>
@@ -1790,6 +1859,7 @@
 														<avg_time_on_page>0</avg_time_on_page>
 														<bounce_rate>100%</bounce_rate>
 														<exit_rate>100%</exit_rate>
+														<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam</segment>
 														<subtable>
 															<row>
 																<label>looking</label>
@@ -1808,6 +1878,7 @@
 																<avg_time_on_page>0</avg_time_on_page>
 																<bounce_rate>100%</bounce_rate>
 																<exit_rate>100%</exit_rate>
+																<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking</segment>
 																<subtable>
 																	<row>
 																		<label>for</label>
@@ -1826,6 +1897,7 @@
 																		<avg_time_on_page>0</avg_time_on_page>
 																		<bounce_rate>100%</bounce_rate>
 																		<exit_rate>100%</exit_rate>
+																		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 																		<subtable>
 																			<row>
 																				<label>/index</label>
@@ -1848,6 +1920,7 @@
 																				<bounce_rate>100%</bounce_rate>
 																				<exit_rate>100%</exit_rate>
 																				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
+																				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
 																			</row>
 																		</subtable>
 																	</row>
@@ -1889,6 +1962,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -1911,6 +1985,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/translations/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1936,6 +2011,7 @@
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.001</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview</segment>
 		<subtable>
 			<row>
 				<label>my</label>
@@ -1958,6 +2034,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.001</avg_time_generation>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
 				<subtable>
 					<row>
 						<label>/file.html</label>
@@ -1984,6 +2061,7 @@
 						<exit_rate>100%</exit_rate>
 						<avg_time_generation>0.001</avg_time_generation>
 						<url>http://piwik.net/view/my/file.html</url>
+						<segment>exitPageUrl==http%3A%2F%2Fpiwik.net%2Fview%2Fmy%2Ffile.html</segment>
 					</row>
 				</subtable>
 			</row>
@@ -2007,6 +2085,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fwhat-is-piwisk</segment>
 		<subtable>
 			<row>
 				<label>/index</label>
@@ -2024,6 +2103,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.org/what-is-piwisk/</url>
+				<segment>exitPageUrl==http%3A%2F%2Fpiwik.org%2Fwhat-is-piwisk%2F</segment>
 			</row>
 		</subtable>
 	</row>

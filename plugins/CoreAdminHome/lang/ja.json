@@ -28,7 +28,6 @@
         "HttpTrackingApiDescription": "%1$sHTTP トラッキング API%2$s を使用すると、様々な追跡が可能です。 これは、SDK がまだ存在しないプログラミング言語を使用している場合に便利です。 特別な方法でデバイスやアプリケーションをトラッキングする場合にも便利です。",
         "JSTracking_CampaignKwdParam": "キャンペーン用キーワードパラメータ",
         "JSTracking_CampaignNameParam": "キャンペーン名パラメータ",
-        "JSTracking_CodeNoteBeforeClosingHead": "このコードがあなたのウェブサイトのすべてのページにあることを確認してください。 終了する %1$s タグの直前に貼り付けることをお勧めします。",
         "JSTracking_CustomCampaignQueryParam": "キャンペーン名とキーワード用のカスタムクエリパラメータ名を使用",
         "JSTracking_CrossDomain": "デフォルトでは、ユニークビジターを識別するビジター ID は、同じドメインのページからのみアクセスできるブラウザのファーストパーティの Cookie に格納されます。 クロスドメインリンクを有効にすると、複数のドメインのページを表示している場合でも、特定のビジターのすべてのアクションとページビューを同じ訪問でトラッキングすることができます。 ユーザーがウェブサイトのエイリアス URL のいずれかへのリンクをクリックするたびに、ビジター ID を転送する URL パラメータ pk_vid が追加されます。",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "注意：クロスドメインリンクを使用するには、ウェブサイトに複数のドメイン名 ( URL ) を指定する必要があります。",
@@ -51,7 +50,6 @@
         "JSTracking_VisitorCustomVars": "このユーザーのカスタム変数を追跡する",
         "JSTracking_VisitorCustomVarsDesc": "たとえば、変数名 \" Type \" と値 \" Customer \" を使用します。",
         "JSTracking_EndNote": "注：カスタマイズしたトラッキングコードは、%1$sトラッキングコード%2$s管理セクションで生成できます。",
-        "JSTrackingIntro1": "様々な方法でビジターを追跡できますが、JavaScript でトラックすることが推奨されています。そのためには、各々のウェブページにここで生成された JavaScript コードを埋め込みます。",
         "JSTrackingIntro2": "ウェブサイトのための JavaScript のトラッキングコードをコピーして、追跡したいすべてのページにペーストします。",
         "JSTrackingIntro3b": "ほとんどのウェブサイト、ブログ、CMS などでは、あらかじめ作られたプラグインを使って技術的な仕事をすることができます。 プラグインが存在しない場合は、ウェブサイトのテンプレートを編集し、このコードを 'header.php' 、'header.tpl' などのテンプレートファイルで定義されている &lt;\/head&gt; タグに追加することができます( %1$s Matomo の統合に使用されるプラグインのリスト%2$s を参照 ) 。",
         "JSTrackingIntro4": "ビジターの追跡に JavaScript を使用したくない場合は、%1$s以下の画像によるトラッキングリンクを生成します。%2$s",
@@ -105,10 +103,12 @@
         "OptingYouOut": "オプトアウト中、お待ちください…",
         "ProtocolNotDetectedCorrectly": "現在、安全な SSL 接続 ( httpsを使用 ) で Matomo はサーバー上の非セキュア接続のみを検出できます。",
         "ProtocolNotDetectedCorrectlySolution": "Matomo が HTTPS 経由でコンテンツを安全に要求して配信するには、%1$sファイルを編集してプロキシ設定を行うか、%3$sセクションの下に%2$s行を追加することができます。 %4$sもっと詳しく知る%5$s",
-        "MissingTrackingCodeEmailSubject": "Matola Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
+        "MissingTrackingCodeEmailSubject": "Matomo Analytics に %s のトラフィックが記録されていません、今すぐ始めましょう",
         "JsTrackingCodeMissingEmail1": "数日前にあなたはサイト '%s' を matomo 解析に追加しました。チェックしましたが、あなたの matomo はまだいかなるトラフィックも記録していません。",
-        "JsTrackingCodeMissingEmail2": "データのトラッキングを開始してユーザーの洞察を得るには、ウェブサイトやモバイルアプリでトラッキングを設定する必要があります。 ウェブサイトでは、%s タグの直前にトラッキングコードを埋め込むだけです。",
         "JsTrackingCodeMissingEmail3": "トラッキングコードを検索してカスタマイズするには、%1$sここをクリック%2$sしてください（または%3$sJavaScript トラッキングクライアントガイド%4$sをご覧ください）。",
+        "Problem": "問題",
+        "Solution": "ソリューション",
+        "TrackingURL": "トラッキングURL",
         "LearnMore": "もっと詳しく知る"
     }
 }

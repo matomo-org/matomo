@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecificProcessedMetric;
+use Piwik\Plugins\Goals\Goals;
 use Piwik\Tracker\GoalManager;
 
 /**
@@ -25,7 +26,7 @@ class AverageOrderRevenue extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return $this->getColumnPrefix() . '_avg_order_revenue';
+        return Goals::makeGoalColumn($this->idGoal, 'avg_order_revenue', false);
     }
 
     public function getTranslatedName()

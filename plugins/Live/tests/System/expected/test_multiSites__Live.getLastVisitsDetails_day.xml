@@ -5,6 +5,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>d58a483a3cfef87b</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -19,6 +20,7 @@
 				<title>incredible title</title>
 				<subtitle>http://example.org/foo/dir/page</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -125,6 +127,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -139,6 +142,7 @@
 				<title>incredible title 0</title>
 				<subtitle>http://example.org/my/dir/page0</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>

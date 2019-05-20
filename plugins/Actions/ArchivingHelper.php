@@ -57,15 +57,20 @@ class ArchivingHelper
                 continue;
             }
 
+            $hasRowName = !empty($row['name']) && $row['name'] != DataTable::LABEL_SUMMARY_ROW;
+
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
+            $pageTitlePath = null;
             if ($row['type'] == Action::TYPE_SITE_SEARCH
                 || $row['type'] == Action::TYPE_PAGE_TITLE
             ) {
                 $url = null;
-            } elseif (!empty($row['name'])
-                        && $row['name'] != DataTable::LABEL_SUMMARY_ROW) {
+                if ($hasRowName) {
+                    $pageTitlePath = $row['name'];
+                }
+            } elseif ($hasRowName) {
                 $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
@@ -120,6 +125,12 @@ class ArchivingHelper
                     $actionRow->setMetadata('url', $url);
                     $actionRow->maxVisitsSummed = !empty($row[PiwikMetrics::INDEX_PAGE_NB_HITS]) ? $row[PiwikMetrics::INDEX_PAGE_NB_HITS] : 0;
                 }
+            }
+
+            if ($pageTitlePath !== null
+                && !$actionRow->isSummaryRow()
+            ) {
+                $actionRow->setMetadata('page_title_path', $pageTitlePath);
             }
 
             if ($row['type'] != Action::TYPE_PAGE_URL
@@ -296,6 +307,7 @@ class ArchivingHelper
 
     public static $maximumRowsInDataTableLevelZero;
     public static $maximumRowsInSubDataTable;
+    public static $maximumRowsInDataTableSiteSearch;
     public static $columnToSortByBeforeTruncation;
 
     protected static $actionUrlCategoryDelimiter = null;
@@ -319,6 +331,7 @@ class ArchivingHelper
         self::$columnToSortByBeforeTruncation = PiwikMetrics::INDEX_NB_VISITS;
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+        self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -447,7 +460,7 @@ class ArchivingHelper
             if ($name === '' || $name === false || $name === null || trim($name) === '') {
                 $name = self::getUnknownActionName($type);
             }
-            return array(trim($name));
+            return array(' ' . trim($name));
         }
 
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);

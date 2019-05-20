@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\SettingsPiwik;
+use Piwik\View;
 
 /**
  * Class to check and notify users via email if there are plugin updates available.
@@ -125,7 +126,7 @@ class UpdateCommunication
             $mail->setDefaultFromPiwik();
             $mail->addTo($superUser['email']);
             $mail->setSubject($subject);
-            $mail->setBodyText($message);
+            $mail->setWrappedHtmlBody($message);
             $mail->send();
         }
     }
@@ -176,36 +177,11 @@ class UpdateCommunication
 
     protected function buildNotificationMessage($pluginsToBeNotified, $hasThemeUpdate, $hasPluginUpdate)
     {
-        $message  = Piwik::translate('ScheduledReports_EmailHello');
-        $message .= "\n\n";
-        $message .= Piwik::translate('CoreUpdater_ThereIsNewPluginVersionAvailableForUpdate');
-        $message .= "\n\n";
-
-        foreach ($pluginsToBeNotified as $plugin) {
-            $message .= sprintf(' * %s %s', $plugin['name'], $plugin['latestVersion']);
-            $message .= "\n";
-        }
-
-        $message .= "\n";
-
-        $host = SettingsPiwik::getPiwikUrl();
-
-        if ($hasThemeUpdate) {
-            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdateThemes') . "\n";
-            $message .= $host . 'index.php?module=CorePluginsAdmin&action=themes';
-        }
-
-        if ($hasPluginUpdate) {
-            if ($hasThemeUpdate) {
-                $message .= "\n\n";
-            }
-            $message .= Piwik::translate('CoreUpdater_NotificationClickToUpdatePlugins') . "\n";
-            $message .= $host . 'index.php?module=CorePluginsAdmin&action=plugins';
-        }
-
-        $message .= "\n\n";
-        $message .= Piwik::translate('Installation_HappyAnalysing');
-
-        return $message;
+        $view = new View('@Marketplace/_updateCommunicationEmail.twig');
+        $view->pluginsToBeNotified = $pluginsToBeNotified;
+        $view->host = SettingsPiwik::getPiwikUrl();
+        $view->hasThemeUpdate = $hasThemeUpdate;
+        $view->hasPluginUpdate = $hasPluginUpdate;
+        return $view;
     }
 }

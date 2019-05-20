@@ -29,6 +29,7 @@ class UrlsFromWebsiteId extends BaseFilter
      */
     public function filter($table)
     {
+        $table->filter('ReplaceSummaryRowLabel');
         // the htmlspecialchars_decode call is for BC for before 1.1
         // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
         $table->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {

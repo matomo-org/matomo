@@ -3,7 +3,7 @@
 	<result idSite="1">
 		<result date="2010">
 			<row>
-				<label>Checkout / Purchasing...</label>
+				<label> Checkout / Purchasing...</label>
 				<nb_visits>8</nb_visits>
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -22,9 +22,10 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.452</avg_time_generation>
+				<segment>pageTitle==Checkout+%2F+Purchasing...</segment>
 			</row>
 			<row>
-				<label>second visitor/two days later/a new visit</label>
+				<label> second visitor/two days later/a new visit</label>
 				<nb_visits>8</nb_visits>
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>2880</sum_time_spent>
@@ -46,9 +47,10 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.323</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fa+new+visit</segment>
 			</row>
 			<row>
-				<label>second visitor/two days later/second page view</label>
+				<label> second visitor/two days later/second page view</label>
 				<nb_visits>8</nb_visits>
 				<nb_hits>8</nb_hits>
 				<sum_time_spent>4320</sum_time_spent>
@@ -65,9 +67,10 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.173</avg_time_generation>
+				<segment>pageTitle==second+visitor%2Ftwo+days+later%2Fsecond+page+view</segment>
 			</row>
 			<row>
-				<label>first page view</label>
+				<label> first page view</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -91,9 +94,10 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.138</avg_time_generation>
+				<segment>pageTitle==first+page+view</segment>
 			</row>
 			<row>
-				<label>Page Name not defined</label>
+				<label> Page Name not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -110,6 +114,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.223</avg_time_generation>
+				<segment>pageTitle==Page+Name+not+defined</segment>
 			</row>
 		</result>
 		<result date="2011" />
@@ -122,7 +127,7 @@
 	<result idSite="2">
 		<result date="2010">
 			<row>
-				<label>Page Name not defined</label>
+				<label> Page Name not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -139,9 +144,10 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0.353</avg_time_generation>
+				<segment>pageTitle==Page+Name+not+defined</segment>
 			</row>
 			<row>
-				<label>Website 2 page view</label>
+				<label> Website 2 page view</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -165,6 +171,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.193</avg_time_generation>
+				<segment>pageTitle==Website+2+page+view</segment>
 			</row>
 		</result>
 		<result date="2011" />

@@ -30,7 +30,7 @@ piwik.initSparklines = function() {
 
         // Append the token_auth to the URL if it was set (eg. embed dashboard)
         var token_auth = broadcast.getValueFromUrl('token_auth');
-        if (token_auth.length) {
+        if (token_auth.length && piwik.shouldPropagateTokenAuth) {
             appendToSparklineUrl += '&token_auth=' + token_auth;
         }
         $self.attr('width', sparklineDisplayWidth);

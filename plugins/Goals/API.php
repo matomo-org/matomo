@@ -23,6 +23,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -419,9 +420,10 @@ class API extends \Piwik\Plugin\API
      * @param bool $segment
      * @param bool|int $idGoal
      * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
+     * @param bool $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
      * @return DataTable
      */
-    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -445,6 +447,7 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
+                'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
             ));
 
@@ -470,16 +473,28 @@ class API extends \Piwik\Plugin\API
      * @deprecated
      * @internal
      */
-    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
+    public function getMetrics($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
+
+        $showAllGoalSpecificMetrics = $showAllGoalSpecificMetrics && $idGoal === false;
 
         // Mapping string idGoal to internal ID
         $idGoal = self::convertSpecialGoalIds($idGoal);
         $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
+
+        if ($showAllGoalSpecificMetrics) {
+            foreach ($this->getGoals($idSite) as $aGoal) {
+                foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
+                    $allMetrics[] = Goals::makeGoalColumn($aGoal['idgoal'], $goalColumn);
+                }
+            }
+            $allMetrics[] = 'nb_visits';
+        }
+
         $columnsToShow = Piwik::getArrayFromApiParameter($columns);
         $requestedColumns = $columnsToShow;
 
@@ -493,10 +508,24 @@ class API extends \Piwik\Plugin\API
             $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
         }
 
+        if ($showAllGoalSpecificMetrics && !empty($requestedColumns)) {
+            foreach ($requestedColumns as $requestedColumn) {
+                if (strpos($requestedColumn, '_conversion_rate') !== false) {
+                    $columnIdGoal = Goals::getGoalIdFromGoalColumn($requestedColumn);
+                    if ($columnIdGoal) {
+                        $goalConversionRate = new GoalConversionRate($idSite, $columnIdGoal);
+                        $metricsToAdd = $goalConversionRate->getDependentMetrics();
+                        $requestedColumns = array_unique(array_merge($requestedColumns, $metricsToAdd));
+                    }
+                }
+            }
+        }
+
         $report = ReportsProvider::factory('Goals', 'getMetrics');
         $columnsToGet = $report->getMetricsRequiredForReport($allMetrics, $requestedColumns);
 
         $inDbMetricNames = array_map(function ($name) use ($idGoal) {
+            $name = str_replace('goal_', '', $name);
             return $name == 'nb_visits' ? $name : Archiver::getRecordName($name, $idGoal);
         }, $columnsToGet);
         $dataTable = $archive->getDataTableFromNumeric($inDbMetricNames);
@@ -518,6 +547,23 @@ class API extends \Piwik\Plugin\API
                     $extraProcessedMetrics = array();
                 }
                 $extraProcessedMetrics[] = new AverageOrderRevenue();
+                $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+            });
+        }
+        if ($showAllGoalSpecificMetrics) {
+            $dataTable->filter(function (DataTable $table) use($idSite, &$allMetrics, $requestedColumns) {
+                $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+                if (empty($extraProcessedMetrics)) {
+                    $extraProcessedMetrics = array();
+                }
+                foreach ($this->getGoals($idSite) as $aGoal) {
+                    $metric = new GoalConversionRate($idSite, $aGoal['idgoal']);
+                    if (!empty($requestedColumns) && !in_array($metric->getName(), $requestedColumns)) {
+                        continue;
+                    }
+                    $extraProcessedMetrics[] = $metric;
+                    $allMetrics[] = $metric->getName();
+                }
                 $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
             });
         }
