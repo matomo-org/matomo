@@ -87,6 +87,7 @@ class Model
 					    `deleted` tinyint(4) NOT NULL default 0,
 					    `evolution_graph_within_period` TINYINT(4) NOT NULL DEFAULT 0,
 					    `evolution_graph_period_n` INT(11) NOT NULL,
+					    `period_param` VARCHAR(10) NULL,
 					    PRIMARY KEY (`idreport`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);

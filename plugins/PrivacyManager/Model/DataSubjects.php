@@ -11,11 +11,14 @@ namespace Piwik\Plugins\PrivacyManager\Model;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Site;
 use Piwik\Tracker\LogTable;
 use Piwik\Tracker\PageUrl;
 
@@ -104,6 +107,8 @@ class DataSubjects
          */
         Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
+        $this->invalidateArchives($visits);
+
         $logTables = $this->getLogTablesToDeleteFrom();
         $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
             return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
@@ -112,6 +117,50 @@ class DataSubjects
         $results = array_merge($results, $deleteCounts);
         krsort($results); // make sure test results are always in same order
         return $results;
+    }
+
+    private function invalidateArchives($visits)
+    {
+        $datesToInvalidateByIdSite = $this->getDatesToInvalidate($visits);
+
+        $invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+
+        foreach ($datesToInvalidateByIdSite as $idSite => $visitDates) {
+            foreach ($visitDates as $dateStr) {
+                $visitDate = Date::factory($dateStr);
+                $invalidator->rememberToInvalidateArchivedReportsLater($idSite, $visitDate);
+            }
+        }
+    }
+
+    private function getDatesToInvalidate($visits)
+    {
+        $idVisitsByIdSites = array();
+        foreach ($visits as $visit) {
+            $idSite = (int)$visit['idsite'];
+            if (!isset($idVisitsByIdSites[$idSite])) {
+                $idVisitsByIdSites[$idSite] = array();
+            }
+            $idVisitsByIdSites[$idSite][] = (int)$visit['idvisit'];
+        }
+
+        $datesToInvalidate = array();
+        foreach ($idVisitsByIdSites as $idSite => $idVisits) {
+            $timezone = Site::getTimezoneFor($idSite);
+
+            $sql = 'SELECT visit_last_action_time FROM '
+                . Common::prefixTable('log_visit') . ' WHERE idsite = ' . $idSite
+                . ' AND idvisit IN (' . implode(',', $idVisits) . ')';
+
+            $resultSet = Db::fetchAll($sql);
+            $dates = array();
+            foreach ($resultSet as $row) {
+                $date = Date::factory($row['visit_last_action_time'], $timezone);
+                $dates[$date->toString('Y-m-d')] = 1;
+            }
+            $datesToInvalidate[$idSite] = array_keys($dates);
+        }
+        return $datesToInvalidate;
     }
 
     private function getLogTablesToDeleteFrom()

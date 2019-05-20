@@ -86,7 +86,6 @@
         "UTCTimeIs": "UTC 時間是 %s。",
         "OnlyMatchedUrlsAllowed": "只追蹤發生在以上網站網址上的訪問和活動。",
         "OnlyMatchedUrlsAllowedHelp": "當啟用時，Matomo 只會在網站網址為你所設定之一時才追蹤動作。這可以預防其他人在其他網站中濫用你的分析程式碼。",
-        "OnlyMatchedUrlsAllowedHelpExamples": "域名和路徑必須完全相符，不同的子域名必須分別列出。例如網站網址為「http:\/\/example.com\/path」和「http:\/\/good.example.com」，來自「http:\/\/example.com\/otherpath」和「http:\/\/bad.example.com」的追蹤請求將會被忽略。",
         "WebsitesManagement": "網站管理",
         "XManagement": "管理 %s",
         "ChooseMeasurableTypeHeadline": "你想要追蹤什麼？",

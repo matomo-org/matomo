@@ -310,9 +310,13 @@ class Segment
         if (empty($this->string)) {
             return '';
         }
-        // normalize the string as browsers may send slightly different payloads for the same archive
-        $normalizedSegmentString = urldecode($this->string);
-        return md5($normalizedSegmentString);
+        return self::getSegmentHash($this->string);
+    }
+
+    public static function getSegmentHash($definition)
+    {
+        // urldecode to normalize the string, as browsers may send slightly different payloads for the same archive
+        return md5(urldecode($definition));
     }
 
     /**

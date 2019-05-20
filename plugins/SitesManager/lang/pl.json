@@ -86,7 +86,6 @@
         "UTCTimeIs": "Czas UTC to %s.",
         "OnlyMatchedUrlsAllowed": "Śledź odwiedziny i akcje tylko dla adresów zaczynających się od powyższych URL'i.",
         "OnlyMatchedUrlsAllowedHelp": "Po włączeniu, Matomo będzie śledził wyłącznie wewnętrzne akcje tylko tych stron, których adresy należą do Twojego serwisu. To zapobiega spamowaniu Twoich analiz adresami innych serwisów.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Domena i ścieżka muszą być dokładnym dopasowaniem a każda ważna subdomena musi być osobno zdefiniowana. Gdy na przykład znanymi adresami URL są 'http:\/\/example.com\/path' i 'http:\/\/good.example.com', żądania śledzenia 'http:\/\/example.com\/otherpath' lub 'http:\/\/bad.example.com' będą ignorowane.",
         "WebsitesManagement": "Zarządzanie serwisami",
         "XManagement": "Zarządzanie %s",
         "ChooseMeasurableTypeHeadline": "Co chesz zmierzyć?",

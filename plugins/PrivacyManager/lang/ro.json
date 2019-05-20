@@ -16,7 +16,6 @@
         "DeleteDataSettings": "Şterge înregistrări şi raportare vechi",
         "DoNotTrack_Description": "Nu urmari este o tehnologie și propunere de politici, care permite utilizatorilor să renunțațe la urmărirea de către site-urile care le viziteaza, inclusiv servicii de analiză, retele de publicitate, și platforme sociale.",
         "DoNotTrack_Disable": "Dezactivați nu urmăresc suport",
-        "DoNotTrack_DisabledMoreInfo": "Recomandăm să respecţi confidenţialitatea vizitatorilor şi să activezi funcţia DoNotTrack.",
         "DoNotTrack_Enable": "Nu se permite urmărire suport",
         "DoNotTrack_Enabled": "Bravo, respecţi confidenţialitatea utilizatorilor tăi!",
         "DoNotTrack_SupportDNTPreference": "Nu urmăresc preferință suport",
@@ -39,7 +38,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "A se vedea, de asemenea, ghidul nostru oficial: %1$sWeb Analytics confidențialitate%2$s",
         "TeaserHeadline": "Setări confidenţialitate",
         "UseAnonymizedIpForVisitEnrichment": "De asemenea, utilizeaza adresele IP anonimime, atunci când se cresc vizitele.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugin-uri, cum ar fi Locația geografică prin intermediul IP și furnizor îmbunătățire metadate vizitator. În mod implicit aceste plugin-uri folosesc adresele IP anonimizate. Dacă selectați \"Nu\", atunci adresa IP complet non-anonime va fi folosit în loc, careare mai puțina intimitate, dar are o mai mare acuratețe a datelor.",
         "UseAnonymizeIp": "Adresele IP ale vizitatorilor anonimi",
         "UseDeleteReports": "Șterge periodic rapoartele vechi din baza de date"
     }

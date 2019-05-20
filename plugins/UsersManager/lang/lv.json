@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "Lietotājs '%s' neeksistē.",
         "ExcludeVisitsViaCookie": "Neiekļaut Jūsu pašu apmeklējumus izmantojot sīkdatni",
         "ForAnonymousUsersReportDateToLoadByDefault": "Atskaite, kuru ielādēt pēc noklusējuma anonīmiem lietotājiem",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ja vēlaties mainīt paroli, ievadiet jauno. Pretējā gadījumā atstājiet tukšu.",
         "ManageAccess": "Pārvaldiet pieejas",
         "MenuAnonymousUserSettings": "Anonīmu lietotāju iestatījumi",
         "MenuUsers": "Lietotāji",

@@ -37,7 +37,6 @@
         "JSTracking_PageCustomVarsDesc": "Halimbawa, mayroong pangalan ng variable na \"Category\" at value na White Papers\"\".\"",
         "JSTracking_VisitorCustomVars": "Subaybayan ang mga custom na variable para sa bisitang ito",
         "JSTracking_VisitorCustomVarsDesc": "Halimbawa, mayroong pangalan ng variable na \"Type\" at value na \"Customer\"",
-        "JSTrackingIntro1": "Maaari mong subaybayan ang mga bisita sa iyong website sa iba't ibang paraan. Ang inirekomendang paraan upang gawin ito ay sa pamamagitan ng JavaScript. Upang magamit ang pamamaraang ito dapat mong tiyakin na ang bawat webpage sa iyong website ay may code ng JavaScript, na maaari mong gawin dito.",
         "JSTrackingIntro2": "Sa oras na mayroon ka nang JavaScript tracking code para sa iyong website, kopyahin at i-paste ito sa lahat ng pahina na gusto mong subaybayan gamit ang Matomo.",
         "JSTrackingIntro4": "Kung ayaw mong gamitin ang JavaScript upang masubaybayan ang mga bisita,%1$s gumawa ng link upang sumubaybay sa image sa ibaba %2$s.",
         "JSTrackingIntro5": "Kung gusto mong gawin nang higit pa kaysa sa pagsubaybay ng page view, mangyaring tingnan ang %1$s Tracking Matomo Javascript na dokumentasyon %2$s para sa listahan ng mga available na function. Sa paggamit ng mga function na ito maaari mong subaybayan ang mga layunin, mga custom variable, mga ecommerce order, mga inabandunang cart at marami pa.",

@@ -43,7 +43,6 @@
         "GiveViewAccess": "Geef kijkrechten voor %1$s",
         "GiveViewAccessTitle": "Geef een bestaande gebruiker toegang om de rapporten voor %s in te zien.",
         "GiveViewAccessInstructions": "Om een bestaande gebruiker kijk rechten voor %s , voer de gebruikersnaam of het email adres van de gebruiker in",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Als u het wachtwoord wilt wijzigen, geef dan een nieuwe op. Laat het anders leeg.",
         "InjectedHostCannotChangePwd": "U bezoekt momenteel met een onbekende host (%1$s). U kunt uw wachtwoord niet wijzigen totdat dit probleem is opgelost.",
         "LastSeen": "Laatst gezien",
         "ManageAccess": "Toegang beheren",
