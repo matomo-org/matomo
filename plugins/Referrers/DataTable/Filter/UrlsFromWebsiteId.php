@@ -35,8 +35,7 @@ class UrlsFromWebsiteId extends BaseFilter
         $table->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
             return htmlspecialchars_decode($label);
         }));
-        $table->filter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
-        $table->filter('GroupBy', array('label'));
+        $table->filter('GroupBy', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
