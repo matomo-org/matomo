@@ -10,7 +10,6 @@
         "Email": "ईमेल",
         "ExcludeVisitsViaCookie": "एक कुकी का उपयोग कर अपने दौरे को बाहर निकालें",
         "ForAnonymousUsersReportDateToLoadByDefault": "अनाम उपयोगकर्ताओं के लिए, रिपोर्ट तिथि डिफ़ॉल्ट रूप से लोड करने के लिए",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "आप बदलना चाहते हैं, तो पासवर्ड एक नया एक टाइप करें। अन्यथा इस खाली छोड़ दें।",
         "LastSeen": "अंतिम बार देखा गया",
         "ManageAccess": "उपयोग का प्रबंधन",
         "MenuAnonymousUserSettings": "बेनामी उपयोगकर्ता सेटिंग",
@@ -22,7 +21,6 @@
         "PrivAdmin": "व्यवस्थापक",
         "PrivNone": "प्रवेश नही",
         "PrivView": "देखना",
-        "XtoYofN": "%1$s - %2$s के लिए %3$s",
         "ShowAll": "सभी दिखाएँ",
         "Username": "उपयोगकर्ता नाम"
     }

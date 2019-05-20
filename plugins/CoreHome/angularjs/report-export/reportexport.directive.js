@@ -141,7 +141,7 @@
                         exportUrlParams.language = piwik.language;
                     }
                     if (typeof segment != 'undefined') {
-                        exportUrlParams.segment = segment;
+                        exportUrlParams.segment = decodeURIComponent(segment);
                     }
                     // Export Goals specific reports
                     if (typeof idGoal != 'undefined'

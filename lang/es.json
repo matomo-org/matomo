@@ -327,8 +327,8 @@
         "OverlayRowActionTooltipTitle": "Superposición página abierta",
         "Overview": "General",
         "Pages": "Páginas",
-        "Pagination": "%1$s - %2$s de %3$s",
-        "PaginationWithoutTotal": "%1$s - %2$s",
+        "Pagination": "%1$s–%2$s de %3$s",
+        "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "El parámetro %1$s debe ser un número entero entre %2$s y %3$s.",
         "Password": "Contraseña",
         "Period": "Periodo",
@@ -447,6 +447,7 @@
         "VisitorIPs": "IPs de visitantes",
         "Visitors": "Visitantes",
         "VisitsWith": "Visitas con %s",
+        "VisitorFingerprint": "Huella dactilar",
         "VisitorSettings": "Configuración de visitantes",
         "VisitType": "Tipo de visita",
         "VisitTypes": "Tipos de visitas",
@@ -490,7 +491,9 @@
         "YouAreCurrentlyUsing": "Actualmente está utilizando Matomo %s.",
         "YouAreViewingDemoMessage": "Estás viendo una demo de %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "Debe ingresar para acceder a esta funcionalidad.",
-        "YourChangesHaveBeenSaved": "Se han guardado los cambios."
+        "YourChangesHaveBeenSaved": "Se han guardado los cambios.",
+        "ThankYouForUsingMatomo": "Gracias por utilizar Matomo",
+        "TheMatomoTeam": "El equipo Matomo"
     },
     "Mobile": {
         "AboutPiwikMobile": "Acerca de Matomo Mobile",

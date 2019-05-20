@@ -34,7 +34,6 @@
         "GeoIPIncorrectDatabaseFormat": "Din GeoIP-database lader ikke til at have det korrekte format. Måske er den beskadiget. Vær sikker på du bruger den binære udgave og prøv evt. at erstatte den med en anden kopi.",
         "GeoIpLocationProviderDesc_Pecl1": "Lokationstjenesten bruger en GeoIP-database og et PECL-modul til præcist og effektivt at bestemme lokationen på ​​dine besøgende.",
         "GeoIpLocationProviderDesc_Pecl2": "Der er ingen begrænsninger med denne tjeneste, så det er den vi anbefaler du bruger.",
-        "GeoIpLocationProviderDesc_Php1": "Denne lokationstjeneste er den mest simple at installere, da det ikke kræver konfiguration af serveren (ideel ved delt hosting!). Den bruger en GeoIP-database og MaxMinds PHP API til nøjagtigt at bestemme ​​dine besøgendes placering.",
         "GeoIpLocationProviderDesc_Php2": "Hvis hjemmesiden får en masse trafik, kan du opleve, at denne lokationstjeneste er for langsom. I så fald skal du installere %1$sPECL-udvidelsen%2$s eller et %3$sservermodul%4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Lokasationstjenesten bruger det GeoIP-modul, der er installeret i din HTTP-server. Tjenesten er hurtig og præcis, men %1$skan kun bruges med normal browser tracking.%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Hvis du skal importere logfiler eller gøre noget andet, der kræver indstilling af IP-adresser, skal du bruge %1$sPECL GeoIP implementering (anbefales)%2$s eller %3$sPHP GeoIP implementering%4$s.",

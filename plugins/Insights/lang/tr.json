@@ -26,7 +26,7 @@
         "TitleConsideredMoversAndShakersGrowth": "%1$s, %4$s değerine göre %2$s değerinden %3$s değerine değişti. Her satırın gelişime göre %5$s %% bekleniyor.",
         "TitleRowChangeDetails": "'%1$s', %2$s (%3$s) değerinden %4$s (%5$s) değerine değiştir %6$s.",
         "TitleRowDisappearedDetails": "'%1$s', %2$s kadar azaldı ve %3$s içinde %4$s değerine göre kayboldu.",
-        "TitleRowMoverAndShaker": "Bu satırın ortalamadan daha fazla etkisi var.",
+        "TitleRowMoverAndShaker": "Bu satırın ortalamanın üzerinde etkisi var.",
         "TitleRowNewDetails": "'%1$s', %2$s kadar arttı ve %3$s değerine göre yeni eklendi.",
         "WeekComparedToPreviousWeek": "önceki hafta",
         "WidgetCategory": "içgörüler",

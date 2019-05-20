@@ -37,7 +37,6 @@
         "GiveViewAccess": "%1$s 에게 보기 권한 주기",
         "GiveViewAccessTitle": "%s 보고서를 볼 수 있는 권한을 현 사용자에게 부여",
         "GiveViewAccessInstructions": "기존 사용자에게 %s 의 보기 권한을 주기 위해 그 사용자 이름 혹은 이메일 주소를 입력하세요.",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "비밀번호를 변경하려면 새 비밀번호를 입력합니다. 변경하지 않으면 비워 둡니다.",
         "InjectedHostCannotChangePwd": "현재 알 수 없는 호스트 (%1$s)로 방문했습니다. 이 문제가 해결될 때까지 사용자는 자신의 비밀번호를 변경할 수 없습니다.",
         "LastSeen": "최근 본",
         "MainDescription": "어떤 사용자가 어떤 웹사이트를 접근시킬지 결정할 수 있습니다. \"모든 웹사이트에 적용\"을 선택함으로써 모든 웹사이트의 권한을 한번에 설정할 수 있습니다.",
@@ -67,11 +66,9 @@
         "User": "사용자",
         "UsersManagement": "사용자 관리",
         "UsersManagementMainDescription": "새로운 사용자를 생성하거나 또는 존재하는 사용자를 업데이트할 수 있습니다. 그리고 위에서 그들의 권한을 설정할 수 있습니다.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "로그인 하지 않은 사용자가 Matomo에 접근할 때 표시하는 화면",
         "YourUsernameCannotBeChanged": "당신의 사용자 이름을 변경할 수 없습니다.",
         "YourVisitsAreIgnoredOnDomain": "%1$s당신의 방문은%2$s Matomo에 무시됩니다%3$s (브라우저에서 Matomo 무시 용 Cookie 발견).",
         "YourVisitsAreNotIgnored": "%1$s당신의 방문은 Matomo에 무시하지 않습니다%2$s (브라우저에서 Matomo 무시의 Cookie를 찾을 수 없습니다).",
-        "XtoYofN": "%1$s - %2$s 의 %3$s",
         "ShowAll": "모두 보기",
         "Username": "사용자 이름"
     }

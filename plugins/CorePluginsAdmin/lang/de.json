@@ -66,7 +66,7 @@
         "TagManagerTeaserEmailSuperUserBody": "Hi, %1$sMatomo Tag Manager ist nun in Matomo verfügbar und ich würde dieses Feature gerne verwenden. Da Sie Hauptadministratorenzugriff haben, können Sie mir dieses Feature mit Hilfe der Tag Manager Seite im oberen Menü aktivieren? %2$sDie Matomo URL ist %3$s. %4$sDanke",
         "WhatIsTagManager": "Was ist ein Tag Manager?",
         "WhatIsTagManagerDetails1": "Ähnlich wie ein Content Management System (CMS) das Ihnen die Flexibilität zur Veröffentlichung von Inhalten auf Ihrer Website ohne Kenntnisse von HTML\/CSS ermöglicht, ist ein Tag Management System (TMS) Ihr Go-To für die Vereinfachung von eingebetteten First- und Third-Party Applikationen Tracking Tags (auch bekannnt als Snippets oder Pixels) auf Ihrer Website.",
-        "WhatIsTagManagerDetails2": "Sie möchten Sie Resultate Ihrer Konversionen\/Ziele, Newsletter Anmeldungen, Social Widgets, Ausstieg-Popups und Remarketing Kampagnen sehen; Was mal ein hochtechnischer und zeitintensiver Prozess war, ist nun dank dem TMS kinderleicht und mit ein paar Klicks schnell implementiert.",
+        "WhatIsTagManagerDetails2": "Sie möchten die Resultate Ihrer Konversionen\/Ziele, Newsletteranmeldungen, Social Widgets, Ausstieg-Popups und Remarketing Kampagnen sehen; Was mal ein hochtechnischer und zeitintensiver Prozess war, ist nun dank dem TMS kinderleicht und mit ein paar Klicks schnell implementiert.",
         "TagManagerLearnMoreInUserGuide": "Erfahren sie mehr im Tag Manager Benutzerhandbuch.",
         "WhyUsingATagManager": "Warum ein Tag Manager?",
         "WhyUsingATagManagerDetails1": "Ein Tag Manager macht Ihnen Ihr Leben leichter! Sie müssen nicht länger auf einen Entwickler warten, um eigene oder fremde Code-Schnipsel auf Ihrer Website zu ändern, denn der Tag Manager gibt Ihnen die stressfreie Möglichkeit, diese Änderungen in Ihrer Website selbständig vorzunehmen.",
@@ -83,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Alle Marketplace Plugins anzeigen",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Das Plugin %1$s konnte nicht geladen werden, da folgende Abhängigkeiten fehlen: %2$s",
-        "Websites": "Websites"
+        "Websites": "Websites",
+        "UpdateSelected": "Auswahl aktualisieren"
     }
 }

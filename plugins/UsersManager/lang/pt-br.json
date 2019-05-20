@@ -45,7 +45,6 @@
         "GiveViewAccess": "Permitir acesso de visualização para %1$s",
         "GiveViewAccessTitle": "Dar a usuário existente acesso para visualizar relatórios de %s",
         "GiveViewAccessInstructions": "Para dar acesso a um usuário existente para %s digite o nome de usuário ou endereço de e-mail de um usuário existente",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se você quiser mudar a senha, digite uma nova. Caso contrário, deixe em branco.",
         "InjectedHostCannotChangePwd": "Você está visitando com um host desconhecido (%1$s). Você não pode mudar sua senha até que este problema seja resolvido.",
         "LastSeen": "Último visto",
         "MainDescription": "Decida quais usuários têm acesso a seus sites. Você também pode dar acesso a todos os sites de uma só vez, escolhendo \"Aplicar a todos os websites\" no seletor de website.",
@@ -79,12 +78,10 @@
         "UserHasNoPermission": "%1$s tem atualmente %2$s para %3$s",
         "UsersManagement": "Gerenciamento de usuários",
         "UsersManagementMainDescription": "Crie novos usuários ou atualize os usuários existentes. Você poderá então ajustar as permissões deles acima.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando usuários não estão logados e visitam o Matomo, eles deveriam acessar",
         "YourUsernameCannotBeChanged": "Seu nome de usuário não pode ser alterado.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Suas visitas são ignoradas pelo Matomo em %2$s %3$s (o Matomo ignora o cookie encontrado em seu navegador).",
         "YourVisitsAreNotIgnored": "%1$sSuas visitas não são ignoradas pelo Matomo%2$s (o Matomo ignora o cookie não encotrado em seu navegador)",
         "ManageUsers": "Gerenciar Usuários",
-        "XtoYofN": "%1$s - %2$s de %3$s",
         "ShowAll": "Exibir tudo",
         "Username": "Nome de Usuário"
     }

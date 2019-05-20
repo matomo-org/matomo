@@ -1,7 +1,6 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Skryje poslední byte IP adresy návštěvníka, aby souhlasila se zákony vaší země.",
-        "AnonymizeIpExtendedHelp": "Když uživatelé navštíví vaše stránky, Matomo neuloží jejich plnou IP adresu (jako %1$s), ale nejprve bude anonymizována (na %2$s). Anonymizace IP adres je jedním z požadavků práva na ochranu soukromí v některých zemí, jako je třeba Německo.",
         "AnonymizeIpMaskLengtDescription": "Zvolte, kolik bitů z návštěvníkovy IP adresy má být maskováno.",
         "AnonymizeIpMaskLength": "%1$s bitů - např. %2$s",
         "ClickHereSettings": "Pro přístup k nastavení %s klikněte zde.",
@@ -19,7 +18,6 @@
         "DeleteDataSettings": "Smazat staré logy návštěvníků a hlášení",
         "DoNotTrack_Description": "Do Not Track je návrh technologie a politiky, která umožňuje uživatelům odhlásit se ze sledování stránkami, které navštíví, včetně služeb webových analýz, reklamních sítí a sociálních platforem.",
         "DoNotTrack_Disable": "Zakázat podporu Do not track",
-        "DoNotTrack_DisabledMoreInfo": "Doporučujeme respektovat soukromí vašich návštěvníků a podporu Do not track povolit.",
         "DoNotTrack_Enable": "Povolit podporu Do not track",
         "DoNotTrack_Enabled": "Aktuálně respektujete soukromí vašich návštěvníků, víborně!",
         "DoNotTrack_SupportDNTPreference": "Podporovat předvolbu Do not track",
@@ -44,7 +42,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Podívejte se také na náš oficiální návod: %1$ssoukromí webové analýzy%2$s",
         "TeaserHeadline": "Nastavení ochrany soukromí",
         "UseAnonymizedIpForVisitEnrichment": "Anonymizované IP adresy použít i při obohacování návštěv.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Zásuvné moduly jako geolokace podle IP a poskytovatel vylepšují metadata o návštěvnících. Ve výchozím stavu tyto zásuvné moduly používají anonymizované IP adresy. Pokud vyberete \"ne\", pak tyto zásuvné moduly budou používat plné adresy, což způsobí omezení soukromí ale zlepšení výsledků.",
         "UseAnonymizeIp": "Anonymizovat IP adresy návštěvníků",
         "UseDeleteReports": "Průběžně mazat stará hlášení z databáze"
     }

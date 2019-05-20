@@ -76,7 +76,6 @@
         "UTCTimeIs": "UTC 시간은 %s입니다.",
         "OnlyMatchedUrlsAllowed": "위에 적혀진 URL들 중 하나에서 시작될 경우에만 방문자를 추적합니다.",
         "OnlyMatchedUrlsAllowedHelp": "이것이 활성화 될 경우, Matomo는 페이지 URL이 당신 웹사이트의 알려진 URL일 경우에만 내부 추적만을 수행한다. 이를 통해, 사람들이 분석 결과를 통해 다른 사이트에 스팸을 보내는 것을 방지할 수 있다.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "도메인과 경로는 정확히 맞아야 하며, 각각의 유효한 서브 도메인은 독립적으로 명기되어야 합니다. 예를 들어 알려진 URL이 'http:\/\/example.com\/path'과 'http:\/\/good.example.com'이라면, 'http:\/\/example.com\/otherpath' 혹은 'http:\/\/bad.example.com'에 대한 추적 요청은 무시됩니다.",
         "WebsitesManagement": "웹사이트 관리",
         "XManagement": "%s 관리",
         "ChooseMeasurableTypeHeadline": "무엇을 측정하고 싶으십니까?",

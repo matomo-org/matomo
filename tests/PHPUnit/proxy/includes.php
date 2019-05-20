@@ -10,6 +10,13 @@ if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
 }
 
+$GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
+    array(
+        'pluginsPathAbsolute' => realpath(PIWIK_INCLUDE_PATH . 'tests/resources/custompluginsdir'),
+        'webrootDirRelativeToMatomo' => '../../resources/custompluginsdir'
+    ),
+);
+
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 Piwik\SettingsServer::setMaxExecutionTime(0);

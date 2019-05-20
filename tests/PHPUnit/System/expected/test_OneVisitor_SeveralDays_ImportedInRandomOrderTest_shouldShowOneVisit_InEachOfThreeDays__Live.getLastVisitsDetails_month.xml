@@ -4,6 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -18,6 +19,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
@@ -116,6 +118,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -130,6 +133,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
@@ -228,6 +232,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>24.125.31.147</visitIp>
+		<fingerprint>05cd49ef59bf6620</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -242,6 +247,7 @@
 				<title />
 				<subtitle>http://piwik.net/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>

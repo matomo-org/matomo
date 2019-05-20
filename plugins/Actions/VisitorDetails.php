@@ -148,6 +148,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         switch ($action['type']) {
             case 'goal':
                 $action['icon'] = 'plugins/Morpheus/images/goal.png';
+                $action['iconSVG'] = 'plugins/Morpheus/images/goal.svg';
                 $action['title'] = Piwik::translate('Goals_GoalConversion');
                 $action['subtitle'] = $action['goalName'];
                 if (!empty($action['revenue'])) {
@@ -157,6 +158,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
             case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                 $action['icon'] = 'plugins/Morpheus/images/' . $action['type'] . '.png';
+                $action['iconSVG'] = 'plugins/Morpheus/images/' . $action['type'] . '.svg';
                 if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
                     $action['title'] = Piwik::translate('CoreHome_VisitStatusOrdered') . ' (' . $action['orderId'] . ')';
                 } else {
@@ -170,9 +172,11 @@ class VisitorDetails extends VisitorDetailsAbstract
             case Action::TYPE_CONTENT:
                 if (!empty($action['contentInteraction'])) {
                     $action['icon'] = 'plugins/Morpheus/images/contentinteraction.png';
+                    $action['iconSVG'] = 'plugins/Morpheus/images/contentinteraction.svg';
                     $action['title'] = Piwik::translate('Contents_ContentInteraction') . ' (' . $action['contentInteraction'] . ')';
                 } else {
                     $action['icon'] = 'plugins/Morpheus/images/contentimpression.png';
+                    $action['iconSVG'] = 'plugins/Morpheus/images/contentimpression.svg';
                     $action['title'] = Piwik::translate('Contents_ContentImpression');
                 }
 
@@ -184,18 +188,21 @@ class VisitorDetails extends VisitorDetailsAbstract
             case Action::TYPE_DOWNLOAD:
                 $action['type'] = 'download';
                 $action['icon'] = 'plugins/Morpheus/images/download.png';
+                $action['iconSVG'] = 'plugins/Morpheus/images/download.svg';
                 $action['title'] = Piwik::translate('General_Download');
                 $action['subtitle'] = $action['url'];
                 break;
             case Action::TYPE_OUTLINK:
                 $action['type'] = 'outlink';
                 $action['icon'] = 'plugins/Morpheus/images/link.png';
+                $action['iconSVG'] = 'plugins/Morpheus/images/link.svg';
                 $action['title'] = Piwik::translate('General_Outlink');
                 $action['subtitle'] = $action['url'];
                 break;
             case Action::TYPE_SITE_SEARCH:
                 $action['type'] = 'search';
-                $action['icon'] = 'plugins/Morpheus/images/search_ico.png';
+                $action['icon'] = 'plugins/Morpheus/images/search.png';
+                $action['iconSVG'] = 'plugins/Morpheus/images/search.svg';
                 $action['title'] = Piwik::translate('Actions_SubmenuSitesearch');
                 $action['subtitle'] = $action['siteSearchKeyword'];
                 break;
@@ -207,7 +214,8 @@ class VisitorDetails extends VisitorDetailsAbstract
                     $action['subtitle'] = $action['url'];
                 }
                 $action['type'] = 'action';
-                $action['icon'] = null;
+                $action['icon'] = '';
+                $action['iconSVG'] = 'plugins/Morpheus/images/action.svg';
                 break;
         }
 

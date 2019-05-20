@@ -69,7 +69,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -80,7 +80,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -93,7 +93,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -104,7 +104,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<nb_uniq_visitors>0</nb_uniq_visitors>
 				<nb_users>0</nb_users>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -172,9 +172,6 @@
 		<nb_uniq_visitors>11</nb_uniq_visitors>
 		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
-		<conversion_rate>0</conversion_rate>
 		<nb_actions_per_visit>2.5</nb_actions_per_visit>
-		<avg_time_on_site>0</avg_time_on_site>
-		<bounce_rate>0</bounce_rate>
 	</reportTotal>
 </result>

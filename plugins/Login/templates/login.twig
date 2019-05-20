@@ -35,6 +35,7 @@
                     <div class="row">
                         <div class="col s12 input-field">
                             <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
+                            <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
                             <input type="password" placeholder="" name="form_password" id="login_form_password" class="input" value="" size="20"
                                    autocorrect="off" autocapitalize="none"
                                    tabindex="20" />
@@ -47,7 +48,7 @@
                             <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
                                    {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
                             <label for="login_form_rememberme">{{ 'Login_RememberMe'|translate }}</label>
-                            <input class="submit btn" id='login_form_submit' type="submit" value="{{ 'Login_LogIn'|translate }}"
+                            <input class="submit btn" id="login_form_submit" type="submit" value="{{ 'Login_LogIn'|translate }}"
                                    tabindex="100"/>
                         </div>
                     </div>

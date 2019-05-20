@@ -10,7 +10,6 @@
         "LoginOrEmail": "Brugernavn eller e-mail",
         "CurrentlyBlockedIPs": "Aktuelt blokerede IP-adresser",
         "UnblockAllIPs": "Fjern alle blokeringer af IP-adresser",
-        "CurrentlyBlockedIPsUnblockInfo": "Du kan fjerne blokeringen af IP-adresser, såfremt de er blevet uretmæssigt blokeret og har brug for at logge ind igen.",
         "CurrentlyBlockedIPsUnblockConfirm": "Er du sikker på, at du vil fjerne alle blokeringer af IP-adresser?",
         "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
         "LostYourPassword": "Glemt adgangskoden?",

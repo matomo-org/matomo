@@ -10,10 +10,10 @@
 exports.parse = function () {
     var result = {tests: []};
 
-    var args = require('system').args;
+    var args = process.argv;
     for (var i = 1; i < args.length; ++i) {
         var arg = args[i];
-        if (arg[0] == '-') {
+        if (arg[0] === '-') {
             var matches = arg.match(/-*([^=]+)(?:=(.*))?/),
                 key = matches[1],
                 value = matches[2];
@@ -23,6 +23,8 @@ exports.parse = function () {
             result.tests.push(arg);
         }
     }
+
+    result.tests.shift();
 
     return result;
 };

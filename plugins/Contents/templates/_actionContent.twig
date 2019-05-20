@@ -2,14 +2,16 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {% if action.contentInteraction %}
-        <span class="icon-document action-list-action-icon" title="{{ 'Contents_ContentInteraction'|translate }}"></span>
+            <img src='{{ action.iconSVG|default(action.icon) }}' title='{{ 'Contents_ContentInteraction'|translate }}'
+                 class="action-list-action-icon content-interaction">
         {% else %}
-        <span class="icon-show action-list-action-icon" title="{{ 'Contents_ContentImpression'|translate }}"></span>
+            <img src='{{ action.iconSVG|default(action.icon) }}' title='{{ 'Contents_ContentImpression'|translate }}'
+                 class="action-list-action-icon content-impression">
         {% endif %}
         {% if action.contentInteraction %}
-            [{{ action.contentInteraction }}]
+            <span class="content-interaction">[{{ action.contentInteraction }}]</span>
         {% endif %}
-        {{ action.contentName }} -
-        {{ action.contentPiece }}
+        <span class="content-name">{{ action.contentName }}</span> -
+        <span class="content-piece">{{ action.contentPiece }}</span>
     </div>
 </li>

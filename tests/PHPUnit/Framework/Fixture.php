@@ -26,12 +26,13 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
+use Piwik\NumberFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\ProcessedReport;
-use Piwik\Plugins\LanguagesManager\API as APILanguageManager;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -293,10 +294,13 @@ class Fixture extends \PHPUnit_Framework_Assert
                 $this->loginAsSuperUser();
             }
 
-            APILanguageManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
+            APILanguagesManager::getInstance()->setLanguageForUser('superUserLogin', 'en');
         }
 
         SettingsPiwik::overwritePiwikUrl(self::getTestRootUrl());
+
+        $testEnv->tokenAuth = self::getTokenAuth();
+        $testEnv->save();
 
         if ($setupEnvironmentOnly) {
             return;
@@ -374,6 +378,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
+        NumberFormatter::getInstance()->clearCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getLazyCache()->flushAll();
@@ -637,6 +642,17 @@ class Fixture extends \PHPUnit_Framework_Assert
             . base64_encode($response)
             . $url
         );
+    }
+
+    public static function checkTrackingFailureResponse($response)
+    {
+        $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        $expectedResponse = base64_decode($trans_gif_64);
+
+        self::assertContains($expectedResponse, $response);
+        self::assertContains('This resource is part of Matomo.', $response);
+        self::assertNotContains('Error', $response);
+        self::assertNotContains('Fatal', $response);
     }
 
     /**

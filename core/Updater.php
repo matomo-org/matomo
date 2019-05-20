@@ -63,7 +63,13 @@ class Updater
     public function __construct($pathUpdateFileCore = null, $pathUpdateFilePlugins = null, Columns\Updater $columnsUpdater = null)
     {
         $this->pathUpdateFileCore = $pathUpdateFileCore ?: PIWIK_INCLUDE_PATH . '/core/Updates/';
-        $this->pathUpdateFilePlugins = $pathUpdateFilePlugins ?: Manager::getPluginsDirectory() . '%s/Updates/';
+
+        if ($pathUpdateFilePlugins) {
+            $this->pathUpdateFilePlugins = $pathUpdateFilePlugins;
+        } else {
+            $this->pathUpdateFilePlugins = null;
+        }
+
         $this->columnsUpdater = $columnsUpdater ?: new Columns\Updater();
 
         self::$activeInstance = $this;
@@ -222,7 +228,7 @@ class Updater
     /**
      * Returns the list of SQL queries that would be executed during the update
      *
-     * @return Sql[] of SQL queries
+     * @return Migration[] of SQL queries
      * @throws \Exception
      */
     public function getSqlQueriesToExecute()
@@ -250,10 +256,7 @@ class Updater
                 $migrationsForComponent = $update->getMigrations($this);
                 foreach ($migrationsForComponent as $index => $migration) {
                     $migration = $this->keepBcForOldMigrationQueryFormat($index, $migration);
-
-                    if ($migration instanceof Migration\Db) {
-                        $queries[] = $migration;
-                    }
+                    $queries[] = $migration;
                 }
                 $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
@@ -348,7 +351,11 @@ class Updater
             } elseif (ColumnUpdater::isDimensionComponent($name)) {
                 $componentsWithUpdateFile[$name][PIWIK_INCLUDE_PATH . '/core/Columns/Updater.php'] = $newVersion;
             } else {
-                $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
+                if ($this->pathUpdateFilePlugins) {
+                    $pathToUpdates = sprintf($this->pathUpdateFilePlugins, $name) . '*.php';
+                } else {
+                    $pathToUpdates = Manager::getPluginDirectory($name) . '/Updates/*.php';
+                }
             }
 
             if (!empty($pathToUpdates)) {

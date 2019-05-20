@@ -34,7 +34,6 @@
         "Menu": "菜单",
         "NoPrivilegesAskPiwikAdmin": "您当前登录用户是'%1$s' ，但是没有任何Matomo权限。%2$s 联系 Matomo 管理员 (点击发送邮件)%3$s 获得 '查看' 权限。",
         "OnlyForSuperUserAccess": "这个小工具仅仅显示在有超级用户权限的面板里。",
-        "PageOf": "%1$s，总共 %2$s",
         "PeriodRange": "时间段",
         "ReportGeneratedOn": "本报表生成时间 %s",
         "ReportGeneratedXAgo": "本报表在 %s 前生成",

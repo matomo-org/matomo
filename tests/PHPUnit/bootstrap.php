@@ -36,6 +36,13 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 @ini_set('memory_limit', -1);
 
+$GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
+    array(
+        'pluginsPathAbsolute' => PIWIK_INCLUDE_PATH . '/tests/resources/custompluginsdir',
+        'webrootDirRelativeToMatomo' => 'tests/resources/custompluginsdir'
+    ),
+);
+
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';

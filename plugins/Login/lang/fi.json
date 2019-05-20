@@ -12,15 +12,22 @@
         "LoginOrEmail": "Käyttäjätunnus tai sähköpostiosoite",
         "HelpIpRange": "Syötä yksi IP-osoite tai IP-osoiteväli riville. Voit käyttää CIDR-notaatiota, esim. %1$s, tai jokerimerkkejä, esim. %2$s tai %3$s",
         "SettingBruteForceEnable": "Ota käyttöön toistuvien kirjautumisyritysten seuranta",
-        "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin",
+        "SettingBruteForceWhitelistIp": "Älä koskaan estä seuraavia IP:itä kirjautumasta sisään",
+        "SettingBruteForceBlacklistIp": "Estä aina kirjautuminen seuraavista IP:istä",
+        "CurrentlyBlockedIPs": "Parhaillaan estetyt IP:t",
+        "IPsAlwaysBlocked": "Nämä IP:t on estetty aina",
+        "LoginPasswordNotCorrect": "Käyttäjätunnus tai salasana väärin.",
         "LostYourPassword": "Unohtuiko salasana?",
         "ChangeYourPassword": "Vaihda salasanasi",
+        "MailPasswordChangeBody2": "Hei %1$s\n\nSaimme salasanan palautuspyynnön osoitteesta %2$s. Salasanan palautuspyynnön vahvistamiseksi kopioi ja liitä seuraava linkki selaimeen:\n\n%3$s\n\nHuomio: tämä linkki vanhenee 24 tunnissa.\n\nKiitos kun valitsit Matomon!",
         "MailTopicPasswordChange": "Varmista salasanan vaihto",
         "NewPassword": "Uusi salasana",
         "NewPasswordRepeat": "Uusi salasana (toista)",
         "PasswordChanged": "Salasana on vaihdettu.",
         "PasswordRepeat": "Salasana (uudelleen)",
         "PasswordsDoNotMatch": "Salasanat eivät täsmää.",
+        "WrongPasswordEntered": "Kirjoita oikea salasana.",
+        "ConfirmPasswordToContinue": "Varmista salasana jatkaaksesi",
         "RememberMe": "Muista minut"
     }
 }

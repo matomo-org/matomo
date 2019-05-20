@@ -37,14 +37,14 @@ class Limit extends BaseFilter
 
                 $countIncreaser++;
 
-                if ($countIncreaser > $this->limitPositive) {
+                if ($countIncreaser > $this->limitPositive && $this->limitPositive > -1) {
                     $table->deleteRow($key);
                 }
 
             } else {
                 $countDecreaser++;
 
-                if ($countDecreaser > $this->limitNegative) {
+                if ($countDecreaser > $this->limitNegative && $this->limitNegative > -1) {
                     $table->deleteRow($key);
                 }
 

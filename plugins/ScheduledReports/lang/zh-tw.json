@@ -46,6 +46,15 @@
         "TopLinkTooltip": "建立報表信件讓 Matomo 統計資料自動送達你或你客戶的信箱！",
         "TopOfReport": "回到頂端",
         "UpdateReport": "更新報表",
-        "WeeklyScheduleHelp": "每週排程：報表將會在每週星一寄送。"
+        "WeeklyScheduleHelp": "每週排程：報表將會在每週星一寄送。",
+        "Unsubscribe": "取消訂閱",
+        "ReportUnsubscribe": "取消訂閱報表",
+        "UnsubscribeReportConfirmation": "你確定要取消訂閱報表 %1$s？",
+        "SuccessfullyUnsubscribed": "你已成功取消訂閱報表 %1$s。",
+        "UnsubscribeFooter": "要取消訂閱這份報表請點擊此連結：%1$s",
+        "NoTokenProvided": "網址內沒有提供 token。",
+        "NoSubscriptionFound": "沒有任何訂閱項目。可能報表已經取消訂閱或是刪除。",
+        "EvolutionGraphsShowForEachInPeriod": "顯示上一%3$s%1$s每日%2$s的發展趨勢圖表",
+        "EvolutionGraphsShowForPreviousN": "顯示過去 N %s的發展趨勢圖表"
     }
 }

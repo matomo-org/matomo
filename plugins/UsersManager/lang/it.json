@@ -4,7 +4,7 @@
         "UsesTwoFactorAuthentication": "Usa l'autenticazione a due fattori",
         "TwoFactorAuthentication": "Autenticazione a due fattori",
         "ResetTwoFactorAuthentication": "Reimposta l'autenticazione a due fattori",
-        "ResetTwoFactorAuthenticationInfo": "Se l'utente non può più accedere a causa di codici di ripristino persi o di un dispositivo di autenticazione perso, è possibile ripristinare l'autenticazione a due fattori per l'utente in modo che possa accedere nuovamente.",
+        "ResetTwoFactorAuthenticationInfo": "Se l'utente non può più accedere a causa di codici di ripristino o di un dispositivo di autenticazione persi, è possibile ripristinare l'autenticazione a due fattori per l'utente, in modo che possa accedere nuovamente.",
         "AddUser": "Aggiungi un nuovo utente",
         "AddExistingUser": "Aggiungi un utente esistente",
         "AddNewUser": "Aggiungi un nuovo utente",
@@ -56,7 +56,7 @@
         "GiveViewAccess": "Da' accesso in lettura a %1$s",
         "GiveViewAccessTitle": "Dai a un utente esistente l'accesso per vedere i report per %s",
         "GiveViewAccessInstructions": "Per dare a un utente esistente l'accesso in visione per %s inserisci il nome utente o l'indirizzo email di un utente esistente",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se vuoi cambiare la password scrivine qui una nuova. Altrimenti lascia pure in bianco.",
+        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Se desideri cambiare la password, digitarne una nuova. Altrimenti, lascia in bianco.",
         "YourCurrentPassword": "Password attuale",
         "CurrentPasswordNotCorrect": "La password attuale inserita non è corretta.",
         "ConfirmWithPassword": "Si prega di inserire la tua password per confermare questo cambio.",
@@ -96,7 +96,7 @@
         "UserHasNoPermission": "%1$s ha al momento %2$s a %3$s",
         "UsersManagement": "Gestione utenti",
         "UsersManagementMainDescription": "Crea nuovi utenti o aggiorna quelli esistenti. Puoi anche scegliere quali operazioni permettere tramite la tabella qui sopra.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando gli utenti non si sono autenticati in Matomo, possono accedere a",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando gli utenti non sono registrati e visitano Matomo, dovrebbero inizialmente vedere",
         "YourUsernameCannotBeChanged": "Il tuo nome utente non può essere cambiato.",
         "YourVisitsAreIgnoredOnDomain": "%1$sLe tue visite sono ignorate da Matomo %2$s %3$s (il cookie 'ignora visite' di Matomo è stato trovato nel tuo browser).",
         "YourVisitsAreNotIgnored": "%1$sLe tue visite non sono ignorate da Matomo%2$s (il cookie 'ignora visite' di Matomo non è stato trovato nel tuo browser).",
@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Clicca per selezionare tutti i %1$s.",
         "AllWebsitesAreSelected": "Tutti i %1$s siti web sono selezionati.",
         "ClickToSelectDisplayedWebsites": "Clicca per selezionare i %1$s siti web visualizzati.",
-        "XtoYofN": "%1$s - %2$s di %3$s",
         "DeletePermConfirmSingle": "Sei sicuro di voler rimuovere l'accesso di %1$s a %2$s?",
         "DeletePermConfirmMultiple": "Sei sicuro di voler rimuovere l'accesso di %1$s ai %2$s siti web selezionati?",
         "ChangePermToSiteConfirmSingle": "Sei sicuro di voler cambiare il ruolo di %1$s in %2$s a %3$s?",
@@ -156,6 +155,12 @@
         "AreYouSureAddCapability": "Sei sicuro di voler concedere a %1$s la capacità %2$s per %3$s?",
         "AreYouSureRemoveCapability": "Sei sicuro di voler togliere la capacità %1$s da %2$s per %3$s?",
         "IncludedInUsersRole": "Comprese nel ruolo di questo utente.",
-        "Capability": "Capacità"
+        "Capability": "Capacità",
+        "EmailChangeNotificationSubject": "L'indirizzo email del tuo account Matomo è stato cambiato adesso",
+        "EmailChangedEmail1": "L'indirizzo email associato al tuo account Matomo è stato cambiato in %1$s",
+        "EmailChangedEmail2": "Questo cambiamento ha avuto origine dal seguente dispositivo: %1$s (Indirizzo IP = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Se sei stato tu, ignora questa email. Altrimenti, accedi, correggi il tuo indirizzo email, cambia la password e contatta il tuo amministratore di Matomo.",
+        "PasswordChangeNotificationSubject": "La password del tuo account Matomo è stata cambiata adesso",
+        "PasswordChangedEmail": "La tua password è stata cambiata adesso. Il cambiamento ha avuto origine dal seguente dispositivo: %1$s (Indirizzo IP =%2$s)."
     }
 }
