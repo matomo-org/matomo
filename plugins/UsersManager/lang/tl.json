@@ -25,7 +25,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Merong dapat na hindi bababa sa isang user na mayroong Super-access. Mangyaring bigyan ng Super-access ang iba pang naunang user.",
         "ExcludeVisitsViaCookie": "Ibukod ang iyong mga pagbisita sa pamamagitan ng pag-gamit ng cookie.",
         "ForAnonymousUsersReportDateToLoadByDefault": "Para sa hindi kilalang gumagamit iulat ang petsa upang i-load ng default",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Kung nais mong baguhin ang iyong passoword mag type ng bago. Kung hindi man iwan itong blangko.",
         "InjectedHostCannotChangePwd": "Ikaw ay kasalukuyang bumibisita sa isang hindi kilalang host (%1$s). Hindi mo maaaring baguhin ang iyong password hanggat hindi naayos ang problemang ito.",
         "LastSeen": "Huling nakita",
         "ManageAccess": "Pamahalaan ang access",

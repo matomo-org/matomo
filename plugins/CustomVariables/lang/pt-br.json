@@ -14,7 +14,6 @@
         "Unused": "Não utilizado",
         "CreateNewSlot": "Aumentar o número de compartimentos de Variáveis ​​Personalizadas disponíveis",
         "UsageDetails": "%1$s visitas e %2$s ações desde a criação deste website.",
-        "CreatingCustomVariableTakesTime": "Criar um novo compartimento de variável personalizada pode levar um longo tempo, dependendo do tamanho do seu banco de dados. Por isso, só é possível fazer isso através de um comando que deve ser executado na linha de comando.",
         "CurrentAvailableCustomVariables": "Atualmente você pode usar até %s Variáveis Personalizadas por site.",
         "ToCreateCustomVarExecute": "Para criar uma nova variável personalizada execute o seguinte comando dentro da sua instalação Matomo:",
         "SlotsReportIsGeneratedOverTime": "Os dados para este relatório serão preenchidos ao longo do tempo. Pode demorar um dia ou dois para ver todos os dados e algumas semanas até que o relatório seja totalmente preciso.",

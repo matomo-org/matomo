@@ -8,15 +8,19 @@
  */
 
 var fs = require('fs'),
-    path = require('./path'),
-    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator
+    fsExtra = require('fs-extra'),
+    path = require('./path');
 
 var walk = function (dir, pattern, result) {
     result = result || [];
 
-    fs.list(dir).forEach(function (item) {
-        if (item == '.'
-            || item == '..'
+    if (!fs.isDirectory(dir)) {
+        return result;
+    }
+
+    fs.readdirSync(dir).forEach(function (item) {
+        if (item === '.'
+            || item === '..'
         ) {
             return;
         }
@@ -36,14 +40,13 @@ var walk = function (dir, pattern, result) {
 var isCorePlugin = function (pathToPlugin) {
     // if the plugin is a .git checkout, it's not part of core
     var gitDir = path.join(pathToPlugin, '.git');
-    return !fs.exists(gitDir);
+    return !fs.existsSync(gitDir);
 };
 
 var Application = function () {
     this.runner = null;
 
     this.diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(this.diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -71,7 +74,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --second-half:            Only execute second half of all the test suites. Will be only applied if no")
     console.log("                            specific plugin or test-files requested");
 
-    phantom.exit(0);
+    process.exit(0);
 };
 
 Application.prototype.init = function () {
@@ -87,6 +90,21 @@ Application.prototype.init = function () {
         } else {
             suite.diffDir = path.join(suite.baseDirectory, config.screenshotDiffDir);
         }
+
+        // remove existing diffs
+        if (!fs.existsSync(suite.diffDir)) {
+            fs.mkdirSync(suite.diffDir);
+        }
+
+        fs.readdirSync(suite.diffDir).forEach(function (item) {
+            var file = path.join(suite.diffDir, item);
+            if (fs.existsSync(file)
+                && item.slice(-4) === '.png'
+            ) {
+                fs.unlinkSync(file);
+            }
+        });
+
         return suite;
     };
 };
@@ -96,7 +114,7 @@ Application.prototype.loadTestModules = function () {
         pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
-    var plugins = fs.list(pluginDir).map(function (item) {
+    var plugins = fs.readdirSync(pluginDir).map(function (item) {
         return path.join(pluginDir, item);
     }).filter(function (path) {
         return fs.isDirectory(path) && !path.match(/\/\.*$/);
@@ -163,6 +181,8 @@ Application.prototype.loadTestModules = function () {
         var fixture = typeof suite.fixture === 'undefined' ? "Piwik\\Tests\\Fixtures\\UITestFixture" : suite.fixture;
 
         suite.beforeAll(function (done) {
+            this.timeout(0); // no timeout for fixture setup (this requires normal anonymous function, not fat arrow function)
+
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {
                 for (var key in suite.optionsOverride) {
@@ -170,25 +190,19 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
-            // remove existing diffs
-            fs.list(suite.diffDir).forEach(function (item) {
-                var file = path.join(suite.diffDir, item);
-                if (fs.exists(file)
-                    && item.slice(-4) == '.png'
-                ) {
-                    fs.remove(file);
-                }
+            testEnvironment.setupFixture(fixture, (error, result) => {
+                options = oldOptions;
+
+                done(error, result);
             });
-
-            testEnvironment.setupFixture(fixture, done);
-
-            options = oldOptions;
         });
 
         // move to before other hooks
         suite._beforeAll.unshift(suite._beforeAll.pop());
 
         suite.afterAll(function (done) {
+            this.timeout(0); // no timeout for fixture teardown (this requires normal anonymous function, not fat arrow function)
+
             var oldOptions = JSON.parse(JSON.stringify(options));
             if (suite.optionsOverride) {
                 for (var key in suite.optionsOverride) {
@@ -196,16 +210,59 @@ Application.prototype.loadTestModules = function () {
                 }
             }
 
-            testEnvironment.teardownFixture(fixture, done);
+            testEnvironment.teardownFixture(fixture, (error, result) => {
+                options = oldOptions;
 
-            options = oldOptions;
+                done(error, result);
+            });
+        });
+
+        // if a test fails, print failure info and for non-comparison fails, save failure screenshot
+        suite.afterEach(async function() {
+            const test = this.currentTest;
+            const err = this.currentTest.err;
+            if (!err) {
+                return;
+            }
+
+            var indent = "     ";
+
+            var message = err && err.message ? err.message : err;
+            if (message.indexOf(indent) !== 0) {
+                message = indent + message.replace(/\n/g, "\n" + indent);
+            }
+
+            const url = await page.getWholeCurrentUrl();
+            message += "\n" + indent + indent + "Url to reproduce: " + url + "\n";
+
+            if (message.indexOf('Generated screenshot') === -1) {
+                if (!fs.existsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'))) {
+                    fsExtra.mkdirsSync(path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots'));
+                }
+                const failurePath = path.join(PIWIK_INCLUDE_PATH, 'tests/UI/processed-ui-screenshots', test.title.replace(/(\s|[^a-zA-Z0-9_])+/g, '_') + '_failure.png');
+
+                message += indent + indent + "Screenshot of failure: " + failurePath + "\n";
+
+                const screenshot = await page.screenshot({ fullPage: true });
+                fs.writeFileSync(failurePath, screenshot);
+            } else {
+                delete this.currentTest.err.stack;
+            }
+
+            var renderingLogs = page.getPageLogsString(indent);
+            if (renderingLogs) {
+                message += renderingLogs + "\n";
+            } else {
+                message += indent + indent + "No captured console logs.\n";
+            }
+
+            console.log(message); // so it prints out as the test fails (for builds that run too long)
+            this.currentTest.err.message = message.replace(/\n/g, "\n  ");
         });
     });
 };
 
-Application.prototype.runTests = function () {
-    var self = this;
-
+Application.prototype.runTests = function (mocha) {
     // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
     var dirsToCreate = [
         path.join(PIWIK_INCLUDE_PATH, 'tmp/sessions')
@@ -213,55 +270,49 @@ Application.prototype.runTests = function () {
 
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
-            fs.makeTree(path);
+            fsExtra.mkdirsSync(path);
         }
     });
 
-    this.doRunTests();
+    this.doRunTests(mocha);
 };
 
-Application.prototype.doRunTests = function () {
-    var self = this;
-
+Application.prototype.doRunTests = function (mocha) {
     testEnvironment.reload();
 
     // run tests
-    this.runner = mocha.run(function () {
+    this.runner = mocha.run(function (failures) {
         // remove symlinks
         if (!options['keep-symlinks']) {
             var symlinks = ['libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js'];
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
-                if (fs.exists(file)) {
-                    fs.remove(file);
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
                 }
             });
         }
 
-        // build diffviewer
-        self.diffViewerGenerator.generate(function () {
-            self.finish();
-        });
+        process.exit(failures);
     });
 
-    this.runner.on('fail', function(test, err) {
-        var indent = "     ";
+    this.runner.on('suite', function() {
+        page.webpage.mouse.move(-10, -10);
+    });
 
-        var message = "\n";
-        message += err && err.stack ? err.stack : err;
-        message = message.replace(/\n/g, "\n" + indent);
-        console.log(indent + message + "\n\n");
+    this.runner.on('test', function () {
+        page._reset();
     });
 };
 
 Application.prototype.finish = function () {
-    phantom.exit(this.runner ? this.runner.failures : -1);
+    process.exit(this.runner ? this.runner.failures : -1);
 };
 
 Application.prototype.appendMissingExpected = function (screenName) {
     var missingExpectedFilePath = path.join(this.diffviewerDir, 'missing-expected.list');
-    fs.write(missingExpectedFilePath, screenName + "\n", "a");
+    fs.appendFileSync(missingExpectedFilePath, screenName + "\n");
 };
 
 exports.Application = new Application();

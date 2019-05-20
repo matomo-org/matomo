@@ -19,12 +19,15 @@
 						<itemCategory>category �</itemCategory>
 						<price>95</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>category �</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 100 revenue - 1 items: name �)</subtitle>
+				<subtitle>$100 revenue - 1 items: name �)</subtitle>
 				
 			</row>
 			<row>

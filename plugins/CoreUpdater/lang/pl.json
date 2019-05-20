@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Powyżej znajduje się główny komunikat o błędzie. To powinno pomóc ustalić przyczynę problemu, ale jeżeli problem wymaga dodatkowej pomocy:",
         "HelpMessageIntroductionWhenWarning": "Aktualizacja zakończona sukcesem, jednakże nie obyło się bez problemów podczas tego procesu. Proszę zaposnać się z powyższym opisem by poznać szczegóły. Więcej pomocy możesz uzyskać:",
         "HighTrafficPiwikServerEnableMaintenance": "Jeśli zarządzasz serwerem Matomo o dużym ruchu, zalecamy %1$stymczasowo wyłączyć śledzenie odwiedzających i przełączyć Interfejs Użytkownika Matomo w tryb konserwacji%2$s",
-        "IncompatbilePluginsWillBeDisabledInfo": "Uwaga: niektóre wtyczki nie są kompatybilne z Matomo %s. Zostaną one zaktualizowane, jeśli na Sklepie znajduje się aktualizacja, w przeciwnym przypadku zostaną wyłączone podczas aktualizacji:",
         "InstallingTheLatestVersion": "Instalowanie najnowszej wersji",
         "LatestBetaRelease": "Aktualna wersja beta",
         "LatestStableRelease": "Aktualne wydanie stabilne",

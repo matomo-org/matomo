@@ -82,7 +82,7 @@
         <div piwik-form ng-controller="MailSmtpController as mailSettings">
             <div piwik-field uicontrol="checkbox" name="mailUseSmtp"
                  ng-model="mailSettings.enabled"
-                 title="{{ 'General_UseSMTPServerForEmail'|translate|e('html_attr') }}"
+                 data-title="{{ 'General_UseSMTPServerForEmail'|translate|e('html_attr') }}"
                  value="{% if mail.transport == 'smtp' %}1{% endif %}"
                  inline-help="{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate|e('html_attr') }}">
             </div>
@@ -92,26 +92,26 @@
 
                 <div piwik-field uicontrol="text" name="mailHost"
                      ng-model="mailSettings.mailHost"
-                     title="{{ 'General_SmtpServerAddress'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpServerAddress'|translate|e('html_attr') }}"
                      value="{{ mail.host }}">
                 </div>
 
                 <div piwik-field uicontrol="text" name="mailPort"
                      ng-model="mailSettings.mailPort"
-                     title="{{ 'General_SmtpPort'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpPort'|translate|e('html_attr') }}"
                      value="{{ mail.port }}" inline-help="{{ 'General_OptionalSmtpPort'|translate|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailType"
                      ng-model="mailSettings.mailType"
-                     title="{{ 'General_AuthenticationMethodSmtp'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_AuthenticationMethodSmtp'|translate|e('html_attr') }}"
                      options="{{ mailTypes|json_encode }}"
                      value="{{ mail.type }}" inline-help="{{ 'General_OnlyUsedIfUserPwdIsSet'|translate|e('html_attr') }}">
                 </div>
 
                 <div piwik-field uicontrol="text" name="mailUsername"
                      ng-model="mailSettings.mailUsername"
-                     title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
                      value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}"
                      autocomplete="off">
                 </div>
@@ -124,14 +124,14 @@
                 <div piwik-field uicontrol="password" name="mailPassword"
                      ng-model="mailSettings.mailPassword"
                      ng-change="mailSettings.passwordChanged = true"
-                     title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
                      value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}"
                      autocomplete="off">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailEncryption"
                      ng-model="mailSettings.mailEncryption"
-                     title="{{ 'General_SmtpEncryption'|translate|e('html_attr') }}"
+                     data-title="{{ 'General_SmtpEncryption'|translate|e('html_attr') }}"
                      options="{{ mailEncryptions|json_encode }}"
                      value="{{ mail.encryption }}" inline-help="{{ 'General_EncryptedSmtpTransport'|translate|e('html_attr') }}">
                 </div>
@@ -155,7 +155,7 @@
         <div piwik-field uicontrol="checkbox" name="useCustomLogo"
              ng-model="brandingSettings.enabled"
              ng-change="brandingSettings.toggleCustomLogo()"
-             title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
+             data-title="{{ 'CoreAdminHome_UseCustomLogo'|translate|e('html_attr') }}"
              value="{% if branding.use_custom_logo == 1 %}1{% endif %}"
              {% if isPluginsAdminEnabled %}inline-help="{{ help|e('html_attr') }}"{% endif %}>
         </div>
@@ -173,7 +173,7 @@
                         <div piwik-field uicontrol="file" name="customLogo"
                              ng-change="brandingSettings.updateLogo()"
                              ng-model="brandingSettings.customLogo"
-                             title="{{ 'CoreAdminHome_LogoUpload'|translate|e('html_attr') }}"
+                             data-title="{{ 'CoreAdminHome_LogoUpload'|translate|e('html_attr') }}"
                              inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 110)|e('html_attr') }}">
                         </div>
 
@@ -187,7 +187,7 @@
                         <div piwik-field uicontrol="file" name="customFavicon"
                              ng-change="brandingSettings.updateLogo()"
                              ng-model="brandingSettings.customFavicon"
-                             title="{{ 'CoreAdminHome_FaviconUpload'|translate|e('html_attr') }}"
+                             data-title="{{ 'CoreAdminHome_FaviconUpload'|translate|e('html_attr') }}"
                              inline-help="{{ 'CoreAdminHome_LogoUploadHelp'|translate("JPG / PNG / GIF", 16)|e('html_attr') }}">
                         </div>
 

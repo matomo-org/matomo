@@ -35,7 +35,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -173,7 +173,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -212,14 +212,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file8.zip</url>
 				<pageTitle />
-				<pageIdAction>47</pageIdAction>
+				<pageIdAction>50</pageIdAction>
 				
 				
 				<pageId>48</pageId>
@@ -238,7 +238,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/8.html</url>
 				<pageTitle />
-				<pageIdAction>48</pageIdAction>
+				<pageIdAction>51</pageIdAction>
 				
 				
 				<pageId>49</pageId>
@@ -424,7 +424,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -570,7 +570,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -584,14 +584,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file7.zip</url>
 				<pageTitle />
-				<pageIdAction>42</pageIdAction>
+				<pageIdAction>45</pageIdAction>
 				
 				
 				<pageId>42</pageId>
@@ -610,7 +610,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/7.html</url>
 				<pageTitle />
-				<pageIdAction>43</pageIdAction>
+				<pageIdAction>46</pageIdAction>
 				
 				
 				<pageId>43</pageId>
@@ -703,9 +703,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -796,7 +796,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -857,9 +857,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -942,7 +942,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -981,14 +981,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file6.zip</url>
 				<pageTitle />
-				<pageIdAction>37</pageIdAction>
+				<pageIdAction>40</pageIdAction>
 				
 				
 				<pageId>37</pageId>
@@ -1007,7 +1007,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/6.html</url>
 				<pageTitle />
-				<pageIdAction>38</pageIdAction>
+				<pageIdAction>41</pageIdAction>
 				
 				
 				<pageId>38</pageId>
@@ -1021,6 +1021,34 @@
 				<subtitle>http://example-outlink.org/6.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>1007</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (1007)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1063,12 +1091,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
 		<interactions>2</interactions>
@@ -1100,9 +1128,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -1193,7 +1221,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1254,9 +1282,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -1339,7 +1367,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1353,14 +1381,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file5.zip</url>
 				<pageTitle />
-				<pageIdAction>32</pageIdAction>
+				<pageIdAction>35</pageIdAction>
 				
 				
 				<pageId>31</pageId>
@@ -1379,7 +1407,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/5.html</url>
 				<pageTitle />
-				<pageIdAction>33</pageIdAction>
+				<pageIdAction>36</pageIdAction>
 				
 				
 				<pageId>32</pageId>
@@ -1565,7 +1593,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1711,7 +1739,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1750,14 +1778,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file4.zip</url>
 				<pageTitle />
-				<pageIdAction>27</pageIdAction>
+				<pageIdAction>30</pageIdAction>
 				
 				
 				<pageId>26</pageId>
@@ -1776,7 +1804,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/4.html</url>
 				<pageTitle />
-				<pageIdAction>28</pageIdAction>
+				<pageIdAction>31</pageIdAction>
 				
 				
 				<pageId>27</pageId>
@@ -1962,7 +1990,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -2108,7 +2136,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2122,14 +2150,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>25</pageIdAction>
 				
 				
 				<pageId>20</pageId>
@@ -2148,7 +2176,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>23</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
 				<pageId>21</pageId>
@@ -2162,6 +2190,34 @@
 				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>1004</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (1004)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2204,12 +2260,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
 		<interactions>1</interactions>
@@ -2241,9 +2297,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -2326,7 +2382,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2340,14 +2396,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file3.zip</url>
 				<pageTitle />
-				<pageIdAction>22</pageIdAction>
+				<pageIdAction>25</pageIdAction>
 				
 				
 				<pageId>81</pageId>
@@ -2366,7 +2422,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/3.html</url>
 				<pageTitle />
-				<pageIdAction>23</pageIdAction>
+				<pageIdAction>26</pageIdAction>
 				
 				
 				<pageId>82</pageId>
@@ -2380,6 +2436,34 @@
 				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>3004</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (3004)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -2422,12 +2506,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
 		<interactions>1</interactions>
@@ -2459,9 +2543,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -2544,7 +2628,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -2605,9 +2689,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -2698,7 +2782,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -2759,9 +2843,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>34.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -2844,7 +2928,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2883,14 +2967,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>20</pageIdAction>
 				
 				
 				<pageId>15</pageId>
@@ -2909,7 +2993,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>18</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>16</pageId>
@@ -3002,9 +3086,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -3087,7 +3171,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3126,14 +3210,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file2.zip</url>
 				<pageTitle />
-				<pageIdAction>17</pageIdAction>
+				<pageIdAction>20</pageIdAction>
 				
 				
 				<pageId>76</pageId>
@@ -3152,7 +3236,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/2.html</url>
 				<pageTitle />
-				<pageIdAction>18</pageIdAction>
+				<pageIdAction>21</pageIdAction>
 				
 				
 				<pageId>77</pageId>
@@ -3245,9 +3329,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>11.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -3330,7 +3414,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -3391,9 +3475,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -3484,7 +3568,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -3545,9 +3629,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>11.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -3630,7 +3714,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3644,14 +3728,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>15</pageIdAction>
 				
 				
 				<pageId>9</pageId>
@@ -3670,7 +3754,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>13</pageIdAction>
+				<pageIdAction>16</pageIdAction>
 				
 				
 				<pageId>10</pageId>
@@ -3763,9 +3847,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -3848,7 +3932,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3862,14 +3946,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>15</pageIdAction>
 				
 				
 				<pageId>59</pageId>
@@ -3888,7 +3972,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>13</pageIdAction>
+				<pageIdAction>16</pageIdAction>
 				
 				
 				<pageId>60</pageId>
@@ -3981,9 +4065,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4066,7 +4150,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -4080,14 +4164,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>15</pageIdAction>
 				
 				
 				<pageId>70</pageId>
@@ -4106,7 +4190,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>13</pageIdAction>
+				<pageIdAction>16</pageIdAction>
 				
 				
 				<pageId>71</pageId>
@@ -4199,9 +4283,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4276,7 +4360,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -4290,14 +4374,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>download</type>
 				<url>http://example.org/path/file1.zip</url>
 				<pageTitle />
-				<pageIdAction>12</pageIdAction>
+				<pageIdAction>15</pageIdAction>
 				
 				
 				<pageId>92</pageId>
@@ -4316,7 +4400,7 @@
 				<type>outlink</type>
 				<url>http://example-outlink.org/1.html</url>
 				<pageTitle />
-				<pageIdAction>13</pageIdAction>
+				<pageIdAction>16</pageIdAction>
 				
 				
 				<pageId>93</pageId>
@@ -4409,9 +4493,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4502,7 +4586,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4563,9 +4647,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4656,7 +4740,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4717,9 +4801,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4810,7 +4894,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4871,9 +4955,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>8.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -4964,7 +5048,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -5025,9 +5109,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -5110,7 +5194,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5149,7 +5233,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5189,6 +5273,34 @@
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>1001</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (1001)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -5231,12 +5343,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
 		<interactions>2</interactions>
@@ -5268,9 +5380,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -5353,7 +5465,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5392,7 +5504,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5432,6 +5544,34 @@
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>2001</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (2001)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -5474,12 +5614,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
 		<interactions>2</interactions>
@@ -5511,9 +5651,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -5596,7 +5736,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5635,7 +5775,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5675,6 +5815,34 @@
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>3001</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (3001)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -5717,12 +5885,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
 		<interactions>2</interactions>
@@ -5754,9 +5922,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>32.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -5831,7 +5999,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5870,7 +6038,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5910,6 +6078,34 @@
 				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>4001</orderId>
+				<revenue>111.11</revenue>
+				<revenueSubTotal>100</revenueSubTotal>
+				<revenueTax>11</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>1</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>ABCD1234</itemSKU>
+						<itemName>My Product</itemName>
+						<itemCategory>My Category</itemCategory>
+						<price>100</price>
+						<quantity>1</quantity>
+						<categories>
+						<row>My Category</row>
+						</categories>
+					</row>
+				</itemDetails>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
+				<title>Ordered (4001)</title>
+				<subtitle>$111.11 revenue - 1 items: My Product)</subtitle>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -5952,12 +6148,12 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>50</daysSinceLastEcommerceOrder>
-		<visitDuration>1621</visitDuration>
-		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<visitDuration>1623</visitDuration>
+		<visitDurationPretty>27 min 3s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
 		<interactions>2</interactions>
@@ -5989,9 +6185,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -6082,7 +6278,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -6143,9 +6339,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -6236,7 +6432,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -6297,9 +6493,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CM.png</browserIcon>
 		<browserCode>CM</browserCode>
 		<browserVersion>33.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -6390,7 +6586,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -6451,9 +6647,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>32.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
@@ -6544,7 +6740,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -6605,9 +6801,9 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/QQ.png</browserIcon>
 		<browserCode>QQ</browserCode>
 		<browserVersion>5.0</browserVersion>
-		<totalEcommerceRevenue>0</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalEcommerceRevenue>111.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>1</totalEcommerceItems>
 		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>

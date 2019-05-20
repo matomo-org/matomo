@@ -81,4 +81,13 @@
 		<avg_quantity>0</avg_quantity>
 		<conversion_rate>0%</conversion_rate>
 	</row>
+	<row>
+		<label>second category</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<avg_price>0</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
 </result>

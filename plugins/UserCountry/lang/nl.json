@@ -35,7 +35,6 @@
         "GeoIPIncorrectDatabaseFormat": "Je GeoIP database lijkt niet het juiste formaat te zijn. Het kan corrupt zijn. Zorg ervoor dat je de binaire versie hebt, en probeer het te vervangen door een nieuw bestand.",
         "GeoIpLocationProviderDesc_Pecl1": "Deze locatie provider gebruikt een GeoIP database en PECL module om precies en efficiënt de locatie van je gebruikers te bepalen.",
         "GeoIpLocationProviderDesc_Pecl2": "We raden deze provider aan omdat deze geen limieten hanteert.",
-        "GeoIpLocationProviderDesc_Php1": "Deze locatieprovider is de meest simpele om te installeren, omdat het geen serverconfiguratie vereist (ideaal voor gedeelde hosting!). Het gebruikt een GeoIP-database en de PHP API van MaxMind om nauwkeurig de locatie van uw bezoekers te bepalen.",
         "GeoIpLocationProviderDesc_Php2": "Als uw website veel verkeer ontvangt, kunt u deze locatieprovider misschien te traag vinden. In dat geval, moet u de %1$sPECL-extensie%2$s of een %3$sservermodule%4$s installeren.",
         "GeoIpLocationProviderNotRecomnended": "Geografische locatie bepaling werkt, maar je gebruikt niet één van de aanbevolen leveranciers.",
         "GeoIPNoServerVars": "Matomo kan geen GeoIP %s variabelen vinden.",
