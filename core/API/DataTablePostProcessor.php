@@ -261,11 +261,21 @@ class DataTablePostProcessor
             // ignore
         }
 
+        $goalsToProcess = null;
+        try {
+            $goalsToProcess = Common::getRequestVar('filter_show_goal_columns_process_goals', null, 'string', $this->request);
+            $goalsToProcess = explode(',', $goalsToProcess);
+            $goalsToProcess = array_map('intval', $goalsToProcess);
+            $goalsToProcess = array_filter($goalsToProcess);
+        } catch (Exception $ex) {
+            // ignore
+        }
+
         if ($addGoalProcessedMetrics !== null) {
             $idGoal = Common::getRequestVar(
                 'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
 
-            $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal));
+            $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal, $goalsToProcess));
         }
 
         return $dataTable;
