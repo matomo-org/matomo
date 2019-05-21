@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
@@ -90,6 +91,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // if we're within the archiving process, then means there's no data for a child archive, not the main one
+        if (PluginsArchiver::isArchivingProcessActive()) {
+            return null;
+        }
+
         // don't do check unless this is the root API request and it is an HTTP API request
         if (!Request::isCurrentApiRequestTheRootApiRequest()
             || !Request::isRootRequestApiRequest()
