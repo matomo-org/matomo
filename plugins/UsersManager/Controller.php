@@ -185,7 +185,7 @@ class Controller extends ControllerAdmin
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
 
         $newsletterSignupOptionKey = 'UsersManager.newsletterSignup.' . $userLogin;
-        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) !== false;
+        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) === false;
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();
