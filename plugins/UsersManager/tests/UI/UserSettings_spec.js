@@ -20,6 +20,11 @@ describe("UserSettings", function () {
         });
     });
 
+    it('should load the user settings admin page correctly', async function () {
+        await page.goto(url);
+        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('load');
+    });
+
     it('should show user settings page', async function () {
         await page.goto(url);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load');
@@ -31,9 +36,30 @@ describe("UserSettings", function () {
         expect(await page.screenshotSelector('#newsletterSignup')).to.matchImage('signup_success');
     });
 
-    it('should not prompt user to subscribe again', async function () {
+    it('should not prompt user to subscribe to newsletter again', async function () {
         // Assumes previous test has clicked on the signup button - so we shouldn't see it this time
         await page.goto(url);
         expect(await page.screenshotSelector('.admin')).to.matchImage('already_signed_up');
+    });
+
+    it('should ask for password confirmation when changing email', async function () {
+        await page.evaluate(function () {
+            $('#userSettingsTable input#email').val('testlogin123@example.com').change();
+        });
+        await page.click('#userSettingsTable [piwik-save-button] .btn');
+        await page.waitFor(500); // wait for animation
+
+        pageWrap = await page.$('.modal.open');
+        expect(await pageWrap.screenshot()).to.matchImage('asks_confirmation');
+    });
+
+    it('should load error when wrong password specified', async function () {
+        await page.type('.modal.open #currentPassword', 'foobartest123');
+        btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
+        await btnNo.click();
+        await page.waitForNetworkIdle();
+
+        pageWrap = await page.$('#notificationContainer');
+        expect(await pageWrap.screenshot()).to.matchImage('wrong_password_confirmed');
     });
 });
