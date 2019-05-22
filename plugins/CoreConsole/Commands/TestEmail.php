@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\SettingsPiwik;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,13 +33,15 @@ class TestEmail extends ConsoleCommand
         $config = Config::getInstance();
 
         $email = $input->getArgument('emailAddress');
-        $body    = 'Congrats, your Matomo is correctly configured to send emails from the command line.';
+        $matomoUrl = SettingsPiwik::getPiwikUrl();
+        $body    = "Hello, world! <br/> This is a test email sent from $matomoUrl";
+        $subject = "This is a test email sent from $matomoUrl";
 
         $mail = new Mail();
         $mail->addTo($email, 'Matomo User');
         $mail->setFrom($config->General['noreply_email_address'], $config->General['noreply_email_name']);
-        $mail->setSubject('Test Message');
-        $mail->setBodyText($body);
+        $mail->setSubject($subject);
+        $mail->setWrappedHtmlBody($body);
         $mail->send();
         $output->writeln('Message sent to ' . $email);
     }
