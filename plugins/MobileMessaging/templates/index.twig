@@ -21,6 +21,17 @@
     </div>
     {% endif %}
 
+    <div ng-controller="BrowserNotificationSettingsController as browserNotifications"
+         ng-show="browserNotifications.isSupported()"
+    >
+        <div piwik-content-block content-title="{{ 'Browser Notifications'|e('html_attr') }}">
+            Do you want to enable browser notifications for yourself?<br/><br/>
+            <button class="btn btn-link" id="enableBrowserNotifications"
+                    ng-click="browserNotifications.toggleEnabled()"
+            >{{ 'Enable'|translate }}</button>
+        </div>
+    </div>
+
     {% if accountManagedByCurrentUser %}
         <div piwik-content-block content-title="{{ 'MobileMessaging_Settings_SMSProvider'|translate|e('html_attr') }}" feature="true">
 
