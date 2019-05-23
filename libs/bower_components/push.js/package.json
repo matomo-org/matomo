@@ -1,0 +1,120 @@
+{
+  "_args": [
+    [
+      "push.js",
+      "/var/www/matomo2/libs"
+    ]
+  ],
+  "_from": "push.js@latest",
+  "_hasShrinkwrap": false,
+  "_id": "push.js@1.0.9",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/push.js",
+  "_nodeVersion": "8.11.3",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/push.js_1.0.9_1540482781456_0.7778210912524042"
+  },
+  "_npmUser": {
+    "email": "nickersoft@gmail.com",
+    "name": "nickersoft"
+  },
+  "_npmVersion": "5.10.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "push.js",
+    "raw": "push.js",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/push.js/-/push.js-1.0.9.tgz",
+  "_shasum": "926e1612a89dca741ebc93bed8aa305bd9bbcfc6",
+  "_shrinkwrap": null,
+  "_spec": "push.js",
+  "_where": "/var/www/matomo2/libs",
+  "author": {
+    "name": "Tyler Nickerson"
+  },
+  "bugs": {
+    "url": "https://github.com/Nickersoft/push.js/issues"
+  },
+  "dependencies": {},
+  "description": "A compact, cross-browser solution for the Javascript Notifications API",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.35",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0-beta.35",
+    "@babel/plugin-transform-strict-mode": "^7.0.0-beta.35",
+    "@babel/polyfill": "^7.0.0-beta.35",
+    "@babel/preset-env": "^7.0.0-beta.35",
+    "@babel/preset-stage-2": "^7.0.0-beta.35",
+    "browserify": "^16.0.0",
+    "coveralls": "^3.0.0",
+    "flow-bin": "^0.65.0",
+    "husky": "^0.14.3",
+    "jasmine-core": "^2.8.0",
+    "js-yaml": "^3.10.0",
+    "karma": "^2.0.0",
+    "karma-browserstack-launcher": "^1.3.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.7",
+    "lint-staged": "^7.0.0",
+    "platform": "^1.3.4",
+    "prettier": "^1.9.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.57.0",
+    "rollup-plugin-alias": "^1.4.0",
+    "rollup-plugin-babel": "^4.0.0-beta.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-es": "^3.2.2"
+  },
+  "directories": {},
+  "dist": {
+    "fileCount": 13,
+    "integrity": "sha512-VpOfRUWoiRVuKSjNWxJx+4d6bLCK8U+mId7kwQ8k4F66UVTC93oycI539A3Ve5ghx3CGpHxNyf/NVAwqeg4Clw==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb0ebeCRA9TVsSAnZWagAAW5IP/ieBoYnRXekpoVDr+LIq\nTGNQczh+jh4ocZJ3Dm+iaEdGmulipBqmYgDt1FrGaB2NsM0trN2SwQDMKRVd\ntfWBmyC3yt+jUwRWIh9rbAnoJWqWkTOwoTIswWzgnplaMPcsQLDUjcKjvBhu\nntr3MT5y2gBlIlhHnvkHG+3cymB2X0XGs74F4a8EKsR9E9NSbY85xnla13YB\n+WYfqI4P3mSNjbgVeBZdR09jXzYkWSzSDaxcJMc9Jz95/7W7/N2LbYoj5gFW\nYg9VupZPjuKGxZeSgy0yLd5wplYSv3/VE2zV1dThpDa1tZheMPpJ9PVvMf3k\n0XEq1MYAB1hfdEV0tCGdQ0BNEBY66xtNXrpxWJsixHmT/NGbktu9NsWiQQaX\nQwm3JSV2fNQbAgL9qSCCX5/llMst7VeL10ylmlkZbIFNN+5Jf7JUn8gL5i9p\nku/vrR5nKfGFd/0QpUzpobdaZbpIG1Yq/jV9oB8Dfyj++bOdAG9wdVOI38iY\nKw/6C9ggBR+z/cVd1kjYExZ46/kwNJ7BAOAq3dN+KOQRnQ4l5Y54+KPghBtm\ngawPrHOeBbShIODVmftRV7nKg22yo0u7r2ibmwW7JFSZprfQHWLRVt9tI+Cp\nZhkgf/93KLVLursvl0Ph6jognp1K8genI9WJjHu5A7UABsISV7QcImAFlN+o\nHZfm\r\n=SGu0\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "926e1612a89dca741ebc93bed8aa305bd9bbcfc6",
+    "tarball": "https://registry.npmjs.org/push.js/-/push.js-1.0.9.tgz",
+    "unpackedSize": 219140
+  },
+  "gitHead": "ad7b003ad10eca7a94cc14e54d56ef88721c5f8e",
+  "homepage": "https://github.com/Nickersoft/push.js",
+  "license": "MIT",
+  "lint-staged": {
+    "*.{js,json,css}": [
+      "git add",
+      "prettier --write"
+    ]
+  },
+  "main": "bin/push.min.js",
+  "maintainers": [
+    {
+      "name": "nickersoft",
+      "email": "nickersoft@gmail.com"
+    }
+  ],
+  "name": "push.js",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nickersoft/push.js.git"
+  },
+  "scripts": {
+    "build": "rollup -c && uglifyjs --source-map -o bin/serviceWorker.min.js src/serviceWorker.js",
+    "clean": "rimraf bin",
+    "precommit": "lint-staged && npm run build && git add bin",
+    "prepublish": "npm run build",
+    "test": "npm run build && karma start tests/karma.conf.js"
+  },
+  "version": "1.0.9"
+}
