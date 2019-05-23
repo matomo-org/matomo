@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Níže je hlavní chybová hláška. Pomůže vám zjistit příčinu, ale pokud budete potřebovat další pomoc:",
         "HelpMessageIntroductionWhenWarning": "Aktualizace proběhla v pořádku, ale byly zaznamenány problémy. Prosím přečtěte si jejich popis výše. Pro další pomoc:",
         "HighTrafficPiwikServerEnableMaintenance": "Pokud provozujete Matomo server s velkým provozem, doporučujeme %1$sna chvíli zakázat sledování návštěvníků a přepnout uživatelské rozhraní do režimu údržby%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Poznámka: Některé zásuvné moduly nejsou kompatibilní s Matomoem %s. Tyto budou buď automaticky aktualizovány, pokud to bude možné, nebo vypnuty před aktualizací:",
         "InstallingTheLatestVersion": "Instaluji poslední verzi",
         "LatestBetaRelease": "Poslední beta vydání",
         "LatestStableRelease": "Poslední stabilní vydání",

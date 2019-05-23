@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "PluginDescription": "O Ecommerce permite-lhe acompanhar quando os utilizadores adicionam produtos a carrinhos e quando estes são convertidos numa venda de comércio eletrónico. Também permite acompanhar visualizações de produtos e categorias de produtos, e carrinhos abandonados.",
         "Sales": "Vendas",
         "Order": "Pedido",
         "Orders": "Pedidos",

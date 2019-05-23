@@ -1,8 +1,9 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Ecommerce ti consente di tracciare quando gli utenti aggiungono al carrello dei prodotti, e quando questi vengono convertiti in una vendita. Traccia anche le visioni dei prodotti, delle categorie di prodotti e i carrelli abbandonati.",
+        "PluginDescription": "L'e-commerce ti consente di monitorare quando gli utenti aggiungono prodotti ai carrelli e quando li convertono in una vendita e-commerce. Traccia anche le visualizzazioni dei prodotti e delle categorie di prodotti e i carrelli abbandonati.",
         "Sales": "Vendite",
         "Order": "Ordine",
+        "OrderId": "ID Ordine",
         "Orders": "Ordini",
         "SalesBy": "Vendite per %s",
         "SalesAdjective": "Vendite %s",

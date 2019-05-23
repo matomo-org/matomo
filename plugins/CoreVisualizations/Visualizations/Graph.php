@@ -162,12 +162,7 @@ abstract class Graph extends Visualization
 
     protected function generateSelectableColumns()
     {
-        $defaultColumns = array(
-            'nb_visits',
-            'nb_actions',
-            'nb_uniq_visitors',
-            'nb_users'
-        );
+        $defaultColumns = $this->getDefaultColumnsToDisplay();
         if ($this->config->show_goals) {
             $goalMetrics       = array('nb_conversions', 'revenue');
             $defaultColumns    = array_merge($defaultColumns, $goalMetrics);
@@ -207,6 +202,22 @@ abstract class Graph extends Visualization
 
         // Strip out any columns_to_display that are not in the dataset
         $allColumns = $this->getDataTable()->getColumns();
+
+        // If the datatable has no data, use the default columns (there must be data for evolution graphs or else nothing displays)
+        if (empty($allColumns)) {
+            $allColumns = $this->getDefaultColumnsToDisplay();
+        }
+
         $this->config->columns_to_display = array_intersect($columnsToDisplay, $allColumns);
+    }
+
+    private function getDefaultColumnsToDisplay()
+    {
+        return array(
+            'nb_visits',
+            'nb_actions',
+            'nb_uniq_visitors',
+            'nb_users'
+        );
     }
 }
