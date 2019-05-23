@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "'%s' nevű felhasználó nem létezik.",
         "ExcludeVisitsViaCookie": "Saját látogatások kiszűrése süti segítségével",
         "ForAnonymousUsersReportDateToLoadByDefault": "A névtelen felhasználók számára alkalmazott alapértelmezett időintervallum",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ha szeretnéd megváltoztatni a jelszót, írd ide be az újat. Egyéb esetben hagyd üresen ezt a mezőt.",
         "ManageAccess": "Hozzáférési jogosultságok kezelése",
         "MenuAnonymousUserSettings": "Névtelen felhasználók beállításai",
         "MenuUsers": "Felhasználók",

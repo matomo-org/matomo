@@ -12,6 +12,7 @@ use Piwik\Date;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\UsersManager\API as UsersAPI;
 
@@ -26,6 +27,7 @@ class TwoFactorFixture extends Fixture
     private $userWithout2Fa = 'without2FA';
     private $userNo2Fa = 'no2FA';
     private $userPassword = '123abcDk3_l3';
+    private $superUserWith2Fa = 'superWith2FA';
 
     const USER_2FA_SECRET = '1111111111111111';
 
@@ -68,6 +70,11 @@ class TwoFactorFixture extends Fixture
 
     public function setUpUsers()
     {
+        \Piwik\Plugins\UsersManager\API::getInstance()->addUser($this->superUserWith2Fa, $this->userPassword,
+            $this->superUserWith2Fa . '@matomo.org');
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword($this->superUserWith2Fa, true);
+
         foreach ([$this->userWith2Fa, $this->userWithout2Fa, $this->userWith2FaDisable, $this->userNo2Fa] as $user) {
             \Piwik\Plugins\UsersManager\API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
             // we cannot set superuser as logme won't work for super user
@@ -79,7 +86,7 @@ class TwoFactorFixture extends Fixture
             }
         }
 
-        foreach ([$this->userWith2Fa, $this->userWith2FaDisable] as $user) {
+        foreach ([$this->userWith2Fa, $this->userWith2FaDisable, $this->superUserWith2Fa] as $user) {
             $this->dao->insertRecoveryCode($user, '123456');
             $this->dao->insertRecoveryCode($user, '234567');
             $this->dao->insertRecoveryCode($user, '345678');

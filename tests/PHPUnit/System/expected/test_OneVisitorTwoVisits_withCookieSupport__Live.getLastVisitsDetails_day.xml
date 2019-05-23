@@ -37,7 +37,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>matching purchase.htm ($ 1 revenue)</subtitle>
+				<subtitle>matching purchase.htm ($1 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -274,7 +274,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>triggered js ($ 42 revenue)</subtitle>
+				<subtitle>triggered js ($42 revenue)</subtitle>
 				
 			</row>
 			<row>

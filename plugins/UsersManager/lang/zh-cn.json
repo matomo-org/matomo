@@ -22,7 +22,6 @@
         "ExceptionUserDoesNotExist": "用户 '%s' 不存在！",
         "ExcludeVisitsViaCookie": "用 cookie 排除您自己的访问记录",
         "ForAnonymousUsersReportDateToLoadByDefault": "匿名访客默认加载的报表日期",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "如果您要修改密码，请输入新的密码，否则留空。",
         "InjectedHostCannotChangePwd": "您正在访问的主机名 (%1$s) 未知，修复这个问题后才能修改密码。",
         "ManageAccess": "权限管理",
         "MenuAnonymousUserSettings": "匿名用户参数",

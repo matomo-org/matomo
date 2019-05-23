@@ -86,7 +86,6 @@
         "UTCTimeIs": "Aktuell tid (UTC) är %s.",
         "OnlyMatchedUrlsAllowed": "Spåra endast besök och händelser när en händelse-URL börjar med någon av ovan URL'er.",
         "OnlyMatchedUrlsAllowedHelp": "När aktiverat så kommer Matomo endast spåra interna händelser när sid-URL'en är någon av de kända URL'er för din webbplats. Detta förhindrar folk från att spamma din statistik med URL'er för andra webbplatser.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "Domänen och sökvägen måste vara en exakt matchning och varje godkänd subdomän måste specificeras separat. T.ex. när den kända URL'en är 'http:\/\/exempel.se\/sökväg' och 'http:\/\/bra.exempel.se' spårningsförfrågan för 'http:\/\/exempel.se\/annansökväg' eller 'http:\/\/dålig.exempel.se' ignoreras.",
         "WebsitesManagement": "Hantera webbplatser",
         "XManagement": "Hantera %s",
         "ChooseMeasurableTypeHeadline": "Vad vill du mäta?",

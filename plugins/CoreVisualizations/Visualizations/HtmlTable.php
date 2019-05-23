@@ -37,6 +37,11 @@ class HtmlTable extends Visualization
         return new HtmlTable\RequestConfig();
     }
 
+    public function beforeLoadDataTable()
+    {
+        $this->checkRequestIsNotForMultiplePeriods();
+    }
+
     public function beforeRender()
     {
         if ($this->requestConfig->idSubtable

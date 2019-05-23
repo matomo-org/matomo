@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
 use Piwik\View;
 
@@ -129,7 +130,9 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($visitorData)) {
             throw new \Exception('Visitor could not be found'); // for example when URL parameter is not set
         }
-        
+
+        VisitorLog::groupActionsByPageviewId($visitorData['lastVisits']);
+
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $this->idSite;
         $view->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);

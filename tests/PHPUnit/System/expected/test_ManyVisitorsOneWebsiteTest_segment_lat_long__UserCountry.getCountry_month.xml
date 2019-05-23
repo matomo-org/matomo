@@ -23,9 +23,9 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==ca</segment>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

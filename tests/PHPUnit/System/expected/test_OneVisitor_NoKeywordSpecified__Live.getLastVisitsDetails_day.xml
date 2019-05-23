@@ -159,7 +159,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Conversion de l'objectif</title>
-				<subtitle>triggered js ($US 42 revenu)</subtitle>
+				<subtitle>triggered js (42 $US revenu)</subtitle>
 				
 			</row>
 		</actionDetails>

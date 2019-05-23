@@ -64,7 +64,6 @@
         "NoValidSubscriptionNoUpdates": "Kada pretplata istekne više nećete moći da primate nadogradnje ovog dodatka.",
         "PluginSubscriptionsList": "Ovo je spisak pretplata povezanih sa vašim ključem.",
         "PaidPluginsNoLicenseKeyIntro": "Ukoliko ste naručili %1$spremium dodatak koji se plaća%2$s, molimo vas da upišete primljeni ključ.",
-        "PaidPluginsWithLicenseKeyIntro": "Postavljen je validan ključ. Iz sigurnosnih razloga ključeve ne prikazujemo ovde. Ako ste izgubili ključ molimo vas da kontaktirate Matomo tim.",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "Ukoliko ste naručili %1$spremium dodatak koji se plaća%2$s preko marketa, molimo vas da zatražite od superkorisnika da upiše ključ.",
         "PluginDescription": "Proširite funkcionalnosti Matomo-a preko Marketa preuzimanjem dodataka i tema.",
         "PluginKeywords": "Ključne reči",
@@ -104,7 +103,6 @@
         "PluginUploadDisabled": "Postavljanje dodataka je isključeno u fajlu sa podešavanjima. Kako biste uključili ovu opciju, izmenite podešavanja ili kontaktirajte vašeg administratora.",
         "LicenseKeyExpiresSoon": "Vaša licenca uskoro ističe, molimo vas da kontaktirate %1$s.",
         "LicenseKeyIsExpired": "Vaša licenca je istekla, molimo vas da kontaktirate %1$s.",
-        "MultiServerEnvironmentWarning": "Ne možete direktno da instalirate ili nadogradite ovaj dodatak zato što koristite Matomo na više servera. Dodatak bi bio instaliran samo na jednom serveru. Preuzmite dodatak i ručno ga postavite na sve vaše servere.",
         "AutoUpdateDisabledWarning": "Ne možete direktno da instalirate i nadogradite ovaj dodatak zato što je automatska nadogradnja isključena u podešavanjima. Da omogućite automatsku nadogradnju postavite %1$s u %2$s.",
         "ViewRepositoryChangelog": "Prikaži promene"
     }

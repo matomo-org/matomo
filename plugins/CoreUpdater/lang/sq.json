@@ -24,7 +24,7 @@
         "HelpMessageIntroductionWhenError": "Sa më sipër, është thelbi i mesazhit të gabimit. Do të ndihmonte të shpjegohej shkaku, por nëse keni nevojë për ndihmë të mëtejshme, ju lutemi:",
         "HelpMessageIntroductionWhenWarning": "Përditësimi u plotësua me sukses, sidoqoftë pati ca kleçka gjatë procesit. Ju lutemi, lexoni përshkrimet më sipër për hollësi. Për më tepër ndihmë:",
         "HighTrafficPiwikServerEnableMaintenance": "Nëse administroni një shërbyes Matomo me trafik të madh, këshillojmë ta %1$sçaktivizoni përkohësisht Ndjekjen e vizitorëve dhe ta kaloni Ndërfaqen e Përdoruesit të Matomo-s nën mënyrën mirëmbajtje%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Shënim: disa shtojca janë të papërputhshme me Matomo %s. Do t’i përditësojmë, nëse ka një përditësim të gatshëm te Marketplace, përndryshe do t’i çaktivizojmë kur të bëni një përmirësim:",
+        "IncompatbilePluginsWillBeDisabledInfo": "Shënim: disa shtojca janë të papërputhshme me Matomo %s. Do t’i përditësojmë, nëse ka një përditësim të gatshëm te Marketplace, përndryshe do t’i çaktivizojmë, kur të bëni një përmirësim:",
         "InstallingTheLatestVersion": "Po instalohet versioni më i fundit",
         "LatestBetaRelease": "Hedhja beta më e re në qarkullim",
         "LatestStableRelease": "Hedhja e qëndrueshme më e re në qarkullim",

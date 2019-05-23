@@ -10,7 +10,6 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==RM</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
 	</row>
 	<row>
@@ -23,7 +22,6 @@
 		<nb_visits_converted>10</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<segment>browserCode==CH</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CH.png</logo>
 	</row>
 	<row>
@@ -36,7 +34,6 @@
 		<nb_visits_converted>8</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==IE</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
 	<row>
@@ -49,7 +46,6 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==EP</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/EP.png</logo>
 	</row>
 	<row>
@@ -62,7 +58,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==UNK</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 	<row>
@@ -75,7 +70,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==AN</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/AN.png</logo>
 	</row>
 	<row>
@@ -88,7 +82,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>browserCode==FF</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 	</row>
 	<row>
@@ -101,7 +94,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>browserCode==CM</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/CM.png</logo>
 	</row>
 </result>

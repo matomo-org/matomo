@@ -35,7 +35,7 @@
         "InjectedHostEmailBody": "Hej, jag försökte komma åt Matomo idag och stötte på varningen det okända värdnamnet.",
         "InjectedHostEmailSubject": "Matomo nåddes genom ett okänt värdnamn: %s",
         "InjectedHostNonSuperUserWarning": "%1$sKlicka här för att öppna en säker anslutning till Matomo%2$s och ta bort varningen. Du kan också kontakta administratören för Matomo angående det här problemet (%3$sklicka här för att skicka e-post%4$s).",
-        "InjectedHostSuperUserWarning": "Matomo kan vara felkonfigurerat (t.ex. om Pwiwik nyligen har flyttats till en ny server eller URL). Du kan antigen %1$sklicka här och lägga till %2$s som ett giltigt värdnamn för Matomo (om det är giltigt)%3$s, eller %4$sklicka här för att gå till %5$s och ansluta till Matomo säkert%6$s.",
+        "InjectedHostSuperUserWarning": "Matomo kan vara felkonfigurerat (t.ex. om Matomo nyligen har flyttats till en ny server eller URL). Du kan antigen %1$sklicka här och lägga till %2$s som ett giltigt värdnamn för Matomo (om det är giltigt)%3$s, eller %4$sklicka här för att gå till %5$s och ansluta till Matomo säkert%6$s.",
         "InjectedHostWarningIntro": "Du ansluter till Matomo från %1$s, men Matomo har konfigurerats att köras från den här adressen: %2$s.",
         "JavascriptDisabled": "JavaScript måste vara aktiverat för att du ska kunna använda Matomo i standardläge.<br \\\/>Det verkar som att JavaScript antingen är inaktiverat eller att det inte stöds av din webbläsare.<br \\\/>För att använda standardläget, aktivera JavaScript genom att ändra din webbläsares inställningar och%1$sförsök sedan igen%2$s.<br \\\/>",
         "VisitStatusOrdered": "Beställde",
