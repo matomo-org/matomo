@@ -25,6 +25,7 @@ use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -282,7 +283,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
                 $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
-                $this->registerNewsletter($loginName, $email, $newsletterPiwikORG, $newsletterProfessionalServices);
+                NewsletterSignup::signupForNewsletter(
+                    $loginName,
+                    $email,
+                    $newsletterPiwikORG,
+                    $newsletterProfessionalServices
+                );
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -293,23 +299,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->addForm($form);
 
         return $view->render();
-    }
-
-    /**
-     * @param $login
-     * @param $email
-     * @param $newsletterPiwikORG
-     * @param $newsletterProfessionalServices
-     */
-    protected function registerNewsletter($login, $email, $newsletterPiwikORG, $newsletterProfessionalServices)
-    {
-        $usersManagerApi = APIUsersManager::getInstance();
-        $usersManagerApi->signupForNewsletter(
-            $login,
-            $email,
-            $newsletterPiwikORG,
-            $newsletterProfessionalServices
-        );
     }
 
     /**

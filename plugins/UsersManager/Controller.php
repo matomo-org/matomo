@@ -409,6 +409,22 @@ class Controller extends ControllerAdmin
         return $toReturn;
     }
 
+    public function newsletterSignup()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $userLogin = Piwik::getCurrentUserLogin();
+        $email = Piwik::getCurrentUserEmail();
+
+        $success = NewsletterSignup::signupForNewsletter($userLogin, $email, true);
+        if ($success) {
+            $result = array('success' => true);
+        } else {
+            $result = array('error' => true);
+        }
+        return json_encode($result);
+    }
+
     private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
     {
         $view = new View('@UsersManager/noWebsiteAdminAccess');

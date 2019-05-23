@@ -49,18 +49,20 @@
 
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams(
-                {module: 'API', method: 'UsersManager.newsletterSignup', format: 'json'}, '' +
+                {module: 'UsersManager', action: 'newsletterSignup'}, '' +
                 'GET'
             );
 
             var errorCallback = function() {
+                debugger;
                 $('#newsletterSignupMsg').hide();
                 $('#newsletterSignupFailure').show();
                 signupBtn.html('Try Again');
             };
 
             ajaxHandler.setCallback(function (response) {
-                if (response[0] && response[0]['success'] == true) {
+                debugger;
+                if (response['success'] == true) {
                     $('#newsletterSignupMsg').hide();
                     $('#newsletterSignupFailure').hide();
                     $('#newsletterSignupSuccess').show();
