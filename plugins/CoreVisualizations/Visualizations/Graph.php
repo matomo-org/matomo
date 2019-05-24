@@ -201,7 +201,11 @@ abstract class Graph extends Visualization
         $columnsToDisplay = $this->removeLabelFromArray($columnsToDisplay);
 
         // Strip out any columns_to_display that are not in the dataset
-        $allColumns = $this->getDataTable()->getColumns();
+        if ($this->report) {
+            $allColumns = $this->report->getAllMetrics();
+        } else {
+            $allColumns = $this->getDataTable()->getColumns();
+        }
 
         // If the datatable has no data, use the default columns (there must be data for evolution graphs or else nothing displays)
         if (empty($allColumns)) {

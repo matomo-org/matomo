@@ -825,7 +825,7 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
         var label = rowEvolutionGetMetricNameFromRow(el);
         var metricExists = false;
         for (var k = 0; k < self.originalSeries.length; k++) {
-            if (self.originalSeries[k] && self.originalSeries[k].label == label) {
+            if (self.originalSeries[k] && labelMatches(self.originalSeries[k].label, label)) {
                 metricExists = true;
             }
         }
@@ -857,6 +857,13 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
             this.onselectstart = function () { return false; };
         } else if ($.browser.opera) {
             $(this).attr('unselectable', 'on');
+        }
+
+        // the API outputs the label double encoded when it shouldn't. so when looking for a matching label we have
+        // to check if one is double encoded.
+        // TODO: creat eissue fir this
+        function labelMatches(lhs, rhs) {
+            return lhs === rhs || piwikHelper.htmlDecode(lhs) === rhs || lhs === piwikHelper.htmlDecode(rhs);
         }
     });
 };
