@@ -143,11 +143,6 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->isValid('{_test_}@example.com'));
     }
 
-    public function test_isValid_validQuotedLocalPart()
-    {
-        $this->assertTrue($this->isValid('"[[ test ]]"@example.com'));
-    }
-
     public function test_isValid_validAtomisedLocalPart()
     {
         $this->assertTrue($this->isValid('test.test@example.com'));
