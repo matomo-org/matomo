@@ -49,7 +49,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function tearDown()
     {
-        Option::deleteLike('CoreHome.nextFeedbackReminder.%');
+        Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
         Date::$now = $this->now;
 
@@ -87,14 +87,14 @@ class FeedbackTest extends IntegrationTestCase
 
     public function test_shouldPromptForFeedback_dontRemindUserAgain()
     {
-        Option::set('CoreHome.nextFeedbackReminder.user1', '-1');
+        Option::set('Feedback.nextFeedbackReminder.user1', '-1');
 
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());
     }
 
     public function test_shouldPromptForFeedback_nextReminderDateInPast()
     {
-        Option::set('CoreHome.nextFeedbackReminder.user1', '2019-05-31');
+        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
         Date::$now = Date::factory('2019-06-01')->getTimestamp();
 
         $this->assertTrue($this->feedback->getShouldPromptForFeedback());
@@ -102,7 +102,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function test_shouldPromptForFeedack_nextReminderDateToday()
     {
-        Option::set('CoreHome.nextFeedbackReminder.user1', '2019-05-31');
+        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
         Date::$now = Date::factory('2019-05-31')->getTimestamp();
 
         $this->assertTrue($this->feedback->getShouldPromptForFeedback());
@@ -110,7 +110,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function test_shouldPromptForFeedack_nextReminderDateInFuture()
     {
-        Option::set('CoreHome.nextFeedbackReminder.user1', '2019-05-31');
+        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
         Date::$now = Date::factory('2019-05-30')->getTimestamp();
 
         $this->assertFalse($this->feedback->getShouldPromptForFeedback());

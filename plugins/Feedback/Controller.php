@@ -8,6 +8,10 @@
  */
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Version;
 use Piwik\View;
 
@@ -22,5 +26,20 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->piwikVersion = Version::VERSION;
         return $view->render();
+    }
+
+    /**
+     * Store the next date that the feedback reminder popup should be displayed to this user.
+     */
+    public function updateFeedbackReminderDate()
+    {
+        $nextReminder = Common::getRequestVar('nextReminder');
+        // -1 means "never remind me again", otherwise add the interval onto today's date
+        if ((int)$nextReminder !== -1) {
+            $nextReminder = Date::now()->getStartOfDay()->addDay($nextReminder)->toString('Y-m-d');
+        }
+
+        $optionKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
+        Option::set($optionKey, $nextReminder);
     }
 }

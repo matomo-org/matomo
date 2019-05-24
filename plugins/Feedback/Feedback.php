@@ -80,7 +80,7 @@ class Feedback extends \Piwik\Plugin
         }
 
         $login = Piwik::getCurrentUserLogin();
-        $feedbackReminderKey = 'CoreHome.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
+        $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
         $nextReminderDate = Option::get($feedbackReminderKey);
 
         // -1 = "never remind me again"

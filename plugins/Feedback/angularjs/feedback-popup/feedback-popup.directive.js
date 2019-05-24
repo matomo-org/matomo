@@ -12,11 +12,10 @@
 (function () {
     angular.module('piwikApp').directive('piwikFeedbackPopup', piwikFeedbackPopup);
 
-    piwikFeedbackPopup.$inject = ['piwik', '$timeout'];
+    piwikFeedbackPopup.$inject = ['piwik'];
 
-    function piwikFeedbackPopup(piwik, $timeout){
+    function piwikFeedbackPopup(piwik){
         var defaults = {
-            // showAllSitesItem: 'true'
         };
 
         return {
@@ -28,19 +27,11 @@
             controller: 'FeedbackPopupController',
             controllerAs: 'feedbackPopup',
             compile: function (element, attrs) {
-
                 for (var index in defaults) {
                     if (defaults.hasOwnProperty(index) && attrs[index] === undefined) {
                         attrs[index] = defaults[index];
                     }
                 }
-
-                return function (scope, element, attrs) {
-                    // $timeout(function() {
-                    //     scope.feedbackPopup.dialog = {};
-                    //     scope.feedbackPopup.dialog.show = true;
-                    // });
-                };
             }
         };
     }

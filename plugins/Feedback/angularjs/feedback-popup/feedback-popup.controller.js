@@ -12,10 +12,10 @@
     function FeedbackPopupController($scope, $timeout, piwikApi) {
 
         var saveNextReminder = function(nextReminder) {
-            piwikApi.fetch({
-                method: 'Feedback.updateFeedbackReminderDate',
-                nextReminder: nextReminder
-            });
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({'module': 'Feedback', 'action': 'updateFeedbackReminderDate'}, 'GET');
+            ajaxHandler.addParams({'nextReminder': nextReminder}, 'POST');
+            ajaxHandler.send();
         };
 
         var remindMeLater = function() {

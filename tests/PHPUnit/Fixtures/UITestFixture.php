@@ -89,6 +89,8 @@ class UITestFixture extends SqlDump
         DbHelper::createAnonymousUser();
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword('superUserLogin', true);
+        $yesterday = Date::yesterday();
+        Option::set('Feedback.nextFeedbackReminder.superUserLogin', $yesterday->toString('Y-m-d'));
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user

@@ -48,7 +48,7 @@ class APITest extends IntegrationTestCase
 
     public function tearDown()
     {
-        Option::deleteLike('CoreHome.nextFeedbackReminder.%');
+        Option::deleteLike('Feedback.nextFeedbackReminder.%');
         $this->userModel->deleteUserOnly('user1');
         Date::$now = $this->now;
 
@@ -67,7 +67,7 @@ class APITest extends IntegrationTestCase
     {
         $this->api->updateFeedbackReminderDate('90');
 
-        $option = Option::get('CoreHome.nextFeedbackReminder.user1');
+        $option = Option::get('Feedback.nextFeedbackReminder.user1');
         $this->assertEquals($option, '2019-08-29');
     }
 
@@ -75,7 +75,7 @@ class APITest extends IntegrationTestCase
     {
         $this->api->updateFeedbackReminderDate('-1');
 
-        $option = Option::get('CoreHome.nextFeedbackReminder.user1');
+        $option = Option::get('Feedback.nextFeedbackReminder.user1');
         $this->assertEquals($option, '-1');
     }
 }

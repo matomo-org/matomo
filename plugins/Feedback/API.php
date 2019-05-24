@@ -9,10 +9,8 @@
 namespace Piwik\Plugins\Feedback;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Date;
 use Piwik\IP;
 use Piwik\Mail;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\Url;
@@ -60,21 +58,6 @@ class API extends \Piwik\Plugin\API
         );
 
         $this->sendMail($subject, $body);
-    }
-
-
-    /**
-     * Store the next date that the feedback reminder popup should be displayed to this user.
-     */
-    public function updateFeedbackReminderDate($nextReminder)
-    {
-        // -1 means "never remind me again", otherwise add the interval onto today's date
-        if ((int)$nextReminder !== -1) {
-            $nextReminder = Date::now()->getStartOfDay()->addDay($nextReminder)->toString('Y-m-d');
-        }
-
-        $optionKey = 'CoreHome.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        Option::set($optionKey, $nextReminder);
     }
 
     private function sendMail($subject, $body)
