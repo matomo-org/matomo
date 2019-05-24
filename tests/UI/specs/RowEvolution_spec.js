@@ -60,9 +60,7 @@ describe("RowEvolution", function () {
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
-        await page.waitFor('.piwik-graph');
-        await page.waitFor(250);
-
+        await page.waitForNetworkIdle();
         expect(await dialog.screenshot()).to.matchImage('multirow_evolution');
     });
 
