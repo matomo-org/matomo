@@ -861,7 +861,6 @@ RowEvolutionSeriesToggle.prototype.attachEvents = function () {
 
         // the API outputs the label double encoded when it shouldn't. so when looking for a matching label we have
         // to check if one is double encoded.
-        // TODO: creat eissue fir this
         function labelMatches(lhs, rhs) {
             return lhs === rhs || piwikHelper.htmlDecode(lhs) === rhs || lhs === piwikHelper.htmlDecode(rhs);
         }
