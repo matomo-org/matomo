@@ -1,4 +1,8 @@
-## Piwik modifications to libs/
+## Legal notice
+
+See the [LEGALNOTICE file](https://github.com/matomo-org/matomo/blob/3.x-dev/LEGALNOTICE).
+
+## Matomo modifications to libs/
 
 In general, bug fixes and improvements are reported upstream.  Until these are
 included upstream, we maintain a list of bug fixes and local mods made to

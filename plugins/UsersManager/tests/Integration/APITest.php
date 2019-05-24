@@ -988,7 +988,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage abc
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
      */
     public function test_setSuperUserAccess_failsIfCurrentPasswordIsIncorrect()
     {
