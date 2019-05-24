@@ -60,7 +60,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             if (strpos(mb_strtolower($tld), 'xn--') !== 0) {
                 $tld = mb_strtolower($tld);
             }
-            $domainNameExtension = idn_to_utf8($tld, 0, INTL_IDNA_VARIANT_UTS46);
+            $domainNameExtension = idn_to_ascii($tld, 0, INTL_IDNA_VARIANT_UTS46);
             $email = 'test@example.' . $domainNameExtension;
 
             if(!$this->isValid($email)) {
