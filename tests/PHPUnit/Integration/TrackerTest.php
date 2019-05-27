@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -389,6 +390,25 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEmpty(Option::getLike('report_to_invalidate_2_2019-04-02%'));
     }
 
+    public function test_TrackingNewVisitOfKnownVisitor()
+    {
+        Fixture::createWebsite('2015-01-01 00:00:00');
+
+        // track one visit
+        $t = self::$fixture->getTracker($idSite = 1, '2015-01-01', $defaultInit = true, $useLocalTracker = true);
+        $t->setForceVisitDateTime('2015-08-06 07:53:09');
+        $t->setNewVisitorId();
+        Fixture::checkResponse($t->doTrackPageView('page view'));
+
+        // track action 2 seconds later w/ new_visit=1
+        $t->setForceVisitDateTime('2015-08-06 07:53:11');
+        $t->setCustomTrackingParameter('new_visit', '1');
+        Fixture::checkResponse($t->doTrackPageView('page view 2'));
+
+        $this->assertEquals(2, $this->getVisitCount());
+        $this->assertEquals(1, $this->getReturningVisitorCount());
+    }
+
     private function getDefaultHandler()
     {
         return new Tracker\Handler();
@@ -447,6 +467,23 @@ class TrackerTest extends IntegrationTestCase
         if(file_exists($this->getLocalConfigPathMoved())){
             rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
         }
+    }
+
+    private function getVisitCount()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('log_visit'));
+    }
+
+    private function getReturningVisitorCount()
+    {
+        return Db::fetchOne("SELECT COUNT(DISTINCT idvisitor) FROM " . Common::prefixTable('log_visit') . ' WHERE visitor_returning = 1');
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+
+        $fixture->createSuperUser = true;
     }
 }
 
