@@ -1,0 +1,22 @@
+<script>
+
+    $(function () {
+
+        resetReportParametersFunctions ['{{ reportType }}'] = function (report) {
+            // Prompts the user to enable browser notifications if they have not already
+            Push.Permission.request(function() {
+                console.log("Permission granted");
+            }, function() {
+                console.log("Permisison denied");
+            });
+        };
+
+        updateReportParametersFunctions['{{ reportType }}'] = function (report) {
+        };
+
+        getReportParametersFunctions['{{ reportType }}'] = function (report) {
+            var parameters = {'displayFormat': '{{ defaultDisplayFormat }}'};
+            return parameters;
+        };
+    });
+</script>

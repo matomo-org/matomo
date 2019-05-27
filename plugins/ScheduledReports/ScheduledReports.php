@@ -23,6 +23,7 @@ use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -49,6 +50,7 @@ class ScheduledReports extends \Piwik\Plugin
     const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
     const EMAIL_TYPE = 'email';
+    const BROWSER_TYPE = 'browser';
 
     private static $availableParameters = array(
         self::EMAIL_ME_PARAMETER          => false,
@@ -58,7 +60,8 @@ class ScheduledReports extends \Piwik\Plugin
     );
 
     private static $managedReportTypes = array(
-        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png',
+        self::BROWSER_TYPE => 'plugins/Morpheus/images/email.png'
     );
 
     private static $managedReportFormats = array(
@@ -132,6 +135,8 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js";
         $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js";
+        $jsFiles[] = "libs/bower_components/push.js/bin/push.js";
+        $jsFiles[] = "notifications-sw.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -306,6 +311,21 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
+        switch($reportType) {
+            case self::BROWSER_TYPE:
+                $this->sendReportByBrowserNotification($report, $contents, $prettyDate, $reportTitle,
+                    $period, $force);
+                break;
+            case self::EMAIL_TYPE:
+                $this->sendReportByEmail($report, $contents, $filename, $prettyDate, $reportTitle,
+                    $additionalFiles, $period, $force);
+                break;
+        }
+    }
+
+    protected function sendReportByEmail($report, $contents, $filename, $prettyDate, $reportTitle,
+                                         $additionalFiles, Period $period = null, $force)
+    {
         $generatedReport = new GeneratedReport($report, $reportTitle, $prettyDate, $contents, $additionalFiles);
 
         $reportFormat = $generatedReport->getReportFormat();
@@ -394,6 +414,31 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
+    protected function sendReportByBrowserNotification($report, $contents, $prettyDate, $reportTitle,
+                                                       Period $period = null, $force)
+    {
+        $linkParams = array(
+            'module' => 'API',
+            'segment' => null,
+            'method' => 'ScheduledReports.generateReport',
+            'idReport' => $report['idreport'],
+            'outputType' => API::OUTPUT_INLINE,
+            'language' => 'en',
+            'format' => 'html'
+        );
+
+        $notification = array();
+        $notification['title'] = "Your $reportTitle report is ready";
+        $notification['link'] = 'index.php' . Url::getCurrentQueryStringWithParametersModified($linkParams);
+
+        $userLogin = $report['login'];
+        Option::set('ScheduledReports.notification.' . $userLogin, json_encode($notification));
+
+        if (! $force) {
+            $this->markReportAsSent($report, $period);
+        }
+    }
+
     public function deletePhoneNumber($phoneNumber)
     {
         $api = API::getInstance();
@@ -465,6 +510,11 @@ class ScheduledReports extends \Piwik\Plugin
         $view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
         $view->defaultEvolutionGraph = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
         $out .= $view->render();
+
+        $view2 = new View('@ScheduledReports/reportParametersScheduledReports_browser');
+        $view2->reportType = self::BROWSER_TYPE;
+        $view2->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
+        $out .= $view2->render();
     }
 
     private static function manageEvent($reportType)

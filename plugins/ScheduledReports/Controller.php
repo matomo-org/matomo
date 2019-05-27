@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Nonce;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -168,5 +169,26 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $view->render();
+    }
+
+    public function getNotifications()
+    {
+        $login = Piwik::getCurrentUserLogin();
+        $optionValue = Option::get('ScheduledReports.notification.' . $login);
+
+        if ($optionValue) {
+            // Need to go from a single notification to an array of them
+            $notifications = array(
+                json_decode($optionValue, true)
+            );
+        } else {
+            $notifications = array(
+                array(
+                    'title' => 'Dummy notification from Matomo',
+                    'link' => 'index.php'
+                )
+            );
+        }
+        return json_encode($notifications);
     }
 }
