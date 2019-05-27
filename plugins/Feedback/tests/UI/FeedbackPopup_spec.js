@@ -27,19 +27,15 @@ describe("FeedbackPopup", function () {
         var modal = await page.waitFor('.modal.open', { visible: true });
         expect(await modal.screenshot()).to.matchImage('feedback_popup');
 
-        // Click on the "Remind me in 90 days button" = the popup shouldn't appear for the next test
-        await page.evaluate(function() {
-            $('#feedback-popup-yes').click();
-        });
+        // Click on the "Remind me in 90 days" button = the popup shouldn't appear for the next test
+        var remindLaterBtn = await modal.$$('.modal-footer .btn-flat');
+        await remindLaterBtn[0].click();
     });
 
     it('should not display popup when next reminder date is in future', async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();
 
-        await page.waitForSelector('.modal', { visible: true, timeout: 2000 })
-            .then(function() {
-                throw new Error('Modal should not be visible')
-            }).catch(function() { /*  Empty as the element is not expected to be present */});
+        expect(await page.screenshotSelector('#root')).to.matchImage('dashboard_no_popup');
     });
 });
