@@ -19,7 +19,7 @@
                     // Success - update UI
                     $('#enableBrowserNotifications').addClass('ng-hide');
                     $('#disableBrowserNotifications').removeClass('ng-hide');
-                    this.startListening();
+                    //this.startListening();
                 }.bind(this),
                 function() {
                     // Failure - bugger
@@ -43,13 +43,10 @@
         };
 
         this.startListening = function() {
-            this.timerId = setInterval(function() {
-                console.log("Time");
-                Push.create("Matomo", {
-                    body: "Your report is ready"
-                });
-            }, 60 * 1000);  // Timeout is in ms
-            console.log("Registered the interval timer");
         };
     }
+
+    Push.config({
+        serviceWorker: './notifications-sw.js'
+    });
 })();

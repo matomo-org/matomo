@@ -58,6 +58,16 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
+    public function getNotifications()
+    {
+        $notifications = array(
+            array(
+                'title' => 'New notification from Matomo'
+            )
+        );
+        return json_encode($notifications);
+    }
+
     private function setManageVariables(View $view)
     {
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
