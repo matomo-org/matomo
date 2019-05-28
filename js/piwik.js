@@ -3878,14 +3878,10 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-                if (!isDefined(navigatorAlias.cookieEnabled)) {
-                    var testCookieName = getCookieName('testcookie');
-                    setCookie(testCookieName, '1');
+				var testCookieName = getCookieName('testcookie');
+				setCookie(testCookieName, '1');
 
-                    return getCookie(testCookieName) === '1' ? '1' : '0';
-                }
-
-                return navigatorAlias.cookieEnabled ? '1' : '0';
+                return getCookie(testCookieName) === '1' ? '1' : '0';
             }
 
             /*
