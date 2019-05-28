@@ -162,7 +162,7 @@ class PivotByDimension extends BaseFilter
         $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;
 
-        $this->setPivotColumn($this->pivotColumn);
+        $this->setPivotColumn($pivotColumn);
 
         $this->setPivotByDimension($pivotByDimension);
 
