@@ -75,6 +75,9 @@ class GeneratePlugin extends GeneratePluginBase
                 '/docs',
                 '/docs/faq.md',
                 '/docs/index.md',
+                '/config',
+                '/config/config.php',
+                '/config/tracker.php'
             );
         }
 
