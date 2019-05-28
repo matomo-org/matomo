@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -142,7 +143,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite,
             'trackingHelp' => $this->renderTemplateAs('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
-                'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
+                'jsTag'           => Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl)),
                 'idSite'          => $this->idSite,
                 'piwikUrl'        => $piwikUrl,
             ), $viewType = 'basic'),
