@@ -136,7 +136,7 @@ class HtmlTable extends Visualization
                         unset($properties->columns_to_display[$label]);
                     }
 
-                    foreach ($dimensions as $dimension) {
+                    foreach (array_reverse($dimensions) as $dimension) {
                         array_unshift($properties->columns_to_display, $dimension);
                     }
 
