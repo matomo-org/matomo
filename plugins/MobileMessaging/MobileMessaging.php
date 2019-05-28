@@ -16,6 +16,7 @@ use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\Plugins\ScheduledReports\API;
 use Piwik\View;
 
 /**
@@ -35,6 +36,7 @@ class MobileMessaging extends \Piwik\Plugin
     const PHONE_NUMBERS_PARAMETER = 'phoneNumbers';
 
     const MOBILE_TYPE = 'mobile';
+    const BROWSER_TYPE = 'browser';
     const SMS_FORMAT = 'sms';
 
     private static $availableParameters = array(
@@ -42,11 +44,13 @@ class MobileMessaging extends \Piwik\Plugin
     );
 
     private static $managedReportTypes = array(
-        self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png'
+        self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png',
+        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/phone.png'
     );
 
     private static $managedReportFormats = array(
-        self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png'
+        self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png',
+        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/phone.png'
     );
 
     private static $availableReports = array(
@@ -96,6 +100,8 @@ class MobileMessaging extends \Piwik\Plugin
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-sms-provider.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
+        $jsFiles[] = "libs/bower_components/push.js/bin/push.js";
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/browser-notifications.controller.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -112,7 +118,7 @@ class MobileMessaging extends \Piwik\Plugin
     
     public function validateReportParameters(&$parameters, $reportType)
     {
-        if (self::manageEvent($reportType)) {
+        if ($reportType === self::MOBILE_TYPE) {
             // phone number validation
             $availablePhoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
 
@@ -161,7 +167,7 @@ class MobileMessaging extends \Piwik\Plugin
 
     public function getReportParameters(&$availableParameters, $reportType)
     {
-        if (self::manageEvent($reportType)) {
+        if ($reportType === self::MOBILE_TYPE) {
             $availableParameters = self::$availableParameters;
         }
     }
@@ -188,32 +194,52 @@ class MobileMessaging extends \Piwik\Plugin
 
     public function getReportRecipients(&$recipients, $reportType, $report)
     {
-        if (self::manageEvent($reportType)) {
+        if ($reportType === self::MOBILE_TYPE) {
             $recipients = $report['parameters'][self::PHONE_NUMBERS_PARAMETER];
         }
     }
 
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles, Period $period = null, $force)
-    {
-        if (self::manageEvent($reportType)) {
-            $parameters = $report['parameters'];
-            $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
-
-            // 'All Websites' is one character above the limit, use 'Reports' instead
-            if ($reportSubject == Piwik::translate('General_MultiSitesSummary')) {
-                $reportSubject = Piwik::translate('General_Reports');
-            }
-
-            $mobileMessagingAPI = APIMobileMessaging::getInstance();
-            foreach ($phoneNumbers as $phoneNumber) {
-                $mobileMessagingAPI->sendSMS(
-                    $contents,
-                    $phoneNumber,
-                    $reportSubject
-                );
-            }
+                               $additionalFiles, Period $period = null, $force
+    ) {
+        switch($reportType) {
+            case self::MOBILE_TYPE:
+                $this->sendReportBySms($report, $contents, $reportSubject);
+                break;
+            case self::BROWSER_TYPE:
+                $this->sendReportByBrowserNotification($report, $contents, $reportSubject);
+                break;
         }
+    }
+
+    protected function sendReportBySms($report, $contents, $reportSubject)
+    {
+        $parameters = $report['parameters'];
+        $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
+
+        // 'All Websites' is one character above the limit, use 'Reports' instead
+        if ($reportSubject == Piwik::translate('General_MultiSitesSummary')) {
+            $reportSubject = Piwik::translate('General_Reports');
+        }
+
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
+        foreach ($phoneNumbers as $phoneNumber) {
+            $mobileMessagingAPI->sendSMS(
+                $contents,
+                $phoneNumber,
+                $reportSubject
+            );
+        }
+    }
+
+    protected function sendReportByBrowserNotification($report, $contents, $reportSubject)
+    {
+        $notification = array();
+        $notification['title'] = $reportSubject;
+        $notification['contents'] = $contents;
+
+        $userLogin = $report['login'];
+        Option::set('ScheduledReports.notification.' . $userLogin, json_encode($notification));
     }
 
     public static function template_reportParametersScheduledReports(&$out, $context = '')
@@ -236,6 +262,10 @@ class MobileMessaging extends \Piwik\Plugin
 
         $view->phoneNumbers = $phoneNumbers;
         $out .= $view->render();
+
+
+        $view2 = new View('@MobileMessaging/reportParametersScheduledReports_browser');
+        $out .= $view2->render();
     }
 
     private static function manageEvent($reportType)

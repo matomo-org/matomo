@@ -2,20 +2,23 @@
 
     $(function () {
 
-        resetReportParametersFunctions ['{{ reportType }}'] = function (report) {
+        resetReportParametersFunctions ['browser'] = function (report) {
             // Prompts the user to enable browser notifications if they have not already
             Push.Permission.request(function() {
                 console.log("Permission granted");
             }, function() {
                 console.log("Permisison denied");
             });
+
+            report.formatmobile = 'browser';
         };
 
-        updateReportParametersFunctions['{{ reportType }}'] = function (report) {
+        updateReportParametersFunctions['browser'] = function (report) {
+            report.formatmobile = 'browser';
         };
 
-        getReportParametersFunctions['{{ reportType }}'] = function (report) {
-            var parameters = {'displayFormat': '{{ defaultDisplayFormat }}'};
+        getReportParametersFunctions['browser'] = function (report) {
+            var parameters = {'dummy': 'dummyvalue'};
             return parameters;
         };
     });
