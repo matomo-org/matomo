@@ -397,6 +397,9 @@ login_cookie_expire = 1209600
 ; Sets the session cookie path
 login_cookie_path =
 
+; the amount of time before a session that was created without the "remember me" option is considered expired
+login_session_expire_not_remembered = 86400
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"

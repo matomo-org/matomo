@@ -193,10 +193,9 @@ class SessionAuth implements Auth
             $sessionParams['domain'], $sessionParams['secure'], $sessionParams['httponly']);
     }
 
-    // TODO: test
     private function isExpiredSession(SessionFingerprint $sessionFingerprint)
     {
-        $nonRememberedSessionExpireTime = 24 * 60 * 60; // TODO: config option
+        $nonRememberedSessionExpireTime = Config::getInstance()->General['login_session_expire_not_remembered'];
         $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
 
         $startTime = $sessionFingerprint->getSessionStartTime();
@@ -211,10 +210,6 @@ class SessionAuth implements Auth
         }
 
         $isExpired = Date::getNowTimestamp() > $expireTime;
-        if ($isExpired) {
-            print $startTime. ' - ' . $expireTime . ' - ' . Date::getNowTimestamp() . "\n";
-            exit;
-        }
         return $isExpired;
     }
 }
