@@ -1,6 +1,6 @@
 {
     "Live": {
-        "AveragePageGenerationTime": "Jokainen sivun lataaminen kesti keskimäärin %1$s tälle käyttäjälle.",
+        "AveragePageGenerationTime": "Jokainen sivun lataaminen kesti keskimäärin %1$s tälle kävijälle.",
         "CalculatedOverNPageViews": "Laskettu käyttämällä tämän kävijän %1$s viimeisintä nähtyä sivua.",
         "ClickToViewMoreAboutVisit": "Klikkaa saadaksesi lisätietoa tästä käynnistä",
         "ClickToViewAllActions": "Klikkaa näyttääksesi tarkat tiedot tästä ryhmästä",
@@ -49,7 +49,8 @@
         "RowActionTooltipWithDimension": "Näytä käyntiloki paloiteltuna: %s",
         "RowActionTooltipTitle": "Näytä paloiteltu käyntiloki",
         "SegmentedVisitorLogTitle": "Käyntilokin käynnit, joissa %1$s on \"%2$s\"",
-        "OnClickPause": "%s on käynnissä. Pysäytä klikkaamalla.",
-        "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla."
+        "OnClickPause": "%s on käynnissä. Keskeytä klikkaamalla.",
+        "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla.",
+        "ClickToSeeAllContents": "Klikkaa nähdäksesi interaktion sisältö"
     }
 }

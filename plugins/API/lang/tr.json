@@ -1,7 +1,7 @@
 {
     "API": {
         "ChangeTokenHint": "Bu kodu değiştirmek isterseniz %1$skişisel ayarlar sayfanıza%2$s gidin.",
-        "GenerateVisits": "Bugün için bir veri yoksa %1$s uygulama ekini kullanarak sahte veriler oluşturabilirsiniz. %2$s uygulama ekini etkinleştirin. Ardından Matomo Yönetim bölümünden 'Ziyaretçi Üreteci' menüsüne tıklayın.",
+        "GenerateVisits": "Bugün için bir veri yoksa %1$s uygulama ekini kullanarak sahte veriler ekleyebilirsiniz. %2$s uygulama ekini etkinleştirin. Ardından Matomo Yönetim bölümünden 'Ziyaretçi Üreteci' menüsüne tıklayın.",
         "KeepTokenSecret": "Bu token_auth kodu kullanıcı adı ve parolanız kadar gizlidir. %1$s kimseyle paylaşmayın%2$s!",
         "LoadedAPIs": "%s API yazılımı yüklendi",
         "MoreInformation": "Matomo API yazılımı hakkında ayrıntılı bilgi almak için lütfen %1$s Matomo API Kullanımı %2$s ve %3$s Matomo API Referansı %4$s belgelerine bakın.",
