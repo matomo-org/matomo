@@ -105,4 +105,9 @@ class SessionFingerprint
         $userInfo = $this->getUserInfo();
         return !empty($userInfo['remembered']);
     }
+
+    public function updateSessionStartTime()
+    {
+        $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]['ts'] = Date::now()->getTimestampUTC();
+    }
 }

@@ -88,6 +88,10 @@ class SessionAuth implements Auth
         $sessionFingerprint = new SessionFingerprint();
         $userModel = $this->userModel;
 
+        if ($this->isExpiredSession($sessionFingerprint)) {
+            return $this->makeAuthFailure();
+        }
+
         $userForSession = $sessionFingerprint->getUser();
         if (empty($userForSession)) {
             return $this->makeAuthFailure();
@@ -109,6 +113,8 @@ class SessionAuth implements Auth
         if ($sessionFingerprint->isRemembered()) {
             $this->updateSessionExpireTime();
         }
+
+        $sessionFingerprint->updateSessionStartTime();
 
         return $this->makeAuthSuccess($user);
     }
@@ -185,5 +191,30 @@ class SessionAuth implements Auth
         $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
         setcookie(session_name(), session_id(), time() + $sessionCookieLifetime, $sessionParams['path'],
             $sessionParams['domain'], $sessionParams['secure'], $sessionParams['httponly']);
+    }
+
+    // TODO: test
+    private function isExpiredSession(SessionFingerprint $sessionFingerprint)
+    {
+        $nonRememberedSessionExpireTime = 24 * 60 * 60; // TODO: config option
+        $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
+
+        $startTime = $sessionFingerprint->getSessionStartTime();
+        if ($startTime === null) {
+            return false;
+        }
+
+        if ($sessionFingerprint->isRemembered()) {
+            $expireTime = $startTime + $sessionCookieLifetime;
+        } else {
+            $expireTime = $startTime + $nonRememberedSessionExpireTime;
+        }
+
+        $isExpired = Date::getNowTimestamp() > $expireTime;
+        if ($isExpired) {
+            print $startTime. ' - ' . $expireTime . ' - ' . Date::getNowTimestamp() . "\n";
+            exit;
+        }
+        return $isExpired;
     }
 }
