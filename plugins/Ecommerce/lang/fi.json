@@ -8,6 +8,7 @@
         "SalesAdjective": "Myynnit %s",
         "NumberOfItems": "Ostoskorissa olevien kohteiden määrä",
         "OrderValue": "Tilauksen arvo",
+        "LifeTimeValue": "Verkkokaupan arvo koko elinkaaren aikana",
         "VisitorProfileLTV": "Tuottanut kaikilla vierailukerroillaan yhteensä %1$s.",
         "VisitorProfileItemsAndOrders": "Osti %1$s tuotetta %2$s verkkokauppatilauksessa.",
         "VisitorProfileAbandonedCartSummary": "Hylkäsi %1$s ostoskoria, joissa oli %2$s kohdetta yhteisarvoltaan %3$s."
