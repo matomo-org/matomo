@@ -85,6 +85,14 @@
             </div>
 
             <div class="col s12 m6 l4">
+                <div piwik-field uicontrol="select" name="pattern_type"
+                     ng-model="manageGoals.goal.patternType"
+                     full-width="true"
+                     options="{{ numericComparisonTypeOptions|json_encode }}">
+                </div>
+            </div>
+
+            <div class="col s12 m6 l4">
                 <div piwik-field uicontrol="text" name="pattern"
                      ng-model="manageGoals.goal.pattern"
                      maxlength="255"

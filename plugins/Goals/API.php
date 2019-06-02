@@ -58,6 +58,12 @@ class API extends \Piwik\Plugin\API
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
     const NEW_VISIT_SEGMENT = 'visitorType==new';
 
+    private static $NUMERIC_MATCH_ATTRIBUTES = [
+        'visit_duration',
+        'visit_total_actions',
+        'visit_total_pageviews',
+    ];
+
     /**
      * Return a single goal.
      *
@@ -127,9 +133,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @param string $name
-     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'event_action', 'event_category' or 'event_name'
-     * @param string $pattern eg. purchase-confirmation.htm
-     * @param string $patternType 'regex', 'contains', 'exact'
+     * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
+     *                               'event_action', 'event_category' or 'event_name'
+     * @param string $pattern eg. purchase-confirmation.htm or numeric value if used with a numeric match attribute
+     * @param string $patternType 'regex', 'contains', 'exact', or '>', '>=' for numeric match attributes
      * @param bool $caseSensitive
      * @param bool|float $revenue If set, default revenue to assign to conversions
      * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
@@ -145,7 +152,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
         $pattern     = $this->checkPattern($pattern);
-        $patternType = $this->checkPatternType($patternType);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -200,7 +207,7 @@ class API extends \Piwik\Plugin\API
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
-        $patternType = $this->checkPatternType($patternType);
+        $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $pattern     = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
@@ -260,7 +267,7 @@ class API extends \Piwik\Plugin\API
         return urldecode($description);
     }
 
-    private function checkPatternType($patternType)
+    private function checkPatternType($patternType, $matchAttribute)
     {
         if (empty($patternType)) {
             return '';
@@ -268,7 +275,13 @@ class API extends \Piwik\Plugin\API
 
         $patternType = strtolower($patternType);
 
-        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        if (in_array($matchAttribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+            $validValues = ['>', '>='];
+        } else {
+            $validValues = ['exact', 'contains', 'regex'];
+        }
+
+        $validator = new WhitelistedValue($validValues);
         $validator->validate($patternType);
 
         return $patternType;

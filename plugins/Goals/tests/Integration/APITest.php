@@ -41,6 +41,12 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
+    // TODO: tests for new goal types
+    public function test_addGoal_()
+    {
+        // TODO
+    }
+
     public function test_addGoal_shouldReturnGoalId_IfCreationIsSuccessful()
     {
         $idGoal = $this->createAnyGoal();
