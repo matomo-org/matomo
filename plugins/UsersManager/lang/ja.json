@@ -124,8 +124,6 @@
         "SuperUserIntro2": "この機能は慎重に使用してください。",
         "HasSuperUserAccess": "スーパーユーザーアクセス権があります",
         "AreYouSure": "よろしいですか？",
-        "RemoveSuperuserAccessConfirm": "スーパーユーザーのアクセス権を削除すると、ユーザーは権限を持たなくなります（後で追加する必要があります）。 続行しますか？",
-        "AddSuperuserAccessConfirm": "ユーザーにスーパーユーザーのアクセス権を与えることで、ユーザーは Matomo を完全に制御できるようになるため、慎重に実行する必要があります。 続行しますか？",
         "DeleteUsers": "ユーザーを削除する",
         "UserSearch": "ユーザー検索",
         "FilterByAccess": "アクセスによるフィルタリング",

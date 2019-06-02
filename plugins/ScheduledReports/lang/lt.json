@@ -10,14 +10,19 @@
         "MonthlyScheduleHelp": "Kas mėnesį: ataskaita bus išsiųsta kiekvieno mėnesio pirmąją dieną.",
         "Pagination": "Puslapis %1$s iš %2$s",
         "PiwikReports": "Matomo ataskaitos",
+        "SentFromX": "Išsiųsta iš %s.",
         "ReportFormat": "Ataskaitos formatas",
+        "ReportSent": "Ataskaita išsiųsta",
         "ReportsIncluded": "Įtraukta statistika",
+        "ReportUpdated": "Ataskaita atnaujinta",
         "SendReportNow": "Siųsti ataskaitą dabar",
         "SendReportTo": "Siųsti ataskaitą į",
         "SentToMe": "Siųsti man",
         "TableOfContent": "Ataskaitos sąrašas",
         "TopOfReport": "Atgal į viršų",
         "UpdateReport": "Atnaujinti ataskaitą",
-        "WeeklyScheduleHelp": "Kas savaitę: ataskaita bus išsiųsta kiekvienos savaitės pirmadienį."
+        "WeeklyScheduleHelp": "Kas savaitę: ataskaita bus išsiųsta kiekvienos savaitės pirmadienį.",
+        "Unsubscribe": "Atsisakyti prenumeratos",
+        "ReportUnsubscribe": "Atsisakyti ataskaitos prenumeratos"
     }
 }

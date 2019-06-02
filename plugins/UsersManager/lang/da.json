@@ -73,7 +73,6 @@
         "SuperUsersPermissionsNotice": "Superbrugere har administratoradgang til alle hjemmesider, så der er ikke grund til at angive rettigheder for de enkelte hjemmesider.",
         "SuperUserIntro2": "Brug denne funktion med omtanke.",
         "HasSuperUserAccess": "Har superbrugeradgang",
-        "RemoveSuperuserAccessConfirm": "Når du fjerner superbrugeradgang, vil brugeren ikke længere have nogen rettigheder (dem skal du tilføje efterfølgende). Vil du fortsætte?",
         "ShowAll": "Vis alle",
         "Username": "Brugernavn"
     }
