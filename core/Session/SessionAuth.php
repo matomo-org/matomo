@@ -195,7 +195,7 @@ class SessionAuth implements Auth
 
     private function isExpiredSession(SessionFingerprint $sessionFingerprint)
     {
-        $nonRememberedSessionExpireTime = Config::getInstance()->General['login_session_expire_not_remembered'];
+        $nonRememberedSessionExpireTime = Config::getInstance()->General['login_session_not_remembered_idle_timeout'];
         $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
 
         $startTime = $sessionFingerprint->getSessionStartTime();
