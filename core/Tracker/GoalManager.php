@@ -58,6 +58,12 @@ class GoalManager
     const INTERNAL_ITEM_PRICE = 7;
     const INTERNAL_ITEM_QUANTITY = 8;
 
+    public static $NUMERIC_MATCH_ATTRIBUTES = [
+        'visit_duration',
+        'visit_total_actions',
+        'visit_total_pageview',
+    ];
+
     /**
      * TODO: should remove this, but it is used by getGoalColumn which is used by dimensions. should replace w/ value object.
      *
@@ -119,10 +125,11 @@ class GoalManager
      *
      * @param int $idSite
      * @param Action $action
+     * @param VisitProperties $visitor
      * @throws Exception
      * @return array[] Goals matched
      */
-    public function detectGoalsMatchingUrl($idSite, $action)
+    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor)
     {
         if (!Common::isGoalPluginEnabled()) {
             return array();
@@ -132,7 +139,7 @@ class GoalManager
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $convertedUrl = $this->detectGoalMatch($goal, $action);
+            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor);
             if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
@@ -146,13 +153,19 @@ class GoalManager
      *
      * @param array $goal
      * @param Action $action
-     * @return if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
+     * @param VisitProperties $visitor
+     * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
-    public function detectGoalMatch($goal, Action $action)
+    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor)
     {
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
+
+        // handle numeric match attributes specifically
+        if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+            return $this->detectNumericGoalMatch($goal, $action, $visitor);
+        }
 
         // if the attribute to match is not the type of the current action
         if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
@@ -163,7 +176,6 @@ class GoalManager
         ) {
             return null;
         }
-
 
         switch ($attribute) {
             case 'title':
@@ -193,6 +205,50 @@ class GoalManager
         }
 
         return $action->getActionUrl();
+    }
+
+    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties)
+    {
+        switch ($goal['match_attribute']) {
+            case 'visit_duration':
+                $valueToMatchAgainst = ((int) $visitProperties->getProperty('visit_total_time')) / 60;
+                break;
+            case 'visit_total_actions':
+                $valueToMatchAgainst = $visitProperties->getProperty('visit_total_actions') ?: 0;
+                $valueToMatchAgainst = $valueToMatchAgainst + 1; // to account for current action
+                break;
+            case 'visit_total_pageview':
+                $model = new Model();
+                $valueToMatchAgainst = $model->getPageviewCountInVisit($visitProperties->getProperty('idvisit'));
+                if ($action instanceof ActionPageview) { // check the current action, which hasn't been recorded yet
+                    ++$valueToMatchAgainst;
+                }
+                break;
+            default:
+                return null;
+        }
+
+        $pattern = (int) $goal['pattern'];
+
+        Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
+
+        switch ($goal['pattern_type']) {
+            case '>':
+                $matches = $valueToMatchAgainst > $pattern;
+                break;
+            case '>=':
+                $matches = $valueToMatchAgainst >= $pattern;
+                break;
+            default:
+                return null;
+        }
+
+        if ($matches) {
+            Common::printDebug("Conversion detected for idGoal = , idGoal = {$goal['idgoal']}.");
+            return $action->getActionUrl();
+        } else {
+            return null;
+        }
     }
 
     public function detectGoalId($idSite, Request $request)

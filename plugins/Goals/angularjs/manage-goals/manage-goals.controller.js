@@ -194,6 +194,18 @@
             }});
         };
 
+        this.isMatchAttributeNumeric = function () {
+            return ['visit_duration', 'visit_total_actions', 'visit_total_pageviews',].indexOf(this.goal.matchAttribute) > -1;
+        };
+
+        this.initPatternType = function () {
+            if (this.isMatchAttributeNumeric()) {
+                this.goal.patternType = '>';
+            } else {
+                this.goal.patternType = 'contains';
+            }
+        };
+
         this.showListOfReports(false);
     }
 })();

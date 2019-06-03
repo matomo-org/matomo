@@ -58,12 +58,6 @@ class API extends \Piwik\Plugin\API
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
     const NEW_VISIT_SEGMENT = 'visitorType==new';
 
-    private static $NUMERIC_MATCH_ATTRIBUTES = [
-        'visit_duration',
-        'visit_total_actions',
-        'visit_total_pageviews',
-    ];
-
     /**
      * Return a single goal.
      *
@@ -149,9 +143,11 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
-        $pattern     = $this->checkPattern($pattern);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
         $description = $this->checkDescription($description);
 
@@ -205,10 +201,12 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
+        $patternType = Common::unsanitizeInputValue($patternType);
+
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
         $patternType = $this->checkPatternType($patternType, $matchAttribute);
-        $pattern     = $this->checkPattern($pattern);
+        $pattern     = $this->checkPattern($pattern, $matchAttribute);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -275,7 +273,7 @@ class API extends \Piwik\Plugin\API
 
         $patternType = strtolower($patternType);
 
-        if (in_array($matchAttribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)) {
             $validValues = ['>', '>='];
         } else {
             $validValues = ['exact', 'contains', 'regex'];
@@ -287,8 +285,14 @@ class API extends \Piwik\Plugin\API
         return $patternType;
     }
 
-    private function checkPattern($pattern)
+    private function checkPattern($pattern, $matchAttribute)
     {
+        if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)
+            && !is_numeric($pattern)
+        ) {
+            throw new \Exception("Invalid pattern for match attribute '$matchAttribute'. (got '$pattern', expected numeric value).");
+        }
+
         return urldecode($pattern);
     }
 

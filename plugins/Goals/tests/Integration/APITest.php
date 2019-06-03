@@ -41,10 +41,42 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
     }
 
-    // TODO: tests for new goal types
-    public function test_addGoal_()
+    /**
+     * @dataProvider getTestDataForNumericMatchAttribute
+     */
+    public function test_addGoal_handlesAppropriatePatternTypesForNumericAttributes($matchAttribute, $patternType, $pattern, $expectException)
     {
-        // TODO
+        try {
+            $this->api->addGoal($this->idSite, 'test goal', $matchAttribute, $pattern, $patternType);
+
+            if ($expectException) {
+                $this->fail('addGoal should have failed');
+            }
+        } catch (\Exception $ex) {
+            if (!$expectException) {
+                throw $ex;
+            }
+        }
+    }
+
+    public function getTestDataForNumericMatchAttribute()
+    {
+        return [
+            ['visit_duration', '>', 2, false],
+            ['visit_duration', '>=', 2, false],
+            ['visit_total_actions', '>', 2, false],
+            ['visit_total_actions', '>=', 2, false],
+            ['visit_total_pageview', '>', 2, false],
+            ['visit_total_pageview', '>=', 2, false],
+
+            ['visit_duration', 'exact', 2, true],
+            ['visit_total_actions', 'exact', 2, true],
+            ['visit_total_pageview', 'exact', 2, true],
+
+            ['visit_duration', '>=', 'nlasjkdf', true],
+            ['visit_total_actions', '>', 'aa', true],
+            ['visit_total_pageview', '>=', '  ', true],
+        ];
     }
 
     public function test_addGoal_shouldReturnGoalId_IfCreationIsSuccessful()
