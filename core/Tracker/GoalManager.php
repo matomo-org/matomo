@@ -218,8 +218,7 @@ class GoalManager
                 $valueToMatchAgainst = $valueToMatchAgainst + 1; // to account for current action
                 break;
             case 'visit_total_pageview':
-                $model = new Model();
-                $valueToMatchAgainst = $model->getPageviewCountInVisit($visitProperties->getProperty('idvisit'));
+                $valueToMatchAgainst = $this->getPageviewCountInVisit($visitProperties->getProperty('idvisit'));
                 if ($action instanceof ActionPageview) { // check the current action, which hasn't been recorded yet
                     ++$valueToMatchAgainst;
                 }
@@ -966,5 +965,19 @@ class GoalManager
     public static function isEventMatchingGoal($goal)
     {
         return in_array($goal['match_attribute'], array('event_action', 'event_name', 'event_category'));
+    }
+
+    private function getPageviewCountInVisit($idVisit)
+    {
+        $cache = \Piwik\Cache::getTransientCache();
+        $cacheKey = 'GoalManager.pageViewCountInVisit.' . $idVisit;
+
+        $value = $cache->fetch($cacheKey);
+        if ($value === false) {
+            $model = new Model();
+            $value = $model->getPageviewCountInVisit($idVisit);
+            $cache->save($cacheKey, $value);
+        }
+        return $value;
     }
 }
