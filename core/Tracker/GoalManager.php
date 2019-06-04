@@ -60,8 +60,6 @@ class GoalManager
 
     public static $NUMERIC_MATCH_ATTRIBUTES = [
         'visit_duration',
-        'visit_total_actions',
-        'visit_total_pageview',
     ];
 
     /**
@@ -126,10 +124,11 @@ class GoalManager
      * @param int $idSite
      * @param Action $action
      * @param VisitProperties $visitor
+     * @param Request $request
      * @throws Exception
      * @return array[] Goals matched
      */
-    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor)
+    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
             return array();
@@ -139,7 +138,7 @@ class GoalManager
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor);
+            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor, $request);
             if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
@@ -154,17 +153,18 @@ class GoalManager
      * @param array $goal
      * @param Action $action
      * @param VisitProperties $visitor
+     * @param Request $request
      * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
-    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor)
+    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor, Request $request)
     {
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
-
+print $attribute . "\n";
         // handle numeric match attributes specifically
         if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
-            return $this->detectNumericGoalMatch($goal, $action, $visitor);
+            return $this->detectNumericGoalMatch($goal, $action, $visitor, $request);
         }
 
         // if the attribute to match is not the type of the current action
@@ -207,21 +207,17 @@ class GoalManager
         return $action->getActionUrl();
     }
 
-    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties)
+    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties, Request $request)
     {
         switch ($goal['match_attribute']) {
             case 'visit_duration':
-                $valueToMatchAgainst = ((int) $visitProperties->getProperty('visit_total_time')) / 60;
-                break;
-            case 'visit_total_actions':
-                $valueToMatchAgainst = $visitProperties->getProperty('visit_total_actions') ?: 0;
-                $valueToMatchAgainst = $valueToMatchAgainst + 1; // to account for current action
-                break;
-            case 'visit_total_pageview':
-                $valueToMatchAgainst = $this->getPageviewCountInVisit($visitProperties->getProperty('idvisit'));
-                if ($action instanceof ActionPageview) { // check the current action, which hasn't been recorded yet
-                    ++$valueToMatchAgainst;
+                $firstActionTime = $visitProperties->getProperty('visit_first_action_time');
+                if (empty($firstActionTime)) {
+                    return null;
                 }
+
+                $visitDurationInSecs = $request->getCurrentTimestamp() - ((int) $firstActionTime);
+                $valueToMatchAgainst = $visitDurationInSecs / 60;
                 break;
             default:
                 return null;
@@ -234,9 +230,6 @@ class GoalManager
         switch ($goal['pattern_type']) {
             case '>':
                 $matches = $valueToMatchAgainst > $pattern;
-                break;
-            case '>=':
-                $matches = $valueToMatchAgainst >= $pattern;
                 break;
             default:
                 return null;

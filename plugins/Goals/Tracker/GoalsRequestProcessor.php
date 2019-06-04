@@ -89,7 +89,7 @@ class GoalsRequestProcessor extends RequestProcessor
         if (empty($goalsConverted)
             && $action
         ) {
-            $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action, $visitProperties);
+            $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action, $visitProperties, $request);
 
             $existingGoalsConverted = $request->getMetadata('Goals', 'goalsConverted') ?: array();
             $request->setMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));

@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Goals\tests\System;
 
-
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Plugins\Goals\API;
@@ -20,8 +19,6 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
 {
     private $idSite = 1;
     private $visitDurationIdGoal = 1;
-    private $visitTotalActionsIdGoal = 2;
-    private $visitTotalPageviewsIdGoal = 3;
 
     protected static function beforeTableDataCached()
     {
@@ -29,8 +26,6 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
 
         $idSite = Fixture::createWebsite('2012-02-03 04:05:56');
         API::getInstance()->addGoal($idSite, 'visit duration goal', 'visit_duration', 2, '>');
-        API::getInstance()->addGoal($idSite, 'visit total actions goal', 'visit_total_actions', 3, '>');
-        API::getInstance()->addGoal($idSite, 'visit total pageviews goal', 'visit_total_pageview', 3, '>=');
     }
 
     public function test_trackingVisitDurationGoal()
@@ -52,57 +47,6 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
         $t->setForceVisitDateTime('2013-02-03 04:02:01');
         Fixture::checkResponse($t->doTrackEvent('event category', 'blah 2', 'blah 2'));
         $this->assertEquals(1, $this->getConversionCount($this->visitDurationIdGoal));
-    }
-
-    public function test_trackingTotalActionsGoal()
-    {
-        $t = Fixture::getTracker($this->idSite, '2013-02-03 04:00:00');
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalActionsIdGoal));
-
-        Fixture::checkResponse($t->doTrackPageView('test page view'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalActionsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah', 'blah'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalActionsIdGoal));
-
-        Fixture::checkResponse($t->doTrackPageView('test page view'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalActionsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah 3', 'blah 3'));
-        $this->assertEquals(1, $this->getConversionCount($this->visitTotalActionsIdGoal));
-    }
-
-    public function test_trackingTotalPageviewsGoal()
-    {
-        $t = Fixture::getTracker($this->idSite, '2013-02-03 04:00:00');
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        Fixture::checkResponse($t->doTrackPageView('test page view'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        Fixture::checkResponse($t->doTrackPageView('test page view'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah', 'blah'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah 2', 'blah'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah 3', 'blah'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
-        Fixture::checkResponse($t->doTrackEvent('event category', 'blah 4', 'blah'));
-        $this->assertEquals(0, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
-
-        Fixture::checkResponse($t->doTrackPageView('test page view'));
-        $this->assertEquals(1, $this->getConversionCount($this->visitTotalPageviewsIdGoal));
     }
 
     protected static function configureFixture($fixture)

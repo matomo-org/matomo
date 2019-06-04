@@ -63,19 +63,8 @@ class APITest extends IntegrationTestCase
     {
         return [
             ['visit_duration', '>', 2, false],
-            ['visit_duration', '>=', 2, false],
-            ['visit_total_actions', '>', 2, false],
-            ['visit_total_actions', '>=', 2, false],
-            ['visit_total_pageview', '>', 2, false],
-            ['visit_total_pageview', '>=', 2, false],
-
+            ['visit_duration', '>=', 2, true],
             ['visit_duration', 'exact', 2, true],
-            ['visit_total_actions', 'exact', 2, true],
-            ['visit_total_pageview', 'exact', 2, true],
-
-            ['visit_duration', '>=', 'nlasjkdf', true],
-            ['visit_total_actions', '>', 'aa', true],
-            ['visit_total_pageview', '>=', '  ', true],
         ];
     }
 

@@ -383,8 +383,6 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
             array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
             ['key' => 'visit_duration', 'value' => Piwik::translate('Goals_VisitDurationMatchAttr')],
-            ['key' => 'visit_total_actions', 'value' => Piwik::translate('Goals_VisitTotalActionsMatchAttr')],
-            ['key' => 'visit_total_pageview', 'value' => Piwik::translate('Goals_VisitTotalPageviewsMatchAttr')],
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
@@ -402,7 +400,6 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $view->numericComparisonTypeOptions = [
             ['key' => '>', 'value' => Piwik::translate('General_OperationGreaterThan')],
-            ['key' => '>=', 'value' => Piwik::translate('General_OperationAtLeast')],
         ];
     }
 
