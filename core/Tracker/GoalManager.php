@@ -161,7 +161,7 @@ class GoalManager
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
-print $attribute . "\n";
+
         // handle numeric match attributes specifically
         if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
             return $this->detectNumericGoalMatch($goal, $action, $visitor, $request);
