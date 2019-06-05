@@ -959,18 +959,4 @@ class GoalManager
     {
         return in_array($goal['match_attribute'], array('event_action', 'event_name', 'event_category'));
     }
-
-    private function getPageviewCountInVisit($idVisit)
-    {
-        $cache = \Piwik\Cache::getTransientCache();
-        $cacheKey = 'GoalManager.pageViewCountInVisit.' . $idVisit;
-
-        $value = $cache->fetch($cacheKey);
-        if ($value === false) {
-            $model = new Model();
-            $value = $model->getPageviewCountInVisit($idVisit);
-            $cache->save($cacheKey, $value);
-        }
-        return $value;
-    }
 }

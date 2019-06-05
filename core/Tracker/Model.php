@@ -464,13 +464,4 @@ class Model
     {
         return "( hash = CRC32(?) AND name = ? AND type = ? )";
     }
-
-    public function getPageviewCountInVisit($idVisit)
-    {
-        $logLinkVisitAction = Common::prefixTable('log_link_visit_action');
-        $logAction = Common::prefixTable('log_action');
-
-        $sql = "SELECT COUNT(*) FROM $logLinkVisitAction INNER JOIN $logAction ON $logLinkVisitAction.idaction_url = $logAction.idaction WHERE idvisit = ? AND $logAction.type = ?";
-        return $this->getDb()->fetchOne($sql, [$idVisit, Action::TYPE_PAGE_URL]);
-    }
 }
