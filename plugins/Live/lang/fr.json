@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Ouvrir le journal segmenté des visites",
         "SegmentedVisitorLogTitle": "Le journal des visites affiche les visites qui ont %1$s à \"%2$s\"",
         "OnClickPause": "%s est démarré. Cliquer pour mettre en pause.",
-        "OnClickStart": "%s est arrêté. Cliquer pour démarrer."
+        "OnClickStart": "%s est arrêté. Cliquer pour démarrer.",
+        "ClickToSeeAllContents": "Cliquez pour voir chaque interaction\/affichage de contenu"
     }
 }
