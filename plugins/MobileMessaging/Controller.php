@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MobileMessaging;
 use Piwik\Common;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -154,5 +155,20 @@ class Controller extends ControllerAdmin
         $view->credentialfields = $credentialFields;
 
         return $view->render();
+    }
+
+
+    public function getBrowserNotifications()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        $optionKey = 'ScheduledReports.notifications.' . Piwik::getCurrentUserLogin();
+        $optionValue = Option::get($optionKey);
+        // Remove the notifications from DB so that the user won't be shown them again
+        Option::delete($optionKey);
+
+        if (! $optionValue) {
+            $optionValue = '[]';
+        }
+        return $optionValue;
     }
 }

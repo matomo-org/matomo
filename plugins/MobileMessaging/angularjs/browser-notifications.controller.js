@@ -8,9 +8,8 @@ var startPolling = function() {
     this.timerId = setInterval(function() {
         console.log("Time");
         var ajaxHandler = new ajaxHelper();
-        ajaxHandler.addParams({'module': 'ScheduledReports', 'action': 'getNotifications'}, 'GET');
+        ajaxHandler.addParams({'module': 'MobileMessaging', 'action': 'getBrowserNotifications'}, 'GET');
         ajaxHandler.setCallback(function(response) {
-            console.log(response);
             angular.forEach(response, function(notification) {
                 Push.create(notification.title, {
                     body: notification.contents,

@@ -238,8 +238,16 @@ class MobileMessaging extends \Piwik\Plugin
         $notification['title'] = $reportSubject;
         $notification['contents'] = $contents;
 
-        $userLogin = $report['login'];
-        Option::set('ScheduledReports.notification.' . $userLogin, json_encode($notification));
+        $optionKey = 'ScheduledReports.notifications.' . $report['login'];
+        $notifications = Option::get($optionKey);
+        if ($notifications) {
+            $notifications = json_decode($notifications, true);
+        } else {
+            $notifications = array();
+        }
+
+        $notifications[] = $notification;
+        Option::set($optionKey, json_encode($notifications));
     }
 
     public static function template_reportParametersScheduledReports(&$out, $context = '')
