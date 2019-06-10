@@ -14,3 +14,7 @@ You can help improve translations in Matomo, please read [contribute to translat
 ## How to submit code improvements via pull requests?
 
 You can help contribute to Matomo codebase via Pull Requests, see [Contributing to Matomo core](https://developer.matomo.org/guides/contributing-to-piwik-core)
+
+## Issue triage [![Open Source Helpers](https://www.codetriage.com/matomo-org/matomo/badges/users.svg)](https://www.codetriage.com/matomo-org/matomo)
+
+You can contribute by triaging issues which may include reproducing bug reports or asking for vital information, such as version numbers or reproduction instructions. If you would like to start triaging issues, one easy way to get started is to [subscribe to matomo on CodeTriage](https://www.codetriage.com/matomo-org/matomo).
