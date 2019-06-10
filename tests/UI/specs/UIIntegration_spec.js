@@ -851,23 +851,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('api_listing');
     });
 
-    it('should load the email reports page correctly', async function() {
-        await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-        await page.evaluate(function () {
-            $('#header').hide();
-        });
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('email_reports');
-    });
-
-    it('should load the scheduled reports when Edit button is clicked', async function() {
-        await page.click('.entityTable tr:nth-child(4) button[title="Edit"]');
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('email_reports_editor');
-    });
-
     it('should load the feedback form when the feedback form link is clicked', async function() {
         await page.goto("?" + generalParams + "&module=Feedback&action=index");
 

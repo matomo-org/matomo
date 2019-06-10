@@ -3,23 +3,22 @@
     $(function () {
 
         resetReportParametersFunctions ['browser'] = function (report) {
+            report.formatbrowser = 'browser';
+
             // Prompts the user to enable browser notifications if they have not already
             Push.Permission.request(function() {
                 console.log("Permission granted");
             }, function() {
                 console.log("Permisison denied");
             });
-
-            report.formatmobile = 'browser';
         };
 
         updateReportParametersFunctions['browser'] = function (report) {
-            report.formatmobile = 'browser';
+            report.formatbrowser = 'browser';
         };
 
         getReportParametersFunctions['browser'] = function (report) {
-            var parameters = {'dummy': 'dummyvalue'};
-            return parameters;
+            return {};
         };
     });
 </script>

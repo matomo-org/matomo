@@ -98,9 +98,10 @@ class API extends \Piwik\Plugin\API
      *
      * @return int idReport generated
      */
-    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false,
-                              $evolutionPeriodFor = 'prev', $evolutionPeriodN = null, $periodParam = null)
-    {
+    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, 
+                              $parameters = array(), $idSegment = false, $evolutionPeriodFor = 'prev', 
+                              $evolutionPeriodN = null, $periodParam = null
+    ) {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 

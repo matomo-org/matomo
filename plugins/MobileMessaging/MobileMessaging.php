@@ -45,12 +45,12 @@ class MobileMessaging extends \Piwik\Plugin
 
     private static $managedReportTypes = array(
         self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png',
-        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/phone.png'
+        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/browser.png'
     );
 
     private static $managedReportFormats = array(
         self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png',
-        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/phone.png'
+        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/browser.png'
     );
 
     private static $availableReports = array(
@@ -160,8 +160,10 @@ class MobileMessaging extends \Piwik\Plugin
 
     public function getReportFormats(&$reportFormats, $reportType)
     {
-        if (self::manageEvent($reportType)) {
-            $reportFormats = array_merge($reportFormats, self::$managedReportFormats);
+        if ($reportType === self::MOBILE_TYPE) {
+            $reportFormats[self::SMS_FORMAT] = self::$managedReportFormats[self::SMS_FORMAT];
+        } elseif ($reportType === self::BROWSER_TYPE) {
+            $reportFormats[self::BROWSER_TYPE] = self::$managedReportFormats[self::BROWSER_TYPE];
         }
     }
 
