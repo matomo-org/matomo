@@ -257,8 +257,9 @@ class DataTablePostProcessor
         $addGoalProcessedMetrics = null;
         try {
             $addGoalProcessedMetrics = Common::getRequestVar(
-                'filter_update_columns_when_show_all_goals', null, 'string', $this->request);
+                'filter_update_columns_when_show_all_goals', false, 'string', $this->request);
             if ((int) $addGoalProcessedMetrics === 0
+                && $addGoalProcessedMetrics !== '0'
                 && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
                 && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             ) {
