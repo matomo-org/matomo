@@ -184,7 +184,7 @@ class Manager
         $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
         foreach ($nonCoreVisualizations as $id => $klass) {
-            if ($klass::canDisplayViewDataTable($view)) {
+            if ($klass::canDisplayViewDataTable($view) || $view::ID == $id) {
                 $footerIcon = static::getFooterIconFor($id);
                 if (Insight::ID == $footerIcon['id']) {
                     $insightsViewIcons['buttons'][] = static::getFooterIconFor($id);

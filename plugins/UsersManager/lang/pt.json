@@ -124,8 +124,6 @@
         "SuperUserIntro2": "Por favor, utilize esta funcionalidade com cuidado.",
         "HasSuperUserAccess": "Tem acesso de super-utilizador",
         "AreYouSure": "Tem a certeza?",
-        "RemoveSuperuserAccessConfirm": "Remover o acesso de super-utilizador irá deixar o utilizador sem permissões (terá de as adicionar depois). Deseja continuar?",
-        "AddSuperuserAccessConfirm": "Dar um acesso de super-utilizador a um utilizador irá permitir que o utilizador tem controlo absoluto sob o Matomo e deve ser feito de forma ponderada. Deseja continuar?",
         "DeleteUsers": "Eliminar utilizadores",
         "UserSearch": "Pesquisa de utilizadores",
         "FilterByAccess": "Filtrar por acesso",
