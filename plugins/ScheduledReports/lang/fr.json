@@ -55,6 +55,9 @@
         "NoTokenProvided": "Aucun jeton fourni dans l'URL.",
         "NoSubscriptionFound": "Aucun abonnement trouvé. Peut-être que l'abonnement a déjà été annulé ou bien le rapport supprimé.",
         "EvolutionGraphsShowForEachInPeriod": "Les graphiques d'évolution pour %1$s chaque jour %2$s dans le\/la dernier(e) %3$s",
-        "EvolutionGraphsShowForPreviousN": "Les graphiques d'évolution affichent une évolution depuis le dernier N %s"
+        "EvolutionGraphsShowForPreviousN": "Les graphiques d'évolution affichent une évolution depuis le dernier N %s",
+        "ReportPeriod": "Période du rapport",
+        "ReportPeriodHelp": "La période couverte par ce rapport. Par défaut, il s'agit de la même planification que les courriels, donc si le rapport est envoyé chaque semaine, il contiendra des informations concernant la dernière semaine.",
+        "ReportPeriodHelp2": "Vous pouvez toutefois modifier ce comportement si vous souhaitez afficher des informations différentes tout en conservant la planification des courriels. Par exemple, si l'envoi des courriels est hebdomadaire et que la période visée par le rapport est le \"jour\", vous obtiendrez de l'information pour le dernier jour, chaque semaine."
     }
 }
