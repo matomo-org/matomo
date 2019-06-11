@@ -156,9 +156,10 @@ class API extends \Piwik\Plugin\API
      *
      * @see addReport()
      */
-    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false,
-                                 $evolutionPeriodFor = 'prev', $evolutionPeriodN = null, $periodParam = null)
-    {
+    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, 
+                                 $reports, $parameters = array(), $idSegment = false, $evolutionPeriodFor = 'prev', 
+                                 $evolutionPeriodN = null, $periodParam = null
+    ) {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 

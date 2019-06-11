@@ -2,16 +2,73 @@
 
     $(function () {
 
+        // Keys generated from https://web-push-codelab.glitch.me/
+        var publicKey = 'BLnqbKTQD4nShW5LSA-x9yAY04V98VOYleR4RQK-QTG4m532MWuJYxSB2h6oJm8uICgiPZLoCdAdaK4_ZVlnYlg';
+        //var privateKey = 'yYr_7puo-rpukgHwnqGOxhrJ4Ozny56xNFKRcBRJBmc'
+
         resetReportParametersFunctions ['browser'] = function (report) {
             report.formatbrowser = 'browser';
+
+            Push.config({
+                serviceWorker: '/notifications-sw.js'
+            });
 
             // Prompts the user to enable browser notifications if they have not already
             Push.Permission.request(function() {
                 console.log("Permission granted");
+                if ('serviceWorker' in navigator && 'PushManager' in window) {
+                    const registration = navigator.serviceWorker.register('/notifications-sw.js')
+                        .then(function(reg) {
+                            console.log("Registered the service worker");
+
+                            // // Get the service worker that we just registered
+                            // var serviceWorker;
+                            // if (reg.installing) {
+                            //     serviceWorker = reg.installing;
+                            // } else if (reg.waiting) {
+                            //     serviceWorker = reg.waiting;
+                            // } else if (reg.active) {
+                            //     serviceWorker = reg.active;
+                            // }
+                            //
+                            // // Wait for it to be ready then try to subscribe
+                            // if (serviceWorker) {
+                            //     if (serviceWorker.state == "activated") {
+                            //         //If push subscription wasnt done yet have to do here
+                            //         subscribeForPushNotifications(reg);
+                            //     }
+                            //     serviceWorker.addEventListener("statechange", function(e) {
+                            //         if (e.target.state == "activated") {
+                            //             // use pushManger for subscribing here.
+                            //             subscribeForPushNotifications(reg);
+                            //         }
+                            //     });
+                            // }
+                            //
+                        }).catch(function(err) {
+                            console.log("Error with the service worker " + err);
+                    });
+                    
+                }
             }, function() {
                 console.log("Permisison denied");
             });
         };
+
+        // subscribeForPushNotifications = function(reg)
+        // {
+        //     var subscribeOptions = {
+        //         userVisibleOnly: true,
+        //         applicationServerKey: urlBase64ToUint8Array(publicKey)
+        //     };
+        //     var subscription = reg.pushManager.subscribe(subscribeOptions)
+        //         .then(function(success) {
+        //             console.log("Subscribed");
+        //             console.log(success);
+        //         }).catch(function(error) {
+        //             console.log("Error with subscription: " + error);
+        //         });
+        // };
 
         updateReportParametersFunctions['browser'] = function (report) {
             report.formatbrowser = 'browser';
@@ -20,5 +77,16 @@
         getReportParametersFunctions['browser'] = function (report) {
             return {};
         };
+
+        // From https://gist.github.com/malko/ff77f0af005f684c44639e4061fa8019
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/')
+            ;
+            const rawData = window.atob(base64);
+            return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+        }
     });
 </script>
