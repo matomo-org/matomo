@@ -17,11 +17,6 @@ body#simple {
   padding: 15px 0;
 }
 
-#simple .logo a {
-  color: #888;
-  text-decoration: none;
-}
-
 #simple .box {
   border-radius: 2px;
   border: solid 1px #ccc;

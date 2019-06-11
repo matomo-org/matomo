@@ -112,7 +112,7 @@
         "Continue": "Devam",
         "ContinueToPiwik": "Matomo Kullanmaya Başlayın",
         "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum riskli olabilir. Matomo uygulamasını güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
-        "CreatedByUser": "oluşturan %s",
+        "CreatedByUser": "%s tarafından eklendi",
         "CurrentMonth": "Bu Ay",
         "CurrentWeek": "Bu Hafta",
         "CurrentYear": "Bu Yıl",
