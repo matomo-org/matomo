@@ -51,8 +51,8 @@ class GetEngagement extends Widget
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $challenges = Request::processRequest('Tour.getChallenges');
-        $level = Request::processRequest('Tour.getLevel');
+        $challenges = Request::processRequest('Tour.getChallenges', [], []);
+        $level = Request::processRequest('Tour.getLevel', [], []);
 
         $numCompletedWithoutInterruption = 0;
 

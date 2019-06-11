@@ -16,6 +16,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
 use Piwik\Plugins\Tour\Engagement\Challenge;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedAnnotation;
 use Piwik\Plugins\Tour\Engagement\ChallengeAddedUser;
+use Piwik\Plugins\Tour\Engagement\ChallengeBrowseMarketplace;
 use Piwik\Plugins\Tour\Engagement\ChallengeChangeVisualisation;
 use Piwik\Plugins\Tour\Engagement\ChallengeCreatedGoal;
 use Piwik\Plugins\Tour\Engagement\ChallengeFlattenActions;
@@ -39,8 +40,14 @@ class Tour extends \Piwik\Plugin
             'Controller.CoreHome.getRowEvolutionPopover' => 'onViewRowEvolution',
             'Controller.Live.getLastVisitsDetails' => 'onViewVisitorLog',
             'Controller.Live.getVisitorProfilePopup' => 'onViewVisitorProfile',
+            'Controller.Marketplace.overview' => 'onBrowseMarketplace',
             'ViewDataTable.configure' => array('function' => 'onConfigureView', 'after' => true),
         );
+    }
+
+    public function onBrowseMarketplace()
+    {
+        $this->setSimpleChallengeCompleted(ChallengeBrowseMarketplace::class);
     }
 
     public function onConfigureView()
