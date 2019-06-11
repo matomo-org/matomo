@@ -10,15 +10,15 @@ namespace Piwik\Plugins\Feedback\tests\Unit;
 
 use Piwik\Date;
 use Piwik\Option;
-use Piwik\Plugins\Feedback\API;
+use Piwik\Plugins\Feedback\Controller;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class APITest extends IntegrationTestCase
+class ControllerTest extends IntegrationTestCase
 {
-    /** @var API */
-    private $api;
+    /** @var Controller */
+    private $controller;
 
     /** @var Model */
     private $userModel;
@@ -28,7 +28,7 @@ class APITest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->api = new API();
+        $this->controller = new Controller();
 
         $this->userModel = new Model();
         $this->userModel->addUser(
@@ -65,7 +65,8 @@ class APITest extends IntegrationTestCase
 
     public function test_updateFeedbackReminder_addNinetyDays()
     {
-        $this->api->updateFeedbackReminderDate('90');
+        $_POST['nextReminder'] = '90';
+        $this->controller->updateFeedbackReminderDate();
 
         $option = Option::get('Feedback.nextFeedbackReminder.user1');
         $this->assertEquals($option, '2019-08-29');
@@ -73,7 +74,8 @@ class APITest extends IntegrationTestCase
 
     public function test_updateFeedbackReminder_neverAgain()
     {
-        $this->api->updateFeedbackReminderDate('-1');
+        $_POST['nextReminder'] = '-1';
+        $this->controller->updateFeedbackReminderDate();
 
         $option = Option::get('Feedback.nextFeedbackReminder.user1');
         $this->assertEquals($option, '-1');
