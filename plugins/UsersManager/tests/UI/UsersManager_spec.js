@@ -74,9 +74,9 @@ describe("UsersManager", function () {
     });
 
     it('should select rows when individual row select is clicked', async function () {
-        await (await page.jQuery('td.select-cell label:eq(0)')).click();
-        await (await page.jQuery('td.select-cell label:eq(3)')).click();
-        await (await page.jQuery('td.select-cell label:eq(8)')).click();
+        await (await page.jQuery('td.select-cell label:eq(0)', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell label:eq(3)', { waitFor: true })).click();
+        await (await page.jQuery('td.select-cell label:eq(8)', { waitFor: true })).click();
         await page.mouse.move(0, 0);
         await page.waitFor(500); // for checkbox animations
 
@@ -116,7 +116,7 @@ describe("UsersManager", function () {
         await page.click('.toggle-select-all-in-search'); // reselect all in search
 
         await page.click('.bulk-actions.btn');
-        await (await page.jQuery('#user-list-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-list-bulk-actions>li:first > a')).hover();
         await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
         await page.waitFor(350); // wait for animation
 
@@ -231,7 +231,7 @@ describe("UsersManager", function () {
 
     it('should add access to all websites when bulk access is used on all websites in search', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first>a')).hover();
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
         await page.waitFor('.change-access-confirm-modal', { visible: true });
@@ -277,7 +277,7 @@ describe("UsersManager", function () {
     it('should set access to selected sites when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
         await page.waitFor(250); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first:visible', { waitFor: true })).hover();
+        await page.evaluate(() => $('#user-permissions-edit-bulk-actions>li:first > a:visible').mouseenter());
         await page.waitFor(250); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin):visible', { waitFor: true })).click();
 
@@ -291,10 +291,11 @@ describe("UsersManager", function () {
     });
 
     it('should filter the permissions when the filters are used', async function () {
-        await page.type('div.site-filter>input', 'nova');
         await page.evaluate(function () {
-            $('.access-filter select').val('string:admin').change();
+            $('.userPermissionsEdit .access-filter select').val('string:admin').change();
         });
+        await page.waitForNetworkIdle();
+        await page.type('.userPermissionsEdit div.site-filter>input', 'hunter');
         await page.waitForNetworkIdle();
         await page.waitFor('#sitesForPermission tr', { visible: true });
         await page.waitFor(1000);
@@ -311,18 +312,20 @@ describe("UsersManager", function () {
 
     it('should set access to all sites selected when set bulk access is used', async function () {
         await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-        await page.waitFor(100); // animation
-        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first', { waitFor: true })).hover();
-        await page.waitFor(100); // animation
+        await page.waitFor(250); // animation
+        await page.evaluate(() => $('#user-permissions-edit-bulk-actions>li:first > a:visible').mouseenter());
+        await page.waitFor(250); // animation
         await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)', { waitFor: true })).click();
         await page.waitFor(250); // animation
 
         await page.evaluate(() => $('.change-access-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await page.waitForNetworkIdle();
 
         await page.evaluate(function () { // remove filter
             $('.access-filter select').val('string:some').change();
         });
         await page.waitForNetworkIdle();
+        await page.waitFor(250); // animation
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set_all');
     });
@@ -347,12 +350,12 @@ describe("UsersManager", function () {
 
         await page.waitFor(250); // animation
 
-        await page.evaluate(() => $('.confirmCapabilityToggle .modal-close:not(.modal-no):visible').click());
+        await page.evaluate(() => $('.userPermissionsEdit .confirmCapabilityToggle .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
 
         await page.waitFor(250); // animation
 
-        expect(await page.screenshotSelector('.admin#content')).to.matchImage('permissions_capability_single_site');
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_capability_single_site');
     });
 
     it('should remove access to displayed rows when remove bulk access is clicked', async function () {
@@ -394,7 +397,22 @@ describe("UsersManager", function () {
         expect(await elem.screenshot()).to.matchImage('superuser_confirm');
     });
 
+    it('should fail to set superuser access if password is wrong', async function () {
+        await page.type('input#currentUserPasswordForSuperUser', 'wrongpassword');
+        await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
+        await page.waitForNetworkIdle();
+
+        await page.waitFor('.notification-error', { visible: true });
+
+        const notificationHtml = await page.evaluate(() => $('.notification-error>div').html());
+        expect(notificationHtml).to.equal('The current password you entered is not correct.');
+    });
+
     it('should give the user superuser access when the superuser modal is confirmed', async function () {
+        await page.click('.userEditForm #superuser_access+label');
+        await page.waitFor(500);
+
+        await page.type('input#currentUserPasswordForSuperUser', 'superUserPass');
         await page.evaluate(() => $('.superuser-confirm-modal .modal-close:not(.modal-no):visible').click());
         await page.waitForNetworkIdle();
         await page.waitFor(500);

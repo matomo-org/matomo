@@ -233,6 +233,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				<serverTimePretty>Mar 6, 2010 16:34:33</serverTimePretty>
@@ -248,6 +249,7 @@
 				<revenue>10000000000</revenue>
 				<items>1</items>
 				<serverTimePretty>Mar 6, 2010 16:40:33</serverTimePretty>
+				
 				<itemDetails>
 					<row>
 						<itemSKU>sku-007-PRISM</itemSKU>

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Application\Environment;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -113,7 +114,7 @@ class TestsSetupFixture extends ConsoleCommand
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 
-        $host = Url::getHost();
+        $host = Config::getHostname();
         if (empty($host)) {
             $host = 'localhost';
             Url::setHost('localhost');

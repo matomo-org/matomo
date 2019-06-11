@@ -648,6 +648,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId>1</goalPageId>
 				
@@ -709,6 +710,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>8</revenue>
 				<goalPageId>9</goalPageId>
 				
@@ -771,6 +773,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>23</revenue>
 				<goalPageId>10</goalPageId>
 				
@@ -833,6 +836,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId>11</goalPageId>
 				

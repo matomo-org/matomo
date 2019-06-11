@@ -32,6 +32,7 @@ describe("ActionsDataTable", function () {
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
+        await page.waitFor(250); // rendering
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('subtables_loaded');
     });

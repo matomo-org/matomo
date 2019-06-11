@@ -168,8 +168,8 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 
-        await page.waitFor(250);
         await page.mouse.move(-10, -10);
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_move_removed');
     });
@@ -181,6 +181,7 @@ describe("Dashboard", function () {
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
+        await page.waitFor(500); // animation
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('change_layout');
     });
@@ -188,12 +189,10 @@ describe("Dashboard", function () {
     it("should rename dashboard when dashboard rename process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="renameDashboard"]');
-        var input = await page.$('#newDashboardName');
-        await input.press('Backspace'); // remove char
-        await input.press('Backspace'); // remove char
-        await input.type('newname');
+        await page.evaluate(() => $('#newDashboardName').val('newname'));
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('rename');
@@ -214,6 +213,7 @@ describe("Dashboard", function () {
         await page.waitForFunction("$('.ui-confirm :contains(\"Current dashboard successfully copied to selected user.\").length > 0')");
 
         await page.goto(url.replace("idDashboard=5", "idDashboard=6"));
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('copied');
@@ -263,6 +263,7 @@ describe("Dashboard", function () {
         await page.type('#createDashboardName', 'newdash2');
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
