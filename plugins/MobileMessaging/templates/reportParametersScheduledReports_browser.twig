@@ -21,7 +21,12 @@
                         .then(function(reg) {
                             console.log("Registered the service worker");
 
-                            // // Get the service worker that we just registered
+                            // Most of the below code is from 
+                            // https://stackoverflow.com/questions/39624676/uncaught-in-promise-domexception-subscription-failed-no-active-service-work
+                            // which prevents JS errors which arise when we try to subscribe before the serviceworker
+                            // has finished installing. If we used an implementation of urlBase64ToUint8Array which
+                            // didn't depend on Window then we could move the subscribeForPushNotifications() call
+                            // into the 'activate' callback of the serviceworker and get rid of this.
                             // var serviceWorker;
                             // if (reg.installing) {
                             //     serviceWorker = reg.installing;
