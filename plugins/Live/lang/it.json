@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Apri Log Visite segmentato",
         "SegmentedVisitorLogTitle": "Log Visite che mostra dove %1$s è \"%2$s\"",
         "OnClickPause": "%s è avviato. Clicca per mettere in pausa.",
-        "OnClickStart": "%s è stato arrestato. Clicca per avviare."
+        "OnClickStart": "%s è stato arrestato. Clicca per avviare.",
+        "ClickToSeeAllContents": "Clicca per vedere ogni interazione\/impressione con il contenuto"
     }
 }

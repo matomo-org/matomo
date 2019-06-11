@@ -13,6 +13,7 @@ use Piwik\Archive;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\IP;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -358,9 +359,13 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @return array|false
      */
-    public function getLocationFromIP($ip, $provider = false)
+    public function getLocationFromIP($ip = false, $provider = false)
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        if (empty($ip)) {
+            $ip = IP::getIpFromHeader();
+        }
 
         if (empty($provider)) {
             $provider = LocationProvider::getCurrentProviderId();
