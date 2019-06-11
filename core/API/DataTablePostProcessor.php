@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
@@ -256,7 +257,13 @@ class DataTablePostProcessor
         $addGoalProcessedMetrics = null;
         try {
             $addGoalProcessedMetrics = Common::getRequestVar(
-                'filter_update_columns_when_show_all_goals', null, 'integer', $this->request);
+                'filter_update_columns_when_show_all_goals', null, 'string', $this->request);
+            if ((int) $addGoalProcessedMetrics === 0
+                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+            ) {
+                $addGoalProcessedMetrics = null;
+            }
         } catch (Exception $ex) {
             // ignore
         }
@@ -265,7 +272,7 @@ class DataTablePostProcessor
         try {
             $goalsToProcess = Common::getRequestVar('filter_show_goal_columns_process_goals', null, 'string', $this->request);
             $goalsToProcess = explode(',', $goalsToProcess);
-            $goalsToProcess = array_map('intval', $goalsToProcess);
+            $goalsToProcess = array_map('trim', $goalsToProcess);
             $goalsToProcess = array_filter($goalsToProcess);
         } catch (Exception $ex) {
             // ignore
