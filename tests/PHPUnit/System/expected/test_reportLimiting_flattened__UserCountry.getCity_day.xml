@@ -11,6 +11,7 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<is_summary>1</is_summary>
 		<UserCountry_City>Others</UserCountry_City>
 	</row>
 	<row>

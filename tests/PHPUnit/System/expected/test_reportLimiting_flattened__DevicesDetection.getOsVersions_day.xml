@@ -11,6 +11,7 @@
 		<bounce_count>10</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/os/UNK.png</logo>
+		<is_summary>1</is_summary>
 		<DevicesDetection_OsVersion>Others</DevicesDetection_OsVersion>
 	</row>
 	<row>

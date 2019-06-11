@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<is_summary>1</is_summary>
 		<Actions_ClickedUrl>Others</Actions_ClickedUrl>
 	</row>
 	<row>
@@ -23,6 +24,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_ClickedUrl>othersite10.com/ - Others</Actions_ClickedUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>othersite11.com/ - Others</label>
@@ -35,6 +37,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_ClickedUrl>othersite11.com/ - Others</Actions_ClickedUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>othersite12.com/ - Others</label>
@@ -47,6 +50,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_ClickedUrl>othersite12.com/ - Others</Actions_ClickedUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>othersite10.com/</label>

@@ -63,6 +63,8 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
+
+        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
 
     public function beforeLoadDataTable()
