@@ -91,7 +91,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
-        // if we're within the archiving process, then means there's no data for a child archive, not the main one
+        // when browser archiving is enabled, the archiving process can be triggered for an API request.
+        // for non-day periods, this means the Archive class will be used for smaller periods to build the
+        // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
+        // Archive can report there is no data for a day, triggering this event, but there may be data for other
+        // days in the week. in this case, we don't want to throw an exception.
         if (PluginsArchiver::isArchivingProcessActive()) {
             return null;
         }
