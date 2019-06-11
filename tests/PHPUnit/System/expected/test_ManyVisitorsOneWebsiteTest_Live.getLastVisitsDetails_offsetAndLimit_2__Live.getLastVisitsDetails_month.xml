@@ -38,6 +38,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>40</goalPageId>
 				
@@ -184,6 +185,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>35</goalPageId>
 				
@@ -223,6 +225,7 @@
 				<type>goal</type>
 				<goalName>two</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId />
 				
@@ -435,6 +438,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>34</goalPageId>
 				
