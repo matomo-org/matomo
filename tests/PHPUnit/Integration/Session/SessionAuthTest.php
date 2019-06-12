@@ -75,13 +75,16 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
 
         $sessionFingerprint = new SessionFingerprint();
-        $startTime = $sessionFingerprint->getSessionStartTime();
-        $this->assertNotNull($startTime);
+        $expireTime = $sessionFingerprint->getExpirationTime();
+        $this->assertNotNull($expireTime);
 
         $usersModel = new UsersModel();
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
@@ -92,7 +95,7 @@ class SessionAuthTest extends IntegrationTestCase
         $sessionAuth = new SessionAuth(new MockUsersModel($user));
         $result = $sessionAuth->authenticate();
 
-        $this->assertGreaterThan($startTime, $sessionFingerprint->getSessionStartTime());
+        $this->assertGreaterThan($expireTime, $sessionFingerprint->getExpirationTime());
 
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }

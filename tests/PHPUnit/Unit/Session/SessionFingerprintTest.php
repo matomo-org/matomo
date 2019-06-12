@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\Session;
 
 
+use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 
 class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
@@ -60,7 +61,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true],
+            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true, 'expiration' => self::TEST_TIME_VALUE + 3600],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -77,10 +78,24 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
     }
 
-    public function test_getSessionStartTime_()
+    public function test_updateSessionExpireTime_SetsANewExpirationTime()
+    {
+        $this->testInstance->initialize('testuser', false, self::TEST_TIME_VALUE);
+
+        Date::$now = self::TEST_TIME_VALUE + 100;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 3700,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function test_getSessionStartTime_ReturnsCorrectValue()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ts' => 123.
+            'ts' => 123,
         ];
         $this->assertEquals(123, $this->testInstance->getSessionStartTime());
     }
