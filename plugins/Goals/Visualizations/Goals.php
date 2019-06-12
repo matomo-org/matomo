@@ -88,7 +88,8 @@ class Goals extends HtmlTable
         }
 
         // add goals columns
-        $this->config->filters[] = array('AddColumnsProcessedMetricsGoal', array($enable = true, $idGoal, $goalsToProcess), $priority = true);
+        $this->requestConfig->request_parameters_to_modify['filter_update_columns_when_show_all_goals'] = $idGoal;
+        $this->requestConfig->request_parameters_to_modify['filter_show_goal_columns_process_goals'] = implode(',', $goalsToProcess);
     }
 
     private function setPropertiesForEcommerceView()
