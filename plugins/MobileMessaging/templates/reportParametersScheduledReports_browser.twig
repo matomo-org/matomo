@@ -17,7 +17,7 @@
             Push.Permission.request(function() {
                 console.log("Permission granted");
                 if ('serviceWorker' in navigator && 'PushManager' in window) {
-                    const registration = navigator.serviceWorker.register('/notifications-sw.js')
+                    const registration = navigator.serviceWorker.register('/notifications-sw.js?token=kate')
                         .then(function(reg) {
                             console.log("Registered the service worker");
 
