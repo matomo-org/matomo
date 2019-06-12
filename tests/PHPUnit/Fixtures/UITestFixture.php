@@ -126,6 +126,11 @@ class UITestFixture extends SqlDump
         $this->addDangerousLinks();
     }
 
+    public function tearDown()
+    {
+        Option::set('Feedback.nextFeedbackReminder.superUserLogin', '-1');
+    }
+
     public function performSetUp($setupEnvironmentOnly = false)
     {
         $this->extraTestEnvVars = array(
