@@ -5,7 +5,7 @@
         "DayOfWeek": "Viikonpäivä",
         "LocalTime": "Käyntejä (paikallinen aika)",
         "NHour": "%sh",
-        "PluginDescription": "Raportoi palvelimen ajan ja käyttäjän paikallisen ajan käynneille.",
+        "PluginDescription": "Raportoi paikallisen ajan ja palvelimen ajan, kun kävijät katselevat sivustoasi tai sovellustasi.",
         "ServerTime": "Käyntejä (palvelimen aika)",
         "SubmenuTimes": "Ajat",
         "VisitsByDayOfWeek": "Käynnit viikonpäivän mukaan",

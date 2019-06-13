@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Öffne segmentiertes Besucher-Log",
         "SegmentedVisitorLogTitle": "Zeige Log bei denen %1$s \"%2$s\" ist",
         "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
-        "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten."
+        "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten.",
+        "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen\/Impressionen zu sehen"
     }
 }
