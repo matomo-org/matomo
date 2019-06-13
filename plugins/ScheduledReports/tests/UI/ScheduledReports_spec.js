@@ -41,7 +41,7 @@ describe("ScheduledReports", function () {
     it("token should be invalid on second try", async function () {
         await page.goto("?module=ScheduledReports&action=unsubscribe&token=mycustomtoken4");
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token2');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token');
     });
 
     it('should load the email reports page correctly', async function() {

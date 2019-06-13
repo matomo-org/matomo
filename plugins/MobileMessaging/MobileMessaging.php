@@ -317,7 +317,7 @@ class MobileMessaging extends \Piwik\Plugin
      */
     private static function canSupportBrowserNotifications()
     {
-        return ProxyHttp::isHttps() || Development::isEnabled();
+        return ProxyHttp::isHttps() || Development::isEnabled() || defined('PIWIK_TEST_MODE');
     }
 
     function install()
