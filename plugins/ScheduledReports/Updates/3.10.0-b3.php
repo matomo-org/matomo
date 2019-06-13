@@ -41,7 +41,7 @@ class Updates_3_10_0_b3 extends PiwikUpdates
      */
     public function getMigrations(Updater $updater)
     {
-        $formatColumn = $this->migration->db->changeColumnType('report', 'format', 'VARCHAR(16');
+        $formatColumn = $this->migration->db->changeColumnType('report', 'format', 'VARCHAR(16)');
         $typeColumn = $this->migration->db->changeColumnType('report', 'type', 'VARCHAR(16');
 
         return array(
