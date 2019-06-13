@@ -9,7 +9,7 @@ self.addEventListener('activate', async function() {
 });
 
 var fetchNotifications = function() {
-    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications')
+    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications', {credentials: "include"})
         .then(function(response) {
             if (response.status === 200) {
                 displayNotifications(response);
