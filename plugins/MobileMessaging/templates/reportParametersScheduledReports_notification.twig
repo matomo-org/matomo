@@ -1,0 +1,24 @@
+<script>
+
+    $(function () {
+
+        resetReportParametersFunctions ['notification'] = function (report) {
+            report.formatnotification = 'notification';
+
+            // Prompts the user to enable browser notifications if they have not already
+            Push.Permission.request(function() {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('/notifications-sw.js');
+                }
+            });
+        };
+
+        updateReportParametersFunctions['notification'] = function (report) {
+            report.formatnotification = 'notification';
+        };
+
+        getReportParametersFunctions['notification'] = function (report) {
+            return {};
+        };
+    });
+</script>

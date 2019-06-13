@@ -48,7 +48,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
         $reportSubject = 'Matomo';
 
         $mobileMessaging = new MobileMessaging();
-        $mobileMessaging->sendReport(MobileMessaging::BROWSER_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
+        $mobileMessaging->sendReport(MobileMessaging::NOTIFICATION_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
 
         $notifications = Option::get('ScheduledReports.notifications.user123');
         $this->assertNotEmpty($notifications);
@@ -74,7 +74,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
         $reportSubject = 'Matomo';
 
         $mobileMessaging = new MobileMessaging();
-        $mobileMessaging->sendReport(MobileMessaging::BROWSER_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
+        $mobileMessaging->sendReport(MobileMessaging::NOTIFICATION_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
 
         $notifications = Option::get('ScheduledReports.notifications.user123');
         $this->assertNotEmpty($notifications);

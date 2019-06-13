@@ -1,12 +1,4 @@
-var token;
-
-self.addEventListener('install', async function() {
-    self.token = new URL(location).searchParams.get('token');
-    console.log("My token is " + self.token);
-});
-
 self.addEventListener('activate', async function() {
-    console.log("Service worker activated");
     // Fetch any notifications that have already been generated
     fetchNotifications();
 
@@ -17,15 +9,11 @@ self.addEventListener('activate', async function() {
 });
 
 var fetchNotifications = function() {
-    console.log("Time");
-    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications&token=' + self.token)
+    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications')
         .then(function(response) {
             if (response.status === 200) {
                 displayNotifications(response);
             }
-        })
-        .catch(function(error) {
-            console.log(error);
         });
 };
 

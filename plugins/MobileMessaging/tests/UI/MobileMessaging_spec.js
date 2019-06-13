@@ -20,7 +20,7 @@ describe("MobileMessaging", function () {
 
         expect(await page.evaluate(option => option.textContent, reportTypeOptions[0])).to.eql("EMAIL");
         expect(await page.evaluate(option => option.textContent, reportTypeOptions[1])).to.eql("MOBILE");
-        expect(await page.evaluate(option => option.textContent, reportTypeOptions[2])).to.eql("BROWSER");
+        expect(await page.evaluate(option => option.textContent, reportTypeOptions[2])).to.eql("NOTIFICATION");
     });
 
     it("should change report options when mobile is selected", async function() {
@@ -37,7 +37,7 @@ describe("MobileMessaging", function () {
     });
 
     it("should change report options when mobile is selected", async function() {
-        await page.select('select[name="report_type"]', 'string:browser');
+        await page.select('select[name="report_type"]', 'string:notification');
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('browser_report_editor');
 
@@ -62,12 +62,12 @@ describe("MobileMessaging", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('email_report_editor_formats');
     });
 
-    it("should create a browser report", async function() {
-        await page.select('select[name="report_type"]', 'string:browser');
+    it("should create a notification report", async function() {
+        await page.select('select[name="report_type"]', 'string:notification');
 
         // Fill in the form and submit
-        await page.type('textarea[name="report_description"]', 'Test browser report');
-        await page.click('label[for="browserMultiSites_getAll"]');
+        await page.type('textarea[name="report_description"]', 'Test notification report');
+        await page.click('label[for="notificationMultiSites_getAll"]');
         await page.click('#create-report');
 
         await page.waitForNetworkIdle();

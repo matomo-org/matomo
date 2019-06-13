@@ -157,16 +157,15 @@ class Controller extends ControllerAdmin
         return $view->render();
     }
 
-
     public function getBrowserNotifications()
     {
-//        Piwik::checkUserIsNotAnonymous();
-        $token = Common::getRequestVar('token');
-        $login = $token;
+        Piwik::checkUserIsNotAnonymous();
+        $login = Piwik::getCurrentUserLogin();
         $optionKey = 'ScheduledReports.notifications.' . $login;
         $optionValue = Option::get($optionKey);
+
         // Remove the notifications from DB so that the user won't be shown them again
-//        Option::delete($optionKey);
+        Option::delete($optionKey);
 
         if (! $optionValue) {
             $optionValue = '[]';

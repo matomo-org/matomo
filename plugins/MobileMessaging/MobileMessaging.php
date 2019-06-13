@@ -8,6 +8,9 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Development;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -17,6 +20,7 @@ use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\API;
+use Piwik\ProxyHttp;
 use Piwik\View;
 
 /**
@@ -36,7 +40,7 @@ class MobileMessaging extends \Piwik\Plugin
     const PHONE_NUMBERS_PARAMETER = 'phoneNumbers';
 
     const MOBILE_TYPE = 'mobile';
-    const BROWSER_TYPE = 'browser';
+    const NOTIFICATION_TYPE = 'notification';
     const SMS_FORMAT = 'sms';
 
     private static $availableParameters = array(
@@ -45,12 +49,12 @@ class MobileMessaging extends \Piwik\Plugin
 
     private static $managedReportTypes = array(
         self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png',
-        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/browser.png'
+        self::NOTIFICATION_TYPE => 'plugins/MobileMessaging/images/notification.png'
     );
 
     private static $managedReportFormats = array(
         self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png',
-        self::BROWSER_TYPE => 'plugins/MobileMessaging/images/browser.png'
+        self::NOTIFICATION_TYPE => 'plugins/MobileMessaging/images/notification.png'
     );
 
     private static $availableReports = array(
@@ -101,7 +105,24 @@ class MobileMessaging extends \Piwik\Plugin
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
         $jsFiles[] = "libs/bower_components/push.js/bin/push.js";
-        $jsFiles[] = "plugins/MobileMessaging/angularjs/browser-notifications.controller.js";
+        if ($this->userHasBrowserNotificationReports()) {
+            $jsFiles[] = "plugins/MobileMessaging/angularjs/register-for-notifications.js";
+        }
+    }
+
+    private function userHasBrowserNotificationReports()
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return false;
+        }
+        $sql =  'SELECT COUNT(*) FROM ' . Common::prefixTable('report') .
+                ' WHERE format = ? AND login = ?';
+        $params = array(
+            'notification',
+            Piwik::getCurrentUserLogin()
+        );
+        $result = (int)Db::fetchOne($sql, $params);
+        return $result > 0;
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -155,15 +176,21 @@ class MobileMessaging extends \Piwik\Plugin
 
     public function getReportTypes(&$reportTypes)
     {
-        $reportTypes = array_merge($reportTypes, self::$managedReportTypes);
+        $myReportTypes = self::$managedReportTypes;
+
+        if (!self::canSupportBrowserNotifications()) {
+            unset($myReportTypes[self::NOTIFICATION_TYPE]);
+        }
+
+        $reportTypes = array_merge($reportTypes, $myReportTypes);
     }
 
     public function getReportFormats(&$reportFormats, $reportType)
     {
         if ($reportType === self::MOBILE_TYPE) {
             $reportFormats[self::SMS_FORMAT] = self::$managedReportFormats[self::SMS_FORMAT];
-        } elseif ($reportType === self::BROWSER_TYPE) {
-            $reportFormats[self::BROWSER_TYPE] = self::$managedReportFormats[self::BROWSER_TYPE];
+        } elseif ($reportType === self::NOTIFICATION_TYPE) {
+            $reportFormats[self::NOTIFICATION_TYPE] = self::$managedReportFormats[self::NOTIFICATION_TYPE];
         }
     }
 
@@ -208,7 +235,7 @@ class MobileMessaging extends \Piwik\Plugin
             case self::MOBILE_TYPE:
                 $this->sendReportBySms($report, $contents, $reportSubject);
                 break;
-            case self::BROWSER_TYPE:
+            case self::NOTIFICATION_TYPE:
                 $this->sendReportByBrowserNotification($report, $contents, $reportSubject);
                 break;
         }
@@ -274,13 +301,23 @@ class MobileMessaging extends \Piwik\Plugin
         $out .= $view->render();
 
 
-        $view2 = new View('@MobileMessaging/reportParametersScheduledReports_browser');
+        $view2 = new View('@MobileMessaging/reportParametersScheduledReports_notification');
         $out .= $view2->render();
     }
 
     private static function manageEvent($reportType)
     {
         return in_array($reportType, array_keys(self::$managedReportTypes));
+    }
+
+    /**
+     * Notifications won't work on most browsers unless the site is loaded via HTTPS or you've turned off some
+     * browser security settings.
+     * @return bool
+     */
+    private static function canSupportBrowserNotifications()
+    {
+        return ProxyHttp::isHttps() || Development::isEnabled();
     }
 
     function install()
