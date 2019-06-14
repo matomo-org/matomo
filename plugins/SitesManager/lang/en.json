@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Changing your time zone will only affect data going forward, and will not be applied retroactively.",
         "Currency": "Currency",
         "CurrencySymbolWillBeUsedForGoals": "The Currency symbol will be displayed next to Goals revenues.",
+        "CustomizeJavaScriptTracker": "Customize JavaScript tracking",
         "DefaultCurrencyForNewWebsites": "Default Currency for new websites",
         "DefaultTimezoneForNewWebsites": "Default Time zone for new websites",
         "DeleteConfirm": "Are you sure you want to delete the website %s?",
