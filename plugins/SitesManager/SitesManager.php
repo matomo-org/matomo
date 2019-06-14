@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -68,10 +69,30 @@ class SitesManager extends \Piwik\Plugin
         // Skip the screen if purging logs is enabled
         $settings = PrivacyManager::getPurgeDataSettings();
         if ($settings['delete_logs_enable'] == 1) {
+            $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . (int) $siteId;
+            $hadTrafficBefore = Option::get($hadTrafficKey);
+            if (!empty($hadTrafficBefore)) {
+                // user had traffic at some stage in the past... not needed to show tracking code
+                return;
+            } elseif (self::hasTrackedAnyTraffic($siteId)) {
+                // remember the user had traffic in the past so we won't show the tracking screen again
+                // if all visits are deleted for example
+                Option::set($hadTrafficKey, 1);
+                return;
+            } else {
+                // never had any traffic
+                $session = new SessionNamespace('siteWithoutData');
+                if (!empty($session->ignoreMessage)) {
+                    return;
+                }
+
+                $module = 'SitesManager';
+                $action = 'siteWithoutData';
+            }
             return;
         }
 
-        if (self::hasTrackedAnyTraffic($siteId)) {
+        if (!self::hasTrackedAnyTraffic($siteId)) {
             $session = new SessionNamespace('siteWithoutData');
             if (!empty($session->ignoreMessage)) {
                 return;
@@ -98,7 +119,7 @@ class SitesManager extends \Piwik\Plugin
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
         $trackerModel = new TrackerModel();
-        return $shouldPerformEmptySiteCheck && $trackerModel->isSiteEmpty($siteId);
+        return $shouldPerformEmptySiteCheck && !$trackerModel->isSiteEmpty($siteId);
     }
 
     public function onSiteDeleted($idSite)
