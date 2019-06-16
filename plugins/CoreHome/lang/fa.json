@@ -78,6 +78,9 @@
         "PageDownShortcutDescription": "برای رفتن به انتهای صفحه",
         "PivotBySubtable": "این گزارش نچرخیده است %1$s انجام دهید %2$s",
         "SystemSummaryWidget": "خلاصه سیستم",
-        "SystemSummaryNWebsites": "%d وبسایت"
+        "SystemSummaryNWebsites": "%d وبسایت",
+        "SystemSummaryPiwikVersion": "نسخه‌ی Matomo",
+        "SystemSummaryMysqlVersion": "نسخه‌ی MySQL",
+        "SystemSummaryPhpVersion": "نسخه‌ی PHP"
     }
 }
