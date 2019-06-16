@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
@@ -31,6 +32,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -681,6 +683,30 @@ abstract class Controller
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();
         }
+
+        $view->userNotificationToken = $this->getUserNotificationToken();
+    }
+
+    private function getUserNotificationToken()
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return '';
+        }
+
+        $sql =  'SELECT COUNT(*) FROM ' . Common::prefixTable('report') .
+            ' WHERE format = ? AND login = ?';
+        $params = array(
+            'notification',
+            Piwik::getCurrentUserLogin()
+        );
+        $notificationReportCount = (int)Db::fetchOne($sql, $params);
+
+        if ($notificationReportCount < 1) {
+            return '';
+        }
+
+        $user = (new Model())->getUser(Piwik::getCurrentUserLogin());
+        return $user['notification_token'];
     }
 
     private function getValidDate(Date $date, Date $minDate, Date $maxDate)
@@ -742,6 +768,8 @@ abstract class Controller
         if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
+
+        $view->userNotificationToken = $this->getUserNotificationToken();
 
         self::setHostValidationVariablesView($view);
     }

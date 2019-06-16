@@ -1325,6 +1325,14 @@ class API extends \Piwik\Plugin\API
         return md5($userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
+    public function setNotificationToken($userLogin)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        $token = $this::createTokenAuth($userLogin);    // Just a different unique hash string
+
+        $this->model->updateNotificationToken($userLogin, $token);
+    }
+
     /**
      * Returns the user's API token.
      *

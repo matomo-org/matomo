@@ -20,6 +20,8 @@ use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\API;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\ProxyHttp;
 use Piwik\View;
 
@@ -105,24 +107,7 @@ class MobileMessaging extends \Piwik\Plugin
         $jsFiles[] = "plugins/MobileMessaging/angularjs/manage-mobile-phone-numbers.controller.js";
         $jsFiles[] = "plugins/MobileMessaging/angularjs/sms-provider-credentials.directive.js";
         $jsFiles[] = "libs/bower_components/push.js/bin/push.js";
-        if ($this->userHasBrowserNotificationReports()) {
-            $jsFiles[] = "plugins/MobileMessaging/angularjs/register-for-notifications.js";
-        }
-    }
-
-    private function userHasBrowserNotificationReports()
-    {
-        if (Piwik::isUserIsAnonymous()) {
-            return false;
-        }
-        $sql =  'SELECT COUNT(*) FROM ' . Common::prefixTable('report') .
-                ' WHERE format = ? AND login = ?';
-        $params = array(
-            'notification',
-            Piwik::getCurrentUserLogin()
-        );
-        $result = (int)Db::fetchOne($sql, $params);
-        return $result > 0;
+        $jsFiles[] = "plugins/MobileMessaging/angularjs/notifications-registration.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -153,6 +138,15 @@ class MobileMessaging extends \Piwik\Plugin
 
             // 'unset' seems to transform the array to an associative array
             $parameters[self::PHONE_NUMBERS_PARAMETER] = array_values($phoneNumbers);
+        }
+
+        // Ensure the user has a notification token, if they don't already
+        if ($reportType === self::NOTIFICATION_TYPE) {
+            $login = Piwik::getCurrentUserLogin();
+            $user = (new Model())->getUser($login);
+            if (!$user['notification_token']) {
+                APIUsersManager::getInstance()->setNotificationToken($login);
+            }
         }
     }
 

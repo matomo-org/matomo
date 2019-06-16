@@ -12,11 +12,13 @@ namespace Piwik\Plugins\MobileMessaging;
 use Piwik\Common;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\IP;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -159,8 +161,20 @@ class Controller extends ControllerAdmin
 
     public function getBrowserNotifications()
     {
-        Piwik::checkUserIsNotAnonymous();
-        $login = Piwik::getCurrentUserLogin();
+        $login = null;
+        $token = Common::getRequestVar('token');
+
+        if ($token) {
+            $user = (new Model())->getUserByNotificationToken($token);
+            if ($user) {
+                $login = $user['login'];
+            }
+        }
+
+        if (! $login) {
+            throw new NoAccessException('Missing or invalid token');
+        }
+
         $optionKey = 'ScheduledReports.notifications.' . $login;
         $optionValue = Option::get($optionKey);
 

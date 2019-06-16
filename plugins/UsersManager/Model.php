@@ -254,6 +254,12 @@ class Model
         return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
+    public function getUserByNotificationToken($token)
+    {
+        $db = $this->getDb();
+        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE notification_token = ?', $token);
+    }
+
     public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
     {
         $user = array(
@@ -332,6 +338,13 @@ class Model
     {
         $this->updateUserFields($userLogin, array(
             'token_auth' => $tokenAuth
+        ));
+    }
+
+    public function updateNotificationToken($userLogin, $token)
+    {
+        $this->updateUserFields($userLogin, array(
+            'notification_token' => $token
         ));
     }
 

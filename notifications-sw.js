@@ -1,3 +1,17 @@
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * UsersManager screenshot tests.
+ *
+ * @link https://matomo.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+var token;
+
+self.addEventListener('install', async function() {
+    self.token = new URL(location).searchParams.get('token');
+});
+
 self.addEventListener('activate', async function() {
     // Fetch any notifications that have already been generated
     fetchNotifications();
@@ -9,12 +23,13 @@ self.addEventListener('activate', async function() {
 });
 
 var fetchNotifications = function() {
-    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications', {credentials: "include"})
-        .then(function(response) {
-            if (response.status === 200) {
-                displayNotifications(response);
-            }
-        });
+    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications&token=' + self.token, 
+        {credentials: "omit"}
+    ).then(function(response) {
+        if (response.status === 200) {
+            displayNotifications(response);
+        }
+    });
 };
 
 var displayNotifications = function(response) {
