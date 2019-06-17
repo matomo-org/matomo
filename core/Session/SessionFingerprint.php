@@ -86,9 +86,17 @@ class SessionFingerprint
 
     public function clear()
     {
-        unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
-        unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
-        unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        if (isset($_SESSION[self::USER_NAME_SESSION_VAR_NAME])) { // may not be available during tests
+            unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
+        }
+
+        if (isset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
+        }
+
+        if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        }
     }
 
     public function getSessionStartTime()
