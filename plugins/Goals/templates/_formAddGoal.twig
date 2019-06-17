@@ -44,6 +44,7 @@
                      ng-show="manageGoals.goal.triggerType != 'manually'"
                      full-width="true"
                      ng-model="manageGoals.goal.matchAttribute"
+                     ng-change="manageGoals.initPatternType()"
                      options="{{ goalMatchAttributeOptions|json_encode }}">
                 </div>
             </div>
@@ -63,6 +64,9 @@
                <span ng-show="manageGoals.goal.matchAttribute == 'external_website'">
                     {{ 'Goals_ExternalWebsiteUrl'|translate }}
                 </span>
+                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
+                    {{ 'Goals_VisitDuration'|translate }}
+                </span>
             </h3>
         </div>
 
@@ -76,11 +80,19 @@
                 </div>
             </div>
 
-            <div class="col s12 m6 l4">
+            <div class="col s12 m6 l4" ng-if="!manageGoals.isMatchAttributeNumeric()">
                 <div piwik-field uicontrol="select" name="pattern_type"
                      ng-model="manageGoals.goal.patternType"
                      full-width="true"
                      options="{{ patternTypeOptions|json_encode }}">
+                </div>
+            </div>
+
+            <div class="col s12 m6 l4" ng-if="manageGoals.isMatchAttributeNumeric()">
+                <div piwik-field uicontrol="select" name="pattern_type"
+                     ng-model="manageGoals.goal.patternType"
+                     full-width="true"
+                     options="{{ numericComparisonTypeOptions|json_encode }}">
                 </div>
             </div>
 
@@ -116,6 +128,9 @@
                     {{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'video'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'click'") }}
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
+                </span>
+                <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
+                    {{ 'General_ForExampleShort'|translate }} {{ 'Goals_AtLeastMinutes'|translate('5') }}
                 </span>
             </div>
         </div>

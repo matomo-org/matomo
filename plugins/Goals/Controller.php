@@ -382,6 +382,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'event', 'value' => Piwik::translate('Goals_SendEvent')),
             array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
             array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
+            ['key' => 'visit_duration', 'value' => Piwik::translate('Goals_VisitDurationMatchAttr')],
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
@@ -397,6 +398,9 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'exact', 'value' => Piwik::translate('Goals_IsExactly', '')),
             array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
         );
+        $view->numericComparisonTypeOptions = [
+            ['key' => '>', 'value' => Piwik::translate('General_OperationGreaterThan')],
+        ];
     }
 
     /**
