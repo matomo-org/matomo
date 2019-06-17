@@ -89,8 +89,6 @@ class UITestFixture extends SqlDump
         DbHelper::createAnonymousUser();
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword('superUserLogin', true);
-        $yesterday = Date::yesterday();
-        Option::set('Feedback.nextFeedbackReminder.superUserLogin', $yesterday->toString('Y-m-d'));
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
@@ -124,11 +122,6 @@ class UITestFixture extends SqlDump
         );
 
         $this->addDangerousLinks();
-    }
-
-    public function tearDown()
-    {
-        Option::set('Feedback.nextFeedbackReminder.superUserLogin', '-1');
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
