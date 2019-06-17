@@ -175,7 +175,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $failures = $this->trackingFailures->getAllFailures();
         $general = Config::getInstance()->General;
-        if (!empty($failures) && $general['notify_tracking_failures']) {
+        if (!empty($failures) && $general['enable_tracking_failures_notification']) {
             $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
             foreach ($superUsers as $login => $email) {
                 $email = new TrackingFailuresEmail($login, $email, count($failures));
