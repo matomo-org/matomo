@@ -29,6 +29,13 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->testInstance = new SessionFingerprint();
     }
 
+    public function tearDown()
+    {
+        Date::$now = null;
+
+        parent::tearDown();
+    }
+
     public function test_getUser_ReturnsUserNameSessionVar_WhenSessionVarIsSet()
     {
         $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME] = 'testuser';
