@@ -868,22 +868,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('email_reports_editor');
     });
 
-    it('should load the feedback form when the feedback form link is clicked', async function() {
-        await page.goto("?" + generalParams + "&module=Feedback&action=index");
-
-        await page.evaluate(function () {
-            $('.enrichedHeadline .title').each(function () {
-                if ($(this).text().indexOf("Matomo") !== -1) {
-                    var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
-                    $(this).text(replace);
-                }
-            });
-        });
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('feedback_form');
-    });
-
     // date range clicked
     it('should reload to the correct date when a date range is selected in the period selector', async function() {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
