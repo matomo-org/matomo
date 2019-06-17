@@ -59,6 +59,9 @@ FORMAT;
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
     {
         Access::getInstance()->setSuperUserAccess(false);
