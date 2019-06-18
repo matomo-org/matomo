@@ -126,6 +126,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // new flag dimensions
             'UserCountry.getCountry',
+
+            'Tour.getLevel',
+            'Tour.getChallenges'
         );
 
         $apiNotToCall = array(
