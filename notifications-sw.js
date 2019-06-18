@@ -23,22 +23,28 @@ self.addEventListener('activate', async function() {
 });
 
 var fetchNotifications = function() {
-    fetch('index.php?module=MobileMessaging&action=getBrowserNotifications&token=' + self.token, 
+    fetch('index.php?module=API&action=MobileMessaging.getBrowserNotifications&format=JSON&token=' + self.token, 
         {credentials: "omit"}
     ).then(function(response) {
-        if (response.status === 200) {
-            displayNotifications(response);
+        if (response.ok || response.redirected) {
+            response.json.then(displayNotifications);
+        } else {
+            console.error("Failed to get notifications");
+            response.text().then(console.error);
         }
     });
 };
 
-var displayNotifications = function(response) {
-    response.json().then(function(notifications) {
-        notifications.forEach(function(notification) {
-                self.registration.showNotification(notification.title, {
-                    body: notification.contents
-                    // timeout: 30 * 1000  // 30 seconds
-                });
+var displayNotifications = function(notifications) {
+    if (notifications.constructor !== Array) {
+        console.error("Unexpected response from server: ");
+        console.error(notifications);
+    }
+
+    notifications.forEach(function(notification) {
+        self.registration.showNotification(notification.title, {
+            body: notification.contents
+            // timeout: 30 * 1000  // 30 seconds
         });
     });
 };

@@ -35,7 +35,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
     public function tearDown()
     {
         parent::tearDown();
-        Option::deleteLike('ScheduledReports.notifications.%');
+        Option::deleteLike(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . '%');
     }
 
     public function test_sendReport_writesNotificationToDb()
@@ -50,7 +50,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
         $mobileMessaging = new MobileMessaging();
         $mobileMessaging->sendReport(MobileMessaging::NOTIFICATION_TYPE, $report, $reportContent, null, null, $reportSubject, null, null, null, false);
 
-        $notifications = Option::get('ScheduledReports.notifications.user123');
+        $notifications = Option::get(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . 'user123');
         $this->assertNotEmpty($notifications);
         $notifications = json_decode($notifications, true);
         $this->assertEquals(1, count($notifications));
@@ -61,7 +61,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
 
     public function test_sendReport_writesNotificationToDb_concatsToExisting()
     {
-        Option::set('ScheduledReports.notifications.user123', json_encode(array(array(
+        Option::set(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . 'user123', json_encode(array(array(
             'title' => 'Your Website',
             'contents' => 'Your daily report'
         ))));
@@ -95,7 +95,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
             'contents' => 'Your daily Matomo report'
         );
         Access::getInstance()->setSuperUserAccess();
-        Option::set('ScheduledReports.notifications.super user was set', json_encode(array($notification)));
+        Option::set(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . 'super user was set', json_encode(array($notification)));
 
         $output = $this->controller->getBrowserNotifications();
         $this->assertNotEmpty($output);
@@ -116,7 +116,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
             )
         );
         Access::getInstance()->setSuperUserAccess();
-        Option::set('ScheduledReports.notifications.super user was set', json_encode($notifications));
+        Option::set(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . 'super user was set', json_encode($notifications));
 
         $output = $this->controller->getBrowserNotifications();
         $this->assertNotEmpty($output);
@@ -131,7 +131,7 @@ class BrowserNotificationTest extends \Piwik\Tests\Framework\TestCase\Integratio
             'contents' => 'Your daily Matomo report'
         );
         Access::getInstance()->setSuperUserAccess();
-        Option::set('ScheduledReports.notifications.super user was set', json_encode(array($notification)));
+        Option::set(MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . 'super user was set', json_encode(array($notification)));
 
         $this->controller->getBrowserNotifications();
 

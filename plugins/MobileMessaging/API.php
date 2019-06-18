@@ -8,9 +8,12 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Common;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
+use Piwik\Plugins\UsersManager\Model;
 
 /**
  * The MobileMessaging API lets you manage and access all the MobileMessaging plugin features including :
@@ -429,5 +432,34 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
         $option = Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION);
         return $option === 'true';
+    }
+
+    public function getBrowserNotifications()
+    {
+        $login = null;
+        $token = Common::getRequestVar('token');
+
+        if ($token) {
+            $user = (new Model())->getUserByNotificationToken($token);
+            if ($user) {
+                $login = $user['login'];
+            }
+        }
+
+        if (! $login) {
+            throw new NoAccessException('Missing or invalid token');
+        }
+
+        $optionKey = MobileMessaging::NOTIFICATION_OPTION_KEY_PREFIX . $login;
+        $optionValue = Option::get($optionKey);
+
+        // Remove the notifications from DB so that the user won't be shown them again
+        Option::delete($optionKey);
+
+        if ($optionValue) {
+            return json_decode($optionValue, true);
+        } else {
+            return array();
+        }
     }
 }

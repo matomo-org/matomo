@@ -45,6 +45,8 @@ class MobileMessaging extends \Piwik\Plugin
     const NOTIFICATION_TYPE = 'notification';
     const SMS_FORMAT = 'sms';
 
+    const NOTIFICATION_OPTION_KEY_PREFIX = 'ScheduledReports.notification';
+
     private static $availableParameters = array(
         self::PHONE_NUMBERS_PARAMETER => true,
     );
@@ -261,7 +263,7 @@ class MobileMessaging extends \Piwik\Plugin
         $notification['title'] = $reportSubject;
         $notification['contents'] = $contents;
 
-        $optionKey = 'ScheduledReports.notifications.' . $report['login'];
+        $optionKey = self::NOTIFICATION_OPTION_KEY_PREFIX . $report['login'];
         $notifications = Option::get($optionKey);
         if ($notifications) {
             $notifications = json_decode($notifications, true);
@@ -311,7 +313,9 @@ class MobileMessaging extends \Piwik\Plugin
      */
     private static function canSupportBrowserNotifications()
     {
-        return ProxyHttp::isHttps() || Development::isEnabled() || defined('PIWIK_TEST_MODE');
+        return ProxyHttp::isHttps() 
+            || Development::isEnabled() 
+            || (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
     }
 
     function install()

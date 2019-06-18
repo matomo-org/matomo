@@ -158,32 +158,4 @@ class Controller extends ControllerAdmin
 
         return $view->render();
     }
-
-    public function getBrowserNotifications()
-    {
-        $login = null;
-        $token = Common::getRequestVar('token');
-
-        if ($token) {
-            $user = (new Model())->getUserByNotificationToken($token);
-            if ($user) {
-                $login = $user['login'];
-            }
-        }
-
-        if (! $login) {
-            throw new NoAccessException('Missing or invalid token');
-        }
-
-        $optionKey = 'ScheduledReports.notifications.' . $login;
-        $optionValue = Option::get($optionKey);
-
-        // Remove the notifications from DB so that the user won't be shown them again
-        Option::delete($optionKey);
-
-        if (! $optionValue) {
-            $optionValue = '[]';
-        }
-        return $optionValue;
-    }
 }
