@@ -3299,7 +3299,7 @@ function PiwikTest() {
         var tracker = Piwik.getTracker();
         tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
-
+        tracker.setCustomData({ "token": '---' });
         tracker.setRequestMethod('POST');
 
         var callbackCalled = false;
@@ -3312,8 +3312,8 @@ function PiwikTest() {
         stop();
         setTimeout(function() {
             ok(callbackCalled, 'called the callback');
-            start();
 
+            start();
         }, 2000);
     });
 
