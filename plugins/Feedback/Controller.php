@@ -35,8 +35,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserIsNotAnonymous();
         $nextReminder = Common::getRequestVar('nextReminder');
-        // -1 means "never remind me again", otherwise add the interval onto today's date
-        if ((int)$nextReminder !== -1) {
+        if ((int)$nextReminder !== Feedback::NEVER_REMIND_ME_AGAIN) {
             $nextReminder = Date::now()->getStartOfDay()->addDay($nextReminder)->toString('Y-m-d');
         }
 
