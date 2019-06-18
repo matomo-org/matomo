@@ -35,7 +35,13 @@
                                 scope.$eval(attrs.yes);
                                 setTimeout(function () { scope.$apply(); }, 0);
                             }
-                        }}, {
+                        }, no: function() {
+                                if (attrs.no) {
+                                    scope.$eval(attrs.no);
+                                    setTimeout(function () { scope.$apply(); }, 0);
+                                }
+                            }
+                        }, {
                             complete: function () {
                                 setTimeout(function () {
                                     scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
