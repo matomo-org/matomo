@@ -33,6 +33,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function updateFeedbackReminderDate()
     {
+        Piwik::checkUserIsNotAnonymous();
         $nextReminder = Common::getRequestVar('nextReminder');
         // -1 means "never remind me again", otherwise add the interval onto today's date
         if ((int)$nextReminder !== -1) {

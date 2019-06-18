@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Feedback\tests\Unit;
 
 use Piwik\Date;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Plugins\Feedback\Controller;
 use Piwik\Plugins\UsersManager\Model;
@@ -79,5 +80,13 @@ class ControllerTest extends IntegrationTestCase
 
         $option = Option::get('Feedback.nextFeedbackReminder.user1');
         $this->assertEquals($option, '-1');
+    }
+
+    public function test_updateFeedbackReminder_notLoggedIn()
+    {
+        FakeAccess::$identity = null;
+        FakeAccess::$superUser = false;
+        $this->setExpectedException(NoAccessException::class);
+        $this->controller->updateFeedbackReminderDate();
     }
 }
