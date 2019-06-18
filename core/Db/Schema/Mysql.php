@@ -45,6 +45,7 @@ class Mysql implements SchemaInterface
                           email VARCHAR(100) NOT NULL,
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           token_auth CHAR(32) NOT NULL,
+                          notification_token CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
