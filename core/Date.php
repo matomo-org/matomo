@@ -1070,7 +1070,12 @@ class Date
         return new Exception($message . ": $dateString");
     }
 
-    private static function getNowTimestamp()
+    /**
+     * For tests.
+     * @return int|null
+     * @ignore
+     */
+    public static function getNowTimestamp()
     {
         return isset(self::$now) ? self::$now : time();
     }
