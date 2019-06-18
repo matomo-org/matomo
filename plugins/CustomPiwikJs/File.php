@@ -38,7 +38,7 @@ class File
 
     public function save($content)
     {
-        if(false === file_put_contents($this->file, $content)) {
+        if(false === file_put_contents($this->file, $content, LOCK_EX)) {
             throw new AccessDeniedException(sprintf("Could not write to %s", $this->file));
         }
     }
