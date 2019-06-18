@@ -966,6 +966,7 @@ Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs
+Plugins[] = Tour
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
