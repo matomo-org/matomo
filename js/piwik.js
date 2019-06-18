@@ -1031,7 +1031,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials
  */
 /*global _paq:true */
 /*members push */
