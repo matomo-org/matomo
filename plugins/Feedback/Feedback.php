@@ -19,7 +19,7 @@ use Piwik\View;
  */
 class Feedback extends \Piwik\Plugin
 {
-    const NEVER_REMIND_ME_AGAIN = -1;
+    const NEVER_REMIND_ME_AGAIN = "-1";
 
     /**
      * @see Piwik\Plugin::registerEvents
@@ -82,13 +82,13 @@ class Feedback extends \Piwik\Plugin
 
         $login = Piwik::getCurrentUserLogin();
         $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
-        $nextReminderDate = (int)Option::get($feedbackReminderKey);
+        $nextReminderDate = Option::get($feedbackReminderKey);
 
         if ($nextReminderDate === self::NEVER_REMIND_ME_AGAIN) {
             return false;
         }
 
-        if (!$nextReminderDate) {
+        if ($nextReminderDate === false) {
             $model = new Model();
             $user = $model->getUser($login);
             $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
