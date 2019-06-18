@@ -19,6 +19,7 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
+use Piwik\Config;
 
 /**
  *
@@ -297,12 +298,20 @@ class PluginInstaller
 
     private function copyPluginToDestination($tmpPluginFolder)
     {
-        $pluginsDir = Manager::getPluginsDirectory();
-        $pluginTargetPath = $pluginsDir . $this->pluginName;
-
-        $this->removeFolderIfExists($pluginTargetPath);
-
-        Filesystem::copyRecursive($tmpPluginFolder, $pluginsDir);
+        if (!empty(Config::getInstance()->General['copy_to_plugins_dirs'])) {
+            $pluginsDirs = Manager::getPluginsDirectories();
+            // Copy plugin to all plugins directories
+            foreach ($pluginsDirs as $dir) {
+                $pluginTargetPath = $dir . $this->pluginName;
+                $this->removeFolderIfExists($pluginTargetPath);
+                Filesystem::copyRecursive($tmpPluginFolder, $dir);
+            }
+        } else {
+            $pluginsDir = Manager::getPluginsDirectory();
+            $pluginTargetPath = $pluginsDir . $this->pluginName;
+            $this->removeFolderIfExists($pluginTargetPath);
+            Filesystem::copyRecursive($tmpPluginFolder, $pluginsDir);
+        }
     }
 
     /**
