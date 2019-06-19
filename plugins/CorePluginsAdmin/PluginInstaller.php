@@ -19,7 +19,6 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
-use Piwik\Config;
 
 /**
  *
