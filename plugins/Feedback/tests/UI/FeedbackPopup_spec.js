@@ -9,7 +9,7 @@
 
 describe("FeedbackPopup", function () {
     this.timeout(0);
-    this.fixture = "Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackPopupFixture ";
+    this.fixture = "Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackPopupFixture";
 
     var url = "?module=CoreHome&action=index&idSite=1&period=day&date=yesterday";
 
