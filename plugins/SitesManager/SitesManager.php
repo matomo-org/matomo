@@ -65,6 +65,11 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
+        $shouldPerformEmptySiteCheck = $this->shouldPerormEmptySiteCheck($siteId);
+        if (!$shouldPerformEmptySiteCheck) {
+            return;
+        }
+
         $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . (int) $siteId;
         $hadTrafficBefore = Option::get($hadTrafficKey);
         if (!empty($hadTrafficBefore)) {
@@ -89,6 +94,12 @@ class SitesManager extends \Piwik\Plugin
 
     public static function hasTrackedAnyTraffic($siteId)
     {
+        $trackerModel = new TrackerModel();
+        return !$trackerModel->isSiteEmpty($siteId);
+    }
+
+    public static function shouldPerormEmptySiteCheck($siteId)
+    {
         $shouldPerformEmptySiteCheck = true;
 
         /**
@@ -102,8 +113,7 @@ class SitesManager extends \Piwik\Plugin
          */
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
-        $trackerModel = new TrackerModel();
-        return $shouldPerformEmptySiteCheck && !$trackerModel->isSiteEmpty($siteId);
+        return $shouldPerformEmptySiteCheck;
     }
 
     public function onSiteDeleted($idSite)
