@@ -219,6 +219,25 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         $this->assertContains("Invalidating range periods in 2019-01-12,2019-01-15 [segment = ]", $this->applicationTester->getDisplay());
     }
 
+    public function test_Command_InvalidateDateRange_invalidateAllPeriodTypes()
+    {
+        $code = $this->applicationTester->run(array(
+            'command' => 'core:invalidate-report-data',
+            '--dates' => array('2019-01-01,2019-01-09'),
+            '--periods' => 'all',
+            '--sites' => '1',
+            '--dry-run' => true,
+            '-vvv' => true,
+        ));
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        $this->assertContains("Invalidating day periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating week periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating month periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating year periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating range periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+    }
+
     public function getTestDataForSuccessTests()
     {
         return array(

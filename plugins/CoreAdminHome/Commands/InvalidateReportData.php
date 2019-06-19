@@ -123,7 +123,6 @@ class InvalidateReportData extends ConsoleCommand
 
         if ($periods == self::ALL_OPTION_VALUE) {
             $result = array_keys(Piwik::$idPeriods);
-            unset($result[4]); // remove 'range' period
             return $result;
         }
 
