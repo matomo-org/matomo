@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Grumbulli i rreshtave është i shfaqur %s Fshihini",
         "DataTableIncludeAggregateRows": "Grumbulli i rreshtave është i fshehur %s Shfaqini",
         "DataTableHowToSearch": "Shtypni tastin Enter ose klikoni ikonën e kërkimit që të kërkoni",
+        "DataTableShowDimensions": "Përmasat janë të ndërthurura %s Shfaqi përmasat ndarazi",
+        "DataTableCombineDimensions": "Përmasat janë shfaqur ndarazi %s Shfaqi përmasat të ndërthurura",
         "Default": "parazgjedhje",
         "DonateCall1": "Përdorimi i Matomo-a s’do t’ju kushtojë kurrë një dysh, por kjo s’do të thotë që neve nuk na kushton krijimi i tij.",
         "DonateCall2": "Matomo lyp përkrahjen tuaj që të rritet dhe lulëzojë.",

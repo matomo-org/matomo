@@ -3563,4 +3563,23 @@
 		<uniqueId>widgetSEOgetRank</uniqueId>
 		<isWide>0</isWide>
 	</row>
+	<row>
+		<name>Become a Matomo Expert</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Tour</module>
+		<action>getEngagement</action>
+		<order>99</order>
+		<parameters>
+			<module>Tour</module>
+			<action>getEngagement</action>
+		</parameters>
+		<uniqueId>widgetTourgetEngagement</uniqueId>
+		<isWide>0</isWide>
+	</row>
 </result>

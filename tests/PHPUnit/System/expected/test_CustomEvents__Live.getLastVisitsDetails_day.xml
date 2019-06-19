@@ -648,6 +648,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId>1</goalPageId>
 				
@@ -709,6 +710,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>8</revenue>
 				<goalPageId>9</goalPageId>
 				
@@ -716,7 +718,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>event matching ($ 8 revenue)</subtitle>
+				<subtitle>event matching ($8 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -771,6 +773,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>23</revenue>
 				<goalPageId>10</goalPageId>
 				
@@ -778,7 +781,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>event matching ($ 23 revenue)</subtitle>
+				<subtitle>event matching ($23 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -833,6 +836,7 @@
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId>11</goalPageId>
 				

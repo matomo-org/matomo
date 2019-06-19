@@ -14,9 +14,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -25,7 +23,6 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
-use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\PeriodValidator;
@@ -34,7 +31,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -273,7 +269,21 @@ abstract class Controller
      * @since 2.5.0
      * @api
      */
-    protected function renderTemplate($template, array $variables = array())
+    protected function renderTemplate($template, array $variables = [])
+    {
+        return $this->renderTemplateAs($template, $variables);
+    }
+
+    /**
+     * @see {self::renderTemplate()}
+     *
+     * @param $template
+     * @param array $variables
+     * @param string|null $viewType 'basic' or 'admin'. If null, determined based on the controller instance type.
+     * @return string
+     * @throws Exception
+     */
+    protected function renderTemplateAs($template, array $variables = array(), $viewType = null)
     {
         if (false === strpos($template, '@') || false === strpos($template, '/')) {
             $template = '@' . $this->pluginName . '/' . $template;
@@ -281,15 +291,21 @@ abstract class Controller
 
         $view = new View($template);
 
+        $this->checkViewType($viewType);
+
+        if (empty($viewType)) {
+            $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
+        }
+
         // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
         // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
         // https://github.com/piwik/piwik/issues/6151
-        if ($this instanceof ControllerAdmin) {
-            $this->setBasicVariablesView($view);
+        if ($this instanceof ControllerAdmin && $viewType == 'admin') {
+            $this->setBasicVariablesViewAs($view, $viewType);
         } elseif (empty($this->site) || empty($this->idSite)) {
-            $this->setBasicVariablesView($view);
+            $this->setBasicVariablesViewAs($view, $viewType);
         } else {
-            $this->setGeneralVariablesView($view);
+            $this->setGeneralVariablesViewAs($view, $viewType);
         }
 
         foreach ($variables as $key => $value) {
@@ -576,11 +592,23 @@ abstract class Controller
      * Will exit on error.
      *
      * @param View $view
+     * @param string|null $viewType 'basic' or 'admin'. If null, set based on the type of controller.
      * @return void
      * @api
      */
     protected function setGeneralVariablesView($view)
     {
+        $this->setGeneralVariablesViewAs($view, $viewType = null);
+    }
+
+    protected function setGeneralVariablesViewAs($view, $viewType)
+    {
+        $this->checkViewType($viewType);
+
+        if ($viewType === null) {
+            $viewType = $this instanceof ControllerAdmin ? 'admin' : 'basic';
+        }
+
         $view->idSite = $this->idSite;
         $this->checkSitePermission();
         $this->setPeriodVariablesView($view);
@@ -643,7 +671,7 @@ abstract class Controller
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $this->setBasicVariablesView($view);
+        $this->setBasicVariablesViewAs($view, $viewType);
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->adminMenu = MenuAdmin::getInstance()->getMenu();
@@ -737,10 +765,18 @@ abstract class Controller
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
+     * @param string $viewType 'basic' or 'admin'. Used by ControllerAdmin.
      * @api
      */
     protected function setBasicVariablesView($view)
     {
+        $this->setBasicVariablesViewAs($view);
+    }
+
+    protected function setBasicVariablesViewAs($view, $viewType = null)
+    {
+        $this->checkViewType($viewType); // param is not used here, but the check can be useful for a developer
+
         $this->setBasicVariablesNoneAdminView($view);
     }
 
@@ -1013,5 +1049,12 @@ abstract class Controller
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
         $url = $url . $queryParams;
         Url::redirectToUrl($url);
+    }
+
+    private function checkViewType($viewType)
+    {
+        if ($viewType == 'admin' && !($this instanceof ControllerAdmin)) {
+            throw new Exception("'admin' view type is only allowed with ControllerAdmin class.");
+        }
     }
 }

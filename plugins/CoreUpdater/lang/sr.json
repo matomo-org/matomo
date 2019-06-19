@@ -23,7 +23,6 @@
         "HelpMessageIntroductionWhenError": "Ovo gore je sama srž poruke o grešci. Ona bi trebalo da objasni uzrok a u slučaju da vam je potrebna dalja pomoć:",
         "HelpMessageIntroductionWhenWarning": "Proces nadogradnje je uspešno okončan, međutim, imamo i spornih momenata nastalih tokom procesa. Molimo vas da pročitate njihove opise zarad detalja. U slučaju da vam je potrebna dalja pomoć:",
         "HighTrafficPiwikServerEnableMaintenance": "Ukoliko koristite Matomo na serveru sa velikim saobraćajem, preporučujemo da %1$sodmah isključite praćenje posetilaca i prebacite Matomo interfejs u mod održavanja%2$s.",
-        "IncompatbilePluginsWillBeDisabledInfo": "Neko dodaci nisu kompatibilni sa Matomo %s. Nadogradićemo ih ako postoji novija verzija na Marketu, u protivnom će biti deaktivirani nakon nadogradnje Matomo-a:",
         "InstallingTheLatestVersion": "Instaliranje poslednje verzije",
         "LatestBetaRelease": "Poslednja beta verzija",
         "LatestStableRelease": "Poslednja stabilna verzija",

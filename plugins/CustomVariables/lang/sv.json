@@ -14,7 +14,6 @@
         "Unused": "Oanvänd",
         "CreateNewSlot": "Öka antalet tillgängliga anpassade variabelspår",
         "UsageDetails": "%1$s besök och %2$s händelser sedan webbplatsen skapandet av denna webbplats.",
-        "CreatingCustomVariableTakesTime": "Att skapa en ny anpassad variabel kan ta lång tid beroende på storleken på din databas. Därför är det bara möjligt att göra detta via ett kommando som måste köras genom kommandoraden.",
         "CurrentAvailableCustomVariables": "För tillfället kan du använda upp till %s anpassade variabler per webbsida.",
         "ToCreateCustomVarExecute": "För att skapa en ny anpassad variabel använd följande kommando i din Matomo miljö:",
         "SlotsReportIsGeneratedOverTime": "Data för den här rapporten kommer att samlas in allt eftersom. Det kan ta en dag eller två innan du ser någon data och ett par veckor innan rapporten är helt tillförlitlig.",

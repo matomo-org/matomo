@@ -29,7 +29,6 @@
         "GeoIPImplHasAccessTo": "Aquesta implementació de GeoIP té accés als següents tipus de bases de dades",
         "GeoIpLocationProviderDesc_Pecl1": "Aquest proveïdor de localització utilitza una base de dades GeoIP i un mòdul PECL per determinar de forma eficient i acurada la localització dels vostres visitants.",
         "GeoIpLocationProviderDesc_Pecl2": "No hi ha cap limitació amb aquest proveïdor, per tant és el que recomanem que utilzeu.",
-        "GeoIpLocationProviderDesc_Php1": "Aquest proveïdor és el més simple d'instal·lar i no requereix cap configuració del servidor (ideal per a hosting compartit!). Utiltiza una base de dades GeoIP i la api PHP de MaxMind per determinar de forma acurada la localització dels vostres visitants.",
         "GeoIpLocationProviderDesc_Php2": "Si el vostre lloc web té molt tràfic trobareu que aquest proveïdor de localització és massa lent. En aquest cas podeu instalar la %1$s Extensió PECL %2$s o un %3$s mòdul del serviro %4$s.",
         "GeoIpLocationProviderDesc_ServerBased1": "Aquest proveïdor de localització utiltiza el modul GeoIP que ha estat instal·lat al vostre servidor HTTP. Aquest proveïdor es ràpid i acurat, però %1$s només es pot fer servir l'escaneig amb el rastreig de webs normal .%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "Si heu d'importar els fitxers de Log o alguna altra cosa que requereixi utilizar addreces IP, utilitzeu la %1$sImplementació GeoIP PECL (recomanada)%2$s o la %3$s implementació GeoIP PHP%4$s.",

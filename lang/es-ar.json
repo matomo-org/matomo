@@ -209,7 +209,6 @@
         "Hide": "ocultar",
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "Id",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Asumiendo que el archivado es más rápido para tu configuración, podés configurar el crontab para ejecutarse más frecuentemente.",
         "InfoFor": "Info para %s",
         "Installed": "Instalado",
         "InvalidDateRange": "Rango de fecha no válido. Por favor, intentá de nuevo",

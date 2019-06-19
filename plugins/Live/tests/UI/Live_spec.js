@@ -8,8 +8,6 @@
  */
 
 describe("Live", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\Live\\tests\\Fixtures\\VisitsWithAllActionsAndDevices";
 
     after(function () {
@@ -23,6 +21,7 @@ describe("Live", function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
 
         await page.waitForNetworkIdle();
+        await page.waitFor('.dataTableVizVisitorLog');
 
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log');
@@ -36,7 +35,35 @@ describe("Live", function () {
         expect(await report.screenshot()).to.matchImage('visitor_log_expand_actions');
     });
 
+    it('should expand collapsed pageview actions', async function() {
+        const link = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(1) .show-more-actions:visible');
+        await link.click();
+
+        await page.mouse.move(-10, -10);
+
+        const report = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(1)');
+        expect(await report.screenshot()).to.matchImage('visitor_log_expand_pageview_actions');
+    });
+
+    it('should expand collapsed content actions', async function() {
+        // collapse previously expanded section
+        const prevlink = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(1) .show-less-actions:visible');
+        await prevlink.click();
+
+        const link = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(2) .collapsed-contents:visible');
+        await link.click();
+
+        await page.mouse.move(-10, -10);
+
+        const report = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(2)');
+        expect(await report.screenshot()).to.matchImage('visitor_log_expand_content_actions');
+    });
+
     it('should show visitor profile', async function() {
+        // collapse previously expanded section
+        const prevlink = await page.jQuery('.dataTableVizVisitorLog .card.row:eq(2) .collapsed-contents:visible');
+        await prevlink.click();
+
         await page.evaluate(function(){
             $('.card:first-child .visitor-log-visitor-profile-link').click();
         });

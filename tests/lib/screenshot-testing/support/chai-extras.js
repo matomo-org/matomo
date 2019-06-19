@@ -148,7 +148,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
 
                 chai.assert(percentDifference <= comparisonThreshold, `images differ by ${(percentDifference * 100).toFixed(2)}%, `
                     + `which is greater than threshold ${(comparisonThreshold * 100).toFixed(2)}% (command output: ${allOutput.replace(/\s+$/g, '')})`);
-                return;
+                return true;
             }
 
             // allow a 10 pixel difference only

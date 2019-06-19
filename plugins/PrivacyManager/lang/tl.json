@@ -38,7 +38,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Tingnan din ang aming opisyal na gabay: %1$s Privacy Web Analytics %2$s",
         "TeaserHeadline": "Mga setting ng privacy",
         "UseAnonymizedIpForVisitEnrichment": "Gamitin rin ang hindi kilalang IP address kapag bumibisita.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugis tulad ng Geo Location sa pamamagitang ng IP at Provider ay pinagbuti ang metadata ng mga bumibisita. Sa una ang plugins na ito ay gumagamit ng anonymized IP addresses. Kapag iyong pinili ang 'No' pagkatapos ay ang non-anonymized na IP address ay syang magagamit na mag-reresulta ng may mababang privacy ngunit mas mahusay at tiyak na data.",
         "UseAnonymizeIp": "I-anonymize ang IP addresses ng mga bisita.",
         "UseDeleteReports": "Palaging tanggalin ang mga lumang report sa database"
     }

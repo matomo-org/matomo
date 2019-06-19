@@ -10,6 +10,7 @@
 		<sum_visit_length>35</sum_visit_length>
 		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<is_summary>1</is_summary>
 		<Resolution_Resolution>Others</Resolution_Resolution>
 	</row>
 	<row>

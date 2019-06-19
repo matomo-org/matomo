@@ -63,10 +63,14 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
+
+        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
 
     public function beforeLoadDataTable()
     {
+        parent::beforeLoadDataTable();
+
         unset($this->requestConfig->request_parameters_to_modify['pivotBy']);
         unset($this->requestConfig->request_parameters_to_modify['pivotByColumn']);
     }

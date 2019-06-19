@@ -1,5 +1,6 @@
 {
     "Live": {
+        "ClickToViewMoreAboutVisit": "Spustelėkite, norėdami matyti daugiau informacijos apie šį apsilankymą",
         "FirstVisit": "Pirmasis apsilankymas",
         "GoalType": "Tipas",
         "HideMap": "paslėpti žemėlapį",
@@ -16,6 +17,7 @@
         "ShowMap": "rodyti žemėlapį",
         "ViewVisitorProfile": "Peržiūrėti lankytojo profilį",
         "VisitedPages": "Aplankyti puslapiai",
+        "ToggleActions": "Perjungti visų veiksmų matomumą",
         "VisitorsLastVisit": "Šio lankytojo paskutinis apsilankymas buvo prieš %s dienų."
     }
 }
