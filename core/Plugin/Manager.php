@@ -380,6 +380,11 @@ class Manager
                     }
                 });
             }
+            
+            $envCopyDir =  getenv('MATOMO_PLUGIN_COPY_DIR');
+            if (!empty($envCopyDir) && in_array($envCopyDir, $pluginDirs)) {
+                $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
+            }
         }
     }
 

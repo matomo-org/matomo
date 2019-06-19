@@ -705,9 +705,6 @@ num_days_before_tracking_code_reminder = 5
 ; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
 
-; set to 1 to copy downloaded plugins to all plugins directories including those defined in MATOMO_PLUGIN_DIRS env variable 
-copy_to_plugins_dirs = 0
-
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
