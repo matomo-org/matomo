@@ -569,7 +569,7 @@
         "YouAreOffline": "Sorry, you are currently offline",
         "ExceptionNoViewAccess": "Please check your username and password and make sure you have %s access for at least one website.",
         "Mobile_HowtoExitAndroid": "Please click BACK again to exit",
-        "PiwikMarketplace": "Matomo Marketplace",
+        "MatomoMarketplace": "Matomo Marketplace",
         "EnterAuthCode": "Enter authentication code",
         "EnterCorrectAuthCode": "Enter correct authentication code",
         "EnterAuthCodeExplanation": "It looks like you may be using two-factor authentication. Please enter the six-digit code to log in to your account."
