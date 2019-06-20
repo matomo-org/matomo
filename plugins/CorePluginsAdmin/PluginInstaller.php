@@ -297,19 +297,16 @@ class PluginInstaller
 
     private function copyPluginToDestination($tmpPluginFolder)
     {
-        // if MATOMO_PLUGIN_COPY_DIR is defined , copy plugin to this directory too
+        $pluginsDir = Manager::getPluginsDirectory();
 
-        $pluginsDirs = [Manager::getPluginsDirectory()];
-        
         if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])) {
-            array_push($pluginsDirs, $GLOBALS['MATOMO_PLUGIN_COPY_DIR']);
+            $pluginsDir = $GLOBALS['MATOMO_PLUGIN_COPY_DIR'];
         }
+        $pluginTargetPath = $pluginsDir . $this->pluginName;
 
-        foreach ($pluginsDirs as $dir) {
-            $pluginTargetPath = $dir . $this->pluginName;
-            $this->removeFolderIfExists($pluginTargetPath);
-            Filesystem::copyRecursive($tmpPluginFolder, $dir);
-        }
+        $this->removeFolderIfExists($pluginTargetPath);
+
+        Filesystem::copyRecursive($tmpPluginFolder, $pluginsDir);
     }
 
     /**
