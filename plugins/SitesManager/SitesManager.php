@@ -65,7 +65,7 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        $shouldPerformEmptySiteCheck = $this->shouldPerormEmptySiteCheck($siteId);
+        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
         if (!$shouldPerformEmptySiteCheck) {
             return;
         }
