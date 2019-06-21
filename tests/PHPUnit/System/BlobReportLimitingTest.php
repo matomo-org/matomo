@@ -46,6 +46,7 @@ class BlobReportLimitingTest extends SystemTestCase
             'Resolution.getResolution', 'Resolution.getConfiguration', 'DevicesDetection.getOsVersions',
             'DevicesDetection.getBrowserVersions',
             'UserCountry.getRegion', 'UserCountry.getCity',
+            'UserId.getUsers',
         );
 
         $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');

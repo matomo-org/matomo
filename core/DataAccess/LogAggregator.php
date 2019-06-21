@@ -318,6 +318,7 @@ class LogAggregator
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
+     *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
@@ -343,6 +344,12 @@ class LogAggregator
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
+
+            // INDEX_NB_UNIQ_FINGERPRINTS is only processed if specifically asked for
+            if (!$this->isMetricRequested(Metrics::INDEX_NB_UNIQ_FINGERPRINTS, $metrics)) {
+                unset($availableMetrics[Metrics::INDEX_NB_UNIQ_FINGERPRINTS]);
+            }
+
             $sumColumns = array_keys($availableMetrics);
 
             if ($metrics) {
