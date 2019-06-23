@@ -25,7 +25,7 @@
 		
 	</row>
 	<row>
-		<label>user2</label>
+		<label>user1</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
@@ -37,7 +37,7 @@
 		
 	</row>
 	<row>
-		<label>user3</label>
+		<label>user4</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
