@@ -36,7 +36,7 @@
         "PasswordChanged": "Your password has been changed.",
         "PasswordRepeat": "Password (repeat)",
         "PasswordsDoNotMatch": "Passwords do not match.",
-        "PasswordResetAlreadySent": "A password reset was already requested shortly. A new request can be made in one hour. If you have problems resetting your password, please contact you administrator for help.",
+        "PasswordResetAlreadySent": "You have requested too many password resets shortly. A new request can be made in one hour. If you have problems resetting your password, please contact you administrator for help.",
         "WrongPasswordEntered": "Please enter your correct password.",
         "ConfirmPasswordToContinue": "Confirm your password to continue",
         "PluginDescription": "Provides authentication via username and password as well as password reset functionality. Authentication method can be changed by using another Login plugin such as LoginLdap available on the Marketplace.",

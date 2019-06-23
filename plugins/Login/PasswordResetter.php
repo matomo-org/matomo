@@ -466,18 +466,28 @@ class PasswordResetter
 
         $existingResetInfo = Option::get($optionName);
 
+        $time = time();
+        $count = 0;
+
         if ($existingResetInfo) {
             $existingResetInfo = json_decode($existingResetInfo, true);
 
             if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time()-3600) {
-                throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
+                $time = $existingResetInfo['timestamp'];
+                $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
+
+                if(isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
+                    throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
+                }
             }
         }
+
 
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
-            'timestamp' => time()
+            'timestamp' => $time,
+            'requests' => $count+1
         ];
         $optionData = json_encode($optionData);
 
