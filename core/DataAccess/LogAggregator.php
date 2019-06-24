@@ -325,7 +325,7 @@ class LogAggregator
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -334,13 +334,13 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
+        $orderBys = $orderBy ? [$orderBy] : [];
 
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $orderBys[] = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
         }
 
-        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);

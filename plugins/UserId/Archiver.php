@@ -94,7 +94,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             "log_visit.$userIdFieldName IS NOT NULL AND log_visit.$userIdFieldName != ''",
             array("LOWER(HEX($visitorIdFieldName)) as $visitorIdFieldName"),
             $metrics = false,
-            $rankingQuery
+            $rankingQuery,
+            self::USER_ID_FIELD . ' ASC'
         );
 
         if ($query === false) {
