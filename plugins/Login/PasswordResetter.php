@@ -462,7 +462,7 @@ class PasswordResetter
      */
     private function savePasswordResetInfo($login, $newPassword, $keySuffix)
     {
-        $optionName = $this->getPasswordResetInfoOptionName($login);
+        $optionName = self::getPasswordResetInfoOptionName($login);
 
         $existingResetInfo = Option::get($optionName);
 
