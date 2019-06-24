@@ -118,6 +118,21 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         /** @var DataTable $dataTable */
         $dataTable = $this->arrays->asDataTable();
+
+        // deal w/ ranking query summary row
+        $rankingQuerySummaryRow = $dataTable->getRowFromLabel(DataTable::LABEL_SUMMARY_ROW);
+        if ($rankingQuerySummaryRow) {
+            $rankingQuerySummaryRowId = $dataTable->getRowIdFromLabel(DataTable::LABEL_SUMMARY_ROW);
+            $dataTable->deleteRow($rankingQuerySummaryRowId);
+
+            $actualSummaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($actualSummaryRow) {
+                $actualSummaryRow->sumRow($rankingQuerySummaryRow);
+            } else {
+                $dataTable->addSummaryRow($rankingQuerySummaryRow);
+            }
+        }
+
         $this->setVisitorIds($dataTable);
         $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, PiwikMetrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::USERID_ARCHIVE_RECORD, $report);
@@ -156,7 +171,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
         $limit = $configLimit == 0 ? 0 : max(
             $configLimit,
-            $configGeneral['datatable_archiving_maximum_rows_standard']
+            $this->maximumRowsInDataTableLevelZero
         );
         return $limit;
     }
