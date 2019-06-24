@@ -566,7 +566,9 @@
         "VerifyAccount": "Account wird überprüft...",
         "ValidateSslCertificate": "Validiere SSL Zertifikat",
         "VerifyLoginData": "Bitte überprüfen Sie, ob die Kombination aus Benutzername und Passwort korrekt ist.",
-        "YouAreOffline": "Sie sind derzeit offline"
+        "YouAreOffline": "Sie sind derzeit offline",
+        "ExceptionNoViewAccess": "Bitte überprüfen Sie Ihren Benutzernamen und Passwort und stellen Sie sicher dass Sie mindestens auf eine Website %s Zugriff haben.",
+        "Mobile_HowtoExitAndroid": "Drücken Sie zum Verlassen erneut auf Zurück"
     },
     "RowEvolution": {
         "AvailableMetrics": "Verfügbare Metriken",

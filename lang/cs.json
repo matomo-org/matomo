@@ -566,7 +566,9 @@
         "VerifyAccount": "Ověřování účtu",
         "ValidateSslCertificate": "Ověřit SSL certifikát",
         "VerifyLoginData": "Ujistěte se, že kombinace vašeho uživatelského jména a hesla je správná.",
-        "YouAreOffline": "Omlouváme se, momentálně jste offline"
+        "YouAreOffline": "Omlouváme se, momentálně jste offline",
+        "ExceptionNoViewAccess": "Zkontrolujte vaše uživatelské jméno a heslo a ujistěte se, že máte přístup %s alespoň pro jedny stránky.",
+        "Mobile_HowtoExitAndroid": "Klikněte na zpět pro ukončení"
     },
     "RowEvolution": {
         "AvailableMetrics": "Dostupná měření",
