@@ -4425,7 +4425,7 @@ if (typeof window.Piwik !== 'object') {
                             var index = i.replace('dimension', '');
                             customDimensionIdsAlreadyHandled.push(parseInt(index, 10));
                             customDimensionIdsAlreadyHandled.push(String(index));
-                            request += '&' + i + '=' + customData[i];
+                            request += '&' + i + '=' + encodeWrapper(customData[i]);
                             delete customData[i];
                         }
                     }
@@ -4441,7 +4441,7 @@ if (typeof window.Piwik !== 'object') {
                     if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
                         var isNotSetYet = (-1 === indexOfArray(customDimensionIdsAlreadyHandled, i));
                         if (isNotSetYet) {
-                            request += '&dimension' + i + '=' + customDimensions[i];
+                            request += '&dimension' + i + '=' + encodeWrapper(customDimensions[i]);
                         }
                     }
                 }
