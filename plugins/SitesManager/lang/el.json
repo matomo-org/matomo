@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Αλλάζοντας τη ζώνη ώρας σας θα επηρεάσει μόνο τα δεδομένα που θα ακολουθήσουν και δεν θα εφαρμοστεί αναδρομικά.",
         "Currency": "Νόμισμα",
         "CurrencySymbolWillBeUsedForGoals": "Το σύμβολο του Νομίσματος θα εμφανιστεί δίπλα στις Προσόδους των Στόχων.",
+        "CustomizeJavaScriptTracker": "Προσαρμογή της παρακολούθησης JavaScript",
         "DefaultCurrencyForNewWebsites": "Προεπιλεγμένο Νόμισμα για νέες ιστοσελίδες",
         "DefaultTimezoneForNewWebsites": "Προεπιλεγμένη Ζώνη ώρας για νέες ιστοσελίδες",
         "DeleteConfirm": "Είστε σίγουρος ότι θέλετε να διαγράψετε την ιστοσελίδα %s?",

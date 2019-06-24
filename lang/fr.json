@@ -566,7 +566,9 @@
         "VerifyAccount": "Vérification du compte",
         "ValidateSslCertificate": "Valider le certificat SSL",
         "VerifyLoginData": "Verifier votre nom d'utilisateur et votre mot de passe.",
-        "YouAreOffline": "Désolé, vous êtes actuellement déconnecté(e)"
+        "YouAreOffline": "Désolé, vous êtes actuellement déconnecté(e)",
+        "ExceptionNoViewAccess": "Veuillez vérifier votre nom d'utilisateur et mot de passe et vous assurer que vous avez un accès %s à au moins un des sites web.",
+        "Mobile_HowtoExitAndroid": "Veuillez cliquer sur RETOUR une nouvelle fois pour quitter"
     },
     "RowEvolution": {
         "AvailableMetrics": "Métriques disponibles",

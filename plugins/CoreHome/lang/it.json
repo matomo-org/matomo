@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Le righe di aggregazione vengono visualizzate %s Nascondile",
         "DataTableIncludeAggregateRows": "Le righe di aggregazione sono nascoste %s Visualizzale",
         "DataTableHowToSearch": "Premi Invio o clicca sull'icona per cercare",
+        "DataTableShowDimensions": "Le dimensioni sono combinate %s Mostra le dimensioni separatamente",
+        "DataTableCombineDimensions": "Le dimensioni sono separate %s Mostra le dimensioni combinate",
         "Default": "predefinito",
         "DonateCall1": "Matomo non costerà mai nulla a voi per il suo utilizzo, ma ciò non significa che non costi nulla a noi svilupparlo.",
         "DonateCall2": "Matomo ha bisogno del vostro costante supporto per crescere e prosperare.",

@@ -46,7 +46,6 @@
         "JSTracking_VisitorCustomVarsDesc": "For eksempel med variabelnavn \"Type\" og værdi \"Kunde\".",
         "JSTracking_EndNote": "Bemærk: Du kan generere en tilpasset sporingskode i %1$sSporingskode%2$s administrationssektionen.",
         "JSTrackingIntro2": "Når du har JavaScript sporingskoden til hjemmesiden, kopier og indsæt den på alle de sider, der skal spores med Matomo.",
-        "JSTrackingIntro3b": "På de fleste websider, blogs, CMS'er osv., kan du bruge en foruddefineret plugin til at klare det tekniske arbejde for dig. (se hvores %1$sliste over programtilføjelser brugt til at integrere Matomo%2$s). Er der ingen plugin, kan du ændre i din webside skabelon, og tilføje denne kode til &lt;\/head&gt; mærkerne, som ofte er defineret i 'header.php', 'header.tpl' eller lignende skabelon filer.",
         "JSTrackingIntro4": "Hvis du ikke ønsker at bruge JavaScript til at spore besøgende,%1$sgenerere et billed sporingslink herunder%2$s.",
         "JSTrackingIntro5": "Hvis du vil gøre mere end at spore sidevisninger, kan du tjekke %1$sMatomo Javascript sporingsdokumentation%2$s for listen over tilgængelige funktioner. Ved hjælp af disse funktioner kan du spore mål, brugerdefinerede variabler, e-handelsordrer, afbrudte ordrer og meget mere.",
         "LogoNotWriteableInstruction": "Hvis du vil bruge din brugerdefinerede logo i stedet for standard Matomo logoet, giver skriverettigheder til denne mappe: %1$s Matomo brug skriveadgang til dine logoer gemt i filer %2$s.",
