@@ -138,11 +138,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::checkUserHasViewAccess($this->idSite);
         }
 
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        $emailContent = $this->renderTemplateAs('_trackingCodeEmail', array(
+            'jsTag' => $jsTag
+        ), $viewType = 'basic');
+
         return $this->renderTemplateAs('siteWithoutData', array(
-            'siteName'     => $this->site->getName(),
-            'idSite' => $this->idSite,
-            'jsTag'           => Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl)),
-            'piwikUrl'        => $piwikUrl,
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'jsTag'         => $jsTag,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent
         ), $viewType = 'basic');
     }
 }

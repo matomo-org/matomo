@@ -89,6 +89,12 @@
             <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
                class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
 
+            {% set emailSubject = 'Matomo' ~ 'General_JsTrackingTag'|translate %}
+            <a class="btn"
+               href="mailto:?subject={{ emailSubject|url_encode }}&body={{ emailBody|replace({">\n<": "><"})|url_encode }}">
+                {{ 'EmailInstructionsToDeveloper'|translate }}
+            </a>
+
         </div>
 
         {{ postEvent('Template.siteWithoutData.afterTrackingHelp') }}
