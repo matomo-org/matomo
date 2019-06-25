@@ -305,15 +305,15 @@ class Mysqli extends Db
         }
     }
 
-    /**
-     * Test error number
-     *
-     * @param Exception $e
-     * @param string $errno
-     * @return bool
-     */
     public function isErrNo($e, $errno)
     {
+        if (is_null($this->connection)) {
+            if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
+                return $match[1] == $errno;
+            }
+            return mysqli_connect_errno() == $errno;
+        }
+
         return mysqli_errno($this->connection) == $errno;
     }
 
