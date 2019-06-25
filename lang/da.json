@@ -551,7 +551,9 @@
         "VerifyAccount": "Bekræftelse af konto",
         "ValidateSslCertificate": "Valider SSL-certifikat",
         "VerifyLoginData": "Kontroller at kombinationen af brugernavn og adgangskode er korrekt.",
-        "YouAreOffline": "Beklager, du er i øjeblikket offline"
+        "YouAreOffline": "Beklager, du er i øjeblikket offline",
+        "ExceptionNoViewAccess": "Kontroller dit brugernavn og adgangskode og sørg for at have %s adgang til mindst én hjemmeside.",
+        "Mobile_HowtoExitAndroid": "Klik TILBAGE igen for at afslutte"
     },
     "RowEvolution": {
         "AvailableMetrics": "Tilgængelige målinger",

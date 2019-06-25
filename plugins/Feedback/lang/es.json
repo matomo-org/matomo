@@ -29,6 +29,10 @@
         "ProfessionalServicesCustomDevelopment": "Servicios de desarrollo personalizado",
         "ProfessionalServicesAnalystConsulting": "Servicios de consultoría de análisis",
         "ContactUs": "Contáctanos",
-        "VisitTheForums": "Visite el %1$sForo%2$s y obtenga ayuda de la comunidad de usuarios Matomo"
+        "VisitTheForums": "Visite el %1$sForo%2$s y obtenga ayuda de la comunidad de usuarios Matomo",
+        "ReviewMatomoTitle": "¿Crées en Matomo?",
+        "PleaseLeaveExternalReviewForMatomo": "Comparte sus pensamientos en uno de estos sitios e inspira a otros a unirse en nuestra revolución de datos.",
+        "RemindMeLater": "Recordármelo nuevamente",
+        "NeverAskMeAgain": "No volver a preguntármelo"
     }
 }

@@ -187,7 +187,9 @@
         "ExceptionLanguageFileNotFound": "S’u gjet kartela e gjuhës '%s'.",
         "ExceptionMethodNotFound": "Metoda '%1$s' s’ekziston ose s’është e mundshme në modulin '%2$s'.",
         "ExceptionMissingFile": "Kartelë që mungon: %s",
+        "ExceptionUnexpectedFile": "U gjetën kartela në Matomo-n tuaj, por nuk prisnim të tilla.",
         "ExceptionUnexpectedFilePleaseDelete": "Ju lutemi, fshijini këto kartela që të parandalohet gabime.",
+        "ExceptionUnexpectedDirectory": "U gjetën drejtori te Matomo juaj, por s’pritnim të tilla.",
         "ExceptionUnexpectedDirectoryPleaseDelete": "Ju lutemi, fshijini këto drejtori që të parandalohen gabime.",
         "ExceptionFileToDelete": "Kartelë për t’u fshirë: %s",
         "ExceptionDirectoryToDelete": "Drejtori që duhen fshirë: %s",
@@ -235,6 +237,7 @@
         "Hide": "fshihe",
         "HoursMinutes": "%1$s orë %2$s minuta",
         "Id": "Id",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Duke pranuar që arkivimi në instancën tuaj është i shpejtë, mund ta rregulloni crontab-in të xhirojë më shpesh.",
         "InfoFor": "Të dhëna për %s",
         "Installed": "E instaluar",
         "InvalidDateRange": "Interval i Pavlefshëm Datash, Ju lutemi, Riprovoni",
@@ -563,7 +566,13 @@
         "VerifyAccount": "Verifikim Llogarie",
         "ValidateSslCertificate": "Vleftëso Dëshminë SSL",
         "VerifyLoginData": "Sigurohuni që dyshja emër përdoruesi dhe fjalëkalim të jetë e saktë.",
-        "YouAreOffline": "Na ndjeni, jeni i palidhur në internet"
+        "YouAreOffline": "Na ndjeni, jeni i palidhur në internet",
+        "ExceptionNoViewAccess": "Ju lutemi, kontrolloni emrin tuaj të përdoruesit dhe fjalëkalimin dhe sigurohuni se keni hyrje %s për të paktën një sajt.",
+        "Mobile_HowtoExitAndroid": "Ju lutemi, riklikoni mbi BACK që të dilet",
+        "MatomoMarketplace": "Matomo Marketplace",
+        "EnterAuthCode": "Jepni kod mirëfilltësimi",
+        "EnterCorrectAuthCode": "Jepni kod të saktë mirëfilltësimi",
+        "EnterAuthCodeExplanation": "Duket sikur mund të jeni duke përdorur mirëfilltësim dyfaktorësh. Ju lutemi, jepni kodin gjashtëshifror që të hyni në llogarinë tuaj."
     },
     "RowEvolution": {
         "AvailableMetrics": "Vlera të mundshme",

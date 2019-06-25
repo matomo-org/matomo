@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Cambiar su zona horaria sólo afectará a los datos en adelante, y no se aplicará retroactivamente.",
         "Currency": "Moneda",
         "CurrencySymbolWillBeUsedForGoals": "El símbolo de moneda se mostrará próximo a los ingresos de las Metas.",
+        "CustomizeJavaScriptTracker": "Personalizar el seguimiento Javascript",
         "DefaultCurrencyForNewWebsites": "Moneda predeterminada para los nuevos sitios de internet",
         "DefaultTimezoneForNewWebsites": "Zona Horaria predeterminada para los nuevos sitios de internet",
         "DeleteConfirm": "¿Está seguro que desea eliminar el sitio de internet %s?",
