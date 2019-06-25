@@ -94,6 +94,7 @@
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
         "YourCurrentIpAddressIs": "Your current IP address is %s",
         "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone.",
-        "EmailInstructionsToDeveloper": "Email this guide to a developer"
+        "EmailInstructionsToDeveloper": "Send these instructions by email",
+        "EmailInstructionsSubject": "Matomo Analytics Tracking Code"
     }
 }

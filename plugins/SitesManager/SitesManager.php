@@ -400,5 +400,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
         $translationKeys[] = "SitesManager_EmailInstructionsToDeveloper";
+        $translationKeys[] = "SitesManager_EmailInstructionsSubject";
     }
 }

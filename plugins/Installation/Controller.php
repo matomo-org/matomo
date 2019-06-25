@@ -371,7 +371,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $javascriptGenerator = new TrackerCodeGenerator();
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
 
-        $emailContent = $this->renderTemplateAs('_trackingCodeEmail', array(
+        $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
             'jsTag' => $jsTag
         ), $viewType = 'basic');
 
@@ -379,7 +379,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
         $viewTrackingHelp->jsTag = $jsTag;
-        $viewTrackingHelp->emailContent = $emailContent;
+        $viewTrackingHelp->emailBody = $emailBody;
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;

@@ -251,6 +251,10 @@
                 <pre piwik-select-on-focus class="codeblock"
                      ng-bind="jsTrackingCode.trackingCode"> </pre>
             </div>
+
+            <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
+                {{ 'SitesManager_EmailInstructionsToDeveloper'|translate }}
+            </button>
         </div>
     </div>
 </div>
