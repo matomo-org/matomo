@@ -260,9 +260,10 @@ class Mysql extends Db
      */
     public function isErrNo($e, $errno)
     {
-        if (preg_match('/([0-9]{4})/', $e->getMessage(), $match)) {
+        if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
             return $match[1] == $errno;
         }
+
         return false;
     }
 
