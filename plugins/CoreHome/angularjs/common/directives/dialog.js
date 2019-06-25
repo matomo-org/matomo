@@ -29,6 +29,7 @@
                 element.css('display', 'none');
 
                 scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
+                    var userClosedDialog = newValue === false && oldValue === true;
                     if (newValue) {
                         piwik.helper.modalConfirm(element, {yes: function() {
                             if (attrs.yes) {
@@ -48,6 +49,12 @@
                                 }, 0);
                             }
                         });
+                    } else if (newValue === false && oldValue === true) {
+                        // The user closed the dialog, e.g. by pressing Esc or clicking away from it
+                        if (attrs.close) {
+                            scope.$eval(attrs.close);
+                            setTimeout(function () { scope.$apply(); }, 0);
+                        }
                     }
                 });
             }
