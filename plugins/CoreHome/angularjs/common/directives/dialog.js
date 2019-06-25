@@ -29,7 +29,6 @@
                 element.css('display', 'none');
 
                 scope.$watch(attrs.piwikDialog, function(newValue, oldValue) {
-                    var userClosedDialog = newValue === false && oldValue === true;
                     if (newValue) {
                         piwik.helper.modalConfirm(element, {yes: function() {
                             if (attrs.yes) {
