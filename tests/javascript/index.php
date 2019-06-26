@@ -3611,7 +3611,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(164);
+        expect(165);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -4128,7 +4128,7 @@ if ($mysql) {
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
 
             // Test CustomDimension (persistent ones across requests)
-            ok( /dimension1=my%20custom%20value%20with%20%C3%A9%C3%A0%C3%A7%26*()%20EOL&dimension2=&/.test(results), "test custom dimensions are set");
+            ok( /dimension1=my%20custom%20value%20with%20%C3%A9%C3%A0%C3%A7%26*()%20EOL&dimension2=&/.test(results), "test custom dimensions are set" + JSON.stringify(results));
 
             // send along a page view and ony valid for this pageview (dimension 2 overwrites another one)
             ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%.*&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
