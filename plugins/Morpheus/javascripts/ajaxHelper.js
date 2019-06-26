@@ -290,9 +290,6 @@ function ajaxHelper() {
             }
         } else {
             loadingError.show();
-            setTimeout( function(){
-                loadingError.fadeOut('slow');
-            }, 200000000);
         }
     }
 
