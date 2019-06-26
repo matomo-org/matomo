@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "セグメントエディターでカスタム ユーザー セグメントを作成、編集できます。",
         "AddANDorORCondition": "%s の条件を追加",
         "AddNewSegment": "新しいセグメントを追加",
         "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",

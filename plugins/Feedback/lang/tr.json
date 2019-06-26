@@ -29,6 +29,10 @@
         "ProfessionalServicesCustomDevelopment": "Özel Geliştirme hizmetleri",
         "ProfessionalServicesAnalystConsulting": "İstatistik danışmanlığı hizmetleri",
         "ContactUs": "Bizimle görüşün",
-        "VisitTheForums": "%1$sForumları%2$s ziyaret ederek Matomo kullanıcı topluluğundan destek alabilirsiniz"
+        "VisitTheForums": "%1$sForumları%2$s ziyaret ederek Matomo kullanıcı topluluğundan destek alabilirsiniz",
+        "ReviewMatomoTitle": "Matomo uygulamasına güveniyor musunuz?",
+        "PleaseLeaveExternalReviewForMatomo": "Düşüncelerinizi bu sitelerden birinde paylaşın ve başkalarına da veri devrimimize katılmaları için ilham verin.",
+        "RemindMeLater": "Daha sonra anımsat",
+        "NeverAskMeAgain": "Bir daha sorma"
     }
 }

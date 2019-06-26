@@ -25,10 +25,10 @@ describe("ActionsDataTable", function () {
     });
 
     it("should load subtables correctly when row clicked", async function() {
-        firstRow = await page.jQuery('tr.subDataTable:first');
-        await firstRow.click();
         secondRow = await page.jQuery('tr.subDataTable:eq(2)');
         await secondRow.click();
+        firstRow = await page.jQuery('tr.subDataTable:first');
+        await firstRow.click();
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();

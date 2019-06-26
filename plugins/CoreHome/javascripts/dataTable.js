@@ -252,8 +252,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var params = {};
         for (var key in self.param) {
-            if (typeof self.param[key] != "undefined" && self.param[key] != '')
+            if (typeof self.param[key] != "undefined" && self.param[key] != '') {
+                if (key == 'filter_column' || key == 'filter_column_recursive' ) {
+                    // search in (metadata) `combinedLabel` when dimensions are shown separately in flattened tables
+                    // needs to be overwritten for each request as switching a searched table might return no results
+                    // otherwise, as search column doesn't fit anymore
+                    if (self.param.flat == "1" && self.param.show_dimensions == "1") {
+                        params[key] = 'combinedLabel';
+                    } else {
+                        params[key] = 'label';
+                    }
+                    continue;
+                }
+
                 params[key] = self.param[key];
+            }
         }
 
         ajaxRequest.addParams(params, 'get');
@@ -456,7 +469,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
-            return parseInt(labelWidth, 10);
+            return parseInt(labelWidth / $('tr:nth-child(1) td.label', domElem).length, 10);
         }
 
         function getLabelColumnMinWidth(domElem)
@@ -1322,6 +1335,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
+        $('.dataTableShowDimensions', domElem)
+            .each(function () {
+                setText(this, 'show_dimensions', 'CoreHome_DataTableCombineDimensions',
+                    'CoreHome_DataTableShowDimensions');
+            })
+            .click(generateClickCallback('show_dimensions'));
+
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
             .each(function () {
@@ -1437,6 +1457,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // label (first column of a data row) or not
         $("th:first-child", domElem).addClass('label');
         $("td:first-child", domElem).addClass('label');
+
+        var metadata = this.getReportMetadata();
+
+        if (self.param.flat == "1" && self.param.show_dimensions == "1" && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
+            for (var i = 1; i < Object.keys(metadata.dimensions).length; i++) {
+                $("th:nth-child("+(i+1)+")", domElem).addClass('label');
+                $("td:nth-child("+(i+1)+")", domElem).addClass('label');
+            }
+        }
+
         $("tr td", domElem).addClass('column');
     },
 
@@ -1754,7 +1784,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
-            var labelSpan = $(this).find('.label .value');
+            var labelSpan = $(this).find('.label .value').filter(function(index, elem){
+                return $(elem).text() != '-';
+            }).last();
             var defaultLabel = labelSpan.text();
 
             $(this).hover(function() {
@@ -1789,7 +1821,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         trs.each(function () {
             var tr = $(this);
-            var td = tr.find('td:first');
+            var td = tr.find('td.label:last');
 
             // call initTr on all actions that are available for the report
             for (var i = 0; i < availableActionsForReport.length; i++) {
@@ -1918,7 +1950,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        var td = tr.find('td:first');
+        var td = tr.find('td.label:last');
         var actions = tr.find('div.dataTableRowActions');
 
         if (!actions) {
