@@ -393,7 +393,7 @@ class Model
         Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
 
-    public function deleteUserSettings($userLogin)
+    public function deleteUserOptions($userLogin)
     {
         Option::deleteLike('UsersManager.%.' . $userLogin);
     }

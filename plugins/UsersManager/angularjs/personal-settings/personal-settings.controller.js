@@ -7,10 +7,12 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik'];
+    PersonalSettingsController.$inject = ['piwikApi', '$filter', '$window', 'piwik'];
 
-    function PersonalSettingsController(piwikApi, $window, piwik) {
+    function PersonalSettingsController(piwikApi, $filter, $window, piwik) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
+
+        var translate = $filter('translate');
 
         var self = this;
 
@@ -45,7 +47,7 @@
 
         this.signupForNewsletter = function () {
             var signupBtn = $('#newsletterSignupBtn');
-            signupBtn.html('Loading...');
+            signupBtn.html(translate('General_Loading'));
 
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams(
@@ -54,14 +56,12 @@
             );
 
             var errorCallback = function() {
-                debugger;
                 $('#newsletterSignupMsg').hide();
                 $('#newsletterSignupFailure').show();
-                signupBtn.html('Try Again');
+                signupBtn.html(translate('General_PleaseTryAgain'));
             };
 
             ajaxHandler.setCallback(function (response) {
-                debugger;
                 if (response['success'] == true) {
                     $('#newsletterSignupMsg').hide();
                     $('#newsletterSignupFailure').hide();

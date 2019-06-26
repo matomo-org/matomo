@@ -49,7 +49,7 @@ describe("UserSettings", function () {
         await page.click('#userSettingsTable [piwik-save-button] .btn');
         await page.waitFor(500); // wait for animation
 
-        pageWrap = await page.$('.modal.open');
+        let pageWrap = await page.$('.modal.open');
         expect(await pageWrap.screenshot()).to.matchImage('asks_confirmation');
     });
 
@@ -59,7 +59,7 @@ describe("UserSettings", function () {
         await btnNo.click();
         await page.waitForNetworkIdle();
 
-        pageWrap = await page.$('#notificationContainer');
+        let pageWrap = await page.$('#notificationContainer');
         expect(await pageWrap.screenshot()).to.matchImage('wrong_password_confirmed');
     });
 });

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\tests\Integration;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -423,6 +424,18 @@ class UsersManagerTest extends IntegrationTestCase
         //checks access have been deleted
         //to do so we recreate the same user login and check if the rights are still there
         $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
+    }
+
+    public function testDeleteUser_deletesUserOptions()
+    {
+        Fixture::createSuperUser();
+        $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        Option::set('UsersManager.newsletterSignup.geggeqgeqag', 'yes');
+
+        $this->api->deleteUser("geggeqgeqag");
+
+        $option = Option::get('UsersManager.newsletterSignup.geggeqgeqag');
+        $this->assertFalse($option);
     }
 
     /**

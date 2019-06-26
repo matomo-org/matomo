@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
@@ -422,6 +423,7 @@ class Controller extends ControllerAdmin
         } else {
             $result = array('error' => true);
         }
+        Json::sendHeaderJSON();
         return json_encode($result);
     }
 

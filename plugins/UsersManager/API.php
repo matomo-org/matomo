@@ -965,7 +965,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->model->deleteUserOnly($userLogin);
-        $this->model->deleteUserSettings($userLogin);
+        $this->model->deleteUserOptions($userLogin);
         $this->model->deleteUserAccess($userLogin);
 
         Cache::deleteTrackerCache();
