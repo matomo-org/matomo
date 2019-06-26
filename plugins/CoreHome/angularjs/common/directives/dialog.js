@@ -48,6 +48,12 @@
                                 }, 0);
                             }
                         });
+                    } else if (newValue === false && oldValue === true) {
+                        // The user closed the dialog, e.g. by pressing Esc or clicking away from it
+                        if (attrs.close) {
+                            scope.$eval(attrs.close);
+                            setTimeout(function () { scope.$apply(); }, 0);
+                        }
                     }
                 });
             }
