@@ -21,6 +21,8 @@ class DeviceDetectorFactory
      */
     public static function getInstance($userAgent)
     {
+        $userAgent = substr($userAgent, 0, 500);
+
         if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
             return self::$deviceDetectorInstances[$userAgent];
         }
