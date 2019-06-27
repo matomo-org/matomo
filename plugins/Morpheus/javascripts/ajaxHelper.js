@@ -281,12 +281,9 @@ function ajaxHelper() {
         }
 
         var loadingError = $('#loadingError');
-        if (Piwik_Popover.isOpen()) {
+        if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
             if (deferred && deferred.status === 500) {
                 $(document.body).html(deferred.responseText);
-            } else {
-                // Just display a generic error message
-                Piwik_Popover.setContent(loadingError.clone().html());
             }
         } else {
             loadingError.show();
