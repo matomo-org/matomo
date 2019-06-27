@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Controller as CoreAdminController;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Tracker\Cache;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -62,4 +63,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
+    public function save()
+    {
+        parent::save();
+        Cache::deleteTrackerCache();
+    }
 }
