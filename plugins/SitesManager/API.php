@@ -778,7 +778,7 @@ class API extends \Piwik\Plugin\API
     {
         Site::clearCache();
         Cache::regenerateCacheWebsiteAttributes($idSite);
-        Cache::deleteTrackerCache();
+        Cache::clearCacheGeneral();
         SiteUrls::clearSitesCache();
     }
 
