@@ -148,6 +148,12 @@ class AutoSuggestAPITest extends SystemTestCase
                 case 'operatingSystemName':
                     $topSegmentValue = 'Android';
                     break;
+                case 'visitEndServerYear':
+                    $topSegmentValue = '2018';
+                    break;
+                case 'visitLocalMinute':
+                    $topSegmentValue = '34';
+                    break;
             }
 
             // Now build the segment request
