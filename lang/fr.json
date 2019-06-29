@@ -568,7 +568,11 @@
         "VerifyLoginData": "Verifier votre nom d'utilisateur et votre mot de passe.",
         "YouAreOffline": "Désolé, vous êtes actuellement déconnecté(e)",
         "ExceptionNoViewAccess": "Veuillez vérifier votre nom d'utilisateur et mot de passe et vous assurer que vous avez un accès %s à au moins un des sites web.",
-        "Mobile_HowtoExitAndroid": "Veuillez cliquer sur RETOUR une nouvelle fois pour quitter"
+        "Mobile_HowtoExitAndroid": "Veuillez cliquer sur RETOUR une nouvelle fois pour quitter",
+        "MatomoMarketplace": "Marché Matomo",
+        "EnterAuthCode": "Entrez le code d'authentication",
+        "EnterCorrectAuthCode": "Entrez un code d'authentification correct",
+        "EnterAuthCodeExplanation": "Il semblerait que vous utilisez de l'authentification à deux facteurs. Veuillez entrer le code à six chiffres afin de vous connecter à votre compte."
     },
     "RowEvolution": {
         "AvailableMetrics": "Métriques disponibles",
