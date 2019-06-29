@@ -137,7 +137,7 @@ class AutoSuggestAPITest extends SystemTestCase
                 $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
             }
 
-            // use some specific test values for special segments
+            // use some specific test values for segments where auto suggest returns list of values that might not occur
             switch ($params['segmentToComplete']) {
                 case 'countryName':
                     $topSegmentValue = 'France';
@@ -147,6 +147,12 @@ class AutoSuggestAPITest extends SystemTestCase
                     break;
                 case 'operatingSystemName':
                     $topSegmentValue = 'Android';
+                    break;
+                case 'visitEndServerDate':
+                    $topSegmentValue = '2018-01-03';
+                    break;
+                case 'visitEndServerDayOfMonth':
+                    $topSegmentValue = '03';
                     break;
                 case 'visitEndServerYear':
                     $topSegmentValue = '2018';
