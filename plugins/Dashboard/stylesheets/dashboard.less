@@ -44,11 +44,12 @@ body#standalone {
 
 // Overriding some dataTable css for better dashboard display
 .widget .dataTableWrapper {
-  width: 100% !important;
+  width:  100% !important;
   table * {
     // Because of Bootstrap
     box-sizing: content-box;
   }
+  overflow-x: scroll;
 }
 
 .ui-confirm {
@@ -430,4 +431,8 @@ div.widgetpreview-preview {
     background: none;
     background-color: transparent;
   }
+}
+
+td.label, tr.first {
+  position: absolute;
 }
