@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 * When giving a user superuser access through the `UsersManager.setSuperUserAccess` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 * Website referrer URLs are now detected using domain only instead of domain and path. This means if you have two different websites on the same domain, but different paths, and a visitor visits from one to the other, it won't have a referrer website set.
+* Custom Dimensions values set with `setCustomDimension` are now URL encoded (they previously weren't). If you were manually URL encoding the custom dimension values before calling `setCustomDimension`, your custom dimension values appearing in reports and Visits log/Visitor profile may now be double URL encoded. To solve the double encoding issue, you can remove your URL encoding and trust that Matomo JavaScript Tracker will URL encode the values correctly.
 
 ### New APIs
 * A new tracker method `ping` has been added to send a ping request manually instead of using the heart beat timer.
