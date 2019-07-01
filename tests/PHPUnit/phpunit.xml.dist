@@ -44,10 +44,10 @@
     </testsuite>
     <testsuite name="IntegrationTests">
         <directory>./Integration</directory>
-        <directory>../../plugins/*/tests/Integration</directory>
+        <!--directory>../../plugins/*/tests/Integration</directory>
         <directory>../../plugins/*/Test/Integration</directory>
         <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
-        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory-->
     </testsuite>
     <testsuite name="IntegrationTestsCore">
         <directory>./Integration</directory>
