@@ -566,7 +566,9 @@
         "VerifyAccount": "Verifiëren account",
         "ValidateSslCertificate": "SSL-certificaat valideren",
         "VerifyLoginData": "Zorg ervoor dat uw gebruikersnaam- en wachtwoordcombinatie juist zijn.",
-        "YouAreOffline": "Sorry, u bent momenteel offline."
+        "YouAreOffline": "Sorry, u bent momenteel offline.",
+        "ExceptionNoViewAccess": "Controleer gebruikersnaam en wachtwoord. Wees er zeker van dat je op ten minste één website de volgende rechten hebt: %s",
+        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen"
     },
     "RowEvolution": {
         "AvailableMetrics": "Beschikbare statistieken",

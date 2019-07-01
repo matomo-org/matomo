@@ -37,7 +37,7 @@ class GetPromoVideo extends Widget
         $view = new View('@CoreHome/getPromoVideo');
         $view->shareText     = $this->translator->translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = $this->translator->translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'https://www.youtube.com/watch?v=OslfF_EH81g';
+        $view->promoVideoUrl = 'https://matomo.org/docs/videos/';
 
         return $view->render();
     }

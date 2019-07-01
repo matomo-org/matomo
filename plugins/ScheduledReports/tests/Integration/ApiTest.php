@@ -717,6 +717,35 @@ class ApiTest extends IntegrationTestCase
         );
     }
 
+    public function test_addReport_onlySavesUniqueEmailAddresses()
+    {
+        $data = array(
+            'idsite'      => $this->idSite,
+            'description' => 'test description"',
+            'type'        => 'email',
+            'period'      => Schedule::PERIOD_DAY,
+            'period_param' => 'month',
+            'hour'        => '4',
+            'format'      => 'pdf',
+            'reports'     => array('UserCountry_getCountry'),
+            'parameters'  => array(
+                'displayFormat'    => '1',
+                'emailMe'          => true,
+                'additionalEmails' => array('test@test.com', 'test@test.com', 't2@test.com', 'test@test.com'),
+                'evolutionGraph'   => true
+            )
+        );
+
+        self::addReport($data);
+
+        // Testing getReports without parameters
+        $tmp = APIScheduledReports::getInstance()->getReports();
+        $report = reset($tmp);
+        $additionalEmails = $report['parameters']['additionalEmails'];
+        $expectedEmails = array('test@test.com', 't2@test.com');
+        $this->assertReportsEqual($expectedEmails, $additionalEmails);
+    }
+
     private function assertReportsEqual($report, $data)
     {
         foreach ($data as $key => $value) {

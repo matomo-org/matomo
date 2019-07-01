@@ -305,16 +305,9 @@ class Mysqli extends Db
         }
     }
 
-    /**
-     * Test error number
-     *
-     * @param Exception $e
-     * @param string $errno
-     * @return bool
-     */
     public function isErrNo($e, $errno)
     {
-        return mysqli_errno($this->connection) == $errno;
+        return \Piwik\Db\Adapter\Mysqli::isMysqliErrorNumber($e, $this->connection, $errno);
     }
 
     /**
