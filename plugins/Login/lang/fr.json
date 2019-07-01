@@ -29,7 +29,7 @@
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
         "ChangeYourPassword": "Changer de mot de passe",
-        "MailPasswordChangeBody2": "Bonjour %1$s,\n\nUne requête de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer ce changement de mot de passe afin de pouvoir vous connecter avec les nouveaux identifiants, veuillez copier et coller le lien suivant dans votre navigateur :\n\n%3$s\n\nNote : ce lien expire dans 24 heures.\n\nEt merci d'utiliser Matomo!",
+        "MailPasswordChangeBody2": "Bonjour %1$s,\n\nUne requête de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer ce changement de mot de passe afin de pouvoir vous connecter avec les nouveaux identifiants, veuillez copier et coller le lien suivant dans votre navigateur :\n\n%3$s\n\nNote : ce lien expire dans 24 heures.\n\nEt merci d'utiliser Matomo !",
         "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
         "NewPassword": "Nouveau mot de passe",
         "NewPasswordRepeat": "Nouveau mot de passe (à nouveau)",
