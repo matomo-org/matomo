@@ -171,7 +171,8 @@
             this.currentInterval = this.options.interval;
 
             if (0 === $(this.element).parents('.widget').length) {
-                $('#periodString').hide();
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                $rootScope.$emit('hidePeriodSelector');
             }
 
             var self = this;
@@ -185,9 +186,6 @@
          * Stops requests if widget is destroyed
          */
         _destroy: function () {
-
-            $('#periodString').show();
-
             this.stop();
         },
 
