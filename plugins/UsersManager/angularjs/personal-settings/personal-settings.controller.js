@@ -50,6 +50,7 @@
             signupBtn.html(translate('General_Loading'));
 
             var ajaxHandler = new ajaxHelper();
+            ajaxHandler.withTokenInUrl();
             ajaxHandler.addParams(
                 {module: 'UsersManager', action: 'newsletterSignup'}, '' +
                 'GET'

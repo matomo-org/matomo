@@ -413,6 +413,7 @@ class Controller extends ControllerAdmin
     public function newsletterSignup()
     {
         Piwik::checkUserIsNotAnonymous();
+        $this->checkTokenInUrl();
 
         $userLogin = Piwik::getCurrentUserLogin();
         $email = Piwik::getCurrentUserEmail();
