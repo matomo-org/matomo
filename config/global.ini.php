@@ -397,6 +397,10 @@ login_cookie_expire = 1209600
 ; Sets the session cookie path
 login_cookie_path =
 
+; the amount of time before an idle session is considered expired. only affects session that were created without the
+; "remember me" option checked
+login_session_not_remembered_idle_timeout = 3600
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
@@ -962,6 +966,7 @@ Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs
+Plugins[] = Tour
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

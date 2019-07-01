@@ -112,7 +112,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->rememberTrackingCodeReminderRan($idSite);
 
-        if (!SitesManager::hasTrackedAnyTraffic($idSite)) {
+        if (!SitesManager::shouldPerormEmptySiteCheck($idSite)) {
+            return;
+        }
+
+        if (SitesManager::hasTrackedAnyTraffic($idSite)) {
             return;
         }
 

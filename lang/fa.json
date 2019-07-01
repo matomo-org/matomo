@@ -237,6 +237,7 @@
         "Hide": "پنهان شود",
         "HoursMinutes": "%1$s ساعت %2$s دقیقه",
         "Id": "شناسه",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "با فرض این که تهیه‌ی آرشیو برای راه‌اندازی شما با سرعت صورت می‌پذیرد، شما می‌توانید crontab را با توالی بیشتری اجرا کنید.",
         "InfoFor": "اطلاعات برای%s",
         "Installed": "نصب شده",
         "InvalidDateRange": "بازه تاریخی معتبر نیست ،لطفا دوباره تلاش کنید.",

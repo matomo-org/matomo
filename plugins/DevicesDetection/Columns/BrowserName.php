@@ -38,7 +38,7 @@ class BrowserName extends Base
         $segment->setAcceptedValues('FireFox, Internet Explorer, Chrome, Safari, Opera etc.');
         $segment->setSqlFilterValue(function ($val) {
             $browsers = Browser::getAvailableBrowsers();
-            array_map(function($val) {
+            $browsers = array_map(function($val) {
                 return Common::mb_strtolower($val);
             }, $browsers);
             $result   = array_search(Common::mb_strtolower($val), $browsers);

@@ -566,7 +566,13 @@
         "VerifyAccount": "Hesap Doğrulama",
         "ValidateSslCertificate": "SSL Sertifikasını Doğrula",
         "VerifyLoginData": "Kullanıcı adı ve parolanın doğru olduğundan emin olun.",
-        "YouAreOffline": "Maalesef, şu anda çevrimdışısınız"
+        "YouAreOffline": "Maalesef, şu anda çevrimdışısınız",
+        "ExceptionNoViewAccess": "Lütfen kullanıcı adı ve parolanızı denetleyin ve en az bir web sitesi için %s izniniz olduğundan emin olun.",
+        "Mobile_HowtoExitAndroid": "Çıkmak için yeniden GERİ üzerine tıklayın",
+        "MatomoMarketplace": "Matomo Mağazası",
+        "EnterAuthCode": "Kimlik doğrulama kodunu yazın",
+        "EnterCorrectAuthCode": "Doğru kimlik doğrulama kodunu yazın",
+        "EnterAuthCodeExplanation": "İki aşamalı kimlik doğrulama kullanıyorsunuz gibi görünüyor. Lütfen oturum açmak için 6 haneli kodu yazın."
     },
     "RowEvolution": {
         "AvailableMetrics": "Kullanılabilecek ölçümler",

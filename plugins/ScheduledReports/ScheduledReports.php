@@ -342,6 +342,7 @@ class ScheduledReports extends \Piwik\Plugin
                 $emails[] = $user['email'];
             }
         }
+        $emails = array_unique($emails);
 
         if (! $force) {
             $this->markReportAsSent($report, $period);
@@ -571,7 +572,7 @@ class ScheduledReports extends \Piwik\Plugin
                 throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
-        $additionalEmails = array_values(array_filter($additionalEmails));
+        $additionalEmails = array_values(array_unique(array_filter($additionalEmails)));
         return $additionalEmails;
     }
 

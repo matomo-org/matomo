@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Mostrar filas acumuladas %s Ocultarlas",
         "DataTableIncludeAggregateRows": "Filas agregadas están ocultas %s Mostrarlas",
         "DataTableHowToSearch": "Presione intro o clic en el ícono de búsqueda para precisamente buscar",
+        "DataTableShowDimensions": "Dimensiones están combinadas %s Mostrarlas separadamente",
+        "DataTableCombineDimensions": "Dimensiones están mostradas separadamente %s Mostrarlas de manera combinada",
         "Default": "predeterminado",
         "DonateCall1": "​Matomo siempre será gratis, pero eso no significa que no nos cueste nada hacerlo.",
         "DonateCall2": "Matomo necesita su apoyo para crecer y prosperar.",
