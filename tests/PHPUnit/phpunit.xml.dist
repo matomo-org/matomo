@@ -92,4 +92,19 @@
     </whitelist>
 </filter>
 
+<listeners>
+    <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+        <arguments>
+            <array>
+                <element key="slowThreshold">
+                    <integer>10000</integer>
+                </element>
+                <element key="reportLength">
+                    <integer>25</integer>
+                </element>
+            </array>
+        </arguments>
+    </listener>
+</listeners>
+
 </phpunit>
