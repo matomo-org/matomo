@@ -486,7 +486,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array('2014-12-18', '2014-12-20'),
                 'range',
                 null,
-                true,
+                false,
                 array(
                     '2014_12' => array(
                         '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
@@ -529,7 +529,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array('2015-01-11', '2015-03-30'),
                 'range',
                 null,
-                true,
+                false,
                 array(
                     '2015_03' => array(
                         '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
@@ -544,7 +544,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array('2014-12-01', '2014-12-04'),
                 'range',
                 null,
-                true,
+                false,
                 array(
                 ),
             ),
@@ -555,7 +555,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 array('2014-09-01', '2014-11-08'),
                 'range',
                 null,
-                true,
+                false,
                 array(
                     '2014_10' => array(
                         '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
