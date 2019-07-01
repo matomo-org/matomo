@@ -143,10 +143,12 @@ table.subActionsDataTable td.label,
 table.actionsDataTable td.label {
   border-top: 0;
   border-left: 0;
+  position: absolute;
 }
 
 table.dataTable th.label {
   border-left: 0;
+  position: absolute;
 }
 
 .dataTableActions table.dataTable th.label {
@@ -604,6 +606,10 @@ td.cellSubDataTable .loadingPiwik {
       font-size: 18px;
     }
   }
+}
+
+div.dataTableWrapper {
+  overflow-x: scroll;
 }
 
 @media only screen and (min-width: 993px) {
