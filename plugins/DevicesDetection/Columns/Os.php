@@ -40,7 +40,7 @@ class Os extends Base
         $segment->setAcceptedValues('Windows, Linux, Mac, Android, iOS etc.');
         $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
-            array_map(function($val) {
+            $oss = array_map(function($val) {
                 return Common::mb_strtolower($val);
             }, $oss);
             $result   = array_search(Common::mb_strtolower($val), $oss);

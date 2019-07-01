@@ -25,6 +25,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
 
@@ -318,6 +319,8 @@ class PrivacyManager extends Plugin
                 Option::set($configName, $settings[$configName]);
             }
         }
+
+        Cache::deleteTrackerCache();
     }
 
     /**

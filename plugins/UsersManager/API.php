@@ -730,6 +730,8 @@ class API extends \Piwik\Plugin\API
 
         $this->model->deleteUserAccess($userLogin);
         $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
+
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -850,6 +852,8 @@ class API extends \Piwik\Plugin\API
             $userLogin,
             $this->createTokenAuth($userLogin)
         );
+
+        Cache::deleteTrackerCache();
     }
 
     /**
