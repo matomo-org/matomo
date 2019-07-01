@@ -129,7 +129,7 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        if (tr.hasClass('subDataTable')) {
+        if (tr.hasClass('subDataTable') || tr.hasClass('totalsRow')) {
             // not available on groups (i.e. folders)
             return false;
         }
@@ -210,7 +210,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
         self.model.htmlLoaded();
 
         if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
-            + self.model.campaignsNbTransitions > 0) {
+            && self.model.campaignsNbTransitions > 0) {
             self.canvas.narrowMode();
         }
 

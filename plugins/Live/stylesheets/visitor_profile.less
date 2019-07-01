@@ -383,6 +383,7 @@
     display: inline-block;
     float: left;
     margin-right: 15px;
+    margin-left: -3px;
   }
 
   .visitorDetails {
@@ -411,10 +412,10 @@
 }
 
 ol.visitor-profile-actions {
-  margin-bottom: 20px;
+  padding: 0 15px 0 23px;
 
   li {
-    padding: 0 15px 8px;
+    padding: 0 0 8px;
     margin: 0;
 
     p {
@@ -437,4 +438,9 @@ ol.visitor-profile-actions {
 .visitor-profile-no-visits {
   color: #999;
   font-size: 13px;
+}
+
+.visitor-profile-visits li.pageviewActions.last-action > ol.actionList > li.last-action {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }

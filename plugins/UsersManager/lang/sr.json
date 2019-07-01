@@ -38,7 +38,6 @@
         "GiveViewAccess": "Dodeli pristup prikaza za %1$s",
         "GiveViewAccessTitle": "Dodeli postojećem korisniku pristup prikaza izveštaja za %s",
         "GiveViewAccessInstructions": "Ukoliko želite da postojećem korisniku dodelite pristup prikaza za %s, upišite korisničko ime ili mejl adresu tog korisnika",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ukoliko želite da promenite lozinku, upišite novu. U suprotnom ostavite polje prazno",
         "InjectedHostCannotChangePwd": "Trenutno pristupate sa nepoznatog hosta (%1$s). Lozinku ne možete promeniti dok ovo ne ispravite.",
         "LastSeen": "Poslednji put viđen",
         "MainDescription": "Odredite koji korisnici imaju pristup vašim sajtovima. Možete im dodeliti prostup svim sajtovima izborom opcije \"Primeni na sve sajtove\".",
@@ -70,11 +69,9 @@
         "UserHasNoPermission": "%1$s trenutno ima %2$s za %3$s.",
         "UsersManagement": "Upravljanje korisnicima",
         "UsersManagementMainDescription": "Dodavanje novih i promena postojećih korisničkih naloga, dodeljivanje privilegija.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kada korisnik koji nije prijavljen pokuša da otvori Matomo, trebalo bi da se otvori:",
         "YourUsernameCannotBeChanged": "Vaše korisničko ime ne može biti promenjeno.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Matomo ignoriše vaše posete %2$s %3$s (pronađen je specijalni kolačić u vašem brauzeru).",
         "YourVisitsAreNotIgnored": "%1$s Matomo ne ignoriše vaše posete%2$s (nije pronađen kolačić u vašem brauzeru).",
-        "XtoYofN": "%1$s - %2$s od %3$s",
         "ShowAll": "Prikaži sve",
         "Username": "Korisničko ime"
     }

@@ -66,7 +66,7 @@
         "TagManagerTeaserEmailSuperUserBody": "Ciao, %1$s è ora disponibile Matomo Tag Manager e mi piacerebbe utilizzare questa nuova funzione. Dato che hai l'accesso come Super User, potresti attivarla tramite la pagina Tag Manager nel menù principale? %2$sL'URL di Matomo è %3$s. %4$sGrazie",
         "WhatIsTagManager": "Cos'è un Tag Manager?",
         "WhatIsTagManagerDetails1": "In modo simile a come un Content Management System (CMS) ti offre tutta la flessibilità necessaria per pubblicare i contenuti per il tuo sito web senza avere la conoscenza tecnica di HTML\/CSS, un Tag Management System (TMS) è il tuo mezzo per semplificare, in primo luogo, il processo di incorporazione e poi i tag di tracciamento di applicazioni di terze parti (noti anche come snippet o pixel) sul tuo sito web.",
-        "WhatIsTagManagerDetails2": "Supponiamo che tu voglia vedere i risultati delle tue conversioni\/obiettivi, iscrizioni alle newsletter, widget dei social, popup di uscita e campagne di remarketing; quello che un tempo era un processo altamente tecnico e dispendioso in termini di tempo è ora facilmente eseguibile all'interno del TMS e richiede solo pochi click per essere implementato.",
+        "WhatIsTagManagerDetails2": "Supponiamo che tu voglia vedere i risultati delle tue conversioni\/goal, iscrizioni alle newsletter, widget sociali, popup di uscita e campagne di remarketing; quello che un tempo era un processo altamente tecnico e dispendioso in termini di tempo è ora facilmente eseguibile all'interno del TMS e richiede solo pochi clic per essere implementato.",
         "TagManagerLearnMoreInUserGuide": "Scopri di più nella Guida Utente del Tag Manager",
         "WhyUsingATagManager": "Perché un Tag Manager?",
         "WhyUsingATagManagerDetails1": "Un Tag Manager ti semplifica la vita! Non è più necessario attendere che uno sviluppatore modifichi snippet di prime o di terze parti sul tuo sito web, in quanto Tag Manager ti offre un'esperienza rilassante per apportare queste modifiche e implementare il tuo sito web da solo.",
@@ -83,6 +83,7 @@
         "Version": "Versione",
         "ViewAllMarketplacePlugins": "Scopri tutti i plugin del Marketplace",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Non è stato possibile caricare il plugin %1$s in quanto ci sono delle dipendenze mancanti: %2$s",
-        "Websites": "Siti web"
+        "Websites": "Siti web",
+        "UpdateSelected": "Aggiornamento Selezionato"
     }
 }

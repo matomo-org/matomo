@@ -25,7 +25,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Trebuie să existe cel puțin un utilizator cu acces de Super utilizator. Vă rugăm să se acorde Super utilizator acces unui alt utilizator.",
         "ExcludeVisitsViaCookie": "Exclude vizitele tale cu ajutorul unui cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Pentru utilizatori anonimi, implicit se încarcă raportul pentru data",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Dacă doriți să modificați parolă taastati una noua. În caz contrar, lăsați spatiul gol.",
         "InjectedHostCannotChangePwd": "Daca în prezent vizitati o gazdă necunoscuta (%1$s). Nu puteți schimba parola până când această problemă nu este rezolvata.",
         "LastSeen": "Ultima data vazut",
         "ManageAccess": "Manageriaza accesul",
@@ -48,11 +47,9 @@
         "User": "Utilizator",
         "UsersManagement": "Management useri",
         "UsersManagementMainDescription": "Creaza user nou sau actualizeaza userul existent. Poti seta permisiunile lor.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Atunci când utilizatorii nu sunt logati și viziteaza Matomo, acestea ar trebui să acceseze",
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat.",
         "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (Matomo ignora cookie care a fost găsit în browser-ul dvs.).",
         "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.).",
-        "XtoYofN": "%1$s - %2$s of %3$s",
         "ShowAll": "Arată tot",
         "Username": "Nume utilizator"
     }

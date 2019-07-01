@@ -10,6 +10,7 @@
         "LastHours": "Viimased %s tundi",
         "LastMinutes": "Viimased %s minutit",
         "LastVisit": "Viimane külastus",
+        "LinkVisitorLog": "Vaata üksikasjalikku külastuste logi",
         "LoadMoreVisits": "Ava rohkem külastusi",
         "MorePagesNotDisplayed": "rohkem lehti külastaja kohta ei kuvata",
         "NbVisitor": "1 külastaja",
@@ -24,7 +25,10 @@
         "SimpleRealTimeWidget_Message": "%1$s ja %2$s perioodis viimased %3$s",
         "ViewVisitorProfile": "Kuva külastaja profiil",
         "VisitedPages": "Külastatud lehed",
+        "VisitsLog": "lastuste logi",
+        "VisitorLog": "lastuste logi",
         "VisitorProfile": "Külastaja profiil",
+        "VisitorsInRealTime": "Külastused reaalajas",
         "VisitorsLastVisit": "Antud külastaja viimane külastus lehel oli %s päeva tagasi.",
         "VisitsFrom": "%1$s%2$s külastust %3$s pärineb"
     }

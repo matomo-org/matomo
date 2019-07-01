@@ -21,7 +21,7 @@
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
                 {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
-                {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') -%}
+                {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') or row.getMetadata('is_summary') -%}
                 {%- set shouldHighlightRow = isSummaryRow and properties.highlight_summary_row -%}
 
                 {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
@@ -38,7 +38,8 @@
                     class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}{% if isSummaryRow %} summaryRow{% endif %}"
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
-                        <td>
+                        {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
+                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}

@@ -5,6 +5,7 @@
 		<idVisit>3</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -21,6 +22,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -57,6 +59,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -93,6 +96,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -105,7 +109,7 @@
 					</row>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
+						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -115,6 +119,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -122,6 +127,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>10</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
@@ -129,6 +137,8 @@
 						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
@@ -136,11 +146,16 @@
 						<itemCategory>Category TWO LEFT in cart</itemCategory>
 						<price>1000</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -165,7 +180,7 @@
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>721</visitDuration>
@@ -258,6 +273,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -274,6 +290,7 @@
 				<title>Looking at Electronics &amp; Cameras page with a page level custom variable</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -298,6 +315,7 @@
 				<title>Looking at Electronics &amp; Cameras page again</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -322,6 +340,7 @@
 				<title>Looking at product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -353,6 +372,7 @@
 				<revenueDiscount>666</revenueDiscount>
 				<items>8</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -360,6 +380,13 @@
 						<itemCategory>Multiple Category 1</itemCategory>
 						<price>500</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Multiple Category 1</row>
+						<row>Multiple Category 2</row>
+						<row>Electronics &amp; Cameras</row>
+						<row>Multiple Category 4</row>
+						<row>Multiple Category 5</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>ANOTHER SKU HERE</itemSKU>
@@ -367,11 +394,14 @@
 						<itemCategory />
 						<price>100</price>
 						<quantity>6</quantity>
+						<categories>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (937nsjusu 3894)</title>
-				<subtitle>$ 1111.11 revenue - 8 items: PRODUCT name, PRODUCT name BIS)</subtitle>
+				<subtitle>$1,111.11 revenue - 8 items: PRODUCT name, PRODUCT name BIS)</subtitle>
 				
 			</row>
 			<row>
@@ -384,6 +414,7 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>2</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -391,6 +422,8 @@
 						<itemCategory />
 						<price>11.22</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU2</itemSKU>
@@ -398,11 +431,15 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>1500</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (1037nsjusu4s3894)</title>
-				<subtitle>$ 2000 revenue - 2 items: PRODUCT name, Canon SLR)</subtitle>
+				<subtitle>$2,000 revenue - 2 items: PRODUCT name, Canon SLR)</subtitle>
 				
 			</row>
 			<row>
@@ -420,6 +457,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -456,6 +494,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -492,6 +531,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -504,7 +544,7 @@
 					</row>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
+						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -514,6 +554,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -521,6 +562,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>10</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
@@ -528,6 +572,8 @@
 						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
@@ -535,11 +581,16 @@
 						<itemCategory>Category TWO LEFT in cart</itemCategory>
 						<price>1000</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -561,10 +612,10 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3961</visitDuration>
@@ -657,6 +708,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -673,6 +725,7 @@
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -698,13 +751,15 @@
 				<type>goal</type>
 				<goalName>title match, triggered ONCE</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>10</revenue>
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>title match, triggered ONCE ($ 10 revenue)</subtitle>
+				<subtitle>title match, triggered ONCE ($10 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -722,6 +777,7 @@
 				<title>Another Product page</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -758,6 +814,7 @@
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -792,6 +849,7 @@
 				<title>Another Product page with multiple categories</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -828,7 +886,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

@@ -22,7 +22,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Трябва да съществува поне един привилигирован потребител. Моля, дайде нужните права на друг потребител.",
         "ExcludeVisitsViaCookie": "Изключете Вашите посещения с помощта на бисквитка",
         "ForAnonymousUsersReportDateToLoadByDefault": "За анонимни потребители, дата доклад да се зареди по подразбиране",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Ако желаете да промените паролата си, въведете нова. В противен случай оставете полето празно.",
         "InjectedHostCannotChangePwd": "В момента вие посещавате страница от неизвестен хост(%1$s). Не можете да смените паролата, преди да отстраните този проблем.",
         "LastSeen": "Последно видяно",
         "ManageAccess": "Управление на правата",
@@ -45,11 +44,9 @@
         "User": "Потребител",
         "UsersManagement": "Управление на потребители",
         "UsersManagementMainDescription": "Създайте нови потребители или управлявайте вече съществуващи. Също така и можете да задавате правата за достъп.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Когато потребителите не са влезли и посетят Matomo, те се нуждаят от достъп",
         "YourUsernameCannotBeChanged": "Потребителското име не може да се променя.",
         "YourVisitsAreIgnoredOnDomain": "%1$sВашите посещения са игнорирани от Matomo в %2$s %3$s (Matomo игнорира бисквитката, намерена във Вашият браузър).",
         "YourVisitsAreNotIgnored": "%1$sВашите посещения не се игнорират от Matomo %2$s(Бисквитката за игнориране на Вашите посещения, не е открита във Вашият браузър).",
-        "XtoYofN": "%1$s - %2$s като %3$s",
         "ShowAll": "Покажи всички",
         "Username": "Потребител"
     }

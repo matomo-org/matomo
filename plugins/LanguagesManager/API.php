@@ -78,6 +78,15 @@ class API extends \Piwik\Plugin\API
          *
          * @param array
          */
+        Piwik::postEvent('LanguagesManager.getAvailableLanguages', array(&$languages));
+
+        /**
+         * Hook called after loading available language files.
+         *
+         * @param array
+         *
+         * @deprecated since v3.9.0 use LanguagesManager.getAvailableLanguages instead. Will be removed in Matomo 4.0.0
+         */
         Piwik::postEvent('LanguageManager.getAvailableLanguages', array(&$languages));
 
         $this->languageNames = $languages;
@@ -96,11 +105,18 @@ class API extends \Piwik\Plugin\API
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
         $englishTranslation = json_decode($data, true);
 
+        $pluginDirectories = Manager::getPluginsDirectories();
         // merge with plugin translations if any
-        $pluginFiles = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
-        foreach ($pluginFiles as $file) {
 
-            preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+        $pluginFiles = array();
+        foreach ($pluginDirectories as $pluginsDir) {
+            $pluginFiles = array_merge($pluginFiles, glob(sprintf('%s*/lang/en.json', $pluginsDir)));
+        }
+
+        foreach ($pluginFiles as $file) {
+            $fileWithoutPluginDir = str_replace($pluginDirectories, '', $file);
+
+            preg_match('/([^\/]+)\/lang/i', $fileWithoutPluginDir, $matches);
             $plugin = $matches[1];
 
             if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
@@ -117,10 +133,15 @@ class API extends \Piwik\Plugin\API
             $translations = json_decode($data, true);
 
             // merge with plugin translations if any
-            $pluginFiles = glob(sprintf('%s/plugins/*/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
-            foreach ($pluginFiles as $file) {
+            $pluginFiles = array();
+            foreach ($pluginDirectories as $pluginsDir) {
+                $pluginFiles = array_merge($pluginFiles, glob(sprintf('%s*/lang/%s.json', $pluginsDir, $filename)));
+            }
 
-                preg_match('/\/plugins\/([^\/]+)\/lang/i', $file, $matches);
+            foreach ($pluginFiles as $file) {
+                $fileWithoutPluginDir = str_replace($pluginDirectories, '', $file);
+
+                preg_match('/([^\/]+)\/lang/i', $fileWithoutPluginDir, $matches);
                 $plugin = $matches[1];
 
                 if (!$excludeNonCorePlugins || Manager::getInstance()->isPluginBundledWithCore($plugin)) {
@@ -223,7 +244,7 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $languageFile = PIWIK_INCLUDE_PATH . "/plugins/$pluginName/lang/$languageCode.json";
+        $languageFile = Manager::getPluginDirectory($pluginName) . "/lang/$languageCode.json";
 
         if (!file_exists($languageFile)) {
             return false;

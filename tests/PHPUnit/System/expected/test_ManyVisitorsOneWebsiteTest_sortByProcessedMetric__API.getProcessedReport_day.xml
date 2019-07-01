@@ -61,10 +61,12 @@
 	<reportMetadata>
 		<row>
 			
+			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fspace</segment>
 			<idsubdatatable>3</idsubdatatable>
 		</row>
 		<row>
 			
+			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fgrue</segment>
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 	</reportMetadata>
@@ -74,16 +76,10 @@
 		<sum_time_spent>1440</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_visits>8</entry_nb_visits>
 		<entry_nb_actions>24</entry_nb_actions>
 		<entry_sum_visit_length>6484</entry_sum_visit_length>
 		<entry_bounce_count>4</entry_bounce_count>
 		<exit_nb_visits>4</exit_nb_visits>
-		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_page>180</avg_time_on_page>
-		<bounce_rate>50%</bounce_rate>
-		<exit_rate>50%</exit_rate>
 	</reportTotal>
 </result>

@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "L'usuari '%s' no existeix.",
         "ExcludeVisitsViaCookie": "Exclou les teues visites utilitzant cookies",
         "ForAnonymousUsersReportDateToLoadByDefault": "Pels usuaris anònims, introduïu la data dels informes per defecte",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Si voleu canviar la contrasenya teclegeu-n'hi una de nova, sinó deixeu-ho en blanc.",
         "InjectedHostCannotChangePwd": "Actualment esteu visitan amb un host desconegut (%1$s). No podeu canviar la vostra contrasenya fins que corregiu aquest problema.",
         "ManageAccess": "Gestiona els permisos",
         "MenuAnonymousUserSettings": "Preferències de l'usuari anònim",
@@ -34,11 +33,9 @@
         "User": "Usuari",
         "UsersManagement": "Gestiona els usuaris",
         "UsersManagementMainDescription": "Creeu nous usuaris o actualitzeu els existents. Podeu configurar els seus permisos a dalt.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quan un usuari no esta identificat i visita el Matomo, han d'accedir",
         "YourUsernameCannotBeChanged": "No es pot canviar el vostre nom d'usuari",
         "YourVisitsAreIgnoredOnDomain": "%1$sLes vostres visites són ignorades pel Matomo %2$s %3$s (la galeta d'ignorància del Matomo s'ha trobat al vostre navegador).",
         "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Matomo%2$s (la galeta d'ignorància del Matomo no s'ha trobat al vostre navegador).",
-        "XtoYofN": "%1$s - %2$s de %3$s",
         "ShowAll": "Mostra-ho tot",
         "Username": "Usuari"
     }

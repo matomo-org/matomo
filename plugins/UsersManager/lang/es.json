@@ -96,7 +96,7 @@
         "UserHasNoPermission": "%1$s actualmente tiene %2$s para %3$s",
         "UsersManagement": "Administración de usuarios",
         "UsersManagementMainDescription": "Cree nuevos usuarios o actualice los actuales. Luego puede configurar sus permisos.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Cuando los usuarios no están identificados y visitan Matomo, deberían poder acceder",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Cuando los usuarios no han iniciado sesión y visitan Matomo, deberían poder acceder",
         "YourUsernameCannotBeChanged": "Su nombre de usuario no puede ser cambiado.",
         "YourVisitsAreIgnoredOnDomain": "%1$sTus visitas son ignoradas por Matomo en %2$s %3$s (la cookie de ignorar a Matomo fue encontrada en su navegador).",
         "YourVisitsAreNotIgnored": "%1$sTus visitas no son ignoradas por Matomo%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador).",
@@ -114,7 +114,6 @@
         "ClickToSelectAll": "Clic para selecionar todo %1$s.",
         "AllWebsitesAreSelected": "Todos los sitios web %1$s están seleccionados.",
         "ClickToSelectDisplayedWebsites": "Clic para seleccionar los %1$s sitios web mostrados.",
-        "XtoYofN": "%1$s - %2$s de %3$s",
         "DeletePermConfirmSingle": "¿Está seguro que desea quitar a %1$s del acceso a %2$s?",
         "DeletePermConfirmMultiple": "¿Está seguro que desea quitar a %1$sdel acceso a estos sitios web %2$s?",
         "ChangePermToSiteConfirmSingle": "¿Está seguro que desea cambiar la función de %1$s de %2$s a %3$s?",
@@ -128,8 +127,8 @@
         "SuperUserIntro2": "Por favor use esta función cuidadosamente.",
         "HasSuperUserAccess": "Posee acceso de Superusuario",
         "AreYouSure": "Está seguro?",
-        "RemoveSuperuserAccessConfirm": "La eliminación del acceso de superusuario dejará al usuario sin permisos (tendrá que agregarlos después). ¿Desea continuar?",
-        "AddSuperuserAccessConfirm": "Otorgarle acceso a un usuario superusuario le permitirá poseer un control total sobre Matomo y debe hacerse con cautela. ¿Desea continuar?",
+        "RemoveSuperuserAccessConfirm": "La eliminación del acceso de superusuario dejará al usuario sin permisos (tendrá que agregarlos después). Ingrese su contraseña para continuar",
+        "AddSuperuserAccessConfirm": "Otorgarle acceso a un usuario superusuario le permitirá poseer un control total sobre Matomo y debe hacerse con cautela. Ingrese su contraseña para continuar.",
         "DeleteUsers": "Eliminar usuarios",
         "UserSearch": "Buscar usuario",
         "FilterByAccess": "Filtrar por acceso",
@@ -156,6 +155,12 @@
         "AreYouSureAddCapability": "¿Está seguro que desea otorgarle %1$sla%2$sfacultad de %3$s?",
         "AreYouSureRemoveCapability": "¿Está seguro que desea quitar la %1$sfacultad de %2$s para %3$s?",
         "IncludedInUsersRole": "Incluído en el rol del usuario.",
-        "Capability": "Facultad"
+        "Capability": "Facultad",
+        "EmailChangeNotificationSubject": "La dirección de correo electrónico de tu cuenta Matomo acaba de ser modificada.",
+        "EmailChangedEmail1": "La dirección de correo electrónico asociado con su cuenta ha sido cambiado a %1$s",
+        "EmailChangedEmail2": "Este cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
+        "IfThisWasYouIgnoreIfNot": "Si fuistes vos, no dudes en ignorar este correo electrónico. Si no, inicia sesión, corrije tu dirección de correo electrónico, cambia tu contraseña y ponte en contacto con tu administrador de Matomo.",
+        "PasswordChangeNotificationSubject": "La contraseña de su cuenta Matomo ha sido modificada",
+        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s)."
     }
 }

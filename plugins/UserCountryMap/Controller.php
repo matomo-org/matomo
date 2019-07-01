@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -66,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         // request visits summary
         $request = new Request(
-            'method=VisitsSummary.get&format=PHP'
+            'method=VisitsSummary.get&format=php'
             . '&idSite=' . $this->idSite
             . '&period=' . $period
             . '&date=' . $date
@@ -86,10 +87,11 @@ class Controller extends \Piwik\Plugin\Controller
             $this->idSite, $period, $date, $token_auth, true, $segment);
         $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
 
+        $noVisitTranslation = $this->translator->translate('UserCountryMap_NoVisit');
         // some translations containing metric number
         $translations = array(
              'nb_visits'            => $this->translator->translate('General_NVisits'),
-             'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
+             'no_visit'             => $noVisitTranslation,
              'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
              'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
              'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
@@ -100,7 +102,8 @@ class Controller extends \Piwik\Plugin\Controller
         );
 
         foreach ($translations as &$translation) {
-            if (false === strpos($translation, '%s')) {
+            if (false === strpos($translation, '%s')
+                && $translation !== $noVisitTranslation) {
                 $translation = '%s ' . $translation;
             }
         }

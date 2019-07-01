@@ -274,31 +274,31 @@
 
 {% set inputElements%}
 <div piwik-field uicontrol="text" name="username"
-     title="Username"
+     data-title="Username"
      introduction="This is an introduction. It can be used to group form fields"
      placeholder="Some text here">
 </div>
 
 <div piwik-field uicontrol="email" name="email"
-     title="Email"
+     data-title="Email"
      inline-help="This is the inline help which provides more information.">
 </div>
 
 <div piwik-field uicontrol="text" name="textWithoutPlaceholder"
-     title="This field has a title but no place holder">
+     data-title="This field has a title but no place holder">
 </div>
 
 <div piwik-field uicontrol="text" name="textWithoutTitle"
-     title="This field has a place holder but no title">
+     data-title="This field has a place holder but no title">
 </div>
 
 <div piwik-field uicontrol="text" name="textWithValue"
      value="My value"
-     title="This field has already a value set">
+     data-title="This field has already a value set">
 </div>
 
 <div piwik-field uicontrol="password" name="password"
-     title="Password"
+     data-title="Password"
      placeholder="Enter your password here">
 </div>
 
@@ -306,41 +306,41 @@
     It is possible to use all kind of HTML in the help text, including <a href="javascript:;">links</a>.
 </div>
 <div piwik-field uicontrol="text" name="alias"
-     title="Disabeld text field"
+     data-title="Disabeld text field"
      data-disabled="true"
      placeholder="This value cannot be changed"
      inline-help="#complexHelpText">
 </div>
 
 <div piwik-field uicontrol="text" name="fullWidthText"
-     title="Form fields can be made full witdth"
+     data-title="Form fields can be made full witdth"
      full-width="true"
      placeholder="Some text here...">
 </div>
 
-<div piwik-field uicontrol="url" name="urlText" title="URL" inline-help="URL field">
+<div piwik-field uicontrol="url" name="urlText" data-title="URL" inline-help="URL field">
 </div>
 
 <div piwik-field uicontrol="textarea" name="description"
-     title="Description"
+     data-title="Description"
      inline-help="This is a textarea. It automatically gets larger the more text is entered.">
 </div>
 
 <div piwik-field uicontrol="select" name="language"
-     title="Language"
+     data-title="Language"
      introduction="Select fields"
      value="1"
      inline-help="Single select"
      options='{1: "English",2:"Spanish"}'>
 </div>
 <div piwik-field uicontrol="multiselect" name="phonenumbers"
-     title="Phone numbers"
+     data-title="Phone numbers"
      value="1"
      inline-help="Multi select"
      options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
 </div>
 <div piwik-field uicontrol="expandable-select" name="selectexpand"
-     title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
+     data-title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
      value="Select value"
      inline-help="Expandable select"
      ng-model="view.selectedExpand"
@@ -348,74 +348,74 @@
 </div>
 
 <div piwik-field uicontrol="multituple" name="multitupletext"
-     title="Multiple values"
+     data-title="Multiple values"
      value="[]"
      inline-help="Multi Tuple text and text"
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
 </div>
 
 <div piwik-field uicontrol="multituple" name="multitupletextvalue"
-     title="Multiple values with values"
+     data-title="Multiple values with values"
      value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
      inline-help="Multi Tuple again."
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
 </div>
 
 <div piwik-field uicontrol="multituple" name="multitupleselect"
-     title="Multiple values with select"
+     data-title="Multiple values with select"
      value='[{"index": "test", "value": "myfoo"}]'
      inline-help="Multi Tuple select and text"
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
 </div>
 
 <div piwik-field uicontrol="multituple" name="multituplesingleselect"
-     title="Multi One Select"
+     data-title="Multi One Select"
      value='[{"index": "test", "value": "myfoo"}]'
      inline-help="Multi values with one select"
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
 </div>
 
 <div piwik-field uicontrol="multituple" name="multituplesingletext"
-     title="Multi One Text"
+     data-title="Multi One Text"
      value='[{"index": "test", "value": "myfoo"}]'
      inline-help="Multi values with one text"
      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
 </div>
 
 <div piwik-field uicontrol="field-array" name="text-field-array"
-     title="Text field array"
+     data-title="Text field array"
      value='["text one", "text two"]'
      inline-help="Multiple text inputs"
      ui-control-attributes='{"field":{"title":"Index","uiControl":"text"}}'>
 </div>
 
 <div piwik-field uicontrol="field-array" name="select-field-array"
-     title="Select field array"
+     data-title="Select field array"
      value='["one", "two"]'
      inline-help="Multiple selects"
      ui-control-attributes='{"field":{"title":"Index","uiControl":"select","availableValues":{"one":"text onw", "two":"text two", "three":"text three"}}}'>
 </div>
 
 <div piwik-field uicontrol="checkbox" name="enableFeature"
-     title="Enable feature"
+     data-title="Enable feature"
      introduction="Radio and checkboxes"
      inline-help="This is a single checkbox">
 </div>
 <div piwik-field uicontrol="checkbox" name="enableFeature"
-     title="Enable feature"
+     data-title="Enable feature"
      var-type="array"
      options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
      inline-help="This field shows multiple checkboxes as we declare we want to get an array of values.">
 </div>
 <div piwik-field uicontrol="radio" name="defaultReportDate"
-     title="Report to load by default"
+     data-title="Report to load by default"
      options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
      inline-help="This is a help text that can be used to describe the field. This help text may extend over several lines.">
 </div>
 
 <div piwik-field uicontrol="site" name="currentsite"
      introduction="Matomo specific form fields"
-     title="Select a website">
+     data-title="Select a website">
 </div>
 <div piwik-save-button></div>
 <div piwik-save-button

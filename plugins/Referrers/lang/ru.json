@@ -57,7 +57,7 @@
         "GenerateUrl": "Создать URL",
         "URLCampaignBuilder": "Компоновщик URL кампании",
         "URLCampaignBuilderIntro": "Инструмент %1$sURL Builder%2$s позволяет создавать URL-адреса, готовые к использованию для отслеживания кампаний в Matomo. См. документацию по %3$sотслеживанию кампаний%4$s для получения дополнительной информации.",
-        "URLCampaignBuilderResult": "Созданный URL, который вы можете скопировать и вставить в свои кампании, рассылку по электронной почте, рекламу в Facebook или твиты:",
+        "URLCampaignBuilderResult": "Созданный URL, который вы можете скопировать и вставить в свои кампании, Email-рассылку, рекламу в Facebook или твиты:",
         "ViewAllReferrers": "Посмотреть все источники",
         "ViewReferrersBy": "Посмотреть источники по %s",
         "Websites": "Сайты",
@@ -68,6 +68,6 @@
         "WidgetSocials": "Список социальных сетей",
         "WidgetTopKeywordsForPages": "Топ ключевых слов для страницы URL",
         "XPercentOfVisits": "%s посещений",
-        "Acquisition": "Накоплено"
+        "Acquisition": "Источники"
     }
 }

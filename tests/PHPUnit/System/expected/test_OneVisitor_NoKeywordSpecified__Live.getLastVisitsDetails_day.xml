@@ -5,6 +5,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.0.0</visitIp>
 		
+		<fingerprint>5e45ddfc31394136</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -19,6 +20,7 @@
 				<title />
 				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -38,8 +40,8 @@
 		
 		
 		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -125,6 +127,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.0.0</visitIp>
 		
+		<fingerprint>5e45ddfc31394136</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -141,6 +144,7 @@
 				<title>incredible title! (Page URL contains a HTML entity)</title>
 				<subtitle>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -148,13 +152,15 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>42</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/this%20is%20cool!?filter=&lt;script&gt;alert(1);&lt;/script&gt;{&quot;place&quot;:{&quot;place&quot;:&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5&quot;}}</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Conversion de l'objectif</title>
-				<subtitle>triggered js ($US 42 revenue)</subtitle>
+				<subtitle>triggered js (42 $US revenu)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -176,7 +182,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

@@ -2086,8 +2086,9 @@
 			<action>getCustomVariables</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetCustomVariablesgetCustomVariablesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2115,8 +2116,9 @@
 			<action>getBrand</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2144,8 +2146,9 @@
 			<action>getModel</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetDevicesDetectiongetModelforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2173,8 +2176,9 @@
 			<action>getType</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetDevicesDetectiongetTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2202,8 +2206,9 @@
 			<action>getDaysToConversion</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetGoalsgetDaysToConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -2231,8 +2236,9 @@
 			<action>getVisitsUntilConversion</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetGoalsgetVisitsUntilConversionforceView1viewDataTabletabledocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>table</viewDataTable>
 		<isReport>1</isReport>
@@ -2260,8 +2266,9 @@
 			<action>getCampaigns</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetReferrersgetCampaignsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2289,8 +2296,9 @@
 			<action>getKeywords</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetReferrersgetKeywordsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2318,8 +2326,9 @@
 			<action>getReferrerType</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetReferrersgetReferrerTypeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2347,8 +2356,9 @@
 			<action>getSearchEngines</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetReferrersgetSearchEnginesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2376,8 +2386,9 @@
 			<action>getWebsites</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetReferrersgetWebsitesforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2405,8 +2416,9 @@
 			<action>getCity</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetUserCountrygetCityforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2434,8 +2446,9 @@
 			<action>getContinent</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetUserCountrygetContinentforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2463,8 +2476,9 @@
 			<action>getCountry</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetUserCountrygetCountryforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2492,8 +2506,9 @@
 			<action>getRegion</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetUserCountrygetRegionforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -2521,8 +2536,9 @@
 			<action>getVisitInformationPerServerTime</action>
 			<documentationForGoalsPage>1</documentationForGoalsPage>
 			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 		</parameters>
-		<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrder</uniqueId>
+		<uniqueId>widgetVisitTimegetVisitInformationPerServerTimeforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 		<isWide>0</isWide>
 		<viewDataTable>tableGoals</viewDataTable>
 		<isReport>1</isReport>
@@ -3491,25 +3507,6 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Top Keywords for Page URL</name>
-		<category>
-			<id>SEO</id>
-			<name>SEO</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Referrers</module>
-		<action>getKeywordsForPage</action>
-		<order>99</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getKeywordsForPage</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
 		<name>Matomo Changelog</name>
 		<category>
 			<id>About Matomo</id>
@@ -3564,6 +3561,25 @@
 			<action>getRank</action>
 		</parameters>
 		<uniqueId>widgetSEOgetRank</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Become a Matomo Expert</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>Tour</module>
+		<action>getEngagement</action>
+		<order>99</order>
+		<parameters>
+			<module>Tour</module>
+			<action>getEngagement</action>
+		</parameters>
+		<uniqueId>widgetTourgetEngagement</uniqueId>
 		<isWide>0</isWide>
 	</row>
 </result>

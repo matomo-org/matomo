@@ -10,13 +10,11 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
-use Piwik\ErrorHandler;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
@@ -30,6 +28,11 @@ use Exception;
  */
 class PluginsArchiver
 {
+    /**
+     * @var string|null
+     */
+    private static $currentPluginBeingArchived = null;
+
     /**
      * @param ArchiveProcessor $archiveProcessor
      */
@@ -154,6 +157,8 @@ class PluginsArchiver
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
+                    self::$currentPluginBeingArchived = $pluginName;
+
                     $timer = new Timer();
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -178,6 +183,8 @@ class PluginsArchiver
                     );
                 } catch (Exception $e) {
                     throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
+                } finally {
+                    self::$currentPluginBeingArchived = null;
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -316,5 +323,10 @@ class PluginsArchiver
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
 
         return $archiver;
+    }
+
+    public static function isArchivingProcessActive()
+    {
+        return self::$currentPluginBeingArchived !== null;
     }
 }

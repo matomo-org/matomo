@@ -5,6 +5,7 @@
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -21,6 +22,7 @@
 				<title>Checkout/Purchasing...</title>
 				<subtitle>http://example.org/store/purchase.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -28,13 +30,15 @@
 				<type>goal</type>
 				<goalName>matching purchase.htm</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>1</revenue>
 				<goalPageId>9</goalPageId>
 				
 				<url>http://example.org/store/purchase.htm</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>matching purchase.htm ($ 1 revenue)</subtitle>
+				<subtitle>matching purchase.htm ($1 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -56,14 +60,14 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>2</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
+		<visitDuration>1</visitDuration>
+		<visitDurationPretty>1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
 		<interactions>1</interactions>
@@ -140,6 +144,7 @@
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -158,6 +163,7 @@
 				<title>incredible title!</title>
 				<subtitle>http://example.org/index.htm?parameter=Should display</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -178,6 +184,7 @@
 				<title>Second page view - should be registered as URL</title>
 				<subtitle>http://example.org/</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -194,6 +201,7 @@
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</subtitle>
 				
@@ -212,6 +220,7 @@
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<iconSVG>plugins/Morpheus/images/download.svg</iconSVG>
 				<title>Download</title>
 				<subtitle>http://piwik.org/path/again/latest.zip</subtitle>
 				
@@ -230,6 +239,7 @@
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</subtitle>
 				
@@ -248,6 +258,7 @@
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<iconSVG>plugins/Morpheus/images/link.svg</iconSVG>
 				<title>Outlink</title>
 				<subtitle>http://dev.piwik.org/svn</subtitle>
 				
@@ -257,13 +268,15 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>42</revenue>
 				<goalPageId />
 				
 				<url>http://example.org/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>triggered js ($ 42 revenue)</subtitle>
+				<subtitle>triggered js ($42 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -280,7 +293,8 @@
 				<generationTimeMilliseconds>812</generationTimeMilliseconds>
 				<generationTime>0.81s</generationTime>
 				<interactionPosition>3</interactionPosition>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<icon>plugins/Morpheus/images/search.png</icon>
+				<iconSVG>plugins/Morpheus/images/search.svg</iconSVG>
 				<title>Site Search</title>
 				<subtitle>Banks Own The World</subtitle>
 				
@@ -301,6 +315,7 @@
 				<title>Looking at homepage after site search...</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -323,7 +338,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />

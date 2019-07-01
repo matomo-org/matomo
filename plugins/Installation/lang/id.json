@@ -29,7 +29,6 @@
         "JSTracking_Intro": "Untuk melacak lalu lintas ramatraya menggunakan Matomo, Anda harus menambah beberapa kode tambahan untuk setiap halaman situs Anda.",
         "LargePiwikInstances": "Bantuan perihal Matomo besar",
         "Legend": "Legenda",
-        "LoadDataInfileRecommended": "Bila peladen Matomo Anda melacak lalu lintas situs yang tinggi (misal > 100.000 halaman tiap bulan), kami menyarankan memperbaiki masalah ini.",
         "LoadDataInfileUnavailableHelp": "Menggunakan %1$s akan meningkatkan kecapatan pengarsipan Matomo. Untuk menjadikan ini tersedia untkuk Matomo, silakan memperbarui perangkat lunak PHP & MySQL Anda dan pastikan pengguna basisdata Anda memiliki hak %2$s.",
         "NfsFilesystemWarning": "Peladen Anda menggunakan berkas sistem NFS.",
         "NfsFilesystemWarningSuffixAdmin": "Ini berarti Matomo akan sangat lambat ketika menggunakan sesi berdasar berkas.",

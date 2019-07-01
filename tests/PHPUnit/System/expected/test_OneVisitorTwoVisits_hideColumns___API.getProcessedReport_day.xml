@@ -58,7 +58,7 @@
 	<reportMetadata>
 		<row>
 			
-			<segment>pageTitle==Checkout</segment>
+			<segment>pageTitle=^Checkout</segment>
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
@@ -78,16 +78,12 @@
 		<max_time_generation>0.615</max_time_generation>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
-		<min_bandwidth />
-		<max_bandwidth />
 		<entry_nb_actions>8</entry_nb_actions>
-		<entry_sum_visit_length>1621</entry_sum_visit_length>
+		<entry_sum_visit_length>1622</entry_sum_visit_length>
 		<entry_bounce_count>1</entry_bounce_count>
 		<exit_nb_visits>2</exit_nb_visits>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
 		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
-		<avg_bandwidth>0</avg_bandwidth>
-		<exit_rate>50%</exit_rate>
 	</reportTotal>
 </result>

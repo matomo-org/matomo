@@ -10,6 +10,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 
@@ -129,6 +130,8 @@ class Date
             $date = self::now();
         } elseif ($dateString == 'today') {
             $date = self::today();
+        } else if ($dateString == 'tomorrow') {
+            $date = self::tomorrow();
         } elseif ($dateString == 'yesterday') {
             $date = self::yesterday();
         } elseif ($dateString == 'yesterdaySameTime') {
@@ -558,6 +561,16 @@ class Date
     }
 
     /**
+     * Returns a date object set to tomorrow at midnight in UTC.
+     *
+     * @return \Piwik\Date
+     */
+    public static function tomorrow()
+    {
+        return new Date(strtotime('tomorrow'));
+    }
+
+    /**
      * Returns a date object set to yesterday at midnight in UTC.
      *
      * @return \Piwik\Date
@@ -708,9 +721,10 @@ class Date
      * The template should contain tags that will be replaced with localized date strings.
      *
      * @param string $template eg. `"MMM y"`
+     * @param bool   $ucfirst  whether the first letter should be upper-cased
      * @return string eg. `"Aug 2009"`
      */
-    public function getLocalized($template)
+    public function getLocalized($template, $ucfirst = true)
     {
         $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
 
@@ -727,6 +741,10 @@ class Date
             } else {
                 $out .= $token;
             }
+        }
+
+        if ($ucfirst) {
+          $out = Common::mb_strtoupper(Common::mb_substr($out, 0, 1)) . Common::mb_substr($out, 1);
         }
 
         return $out;
@@ -1052,7 +1070,12 @@ class Date
         return new Exception($message . ": $dateString");
     }
 
-    private static function getNowTimestamp()
+    /**
+     * For tests.
+     * @return int|null
+     * @ignore
+     */
+    public static function getNowTimestamp()
     {
         return isset(self::$now) ? self::$now : time();
     }

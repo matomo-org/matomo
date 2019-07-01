@@ -1,9 +1,40 @@
 {% set previousAction = false %}
-{% for action in actionDetails %}
+{% for actionGroup in actionGroups %}
+    {% if actionGroup.pageviewAction is not empty %}
+    {{ postEvent('Live.renderAction', actionGroup.pageviewAction, previousAction, visitInfo) }}
 
-    {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+    {% set previousAction = actionGroup.pageviewAction %}
+    {% endif %}
 
-{% set previousAction = action %}
+    {% if actionGroup.actionsOnPage is not empty or actionGroup.refreshActions is not empty %}
+    {% if actionGroup.pageviewAction is not empty %}
+    <li class="pageviewActions" data-view-count="{{ actionGroup.refreshActions|length + 1 }}" data-actions-on-page="{{ actionGroup.actionsOnPage|length }}">
+        <ol class="actionList">
+    {% endif %}
+        {% for action in actionGroup.refreshActions %}
+
+            {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+
+            {% set previousAction = action %}
+        {% endfor %}
+        <li class="refresh-divider"></li>
+        {% for action in actionGroup.actionsOnPage %}
+
+            {{ postEvent('Live.renderAction', action, previousAction, visitInfo) }}
+
+        {% set previousAction = action %}
+        {% endfor %}
+    {% if actionGroup.pageviewAction is not empty %}
+        <li class="actionsForPageExpander expanded" style="display:none;">
+            <span>
+                <a class="show-more-actions" href="javascript:" style="display:none;">Show <span class="show-actions-count"></span> more actions that occurred on this page...</a>
+                <a class="show-less-actions" href="javascript:">Show less actions...</a>
+            </span>
+        </li>
+        </ol>
+    </li>
+    {% endif %}
+    {% endif %}
 {% endfor %}
 
 {% if visitInfo.truncatedActionsCount is defined %}

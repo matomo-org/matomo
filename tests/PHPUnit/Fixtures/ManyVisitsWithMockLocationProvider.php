@@ -139,6 +139,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $visitDate = Date::factory($this->dateTime);
 
             $t->setNewVisitorId();
+            $t->setUserId('user' . $visitorCounter);
             $t->setIp("156.5.3.$visitorCounter");
 
             $t->setUserAgent($userAgents[$visitorCounter]);
@@ -193,6 +194,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $cat = $i % 5;
 
             $t->setNewVisitorId();
+            $t->setUserId('user' . ($i + 10000));
             $t->setIp("155.5.4.$i");
             $t->setEcommerceView("id_book$i",  "Book$i", "Books Cat #$cat", 7.50);
             self::checkResponse($t->doTrackPageView('bought book'));
@@ -212,6 +214,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         } else if ($actionType == 'outlink') {
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
+        }
+
+        // Add a site search to some visits
+        if (in_array($actionType, array('download', 'outlink'))) {
+            self::checkResponse($t->doTrackSiteSearch(is_null($actionNum) ? "keyword" : "keyword$actionNum"));
         }
     }
 

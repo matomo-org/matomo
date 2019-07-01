@@ -14,11 +14,13 @@
         "ExceptionInvalidEmail": "Emaili aadress ei ole õiges formaadis.",
         "ExceptionUserDoesNotExist": "Kasutaja '%s' puudub.",
         "ExcludeVisitsViaCookie": "Arva ennast külastajate hulgast välja kasutades küpsist",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Kui soovid salasõna vahetada, siis sisesta siia uus. Vastasel korral jäta tühjaks.",
+        "LastSeen": "Viimati nähtud",
         "ManageAccess": "Halda ligipääsu",
         "MenuAnonymousUserSettings": "Tundmatu kasutaja seaded",
         "MenuUsers": "Kasutajaid",
         "MenuUserSettings": "Kasutaja seaded",
+        "MenuPersonal": "Isiklik",
+        "PersonalSettings": "Isiklikud seaded",
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Märkus: Sa ei saa antud sätteid muuta, kuna puuduvad veebilehed, millele oleks anonüümne ligipääs Matomo lubatud.",
         "NoUsersExist": "Hetkel puuduvad teised kasutajad.",
         "PrivAdmin": "Haldaja",
@@ -35,7 +37,6 @@
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
         "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta.",
         "YourVisitsAreNotIgnored": "%1$sMatomo ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust).",
-        "XtoYofN": "%1$s - %2$s \\\/ %3$s",
         "ShowAll": "Kuva kõik",
         "Username": "Kasutajanimi"
     }

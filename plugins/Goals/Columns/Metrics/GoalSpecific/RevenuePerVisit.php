@@ -28,7 +28,7 @@ class RevenuePerVisit extends GoalSpecificProcessedMetric
 {
     public function getName()
     {
-        return Goals::makeGoalColumn($this->idGoal, 'revenue_per_visit');
+        return Goals::makeGoalColumn($this->idGoal, 'revenue_per_visit', false);
     }
 
     public function getTranslatedName()

@@ -997,9 +997,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, sendRequests, queueRequest,
-    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
+    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
+    setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -4425,7 +4425,7 @@ if (typeof window.Piwik !== 'object') {
                             var index = i.replace('dimension', '');
                             customDimensionIdsAlreadyHandled.push(parseInt(index, 10));
                             customDimensionIdsAlreadyHandled.push(String(index));
-                            request += '&' + i + '=' + customData[i];
+                            request += '&' + i + '=' + encodeWrapper(customData[i]);
                             delete customData[i];
                         }
                     }
@@ -4441,7 +4441,7 @@ if (typeof window.Piwik !== 'object') {
                     if (Object.prototype.hasOwnProperty.call(customDimensions, i)) {
                         var isNotSetYet = (-1 === indexOfArray(customDimensionIdsAlreadyHandled, i));
                         if (isNotSetYet) {
-                            request += '&dimension' + i + '=' + customDimensions[i];
+                            request += '&dimension' + i + '=' + encodeWrapper(customDimensions[i]);
                         }
                     }
                 }
@@ -4526,8 +4526,7 @@ if (typeof window.Piwik !== 'object') {
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
                 if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
-                    var requestPing = getRequest('ping=1', null, 'ping');
-                    sendRequest(requestPing, configTrackerPause);
+                    trackerInstance.ping();
 
                     return true;
                 }
@@ -4986,7 +4985,9 @@ if (typeof window.Piwik !== 'object') {
 
                     // click on any non link element, or on a link element that has not an href attribute or on an anchor
                     var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
 
                     return request;
                 };
@@ -5262,12 +5263,6 @@ if (typeof window.Piwik !== 'object') {
                 // we need to remove the parameter and add it again if needed to make sure we have latest timestamp
                 // and visitorId (eg userId might be set etc)
                 link = removeUrlParameter(link, configVisitorIdUrlParameter);
-
-                if (link.indexOf('?') > 0) {
-                    link += '&';
-                } else {
-                    link += '?';
-                }
 
                 var crossDomainVisitorId = getCrossDomainVisitorId();
 
@@ -5656,29 +5651,32 @@ if (typeof window.Piwik !== 'object') {
                 return hookObj;
             }
 
+            /*</DEBUG>*/
+
             var requestQueue = {
+                enabled: true,
                 requests: [],
                 timeout: null,
                 sendRequests: function () {
                     var requestsToTrack = this.requests;
                     this.requests = [];
                     if (requestsToTrack.length === 1) {
-                        sendRequest(requestsToTrack[0]);
+                        sendRequest(requestsToTrack[0], configTrackerPause);
                     } else {
-                        sendBulkRequest(requestsToTrack);
+                        sendBulkRequest(requestsToTrack, configTrackerPause);
                     }
                 },
                 push: function (requestUrl) {
                     if (!requestUrl) {
                         return;
                     }
-                    if (isPageUnloading) {
+                    if (isPageUnloading || !this.enabled) {
                         // we don't queue as we need to ensure the request will be sent when the page is unloading...
-                        trackerInstance.trackRequest(requestUrl);
+                        sendRequest(requestUrl, configTrackerPause);
                         return;
                     }
 
-                    this.requests.push(requestUrl);
+                    requestQueue.requests.push(requestUrl);
 
                     if (this.timeout) {
                         clearTimeout(this.timeout);
@@ -5706,9 +5704,6 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
             };
-
-            /*</DEBUG>*/
-
             /************************************************************
              * Constructor
              ************************************************************/
@@ -5800,6 +5795,12 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
+            };
+            this.getRequestQueue = function () {
+                return requestQueue;
+            };
+            this.unsetPageIsUnloading = function () {
+                isPageUnloading = false;
             };
             this.hasConsent = function () {
                 return configHasConsent;
@@ -7124,7 +7125,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequest(contentInteraction, contentName, contentPiece, contentTarget);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7149,7 +7152,9 @@ if (typeof window.Piwik !== 'object') {
 
                 trackCallback(function () {
                     var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                    sendRequest(request, configTrackerPause);
+                    if (request) {
+                        sendRequest(request, configTrackerPause);
+                    }
                 });
             };
 
@@ -7194,6 +7199,7 @@ if (typeof window.Piwik !== 'object') {
              * @param mixed customData
              */
             this.trackSiteSearch = function (keyword, category, resultsCount, customData) {
+                trackedContentImpressions = [];
                 trackCallback(function () {
                     logSiteSearch(keyword, category, resultsCount, customData);
                 });
@@ -7243,6 +7249,19 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 customVariablesPage[4] = ['_pkn', name];
+            };
+
+            /**
+             * Returns the list of ecommerce items that will be sent when a cart update or order is tracked.
+             * The returned value is read-only, modifications will not change what will be tracked. Use
+             * addEcommerceItem/removeEcommerceItem/clearEcommerceCart to modify what items will be tracked.
+             *
+             * Note: the cart will be cleared after an order.
+             *
+             * @returns array
+             */
+            this.getEcommerceItems = function () {
+                return JSON.parse(JSON.stringify(ecommerceItems));
             };
 
             /**
@@ -7332,6 +7351,24 @@ if (typeof window.Piwik !== 'object') {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
                 });
+            };
+
+            /**
+             * Sends a ping request.
+             *
+             * Ping requests do not track new actions. If they are sent within the standard visit length, they will
+             * extend the existing visit and the current last action for the visit. If after the standard visit
+             * length, ping requests will create a new visit using the last action in the last known visit.
+             */
+            this.ping = function () {
+                this.trackRequest('ping=1', null, null, 'ping');
+            };
+
+            /**
+             * Disables sending requests queued
+             */
+            this.disableQueueRequest = function () {
+                requestQueue.enabled = false;
             };
 
             /**

@@ -72,6 +72,20 @@ class FilterLimitTest extends BaseUnitTest
         $this->assertOrder(array('pos1', 'pos2', 'neg1', 'pos3', 'neg2', 'neg3', 'pos4', 'pos5', 'neg4', 'neg5'));
     }
 
+    public function testShouldReturnAllRowsIfNoLimitIsSet()
+    {
+        $this->applyLimit($limitIncreaser = -1, $limitDecreaser = -1);
+
+        $this->assertOrder(array('pos1', 'pos2', 'neg1', 'pos3', 'neg2', 'neg3', 'pos4', 'pos5', 'neg4', 'neg5'));
+    }
+
+    public function testShouldReturnAllRowsIfNoLimitIsSetOnlyIncreaser()
+    {
+        $this->applyLimit($limitIncreaser = -1, $limitDecreaser = 2);
+
+        $this->assertOrder(array('pos1', 'pos2', 'neg1', 'pos3', 'neg2', 'pos4', 'pos5'));
+    }
+
     private function applyLimit($limitIncrease, $limitDecrease)
     {
         $filter = new Limit($this->table, 'growth', $limitIncrease, $limitDecrease);

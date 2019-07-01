@@ -43,7 +43,7 @@
             <br/><br/>
             {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
             <br/><br/>
-            {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/javascript-tracking/">','</a>')|raw }}
+            {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer noopener" target="_blank" href="https://developer.matomo.org/guides/tracking-javascript-guide">','</a>')|raw }}
         </p>
 
         <div piwik-field uicontrol="site" name="js-tracker-website"
@@ -67,7 +67,7 @@
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  data-disabled="jsTrackingCode.isLoading"
                  introduction="{{ 'General_Options'|translate|e('html_attr') }}"
-                 title="{{ ('CoreAdminHome_JSTracking_MergeSubdomains'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
+                 data-title="{{ ('CoreAdminHome_JSTracking_MergeSubdomains'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllSubdomainsInlineHelp">
             </div>
 
@@ -80,7 +80,7 @@
                  ng-model="jsTrackingCode.groupByDomain"
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  data-disabled="jsTrackingCode.isLoading"
-                 title="{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate|e('html_attr') }}"
+                 data-title="{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate|e('html_attr') }}"
                  value="" inline-help="#jsTrackGroupByDomainInlineHelp">
             </div>
 
@@ -93,7 +93,7 @@
                  ng-model="jsTrackingCode.trackAllAliases"
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  data-disabled="jsTrackingCode.isLoading"
-                 title="{{ ('CoreAdminHome_JSTracking_MergeAliases'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
+                 data-title="{{ ('CoreAdminHome_JSTracking_MergeAliases'|translate ~ " <span class='current-site-name'></span>")|e('html_attr') }}"
                  value="" inline-help="#jsTrackAllAliasesInlineHelp">
             </div>
 
@@ -101,7 +101,7 @@
                  ng-model="jsTrackingCode.trackNoScript"
                  ng-change="jsTrackingCode.updateTrackingCode()"
                  data-disabled="jsTrackingCode.isLoading"
-                 title="{{ 'CoreAdminHome_JSTracking_TrackNoScript'|translate|e('html_attr') }}"
+                 data-title="{{ 'CoreAdminHome_JSTracking_TrackNoScript'|translate|e('html_attr') }}"
                  value="" inline-help="">
             </div>
 
@@ -123,7 +123,7 @@
                      ng-model="jsTrackingCode.trackCustomVars"
                      ng-change="jsTrackingCode.updateTrackingCode()"
                      data-disabled="jsTrackingCode.isLoading"
-                     title="{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate|e('html_attr') }}"
+                     data-title="{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate|e('html_attr') }}"
                      value="" inline-help="{{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate|e('html_attr') }}">
                 </div>
 
@@ -170,7 +170,7 @@
                      ng-model="jsTrackingCode.crossDomain"
                      ng-change="jsTrackingCode.updateTrackingCode();jsTrackingCode.onCrossDomainToggle();"
                      data-disabled="jsTrackingCode.isLoading || !jsTrackingCode.hasManySiteUrls"
-                     title="{{ 'CoreAdminHome_JSTracking_EnableCrossDomainLinking'|translate|e('html_attr') }}"
+                     data-title="{{ 'CoreAdminHome_JSTracking_EnableCrossDomainLinking'|translate|e('html_attr') }}"
                      value="" inline-help="#jsCrossDomain">
                 </div>
 
@@ -187,7 +187,7 @@
                      ng-model="jsTrackingCode.doNotTrack"
                      ng-change="jsTrackingCode.updateTrackingCode() "
                      data-disabled="jsTrackingCode.isLoading"
-                     title="{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate|e('html_attr') }}"
+                     data-title="{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate|e('html_attr') }}"
                      value="" inline-help="#jsDoNotTrackInlineHelp">
                 </div>
 
@@ -196,7 +196,7 @@
                      ng-model="jsTrackingCode.disableCookies"
                      data-disabled="jsTrackingCode.isLoading"
                      ng-change="jsTrackingCode.updateTrackingCode()"
-                     title="{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate|e('html_attr') }}"
+                     data-title="{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate|e('html_attr') }}"
                      value="" inline-help="{{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate|e('html_attr') }}">
                 </div>
 
@@ -209,7 +209,7 @@
                      ng-model="jsTrackingCode.useCustomCampaignParams"
                      data-disabled="jsTrackingCode.isLoading"
                      ng-change="jsTrackingCode.updateTrackingCode()"
-                     title="{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate|e('html_attr') }}"
+                     data-title="{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate|e('html_attr') }}"
                      value="" inline-help="#jsTrackCampaignParamsInlineHelp">
                 </div>
 
@@ -220,7 +220,7 @@
                                  ng-model="jsTrackingCode.customCampaignName"
                                  ng-change="jsTrackingCode.updateTrackingCode()"
                                  data-disabled="jsTrackingCode.isLoading"
-                                 title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate|e('html_attr') }}"
+                                 data-title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate|e('html_attr') }}"
                                  value="">
                             </div>
                         </div>
@@ -231,7 +231,7 @@
                                  ng-model="jsTrackingCode.customCampaignKeyword"
                                  ng-change="jsTrackingCode.updateTrackingCode()"
                                  data-disabled="jsTrackingCode.isLoading"
-                                 title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate|e('html_attr') }}"
+                                 data-title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate|e('html_attr') }}"
                                  value="">
                             </div>
                         </div>
@@ -282,7 +282,7 @@
              ng-change="imageTrackingCode.updateTrackingCode()"
              data-disabled="imageTrackingCode.isLoading"
              introduction="{{ 'General_Options'|translate|e('html_attr') }}"
-             title="{{ 'Actions_ColumnPageName'|translate|e('html_attr') }}"
+             data-title="{{ 'Actions_ColumnPageName'|translate|e('html_attr') }}"
              value="">
         </div>
 
@@ -291,7 +291,7 @@
              ng-model="imageTrackingCode.trackGoal"
              ng-change="imageTrackingCode.updateTrackingCode()"
              data-disabled="imageTrackingCode.isLoading"
-             title="{{ 'CoreAdminHome_TrackAGoal'|translate|e('html_attr') }}"
+             data-title="{{ 'CoreAdminHome_TrackAGoal'|translate|e('html_attr') }}"
              value="">
         </div>
 
@@ -314,7 +314,7 @@
                          ng-change="imageTrackingCode.updateTrackingCode()"
                          data-disabled="imageTrackingCode.isLoading"
                          full-width="true"
-                         title="{{ 'CoreAdminHome_WithOptionalRevenue'|translate|e('html_attr') }} <span class='site-currency'></span>"
+                         data-title="{{ 'CoreAdminHome_WithOptionalRevenue'|translate|e('html_attr') }} <span class='site-currency'></span>"
                          value="">
                     </div>
                 </div>

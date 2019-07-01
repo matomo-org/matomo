@@ -3,7 +3,7 @@
         "AggregateReportsFormat": "Görüntüleme seçenekleri",
         "AggregateReportsFormat_GraphsOnly": "Yalnız Çizelgeler Görüntülensin (tablolar görüntülenmesin)",
         "AggregateReportsFormat_TablesAndGraphs": "Tüm raporlar için rapor tabloları ve çizelgeleri görüntülensin",
-        "AggregateReportsFormat_TablesOnly": "(varsayılan) Rapor tabloları görüntülensin (çizelgeler yalnız anahtar ölçüler için)",
+        "AggregateReportsFormat_TablesOnly": "(varsayılan) Rapor tabloları görüntülensin (Yalnız anahtar ölçümler için çizelgeler)",
         "AlsoSendReportToTheseEmails": "Rapor şu adreslere de gönderilsin (e-posta adreslerini ayrı satırlara yazın):",
         "AreYouSureDeleteReport": "Bu raporu ve zamanlamasını silmek istediğinize emin misiniz?",
         "CancelAndReturnToReports": "İptal edip %1$srapor listesine geri dön%2$s",
@@ -42,7 +42,7 @@
         "SendReportTo": "Raporu şuraya gönder",
         "SentToMe": "Bana gönder",
         "TableOfContent": "Rapor listesi",
-        "ThereIsNoReportToManage": "%s web sitesinde herhangi bir rapor yok",
+        "ThereIsNoReportToManage": "%s web sitesinde henüz bir rapor yok",
         "TopLinkTooltip": "Matomo istatistiklerini otomatik olarak e-posta ile almak ya da müşterilerinize iletmek için e-posta raporları oluşturun!",
         "TopOfReport": "Başa dön",
         "UpdateReport": "Raporu Güncelle",
@@ -55,6 +55,9 @@
         "NoTokenProvided": "Adreste bir kod belirtilmemiş",
         "NoSubscriptionFound": "Herhangi bir abonelik bulunamadı. Rapor aboneliğinden daha önce ayrılmış olabilirsiniz ya da rapor silinmiş olabilir.",
         "EvolutionGraphsShowForEachInPeriod": "Gelişim çizelgesi son %3$s gündeki gelişimi %1$sgünlük%2$s olarak görüntüler",
-        "EvolutionGraphsShowForPreviousN": "Gelişme çizelgeleri önceki N %s içindeki gelişmeyi görüntüler"
+        "EvolutionGraphsShowForPreviousN": "Gelişme çizelgeleri önceki N %s içindeki gelişmeyi görüntüler",
+        "ReportPeriod": "Raporlama Aralığı",
+        "ReportPeriodHelp": "Bu raporun kapsadığı verilerin zaman aralığı. Varsayılan olarak e-posta zamanlaması ile aynıdır. Yani bir rapor haftalık olarak gönderiliyorsa son haftanın verilerini kapsar.",
+        "ReportPeriodHelp2": "Bununla birlikte, e-posta zamanlamasını aynı tutarken farklı bilgiler görüntülenmesini istiyorsanız bu aralığı değiştirebilirsiniz. Örneğin e-posta sıklığı haftalık iken rapor aralığı 'gün' ise, her hafta son günün raporu gönderilir."
     }
 }

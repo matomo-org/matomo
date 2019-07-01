@@ -44,12 +44,12 @@ class WidgetsListTest extends IntegrationTestCase
             'General_Actions' => 22,
             'General_Generic' => 1,
             'General_Visitors' => 31,
-            'SEO' => 2,
+            'SEO' => 1,
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 10,
-            'About Matomo' => 11,
+            'About Matomo' => 12,
         );
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
@@ -135,17 +135,18 @@ class WidgetsListTest extends IntegrationTestCase
         $this->assertCount(11, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
-        $this->assertCount(2, $perCategory['SEO']);
+        $this->assertCount(1, $perCategory['SEO']);
 
         $list->remove('SEO', 'SEO_SeoRankings');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(1, $perCategory['SEO']);
+        $this->assertArrayNotHasKey('SEO', $perCategory);
+        $this->assertArrayHasKey('About Matomo', $perCategory);
 
-        $list->remove('SEO');
+        $list->remove('About Matomo');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertArrayNotHasKey('SEO', $perCategory);
+        $this->assertArrayNotHasKey('About Matomo', $perCategory);
     }
 
     public function testIsDefined()

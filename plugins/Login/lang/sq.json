@@ -24,7 +24,7 @@
         "CurrentlyBlockedIPs": "IP të bllokuara hëpërhë",
         "IPsAlwaysBlocked": "Këto IP janë përherë të bllokuara",
         "UnblockAllIPs": "Zhblloko krejt IP-të e tanishme të bllokuara",
-        "CurrentlyBlockedIPsUnblockInfo": "Mundeni të zhbllokoni IP që tani janë të bllokuara, që kështu të mund të bëhet sërish hyrje prej tyre, në rast se janë bllokuar gabimisht dhe lypset të jenë sërish në gjendje të bëjnë hyrjen.",
+        "CurrentlyBlockedIPsUnblockInfo": "Mundeni të zhbllokoni IP që tani janë të bllokuara, që kështu të mund të bëhet sërish hyrje prej tyre, në rast se janë bllokuar gabimisht dhe lypset të jetë e mundur të bëhet hyrje që prej tyre.",
         "CurrentlyBlockedIPsUnblockConfirm": "Jeni i sigurt se doni të zhbllokohen krejt IP e tanishme të bllokuara?",
         "LoginPasswordNotCorrect": "Ndërthurje e gabuar Emri përdoruesi dhe fjalëkalimi.",
         "LostYourPassword": "Humbët fjalëkalimin tuaj?",

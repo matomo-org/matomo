@@ -69,7 +69,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -82,7 +82,7 @@
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
@@ -98,7 +98,7 @@
 				<nb_actions_per_visit>5</nb_actions_per_visit>
 				<avg_time_on_site>00:15:01</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
@@ -111,7 +111,7 @@
 				<nb_actions_per_visit>5</nb_actions_per_visit>
 				<avg_time_on_site>00:15:01</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 	</reportData>
@@ -153,13 +153,10 @@
 		<nb_visits>4</nb_visits>
 		<nb_actions>12</nb_actions>
 		<nb_users>0</nb_users>
-		<max_actions>12</max_actions>
+		<max_actions>5</max_actions>
 		<sum_visit_length>1802</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<conversion_rate>0</conversion_rate>
 		<nb_actions_per_visit>12</nb_actions_per_visit>
-		<avg_time_on_site>1802</avg_time_on_site>
-		<bounce_rate>200</bounce_rate>
 	</reportTotal>
 </result>

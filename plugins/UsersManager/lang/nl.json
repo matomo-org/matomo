@@ -43,7 +43,6 @@
         "GiveViewAccess": "Geef kijkrechten voor %1$s",
         "GiveViewAccessTitle": "Geef een bestaande gebruiker toegang om de rapporten voor %s in te zien.",
         "GiveViewAccessInstructions": "Om een bestaande gebruiker kijk rechten voor %s , voer de gebruikersnaam of het email adres van de gebruiker in",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Als u het wachtwoord wilt wijzigen, geef dan een nieuwe op. Laat het anders leeg.",
         "InjectedHostCannotChangePwd": "U bezoekt momenteel met een onbekende host (%1$s). U kunt uw wachtwoord niet wijzigen totdat dit probleem is opgelost.",
         "LastSeen": "Laatst gezien",
         "ManageAccess": "Toegang beheren",
@@ -73,11 +72,9 @@
         "UserHasNoPermission": "%1$s heeft momenteel %2$s tot %3$s",
         "UsersManagement": "Gebruikersbeheer",
         "UsersManagementMainDescription": "Creëer nieuwe of actualiseer bestaande gebruikers",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wanneer gebruikers niet ingelogd zijn en Matomo bezoeken, moeten ze toegang krijgen",
         "YourUsernameCannotBeChanged": "Je gebruikersnaam kan niet worden gewijzigd.",
         "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden door Matomo op %2$s genegeerd %3$s (Matomo-negeercookie is in uw browser gevonden).",
         "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Matomo genegeerd%2$s (Matomo-negeercookie is niet in uw browser gevonden).",
-        "XtoYofN": "%1$s - %2$s van %3$s",
         "ShowAll": "Alles tonen",
         "Username": "Gebruikersnaam"
     }

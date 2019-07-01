@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
@@ -35,6 +36,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'idVisit'             => $this->getIdVisit(),
             'visitIp'             => $this->getIp(),
             'visitorId'           => $this->getVisitorId(),
+            'fingerprint'         => $this->getFingerprint(),
 
             // => false are placeholders to be filled in API later
             'actionDetails'       => false,
@@ -88,7 +90,11 @@ class VisitorDetails extends VisitorDetailsAbstract
             return;
         }
 
+        $sitesModel = new \Piwik\Plugins\SitesManager\Model();
+
         $view                 = new View($template);
+        $view->mainUrl        = trim(Site::getMainUrlFor($this->getIdSite()));
+        $view->additionalUrls = $sitesModel->getAliasSiteUrlsFromId($this->getIdSite());
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
@@ -150,7 +156,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     function getIdSite()
     {
-        return $this->details['idsite'];
+        return isset($this->details['idsite']) ? $this->details['idsite'] : Common::getRequestVar('idSite');
+    }
+
+    function getFingerprint()
+    {
+        if (isset($this->details['config_id'])) {
+            return bin2hex($this->details['config_id']);
+        }
+        return false;
     }
 
     function getTimestampLastAction()

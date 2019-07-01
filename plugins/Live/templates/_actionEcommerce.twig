@@ -2,7 +2,7 @@
     title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
     <div>
         {# Ecommerce Abandoned Cart / Ecommerce Order #}
-        <img src="{{ action.icon }}" class="action-list-action-icon"/>
+        <img src="{{ action.iconSVG|default(action.icon) }}" class="action-list-action-icon"/>
         {% if action.type == 'ecommerceOrder' %}
             <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
             <span style='color:#666;'>({{ action.orderId }})</span>
@@ -12,7 +12,7 @@
             {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
         {% endif %}
         <p>
-            <span {% if not isWidget %}style='margin-left:22px;'{% endif %}>
+            <span>
                 {% if action.type == 'ecommerceOrder' %}
                 {# spacing is important for tooltip to look nice #}
                 {% set ecommerceOrderTooltip %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(visitInfo.idSite)|raw }}
@@ -36,12 +36,11 @@
 
                 {# Ecommerce items in Cart/Order #}
                 {% if action.itemDetails is not empty %}
-                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px;'>
+                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}22{% endif %}px;margin-bottom: 4px;'>
                         {% for product in action.itemDetails %}
                             <li>
-                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
-                                {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
-                                ,
+                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif -%}
+                                {%- if product.categories is defined and product.categories is not empty %} ({% for category in product.categories %}{{ category }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %},
                                 {{ 'General_Quantity'|translate }}: {{ product.quantity }},
                                 {{ 'General_Price'|translate }}: {{ product.price|money(visitInfo.idSite)|raw }}
                             </li>

@@ -1,189 +1,220 @@
 /* Most of the code here can be removed once we switch to Bootstrap */
 body {
-	font-family: Verdana, sans-serif;
-	color: #212121;
+  font-family: Verdana, sans-serif;
+  color: #212121;
 }
-body#simple  {
-    background: #fff;
-    margin: 0;
+
+body#simple {
+  background: #fff;
+  margin: 0;
 }
+
 #simple .logo {
-    color: #888;
-    text-align: center;
-    font-size: 12px;
-    background-color: #3450A3 !important;
-    padding: 15px 0;
+  color: #888;
+  text-align: center;
+  font-size: 12px;
+  background-color: #3450a3 !important;
+  padding: 15px 0;
 }
-#simple .logo a {
-	color: #888;
-	text-decoration: none;
-}
+
 #simple .box {
-    border-radius: 2px;
-    border: solid 1px #ccc;
-    max-width: 780px;
-    margin: 30px auto 60px auto;
-    overflow: hidden;
-    box-shadow: 0 1px 6px 0 #ccc;
+  border-radius: 2px;
+  border: solid 1px #ccc;
+  max-width: 780px;
+  margin: 30px auto 60px auto;
+  overflow: hidden;
+  box-shadow: 0 1px 6px 0 #ccc;
 }
 
 #simple .box .header {
-    background-color: #eff0f1;
-	padding: 40px 80px;
-    text-align: center;
+  background-color: #eff0f1;
+  padding: 40px 80px;
+  text-align: center;
 }
+
 #simple .box .header h1 {
-	font-size: 30px;
-	font-weight: normal;
-	margin: 0;
+  font-size: 30px;
+  font-weight: normal;
+  margin: 0;
 }
+
 #simple .box .header p {
-	font-size: 13px;
-	margin-top: 10px;
-	padding: 0;
+  font-size: 13px;
+  margin-top: 10px;
+  padding: 0;
 }
 
 #simple .box .content {
-	margin: 1em 2em;
-	text-align: center;
-	padding: 30px 50px;
-	font-size: 14px;
+  margin: 1em 2em;
+  text-align: center;
+  padding: 30px 50px;
+  font-size: 14px;
 }
+
 #simple .box .content.text-left {
-	text-align: left;
+  text-align: left;
 }
+
 #simple .box .content ul {
-	text-align: left;
-	list-style: disc;
-	width: 60%;
-	margin: 0 auto;
+  text-align: left;
+  list-style: disc;
+  width: 60%;
+  margin: 0 auto;
 }
+
 #simple .box .content.text-left ul {
-	width: 100%;
+  width: 100%;
 }
+
 #simple .box .content form {
-    margin: 10px 0;
-    min-height: 0;
+  margin: 10px 0;
+  min-height: 0;
 }
+
 #simple .box .content .btn {
-	float: none;
-	margin: 0;
+  float: none;
+  margin: 0;
 }
+
 #simple .box .content h2 {
-	font-weight: normal;
-	font-size: 19px;
-	margin-bottom: 25px;
-	margin-top: 30px;
+  font-weight: normal;
+  font-size: 19px;
+  margin-bottom: 25px;
+  margin-top: 30px;
 }
+
 #simple .box .content h2:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 #simple .box .content blockquote {
-	word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 #simple .box .footer {
-    background-color: #eff0f1;
-    padding: 15px;
-    text-align: center;
+  background-color: #eff0f1;
+  padding: 15px;
+  text-align: center;
 }
+
 #simple .box .footer a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 /* Old style below */
 
 #contentsimple {
-	background: #fff;
-	color: #000;
-	font-family: Arial, Georgia, "Times New Roman", Times, serif;
-	padding: 1em 2em;
-	width:780px;
-	margin: 30px auto auto;
-    border-radius: 12px;
-    display: table; /* Contains floating children */
+  background: #fff;
+  color: #000;
+  font-family: Arial, Georgia, "Times New Roman", Times, serif;
+  padding: 1em 2em;
+  width: 780px;
+  margin: 30px auto auto;
+  border-radius: 12px;
+  display: table; /* Contains floating children */
 }
+
 #h1 {
-	color: #006;
-	font-size: 45px;
-	font-weight: lighter;
+  color: #006;
+  font-size: 45px;
+  font-weight: lighter;
 }
+
 a {
-	color: #1976D2;
+  color: #1976d2;
 }
+
 #subh1 {
-	color: #444444;
-    font-size: 17pt;
-    margin-left: 15px;
-    vertical-align: bottom;
+  color: #444;
+  font-size: 17pt;
+  margin-left: 15px;
+  vertical-align: bottom;
 }
 
 #subh1 a {
-	color: #444;
-    text-decoration:none;
+  color: #444;
+  text-decoration: none;
 }
 
-#title img{
-	vertical-align:bottom;
+#title img {
+  vertical-align: bottom;
 }
+
 #title {
-	padding-bottom:15px;
-	border-bottom:1px solid #F0F0F0;
-	font:42px Georgia, serif;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  font: 42px Georgia, serif;
 }
-p, dt {
-	line-height: 1.5;
-	padding-bottom: 1em;
+
+p,
+ dt {
+  line-height: 1.5;
+  padding-bottom: 1em;
 }
 #logo { margin-bottom: 2em; }
+
 .submit {
-	font-size:18pt;
-	padding: 5px 7px 7px;
-	border: 1px solid #a3a3a3;
-	border-radius: 3px;
-	color: #246;
-	background: #e5e5e5;
-	text-decoration: none;
+  font-size: 18pt;
+  padding: 5px 7px 7px;
+  border: 1px solid #a3a3a3;
+  border-radius: 3px;
+  color: #246;
+  background: #e5e5e5;
+  text-decoration: none;
 }
+
 .submit:hover {
-	color: #d54e21;
-	border-color: #535353;
+  color: #d54e21;
+  border-color: #535353;
 }
+
 .success {
-	padding-bottom:15px;
-	color:#1F7F4A;
-	font-size:25pt;
+  padding-bottom: 15px;
+  color: #1f7f4a;
+  font-size: 25pt;
 }
+
 .warning {
-	font-size:130%;
-	font-weight:bold;
-	border: 1px solid #ff5502;
+  font-size: 130%;
+  font-weight: bold;
+  border: 1px solid #ff5502;
 }
-.warning, .warning a {
-	color:#ff5502;
+
+.warning,
+ .warning a {
+  color: #ff5502;
 }
+
 .error {
-	font-weight:bold;
-	font-size:130%;
-	border: 1px solid red;
-	padding:20px;
+  font-weight: bold;
+  font-size: 130%;
+  border: 1px solid red;
+  padding: 20px;
 }
-.error, .error a {
-	color:#f00;
+
+.error,
+ .error a {
+  color: #f00;
 }
-.error img, .success img, .warning img {
-	border:0;
-	vertical-align:bottom;
+
+.error img,
+ .success img,
+ .warning img {
+  border: 0;
+  vertical-align: bottom;
 }
-.warning, .error {
-    border-radius:4px;
-	padding:15px;
+
+.warning,
+ .error {
+  border-radius: 4px;
+  padding: 15px;
 }
+
 .warning.normalFontSize {
-	font-size: 100%;
-	padding: 10px;
+  font-size: 100%;
+  padding: 10px;
 }
+
 .indented-radio-button {
-  margin-left:20px;
+  margin-left: 20px;
 }

@@ -38,6 +38,7 @@
         init: function () {
             dataTablePrototype.init.call(this);
 
+            var self = this;
             initializeVisitorActions(this.$element);
 
             // launch visitor profile on visitor profile link click
@@ -45,6 +46,18 @@
                 e.preventDefault();
                 broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
                 return false;
+            });
+
+            this.$element.on('click', '.addSegmentToMatomo.dataTableAction', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var url = window.location.href;
+                url = broadcast.updateParamValue('addSegmentAsNew=' + decodeURIComponent(self.param.segment), url);
+                url = broadcast.updateParamValue('segment=', url);
+                url = broadcast.updateParamValue('popover=', url);
+
+                window.open(url, "_blank");
             });
         },
 

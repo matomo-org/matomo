@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
@@ -17,6 +18,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\Diagnostics\Diagnostics;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -89,6 +91,15 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // when browser archiving is enabled, the archiving process can be triggered for an API request.
+        // for non-day periods, this means the Archive class will be used for smaller periods to build the
+        // non-day period (eg, requesting a week period can result in archiving of day periods). in this case
+        // Archive can report there is no data for a day, triggering this event, but there may be data for other
+        // days in the week. in this case, we don't want to throw an exception.
+        if (PluginsArchiver::isArchivingProcessActive()) {
+            return null;
+        }
+
         // don't do check unless this is the root API request and it is an HTTP API request
         if (!Request::isCurrentApiRequestTheRootApiRequest()
             || !Request::isRootRequestApiRequest()
@@ -115,6 +126,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoData(View $dataTableView)
     {
+        // if the archiving hasn't run in a while notification is up, don't display this one
+        if (isset($dataTableView->notifications[Diagnostics::NO_DATA_ARCHIVING_NOT_RUN_NOTIFICATION_ID])) {
+            return;
+        }
+
         $segmentInfo = $this->getSegmentIfIsUnprocessed();
         if (empty($segmentInfo)) {
             return;

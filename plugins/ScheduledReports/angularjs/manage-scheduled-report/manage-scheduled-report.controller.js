@@ -65,6 +65,7 @@
                 'reports': [],
                 'evolutionPeriodFor': 'prev',
                 'evolutionPeriodN': ReportPlugin.defaultEvolutionPeriodN,
+                'periodParam': ReportPlugin.defaultPeriod,
             };
 
             if (idReport > 0) {
@@ -79,12 +80,14 @@
             report.hour = adjustHourToTimezone(report.hour, getTimeZoneDifferenceInHours());
             updateReportHourUtc(report);
 
-            $('[name=reportsList] input').prop('checked', false);
+            setTimeout(function() {
+              $('[name=reportsList] input').prop('checked', false);
 
-            var key;
-            for (key in report.reports) {
-                $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
-            }
+              var key;
+              for (key in report.reports) {
+                  $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
+              }
+            });
 
             report['format' + report.type] = report.format;
 
@@ -137,6 +140,7 @@
             apiParameters.idSegment = this.report.idsegment;
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
+            apiParameters.periodParam = this.report.periodParam;
             apiParameters.evolutionPeriodFor = this.report.evolutionPeriodFor;
             if (apiParameters.evolutionPeriodFor !== 'each') {
                 apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
@@ -173,6 +177,10 @@
 
         this.changedReportType = function () {
             resetParameters(this.report.type, this.report);
+        };
+
+        this.displayReport = function (reportId) {
+            $('#downloadReportForm_' + reportId).submit();
         };
 
         // Email now
@@ -225,6 +233,10 @@
         };
 
         this.getFrequencyPeriodSingle = function () {
+            if (!this.report || !this.report.period) {
+                return '';
+            }
+
             var translation = ReportPlugin.periodTranslations[this.report.period];
             if (!translation) {
                 translation = ReportPlugin.periodTranslations.day;
@@ -232,6 +244,10 @@
             return translation.single;
         };
         this.getFrequencyPeriodPlural = function () {
+            if (!this.report || !this.report.period) {
+                return '';
+            }
+
             var translation = ReportPlugin.periodTranslations[this.report.period];
             if (!translation) {
                 translation = ReportPlugin.periodTranslations.day;

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\GeoIp2\LocationProvider;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -22,8 +23,6 @@ abstract class GeoIp2 extends LocationProvider
     const GEO_LITE_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz';
     const TEST_IP = '194.57.91.215';
     const SWITCH_TO_ISO_REGIONS_OPTION_NAME = 'usercountry.switchtoisoregions';
-
-    public static $geoIPDatabaseDir = 'misc';
 
     /**
      * Cached region name array. Data is from geoipregionvars.php.
@@ -125,7 +124,11 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static function getPathForGeoIpDatabase($filename)
     {
-        return PIWIK_INCLUDE_PATH . '/' . self::$geoIPDatabaseDir . '/' . $filename;
+        if (strpos($filename, '/') !== false && file_exists($filename)) {
+            return $filename;
+        }
+
+        return StaticContainer::get('path.geoip2') . $filename;
     }
 
     /**

@@ -5,6 +5,7 @@
 		<idVisit>5</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>ecommerceOrder</type>
@@ -16,6 +17,7 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -23,11 +25,15 @@
 						<itemCategory>Tools</itemCategory>
 						<price>100</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Tools</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (666)</title>
-				<subtitle>$ 240 revenue - 2 items: TRIPOD - bought day after)</subtitle>
+				<subtitle>$240 revenue - 2 items: TRIPOD - bought day after)</subtitle>
 				
 			</row>
 			<row>
@@ -40,11 +46,13 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>0</items>
 				
+				
 				<itemDetails>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (777)</title>
-				<subtitle>$ 10000 revenue - 0 items: )</subtitle>
+				<subtitle>$10,000 revenue - 0 items: )</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -66,10 +74,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>363</visitDuration>
@@ -162,6 +170,7 @@
 		<idVisit>4</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
+		<fingerprint>c7eabd04b45e68b3</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -178,6 +187,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -214,6 +224,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -250,6 +261,7 @@
 				<title>View product left in cart</title>
 				<subtitle>http://example.org/index.htm</subtitle>
 				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<customVariables>
 					<row>
@@ -262,7 +274,7 @@
 					</row>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
-						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
+						<customVariablePageValue5>[&quot;Category TWO LEFT in cart&quot;,&quot;second category&quot;]</customVariablePageValue5>
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -272,6 +284,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -279,6 +292,9 @@
 						<itemCategory>Electronics &amp; Cameras</itemCategory>
 						<price>10</price>
 						<quantity>1</quantity>
+						<categories>
+						<row>Electronics &amp; Cameras</row>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
@@ -286,6 +302,8 @@
 						<itemCategory />
 						<price>500.11</price>
 						<quantity>1</quantity>
+						<categories>
+						</categories>
 					</row>
 					<row>
 						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
@@ -293,11 +311,16 @@
 						<itemCategory>Category TWO LEFT in cart</itemCategory>
 						<price>1000</price>
 						<quantity>2</quantity>
+						<categories>
+						<row>Category TWO LEFT in cart</row>
+						<row>second category</row>
+						</categories>
 					</row>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
+				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -319,10 +342,10 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.svg</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
 		<visitDuration>1081</visitDuration>
