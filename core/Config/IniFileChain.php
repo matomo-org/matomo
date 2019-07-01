@@ -34,6 +34,7 @@ use Piwik\Ini\IniWriter;
  */
 class IniFileChain
 {
+    const CONFIG_CACHE_KEY = 'config.ini.php';
     /**
      * Maps INI file names with their parsed contents. The order of the files signifies the order
      * in the chain. Files with lower index are overwritten/merged with files w/ a higher index.
@@ -208,6 +209,18 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
+        if (!empty($userSettingsFile) && !empty($GLOBALS['configPhpCache'])) {
+            $cache = new Cache();
+            $values = $cache->fetch(self::CONFIG_CACHE_KEY);
+            if (!empty($values)
+                && isset($values['mergedSettings'])
+                && isset($values['settingsChain'])) {
+                $this->mergedSettings = $values['mergedSettings'];
+                $this->settingsChain = $values['settingsChain'];
+                return;
+            }
+        }
+
         $reader = new IniReader();
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
@@ -226,6 +239,13 @@ class IniFileChain
         // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
         // on PHP 7+ as they would be always equal
         $this->mergedSettings = $this->copy($merged);
+
+        if (!empty($GLOBALS['configPhpCache']) && !empty($userSettingsFile) && !empty($this->mergedSettings) && !empty($this->settingsChain)) {
+            $ttlOneHour = 3600;
+            $cache = new Cache();
+            $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
+            $cache->save(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
+        }
     }
 
     private function copy($merged)
@@ -474,6 +494,11 @@ class IniFileChain
 
     private function dumpSettings($values, $header)
     {
+        if (!empty($GLOBALS['configPhpCache'])) {
+            $cache = new Cache();
+            $cache->flushAll();
+        }
+
         $values = $this->encodeValues($values);
 
         $writer = new IniWriter();
