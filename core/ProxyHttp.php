@@ -73,6 +73,11 @@ class ProxyHttp
             return;
         }
 
+        if (!is_readable($file)) {
+            Common::sendResponseCode(500);
+            return;
+        }
+
         $modifiedSince = Http::getModifiedSinceHeader();
 
         $fileModifiedTime = @filemtime($file);
