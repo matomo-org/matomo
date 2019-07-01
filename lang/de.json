@@ -568,7 +568,11 @@
         "VerifyLoginData": "Bitte überprüfen Sie, ob die Kombination aus Benutzername und Passwort korrekt ist.",
         "YouAreOffline": "Sie sind derzeit offline",
         "ExceptionNoViewAccess": "Bitte überprüfen Sie Ihren Benutzernamen und Passwort und stellen Sie sicher dass Sie mindestens auf eine Website %s Zugriff haben.",
-        "Mobile_HowtoExitAndroid": "Drücken Sie zum Verlassen erneut auf Zurück"
+        "Mobile_HowtoExitAndroid": "Drücken Sie zum Verlassen erneut auf Zurück",
+        "MatomoMarketplace": "Matomo Marketplace",
+        "EnterAuthCode": "Authentifizierungscode eingeben",
+        "EnterCorrectAuthCode": "Korrekten Authentifizierungscode eingeben",
+        "EnterAuthCodeExplanation": "Es sieht so aus, als ob Sie eine Zwei-Faktor-Authentisierung verwenden. Bitte geben Sie den sechsstelligen Code ein, um sich bei Ihrem Benutzerkonto anzumelden."
     },
     "RowEvolution": {
         "AvailableMetrics": "Verfügbare Metriken",
