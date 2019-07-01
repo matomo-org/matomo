@@ -123,9 +123,9 @@ class Tour extends \Piwik\Plugin
     public function changeDefaultDashboardLayout(&$defaultLayout)
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $defaultLayout = json_decode($defaultLayout);
+            $defaultLayout = json_decode($defaultLayout, true);
             $engagementWidget = array('uniqueId' => 'widgetTourgetEngagement', 'parameters' => array('module' => 'Tour', 'action' => 'getEngagement'));
-            if (isset($defaultLayout[2])) {
+            if (is_array($defaultLayout) && isset($defaultLayout[2]) && is_array($defaultLayout[2])) {
                 array_unshift($defaultLayout[2], $engagementWidget);
             }
             $defaultLayout = json_encode($defaultLayout);
