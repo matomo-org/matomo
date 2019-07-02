@@ -200,7 +200,7 @@
 
         this.initPatternType = function () {
             if (this.isMatchAttributeNumeric()) {
-                this.goal.patternType = '>';
+                this.goal.patternType = 'greater_than';
             } else {
                 this.goal.patternType = 'contains';
             }

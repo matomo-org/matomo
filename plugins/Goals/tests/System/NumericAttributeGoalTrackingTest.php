@@ -25,7 +25,7 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
         parent::beforeTableDataCached();
 
         $idSite = Fixture::createWebsite('2012-02-03 04:05:56');
-        API::getInstance()->addGoal($idSite, 'visit duration goal', 'visit_duration', 2, '>');
+        API::getInstance()->addGoal($idSite, 'visit duration goal', 'visit_duration', 2.5, 'greater_than');
     }
 
     public function test_trackingVisitDurationGoal()
@@ -36,15 +36,15 @@ class NumericAttributeGoalTrackingTest extends IntegrationTestCase
         Fixture::checkResponse($t->doTrackPageView('test page view'));
         $this->assertEquals(0, $this->getConversionCount($this->visitDurationIdGoal));
 
-        $t->setForceVisitDateTime('2013-02-03 04:01:00');
+        $t->setForceVisitDateTime('2013-02-03 04:02:00');
         Fixture::checkResponse($t->doTrackPageView('another page view'));
         $this->assertEquals(0, $this->getConversionCount($this->visitDurationIdGoal));
 
-        $t->setForceVisitDateTime('2013-02-03 04:02:00');
+        $t->setForceVisitDateTime('2013-02-03 04:02:29');
         Fixture::checkResponse($t->doTrackEvent('event category', 'blah', 'blah'));
         $this->assertEquals(0, $this->getConversionCount($this->visitDurationIdGoal));
 
-        $t->setForceVisitDateTime('2013-02-03 04:02:01');
+        $t->setForceVisitDateTime('2013-02-03 04:02:31');
         Fixture::checkResponse($t->doTrackEvent('event category', 'blah 2', 'blah 2'));
         $this->assertEquals(1, $this->getConversionCount($this->visitDurationIdGoal));
     }

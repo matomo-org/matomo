@@ -399,7 +399,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
         );
         $view->numericComparisonTypeOptions = [
-            ['key' => '>', 'value' => Piwik::translate('General_OperationGreaterThan')],
+            ['key' => 'greater_than', 'value' => Piwik::translate('General_OperationGreaterThan')],
         ];
     }
 

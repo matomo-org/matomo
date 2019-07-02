@@ -132,7 +132,7 @@ class Mysql implements SchemaInterface
                               `description` varchar(255) NOT NULL DEFAULT '',
                               `match_attribute` varchar(20) NOT NULL,
                               `pattern` varchar(255) NOT NULL,
-                              `pattern_type` varchar(10) NOT NULL,
+                              `pattern_type` varchar(25) NOT NULL,
                               `case_sensitive` tinyint(4) NOT NULL,
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,

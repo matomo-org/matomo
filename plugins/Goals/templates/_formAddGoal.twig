@@ -135,10 +135,9 @@
             </div>
         </div>
 
-
         <div piwik-field uicontrol="checkbox" name="case_sensitive"
              ng-model="manageGoals.goal.caseSensitive"
-             ng-show="manageGoals.goal.triggerType != 'manually'"
+             ng-show="manageGoals.goal.triggerType != 'manually' && !manageGoals.isMatchAttributeNumeric()"
              data-title="{{ 'Goals_CaseSensitive'|translate|e('html_attr') }} {{ 'Goals_Optional'|translate|e('html_attr') }}">
         </div>
 

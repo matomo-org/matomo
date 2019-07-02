@@ -223,12 +223,12 @@ class GoalManager
                 return null;
         }
 
-        $pattern = (int) $goal['pattern'];
+        $pattern = (float) $goal['pattern'];
 
         Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
 
         switch ($goal['pattern_type']) {
-            case '>':
+            case 'greater_than':
                 $matches = $valueToMatchAgainst > $pattern;
                 break;
             default:
