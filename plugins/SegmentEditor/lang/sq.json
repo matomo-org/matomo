@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Krijoni dhe ripërdorni Segmente vetjakë vizitorësh me Përpunuesin e Segmenteve.",
+        "PluginDescription": "Një segment është një grup kriteresh të përdorur për të përzgjedhur vetëm një pjesë të krejt grupit të vizitave. Duke përdorur segment e mund të injektoni kontekst arbitrar në raportet tuaja.",
         "AddANDorORCondition": "Shtoni kusht %s",
         "AddNewSegment": "Shtoni segment të ri",
         "AreYouSureDeleteSegment": "Jeni i sigurt se doni të fshihet ky segment?",

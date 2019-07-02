@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Skapa och återanvänd anpassade Besökssegment med Segmenteditorn.",
         "AddANDorORCondition": "Lägg till %s villkor",
         "AddNewSegment": "Lägg till nytt segment",
         "AreYouSureDeleteSegment": "Vill du verkligen radera detta segment?",

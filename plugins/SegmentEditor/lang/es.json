@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Cree y reutilize Segmentos de visitante personalizados con el Editor de Segmento.",
+        "PluginDescription": "Un segmento es un conjunto de criterios utilizados para seleccionar solo una parte del conjunto completo de visitas. Al usar segmentos, puede volver a insertar un contexto arbitrario en sus informes.",
         "AddANDorORCondition": "Agregar condición %s",
         "AddNewSegment": "Agregar nuevo segmento",
         "AreYouSureDeleteSegment": "¿Está seguro que desea eliminar este segmento?",

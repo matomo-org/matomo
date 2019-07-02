@@ -46,7 +46,6 @@
         "JSTracking_VisitorCustomVarsDesc": "Bijvoorbeeld met variabele naam \"Type\" en waarde \"Klant\"",
         "JSTracking_EndNote": "Opmerking: Na het installatie proces, kun je custom tracking code genereren in het %1$sTracking Code%2$s admin gedeelte.",
         "JSTrackingIntro2": "Wanneer je de JavaScript code voor je website hebt, kopieer en plak de code naar alle pagina's die je wilt volgen met Matomo",
-        "JSTrackingIntro3b": "In de meeste websites, blogs, CMS-en, etc kan je een plugin gebruiken die de technische integratie van Matomo uit handen nemen. (Zie daarvoor onze %1$slijst van plugins om Matomo%2$s code kan dan door het bewerken van je website template in de &lt;\/head&gt; tag, welke vaak in de 'header.php', 'header.tpl'of een soortgelijke bestandsnaam staat, toegevoegd worden.",
         "JSTrackingIntro4": "Indien je geen gebruik wilt maken van JavaScript om gebruikers te volgen, %1$skun je een afbeelding tracking link hieronder genereren.%2$s",
         "JSTrackingIntro5": "Indien je meer wilt bijhouden dan paginaweergaves, lees dan de %1$sMatomo Javascript Tracking documentatie%2$s voor de lijst van beschikbare functies. Via deze functies kun je doelen, eigen variabelen, ecommerce bestellingen, afgebroken bestellingen en meer.",
         "FileUploadDisabled": "Het uploaden van documenten is niet geactiveerd in je PHP configuratie. Om een aangepast logo up te loaden pas %s aan in php.ini en herstart de webserver.",

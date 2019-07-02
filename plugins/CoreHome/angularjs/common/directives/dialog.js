@@ -35,13 +35,25 @@
                                 scope.$eval(attrs.yes);
                                 setTimeout(function () { scope.$apply(); }, 0);
                             }
-                        }}, {
+                        }, no: function() {
+                                if (attrs.no) {
+                                    scope.$eval(attrs.no);
+                                    setTimeout(function () { scope.$apply(); }, 0);
+                                }
+                            }
+                        }, {
                             complete: function () {
                                 setTimeout(function () {
                                     scope.$apply($parse(attrs.piwikDialog).assign(scope, false));
                                 }, 0);
                             }
                         });
+                    } else if (newValue === false && oldValue === true) {
+                        // The user closed the dialog, e.g. by pressing Esc or clicking away from it
+                        if (attrs.close) {
+                            scope.$eval(attrs.close);
+                            setTimeout(function () { scope.$apply(); }, 0);
+                        }
                     }
                 });
             }

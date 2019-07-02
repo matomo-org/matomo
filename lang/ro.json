@@ -363,7 +363,7 @@
         "YourChangesHaveBeenSaved": "Schimbarile au fost salvate"
     },
     "Mobile": {
-        "AboutPiwikMobile": "Despre Matomo Mobil",
+        "AboutPiwikMobile": "Despre Matomo Mobile",
         "AccessUrlLabel": "URL Acces Matomo",
         "Account": "Cont",
         "Accounts": "Conturi",
@@ -431,7 +431,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "măsurători disponibile",
-        "CompareDocumentation": "Faceți clic pe link-ul de mai jos și deschide acest pop-up pentru un alt rând de la aceeași masă pentru a compara mai multe înregistrări. <br\/> Folosiți-shift clic pentru a marca rândul de comparație, fără a deschide acest pop-up.",
+        "CompareDocumentation": "Faceți clic pe link-ul de mai jos și deschideți acest pop-up pentru un alt rând de la același tabel pentru a compara mai multe înregistrări. <br\/> Folosiți-shift clic pentru a marca rândul pentru comparație, fără a deschide acest pop-up.",
         "CompareRows": "Compara inregistrari",
         "ComparingRecords": "Comparând %s rânduri",
         "Documentation": "Faceți clic pe metrici pentru a le afișa în Graficul de mare evoluție. Utilizați Shift-clic pentru a afișa mai multe valori dintr-o dată.",

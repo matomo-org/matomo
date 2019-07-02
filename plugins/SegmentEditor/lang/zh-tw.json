@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "使用區隔編輯器建立並重新使用自定訪客區隔。",
         "AddANDorORCondition": "增加【%s】條件",
         "AddNewSegment": "新增區隔",
         "AreYouSureDeleteSegment": "你確定要刪除這個區隔？",
