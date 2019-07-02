@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
+use Piwik\Url;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -209,9 +210,9 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
-        if (!empty($userSettingsFile) && !empty($GLOBALS['configPhpCache'])) {
+        if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
             $cache = new Cache();
-            $values = $cache->fetch(self::CONFIG_CACHE_KEY);
+            $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
             if (!empty($values)
                 && isset($values['mergedSettings'])
                 && isset($values['settingsChain'])) {
@@ -240,11 +241,18 @@ class IniFileChain
         // on PHP 7+ as they would be always equal
         $this->mergedSettings = $this->copy($merged);
 
-        if (!empty($GLOBALS['configPhpCache']) && !empty($userSettingsFile) && !empty($this->mergedSettings) && !empty($this->settingsChain)) {
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
+            && !empty($userSettingsFile)
+            && !empty($this->mergedSettings)
+            && !empty($this->settingsChain)) {
+
             $ttlOneHour = 3600;
             $cache = new Cache();
-            $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
-            $cache->save(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
+            if ($cache->isValidHost($this->mergedSettings)) {
+                // we make sure to save the config only if the host is valid...
+                $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
+                $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
+            }
         }
     }
 
@@ -494,9 +502,9 @@ class IniFileChain
 
     private function dumpSettings($values, $header)
     {
-        if (!empty($GLOBALS['configPhpCache'])) {
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
             $cache = new Cache();
-            $cache->flushAll();
+            $cache->doDelete(self::CONFIG_CACHE_KEY);
         }
 
         $values = $this->encodeValues($values);
