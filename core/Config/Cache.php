@@ -39,15 +39,14 @@ class Cache extends File
 
     public function isValidHost($mergedConfigSettings)
     {
-        $host = $this->getHost();
-        if (!$host) {
+        if (!$this->host) {
             return true;
         }
         if (!isset($mergedConfigSettings['General']['trusted_hosts']) || !is_array($mergedConfigSettings['General']['trusted_hosts'])) {
             return false;
         }
         // note: we do not support "enable_trusted_host_check" to keep things secure
-        return in_array($host, $mergedConfigSettings['General']['trusted_hosts'], true);
+        return in_array($this->host, $mergedConfigSettings['General']['trusted_hosts'], true);
     }
 
     private function getHost()
