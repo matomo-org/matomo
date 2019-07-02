@@ -128,6 +128,12 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         // track outlinks
         $this->trackActions($t, $visitorCounter, 'outlink', $userAgents, $resolutions);
 
+        // track events
+        $this->trackActions($t, $visitorCounter, 'event', $userAgents, $resolutions);
+
+        // track events
+        $this->trackActions($t, $visitorCounter, 'content', $userAgents, $resolutions);
+
         // track ecommerce product orders
         $this->trackOrders($t);
     }
@@ -201,7 +207,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         }
     }
 
-    private function trackAction($t, $actionType, $visitorCounter, $actionNum)
+    private function trackAction(\PiwikTracker $t, $actionType, $visitorCounter, $actionNum)
     {
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(
@@ -214,6 +220,14 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         } else if ($actionType == 'outlink') {
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
+        } else if ($actionType == 'event') {
+            self::checkResponse($t->doTrackEvent('event category ' . ($visitorCounter % 3), 'event action ' . ($visitorCounter % 4), 'event name' . ($visitorCounter % 5)));
+        } else if ($actionType == 'content') {
+            self::checkResponse($t->doTrackContentImpression('content name ' . $visitorCounter, 'content piece ' . $visitorCounter));
+
+            if ($visitorCounter % 2 == 0) {
+                self::checkResponse($t->doTrackContentInteraction('click', 'content name ' . $visitorCounter, 'content piece ' . $visitorCounter));
+            }
         }
 
         // Add a site search to some visits
