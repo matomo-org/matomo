@@ -62,7 +62,7 @@ class APITest extends IntegrationTestCase
     public function getTestDataForNumericMatchAttribute()
     {
         return [
-            ['visit_duration', '>', 2, false],
+            ['visit_duration', 'greater_than', 2, false],
             ['visit_duration', '>=', 2, true],
             ['visit_duration', 'exact', 2, true],
         ];
