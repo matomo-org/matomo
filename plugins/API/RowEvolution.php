@@ -55,6 +55,10 @@ class RowEvolution
 
         $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
 
+        if (empty($dataTable->getDataTables())) {
+            return array();
+        }
+
         if (empty($labels)) {
             $labels = $this->getLabelsFromDataTable($dataTable, $labels);
             $dataTable = $this->enrichRowAddMetadataLabelIndex($labels, $dataTable);
