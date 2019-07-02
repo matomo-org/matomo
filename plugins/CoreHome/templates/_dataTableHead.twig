@@ -13,6 +13,7 @@
                {% endif %}
                <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|rawSafeDecoded }}</div>
            </th>
+           {% if loop.first %}<th class="spacer"></th>{% endif %}
        {% endfor %}
    </tr>
 </thead>

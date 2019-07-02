@@ -41,6 +41,7 @@
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
                         <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
+                        {% if loop.first %}<td class="spacer"></td>{% endif %}
                         </td>
                     {% endfor %}
                 </tr>
