@@ -148,8 +148,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $t->setUserId('user' . $visitorCounter);
             $t->setIp("156.5.3.$visitorCounter");
 
-            $t->setUserAgent($userAgents[$visitorCounter]);
-            list($w, $h) = explode('x', $resolutions[$visitorCounter]);
+            $t->setUserAgent($userAgents[$visitorCounter % count($userAgents)]);
+            list($w, $h) = explode('x', $resolutions[$visitorCounter % count($resolutions)]);
             $t->setResolution((int)$w, (int)$h);
 
             // one visit to root url
