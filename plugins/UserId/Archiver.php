@@ -118,22 +118,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertDayReports()
     {
         /** @var DataTable $dataTable */
-        $dataTable = $this->arrays->asDataTable();
-
-        // deal w/ ranking query summary row
-        $rankingQuerySummaryRow = $dataTable->getRowFromLabel(DataTable::LABEL_SUMMARY_ROW);
-        if ($rankingQuerySummaryRow) {
-            $rankingQuerySummaryRowId = $dataTable->getRowIdFromLabel(DataTable::LABEL_SUMMARY_ROW);
-            $dataTable->deleteRow($rankingQuerySummaryRowId);
-
-            $actualSummaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
-            if ($actualSummaryRow) {
-                $actualSummaryRow->sumRow($rankingQuerySummaryRow);
-            } else {
-                $dataTable->addSummaryRow($rankingQuerySummaryRow);
-            }
-        }
-
+        $dataTable = $this->arrays->asDataTable($hasSummaryRow = true);
         $this->setVisitorIds($dataTable);
         $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, PiwikMetrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::USERID_ARCHIVE_RECORD, $report);

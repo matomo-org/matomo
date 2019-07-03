@@ -212,7 +212,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         foreach ($this->arrays as $recordName => $dataArray) {
 
-            $dataTable = $dataArray->asDataTable();
+            $dataTable = $dataArray->asDataTable($hasSummaryRow = true);
 
             foreach ($dataTable->getRows() as $row) {
                 $label = $row->getColumn('label');

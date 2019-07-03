@@ -1555,9 +1555,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @param array $array Indexed array, two formats supported, see above.
      * @param array|null $subtablePerLabel An array mapping label values with DataTable instances to associate as a subtable.
+     * @param bool $arrayHasSummaryRow Whether the array already has a row w/ label = self::LABEL_SUMMARY_ROW. This is false by
+     *                                 default since we can't automatically know if such a label is for a summary row or for
+     *                                 valid row in the report.
      * @return \Piwik\DataTable
      */
-    public static function makeFromIndexedArray($array, $subtablePerLabel = null)
+    public static function makeFromIndexedArray($array, $subtablePerLabel = null, $arrayHasSummaryRow = false)
     {
         $table = new DataTable();
         foreach ($array as $label => $row) {
@@ -1573,7 +1576,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (isset($subtablePerLabel[$label])) {
                 $cleanRow[Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
             }
-            $table->addRow(new Row($cleanRow));
+
+            if ($arrayHasSummaryRow && $label == self::LABEL_SUMMARY_ROW) {
+                $table->addSummaryRow(new Row($cleanRow));
+            } else {
+                $table->addRow(new Row($cleanRow));
+            }
         }
         return $table;
     }

@@ -424,7 +424,7 @@ class DataArray
      *
      * @return \Piwik\DataTable
      */
-    public function asDataTable()
+    public function asDataTable($arrayHasSummaryRow = false)
     {
         $dataArray = $this->getDataArray();
         $dataArrayTwoLevels = $this->getDataArrayWithTwoLevels();
@@ -436,6 +436,6 @@ class DataArray
                 $subtableByLabel[$label] = DataTable::makeFromIndexedArray($subTable);
             }
         }
-        return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
+        return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel, $arrayHasSummaryRow);
     }
 }

@@ -221,7 +221,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
         } else if ($actionType == 'event') {
-            self::checkResponse($t->doTrackEvent('event category ' . ($visitorCounter % 3), 'event action ' . ($visitorCounter % 4), 'event name' . ($visitorCounter % 5)));
+            self::checkResponse($t->doTrackEvent('event category ' . ($visitorCounter % 6), 'event action ' . ($visitorCounter % 7), 'event name' . ($visitorCounter % 5)));
         } else if ($actionType == 'content') {
             self::checkResponse($t->doTrackContentImpression('content name ' . $visitorCounter, 'content piece ' . $visitorCounter));
 

@@ -220,7 +220,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertDayReports()
     {
         foreach ($this->arrays as $recordName => $dataArray) {
-            $dataTable = $dataArray->asDataTable();
+            $dataTable = $dataArray->asDataTable($hasSummaryRow = true);
             $blob = $dataTable->getSerialized(
                 $this->maximumRowsInDataTable,
                 $this->maximumRowsInSubDataTable,
