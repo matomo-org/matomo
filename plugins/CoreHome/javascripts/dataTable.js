@@ -551,10 +551,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
-                    var myWidth = removePaddingFromWidth($(this), labelColumnWidth);
-                    $(this).width(myWidth);
-                    $('td.spacer').width(myWidth);
-                    $('th.spacer').width(myWidth);
+                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                });
+                $('.firstDataCol', domElem).each(function() {
+                    $(this).css({paddingLeft: labelColumnWidth});
                 });
             }
 
