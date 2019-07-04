@@ -678,6 +678,10 @@ enable_auto_update = 1
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
 
+; If enabled, will skip some checks when bootstrapping Matomo for faster performance. Eg we won't check if
+; plugin structures are valid.
+enable_system_validation = 1
+
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
 

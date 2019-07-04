@@ -319,12 +319,14 @@ class Manager
      */
     public function readPluginsDirectory()
     {
+        $isSystemValidationEnabled = SettingsPiwik::isSystemValidationEnabled();
+
         $result = array();
         foreach (self::getPluginsDirectories() as $pluginsDir) {
             $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
             if ($pluginsName != false) {
                 foreach ($pluginsName as $path) {
-                    if (self::pluginStructureLooksValid($path)) {
+                    if (!$isSystemValidationEnabled || self::pluginStructureLooksValid($path)) {
                         $result[] = basename($path);
                     }
                 }

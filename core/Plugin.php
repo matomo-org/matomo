@@ -438,6 +438,10 @@ class Plugin
             return array();
         }
 
+        if (!SettingsPiwik::isSystemValidationEnabled()) {
+            return array();
+        }
+
         $dependency = $this->makeDependency($piwikVersion);
         return $dependency->getMissingDependencies($this->pluginInformation['require']);
     }
