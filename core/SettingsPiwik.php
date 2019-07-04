@@ -267,17 +267,6 @@ class SettingsPiwik
     }
 
     /**
-     * If enabled, will skip some checks when bootstrapping Matomo for faster performance. Eg we won't check if
-     * plugin structures are valid.
-     *
-     * @return bool
-     */
-    public static function isSystemValidationEnabled()
-    {
-        return (bool) Config::getInstance()->General['enable_system_validation'];
-    }
-
-    /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
      * update of core and plugins.

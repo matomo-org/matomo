@@ -319,14 +319,16 @@ class Manager
      */
     public function readPluginsDirectory()
     {
-        $isSystemValidationEnabled = SettingsPiwik::isSystemValidationEnabled();
+        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'])) {
+            return $GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'];
+        }
 
         $result = array();
         foreach (self::getPluginsDirectories() as $pluginsDir) {
             $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
             if ($pluginsName != false) {
                 foreach ($pluginsName as $path) {
-                    if (!$isSystemValidationEnabled || self::pluginStructureLooksValid($path)) {
+                    if (self::pluginStructureLooksValid($path)) {
                         $result[] = basename($path);
                     }
                 }
@@ -826,6 +828,10 @@ class Manager
      */
     public function isPluginBundledWithCore($name)
     {
+        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'])) {
+            return in_array($name, $GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE']);
+        }
+
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
         || $name == self::DEFAULT_THEME;
