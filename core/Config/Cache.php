@@ -34,14 +34,11 @@ class Cache extends File
 
     private function makeCacheDir($host)
     {
-        return PIWIK_INCLUDE_PATH . '/tmp/' . $host . '/cache/tracker/';
+        return PIWIK_INCLUDE_PATH . '/tmp/' . $host . '/cache/tracker';
     }
 
     public function isValidHost($mergedConfigSettings)
     {
-        if (!$this->host) {
-            return true;
-        }
         if (!isset($mergedConfigSettings['General']['trusted_hosts']) || !is_array($mergedConfigSettings['General']['trusted_hosts'])) {
             return false;
         }
@@ -55,7 +52,10 @@ class Cache extends File
         $host = Url::getHostSanitized($host); // Remove any port number to get actual hostname
         $host = Common::sanitizeInputValue($host);
 
-        if (empty($host) || strpos($host, '..') !== false || strpos($host, '/') !== false) {
+        if (empty($host)
+            || strpos($host, '..') !== false
+            || strpos($host, '\\') !== false
+            || strpos($host, '/') !== false) {
             throw new \Exception('Unsupported host');
         }
 
@@ -69,6 +69,7 @@ class Cache extends File
         // when the config changes, we need to invalidate the config caches for all configured hosts as well, not only
         // the currently trusted host
         $hosts = Url::getTrustedHosts();
+        $initialDir = $this->directory;
 
         foreach ($hosts as $host)
         {
@@ -81,6 +82,8 @@ class Cache extends File
                 }
             }
         }
+
+        $this->directory = $initialDir;
     }
 
 }
