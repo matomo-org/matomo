@@ -24,7 +24,8 @@ class CustomVariables extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Dimension.addDimensions' => 'addDimensions',
-            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
+            'Tracker.setTrackerCacheGeneral' => 'getCacheGeneral'
         );
     }
 
@@ -78,32 +79,36 @@ class CustomVariables extends \Piwik\Plugin
         $cache    = Cache::getCacheGeneral();
         $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
-        if (!array_key_exists($cacheKey, $cache)) {
+        return $cache[$cacheKey];
+    }
 
-            $minCustomVar = null;
+    public function getCacheGeneral(&$cacheContent)
+    {
+        $cacheContent[self::MAX_NUM_CUSTOMVARS_CACHEKEY] = self::fetchNumMaxCustomVariables();
+    }
 
-            foreach (Model::getScopes() as $scope) {
-                $model = new Model($scope);
-                $highestIndex = $model->getHighestCustomVarIndex();
+    private static function fetchNumMaxCustomVariables()
+    {
+        $minCustomVar = null;
 
-                if (!isset($minCustomVar)) {
-                    $minCustomVar = $highestIndex;
-                }
-
-                if ($highestIndex < $minCustomVar) {
-                    $minCustomVar = $highestIndex;
-                }
-            }
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            $highestIndex = $model->getHighestCustomVarIndex();
 
             if (!isset($minCustomVar)) {
-                $minCustomVar = 0;
+                $minCustomVar = $highestIndex;
             }
 
-            $cache[$cacheKey] = $minCustomVar;
-            Cache::setCacheGeneral($cache);
+            if ($highestIndex < $minCustomVar) {
+                $minCustomVar = $highestIndex;
+            }
         }
 
-        return $cache[$cacheKey];
+        if (!isset($minCustomVar)) {
+            $minCustomVar = 0;
+        }
+
+        return $minCustomVar;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
