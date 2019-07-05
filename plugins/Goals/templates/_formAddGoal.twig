@@ -100,7 +100,7 @@
                 <div piwik-field uicontrol="text" name="pattern"
                      ng-model="manageGoals.goal.pattern"
                      maxlength="255"
-                     data-title="{{ 'Goals_Pattern'|translate|e('html_attr') }}"
+                     data-title="{{ "{{ manageGoals.getPatternFieldLabel() }}"|raw }}"
                      full-width="true">
                 </div>
             </div>
@@ -130,7 +130,7 @@
                    <br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)_banner'") }}"
                 </span>
                 <span ng-show="manageGoals.goal.matchAttribute == 'visit_duration'">
-                    {{ 'General_ForExampleShort'|translate }} {{ 'Goals_AtLeastMinutes'|translate('5') }}
+                    {{ 'General_ForExampleShort'|translate }} {{ 'Goals_AtLeastMinutes'|translate('5', '0.5') }}
                 </span>
             </div>
         </div>
@@ -143,6 +143,7 @@
 
         <div piwik-field uicontrol="radio" name="allow_multiple"
              ng-model="manageGoals.goal.allowMultiple"
+             ng-if="manageGoals.goal.matchAttribute !== 'visit_duration"
              options="{{ allowMultipleOptions|json_encode }}"
              introduction="{{ 'Goals_AllowMultipleConversionsPerVisit'|translate|e('html_attr') }}"
              inline-help="{{ 'Goals_HelpOneConversionPerVisit'|translate|e('html_attr') }}">
