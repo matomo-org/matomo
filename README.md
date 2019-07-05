@@ -50,7 +50,7 @@ See https://matomo.org/docs/requirements/
 
 See https://matomo.org/docs/installation/
 
-(Alternatively you could also [deploy Matomo from the Git repository.](https://matomo.org/faq/how-to-install/faq_18271/))
+(When using Matomo for development you need to [install Matomo from the Git repository.](https://matomo.org/faq/how-to-install/faq_18271/))
 
 ## Free trial 
 
