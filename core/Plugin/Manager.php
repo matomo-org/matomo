@@ -381,6 +381,17 @@ class Manager
                 });
             }
         }
+
+        $envCopyDir =  getenv('MATOMO_PLUGIN_COPY_DIR');
+        if (!empty($envCopyDir)) {
+            $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
+        }
+        
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
+            && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
+        ) {
+            throw new \Exception('"MATOMO_PLUGIN_COPY_DIR" dir must be one of "MATOMO_PLUGIN_DIRS" directories');
+        }
     }
 
     public static function getAlternativeWebRootDirectories()

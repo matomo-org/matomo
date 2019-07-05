@@ -298,6 +298,10 @@ class PluginInstaller
     private function copyPluginToDestination($tmpPluginFolder)
     {
         $pluginsDir = Manager::getPluginsDirectory();
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])) {
+            $pluginsDir = $GLOBALS['MATOMO_PLUGIN_COPY_DIR'];
+        }
         $pluginTargetPath = $pluginsDir . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
