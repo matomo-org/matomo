@@ -64,7 +64,9 @@
                 {% endif %}
                 </div>
             {% else %}
-                {% include visualizationTemplate %}
+                <div class="dataTableScroller">
+                    {% include visualizationTemplate %}
+                </div>
             {% endif %}
 
             {% if properties.show_footer %}

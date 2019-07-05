@@ -553,9 +553,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $('td.label', domElem).each(function() {
                     $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
                 });
-                $('.firstDataCol', domElem).each(function() {
-                    $(this).css({paddingLeft: labelColumnWidth});
-                });
             }
 
             $('td span.label', domElem).each(function () { self.tooltip($(this)); });

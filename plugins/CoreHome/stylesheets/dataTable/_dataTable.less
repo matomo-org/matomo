@@ -117,6 +117,7 @@ table.dataTable th.columnSorted {
 table.dataTable td {
   padding: 5px 1px 5px 12px;
   background: @theme-color-background-base;
+  z-index: 99;
 }
 
 table.dataTable td,
@@ -138,17 +139,15 @@ table.dataTable td.column {
   font-weight: bold;
 }
 
+table.dataTable th.label,
 table.dataTable td.label,
 table.subActionsDataTable td.label,
 table.actionsDataTable td.label {
   border-top: 0;
   border-left: 0;
-  position: absolute;
-}
-
-table.dataTable th.label {
-  border-left: 0;
-  position: absolute;
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 
 .dataTableActions table.dataTable th.label {
@@ -608,7 +607,7 @@ td.cellSubDataTable .loadingPiwik {
   }
 }
 
-div.dataTableWrapper {
+div.dataTableScroller {
   overflow-x: scroll;
 }
 
