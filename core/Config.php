@@ -145,6 +145,21 @@ class Config
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
+        if (function_exists('wp_upload_dir')
+            && defined('ABSPATH')) {
+            $uploadDir = wp_upload_dir();
+            $pathUploadDir = $uploadDir['basedir'];
+            if (!function_exists('is_plugin_active')
+             && file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
+                include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+            }
+            if (function_exists('is_plugin_active')
+                && is_plugin_active('matomo-analytics/matomo-analytics.php' )) {
+                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.
+                return $pathUploadDir . '/matomo' . self::DEFAULT_LOCAL_CONFIG_PATH;
+            }
+        }
+
         if (!$hostname) {
             return array();
         }
