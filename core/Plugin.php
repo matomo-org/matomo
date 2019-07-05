@@ -438,11 +438,6 @@ class Plugin
             return array();
         }
 
-        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'])) {
-            // when the list of plugins is configured, we assume they are all valid and don't have dependencies
-            return array();
-        }
-
         $dependency = $this->makeDependency($piwikVersion);
         return $dependency->getMissingDependencies($this->pluginInformation['require']);
     }

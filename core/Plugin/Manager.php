@@ -319,10 +319,6 @@ class Manager
      */
     public function readPluginsDirectory()
     {
-        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'])) {
-            return $GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'];
-        }
-
         $result = array();
         foreach (self::getPluginsDirectories() as $pluginsDir) {
             $pluginsName = _glob($pluginsDir . '*', GLOB_ONLYDIR);
@@ -828,10 +824,6 @@ class Manager
      */
     public function isPluginBundledWithCore($name)
     {
-        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE'])) {
-            return in_array($name, $GLOBALS['MATOMO_PLUGIN_NAMES_AVAILABLE']);
-        }
-
         return $this->isPluginEnabledByDefault($name)
         || in_array($name, $this->pluginList->getCorePluginsDisabledByDefault())
         || $name == self::DEFAULT_THEME;
