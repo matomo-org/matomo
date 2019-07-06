@@ -33,16 +33,6 @@ class ArchiveProcessorTest extends ArchiveProcessor\Loader
     {
         return $this->params;
     }
-
-    public function public_getMinTimeArchiveProcessed()
-    {
-        return $this->getMinTimeArchiveProcessed();
-    }
-
-    public function public_isArchiveTemporary()
-    {
-        return $this->isArchiveTemporary();
-    }
 }
 
 /**

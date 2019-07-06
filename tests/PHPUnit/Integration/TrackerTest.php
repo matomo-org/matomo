@@ -384,9 +384,8 @@ class TrackerTest extends IntegrationTestCase
         $this->request->setCurrentTimestamp(Date::$now);
         $this->tracker->trackRequest($this->request);
 
-        // Check for correct detection of whether the request's timestamp is 'today' in the appropriate timezone
-        // See Visit::markArchivedReportsAsInvalidIfArchiveAlreadyFinished() method
-        $this->assertEmpty(Option::getLike('report_to_invalidate_2_2019-04-02%'));
+        // make sure today archives are also invalidated
+        $this->assertEquals(['report_to_invalidate_2_2019-04-02_9551' => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
     }
 
     private function getDefaultHandler()
