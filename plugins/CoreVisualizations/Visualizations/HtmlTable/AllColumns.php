@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -63,6 +63,8 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
+
+        parent::beforeGenericFiltersAreAppliedToLoadedDataTable();
     }
 
     public function beforeLoadDataTable()

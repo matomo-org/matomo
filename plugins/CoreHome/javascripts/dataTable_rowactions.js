@@ -198,6 +198,12 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
 
 /** Get the label string from a tr dom element */
 DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
+    var rowMetadata = this.getRowMetadata(tr);
+
+    if (rowMetadata.combinedLabel) {
+        return '@' + rowMetadata.combinedLabel;
+    }
+
     var label = tr.find('span.label');
 
     // handle truncation

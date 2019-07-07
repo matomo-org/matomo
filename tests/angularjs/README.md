@@ -3,7 +3,7 @@
 `[sudo] npm install .`
 
 #### Ubuntu
-On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have a [look](https://github.com/matomo-org/piwik/blob/master/tests/angularjs/install-ubuntu.sh) and give it a try
+On Ubuntu you might be able to use the `scripts/install-ubuntu.sh` script. Have a [look](https://github.com/matomo-org/matomo/blob/master/tests/angularjs/scripts/install-ubuntu.sh) and give it a try
 
 #### Requirements
 * node.js > 0.10

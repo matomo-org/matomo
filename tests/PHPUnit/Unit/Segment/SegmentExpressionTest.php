@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -183,7 +183,7 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
                 ['log_visit.column'],
             ],
             [
-                'log_visit.column == 5 || log_link_visit_action.othercolumn <> 3',
+                'log_visit.column == 5 OR log_link_visit_action.othercolumn <> 3',
                 ['log_visit.column', 'log_link_visit_action.othercolumn'],
             ],
             [
@@ -191,8 +191,24 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
                 ['log_visit.column'],
             ],
             [
-                '(log_visit.column == 5) && ((HOUR(log_visit.column) == 12)) && FUNC(mytable.mycolumn) - OTHERFUNC(`myothertable`.`myothercolumn`) == LASTFUNC(mylasttable.mylastcolumn)',
+                '(log_visit.column = 5) AND ((HOUR(log_visit.column) == 12)) AND FUNC(mytable.mycolumn) - OTHERFUNC(`myothertable`.`myothercolumn`) = LASTFUNC(mylasttable.mylastcolumn)',
                 ['log_visit.column', 'mytable.mycolumn', 'myothertable.myothercolumn', 'mylasttable.mylastcolumn'],
+            ],
+            [
+                'log_visit.column = 5 OR @@session.whatever == 5',
+                ['log_visit.column'],
+            ],
+            [
+                '@something.whatever = 5',
+                [],
+            ],
+            [
+                '@something.whatever <> 5.0',
+                [],
+            ],
+            [
+                'log_visit.thing = 3.45 AND @log_visit.what < 23.00',
+                ['log_visit.thing'],
             ],
         ];
     }

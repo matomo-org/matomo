@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -260,10 +260,7 @@ class Mysql extends Db
      */
     public function isErrNo($e, $errno)
     {
-        if (preg_match('/([0-9]{4})/', $e->getMessage(), $match)) {
-            return $match[1] == $errno;
-        }
-        return false;
+        return \Piwik\Db\Adapter\Pdo\Mysql::isPdoErrorNumber($e, $errno);
     }
 
     /**

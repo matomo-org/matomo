@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -28,6 +28,11 @@ use Exception;
  */
 class PluginsArchiver
 {
+    /**
+     * @var string|null
+     */
+    private static $currentPluginBeingArchived = null;
+
     /**
      * @param ArchiveProcessor $archiveProcessor
      */
@@ -152,6 +157,8 @@ class PluginsArchiver
                 $this->logAggregator->setQueryOriginHint($pluginName);
 
                 try {
+                    self::$currentPluginBeingArchived = $pluginName;
+
                     $timer = new Timer();
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -176,6 +183,8 @@ class PluginsArchiver
                     );
                 } catch (Exception $e) {
                     throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
+                } finally {
+                    self::$currentPluginBeingArchived = null;
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
@@ -314,5 +323,10 @@ class PluginsArchiver
         Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
 
         return $archiver;
+    }
+
+    public static function isArchivingProcessActive()
+    {
+        return self::$currentPluginBeingArchived !== null;
     }
 }

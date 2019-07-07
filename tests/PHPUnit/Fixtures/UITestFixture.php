@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -33,6 +33,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
@@ -86,7 +87,8 @@ class UITestFixture extends SqlDump
         $this->addNewSitesForSiteSelector();
 
         DbHelper::createAnonymousUser();
-        UsersManagerAPI::getInstance()->setSuperUserAccess('superUserLogin', true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword('superUserLogin', true);
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user

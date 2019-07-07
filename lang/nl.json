@@ -237,6 +237,7 @@
         "Hide": "verbergen",
         "HoursMinutes": "%1$s uren %2$s minuten",
         "Id": "ID",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ervan uitgaande dat archivering snel is voor uw installatie, kunt u de crontab zo instellen dat deze vaker wordt uitgevoerd.",
         "InfoFor": "Info voor %s",
         "Installed": "Geïnstalleerd",
         "InvalidDateRange": "Ongeldig datumbereik, probeer het nogmaals",
@@ -446,6 +447,7 @@
         "VisitorIPs": "Bezoeker-IP's",
         "Visitors": "Bezoekers",
         "VisitsWith": "Bezoeken met %s",
+        "VisitorFingerprint": "Vingerafdruk",
         "VisitorSettings": "Bezoekersinstellingen",
         "VisitType": "Soort bezoek",
         "VisitTypes": "Soorten bezoeken",
@@ -564,7 +566,9 @@
         "VerifyAccount": "Verifiëren account",
         "ValidateSslCertificate": "SSL-certificaat valideren",
         "VerifyLoginData": "Zorg ervoor dat uw gebruikersnaam- en wachtwoordcombinatie juist zijn.",
-        "YouAreOffline": "Sorry, u bent momenteel offline."
+        "YouAreOffline": "Sorry, u bent momenteel offline.",
+        "ExceptionNoViewAccess": "Controleer gebruikersnaam en wachtwoord. Wees er zeker van dat je op ten minste één website de volgende rechten hebt: %s",
+        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen"
     },
     "RowEvolution": {
         "AvailableMetrics": "Beschikbare statistieken",

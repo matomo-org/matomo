@@ -397,6 +397,10 @@ login_cookie_expire = 1209600
 ; Sets the session cookie path
 login_cookie_path =
 
+; the amount of time before an idle session is considered expired. only affects session that were created without the
+; "remember me" option checked
+login_session_not_remembered_idle_timeout = 3600
+
 ; email address that appears as a Sender in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
@@ -769,7 +773,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
@@ -962,6 +966,7 @@ Plugins[] = Marketplace
 Plugins[] = ProfessionalServices
 Plugins[] = UserId
 Plugins[] = CustomPiwikJs
+Plugins[] = Tour
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,8 +10,12 @@ namespace Piwik\Plugins\SitesManager\tests\Integration;
 
 use Piwik\Cache;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -72,6 +76,106 @@ class SitesManagerTest extends IntegrationTestCase
             '2014-04-05' => array(4949)
         );
         $this->assertEquals($expected, $archive->getRememberedArchivedReportsThatShouldBeInvalidated());
+    }
+
+    /**
+     * @dataProvider getTestDataForRedirectDashboard
+     */
+    public function test_redirectDashboardToWelcomePage_doesNothingIfModuleActionAreIncorrect($module, $action)
+    {
+        $originalModule = $module;
+        $originalAction = $action;
+        $params = [];
+
+        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+
+        $this->assertEquals($originalModule, $module);
+        $this->assertEquals($originalAction, $action);
+    }
+
+    public function getTestDataForRedirectDashboard()
+    {
+        return [
+            ['CoreHome', 'someothermethod'],
+            ['SitesManager', 'index'],
+        ];
+    }
+
+    public function test_redirectDashboardToWelcomePage_doesNothingIfThereIsNoIdSiteParam()
+    {
+        $module = 'CoreHome';
+        $action = 'index';
+        $params = [];
+
+        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+
+        $this->assertEquals('CoreHome', $module);
+        $this->assertEquals('index', $action);
+    }
+
+    public function test_redirectDashboardToWelcomePage_doesNothingIfAVisitWasTrackedInThePast()
+    {
+        $module = 'CoreHome';
+        $action = 'index';
+        $params = [];
+
+        $_GET['idSite'] = $this->siteId;
+
+        $tracker = Fixture::getTracker($this->siteId, '2015-02-04 04:12:35');
+        $tracker->setUrl('http://example.com/');
+        Fixture::checkResponse($tracker->doTrackPageView('a test title'));
+
+        $this->assertEquals(false, Option::get('SitesManagerHadTrafficInPast_' . $this->siteId));
+
+        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+
+        $this->assertEquals('1', Option::get('SitesManagerHadTrafficInPast_' . $this->siteId));
+
+        $this->assertEquals('CoreHome', $module);
+        $this->assertEquals('index', $action);
+    }
+
+    public function test_redirectDashboardToWelcomePage_doesNothingIfAVisitWasTrackedAndWasLaterPurged()
+    {
+        $module = 'CoreHome';
+        $action = 'index';
+        $params = [];
+
+        $_GET['idSite'] = $this->siteId;
+
+        $tracker = Fixture::getTracker($this->siteId, '2015-02-04 04:12:35');
+        $tracker->setUrl('http://example.com/');
+        Fixture::checkResponse($tracker->doTrackPageView('a test title'));
+
+        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+
+        Db::exec('TRUNCATE ' . Common::prefixTable('log_visit'));
+
+        $module = 'CoreHome';
+        $action = 'index';
+
+        $this->assertEquals('CoreHome', $module);
+        $this->assertEquals('index', $action);
+    }
+
+    public function test_redirectDashboardToWelcomePage_redirectsIfThereIsNoDataAndAppropriateParams()
+    {
+        $module = 'CoreHome';
+        $action = 'index';
+        $params = [];
+
+        $_GET['idSite'] = $this->siteId;
+
+        Piwik::postEvent('Request.dispatch', [&$module, &$action, &$params]);
+
+        $this->assertEquals('SitesManager', $module);
+        $this->assertEquals('siteWithoutData', $action);
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 
     public function provideContainerConfig()

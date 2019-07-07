@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -112,7 +112,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $this->rememberTrackingCodeReminderRan($idSite);
 
-        if (!SitesManager::hasTrackedAnyTraffic($idSite)) {
+        if (!SitesManager::shouldPerormEmptySiteCheck($idSite)) {
+            return;
+        }
+
+        if (SitesManager::hasTrackedAnyTraffic($idSite)) {
             return;
         }
 

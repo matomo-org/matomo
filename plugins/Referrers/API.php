@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Referrers;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
@@ -144,7 +145,15 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $this->checkSingleSite($idSite, 'getAll');
-        $dataTable = $this->getReferrerType($idSite, $period, $date, $segment, $typeReferrer = false, $idSubtable = false, $expanded = true);
+        $dataTable = Request::processRequest('Referrers.getReferrerType', [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+            'expanded' => true,
+            'disable_generic_filters' => true,
+            'disable_queued_filters' => true,
+        ], []);
 
         if ($dataTable instanceof DataTable\Map) {
             throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
