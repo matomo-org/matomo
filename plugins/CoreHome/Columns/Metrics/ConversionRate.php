@@ -44,23 +44,8 @@ class ConversionRate extends ProcessedMetric
 
     public function compute(Row $row)
     {
-        $nbVisits = $this->getMetric($row, 'nb_visits');
         $nbVisitsConverted = $this->getMetric($row, 'nb_visits_converted');
-        if ($nbVisitsConverted === false) {
-            $goals = $this->getMetric($row, 'goals');
-
-            if (!empty($goals)) {
-                $nbVisitsConverted = 0;
-                foreach ([0, '0', 'idgoal=0'] as $possibleKey) {
-                    if (!isset($goals[$possibleKey])) {
-                        continue;
-                    }
-
-                    $nbVisitsConverted = $this->getMetric($goals[$possibleKey], 'nb_visits_converted', Metrics::getMappingFromNameToIdGoal());
-                }
-            }
-        }
-
+        $nbVisits = $this->getMetric($row, 'nb_visits');
         return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
     }
 }
