@@ -14,7 +14,7 @@
 {% set totals = dataTable.getMetadata('totals') %}
 {% set labelColumn   = columns_to_display|first %}
 {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
-x{% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
+{% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
     'label': reportLabel,
     'labelColumn': labelColumn
 } %}
