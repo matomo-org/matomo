@@ -39,7 +39,7 @@
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
-                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
+                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}
