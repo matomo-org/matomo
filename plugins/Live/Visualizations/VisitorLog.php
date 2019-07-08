@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,12 +10,15 @@ namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\TagManager\Model\Container\StaticContainerIdGenerator;
+use Piwik\Tracker\Action;
 use Piwik\View;
 
 /**
@@ -64,6 +67,9 @@ class VisitorLog extends Visualization
                     $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') .  ' ' . Piwik::translate('Live_VisitorLogNoDataMessagePurged', $numDaysDelete);
                 }
             }
+        };
+        $this->config->filters[] = function (DataTable $table) {
+            $this->groupActionsByPageviewId($table);
         };
     }
 
@@ -119,6 +125,8 @@ class VisitorLog extends Visualization
             )
         );
 
+        $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
+
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);
         if ($enableAddNewSegment) {
             $this->config->datatable_actions[] = [
@@ -132,5 +140,93 @@ class VisitorLog extends Visualization
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
         return ($view->requestConfig->getApiModuleToRequest() === 'Live');
+    }
+
+    // TODO: need to unit test this
+    public static function groupActionsByPageviewId(DataTable $table)
+    {
+        foreach ($table->getRows() as $row) {
+            $actionGroups = [];
+            foreach ($row->getColumn('actionDetails') as $key => $action) {
+                // if action is not a pageview action
+                if (empty($action['idpageview'])
+                    && self::isPageviewAction($action)
+                ) {
+                    $actionGroups[] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [$action],
+                        'refreshActions' => [],
+                    ];
+                    continue;
+                }
+
+                // if there is no idpageview for wahtever reason, invent one
+                $idPageView = !empty($action['idpageview']) ? $action['idpageview'] : count($actionGroups);
+                if (empty($actionGroups[$idPageView])) {
+                    $actionGroups[$idPageView] = [
+                        'pageviewAction' => null,
+                        'actionsOnPage' => [],
+                        'refreshActions' => [],
+                    ];
+                }
+
+                if ($action['type'] == 'action') {
+                    if (empty($actionGroups[$idPageView]['pageviewAction'])) {
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else if (empty($actionGroups[$idPageView]['pageviewAction']['url'])) {
+                        // set this action as the pageview action either if there isn't one set already, or the existing one
+                        // has no URL
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                        $actionGroups[$idPageView]['pageviewAction'] = $action;
+                    } else {
+                        $actionGroups[$idPageView]['refreshActions'][] = $actionGroups[$idPageView]['pageviewAction'];
+                    }
+                } else {
+                    $actionGroups[$idPageView]['actionsOnPage'][] = $action;
+                }
+            }
+
+            // merge action groups that have the same page url/action and no pageviewactions
+            $actionGroups = self::mergeRefreshes($actionGroups);
+
+            $row->setColumn('actionGroups', $actionGroups);
+        }
+    }
+
+    private static function mergeRefreshes(array $actionGroups)
+    {
+        $previousId = null;
+        foreach ($actionGroups as $idPageview => $group) {
+            if (empty($previousId)) {
+                $previousId = $idPageview;
+                continue;
+            }
+
+            $action = $group['pageviewAction'];
+            $lastActionGroup = $actionGroups[$previousId];
+
+            $isLastGroupEmpty = empty($actionGroups[$previousId]['actionsOnPage']);
+            $isPageviewActionSame = $lastActionGroup['pageviewAction']['url'] == $action['url']
+                && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle'];
+
+            // if the current action has the same url/action name as the last, merge w/ the last action group
+            if ($isLastGroupEmpty
+                && $isPageviewActionSame
+            ) {
+                $actionGroups[$previousId]['refreshActions'][] = $action;
+                $actionGroups[$previousId]['actionsOnPage'] = array_merge($actionGroups[$previousId]['actionsOnPage'], $actionGroups[$idPageview]['actionsOnPage']);
+                unset($actionGroups[$idPageview]);
+            } else {
+                $previousId = $idPageview;
+            }
+        }
+        return $actionGroups;
+    }
+
+    private static function isPageviewAction($action)
+    {
+        return $action['type'] != 'action'
+            && $action['type'] != Action::TYPE_PAGE_URL
+            && $action['type'] != Action::TYPE_PAGE_TITLE;
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -34,6 +34,8 @@ class Evolution extends JqplotGraph
     public function beforeRender()
     {
         parent::beforeRender();
+
+        $this->checkRequestIsOnlyForMultiplePeriods();
 
         $this->config->show_flatten_table = false;
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
@@ -85,9 +87,6 @@ class Evolution extends JqplotGraph
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ('range' != $period) { // show evolution limit if the period is not a range
-            $this->config->show_limit_control = true;
-            $this->config->show_periods = true;
-
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) {
                 // if a multiple period

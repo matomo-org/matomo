@@ -5,7 +5,7 @@
 		<idVisit>57</idVisit>
 		<visitIp>175.41.192.40</visitIp>
 		
-		<fingerprint>c2bf957df173d3df</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -38,6 +38,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>70</goalPageId>
 				
@@ -45,7 +46,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -377,7 +378,7 @@
 		<idVisit>62</idVisit>
 		<visitIp>175.41.191.47</visitIp>
 		
-		<fingerprint>2b04b8f21bd15e6f</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -406,6 +407,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>84</goalPageId>
 				
@@ -413,7 +415,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -504,7 +506,7 @@
 		<idVisit>27</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<fingerprint>d5e0b403271e4142</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -541,6 +543,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>30</goalPageId>
 				
@@ -548,7 +551,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -656,7 +659,7 @@
 		<idVisit>28</idVisit>
 		<visitIp>0.0.0.0</visitIp>
 		
-		<fingerprint>17930087fbd12d04</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -685,6 +688,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>31</goalPageId>
 				
@@ -692,7 +696,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -816,7 +820,7 @@
 		<idVisit>25</idVisit>
 		<visitIp>175.41.192.41</visitIp>
 		
-		<fingerprint>f8bf68e2e1f37702</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -845,6 +849,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>28</goalPageId>
 				
@@ -852,7 +857,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -947,7 +952,7 @@
 		<idVisit>26</idVisit>
 		<visitIp>::ffff:123.45.67.89</visitIp>
 		
-		<fingerprint>652da4125b007f6a</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -976,6 +981,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>29</goalPageId>
 				
@@ -983,7 +989,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1078,7 +1084,7 @@
 		<idVisit>24</idVisit>
 		<visitIp>175.41.192.43</visitIp>
 		
-		<fingerprint>4838cd5354aa5a0d</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1109,6 +1115,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>26</goalPageId>
 				
@@ -1116,7 +1123,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1234,7 +1241,7 @@
 		<idVisit>23</idVisit>
 		<visitIp>175.41.192.42</visitIp>
 		
-		<fingerprint>99e510b5ed1c72ea</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>download</type>
@@ -1401,7 +1408,7 @@
 		<idVisit>22</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
-		<fingerprint>04c32bb5831ccf11</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1430,6 +1437,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>22</goalPageId>
 				
@@ -1437,7 +1445,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1532,7 +1540,7 @@
 		<idVisit>21</idVisit>
 		<visitIp>72.44.32.11</visitIp>
 		
-		<fingerprint>b2e175eab44c7e62</fingerprint>
+		
 		<actionDetails>
 			<row>
 				<type>action</type>
@@ -1561,6 +1569,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>21</goalPageId>
 				
@@ -1568,7 +1577,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>

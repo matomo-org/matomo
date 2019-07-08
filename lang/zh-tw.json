@@ -237,7 +237,6 @@
         "Hide": "隱藏",
         "HoursMinutes": "%1$s 小時 %2$s 分",
         "Id": "ID",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "假設在你的設定下彙整相當順暢，你可以設定工作排程讓它頻繁執行。",
         "InfoFor": "%s 的資訊",
         "Installed": "已安裝",
         "InvalidDateRange": "日期範圍無效，請重試",

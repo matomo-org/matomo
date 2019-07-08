@@ -202,6 +202,11 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
         return tr.data('label');
     }
 
+    var rowMetadata = this.getRowMetadata(tr);
+    if (rowMetadata.combinedLabel) {
+        return '@' + rowMetadata.combinedLabel;
+    }
+
     var label = tr.find('span.label');
 
     // handle truncation

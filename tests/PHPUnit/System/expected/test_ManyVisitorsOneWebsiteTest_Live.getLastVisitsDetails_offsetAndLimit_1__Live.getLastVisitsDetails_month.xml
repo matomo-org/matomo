@@ -30,6 +30,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>46</goalPageId>
 				
@@ -37,7 +38,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -69,6 +70,7 @@
 				<type>goal</type>
 				<goalName>two</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId />
 				
@@ -76,7 +78,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -281,6 +283,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>45</goalPageId>
 				
@@ -288,7 +291,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -427,6 +430,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>41</goalPageId>
 				
@@ -434,13 +438,14 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 			<row>
 				<type>goal</type>
 				<goalName>two</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId />
 				
@@ -448,7 +453,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>two ($ 5 revenue)</subtitle>
+				<subtitle>two ($5 revenue)</subtitle>
 				
 			</row>
 			<row>

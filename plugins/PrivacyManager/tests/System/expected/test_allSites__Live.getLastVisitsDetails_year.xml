@@ -12,6 +12,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
@@ -381,6 +382,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -543,6 +545,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -722,6 +725,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -884,6 +888,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -1214,6 +1219,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -1388,6 +1394,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -1550,6 +1557,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -1920,6 +1928,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -2082,6 +2091,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -2261,6 +2271,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -2423,6 +2434,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -2753,6 +2765,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -2927,6 +2940,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -3089,6 +3103,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -3459,6 +3474,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -3621,6 +3637,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -3800,6 +3817,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -3962,6 +3980,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -4292,6 +4311,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -4466,6 +4486,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -4629,6 +4650,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -4770,6 +4792,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -5302,6 +5325,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -5578,6 +5602,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -5719,6 +5744,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -6251,6 +6277,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -6527,6 +6554,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -6668,6 +6696,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -7199,6 +7228,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -7979,6 +8009,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>211</itemSKU>
@@ -7994,7 +8025,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (211)</title>
-				<subtitle>$ 240.54 revenue - 1 items: My product 211)</subtitle>
+				<subtitle>$240.54 revenue - 1 items: My product 211)</subtitle>
 				
 			</row>
 			<row>
@@ -8320,6 +8351,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>211</itemSKU>
@@ -8335,7 +8367,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (211)</title>
-				<subtitle>$ 240.54 revenue - 1 items: My product 211)</subtitle>
+				<subtitle>$240.54 revenue - 1 items: My product 211)</subtitle>
 				
 			</row>
 			<row>
@@ -10870,6 +10902,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>205</itemSKU>
@@ -10885,7 +10918,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (205)</title>
-				<subtitle>$ 233.70 revenue - 1 items: My product 205)</subtitle>
+				<subtitle>$233.70 revenue - 1 items: My product 205)</subtitle>
 				
 			</row>
 			<row>
@@ -11412,6 +11445,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>205</itemSKU>
@@ -11427,7 +11461,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (205)</title>
-				<subtitle>$ 233.70 revenue - 1 items: My product 205)</subtitle>
+				<subtitle>$233.70 revenue - 1 items: My product 205)</subtitle>
 				
 			</row>
 			<row>
@@ -14056,6 +14090,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -14071,7 +14106,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -14542,6 +14577,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -14557,7 +14593,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -15028,6 +15064,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -15043,7 +15080,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -15331,6 +15368,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -15494,6 +15532,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -15656,6 +15695,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -15984,6 +16024,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -16311,6 +16352,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -16637,6 +16679,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -17314,6 +17357,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -17329,7 +17373,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -17650,6 +17694,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -17665,7 +17710,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -17986,6 +18031,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -18001,7 +18047,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -18300,6 +18346,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -18670,6 +18717,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -18832,6 +18880,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -19011,6 +19060,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -19173,6 +19223,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -19503,6 +19554,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -19677,6 +19729,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -19840,6 +19893,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -19981,6 +20035,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -20512,6 +20567,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -23067,6 +23123,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -23082,7 +23139,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -23369,6 +23426,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -23696,6 +23754,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -24045,6 +24104,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -24060,7 +24120,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -24359,6 +24419,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -24729,6 +24790,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -24891,6 +24953,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -25070,6 +25133,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -25232,6 +25296,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -25562,6 +25627,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -25736,6 +25802,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -25898,6 +25965,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -26268,6 +26336,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -26430,6 +26499,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -26609,6 +26679,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -26771,6 +26842,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -27101,6 +27173,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -27275,6 +27348,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -27438,6 +27512,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -27579,6 +27654,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -28111,6 +28187,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -28387,6 +28464,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -28528,6 +28606,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -29059,6 +29138,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -33709,6 +33789,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -33724,7 +33805,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -34195,6 +34276,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -34210,7 +34292,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -34498,6 +34580,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -34660,6 +34743,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -34988,6 +35072,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -35314,6 +35399,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -35827,6 +35913,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -35842,7 +35929,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -36163,6 +36250,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -36178,7 +36266,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 202)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 202)</subtitle>
 				
 			</row>
 			<row>
@@ -36477,6 +36565,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -36847,6 +36936,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -37009,6 +37099,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -37188,6 +37279,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world205</url>
@@ -37350,6 +37442,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -37680,6 +37773,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -37854,6 +37948,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -38017,6 +38112,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -38158,6 +38254,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -38690,6 +38787,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -39156,6 +39254,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>211</itemSKU>
@@ -39171,7 +39270,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (211)</title>
-				<subtitle>$ 240.54 revenue - 1 items: My product 211)</subtitle>
+				<subtitle>$240.54 revenue - 1 items: My product 211)</subtitle>
 				
 			</row>
 			<row>
@@ -40062,6 +40161,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>205</itemSKU>
@@ -40077,7 +40177,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (205)</title>
-				<subtitle>$ 233.70 revenue - 1 items: My product 205)</subtitle>
+				<subtitle>$233.70 revenue - 1 items: My product 205)</subtitle>
 				
 			</row>
 			<row>
@@ -41300,6 +41400,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>208</itemSKU>
@@ -41315,7 +41416,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 50 revenue - 1 items: My product 208)</subtitle>
+				<subtitle>$50 revenue - 1 items: My product 208)</subtitle>
 				
 			</row>
 			<row>
@@ -41602,6 +41703,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -41929,6 +42031,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				

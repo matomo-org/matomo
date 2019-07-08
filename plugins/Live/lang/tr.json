@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Dilimlere ayrılmış ziyaret kayıtlarını aç",
         "SegmentedVisitorLogTitle": "%1$s değerinin \"%2$s\" olduğu ziyaret kayıtları görüntüleniyor",
         "OnClickPause": "%s başlatıldı. Duraklatmak için tıklayın.",
-        "OnClickStart": "%s durduruldu. Başlatmak için tıklayın."
+        "OnClickStart": "%s durduruldu. Başlatmak için tıklayın.",
+        "ClickToSeeAllContents": "Her bir içerik etkileşimi ya da gösterimini görüntülemek için tıklayın"
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -223,6 +223,18 @@ class API extends \Piwik\Plugin\API
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
         $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
+
+        // Select values from the action details if needed for this particular segment
+        if (empty(array_filter($values)) && $this->doesSegmentNeedActionsData($segmentName)) {
+            foreach ($table->getRows() as $row) {
+                foreach ($row->getColumn('actionDetails') as $actionRow) {
+                    if (isset($actionRow[$segmentName])) {
+                        $values[] = $actionRow[$segmentName];
+                    }
+                }
+            }
+        }
+
         return $values;
     }
 
@@ -703,7 +715,7 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl', 'eventUrl'
+            'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;

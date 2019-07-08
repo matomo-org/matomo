@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -60,10 +60,10 @@ class XssTesting
         return $key;
     }
 
-    private function getXssEntries()
+    public function getXssEntries()
     {
         $value = Option::get(self::OPTION_NAME);
-        return json_decode($value, $isAssoc = true);
+        return json_decode($value, $isAssoc = true) ?: [];
     }
 
     private function setXssEntries($entries)

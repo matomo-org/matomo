@@ -237,7 +237,7 @@
         "Hide": "verbergen",
         "HoursMinutes": "%1$s uren %2$s minuten",
         "Id": "ID",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Als de archivering snel is voor uw setup, dan kunt u de crontab wat vaker laten draaien.",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ervan uitgaande dat archivering snel is voor uw installatie, kunt u de crontab zo instellen dat deze vaker wordt uitgevoerd.",
         "InfoFor": "Info voor %s",
         "Installed": "Geïnstalleerd",
         "InvalidDateRange": "Ongeldig datumbereik, probeer het nogmaals",
@@ -422,7 +422,7 @@
         "TrackingScopeVisit": "Bezoek",
         "TransitionsRowActionTooltip": "Bekijk wat bezoekers voor en na het bekijken van deze pagina deden",
         "TransitionsRowActionTooltipTitle": "Open transities",
-        "TranslatorName": "Martijn van Laar, Hannes Bossuyt, Sigge Stegeman, Taco Vader, Benkheil Abdelouali, Ko de Pree, Richard Mastop, Peter Makkes",
+        "TranslatorName": "Martijn van Laar, Hannes Bossuyt, Sigge Stegeman, Taco Vader, Benkheil Abdelouali, Ko de Pree, Richard Mastop, Peter Makkes, Gertjan Krol",
         "UniquePurchases": "Unieke aankopen",
         "Unknown": "Onbekend",
         "Upload": "Uploaden",
@@ -447,6 +447,7 @@
         "VisitorIPs": "Bezoeker-IP's",
         "Visitors": "Bezoekers",
         "VisitsWith": "Bezoeken met %s",
+        "VisitorFingerprint": "Vingerafdruk",
         "VisitorSettings": "Bezoekersinstellingen",
         "VisitType": "Soort bezoek",
         "VisitTypes": "Soorten bezoeken",
@@ -490,7 +491,9 @@
         "YouAreCurrentlyUsing": "U gebruikt momenteel Matomo %s.",
         "YouAreViewingDemoMessage": "U bekijkt de demo van %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "U moet ingelogd zijn om deze functionaliteit te gebruiken.",
-        "YourChangesHaveBeenSaved": "Uw wijzigingen zijn opgeslagen."
+        "YourChangesHaveBeenSaved": "Uw wijzigingen zijn opgeslagen.",
+        "ThankYouForUsingMatomo": "Bedankt voor het gebruiken van Matomo",
+        "TheMatomoTeam": "Het Matomo team"
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",
@@ -502,7 +505,7 @@
         "Advanced": "Geavanceerd",
         "AnonymousAccess": "Anonieme toegang",
         "AnonymousTracking": "Anonieme tracking",
-        "AskForAnonymousTrackingPermission": "Als dit is ingeschakeld, dan stuurt Matomo Mobile anonieme gebruiksgegevens naar matomo.org. Met deze gegevens begrijpen Matomo Mobile-ontwikkelaars beter hoe de applicatie wordt gebruikt. De gebruiksgegevens bevatten: kliks in menu's en instellingen, OS-naam en -versie en elke fout die Matomo Mobile weergeeft. We versturen NIETS van uw analytics gegevens. De verzamelde anonieme gegevens maakt Matomo nooit openbaar. U kunt het delen van deze anonieme gegevens op elk gewenst moment in- of uitschakelen via het menu-item Instellingen.",
+        "AskForAnonymousTrackingPermission": "Als dit is ingeschakeld, stuurt Matomo Mobile anonieme gebruiksgegevens naar matomo.org. Met deze gegevens begrijpen Matomo Mobile-ontwikkelaars beter hoe de applicatie wordt gebruikt. De gebruiksgegevens bevatten: kliks in menu's en instellingen, OS-naam en -versie en elke fout die Matomo Mobile weergeeft. We versturen GEEN van uw analytics gegevens. De verzamelde anonieme gegevens maakt Matomo nooit openbaar. U kunt het delen van deze anonieme gegevens op elk gewenst moment in- of uitschakelen via de app-instellingen.",
         "ChooseHttpTimeout": "Kies HTTP time-out waarde",
         "ChooseMetric": "Kies statistiek",
         "ChooseReport": "Kies een rapport",
@@ -516,7 +519,7 @@
         "HowtoDeleteAnAccount": "Lang drukken om een account te verwijderen.",
         "HowtoDeleteAnAccountOniOS": "Van rechts naar links vegen om een account te verwijderen",
         "HowtoLoginAnonymous": "Laat gebruikersnaam en wachtwoord leeg voor anoniem inloggen.",
-        "HttpIsNotSecureWarning": "Uw Matomo-autorisatietoken (token_auth) wordt niet versleuteld verzonden als u HTTP gebruikt. Om deze reden adviseren wij om HTTPS te gebruiken, om gegevens versleuteld over te dragen via het internet. Wilt u doorgaan?",
+        "HttpIsNotSecureWarning": "Uw Matomo-autorisatietoken (token_auth) wordt niet versleuteld verzonden als u HTTP gebruikt. Om deze reden adviseren wij om HTTPS te gebruiken, zodat gegevens versleuteld worden overgedragen via het internet. Wilt u doorgaan?",
         "HttpTimeout": "HTTP Timeout",
         "IncompatiblePiwikVersion": "De Matomo-versie die u gebruikt is incompatibel met Matomo Mobile 2. Update uw Matomo-installatie en probeer het nogmaals of installeer Matomo Mobile 1.",
         "LastUpdated": "Laatst bijgewerkt: %s",
@@ -563,7 +566,9 @@
         "VerifyAccount": "Verifiëren account",
         "ValidateSslCertificate": "SSL-certificaat valideren",
         "VerifyLoginData": "Zorg ervoor dat uw gebruikersnaam- en wachtwoordcombinatie juist zijn.",
-        "YouAreOffline": "Sorry, u bent momenteel offline."
+        "YouAreOffline": "Sorry, u bent momenteel offline.",
+        "ExceptionNoViewAccess": "Controleer gebruikersnaam en wachtwoord. Wees er zeker van dat je op ten minste één website de volgende rechten hebt: %s",
+        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen"
     },
     "RowEvolution": {
         "AvailableMetrics": "Beschikbare statistieken",

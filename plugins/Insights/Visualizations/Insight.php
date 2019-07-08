@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -64,6 +64,10 @@ class Insight extends Visualization
         $filterLimit   = $this->requestConfig->filter_limit;
         $limitIncrease = 0;
 
+        if ($filterLimit == -1) {
+            return -1;
+        }
+
         if ($this->requestConfig->limit_increaser && !$this->requestConfig->limit_decreaser) {
             $limitIncrease = $filterLimit;
         } elseif ($this->requestConfig->limit_increaser && $this->requestConfig->limit_decreaser) {
@@ -76,6 +80,11 @@ class Insight extends Visualization
     private function getLimitDecrease()
     {
         $filterLimit   = $this->requestConfig->filter_limit;
+
+        if ($filterLimit == -1) {
+            return -1;
+        }
+
         $limitDecrease = $filterLimit - $this->getLimitIncrease();
 
         return abs($limitDecrease);

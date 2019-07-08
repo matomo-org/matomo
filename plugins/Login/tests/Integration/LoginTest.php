@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -15,6 +15,7 @@ use Piwik\DbHelper;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -346,7 +347,8 @@ class LoginTest extends IntegrationTestCase
 
     private function _setUpSuperUserAccessViaDb()
     {
-        API::getInstance()->setSuperUserAccess('user', true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword('user', true);
     }
 
     private function authenticate($login, $tokenAuth)

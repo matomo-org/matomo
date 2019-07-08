@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use DeviceDetector\DeviceDetector;
+use Piwik\Common;
 
 class DeviceDetectorFactory
 {
@@ -21,6 +22,8 @@ class DeviceDetectorFactory
      */
     public static function getInstance($userAgent)
     {
+        $userAgent = Common::mb_substr($userAgent, 0, 500);
+
         if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
             return self::$deviceDetectorInstances[$userAgent];
         }

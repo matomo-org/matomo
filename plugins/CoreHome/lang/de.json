@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Aggregierte Zeilen werden angezeigt %s Ausschließen",
         "DataTableIncludeAggregateRows": "Aggregierte Zeilen sind ausgeschlossen %s Wieder anzeigen",
         "DataTableHowToSearch": "Drücken Sie Enter oder klicken Sie auf das Such-Symbol um eine Suche zu starten.",
+        "DataTableShowDimensions": "Dimensionen wurden zusammengefasst %s Dimensionen separat anzeigen",
+        "DataTableCombineDimensions": "Dimensionen werden einzeln angezeigt %s Dimensionen zusammengefasst anzeigen",
         "Default": "Standard",
         "DonateCall1": "Die Nutzung von Matomo wird immer kostenlos bleiben, was aber nicht heißt, dass es uns nichts kostet, es zu erstellen.",
         "DonateCall2": "Matomo braucht Ihre dauerhafte Unterstützung um zu wachsen und zu gedeihen.",

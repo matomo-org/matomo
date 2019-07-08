@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
@@ -121,7 +122,9 @@ class Segment
     {
         // segment metadata
         if (empty($this->availableSegments)) {
-            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
+            $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
+                'idSites' => $this->idSites, '_hideImplementationData' => 0, 'filter_limit' => -1, 'filter_offset' => 0
+            ), []);
         }
 
         return $this->availableSegments;
@@ -307,9 +310,13 @@ class Segment
         if (empty($this->string)) {
             return '';
         }
-        // normalize the string as browsers may send slightly different payloads for the same archive
-        $normalizedSegmentString = urldecode($this->string);
-        return md5($normalizedSegmentString);
+        return self::getSegmentHash($this->string);
+    }
+
+    public static function getSegmentHash($definition)
+    {
+        // urldecode to normalize the string, as browsers may send slightly different payloads for the same archive
+        return md5(urldecode($definition));
     }
 
     /**
@@ -317,7 +324,7 @@ class Segment
      *
      * @param string $select The select clause. Should NOT include the **SELECT** just the columns, eg,
      *                       `'t1.col1 as col1, t2.col2 as col2'`.
-     * @param array $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
+     * @param array|string $from Array of table names (without prefix), eg, `array('log_visit', 'log_conversion')`.
      * @param false|string $where (optional) Where clause, eg, `'t1.col1 = ? AND t2.col2 = ?'`.
      * @param array|string $bind (optional) Bind parameters, eg, `array($col1Value, $col2Value)`.
      * @param false|string $orderBy (optional) Order by clause, eg, `"t1.col1 ASC"`.

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,6 +21,7 @@ use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
@@ -62,18 +63,29 @@ class Controller extends Plugin\ControllerAdmin
     private $marketplacePlugins;
 
     /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
+
+    /**
      * Controller constructor.
      * @param Translator $translator
      * @param Plugin\SettingsProvider $settingsProvider
      * @param PluginInstaller $pluginInstaller
      * @param Plugins $marketplacePlugins
+     * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator, Plugin\SettingsProvider $settingsProvider, PluginInstaller $pluginInstaller, $marketplacePlugins = null)
-    {
+    public function __construct(Translator $translator, 
+                                Plugin\SettingsProvider $settingsProvider, 
+                                PluginInstaller $pluginInstaller,
+                                PasswordVerifier $passwordVerify,
+                                $marketplacePlugins = null
+    ) {
         $this->translator = $translator;
         $this->settingsProvider = $settingsProvider;
         $this->pluginInstaller = $pluginInstaller;
         $this->pluginManager = Plugin\Manager::getInstance();
+        $this->passwordVerify = $passwordVerify;
 
         if (!empty($marketplacePlugins)) {
             $this->marketplacePlugins = $marketplacePlugins;
@@ -101,6 +113,13 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         Nonce::discardNonce(MarketplaceController::INSTALL_NONCE);
+
+        if (!$this->passwordVerify->isPasswordCorrect(
+            Piwik::getCurrentUserLogin(),
+            Common::getRequestVar('confirmPassword', null, 'string')
+        )) {
+            throw new \Exception($this->translator->translate('Login_LoginPasswordNotCorrect'));
+        }
 
         if (empty($_FILES['pluginZip'])) {
             throw new \Exception('You did not specify a ZIP file.');

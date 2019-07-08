@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Referrers\DataTable\Filter;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
@@ -74,13 +75,15 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
                     // otherwise, we have to get the other datatables
                     // NOTE: not yet possible to do this w/ DataTable\Map instances
                     // (actually it would be maybe possible by using $map->mergeChildren() or so build it would be slow)
-                    $subtable = API::getInstance()->getReferrerType(
-                        $this->idSite, $this->period, $this->date, $this->segment, $type = false, $idSubtable = $typeReferrer
-                    );
-
-                    if ($this->expanded) {
-                        $subtable->applyQueuedFilters();
-                    }
+                    $subtable = Request::processRequest('Referrers.getReferrerType', [
+                        'idSite' => $this->idSite,
+                        'period' => $this->period,
+                        'date' => $this->date,
+                        'segment' => $this->segment,
+                        'idSubtable' => $typeReferrer,
+                        'disable_generic_filters' => true,
+                        'disable_queued_filters' => !$this->expanded
+                    ], []);
 
                     $row->setSubtable($subtable);
                 }

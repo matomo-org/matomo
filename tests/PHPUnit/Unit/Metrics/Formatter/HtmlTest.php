@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Unit\Metrics\Formatter;
 
-use Piwik\Intl\Locale;
+use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter\Html;
+use Piwik\NumberFormatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
@@ -79,7 +80,9 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
     public function test_getPrettyMoney_UsesNonBreakingSpaces()
     {
-        $expected = '1&nbsp;€';
+        StaticContainer::get('Piwik\Translation\Translator')->setCurrentLanguage('de');
+
+        $expected = html_entity_decode('1&nbsp;€');
         $value = $this->formatter->getPrettyMoney(1, 1);
 
         $this->assertEquals($expected, $value);

@@ -15,6 +15,7 @@ use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -49,7 +50,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         foreach ([$this->userWith2Fa, $this->userWithout2Fa] as $user) {
             API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
-            API::getInstance()->setSuperUserAccess($user, 1);
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($user, 1);
         }
 
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);

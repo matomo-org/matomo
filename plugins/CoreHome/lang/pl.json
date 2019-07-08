@@ -30,7 +30,7 @@
         "ShowExportUrl": "Pokaż adres eksportu",
         "HideExportUrl": "Ukryj adres eksportu",
         "HomeShortcut": "Strona główna",
-        "HowMuchIsPiwikWorth": "Ile Matomo jest warty dla Ciebie?",
+        "HowMuchIsPiwikWorth": "Ile Matomo jest dla Ciebie warte?",
         "IncludeRowsWithLowPopulation": "Wiersze z niską populacją zostały ukryte %s Pokaż wszystkie wiersze",
         "InjectedHostEmailBody": "Witaj, próbowałem dostać się dzisiaj do Matomo i napotkałem ostrzeżenie o nieznanym hoście.",
         "InjectedHostEmailSubject": "Matomo został otwarty z nieznaną nazwą hosta: %s",

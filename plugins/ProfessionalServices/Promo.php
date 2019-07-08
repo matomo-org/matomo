@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -63,13 +63,6 @@ class Promo
                 'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Matomo.'
             ),
 
-            // Piwik training
-            array(
-                'campaignContent' => 'userTraining',
-                'title' => 'Training',
-                'url' => 'https://matomo.org/training/?pk_campaign=' . Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES . '&pk_source=Piwik_App',
-                'text' => 'Want to know how to use all the exciting features in Matomo? Try a User training to be up to speed with working with Matomo.'
-            ),
             // Keywords performance
             array(
                 'campaignContent' => 'searchKeywords',

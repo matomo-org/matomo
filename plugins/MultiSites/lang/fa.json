@@ -2,7 +2,6 @@
     "MultiSites": {
         "Evolution": "تکامل",
         "LoadingWebsites": "درحال بارگزاری وب سایت ها",
-        "TopLinkTooltip": "اطلاعات آماری همه وب سایت هایتان را مقایسه کنید.",
-        "Pagination": "%1$s-%2$s از %3$s"
+        "TopLinkTooltip": "اطلاعات آماری همه وب سایت هایتان را مقایسه کنید."
     }
 }

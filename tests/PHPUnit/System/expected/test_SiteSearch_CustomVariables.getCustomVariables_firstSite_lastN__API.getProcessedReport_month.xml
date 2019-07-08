@@ -63,7 +63,7 @@
 				<nb_actions_per_visit>1.3</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
@@ -72,7 +72,7 @@
 				<nb_actions_per_visit>1.3</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<revenue>$ 0</revenue>
+				<revenue>$0</revenue>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />

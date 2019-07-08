@@ -16,7 +16,6 @@
         "DeleteDataSettings": "Xóa các bản ghi và báo cáo cũ của khách truy cập",
         "DoNotTrack_Description": "Do Not Track là một công nghệ và đề xuất chính sách cho phép người dùng chọn không bị theo dõi bởi các trang web họ truy cập, bao gồm cả dịch vụ phân tích, mạng lưới quảng cáo, và các nền tảng xã hội.",
         "DoNotTrack_Disable": "Vô hiệu hóa Do Not Track hỗ trợ",
-        "DoNotTrack_DisabledMoreInfo": "Chúng tôi khuyên bạn nên tôn trọng sự riêng tư của khách truy cập của bạn và kích hoạt sự hỗ trợ DoNotTrack .",
         "DoNotTrack_Enable": "Kích hoạt sự hỗ trợ Do Not Track",
         "DoNotTrack_Enabled": "Bạn đang tôn trọng sự riêng tư của người dùng của bạn, Bravo!",
         "DoNotTrack_SupportDNTPreference": "Hỗ trợ Do Not Track ưu tiên",
@@ -38,7 +37,6 @@
         "SaveSettingsBeforePurge": "Bạn đã thay đổi thiết lập việc xóa dữ liệu. Vui lòng lưu chúng trước khi bắt đầu loại bỏ.",
         "TeaserHeadline": "Thiết lập riêng tư",
         "UseAnonymizedIpForVisitEnrichment": "Cũng sử dụng các địa chỉ IP ẩn danh khi làm phong phú thêm các lượt truy cập.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Các plugin như là Vị trí Địa lý thông qua IP và nhà cung cấp cải tiến siêu dữ liệu của khách truy cập. Theo mặc định các plugin này sử dụng các địa chỉ IP được ẩn danh. Nếu bạn chọn 'No', sau đó địa chỉ IP đầy đủ không ẩn danh sẽ được sử dụng thay vào đó, kết quả là quyền riêng tư ít hơn nhưng dữ liệu chính xác hơn.",
         "UseAnonymizeIp": "Các địa chỉ IP của khách truy cập ẩn danh",
         "UseDeleteReports": "Thường xuyên xóa báo cáo cũ từ cơ sở dữ liệu"
     }

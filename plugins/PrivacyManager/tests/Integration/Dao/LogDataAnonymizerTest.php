@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -18,6 +18,7 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
+use Piwik\Translate;
 
 /**
  * Class LogDataAnonymizationsTest
@@ -41,6 +42,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
 
         Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
         Cache::clearCacheGeneral();
+        Translate::loadEnglishTranslation();
 
         $this->anonymizer = new LogDataAnonymizer();
         $this->theFixture = new MultipleSitesMultipleVisitsFixture();

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -175,12 +175,13 @@ class OptOutManager
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
                 'showConfirmOnly' => 1,
                 'setCookieInNewWindow' => 0,
+                'nonce' => Common::getRequestVar('nonce')
             ));
         } else {
             $reloadUrl = false;
 
-            $nonce = Common::getRequestVar('nonce', false);
-            if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+            $requestNonce = Common::getRequestVar('nonce', false);
+            if ($requestNonce !== false && Nonce::verifyNonce('Piwik_OptOut', $requestNonce)) {
                 Nonce::discardNonce('Piwik_OptOut');
                 IgnoreCookie::setIgnoreCookie();
                 $trackVisits = !$trackVisits;
@@ -192,11 +193,14 @@ class OptOutManager
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
 
+        $nonce = Nonce::getNonce('Piwik_OptOut', 3600);
+
         $this->addQueryParameters(array(
             'module' => 'CoreAdminHome',
             'action' => 'optOut',
             'language' => $lang,
-            'setCookieInNewWindow' => 1
+            'setCookieInNewWindow' => 1,
+            'nonce' => $nonce
         ), false);
 
         $this->addStylesheet($this->optOutStyling());
@@ -208,7 +212,7 @@ class OptOutManager
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
         $this->view->trackVisits = $trackVisits;
-        $this->view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
+        $this->view->nonce = $nonce;
         $this->view->language = $lang;
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;

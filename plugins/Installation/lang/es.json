@@ -95,7 +95,7 @@
         "SystemCheckJsonHelp": "Para leer y escribir datos JSON es necesario tener la extensión php5-json.",
         "SystemCheckMailHelp": "Los mensajes de Feedback y Recuperar Contraseña no se enviarán sin un correo electrónico().",
         "SystemCheckMbstring": "mbstring",
-        "SystemCheckMbstringHelp": "Se requiere la extensión mbstring para manejar caracteres multibyte en el interfaz del usuario y también las respuestas de la API. Por favor controle que mbstring.func_overload sea establecido en \"0\" en php.ini.",
+        "SystemCheckMbstringHelp": "Se requiere la extensión mbstring para manejar caracteres multibyte en la interface del usuario y también las respuestas de la API. Por favor controle que mbstring.func_overload esté en \"0\" en el archivo php.ini.",
         "SystemCheckMemoryLimit": "Límite de memoria",
         "SystemCheckMemoryLimitHelp": "En un sitio de internet de alto tráfico, el proceso de archivo puede requerir más memoria de la que se permite actualmente. Véase la Directiva memory_limit en su archivo php.ini si es necesario.",
         "SystemCheckNoErrorsOrWarnings": "No hay errores ni advertencias",

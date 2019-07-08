@@ -152,6 +152,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>42</revenue>
 				<goalPageId />
 				
@@ -159,7 +160,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Conversion de l'objectif</title>
-				<subtitle>triggered js ($US 42 revenu)</subtitle>
+				<subtitle>triggered js (42 $US revenu)</subtitle>
 				
 			</row>
 		</actionDetails>

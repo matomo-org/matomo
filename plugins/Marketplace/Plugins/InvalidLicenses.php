@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -193,7 +193,7 @@ class InvalidLicenses
                     continue;
                 }
                 $pluginName = $plugin['name'];
-                if ($this->isPluginActivated($pluginName)) {
+                if ($this->isPluginInActivatedPluginsList($pluginName)) {
                     if (empty($plugin['consumer']['license'])) {
                         $pluginNames['noLicense'][] = $pluginName;
                     } elseif (!empty($plugin['consumer']['license']['isExceeded'])) {
@@ -223,22 +223,13 @@ class InvalidLicenses
         $this->activatedPluginNames = $pluginNames;
     }
 
-    protected function isPluginInstalled($pluginName)
+    protected function isPluginInActivatedPluginsList($pluginName)
     {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
+        if (empty($this->activatedPluginNames)){
+            $this->activatedPluginNames = $this->pluginManager->getActivatedPluginsFromConfig();
         }
 
-        return $this->pluginManager->isPluginInstalled($pluginName);
-    }
-
-    protected function isPluginActivated($pluginName)
-    {
-        if (in_array($pluginName, $this->activatedPluginNames)) {
-            return true;
-        }
-
-        return $this->pluginManager->isPluginActivated($pluginName);
+        return is_array($this->activatedPluginNames) && in_array($pluginName, $this->activatedPluginNames);
     }
 
 }

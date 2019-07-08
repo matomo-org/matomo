@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -30,6 +30,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -379,6 +380,17 @@ class Manager
                     }
                 });
             }
+        }
+
+        $envCopyDir =  getenv('MATOMO_PLUGIN_COPY_DIR');
+        if (!empty($envCopyDir)) {
+            $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
+        }
+        
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
+            && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
+        ) {
+            throw new \Exception('"MATOMO_PLUGIN_COPY_DIR" dir must be one of "MATOMO_PLUGIN_DIRS" directories');
         }
     }
 
@@ -1066,7 +1078,9 @@ class Manager
 
             if ($cache->contains($cacheKey)) {
                 $pluginLicenseInfo = $cache->fetch($cacheKey);
-            } else {
+            } elseif (!SettingsServer::isTrackerApiRequest()) {
+                // prevent requesting license info during a tracker request see https://github.com/matomo-org/matomo/issues/14401
+                // as possibly many instances would try to do this at the same time
                 try {
                     $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
                     $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
@@ -1077,6 +1091,9 @@ class Manager
                 $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
                 $sixHours = 3600 * 6;
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
+            } else {
+                // tracker mode, we assume it is not missing until cache is written
+                $pluginLicenseInfo = array('missing' => false); 
             }
 
             if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -19,6 +19,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\CorePluginsAdmin\Controller as PluginsController;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\CorePluginsAdmin\PluginInstaller;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\Marketplace\Input\Mode;
 use Piwik\Plugins\Marketplace\Input\PluginName;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
@@ -68,8 +69,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $environment;
 
-    public function __construct(LicenseKey $licenseKey, Plugins $plugins, Api\Client $marketplaceApi, Consumer $consumer, PluginInstaller $pluginInstaller, Environment $environment)
-    {
+    /**
+     * @var PasswordVerifier
+     */
+    private $passwordVerify;
+
+    public function __construct(LicenseKey $licenseKey,
+                                Plugins $plugins,
+                                Api\Client $marketplaceApi,
+                                Consumer $consumer,
+                                PluginInstaller $pluginInstaller,
+                                Environment $environment,
+                                PasswordVerifier $passwordVerify
+    ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;
         $this->marketplaceApi = $marketplaceApi;
@@ -77,6 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->pluginInstaller = $pluginInstaller;
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->environment = $environment;
+        $this->passwordVerify = $passwordVerify;
 
         parent::__construct();
     }
@@ -381,10 +394,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function installPlugin()
     {
-        $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-        $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
-
-        return $view->render();
+        $params = array(
+            'module' => 'Marketplace',
+            'action' => 'installPlugin',
+            'mode' => 'admin',
+            'pluginName' => Common::getRequestVar('pluginName'),
+            'nonce' => Common::getRequestVar('nonce')
+        );
+        if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
+            $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
+            return $view->render();
+        }
     }
 
     private function createUpdateOrInstallView($template, $nonceName)

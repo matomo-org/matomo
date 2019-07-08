@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,6 +13,7 @@ use Piwik\Archive;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\IP;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -56,7 +57,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
-        $dataTable->filter('AddSegmentByLabel', ['countryCode']);
+        $dataTable->filter('AddSegmentValue');
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getFlagFromCode'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\countryTranslate'));
@@ -358,9 +359,13 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      * @return array|false
      */
-    public function getLocationFromIP($ip, $provider = false)
+    public function getLocationFromIP($ip = false, $provider = false)
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        if (empty($ip)) {
+            $ip = IP::getIpFromHeader();
+        }
 
         if (empty($provider)) {
             $provider = LocationProvider::getCurrentProviderId();

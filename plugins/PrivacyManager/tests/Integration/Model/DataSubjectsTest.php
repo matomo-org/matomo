@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,7 +10,10 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration\Model;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\TestLogFoo;
@@ -36,6 +39,10 @@ class DataSubjectsTest extends IntegrationTestCase
      */
     private $theFixture;
 
+    private $originalTrackingTime;
+
+    private $originalTimezone;
+
     public function setUp()
     {
         parent::setUp();
@@ -46,12 +53,17 @@ class DataSubjectsTest extends IntegrationTestCase
 
         $logTablesProvider = StaticContainer::get('Piwik\Plugin\LogTablesProvider');
         $this->dataSubjects = new DataSubjects($logTablesProvider);
+        $this->originalTimezone = ini_get('date.timezone');
+        $this->originalTrackingTime = $this->theFixture->trackingTime;
     }
 
     public function tearDown()
     {
         $this->theFixture->uninstallLogTables();
         $this->theFixture->tearDownLocation();
+        $this->removeArchiveInvalidationOptions();
+        ini_set('date.timezone', $this->originalTimezone);
+        $this->theFixture->trackingTime = $this->originalTrackingTime;
     }
 
     public function test_deleteExport_deleteOneVisit()
@@ -285,6 +297,123 @@ class DataSubjectsTest extends IntegrationTestCase
         ], $this->getAllLogFooBarBaz());
     }
 
+    public function test_deleteOneVisit_doesInvalidateArchive()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 2);
+        $this->theFixture->insertArchiveRows($idSite, 2);
+        $this->removeArchiveInvalidationOptions();
+
+        $visitDate = Date::factory($this->theFixture->dateTime);
+        $secondVisitDate = $visitDate->addDay(3);
+
+        $this->assertArchivesHaveNotBeenInvalidated($visitDate, $idSite);
+
+        $this->dataSubjects->deleteDataSubjects(array(array('idsite' => '1', 'idvisit' => 1)));
+
+        $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
+        $this->assertArchivesHaveNotBeenInvalidated($secondVisitDate, $idSite);
+    }
+
+    public function test_deleteTwoVisits_doesInvalidateArchive()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 2);
+        $this->theFixture->insertArchiveRows($idSite, 2);
+        $this->removeArchiveInvalidationOptions();
+
+        $this->dataSubjects->deleteDataSubjects(array(
+            array('idsite' => '1', 'idvisit' => 1),
+            array('idsite' => '1', 'idvisit' => 1 + $this->theFixture->numVisitsPerIteration),
+        ));
+
+        $visitDate = Date::factory($this->theFixture->dateTime);
+        $secondVisitDate = $visitDate->addDay(3);
+
+        $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
+        $this->assertArchivesHaveBeenInvalidated($secondVisitDate, $idSite);
+    }
+
+    public function test_deleteVisitsForMultipleSites_doesInvalidateArchive()
+    {
+        $this->theFixture->setUpWebsites();
+        for ($idSite = 1; $idSite <= 2; $idSite++) {
+            $this->theFixture->trackingTime = $this->originalTrackingTime;
+            $this->theFixture->trackVisits($idSite, 2);
+            $this->theFixture->insertArchiveRows($idSite, 2);
+        }
+        $this->removeArchiveInvalidationOptions();
+
+        $this->dataSubjects->deleteDataSubjects(array(
+            array('idsite' => '1', 'idvisit' => 1 + $this->theFixture->numVisitsPerIteration),
+            array('idsite' => '2', 'idvisit' => 1 + (2 * $this->theFixture->numVisitsPerIteration)),
+        ));
+
+        $visitDate = Date::factory($this->theFixture->dateTime);
+        $secondVisitDate = $visitDate->addDay(3);
+
+        $this->assertArchivesHaveNotBeenInvalidated($visitDate, 1);
+        $this->assertArchivesHaveBeenInvalidated($visitDate, 2);
+        $this->assertArchivesHaveBeenInvalidated($secondVisitDate, 1);
+        $this->assertArchivesHaveNotBeenInvalidated($secondVisitDate, 2);
+    }
+
+    public function test_deleteOneVisit_alreadyMarkedForInvalidation()
+    {
+        $this->theFixture->setUpWebsites();
+        $this->theFixture->trackVisits($idSite = 1, 2);
+        $this->theFixture->insertArchiveRows($idSite, 2);
+        $this->removeArchiveInvalidationOptions();
+
+        $visitDate = Date::factory($this->theFixture->dateTime);
+        $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d') . '_12345';
+        Option::set($key, '1');
+
+        $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
+
+        $this->dataSubjects->deleteDataSubjects(array(array('idsite' => '1', 'idvisit' => 1)));
+
+        $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
+    }
+
+    public function test_deleteOneVisit_siteInDifferentTimezone()
+    {
+        ini_set('date.timezone', 'UTC');
+        $websiteTimezone = 'UTC+5';
+
+        // It's 2 January in UTC but 3 January in UTC+5
+        $testTime = '2017-01-02 23:00:00';
+        $this->theFixture->trackingTime = Date::factory($testTime)->getDatetime();
+        $this->theFixture->setUpWebsites();
+        $this->setWebsiteTimezone($idSite = 1, $websiteTimezone);
+        $this->theFixture->trackVisits($idSite, 1);
+        $this->theFixture->insertArchiveRows($idSite, 1);
+        $this->removeArchiveInvalidationOptions();
+
+        $visitDate = Date::factory($testTime, $websiteTimezone);
+
+        $this->assertArchivesHaveNotBeenInvalidated($visitDate, $idSite);
+
+        $this->dataSubjects->deleteDataSubjects(array(array('idsite' => '1', 'idvisit' => 1)));
+
+        $this->assertArchivesHaveBeenInvalidated($visitDate, $idSite);
+    }
+
+    private function assertArchivesHaveNotBeenInvalidated(Date $visitDate, $idSite)
+    {
+        $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d');
+        $value = Option::getLike($key . '%');
+        $this->assertEmpty($value);
+    }
+
+    private function assertArchivesHaveBeenInvalidated(Date $visitDate, $idSite)
+    {
+        $key = 'report_to_invalidate_' . $idSite . '_' . $visitDate->toString('Y-m-d');
+        $value = Option::getLike($key . '%');
+        $this->assertNotEmpty($value);
+        $this->assertEquals('1', array_values($value)[0]);
+    }
+
     private function getFromTable($table)
     {
         $rows = Db::fetchAll('SELECT * from ' . Common::prefixTable($table));
@@ -375,5 +504,17 @@ class DataSubjectsTest extends IntegrationTestCase
     private function getCountForSite($table, $idSite)
     {
         return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable($table) . "` WHERE idsite = ?", [$idSite]);
+    }
+
+    private function removeArchiveInvalidationOptions()
+    {
+        Option::deleteLike('report_to_invalidate_%');
+    }
+
+    private function setWebsiteTimezone($idSite, $timezone)
+    {
+        $sql = 'UPDATE ' . Common::prefixTable('site') . ' SET timezone = ? WHERE idsite = ?';
+        $bind = array($timezone, $idSite);
+        Db::query($sql, $bind);
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -201,6 +201,7 @@ class SettingsPiwik
             $host = Url::getHostFromUrl($currentUrl);
 
             if (strlen($currentUrl) >= strlen('http://a/')
+                && Url::isValidHost($host)
                 && !Url::isLocalHost($host)) {
                 self::overwritePiwikUrl($currentUrl);
             }

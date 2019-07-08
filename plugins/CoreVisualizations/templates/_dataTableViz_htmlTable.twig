@@ -21,7 +21,7 @@
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
                 {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
-                {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') -%}
+                {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') or row.getMetadata('is_summary') -%}
                 {%- set shouldHighlightRow = isSummaryRow and properties.highlight_summary_row -%}
 
                 {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}

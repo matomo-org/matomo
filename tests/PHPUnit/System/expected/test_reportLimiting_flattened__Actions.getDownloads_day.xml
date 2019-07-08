@@ -10,6 +10,7 @@
 		<min_bandwidth />
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
+		<is_summary>1</is_summary>
 		<Actions_DownloadUrl>Others</Actions_DownloadUrl>
 	</row>
 	<row>
@@ -23,6 +24,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_DownloadUrl>cloudsite5.com/ - Others</Actions_DownloadUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>cloudsite6.com/ - Others</label>
@@ -35,6 +37,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_DownloadUrl>cloudsite6.com/ - Others</Actions_DownloadUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>cloudsite7.com/ - Others</label>
@@ -47,6 +50,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<Actions_DownloadUrl>cloudsite7.com/ - Others</Actions_DownloadUrl>
+		<is_summary>1</is_summary>
 	</row>
 	<row>
 		<label>cloudsite5.com/20/download</label>
