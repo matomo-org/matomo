@@ -65,7 +65,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite5.com/20/download</url>
 		<Actions_DownloadUrl>cloudsite5.com/20/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F20%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite6.com/24/download</label>
@@ -80,7 +80,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite6.com/24/download</url>
 		<Actions_DownloadUrl>cloudsite6.com/24/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite6.com%2F24%2Fdownload</segment>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite6.com%252F24%252Fdownload</segment>
 	</row>
 	<row>
 		<label>cloudsite7.com/28/download</label>
@@ -95,6 +95,6 @@
 		<avg_bandwidth>0</avg_bandwidth>
 		<url>http://cloudsite7.com/28/download</url>
 		<Actions_DownloadUrl>cloudsite7.com/28/download</Actions_DownloadUrl>
-		<segment>downloadUrl==http%3A%2F%2Fcloudsite7.com%2F28%2Fdownload</segment>
+		<segment>downloadUrl==http%253A%252F%252Fcloudsite7.com%252F28%252Fdownload</segment>
 	</row>
 </result>

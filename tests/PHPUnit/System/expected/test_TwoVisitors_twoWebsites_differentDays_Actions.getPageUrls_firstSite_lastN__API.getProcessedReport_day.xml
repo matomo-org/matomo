@@ -224,11 +224,11 @@
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/products</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fproducts</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fproducts</segment>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
@@ -240,11 +240,11 @@
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<url />
@@ -254,11 +254,11 @@
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<url />
@@ -268,11 +268,11 @@
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<url />
@@ -282,11 +282,11 @@
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<url />
@@ -296,11 +296,11 @@
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fthankyou</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fthankyou</segment>
 			</row>
 			<row>
 				<url />

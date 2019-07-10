@@ -39,7 +39,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page1</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage1</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage1</segment>
 				</row>
 				<row>
 					<label>/Page2</label>
@@ -55,7 +55,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page2</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage2</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage2</segment>
 				</row>
 				<row>
 					<label>/Page3</label>
@@ -71,7 +71,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page3</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage3</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage3</segment>
 				</row>
 			</subtable>
 		</row>
@@ -90,7 +90,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Contact</url>
-			<segment>pageUrl==http%3A%2F%2Fexample.org%2FContact</segment>
+			<segment>pageUrl==http%253A%252F%252Fexample.org%252FContact</segment>
 		</row>
 		<row>
 			<label>/Home</label>
@@ -107,7 +107,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url>http://example.org/Home</url>
-			<segment>pageUrl==http%3A%2F%2Fexample.org%2FHome</segment>
+			<segment>pageUrl==http%253A%252F%252Fexample.org%252FHome</segment>
 		</row>
 		<row>
 			<label>Contact</label>
@@ -141,7 +141,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>100%</exit_rate>
 					<url>http://example.org/Contact/ThankYou</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2FContact%2FThankYou</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252FContact%252FThankYou</segment>
 				</row>
 			</subtable>
 		</row>

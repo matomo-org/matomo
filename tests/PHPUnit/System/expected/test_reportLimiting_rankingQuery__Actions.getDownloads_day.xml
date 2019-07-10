@@ -22,7 +22,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://cloudsite5.com/20/download</url>
-				<segment>downloadUrl==http%3A%2F%2Fcloudsite5.com%2F20%2Fdownload</segment>
+				<segment>downloadUrl==http%253A%252F%252Fcloudsite5.com%252F20%252Fdownload</segment>
 			</row>
 			<row>
 				<label>Others</label>

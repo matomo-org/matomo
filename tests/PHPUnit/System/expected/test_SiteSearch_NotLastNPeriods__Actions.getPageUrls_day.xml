@@ -16,7 +16,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/index.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>/index.htm?gkwd=SHOULD be a PageView, NOT a search</label>
@@ -35,7 +35,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/index.htm?gkwd=SHOULD be a PageView, NOT a search</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Fgkwd%253DSHOULD%2Bbe%2Ba%2BPageView%252C%2BNOT%2Ba%2Bsearch</segment>
 	</row>
 	<row>
 		<label>/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</label>
@@ -53,6 +53,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Frandom%253DPAGEVIEW%252C%2BNOT%2BSEARCH%2526mykwd%253D%2526IS_FOLLOWING_SEARCH%2BONCE</segment>
 	</row>
 </result>

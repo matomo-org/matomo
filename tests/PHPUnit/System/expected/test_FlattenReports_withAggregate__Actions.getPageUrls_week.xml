@@ -485,7 +485,7 @@
 		<url>http://example.org/page1.html</url>
 		<Actions_PageUrl>/page1.html</Actions_PageUrl>
 		<is_aggregate>0</is_aggregate>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fpage1.html</segment>
 	</row>
 	<row>
 		<label>/sub</label>
