@@ -83,7 +83,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn($userIdFieldName);
             $rankingQuery->addLabelColumn($visitorIdFieldName);
         }
@@ -118,7 +117,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertDayReports()
     {
         /** @var DataTable $dataTable */
-        $dataTable = $this->arrays->asDataTable($hasSummaryRow = true);
+        $dataTable = $this->arrays->asDataTable();
         $this->setVisitorIds($dataTable);
         $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, PiwikMetrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::USERID_ARCHIVE_RECORD, $report);

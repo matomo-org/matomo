@@ -180,7 +180,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('eventCategory', 'eventAction', 'eventName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE), 'sum');
@@ -220,7 +219,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertDayReports()
     {
         foreach ($this->arrays as $recordName => $dataArray) {
-            $dataTable = $dataArray->asDataTable($hasSummaryRow = true);
+            $dataTable = $dataArray->asDataTable();
             $blob = $dataTable->getSerialized(
                 $this->maximumRowsInDataTable,
                 $this->maximumRowsInSubDataTable,
