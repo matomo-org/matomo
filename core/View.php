@@ -266,8 +266,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
-            $this->userAlias = $user['alias'];
+            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 
