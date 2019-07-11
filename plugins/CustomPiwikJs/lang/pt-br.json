@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Permitir que qualquer plugin estenda o arquivo de Rastreador Matomo JavaScript (matomo.js) e adicionar novas funcionalidades e recursos de medição de site.",
+        "DiagnosticPiwikJsWritable": "Rastreador de Javascript gravável (%s)",
+        "DiagnosticPiwikJsNotWritable": "O arquivo rastreador %s Matomo JavaScript não é gravável, que significa que outros plugins não podem estender o rastreador JavaScript. No futuro até mesmo alguns recursos principais podem não funcionar como esperado.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos tornar gravável %1$s o comando executando: %2$s"
+    }
+}

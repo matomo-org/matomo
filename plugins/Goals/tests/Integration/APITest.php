@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -39,6 +39,33 @@ class APITest extends IntegrationTestCase
 
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
+    }
+
+    /**
+     * @dataProvider getTestDataForNumericMatchAttribute
+     */
+    public function test_addGoal_handlesAppropriatePatternTypesForNumericAttributes($matchAttribute, $patternType, $pattern, $expectException)
+    {
+        try {
+            $this->api->addGoal($this->idSite, 'test goal', $matchAttribute, $pattern, $patternType);
+
+            if ($expectException) {
+                $this->fail('addGoal should have failed');
+            }
+        } catch (\Exception $ex) {
+            if (!$expectException) {
+                throw $ex;
+            }
+        }
+    }
+
+    public function getTestDataForNumericMatchAttribute()
+    {
+        return [
+            ['visit_duration', 'greater_than', 2, false],
+            ['visit_duration', '>=', 2, true],
+            ['visit_duration', 'exact', 2, true],
+        ];
     }
 
     public function test_addGoal_shouldReturnGoalId_IfCreationIsSuccessful()

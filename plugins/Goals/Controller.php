@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -382,6 +382,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'event', 'value' => Piwik::translate('Goals_SendEvent')),
             array('key' => 'file', 'value' => Piwik::translate('Goals_Download')),
             array('key' => 'external_website', 'value' => Piwik::translate('Goals_ClickOutlink')),
+            ['key' => 'visit_duration', 'value' => Piwik::translate('Goals_VisitDurationMatchAttr')],
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
@@ -397,6 +398,9 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'exact', 'value' => Piwik::translate('Goals_IsExactly', '')),
             array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
         );
+        $view->numericComparisonTypeOptions = [
+            ['key' => 'greater_than', 'value' => Piwik::translate('General_OperationGreaterThan')],
+        ];
     }
 
     /**
