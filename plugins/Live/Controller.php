@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -191,7 +191,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@Live/getVisitList.twig');
         $view->idSite = $this->idSite;
-        $view->startCounter = $startCounter < count($nextVisits) ? count($nextVisits) : $startCounter;
+        $view->startCounter = $startCounter < $nextVisits->getRowsCount() ? $nextVisits->getRowsCount() : $startCounter;
         $view->visits = $nextVisits;
         return $view->render();
     }

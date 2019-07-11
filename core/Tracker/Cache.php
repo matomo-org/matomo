@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -66,12 +66,32 @@ class Cache
         }
 
         $cache = self::getCache();
-        $cacheId = $idSite;
+        $cacheId = self::getCacheKeyWebsiteAttributes($idSite);
         $cacheContent = $cache->fetch($cacheId);
 
         if (false !== $cacheContent) {
             return $cacheContent;
         }
+
+        return self::updateCacheWebsiteAttributes($idSite);
+    }
+
+    private static function getCacheKeyWebsiteAttributes($idSite)
+    {
+        return $idSite;
+    }
+
+    /**
+     * Updates the website specific tracker cache containing data about the website: goals, URLs, etc.
+     *
+     * @param int $idSite
+     *
+     * @return array
+     */
+    public static function updateCacheWebsiteAttributes($idSite)
+    {
+        $cache = self::getCache();
+        $cacheId = self::getCacheKeyWebsiteAttributes($idSite);
 
         Tracker::initCorePiwikInTrackerMode();
 
@@ -133,6 +153,16 @@ class Cache
             return $cacheContent;
         }
 
+        return self::updateGeneralCache();
+    }
+
+    /**
+     * Updates the contents of the general (global) cache.
+     *
+     * @return array
+     */
+    public static function updateGeneralCache()
+    {
         Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
             'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),

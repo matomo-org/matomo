@@ -55,6 +55,9 @@
         "NoTokenProvided": "Die URL enthielt keinen Token",
         "NoSubscriptionFound": "Kein Abonnement gefunden. Möglicherweise war der Bericht bereits abgemeldet oder er wurde entfernt.",
         "EvolutionGraphsShowForEachInPeriod": "Evolutionsgraphen zeigen die Entwicklung für %1$sjeden Tag%2$s in den letzten %3$s",
-        "EvolutionGraphsShowForPreviousN": "Evolutionsgraphen zeigen die Entwicklung über die vorhergehenden N %s"
+        "EvolutionGraphsShowForPreviousN": "Evolutionsgraphen zeigen die Entwicklung über die vorhergehenden N %s",
+        "ReportPeriod": "Berichtsperiode",
+        "ReportPeriodHelp": "Der in diesem Bericht abgedeckte Zeitbereich. Standardmässig ist das identisch mit der E-Mail-Versandfrequenz, sodass beispielsweise bei wöchentlichem Versand des Berichts alle Informationen der vergangenen Woche abgedeckt sind.",
+        "ReportPeriodHelp2": "Sie können das abändern, wenn Sie andere Informationen sehen wollen und trotzdem die E-Mail-Versandfrequenz beibehalten wollen. Zum Beispiel, wenn die E-Mail-Versandfrequenz wöchentlich ist und die Berichtsperiode täglich, dann werden Sie jede Woche Informationen zum letzten Tag erhalten."
     }
 }

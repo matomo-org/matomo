@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -730,6 +730,8 @@ class API extends \Piwik\Plugin\API
 
         $this->model->deleteUserAccess($userLogin);
         $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
+
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -850,6 +852,8 @@ class API extends \Piwik\Plugin\API
             $userLogin,
             $this->createTokenAuth($userLogin)
         );
+
+        Cache::deleteTrackerCache();
     }
 
     /**

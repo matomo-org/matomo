@@ -1,8 +1,8 @@
 # Matomo (formerly Piwik) - matomo.org
 
-[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://matomo.org/download/)
-[![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
-[![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
+[![Latest Stable Version](https://poser.pugx.org/matomo-org/matomo/v/stable)](https://matomo.org/download/)
+[![Latest Unstable Version](https://poser.pugx.org/matomo-org/matomo/v/unstable)](https://packagist.org/packages/piwik/piwik)
+[![License](https://poser.pugx.org/matomo-org/matomo/license)](https://matomo.org/free-software/)
 
 ## Code Status
 
@@ -30,7 +30,6 @@ Or in short:
 
 Matomo is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
 
-
 ## Requirements
 
   * PHP 5.5.9 or greater
@@ -40,8 +39,9 @@ Matomo is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](m
 
 See https://matomo.org/docs/requirements/
 
-## Install
+## Install Matomo
 
+  * [Download Matomo](https://matomo.org/download/)
   * Upload matomo to your webserver
   * Point your browser to the directory
   * Follow the steps
@@ -50,9 +50,11 @@ See https://matomo.org/docs/requirements/
 
 See https://matomo.org/docs/installation/
 
+(When using Matomo for development you need to [install Matomo from the Git repository.](https://matomo.org/faq/how-to-install/faq_18271/))
+
 ## Free trial 
 
-If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (30 day free trial): https://www.innocraft.cloud/
+If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (30 day free trial): https://matomo.org/start-30-day-free-analytics-trial/
 
 ## Online Demo
 
@@ -60,7 +62,7 @@ Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.or
 
 ## Changelog
 
-For the list of all tickets closed in the current and past releases, see https://matomo.org/changelog/. For the list of technical changes in the Matomo platform, see [https://developer.matomo.org/changelog](https://developer.matomo.org/changelog).
+For the list of all tickets closed in the current and past releases, see [matomo.org/changelog/](https://matomo.org/changelog/). For the list of technical changes in the Matomo platform, see [developer.matomo.org/changelog](https://developer.matomo.org/changelog).
 
 ## Get involved!
 
@@ -69,10 +71,9 @@ and we need your help to make Matomo better… Why not participate in a useful p
 
 ## Quality Assurance
 
-The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://matomo.org/qa/)
+The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://developer.matomo.org/guides/tests)
 
 We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Matomo user interface is compatible with many browsers.
-
 
 ## Security
 
@@ -84,7 +85,7 @@ Security is a top priority at Matomo. As potential issues are discovered, we val
 
 For **Free support**, post a message in our community forums: [forum.matomo.org](https://forum.matomo.org/)
 
-For **Professional paid support**, send a message to our network of Matomo professionals: [matomo.org/support](https://matomo.org/contact/)  
+For **Professional paid support**, purchase a Matomo On-Premises Support Plan: [matomo.org/support-plans](https://matomo.org/support-plans/)  
 
 ## Contact
 
@@ -99,9 +100,6 @@ Contact us: [matomo.org/contact/](https://matomo.org/contact/)
 
 What makes Matomo unique from the competition:
 
-  * Real-time web analytics reports: in Matomo, reports are by default generated in real time.
-    For high traffic websites, you can choose the frequency for reports to be processed.
-
   * You own your web analytics data: since Matomo is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Matomo Analytics API.
 
   * Matomo is a Free Software which can easily be configured to respect your visitors' privacy.
@@ -114,6 +112,8 @@ What makes Matomo unique from the competition:
   * A vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 
   * Advanced Web Analytics capabilities such as E-commerce Tracking, Goal tracking, Campaign tracking,
-    Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real-time maps, and more!
+    Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real-time visits and maps, [and a lot more!](https://matomo.org/feature-overview/)
 
 Documentation and more info on https://matomo.org
+
+We are together creating the best open analytics platform in the world!

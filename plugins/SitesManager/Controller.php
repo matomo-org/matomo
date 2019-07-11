@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
@@ -140,12 +141,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplateAs('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
             'idSite' => $this->idSite,
-            'trackingHelp' => $this->renderTemplateAs('_displayJavascriptCode', array(
-                'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
-                'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
-                'idSite'          => $this->idSite,
-                'piwikUrl'        => $piwikUrl,
-            ), $viewType = 'basic'),
+            'jsTag'           => Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl)),
+            'piwikUrl'        => $piwikUrl,
         ), $viewType = 'basic');
     }
 }

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
@@ -155,7 +156,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     function getIdSite()
     {
-        return $this->details['idsite'];
+        return isset($this->details['idsite']) ? $this->details['idsite'] : Common::getRequestVar('idSite');
     }
 
     function getFingerprint()

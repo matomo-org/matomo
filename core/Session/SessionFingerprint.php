@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Session;
 
+use Piwik\Config;
 use Piwik\Date;
 
 /**
@@ -73,19 +74,29 @@ class SessionFingerprint
 
     public function initialize($userName, $isRemembered = false, $time = null)
     {
+        $time = $time ?: Date::now()->getTimestampUTC();
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 0;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ts' => $time ?: Date::now()->getTimestampUTC(),
+            'ts' => $time,
             'remembered' => $isRemembered,
+            'expiration' => $this->getExpirationTimeFromNow($time),
         ];
     }
 
     public function clear()
     {
-        unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
-        unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
-        unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        if (isset($_SESSION[self::USER_NAME_SESSION_VAR_NAME])) { // may not be available during tests
+            unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
+        }
+
+        if (isset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
+        }
+
+        if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        }
     }
 
     public function getSessionStartTime()
@@ -100,9 +111,42 @@ class SessionFingerprint
         return $userInfo['ts'];
     }
 
+    public function getExpirationTime()
+    {
+        $userInfo = $this->getUserInfo();
+        if (empty($userInfo)
+            || empty($userInfo['expiration'])
+        ) {
+            return null;
+        }
+
+        return $userInfo['expiration'];
+    }
+
     public function isRemembered()
     {
         $userInfo = $this->getUserInfo();
         return !empty($userInfo['remembered']);
+    }
+
+    public function updateSessionExpirationTime()
+    {
+        $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]['expiration'] = $this->getExpirationTimeFromNow();
+    }
+
+    private function getExpirationTimeFromNow($time = null)
+    {
+        $time = $time ?: Date::now()->getTimestampUTC();
+
+        $nonRememberedSessionExpireTime = Config::getInstance()->General['login_session_not_remembered_idle_timeout'];
+        $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
+
+        if ($this->isRemembered()) {
+            $expireDuration = $sessionCookieLifetime;
+        } else {
+            $expireDuration = $nonRememberedSessionExpireTime;
+        }
+
+        return $time + $expireDuration;
     }
 }

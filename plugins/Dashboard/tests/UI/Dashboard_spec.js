@@ -190,6 +190,7 @@ describe("Dashboard", function () {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="renameDashboard"]');
         await page.evaluate(() => $('#newDashboardName').val('newname'));
+        await page.waitFor(250);
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Save)');
         await button.click();
         await page.mouse.move(-10, -10);
