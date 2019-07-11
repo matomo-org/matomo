@@ -195,15 +195,19 @@
         };
 
         this.isMatchAttributeNumeric = function () {
-            return ['visit_duration', 'visit_total_actions', 'visit_total_pageviews',].indexOf(this.goal.matchAttribute) > -1;
+            return ['visit_duration'].indexOf(this.goal.matchAttribute) > -1;
         };
 
         this.initPatternType = function () {
             if (this.isMatchAttributeNumeric()) {
-                this.goal.patternType = '>';
+                this.goal.patternType = 'greater_than';
             } else {
                 this.goal.patternType = 'contains';
             }
+        };
+
+        this.getPatternFieldLabel = function () {
+            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Patterns');
         };
 
         this.showListOfReports(false);

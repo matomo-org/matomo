@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -62,7 +62,7 @@ class APITest extends IntegrationTestCase
     public function getTestDataForNumericMatchAttribute()
     {
         return [
-            ['visit_duration', '>', 2, false],
+            ['visit_duration', 'greater_than', 2, false],
             ['visit_duration', '>=', 2, true],
             ['visit_duration', 'exact', 2, true],
         ];

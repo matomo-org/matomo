@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
      * @param string $matchAttribute 'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
      *                               'event_action', 'event_category' or 'event_name'
      * @param string $pattern eg. purchase-confirmation.htm or numeric value if used with a numeric match attribute
-     * @param string $patternType 'regex', 'contains', 'exact', or '>' for numeric match attributes
+     * @param string $patternType 'regex', 'contains', 'exact', or 'greater_than' for numeric match attributes
      * @param bool $caseSensitive
      * @param bool|float $revenue If set, default revenue to assign to conversions
      * @param bool $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
@@ -274,7 +274,7 @@ class API extends \Piwik\Plugin\API
         $patternType = strtolower($patternType);
 
         if (in_array($matchAttribute, GoalManager::$NUMERIC_MATCH_ATTRIBUTES)) {
-            $validValues = ['>'];
+            $validValues = ['greater_than'];
         } else {
             $validValues = ['exact', 'contains', 'regex'];
         }

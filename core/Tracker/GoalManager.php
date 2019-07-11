@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -223,12 +223,12 @@ class GoalManager
                 return null;
         }
 
-        $pattern = (int) $goal['pattern'];
+        $pattern = (float) $goal['pattern'];
 
         Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
 
         switch ($goal['pattern_type']) {
-            case '>':
+            case 'greater_than':
                 $matches = $valueToMatchAgainst > $pattern;
                 break;
             default:

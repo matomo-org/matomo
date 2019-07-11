@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -399,7 +399,7 @@ class Controller extends \Piwik\Plugin\Controller
             array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
         );
         $view->numericComparisonTypeOptions = [
-            ['key' => '>', 'value' => Piwik::translate('General_OperationGreaterThan')],
+            ['key' => 'greater_than', 'value' => Piwik::translate('General_OperationGreaterThan')],
         ];
     }
 

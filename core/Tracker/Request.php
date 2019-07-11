@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -620,7 +620,8 @@ class Request
             if ($id < 1
                 || $id > $maxCustomVars
                 || count($keyValue) != 2
-                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
+                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0])
+                || (!is_string($keyValue[1]) && !is_numeric($keyValue[1])))
             ) {
                 Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;
