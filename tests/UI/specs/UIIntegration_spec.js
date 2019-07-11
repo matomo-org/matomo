@@ -224,6 +224,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.evaluate(function(){
             $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
         });
+        await page.waitFor(50);
 
         expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
