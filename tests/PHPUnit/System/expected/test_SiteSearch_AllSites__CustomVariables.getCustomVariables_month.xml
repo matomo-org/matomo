@@ -16,12 +16,6 @@
 				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
-						<label>0</label>
-						<nb_visits>3</nb_visits>
-						<nb_actions>4</nb_actions>
-						<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-					</row>
-					<row>
 						<label>10</label>
 						<nb_visits>3</nb_visits>
 						<nb_actions>4</nb_actions>
@@ -32,6 +26,12 @@
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					</row>
+					<row>
+						<label>Others</label>
+						<nb_visits>3</nb_visits>
+						<nb_actions>4</nb_actions>
+						<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 					</row>
 				</subtable>
 			</row>
@@ -92,7 +92,7 @@
 				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
-						<label>0</label>
+						<label>Others</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>2</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>

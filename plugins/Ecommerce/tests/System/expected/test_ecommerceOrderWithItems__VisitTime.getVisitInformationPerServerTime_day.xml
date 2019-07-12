@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>00</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>4</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>4</max_actions>
-		<sum_visit_length>721</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>10</revenue>
-		<segment>visitStartServerHour==0</segment>
-	</row>
-	<row>
 		<label>01</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -317,5 +297,24 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>visitStartServerHour==23</segment>
+	</row>
+	<row>
+		<label>00</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>4</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>4</max_actions>
+		<sum_visit_length>721</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>10</revenue>
 	</row>
 </result>

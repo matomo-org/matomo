@@ -77,17 +77,6 @@
 			<bounce_rate>100%</bounce_rate>
 		</row>
 		<row>
-			<label>00</label>
-			<nb_uniq_visitors>0</nb_uniq_visitors>
-			<nb_visits>0</nb_visits>
-			<nb_actions>0</nb_actions>
-			<nb_users>0</nb_users>
-			<nb_actions_per_visit>0</nb_actions_per_visit>
-			<avg_time_on_site>00:00:00</avg_time_on_site>
-			<bounce_rate>0%</bounce_rate>
-			<revenue>$0</revenue>
-		</row>
-		<row>
 			<label>01</label>
 			<nb_uniq_visitors>0</nb_uniq_visitors>
 			<nb_visits>0</nb_visits>
@@ -318,6 +307,17 @@
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$0</revenue>
 		</row>
+		<row>
+			<label>00</label>
+			<nb_uniq_visitors>0</nb_uniq_visitors>
+			<nb_visits>0</nb_visits>
+			<nb_actions>0</nb_actions>
+			<nb_users>0</nb_users>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<bounce_rate>0%</bounce_rate>
+			<revenue>$0</revenue>
+		</row>
 	</reportData>
 	<reportMetadata>
 		<row>
@@ -325,9 +325,6 @@
 		</row>
 		<row>
 			<segment>visitStartServerHour==11</segment>
-		</row>
-		<row>
-			<segment>visitStartServerHour==0</segment>
 		</row>
 		<row>
 			<segment>visitStartServerHour==1</segment>
@@ -391,6 +388,8 @@
 		</row>
 		<row>
 			<segment>visitStartServerHour==23</segment>
+		</row>
+		<row>
 		</row>
 	</reportMetadata>
 	<reportTotal>

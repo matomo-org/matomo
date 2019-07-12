@@ -42,7 +42,7 @@
 		<segment>customVariableName==ValueIsZero</segment>
 		<subtable>
 			<row>
-				<label>0</label>
+				<label>Others</label>
 				<nb_visits>3</nb_visits>
 				<nb_actions>13</nb_actions>
 				<nb_users>0</nb_users>
