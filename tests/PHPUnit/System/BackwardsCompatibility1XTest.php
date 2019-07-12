@@ -101,6 +101,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'xmlFieldsToRemove' => [
                 'entry_sum_visit_length',
                 'sum_visit_length',
+                'nb_visits_converted',
             ],
         );
 
@@ -181,7 +182,6 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $allReportsOptions = $defaultOptions;
         $allReportsOptions['compareAgainst'] = 'OneVisitorTwoVisits';
         $allReportsOptions['apiNotToCall']   = $apiNotToCall;
-        $allReportsOptions['otherRequestParameters']['hideColumns'] .= ',nb_visits_converted';
 
         return array(
             array('all', $allReportsOptions),
