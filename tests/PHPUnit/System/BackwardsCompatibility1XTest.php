@@ -181,6 +181,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
         $allReportsOptions = $defaultOptions;
         $allReportsOptions['compareAgainst'] = 'OneVisitorTwoVisits';
         $allReportsOptions['apiNotToCall']   = $apiNotToCall;
+        $allReportsOptions['otherRequestParameters']['hideColumns'] .= ',nb_visits_converted';
 
         return array(
             array('all', $allReportsOptions),
