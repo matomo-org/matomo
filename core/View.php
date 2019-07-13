@@ -283,7 +283,7 @@ class View implements ViewInterface
             Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
         }
         // don't send Referer-Header for outgoing links
-        Common::sendHeader('Referrer-Policy: strict-origin');
+        Common::sendHeader('Referrer-Policy: same-origin');
 
         return $this->renderTwigTemplate();
     }
