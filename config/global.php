@@ -150,7 +150,7 @@ return array(
         if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
             $ips = $general['login_whitelist_ip'];
         }
-        
+
         $ipsResolved = array();
 
         foreach ($ips as $ip) {
@@ -199,13 +199,6 @@ return array(
         $host = trim($mailConfig['host']);
         $transport = new \Zend_Mail_Transport_Smtp($host, $smtpConfig);
         return $transport;
-    },
-
-    'Zend_Validate_EmailAddress' => function () {
-        return new \Zend_Validate_EmailAddress(array(
-            'hostname' => new \Zend_Validate_Hostname(array(
-                'tld' => false,
-            ))));
     },
 
     'Piwik\Tracker\VisitorRecognizer' => DI\object()
