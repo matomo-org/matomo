@@ -80,8 +80,6 @@ body>.widget table.dataTable {
 
 // for dataTables in report pages (not for widgets in the dashboard)
 .theWidgetContent .card .card-content table.dataTable {
-  margin-left: -20px;
-  width: ~"calc(100% + 40px)";
 
   th {
     background: @theme-color-background-base !important;
@@ -610,8 +608,9 @@ td.cellSubDataTable .loadingPiwik {
 }
 
 div.dataTableScroller {
-  white-space: nowrap;
   overflow-x: scroll;
+  margin-left: -20px;
+  width: ~"calc(100% + 40px)";
 }
 
 @media only screen and (min-width: 993px) {
