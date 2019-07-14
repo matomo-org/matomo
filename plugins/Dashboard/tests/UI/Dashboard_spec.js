@@ -262,6 +262,7 @@ describe("Dashboard", function () {
         await page.click('li[data-action="createDashboard"]');
         await page.waitForSelector('#createDashboardName'); // await animation
         await page.type('#createDashboardName', 'newdash2');
+        await page.waitFor(100);
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);
