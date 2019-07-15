@@ -65,6 +65,7 @@ describe("DashboardManager", function () {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
         await page.type('#createDashboardName', 'newdash2');
+        await page.waitFor(50);
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
 
