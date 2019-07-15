@@ -987,7 +987,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto(adminUrl);
         await page.waitFor('#notificationContainer');
 
-        const pageWrap = await page.$('.pageWrap');
+        const pageWrap = await page.$('.pageWrap, #notificationContainer');
         expect(await pageWrap.screenshot()).to.matchImage('api_error');
     });
 
