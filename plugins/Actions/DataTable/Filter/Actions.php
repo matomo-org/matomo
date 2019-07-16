@@ -67,14 +67,14 @@ class Actions extends BaseFilter
                     if ($row->getIdSubDataTable()) {
                         $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
                     } else {
-                        $row->setMetadata('segmentValue', trim(urldecode($pageTitlePath)));
+                        $row->setMetadata('segmentValue', trim($pageTitlePath));
                     }
                 } else if ($isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
                     // for older data w/o page_title_path metadata
                     if ($row->getIdSubDataTable()) {
                         $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($label)))));
                     } else {
-                        $row->setMetadata('segmentValue', trim(urldecode($label)));
+                        $row->setMetadata('segmentValue', trim($label));
                     }
                 } else if ($this->actionType == Action::TYPE_PAGE_URL && $urlPrefix) { // folder for older data w/ no folder URL metadata
                     $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
