@@ -705,6 +705,11 @@ num_days_before_tracking_code_reminder = 5
 ; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
 
+; Whether or not to send weekly emails to superusers about tracking failures.
+; Default is 1.
+enable_tracking_failures_notification = 1
+
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,

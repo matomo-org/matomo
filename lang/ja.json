@@ -442,6 +442,7 @@
         "VisitorIPs": "ビジター IP",
         "Visitors": "ビジター",
         "VisitsWith": "%s のビジット",
+        "VisitorFingerprint": "指紋",
         "VisitorSettings": "ビジターの設定",
         "VisitType": "ビジットタイプ",
         "VisitTypes": "ビジットタイプ",
@@ -485,7 +486,9 @@
         "YouAreCurrentlyUsing": "現在 Matomo %s を利用しています",
         "YouAreViewingDemoMessage": "現在、%1$s Matomo %2$s のデモを表示しています",
         "YouMustBeLoggedIn": "この機能にアクセスするにはログインする必要があります。",
-        "YourChangesHaveBeenSaved": "変更内容が保存されました。"
+        "YourChangesHaveBeenSaved": "変更内容が保存されました。",
+        "ThankYouForUsingMatomo": "Matomo のご利用ありがとうございます",
+        "TheMatomoTeam": "Matomo チーム"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo モバイルについて",
@@ -558,7 +561,8 @@
         "VerifyAccount": "アカウントを確認",
         "ValidateSslCertificate": "SSL 証明の確認",
         "VerifyLoginData": "ユーザー名とパスワードの組み合わせが正しいことを確認してください。",
-        "YouAreOffline": "申し訳ありません、現在オフラインです"
+        "YouAreOffline": "申し訳ありません、現在オフラインです",
+        "MatomoMarketplace": "Matomo マーケットプレイス"
     },
     "RowEvolution": {
         "AvailableMetrics": "利用可能なメトリクス",
