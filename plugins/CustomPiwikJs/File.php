@@ -15,11 +15,16 @@ class File
     /**
      * @var string
      */
-    private $file;
+    protected $file;
 
     public function __construct($file)
     {
         $this->file = $file;
+    }
+
+    public function setFile($file)
+    {
+        return new static($file);
     }
 
     public function checkReadable()
