@@ -99,12 +99,12 @@ class Segment
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
 
-        // First try with url decoded value. If that fails, try with raw value.
+        // First try with raw value value. If that fails, try with url decoded value.
         // If that also fails, it will throw the exception
         try {
-            $this->initializeSegment(urldecode($segmentCondition), $idSites);
-        } catch (Exception $e) {
             $this->initializeSegment($segmentCondition, $idSites);
+        } catch (Exception $e) {
+            $this->initializeSegment(urldecode($segmentCondition), $idSites);
         }
     }
 
