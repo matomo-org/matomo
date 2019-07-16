@@ -3,7 +3,7 @@
 <p>{{ 'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate }}</p>
 
 <p>{{ 'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate(latestVersion) }}<br/>
-<a href="{{ host }}index.php?module=CoreUpdater&action=newVersionAvailable">{{ host }}index.php?module=CoreUpdater&action=newVersionAvailable</a>
+<a href="{{ host|e('html_attr') }}index.php?module=CoreUpdater&action=newVersionAvailable">{{ host }}index.php?module=CoreUpdater&action=newVersionAvailable</a>
 </p>
 
 {% if isStableVersion %}
