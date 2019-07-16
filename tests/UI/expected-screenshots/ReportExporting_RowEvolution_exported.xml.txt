@@ -14,16 +14,16 @@
 			<bounce_count>2</bounce_count>
 			<nb_visits_converted>11</nb_visits_converted>
 			<goals>
-					<row idgoal='1'>
-						<nb_conversions>23</nb_conversions>
-						<nb_visits_converted>11</nb_visits_converted>
-						<revenue>115</revenue>
-					</row>
-					<row idgoal='2'>
-						<nb_conversions>11</nb_conversions>
-						<nb_visits_converted>11</nb_visits_converted>
-						<revenue>55</revenue>
-					</row>
+				<row idgoal='1'>
+					<nb_conversions>23</nb_conversions>
+					<nb_visits_converted>11</nb_visits_converted>
+					<revenue>115</revenue>
+				</row>
+				<row idgoal='2'>
+					<nb_conversions>11</nb_conversions>
+					<nb_visits_converted>11</nb_visits_converted>
+					<revenue>55</revenue>
+				</row>
 			</goals>
 			<nb_conversions>34</nb_conversions>
 			<revenue>170</revenue>
