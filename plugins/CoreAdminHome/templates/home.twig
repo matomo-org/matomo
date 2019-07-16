@@ -31,11 +31,12 @@
                     {% endif %}
                 </div>
             {% endif %}
+            <div class="col s12 m4">
             {% if isFeedbackEnabled %}
-                <div class="col s12 m4">
-                    {{ feedbackHelp|raw }}
-                </div>
+                {{ feedbackHelp|raw }}
             {% endif %}
+                <div piwik-widget-loader='{"module":"CoreHome","action":"quickLinks"}'></div>
+            </div>
         </div>
     {% elseif isFeedbackEnabled %}
         {{ feedbackHelp|raw }}
