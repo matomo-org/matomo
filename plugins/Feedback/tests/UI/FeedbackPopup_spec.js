@@ -11,7 +11,7 @@ describe("FeedbackPopup", function () {
     this.timeout(0);
     this.fixture = "Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackPopupFixture";
 
-    var url = "?module=CoreHome&action=index&idSite=1&period=day&date=yesterday";
+    var url = "?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11";
 
     before(async function() {
         await page.webpage.setViewport({

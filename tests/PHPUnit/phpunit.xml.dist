@@ -50,6 +50,15 @@
         <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
         <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
     </testsuite>
+    <testsuite name="IntegrationTestsCore">
+        <directory>./Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/tests/Integration</directory>
+        <directory>../../tests/resources/custompluginsdir/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="IntegrationTestsPlugins">
+        <directory>../../plugins/*/tests/Integration</directory>
+        <directory>../../plugins/*/Test/Integration</directory>
+    </testsuite>
     <testsuite name="UnitTests">
         <directory>./Unit</directory>
         <directory>../../plugins/*/tests/Unit</directory>
