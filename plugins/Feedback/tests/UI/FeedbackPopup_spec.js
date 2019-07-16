@@ -30,6 +30,7 @@ describe("FeedbackPopup", function () {
         // Click on the "Remind me in 90 days" button = the popup shouldn't appear for the next test
         var remindLaterBtn = await modal.$$('.modal-footer .btn-flat');
         await remindLaterBtn[0].click();
+        await page.waitForNetworkIdle();
     });
 
     it('should not display popup when next reminder date is in future', async function () {

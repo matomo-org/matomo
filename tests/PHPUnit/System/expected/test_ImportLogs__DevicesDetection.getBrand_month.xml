@@ -7,6 +7,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>242</sum_visit_length>
 		<bounce_count>22</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>20</nb_conversions>
@@ -18,7 +19,6 @@
 		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/brand/unk.png</logo>
 		<segment>deviceBrand==Unknown</segment>
 	</row>
@@ -29,6 +29,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>307</sum_visit_length>
 		<bounce_count>15</bounce_count>
+		<nb_visits_converted>17</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>17</nb_conversions>
@@ -50,6 +51,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -71,6 +73,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

@@ -94,7 +94,7 @@ describe("SegmentSelectorEditorTest", function () {
     it("should show suggested segment values when a segment value input is focused", async function() {
         await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
         await page.waitForNetworkIdle();
-        await page.waitFor(250);
+        await page.waitFor(500);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
     });
 

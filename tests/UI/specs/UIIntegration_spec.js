@@ -222,7 +222,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await (await page.jQuery('circle:eq(0)')).hover();
         await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
-            $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
+            $('.ui-tooltip:visible .rel-time').data('actiontime', (Date.now() - (4 * 24 * 60 * 60 * 1000)) / 1000);
         });
 
         // updating the time might take up to one second
