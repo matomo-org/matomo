@@ -1574,7 +1574,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $cleanRow[Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
             }
 
-            if ($label == RankingQuery::LABEL_SUMMARY_ROW) {
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
                 $table->addSummaryRow(new Row($cleanRow));
             } else {
                 $table->addRow(new Row($cleanRow));
