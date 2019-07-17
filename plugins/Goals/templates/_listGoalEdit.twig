@@ -49,10 +49,15 @@
                     <td class="first">{{ goal.idgoal }}</td>
                     <td>{{ goal.name }}</td>
                     <td>{{ goal.description }}</td>
-                    <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                    <td>
+                        <span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                        {% if goal.match_attribute == 'visit_duration' %}
+                            {{ 'General_OperationGreaterThan'|translate|lcfirst }} {{ 'Intl_NMinutes'|translate(goal.pattern) }}
+                        {% else %}
                         {% if goal.pattern_type is defined %}
                             <br/>
                             {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
+                        {% endif %}
                         {% endif %}
                     </td>
                     <td class="center">
@@ -102,7 +107,8 @@
         "external_website": "{{ 'Goals_ClickOutlink'|translate }}",
         "event_action": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventAction'|translate }})",
         "event_category": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventCategory'|translate }})",
-        "event_name": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventName'|translate }})"
+        "event_name": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventName'|translate }})",
+        "visit_duration": "{{ 'Goals_VisitDuration'|translate|ucfirst }}"
     };
 
     $(document).ready(function () {

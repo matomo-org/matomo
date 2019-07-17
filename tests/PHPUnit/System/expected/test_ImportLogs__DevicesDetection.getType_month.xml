@@ -7,6 +7,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>549</sum_visit_length>
 		<bounce_count>32</bounce_count>
+		<nb_visits_converted>35</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>35</nb_conversions>
@@ -28,6 +29,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -49,6 +51,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -60,7 +63,6 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/devices/unknown.png</logo>
 	</row>
 	<row>

@@ -40,7 +40,7 @@
     <li class="no-padding" ng-repeat="category in menuModel.menu">
         <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
             <li>
-                <a class="collapsible-header">{{ category.name }}<i class="{{ category.icon ? category.icon : 'icon-arrow-bottom' }}"></i></a>
+                <a class="collapsible-header"><i class="{{ category.icon ? category.icon : 'icon-arrow-bottom' }}"></i>{{ category.name }}</a>
                 <div class="collapsible-body">
                     <ul>
                         <li ng-repeat="subcategory in category.subcategories">
