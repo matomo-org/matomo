@@ -101,6 +101,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'xmlFieldsToRemove' => [
                 'entry_sum_visit_length',
                 'sum_visit_length',
+                'nb_visits_converted',
             ],
         );
 

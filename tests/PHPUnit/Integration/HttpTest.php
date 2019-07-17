@@ -292,4 +292,29 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $result = Http::sendHttpRequestBy('socket', 'https://piwik.org/', 10);
         $this->assertNotEmpty($result);
     }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
+    public function testHttpDownloadChunk_responseSizeLimitedToChunk($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            'https://tools.ietf.org/html/rfc7233',
+            300,
+            null,
+            null,
+            null,
+            0,
+            '',
+            false,
+            array(0, 50)
+        );
+        /**
+         * The last arg above asked the server to limit the response sent back to bytes 0->50.
+         * The RFC for HTTP Range Requests says that these headers can be ignored, so the test
+         * depends on a server that will respect it - we are requesting the RFC itself, which does.
+         */
+        $this->assertEquals(51, strlen($result));
+    }
 }

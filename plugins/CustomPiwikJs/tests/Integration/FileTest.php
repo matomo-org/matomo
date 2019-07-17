@@ -11,6 +11,10 @@ namespace Piwik\Plugins\CustomPiwikJs\tests\Integration;
 use Piwik\Plugins\CustomPiwikJs\File;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+class CustomTestFile extends File {
+
+}
+
 /**
  * @group CustomPiwikJs
  * @group FileTest
@@ -96,6 +100,21 @@ class FileTest extends IntegrationTestCase
     {
         $this->assertSame('test.js', $this->makeFile()->getName());
         $this->assertSame('notExisTinGFile.js', $this->makeNotReadableFile()->getName());
+    }
+
+    public function test_setFile_createsNewObjectLeavesOldUnchanged()
+    {
+        $file = $this->makeFile();
+        $file2 = $file->setFile('foo/bar.png');
+        $this->assertSame('test.js', $file->getName());
+        $this->assertSame('bar.png', $file2->getName());
+    }
+
+    public function test_setFile_returnsObjectOfSameType()
+    {
+        $file = new CustomTestFile('foo/baz.png');
+        $file2 = $file->setFile('foo/bar.png');
+        $this->assertTrue($file2 instanceof CustomTestFile);
     }
 
     public function test_getPath()
