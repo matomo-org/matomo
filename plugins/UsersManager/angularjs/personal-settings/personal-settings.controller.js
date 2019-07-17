@@ -46,6 +46,11 @@
         };
 
         this.signupForNewsletter = function () {
+            var checkbox = $('#newsletterSignupCheckbox');
+            if (! checkbox.is(':checked')) {
+                return false;
+            }
+
             var signupBtn = $('#newsletterSignupBtn');
             signupBtn.html(translate('General_Loading'));
 

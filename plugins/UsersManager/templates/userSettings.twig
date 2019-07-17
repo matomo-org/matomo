@@ -123,7 +123,13 @@
 {% if showNewsletterSignup %}
 <div piwik-content-block id="newsletterSignup" content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
 
-    <div id="newsletterSignupMsg">{{ 'UsersManager_NewsletterSignupMessage'|translate|raw }}<br/><br/></div>
+    <div id="newsletterSignupMsg">
+        <div>
+            <input type="checkbox" id="newsletterSignupCheckbox"/>
+            <label for="newsletterSignupCheckbox">{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|raw }}</label>
+        </div>
+        <br/><br/>
+    </div>
     <div id="newsletterSignupFailure" style="display:none">{{ 'UsersManager_NewsletterSignupFailureMessage'|translate|raw }}<br/><br/></div>
     <div id="newsletterSignupSuccess" style="display:none">{{ 'UsersManager_NewsletterSignupSuccessMessage'|translate|raw }}<br/><br/></div>
 

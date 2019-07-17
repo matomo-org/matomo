@@ -163,7 +163,7 @@
         "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
         "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s).",
         "NewsletterSignupTitle": "Newsletter Signup",
-        "NewsletterSignupMessage": "Would you like to sign up for the Matomo newsletter?",
+        "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on our %1$sPrivacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon."
     }
