@@ -395,7 +395,7 @@ class VisitTest extends IntegrationTestCase
         $currentActionTime = Date::today()->getDatetime();
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
-        $expectedRemembered = array('2019-07-06' => [1]);
+        $expectedRemembered = array(Date::today()->toString() => [1]);
 
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
     }

@@ -45,7 +45,13 @@ class ArchiveSelector
         return new Model();
     }
 
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params)
+    /**
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
