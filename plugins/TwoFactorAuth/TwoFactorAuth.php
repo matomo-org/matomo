@@ -180,14 +180,11 @@ class TwoFactorAuth extends \Piwik\Plugin
             return false;
         }
 
-        if (Piwik::getModule() === 'Widgetize') {
-            // we cannot use $module as it would be different when dispatching other requests within the widgetized request
-            $auth = StaticContainer::get('Piwik\Auth');
-            if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
-                // when authenticated by token only, we do not require 2fa
-                // needed eg for rendering exported widgets authenticated by token
-                return false;
-            }
+        $auth = StaticContainer::get('Piwik\Auth');
+        if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+            // when authenticated by token only, we do not require 2fa
+            // needed eg for rendering exported widgets authenticated by token
+            return false;
         }
 
         $requiresAuth = true;

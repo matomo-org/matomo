@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
+use Piwik\Option;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordResetter;
@@ -65,6 +66,62 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter->confirmNewPassword('superUserLogin', $this->capturedToken);
 
         $this->checkPasswordIs(self::NEWPASSWORD);
+    }
+
+    public function tests_passwordReset_worksUpToThreeTimesInAnHour()
+    {
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $this->assertNotEmpty($this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage You have requested too many password resets shortly. A new request can be made in one hour. If you have problems resetting your password, please contact you administrator for help.
+     */
+    public function test_passwordReset_notAllowedMoreThanThreeTimesInAnHour()
+    {
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $this->assertNotEmpty($this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $token = $this->capturedToken;
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+        $this->assertNotEquals($token, $this->capturedToken);
+
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+    }
+
+    public function test_passwordReset_newRequestAllowedAfterAnHour()
+    {
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $optionName = $this->passwordResetter->getPasswordResetInfoOptionName('superUserLogin');
+        $data = json_decode(Option::get($optionName), true);
+
+        $data['timestamp'] = time()-3601;
+        $data['requests'] = 3;
+
+        Option::set($optionName, json_encode($data));
+
+        $this->passwordResetter->initiatePasswordResetProcess('superUserLogin', self::NEWPASSWORD);
+
+        $optionName = $this->passwordResetter->getPasswordResetInfoOptionName('superUserLogin');
+        $data = json_decode(Option::get($optionName), true);
+
+        $this->assertEquals(1, $data['requests']);
     }
 
     /**
