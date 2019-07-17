@@ -386,7 +386,7 @@ class TrackerTest extends IntegrationTestCase
         $this->tracker->trackRequest($this->request);
 
         // make sure today archives are also invalidated
-        $this->assertEquals(['report_to_invalidate_2_2019-04-02_9551' => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
+        $this->assertEquals(['report_to_invalidate_2_2019-04-02_' . getmypid() => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
     }
 
     public function test_TrackingNewVisitOfKnownVisitor()
