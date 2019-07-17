@@ -65,7 +65,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<url>http://example.org/sub1/sub2/sub3/news</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fsub1%252Fsub2%252Fsub3</segment>
 		<Actions_PageUrl>/sub1/sub2/sub3/news</Actions_PageUrl>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fsub1%252Fsub2%252Fsub3%252Fnews</segment>
 	</row>
 </result>

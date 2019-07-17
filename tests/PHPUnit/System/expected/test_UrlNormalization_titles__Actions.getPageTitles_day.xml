@@ -14,7 +14,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Emoji+here%3A+%F0%9F%98%8E</segment>
+		<segment>pageTitle==Emoji+here%3A+%25F0%259F%2598%258E</segment>
 	</row>
 	<row>
 		<label> http://incredible.title/</label>
