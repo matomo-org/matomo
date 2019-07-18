@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -338,7 +338,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
                     . ' The error Messages from MySQL were: '
                     . $didWeUseBulk
                     . "\n\n Learn more how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
-                    . "\n   or ask in this Piwik ticket (https://github.com/matomo-org/piwik/issues/3605)"
+                    . "\n   or ask in this Piwik ticket (https://github.com/matomo-org/matomo/issues/3605)"
             );
         }
         return $didWeUseBulk;
