@@ -283,7 +283,7 @@ function ajaxHelper() {
         var loadingError = $('#loadingError');
         if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
             if (deferred && deferred.status === 500) {
-                $(document.body).html(deferred.responseText);
+                $(document.body).html(piwikHelper.escape(deferred.responseText));
             }
         } else {
             loadingError.show();
