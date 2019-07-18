@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -22,17 +22,25 @@ class Os extends Base
 {
     protected $columnName = 'config_os';
     protected $columnType = 'CHAR(3) NULL';
-    protected $segmentName = 'operatingSystemName';
+    protected $segmentName = 'operatingSystemCode';
     protected $nameSingular = 'DevicesDetection_ColumnOperatingSystem';
     protected $namePlural = 'DevicesDetection_OperatingSystems';
-    protected $acceptValues = 'Windows, Linux, Mac, Android, iOS etc.';
+    protected $acceptValues = 'WIN, LIN, MAX, AND, IOS etc.';
     protected $type = self::TYPE_TEXT;
 
-    public function __construct()
+    protected function configureSegments()
     {
-        $this->sqlFilterValue = function ($val) {
+        $segment = new Segment();
+        $segment->setName('DevicesDetection_OperatingSystemCode');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('operatingSystemName');
+        $segment->setName('DevicesDetection_ColumnOperatingSystem');
+        $segment->setAcceptedValues('Windows, Linux, Mac, Android, iOS etc.');
+        $segment->setSqlFilterValue(function ($val) {
             $oss = OperatingSystem::getAvailableOperatingSystems();
-            array_map(function($val) {
+            $oss = array_map(function($val) {
                 return Common::mb_strtolower($val);
             }, $oss);
             $result   = array_search(Common::mb_strtolower($val), $oss);
@@ -42,22 +50,10 @@ class Os extends Base
             }
 
             return $result;
-        };
-        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+        });
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
             return array_values(OperatingSystem::getAvailableOperatingSystems() + ['Unknown']);
-        };
-    }
-
-    protected function configureSegments()
-    {
-        parent::configureSegments();
-
-        $segment = new Segment();
-        $segment->setSegment('operatingSystemCode');
-        $segment->setName('DevicesDetection_OperatingSystemCode');
-        $segment->setAcceptedValues('WIN, LIN, MAX, AND, IOS etc.');
-        $this->suggestedValuesCallback = null;
-        $this->sqlFilterValue = null;
+        });
         $this->addSegment($segment);
     }
 

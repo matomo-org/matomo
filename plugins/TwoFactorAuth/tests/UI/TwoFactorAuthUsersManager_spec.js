@@ -8,8 +8,6 @@
  */
 
 describe("TwoFactorAuthUsersManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorUsersManagerFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
@@ -20,57 +18,39 @@ describe("TwoFactorAuthUsersManager", function () {
         testEnvironment.save();
     });
 
-
-    function selectModalButton(page, button)
-    {
-        page.click('.modal.open .modal-footer a:contains('+button+')');
-    }
-
-    function captureModal(done, screenshotName, test, selector) {
-        captureScreen(done, screenshotName, test, '.modal.open');
-    }
-
-    function captureScreen(done, screenshotName, test, selector) {
-        if (!selector) {
-            selector = '#content,#notificationContainer';
-        }
-
-        expect.screenshot(screenshotName).to.be.captureSelector(selector, test, done);
-    }
-
-    function captureModal(done, screenshotName, test, selector) {
-        captureScreen(done, screenshotName, test, '.modal.open');
-    }
-
-    it('shows users with 2fa and not 2fa', function (done) {
-        captureScreen(done, 'list', function (page) {
-            page.load(usersManager);
-            page.evaluate(function () {
-                $('td#last_seen').html(''); // fix random test failure
-            });
+    it('shows users with 2fa and not 2fa', async function () {
+        await page.goto(usersManager);
+        await page.evaluate(function () {
+            $('td#last_seen').html(''); // fix random test failure
         });
+        expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('list');
     });
 
-    it('menu should show 2fa tab', function (done) {
-        captureScreen(done, 'edit_with_2fa', function (page) {
-            page.setViewportSize(1250);
-            page.click('#manageUsersTable #row2 .edituser');
-            page.evaluate(function () {
-                $('.userEditForm .menuUserTwoFa a').click();
-            });
+    it('menu should show 2fa tab', async function () {
+        await page.webpage.setViewport({
+            width: 1250,
+            height: 768
         });
+        await page.click('#manageUsersTable #row2 .edituser');
+        await page.evaluate(function () {
+            $('.userEditForm .menuUserTwoFa a').click();
+        });
+        await page.waitFor(250);
+        await page.waitFor('.twofa-reset > p', { visible: true });
+        expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa');
     });
 
-    it('should ask for confirmation before resetting 2fa', function (done) {
-        captureModal(done, 'edit_with_2fa_reset_confirm', function (page) {
-            page.click('.userEditForm .twofa-reset .resetTwoFa .btn');
-        });
+    it('should ask for confirmation before resetting 2fa', async function () {
+        await page.click('.userEditForm .twofa-reset .resetTwoFa .btn');
+        const modal = await page.waitFor('.modal.open', { visible: true });
+        await page.waitFor(1000); // animation
+        expect(await modal.screenshot()).to.matchImage('edit_with_2fa_reset_confirm');
     });
 
-    it('should be possible to confirm the reset', function (done) {
-        captureScreen(done, 'edit_with_2fa_reset_confirmed', function (page) {
-            page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
-        });
+    it('should be possible to confirm the reset', async function () {
+        await page.click('.twofa-confirm-modal .modal-close:not(.modal-no)');
+        await page.waitFor(500); // wait for modal to close
+        expect(await page.screenshotSelector('#content,#notificationContainer')).to.matchImage('edit_with_2fa_reset_confirmed');
     });
 
 });

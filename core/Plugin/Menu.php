@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -182,7 +182,7 @@ class Menu
      * @param bool $websiteId
      * @param bool $defaultPeriod
      * @param bool $defaultDate
-     * @return string eg '&idSite=1&period=week&date=today'
+     * @return array eg ['idSite' => 1, 'period' => 'day', 'date' => '2012-02-03']
      * @throws \Exception in case a website was not specified and a default website id could not be found
      */
     public function urlForDefaultUserParams($websiteId = false, $defaultPeriod = false, $defaultDate = false)

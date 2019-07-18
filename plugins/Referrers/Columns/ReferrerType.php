@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -53,6 +53,18 @@ class ReferrerType extends Base
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         return $information['referer_type'];
+    }
+
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
+        if ($this->isCurrentReferrerDirectEntry($visitor)
+            && $information['referer_type'] != Common::REFERRER_TYPE_DIRECT_ENTRY
+        ) {
+            return $information['referer_type'];
+        }
+
+        return false;
     }
 
     /**

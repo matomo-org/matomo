@@ -65,7 +65,6 @@
         "NoValidSubscriptionNoUpdates": "當訂閱過期後，你將無法再接收此外掛的任何更新。",
         "PluginSubscriptionsList": "這是與你的註冊碼有關聯的訂閱項目列表。",
         "PaidPluginsNoLicenseKeyIntro": "如果你已經購買了%1$s高級付費外掛%2$s，請在下方填入所收到的註冊碼。",
-        "PaidPluginsWithLicenseKeyIntro": "已設定有效的註冊碼。為了安全考量我們不會在這裡顯示註冊碼。如果你弄丟了你的註冊碼請聯絡 Matomo 團隊。",
         "PaidPluginsNoLicenseKeyIntroNoSuperUserAccess": "假如你已在市集購買了%1$s高級付費外掛%2$s，請向擁有超級使用者權限的使用者新增註冊碼。",
         "PluginDescription": "從市集下載外掛和主題來擴展 Matomo 的功能。",
         "PluginKeywords": "關鍵字",
@@ -106,7 +105,6 @@
         "PluginUploadDisabled": "外掛上傳已在設定檔案中停用。要啟用這項功能請更新你的配置或聯絡你的管理員。",
         "LicenseKeyExpiresSoon": "你的註冊碼即將過期，請聯絡 %1$s。",
         "LicenseKeyIsExpired": "你的註冊碼已過期，請聯絡 %1$s。",
-        "MultiServerEnvironmentWarning": "你在多伺服器中使用 Matomo，因此無法直接安裝或更新外掛。外掛只能在單一伺服器中安裝。請手動下載外掛並部屬到所有伺服器中。",
         "AutoUpdateDisabledWarning": "設定檔中的自動更新已禁用，因此你無法直接安裝或更新外掛。要啟用自動更新請設定 %2$s 中的 %1$s。",
         "ViewRepositoryChangelog": "查看變更"
     }

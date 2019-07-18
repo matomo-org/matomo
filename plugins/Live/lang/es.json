@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Abrir registro de visitas segmentadas",
         "SegmentedVisitorLogTitle": "Registro de visitas mostrando las visitas donde %1$s es \"%2$s\"",
         "OnClickPause": "%s está iniciado. Clic para pausar.",
-        "OnClickStart": "%s está detenido. Clic para iniciar."
+        "OnClickStart": "%s está detenido. Clic para iniciar.",
+        "ClickToSeeAllContents": "Clic para ver cada interacción\/impresión del contenido"
     }
 }

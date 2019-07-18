@@ -43,7 +43,9 @@
             <ul id='dropdownPeriods{{ randomIdForDropdown }}' class='dropdown-content dataTablePeriods'>
                 {% for selectablePeriod in properties.selectable_periods %}
                     <li>
-                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon"{% endif %}"><span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span></a>
+                        <a data-period="{{ selectablePeriod }}" class="tableIcon {% if (clientSideParameters.period|default('')) == selectablePeriod %}activeIcon{% endif %}">
+                            <span>{{ properties.translations[selectablePeriod]|default(selectablePeriod) }}</span>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -119,14 +121,19 @@
 
         <ul id='dropdownConfigure{{ randomIdForDropdown }}' class='dropdown-content tableConfiguration'>
             {% if properties.show_flatten_table %}
+                <li>
+                    <div class="configItem dataTableFlatten"></div>
+                </li>
                 {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
+                    {% if hasMultipleDimensions|default %}
+                        <li>
+                            <div class="configItem dataTableShowDimensions"></div>
+                        </li>
+                    {% endif %}
                     <li>
                         <div class="configItem dataTableIncludeAggregateRows"></div>
                     </li>
                 {% endif %}
-                <li>
-                    <div class="configItem dataTableFlatten"></div>
-                </li>
             {% endif %}
             {% if not isDataTableEmpty and properties.show_totals_row|default(0) %}
                 <li>

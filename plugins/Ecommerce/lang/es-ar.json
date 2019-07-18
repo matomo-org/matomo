@@ -1,6 +1,5 @@
 {
     "Ecommerce": {
-        "PluginDescription": "eCommerce te permite hacer un seguimiento de los usuarios al agregar productos a sus changuitos, y cuando realizan una compra en línea. También hace un seguimiento de los productos y las vistas de categorías de productos, así como los changuitos abandonados.",
         "Sales": "Ventas",
         "SalesBy": "Ventas por %s",
         "SalesAdjective": "Ventas %s",

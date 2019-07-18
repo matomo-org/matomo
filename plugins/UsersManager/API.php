@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -48,6 +48,7 @@ class API extends \Piwik\Plugin\API
     const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
 
     public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+    public static $SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
 
     /**
      * @var Model
@@ -701,12 +702,23 @@ class API extends \Piwik\Plugin\API
      * @param string   $userLogin          the user login.
      * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
      *                                     access.
+     * @param string $passwordConfirmation the current user's password.
      * @throws \Exception
      */
-    public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
+    public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation = null)
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
+
+        $requirePasswordConfirmation = self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION;
+        self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
+
+        $isCliMode = Common::isPhpCliMode() && !(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
+        if (!$isCliMode
+            && $requirePasswordConfirmation
+        ) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
         $this->checkUserExists($userLogin);
 
         if (!$hasSuperUserAccess && $this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
@@ -718,6 +730,8 @@ class API extends \Piwik\Plugin\API
 
         $this->model->deleteUserAccess($userLogin);
         $this->model->setSuperUserAccess($userLogin, $hasSuperUserAccess);
+
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -838,6 +852,8 @@ class API extends \Piwik\Plugin\API
             $userLogin,
             $this->createTokenAuth($userLogin)
         );
+
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -853,8 +869,9 @@ class API extends \Piwik\Plugin\API
                                $_isPasswordHashed = false, $passwordConfirmation = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
-        $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+
+        $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
@@ -901,16 +918,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($changeShouldRequirePasswordConfirmation && $requirePasswordConfirmation) {
-            if (empty($passwordConfirmation)) {
-                throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
-            }
-
-            $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
-
-            $loginCurrentUser = Piwik::getCurrentUserLogin();
-            if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
-                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
-            }
+            $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
         $alias = $this->getCleanAlias($alias, $userLogin);
@@ -1390,6 +1398,20 @@ class API extends \Piwik\Plugin\API
             }
         }
         return [$roles, $capabilities];
+    }
+
+    private function confirmCurrentUserPassword($passwordConfirmation)
+    {
+        if (empty($passwordConfirmation)) {
+            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
+        }
+
+        $passwordConfirmation = Common::unsanitizeInputValue($passwordConfirmation);
+
+        $loginCurrentUser = Piwik::getCurrentUserLogin();
+        if (!$this->passwordVerifier->isPasswordCorrect($loginCurrentUser, $passwordConfirmation)) {
+            throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+        }
     }
 
     private function sendEmailChangedEmail($user, $newEmail)

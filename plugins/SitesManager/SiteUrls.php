@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,8 @@ namespace Piwik\Plugins\SitesManager;
 
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 class SiteUrls
 {
@@ -51,35 +53,49 @@ class SiteUrls
         foreach ($siteUrls as $idSite => $urls) {
             $idSite = (int) $idSite;
             foreach ($urls as $url) {
-                $urlParsed = @parse_url($url);
-
-                if ($urlParsed === false || !isset($urlParsed['host'])) {
-                    continue;
-                }
-
-                $host = $this->toCanonicalHost($urlParsed['host']);
-                $path = $this->getCanonicalPathFromParsedUrl($urlParsed);
-
-                if (!isset($allUrls[$host])) {
-                    $allUrls[$host] = array();
-                }
-
-                if (!isset($allUrls[$host][$path])) {
-                    $allUrls[$host][$path] = array();
-                }
-
-                if (!in_array($idSite, $allUrls[$host][$path])) {
-                    $allUrls[$host][$path][] = $idSite;
-                }
+                $this->addUrlByHost($allUrls, $idSite, $url);
             }
         }
 
+        $this->sortUrlsByHost($allUrls);
+
+        return $allUrls;
+    }
+
+    private function addUrlByHost(&$allUrls, $idSite, $url, $addPath = true)
+    {
+        $urlParsed = @parse_url($url);
+
+        if ($urlParsed === false || !isset($urlParsed['host'])) {
+            return;
+        }
+
+        $host = $this->toCanonicalHost($urlParsed['host']);
+        $path = $this->getCanonicalPathFromParsedUrl($urlParsed);
+
+        if (!isset($allUrls[$host])) {
+            $allUrls[$host] = array();
+        }
+
+        if (!$addPath) {
+            $path = '/';
+        }
+
+        if (!isset($allUrls[$host][$path])) {
+            $allUrls[$host][$path] = array();
+        }
+
+        if (!in_array($idSite, $allUrls[$host][$path])) {
+            $allUrls[$host][$path][] = $idSite;
+        }
+    }
+
+    private function sortUrlsByHost(&$allUrls)
+    {
         foreach ($allUrls as $host => $paths) {
             uksort($paths, array($this, 'sortByPathDepth'));
             $allUrls[$host] = $paths;
         }
-
-        return $allUrls;
     }
 
     public function getIdSitesMatchingUrl($parsedUrl, $urlsGroupedByHost)
@@ -170,6 +186,14 @@ class SiteUrls
     private static function getCache()
     {
         return Cache::getLazyCache();
+    }
+
+    public function addRequestUrlToSiteUrls(&$allUrls, Request $request)
+    {
+        $idSite = $request->getIdSite();
+        $url = $request->getParam('url');
+
+        $this->addUrlByHost($allUrls, $idSite, $url, $addPath = false);
     }
 
     private function sortByPathDepth($pathA, $pathB)

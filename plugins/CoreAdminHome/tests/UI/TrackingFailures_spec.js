@@ -13,25 +13,15 @@ describe("TrackingFailures", function () {
     var manageUrl = '?module=CoreAdminHome&action=trackingFailures&idSite=1&period=day&date=today';
     var widgetUrl = '?module=Widgetize&action=iframe&moduleToWidgetize=CoreAdminHome&actionToWidgetize=getTrackingFailures&idSite=1&period=day&date=today&widget=1';
 
-    function captureScreen(done, screenshotName, theTest)
-    {
-        expect.screenshot(screenshotName).to.be.captureSelector('.matomoTrackingFailures', theTest, done);
-    }
-
-    function captureModal(done, screenshotName, theTest)
-    {
-        expect.screenshot(screenshotName).to.be.captureSelector('.modal.open', theTest, done);
-    }
-
     function generateTrackingFailures()
     {
         testEnvironment.generateTrackingFailures = 1;
         testEnvironment.save();
     }
 
-    function confirmModal(page)
+    async function confirmModal()
     {
-        page.click('.modal.open .modal-footer a:contains(Yes)');
+        await (await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible')).click();
     }
 
     afterEach(function () {
@@ -39,58 +29,68 @@ describe("TrackingFailures", function () {
         testEnvironment.save();
     });
 
-    it('should show widget with no failures', function (done) {
-        captureScreen(done, 'widget_no_failures', function (page) {
-            page.load(widgetUrl);
-        });
+    it('should show widget with no failures', async function () {
+        await page.goto(widgetUrl);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_no_failures');
     });
 
-    it('should show manage page with no failures', function (done) {
-        captureScreen(done, 'manage_no_failures', function (page) {
-            page.load(manageUrl);
-        });
+    it('should show manage page with no failures', async function () {
+        await page.goto(manageUrl);
+        const frame = await page.waitForSelector('.matomoTrackingFailures');
+        expect(await frame.screenshot()).to.matchImage('manage_no_failures');
     });
 
-    it('should show widget with failures', function (done) {
+    it('should show widget with failures', async function () {
         generateTrackingFailures();
-        captureScreen(done, 'widget_with_failures', function (page) {
-            generateTrackingFailures();
-            page.load(widgetUrl);
-        });
+        await page.waitFor(500);
+        await page.goto(widgetUrl);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('widget_with_failures');
     });
 
-    it('should show manage page with failures', function (done) {
-        generateTrackingFailures();
-        captureScreen(done, 'manage_with_failures', function (page) {
-            generateTrackingFailures();
-            page.load(manageUrl);
-        });
+    it('should show manage page with failures', async function () {
+        await page.goto(manageUrl);
+        await page.waitForSelector('.matomoTrackingFailures td');
+        await page.waitFor(250);
+
+        const elem = await page.$('.matomoTrackingFailures');
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures');
     });
 
-    it('should show ask to confirm delete one', function (done) {
-        captureModal(done, 'manage_with_failures_delete_one_ask_confirmation', function (page) {
-            page.evaluate(function () {
-                $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click()
-            });
+    it('should show ask to confirm delete one', async function () {
+        await page.evaluate(function () {
+            $('.matomoTrackingFailures table tbody tr:nth-child(2) .icon-delete').click();
         });
+
+        const elem = await page.waitFor('.modal.open');
+        await page.waitFor(500);
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_ask_confirmation');
     });
 
-    it('should show delete when confirmed', function (done) {
-        captureScreen(done, 'manage_with_failures_delete_one_confirmed', function (page) {
-            confirmModal(page);
-        });
+    it('should show delete when confirmed', async function () {
+        await confirmModal();
+        await page.waitForNetworkIdle();
+
+        await page.waitFor('.matomoTrackingFailures td .icon-delete');
+
+        await page.waitFor(500); // animation
+
+        const elem = await page.$('.matomoTrackingFailures');
+        expect(await elem.screenshot()).to.matchImage('manage_with_failures_delete_one_confirmed');
     });
 
-    it('should show ask to confirm delete all', function (done) {
-        captureModal(done, 'manage_with_failures_delete_all_ask_confirmation', function (page) {
-            page.click('.matomoTrackingFailures .deleteAllFailures');
-        });
+    it('should show ask to confirm delete all', async function () {
+        await page.click('.matomoTrackingFailures .deleteAllFailures');
+        await page.waitFor('.modal.open');
+        await page.waitFor(500);
+        expect(await (await page.$('.modal.open')).screenshot()).to.matchImage('manage_with_failures_delete_all_ask_confirmation');
     });
 
-    it('should show ask to confirm delete one', function (done) {
-        captureScreen(done, 'manage_with_failures_delete_all_confirmed', function (page) {
-            confirmModal(page);
-        });
+    it('should show nothing when confirmed', async function () {
+        await confirmModal();
+        await page.waitFor('.matomoTrackingFailures td .icon-ok');
+        await page.waitFor(500);
+        const frame = await page.waitForSelector('.matomoTrackingFailures');
+        expect(await frame.screenshot()).to.matchImage('manage_with_failures_delete_all_confirmed');
     });
 
 });

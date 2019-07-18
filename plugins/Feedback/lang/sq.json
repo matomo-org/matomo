@@ -29,6 +29,10 @@
         "ProfessionalServicesCustomDevelopment": "Shërbime Zhvillimi Përshtatjesh",
         "ProfessionalServicesAnalystConsulting": "Shërbime konsulence analisti",
         "ContactUs": "Lidhuni me ne",
-        "VisitTheForums": "Vizitoni %1$s Forumet%2$s dhe merrni ndihmë prej bashkësisë së përdoruesve të Matomo-s"
+        "VisitTheForums": "Vizitoni %1$s Forumet%2$s dhe merrni ndihmë prej bashkësisë së përdoruesve të Matomo-s",
+        "ReviewMatomoTitle": "Besoni në Matomo?",
+        "PleaseLeaveExternalReviewForMatomo": "Ndajini mendimet tuaja me të tjerët në një nga këto sajte dhe frymëzoni të tjerët të bahen pjesë e revolucionet tonë të të dhënave.",
+        "RemindMeLater": "Kujtomë më vonë",
+        "NeverAskMeAgain": "Mos më ripyet më kurrë"
     }
 }

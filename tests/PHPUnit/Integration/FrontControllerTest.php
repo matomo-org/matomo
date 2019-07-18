@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,6 +13,7 @@ use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Session;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -59,8 +60,13 @@ FORMAT;
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
     {
+        Session::start();
+
         Access::getInstance()->setSuperUserAccess(false);
 
         $sessionFingerprint = new SessionFingerprint();

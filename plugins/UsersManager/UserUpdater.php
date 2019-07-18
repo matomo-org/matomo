@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -41,4 +41,16 @@ class UserUpdater
         }
     }
 
+    public function setSuperUserAccessWithoutCurrentPassword($userLogin, $hasSuperUserAccess)
+    {
+        API::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = false;
+        try {
+            Request::processRequest('UsersManager.setSuperUserAccess', [
+                'userLogin' => $userLogin,
+                'hasSuperUserAccess' => $hasSuperUserAccess,
+            ], $default = []);
+        } finally {
+            API::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -20,6 +20,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -381,7 +382,8 @@ class APITest extends IntegrationTestCase
         $access = $this->api->getSitesAccessFromUser($user2);
         $this->assertEmpty($access);
 
-        $this->api->setSuperUserAccess($user2, true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword($user2, true);
 
         // super user has admin access for every site
         $access = $this->api->getSitesAccessFromUser($user2);
@@ -546,7 +548,8 @@ class APITest extends IntegrationTestCase
     public function test_getUsersPlusRole_shouldSearchForSuperUsersCorrectly()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);
-        $this->api->setSuperUserAccess('userLogin2', true);
+        $userUpdater = new UserUpdater();
+        $userUpdater->setSuperUserAccessWithoutCurrentPassword('userLogin2', true);
         $this->addUserWithAccess('userLogin3', 'view', 1);
         $this->addUserWithAccess('userLogin4', 'superuser', 1);
         $this->addUserWithAccess('userLogin5', null, 1);
@@ -983,6 +986,15 @@ class APITest extends IntegrationTestCase
         $this->assertEquals(array(View::ID, TestCap1::ID), $access);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function test_setSuperUserAccess_failsIfCurrentPasswordIsIncorrect()
+    {
+        $this->api->setSuperUserAccess($this->login, true, 'asldfkjds');
+    }
+
     private function getAccessInSite($login, $idSite)
     {
         $access = $this->model->getSitesAccessFromUser($login);
@@ -1018,7 +1030,8 @@ class APITest extends IntegrationTestCase
     {
         $this->api->addUser($username, 'password', $email ?: "$username@password.de", $alias);
         if ($accessLevel == 'superuser') {
-            $this->api->setSuperUserAccess($username, true);
+            $userUpdater = new UserUpdater();
+            $userUpdater->setSuperUserAccessWithoutCurrentPassword($username, true);
         } else if ($accessLevel) {
             $this->api->setUserAccess($username, $accessLevel, $idSite);
         }

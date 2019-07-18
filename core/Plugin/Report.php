@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -485,8 +485,18 @@ class Report
         $documentation = array();
 
         foreach ($this->metrics as $metric) {
-            if (!empty($translations[$metric])) {
+            if (is_string($metric) && !empty($translations[$metric])) {
                 $documentation[$metric] = $translations[$metric];
+            } elseif ($metric instanceof Metric) {
+                $name = $metric->getName();
+                $metricDocs = $metric->getDocumentation();
+                if (empty($metricDocs)) {
+                    $metricDocs = @$translations[$name];
+                }
+
+                if (!empty($metricDocs)) {
+                    $documentation[$name] = $metricDocs;
+                }
             }
         }
 
@@ -494,7 +504,7 @@ class Report
         foreach ($processedMetrics as $processedMetric) {
             if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
                 $documentation[$processedMetric] = $translations[$processedMetric];
-            } elseif ($processedMetric instanceof ProcessedMetric) {
+            } elseif ($processedMetric instanceof Metric) {
                 $name = $processedMetric->getName();
                 $metricDocs = $processedMetric->getDocumentation();
                 if (empty($metricDocs)) {
@@ -502,7 +512,7 @@ class Report
                 }
 
                 if (!empty($metricDocs)) {
-                    $documentation[$processedMetric->getName()] = $metricDocs;
+                    $documentation[$name] = $metricDocs;
                 }
             }
         }

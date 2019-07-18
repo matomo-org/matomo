@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,7 +10,8 @@ namespace Piwik\Plugins\UserId;
 use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\DataTable;
-use Piwik\Metrics;
+use Piwik\Metrics as PiwikMetrics;
+use Piwik\RankingQuery;
 
 /**
  * Archiver that aggregates metrics per user ID (user_id field).
@@ -77,11 +78,24 @@ class Archiver extends \Piwik\Plugin\Archiver
         $userIdFieldName = self::USER_ID_FIELD;
         $visitorIdFieldName = self::VISITOR_ID_FIELD;
 
+        $rankingQueryLimit = $this->getRankingQueryLimit();
+
+        $rankingQuery = false;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->addLabelColumn($userIdFieldName);
+            $rankingQuery->addLabelColumn($visitorIdFieldName);
+        }
+
         /** @var \Zend_Db_Statement $query */
         $query = $this->getLogAggregator()->queryVisitsByDimension(
             array(self::USER_ID_FIELD),
             "log_visit.$userIdFieldName IS NOT NULL AND log_visit.$userIdFieldName != ''",
-            array("LOWER(HEX($visitorIdFieldName)) as $visitorIdFieldName")
+            array("LOWER(HEX($visitorIdFieldName)) as $visitorIdFieldName"),
+            $metrics = false,
+            $rankingQuery,
+            self::USER_ID_FIELD . ' ASC'
         );
 
         if ($query === false) {
@@ -89,7 +103,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
 
         $rowsCount = 0;
-        while ($row = $query->fetch()) {
+        foreach ($query as $row) {
             $rowsCount++;
             $this->arrays->sumMetricsVisits($row[$userIdFieldName], $row);
             $this->rememberVisitorId($row);
@@ -105,8 +119,23 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         /** @var DataTable $dataTable */
         $dataTable = $this->arrays->asDataTable();
+
+        // deal w/ ranking query summary row
+        $rankingQuerySummaryRow = $dataTable->getRowFromLabel(DataTable::LABEL_SUMMARY_ROW);
+        if ($rankingQuerySummaryRow) {
+            $rankingQuerySummaryRowId = $dataTable->getRowIdFromLabel(DataTable::LABEL_SUMMARY_ROW);
+            $dataTable->deleteRow($rankingQuerySummaryRowId);
+
+            $actualSummaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($actualSummaryRow) {
+                $actualSummaryRow->sumRow($rankingQuerySummaryRow);
+            } else {
+                $dataTable->addSummaryRow($rankingQuerySummaryRow);
+            }
+        }
+
         $this->setVisitorIds($dataTable);
-        $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, Metrics::INDEX_NB_VISITS);
+        $report = $dataTable->getSerialized($this->maximumRowsInDataTableLevelZero, null, PiwikMetrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::USERID_ARCHIVE_RECORD, $report);
     }
 
@@ -135,6 +164,17 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $row->setMetadata(self::VISITOR_ID_FIELD, $this->visitorIdsUserIdsMap[$userId]);
             }
         }
+    }
+
+    private function getRankingQueryLimit()
+    {
+        $configGeneral = Config::getInstance()->General;
+        $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
+        $limit = $configLimit == 0 ? 0 : max(
+            $configLimit,
+            $this->maximumRowsInDataTableLevelZero
+        );
+        return $limit;
     }
 
 }

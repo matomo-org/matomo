@@ -9,7 +9,7 @@
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
-		<segment>browserCode==FF</segment>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
+		<segment>browserCode==FF</segment>
 	</row>
 </result>

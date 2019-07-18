@@ -16,7 +16,6 @@
         "DeleteDataSettings": "Borrar los registros y reportes de los visitantes antiguos",
         "DoNotTrack_Description": "Do Not Track es una tecnología y una propuesta política que permite a los usuarios decidir no ser rastreados por sitios de internet que no visitan, tales como servicios analíticos, redes de publicidad y plataformas sociales.",
         "DoNotTrack_Disable": "Deshabilitado, no da soporte al seguimiento",
-        "DoNotTrack_DisabledMoreInfo": "Recomendamos respetar la privacidad de sus visitantes y habilitar la opción DoNotTrack.",
         "DoNotTrack_Enable": "Habilitar soporte a Do Not Track",
         "DoNotTrack_Enabled": "Actualmente está respetando la privacidad de sus visitantes, ¡Bravo!",
         "DoNotTrack_SupportDNTPreference": "Soporte a la preferencia Do Not Track",
@@ -39,7 +38,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "See also our official guide: %1$sWeb Analytics Privacy%2$s",
         "TeaserHeadline": "Configuración de Privacidad",
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
         "UseAnonymizeIp": "Hacer anónimas las direcciones IP de los visitantes",
         "UseDeleteReports": "Regularmente borre los reportes antiguos de la base de datos"
     }

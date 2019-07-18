@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -66,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         // request visits summary
         $request = new Request(
-            'method=VisitsSummary.get&format=PHP'
+            'method=VisitsSummary.get&format=php'
             . '&idSite=' . $this->idSite
             . '&period=' . $period
             . '&date=' . $date

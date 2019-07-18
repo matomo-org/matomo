@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ao mudar seu fuso-horário apenas afetará os dados que vierem depois, não será aplicado retroativamente.",
         "Currency": "Moeda Corrente",
         "CurrencySymbolWillBeUsedForGoals": "O símbolo da moeda corrente será mostrado próximo às metas de lucro.",
+        "CustomizeJavaScriptTracker": "Personalizar rastreamento JavaScript",
         "DefaultCurrencyForNewWebsites": "Moeda corrente padrão para novos websites",
         "DefaultTimezoneForNewWebsites": "Fuso-horário padrão para novos websites",
         "DeleteConfirm": "Tem certeza que deseja excluir o website %s?",
@@ -26,6 +27,7 @@
         "ExcludedIps": "IPs excluidos",
         "ExcludedParameters": "Parâmetros Excluídos",
         "ExcludedUserAgents": "User Agents excluídos",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Insira a lista de user agents para exclusão de rastreamento pelo Matomo.",
         "GlobalExcludedUserAgentHelp2": "Você pode usar isso para excluir alguns bots de serem rastreados.",
         "GlobalListExcludedIps": "Lista global de IPs excluidos",
@@ -85,11 +87,12 @@
         "UTCTimeIs": "UTC tempo é %s.",
         "OnlyMatchedUrlsAllowed": "Rastreia visitas e ações apenas quando a URL da ação começa com uma das URLs acima.",
         "OnlyMatchedUrlsAllowedHelp": "Quando ativado, Matomo só irá rastrear ações internas quando a URL da página for uma das URLs reconhecidas para o seu website. Isso impede que pessoas enviem spams para a sua análise com URLs de outros websites.",
-        "OnlyMatchedUrlsAllowedHelpExamples": "O domínio e o caminho têm que corresponder exatamente e cada subdomínio válido tem de ser especificado separadamente. Por exemplo, quando as URLs são 'http:\/\/example.com\/path' e 'http:\/\/good.example.com', solicitações de rastreamento para http:\/\/example.com\/otherpath' ou 'http:\/\/bad.example.com' são ignoradas.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "O domínio e o caminho deve corresponder exatamente e cada subdomínio válido deve ser especificado separadamente. Por exemplo, quando as URLs são 'http:\/\/example.com\/path' e 'http:\/\/good.example.com', solicitações de rastreamento para http:\/\/example.com\/otherpath' ou 'http:\/\/bad.example.com' são ignoradas.",
         "WebsitesManagement": "Gerenciamento de Sites",
         "XManagement": "Gerenciar %s",
         "ChooseMeasurableTypeHeadline": "O que você gostaria de medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Você possui atualmente acessos a Websites %s",
-        "YourCurrentIpAddressIs": "Seu endereço de IP atual é %s"
+        "YourCurrentIpAddressIs": "Seu endereço de IP atual é %s",
+        "DeleteSiteExplanation": "A remoção de um site excluirá todos os dados que foram coletados para ele. Essa ação é permanente e não pode ser desfeita."
     }
 }

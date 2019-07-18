@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -198,11 +198,13 @@ class Updater
     {
         $extractionPath = $this->tmpPath . self::PATH_TO_EXTRACT_LATEST_VERSION;
 
-        $extractedArchiveDirectory = $extractionPath . 'piwik';
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
 
-        // Remove previous decompressed archive
-        if (file_exists($extractedArchiveDirectory)) {
-            Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            // Remove previous decompressed archive
+            if (file_exists($extractedArchiveDirectory)) {
+                Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
+            }
         }
 
         $archive = Unzip::factory('PclZip', $archiveFile);
@@ -218,7 +220,14 @@ class Updater
 
         unlink($archiveFile);
 
-        return $extractedArchiveDirectory;
+        foreach (['piwik', 'matomo'] as $flavor) {
+            $extractedArchiveDirectory = $extractionPath . $flavor;
+            if (file_exists($extractedArchiveDirectory)) {
+                return $extractedArchiveDirectory;
+            }
+        }
+
+        throw new \Exception('Could not find matomo or piwik directory in downloaded archive!');
     }
 
     private function verifyDecompressedArchive($extractedArchiveDirectory)

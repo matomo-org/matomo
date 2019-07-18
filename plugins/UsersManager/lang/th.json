@@ -16,7 +16,6 @@
         "ExceptionUserDoesNotExist": "ผู้ใช้ '%s' ไม่มีในระบบ",
         "ExcludeVisitsViaCookie": "ไม่รวมการเข้าชมของคุณโดยใช้คุกกี้",
         "ForAnonymousUsersReportDateToLoadByDefault": "สำหรับผู้ใช้ที่ไม่ระบุชื่อ รายงานวันที่โหลด โดยค่าเริ่มต้น",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "ถ้าคุณต้องการที่จะเปลี่ยนชนิดของรหัสผ่านใหม่ มิฉะนั้นให้ปล่อยนี้ว่างไว้",
         "ManageAccess": "จัดการการเข้าถึง",
         "MenuAnonymousUserSettings": "การตั้งค่าผู้ใช้ที่ไม่ระบุชื่อ",
         "MenuUsers": "ผู้ใช้",

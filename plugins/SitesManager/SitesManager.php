@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,9 +13,9 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Model as TrackerModel;
@@ -65,13 +65,23 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        // Skip the screen if purging logs is enabled
-        $settings = PrivacyManager::getPurgeDataSettings();
-        if ($settings['delete_logs_enable'] == 1) {
+        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
+        if (!$shouldPerformEmptySiteCheck) {
             return;
         }
 
-        if (self::hasTrackedAnyTraffic($siteId)) {
+        $hadTrafficKey = 'SitesManagerHadTrafficInPast_' . (int) $siteId;
+        $hadTrafficBefore = Option::get($hadTrafficKey);
+        if (!empty($hadTrafficBefore)) {
+            // user had traffic at some stage in the past... not needed to show tracking code
+            return;
+        } elseif (self::hasTrackedAnyTraffic($siteId)) {
+            // remember the user had traffic in the past so we won't show the tracking screen again
+            // if all visits are deleted for example
+            Option::set($hadTrafficKey, 1);
+            return;
+        } else {
+            // never had any traffic
             $session = new SessionNamespace('siteWithoutData');
             if (!empty($session->ignoreMessage)) {
                 return;
@@ -83,6 +93,12 @@ class SitesManager extends \Piwik\Plugin
     }
 
     public static function hasTrackedAnyTraffic($siteId)
+    {
+        $trackerModel = new TrackerModel();
+        return !$trackerModel->isSiteEmpty($siteId);
+    }
+
+    public static function shouldPerormEmptySiteCheck($siteId)
     {
         $shouldPerformEmptySiteCheck = true;
 
@@ -97,8 +113,7 @@ class SitesManager extends \Piwik\Plugin
          */
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
-        $trackerModel = new TrackerModel();
-        return $shouldPerformEmptySiteCheck && $trackerModel->isSiteEmpty($siteId);
+        return $shouldPerformEmptySiteCheck;
     }
 
     public function onSiteDeleted($idSite)

@@ -122,7 +122,7 @@ return array(
 
         array('Test.Mail.send', function (\Zend_Mail $mail) {
             $outputFile = PIWIK_INCLUDE_PATH . '/tmp/' . Common::getRequestVar('module', '') . '.' . Common::getRequestVar('action', '') . '.mail.json';
-            $outputContent = str_replace("=\n", "", $mail->getBodyText($textOnly = true));
+            $outputContent = str_replace("=\n", "", $mail->getBodyHtml($textOnly = true) ?: $mail->getBodyText($textOnly = true));
             $outputContent = str_replace("=0A", "\n", $outputContent);
             $outputContent = str_replace("=3D", "=", $outputContent);
             $outputContents = array(

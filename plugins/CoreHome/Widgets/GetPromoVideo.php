@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -37,7 +37,7 @@ class GetPromoVideo extends Widget
         $view = new View('@CoreHome/getPromoVideo');
         $view->shareText     = $this->translator->translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = $this->translator->translate('CoreHome_SharePiwikLong');
-        $view->promoVideoUrl = 'https://www.youtube.com/watch?v=OslfF_EH81g';
+        $view->promoVideoUrl = 'https://matomo.org/docs/videos/';
 
         return $view->render();
     }

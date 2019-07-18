@@ -55,6 +55,9 @@
         "NoTokenProvided": "No token was provided in the URL",
         "NoSubscriptionFound": "No subscription found. Maybe the report was already unsubscribed or removed.",
         "EvolutionGraphsShowForEachInPeriod": "Evolution graphs show the evolution for %1$seach day%2$s in the last %3$s",
-        "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s"
+        "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s",
+        "ReportPeriod": "Report Period",
+        "ReportPeriodHelp": "The period of data covered by this report. By default this is the same as the email schedule, so if the report is sent weekly, it will contain information regarding the last week.",
+        "ReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the email schedule. For example, if the email schedule is weekly, and the report period is 'day', you will get information for the last day, every week."
     }
 }

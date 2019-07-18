@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\TestRunner\Commands;
@@ -11,7 +11,6 @@ use Piwik\AssetManager;
 use Piwik\Config;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,6 +40,7 @@ class TestsRunUI extends ConsoleCommand
         $this->addOption('debug', null, InputOption::VALUE_NONE, "Enable phantomjs debugging");
         $this->addOption('extra-options', null, InputOption::VALUE_REQUIRED, "Extra options to pass to phantomjs.");
         $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'Enable logging to the configured log file during tests.');
+        $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Custom test timeout value.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -61,6 +61,7 @@ class TestsRunUI extends ConsoleCommand
         // @todo remove piwik-domain fallback in Matomo 4
         $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
         $enableLogging = $input->getOption('enable-logging');
+        $timeout = $input->getOption('timeout');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -119,10 +120,12 @@ class TestsRunUI extends ConsoleCommand
             $options[] = '--enable-logging';
         }
 
-        $phantomJsOptions[] = "--ignore-ssl-errors=true";
-
         if ($extraOptions) {
             $options[] = $extraOptions;
+        }
+
+        if ($timeout !== false && $timeout > 0) {
+            $options[] = "--timeout=" . (int) $timeout;
         }
 
         $options = implode(" ", $options);
@@ -130,7 +133,8 @@ class TestsRunUI extends ConsoleCommand
 
         $specs = implode(" ", $specs);
 
-        $cmd = "phantomjs " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/";
+        $cmd = "cd '$screenshotTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node " . $phantomJsOptions . " run-tests.js $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

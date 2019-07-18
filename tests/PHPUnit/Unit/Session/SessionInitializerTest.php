@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -72,7 +72,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
         $fingerprint = new SessionFingerprint();
         $this->assertEquals('testlogin', $fingerprint->getUser());
         $this->assertNotEmpty($fingerprint->getSessionStartTime());
-        $this->assertEquals(['ts', 'remembered'], array_keys($fingerprint->getUserInfo()));
+        $this->assertEquals(['ts', 'remembered', 'expiration'], array_keys($fingerprint->getUserInfo()));
     }
 }
 

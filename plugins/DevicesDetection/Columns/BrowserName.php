@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -20,17 +20,25 @@ class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
     protected $columnType = 'VARCHAR(10) NULL';
-    protected $segmentName = 'browserName';
+    protected $segmentName = 'browserCode';
     protected $nameSingular = 'DevicesDetection_ColumnBrowser';
     protected $namePlural = 'DevicesDetection_Browsers';
-    protected $acceptValues = 'FireFox, Internet Explorer, Chrome, Safari, Opera etc.';
+    protected $acceptValues = 'FF, IE, CH, SF, OP etc.';
     protected $type = self::TYPE_TEXT;
 
-    public function __construct()
+    protected function configureSegments()
     {
-        $this->sqlFilterValue = function ($val) {
+        $segment = new Segment();
+        $segment->setName('DevicesDetection_BrowserCode');
+        $this->addSegment($segment);
+
+        $segment = new Segment();
+        $segment->setSegment('browserName');
+        $segment->setName('DevicesDetection_ColumnBrowser');
+        $segment->setAcceptedValues('FireFox, Internet Explorer, Chrome, Safari, Opera etc.');
+        $segment->setSqlFilterValue(function ($val) {
             $browsers = Browser::getAvailableBrowsers();
-            array_map(function($val) {
+            $browsers = array_map(function($val) {
                 return Common::mb_strtolower($val);
             }, $browsers);
             $result   = array_search(Common::mb_strtolower($val), $browsers);
@@ -40,22 +48,10 @@ class BrowserName extends Base
             }
 
             return $result;
-        };
-        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+        });
+        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
             return array_values(Browser::getAvailableBrowsers() + ['Unknown']);
-        };
-    }
-
-    protected function configureSegments()
-    {
-        parent::configureSegments();
-
-        $segment = new Segment();
-        $segment->setSegment('browserCode');
-        $segment->setName('DevicesDetection_BrowserCode');
-        $segment->setAcceptedValues('FF, IE, CH, SF, OP etc.');
-        $this->suggestedValuesCallback = null;
-        $this->sqlFilterValue = null;
+        });
         $this->addSegment($segment);
     }
 

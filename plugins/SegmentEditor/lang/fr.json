@@ -1,13 +1,13 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Créez et réutilisez des Segments de visiteurs personnalisés avec l'éditeur de Segment.",
+        "PluginDescription": "Un segment est un ensemble de critères utilisés afin de sélectionner une certaine portion de l'ensemble des visites. En utilisant des segments vous pouvez remettre en contexte vos rapports de manière arbitraire.",
         "AddANDorORCondition": "Ajouter la condition %s",
         "AddNewSegment": "Ajouter un nouveau segment",
-        "AreYouSureDeleteSegment": "Êtes vous sûr(e) de vouloir supprimer ce segment?",
+        "AreYouSureDeleteSegment": "Êtes-vous sûr(e) de vouloir supprimer ce segment ?",
         "AutoArchivePreProcessed": "les rapports segmentés sont pré-traités (plus rapide, requiert un cron sur archive.php)",
         "AutoArchiveRealTime": "les rapports segmentés sont traités en temps réel",
-        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Vous vous apprêtez à changer la définition du segment. Vos rapports de statistiques pour ce nouveau segment ne seront pas disponibles avant que les rapports soient traités à nouveau. Cela peut prendre plusieurs heures pour que les données de rapports affichent ce segment. Voulez-vous continuer?",
-        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Vous vous apprêtez à changer la définition du segment. Vos rapports de statistiques pour ce segment vont être traités à nouveau à la demande la prochaine fois que vous le demanderez. Vos rapports pourront prendre plusieurs minutes à apparaître. Voulez-vous continuer?",
+        "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Vous vous apprêtez à changer la définition du segment. Vos rapports de statistiques pour ce nouveau segment ne seront pas disponibles avant que les rapports soient traités à nouveau. Cela peut prendre plusieurs heures pour que les données de rapports affichent ce segment. Voulez-vous continuer ?",
+        "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "Vous vous apprêtez à changer la définition du segment. Vos rapports de statistiques pour ce segment vont être traités à nouveau à la demande la prochaine fois que vous le demanderez. Vos rapports pourront prendre plusieurs minutes à apparaître. Voulez-vous continuer ?",
         "ChooseASegment": "Choisir un segment",
         "CurrentlySelectedSegment": "Segment sélectionné : %s",
         "DataAvailableAtLaterDate": "Votre rapport d'analyse segmenté sera disponible plus tard. Veuillez nous excuser pour le désagrément.",

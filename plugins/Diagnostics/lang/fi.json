@@ -1,6 +1,12 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Asetustiedosto",
-        "Sections": "Osiot"
+        "MysqlMaxPacketSize": "Paketin enimmäiskoko",
+        "Sections": "Osiot",
+        "CronArchivingLastRunCheck": "Viimeisin onnistunut arkistointi",
+        "CronArchivingHasNotRun": "Arkistointia ei ole vielä suoritettu onnistuneesti.",
+        "CronArchivingHasNotRunInAWhile": "Arkistointi suoritettiin onnistuneesti viimeksi %1$s, eli %2$s sitten.",
+        "CronArchivingRanSuccessfullyXAgo": "Arkistointiprosessi suoritettiin onnistuneesti %1$s sitten.",
+        "NoDataForReportArchivingNotRun": "Raporttiesi arkistointia ei ole suoritettu hetkeen. %1$sLue lisää kuinka luoda raportteja.%2$s"
     }
 }

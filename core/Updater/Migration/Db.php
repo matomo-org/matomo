@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updater\Migration;
@@ -46,6 +46,11 @@ abstract class Db extends Migration
      * Duplicate entry '%s' for key %d
      */
     const ERROR_CODE_DUPLICATE_ENTRY = 1062;
+    
+    /**
+     * Multiple primary key defined
+     */
+    const ERROR_CODE_DUPLICATE_PRIMARY_KEY = 1068;
 
     /**
      * Key column '%s' doesn't exist in table

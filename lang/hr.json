@@ -146,7 +146,6 @@
         "Hide": "sakrij",
         "HoursMinutes": "%1$s sat(a) %2$s min",
         "Id": "Oznaka",
-        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Ako je arhiviranje u vašem slučaju brzo, možete podesiti crontab da se izvršava češće.",
         "Installed": "Instalirano",
         "InvalidDateRange": "Neispravan vremenski raspon, pokušaj opet",
         "InvalidResponse": "Primjeni podaci nisu ispravni.",

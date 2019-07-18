@@ -12,6 +12,7 @@
 				<revenue>100</revenue>
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>sku �</itemSKU>
@@ -27,7 +28,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 100 revenue - 1 items: name �)</subtitle>
+				<subtitle>$100 revenue - 1 items: name �)</subtitle>
 				
 			</row>
 			<row>
