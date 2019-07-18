@@ -149,6 +149,11 @@
             var jsCodeBlock = $('<pre>').text(self.trackingCode);
             var bodyText = $('<div>').append(header).append(jsCodeBlock).html();
 
+            // Escape HTML tags, just need to do enough that mail clients won't try to render them
+            bodyText = self.trackingCode.replace(/[<>]/g, function(m) {
+                return m == '<' ? '&lt;' : '&gt;';
+            });
+
             var linkText = 'mailto:?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(bodyText);
             window.location.href = linkText;
         };
