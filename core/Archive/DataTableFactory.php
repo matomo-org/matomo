@@ -397,7 +397,7 @@ class DataTableFactory
             }
 
             $blobName = $dataName . "_" . $sid;
-            if (isset($blobRow[$blobName])) {
+            if (!empty($blobRow[$blobName])) {
                 $subtable = DataTable::fromSerializedArray($blobRow[$blobName]);
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
