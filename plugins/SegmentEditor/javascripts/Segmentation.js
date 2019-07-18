@@ -150,7 +150,9 @@ Segmentation = (function($) {
                 (self.currentSegmentStr == "" ? " class='segmentSelected' tabindex='4' " : "")
                 + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
-                + '</span></li> ';
+                + '</span>';
+            listHtml += '<span class="compareSegment allVisitsCompareSegment" title="Compare this segment with the selected segment and period."></span>';
+            listHtml += '</li>';
 
             var isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
             var isVisibleToSuperUserNoticeShouldBeClosed = false;

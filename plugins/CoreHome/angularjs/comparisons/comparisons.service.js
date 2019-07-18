@@ -47,9 +47,9 @@
             var comparePeriodDatePairs = {};
 
             newComparisons.forEach(function (comparison) {
-                if (comparison.params.segment) {
+                if (typeof comparison.params.segment !== 'undefined') {
                     compareSegments[comparison.params.segment] = true;
-                } else if (comparison.params.period) {
+                } else if (typeof comparison.params.period !== 'undefined') {
                     comparePeriodDatePairs[comparison.params.period + '|' + comparison.params.date] = true;
                 }
             });
@@ -109,11 +109,16 @@
                     return s.definition === segment;
                 });
 
+                var segmentTitle = storedSegment ? storedSegment.name : _pk_translate('General_Unknown');
+                if (segment.replace('/^\s+|\s+$/g', '') === '') {
+                    segmentTitle = _pk_translate('SegmentEditor_DefaultAllVisits');
+                }
+
                 newComparisons.push({
                     params: {
                         segment: segment
                     },
-                    title: storedSegment ? storedSegment.name : _pk_translate('General_Unknown')
+                    title: segmentTitle
                 });
             });
 

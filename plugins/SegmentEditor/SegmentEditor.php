@@ -267,6 +267,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorAND';
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
+        $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';
@@ -279,5 +280,6 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationDoesNotContain';
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
+        $translationKeys[] = 'General_Unknown';
     }
 }
