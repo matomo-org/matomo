@@ -31,6 +31,7 @@ describe("UserSettings", function () {
     });
 
     it('should allow user to subscribe to newsletter', async function () {
+        await page.click('#newsletterSignupCheckbox');
         await page.click('#newsletterSignupBtn');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('#newsletterSignup')).to.matchImage('signup_success');
