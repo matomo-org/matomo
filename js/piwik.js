@@ -7523,8 +7523,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
+
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
 
