@@ -245,6 +245,13 @@ div.scrollable {
             margin-right: 24px;
         }
     }
+    
+    &.segmentSelected, &.comparedSegment {
+        span.compareSegment {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {

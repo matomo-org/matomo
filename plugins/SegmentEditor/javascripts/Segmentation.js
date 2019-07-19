@@ -80,6 +80,19 @@ Segmentation = (function($) {
             $(this.content).attr('title', title);
         };
 
+        segmentation.prototype.markComparedSegments = function() {
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparedSegments = comparisonService.getComparisons().filter(function (params) {
+                return typeof params.segment !== 'undefined';
+            });
+
+            $('div.segmentList ul li', this.target).filter(function () {
+                return comparedSegments.find()
+                return $(this).attr('data-definition') === ;
+            });
+            // TODO
+        };
+
         segmentation.prototype.markCurrentSegment = function(){
             var current = this.getSegment();
 
@@ -404,6 +417,8 @@ Segmentation = (function($) {
                 comparisonService.addComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
+
+                self.markComparedSegments();
 
                 closeAllOpenLists();
             });
@@ -783,6 +798,7 @@ Segmentation = (function($) {
 
             // assign content to object attribute to make it easil accesible through all widget methods
             this.markCurrentSegment();
+            this.markComparedSegments();
 
             // Loading message
             var segmentIsSet = this.getSegment().length;
