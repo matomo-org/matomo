@@ -82,15 +82,18 @@ Segmentation = (function($) {
 
         segmentation.prototype.markComparedSegments = function() {
             var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
-            var comparedSegments = comparisonService.getComparisons().filter(function (params) {
-                return typeof params.segment !== 'undefined';
+            var comparedSegments = comparisonService.getComparisons().filter(function (comparison) {
+                return typeof comparison.params.segment !== 'undefined';
+            }).map(function (comparison) {
+                return comparison.params.segment;
             });
 
-            $('div.segmentList ul li', this.target).filter(function () {
-                return comparedSegments.find()
-                return $(this).attr('data-definition') === ;
+            $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
+                var definition = $(this).attr('data-definition');
+                return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
+            }).each(function () {
+                $(this).addClass('comparedSegment');
             });
-            // TODO
         };
 
         segmentation.prototype.markCurrentSegment = function(){
@@ -787,6 +790,8 @@ Segmentation = (function($) {
         }
 
         this.initHtml = function() {
+            var self = this;
+
             var html = getListHtml();
 
             if(typeof self.content !== "undefined"){
@@ -798,7 +803,9 @@ Segmentation = (function($) {
 
             // assign content to object attribute to make it easil accesible through all widget methods
             this.markCurrentSegment();
-            this.markComparedSegments();
+            setTimeout(function () {
+                self.markComparedSegments();
+            });
 
             // Loading message
             var segmentIsSet = this.getSegment().length;

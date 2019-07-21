@@ -13,7 +13,7 @@
 
     // TODO: unit test
     function ComparisonFactory($location, $rootScope, piwikPeriods) {
-        var comparisons;
+        var comparisons = [];
 
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
 

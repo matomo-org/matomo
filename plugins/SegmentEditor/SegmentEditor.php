@@ -281,5 +281,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
         $translationKeys[] = 'General_Unknown';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
     }
 }

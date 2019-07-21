@@ -21,10 +21,14 @@
 
         vm.comparisonsService = comparisonsService;
         vm.$onInit = $onInit;
+        vm.comparisonHasSegment = comparisonHasSegment;
 
         function $onInit() {
             vm.comparisons = comparisonsService.getComparisons(); // TODO: on change need to modify this...
         }
 
+        function comparisonHasSegment(comparison) {
+            return typeof comparison.params.segment !== 'undefined';
+        }
     }
 })();

@@ -1,7 +1,7 @@
 <h3 ng-if="$ctrl.comparisonsService.getComparisons().length">Comparisons</h3>
 
 <div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getComparisons() track by $index">
-    <div class="comparison-type" ng-if="comparison.params.segment">Segment</div>
+    <div class="comparison-type" ng-if="$ctrl.comparisonHasSegment(comparison)">Segment</div>
     <div class="comparison-type" ng-if="comparison.params.period">Period</div>
 
     <div class="title">
