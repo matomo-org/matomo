@@ -88,7 +88,7 @@ class ConfigReader
     private function shouldSkipCategory($category)
     {
         $category = strtolower($category);
-        if ($category === 'database') {
+        if ($category === 'database' || $category === 'database_reader') {
             return true;
         }
 
