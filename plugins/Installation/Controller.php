@@ -370,9 +370,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $javascriptGenerator = new TrackerCodeGenerator();
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
         $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
-            'jsTag' => $jsTag
+            'jsTag' => $rawJsTag
         ), $viewType = 'basic');
 
         // Load the Tracking code and help text from the SitesManager

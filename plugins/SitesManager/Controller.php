@@ -140,8 +140,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
 
-        $emailContent = $this->renderTemplateAs('_trackingCodeEmail', array(
-            'jsTag' => $jsTag
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag
         ), $viewType = 'basic');
 
         return $this->renderTemplateAs('siteWithoutData', array(

@@ -145,14 +145,11 @@
         this.sendEmail = function() {
             var subjectLine = translate('SitesManager_EmailInstructionsSubject');
 
-            var header = $('<h3>').html(translate('General_JsTrackingTag'));
-            var jsCodeBlock = $('<pre>').text(self.trackingCode);
-            var bodyText = $('<div>').append(header).append(jsCodeBlock).html();
-
-            // Escape HTML tags, just need to do enough that mail clients won't try to render them
-            bodyText = self.trackingCode.replace(/[<>]/g, function(m) {
-                return m == '<' ? '&lt;' : '&gt;';
-            });
+            var trackingCode = self.trackingCode;
+            trackingCode = trackingCode.replace(/<[^>]+>/g, '');
+            var bodyText = translate('SitesManager_JsTrackingTagHelp') 
+                + translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', '< /head>')
+                + "\n" + trackingCode;
 
             var linkText = 'mailto:?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(bodyText);
             window.location.href = linkText;

@@ -32,8 +32,8 @@
     <p></p>
 
     <a class="btn"
-       href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|url_encode|e('html_attr') }}&body={{ emailBody|replace({">\n<": "><"})|url_encode|e('html_attr') }}">
-        {{ 'SitesManager_EmailInstructionsToDeveloper'|translate }}
+       href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
+        {{ 'SitesManager_EmailInstructionsButton'|translate }}
     </a>
 
     {{ postEvent('Template.endTrackingHelpPage') }}
