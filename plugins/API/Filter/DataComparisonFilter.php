@@ -18,7 +18,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\AbTesting\DataTable\Filter\BaseFilter;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 
@@ -29,7 +28,7 @@ use Piwik\Segment\SegmentExpression;
 /**
  * TODO
  */
-class DataComparisonFilter extends BaseFilter
+class DataComparisonFilter
 {
     /**
      * @var array
@@ -86,9 +85,8 @@ class DataComparisonFilter extends BaseFilter
      */
     private $comparePeriodIndices;
 
-    public function __construct(DataTable $table, $request, Report $report = null)
+    public function __construct($request, Report $report = null)
     {
-        parent::__construct($table);
         $this->request = $request;
 
         $generalConfig = Config::getInstance()->General;
@@ -141,10 +139,15 @@ class DataComparisonFilter extends BaseFilter
     }
 
     /**
-     * @param DataTable $table
-     * @throws \Exception
+     * TODO
+     * - build permutations here
+     * - query data, once per permutation, not once per datable combination
+     * - then call filter
+     *
+     *
+     * @param DataTable\DataTableInterface $table
      */
-    public function filter($table)
+    public function compare(DataTable\DataTableInterface $table)
     {
         $method = Common::getRequestVar('method', $default = null, $type = 'string', $this->request);
         if ($method == 'Live') {
@@ -155,12 +158,29 @@ class DataComparisonFilter extends BaseFilter
 
         $comparisonTotals = [];
 
+        // fetch data first
         $reportsToCompare = $this->getReportsToCompare();
-        foreach ($reportsToCompare as $modifiedParams) {
-            $metadata = $this->getMetadataFromModifiedParams($modifiedParams);
+        foreach ($reportsToCompare as $index => $modifiedParams) {
+            $metadata = $this->getMetadataFromModifiedParams($modifiedParams); // TODO: need to handle periods here
 
-            $compareTable = $this->requestReport($table, $method, $modifiedParams);
-            $this->compareTables($metadata, $table, $compareTable);
+            $compareTable = $this->requestReport($metadata, $modifiedParams); // TODO: method should not be needed
+            $this->compareTables($metadata, $table, $compareTable, $comparisonTotals); // TODO: set comparison totals here
+        }
+
+        // format comparison table metrics
+        $this->formatComparisonTables($table);
+
+        // TODO
+    }
+
+    /**
+     * @param DataTable $table
+     * @throws \Exception
+     */
+    private function filter($table)
+    {
+        foreach ($reportsToCompare as $modifiedParams) {
+
 
             $totals = $compareTable->getMetadata('totals');
             if (!empty($totals)) {
@@ -174,8 +194,6 @@ class DataComparisonFilter extends BaseFilter
             unset($compareTable);
         }
 
-        // format comparison table metrics
-        $this->formatComparisonTables($table);
 
         // add comparison parameters as metadata
         if (!empty($segments)) {
