@@ -109,6 +109,8 @@
         "VisitPageTitle": "Visitar un título de página suministrado",
         "VisitsUntilConv": "Visitas a conversión",
         "VisitUrl": "Visita a una URL dada (página o grupo de páginas)",
+        "VisitDurationMatchAttr": "Se mantuvo por una cierta cantidad de tiempo",
+        "VisitDuration": "la duración de la visita es",
         "WhenVisitors": "cuando los visitantes",
         "WhereThe": "donde el",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La página visitada necesita contener una llamada al método Javascript 'trackGoal' (%1$ssaber más%2$s)",
