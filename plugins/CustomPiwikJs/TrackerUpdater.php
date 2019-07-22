@@ -131,14 +131,17 @@ class TrackerUpdater
         $newContent = $this->getUpdatedTrackerFileContent();
 
         if (!$this->toFile->isFileContentSame($newContent)) {
-            $this->toFile->save($newContent);
+            $savedFiles = $this->toFile->save($newContent);
+            foreach ($savedFiles as $savedFile) {
 
-            /**
-             * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
-             *
-             * @param string $absolutePath The path to the new piwik.js file.
-             */
-            Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
+                /**
+                 * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
+                 *
+                 * @param string $absolutePath The path to the new piwik.js file.
+                 */
+                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
+            }
+
         }
 
         // we need to make sure to sync matomo.js / piwik.js
@@ -152,8 +155,10 @@ class TrackerUpdater
             $alternativeFilename = dirname($this->toFile->getPath()) . DIRECTORY_SEPARATOR . $toFile;
             $file = $this->toFile->setFile($alternativeFilename);
             if ($file->hasWriteAccess() && !$file->isFileContentSame($newContent)) {
-                $file->save($newContent);
-                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$file->getPath()]);
+                $savedFiles = $file->save($newContent);
+                foreach ($savedFiles as $savedFile) {
+                    Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
+                }
             }
         }
     }

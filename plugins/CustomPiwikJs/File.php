@@ -51,6 +51,7 @@ class File
         if (false === file_put_contents($this->file, $content, LOCK_EX)) {
             throw new AccessDeniedException(sprintf("Could not write to %s", $this->file));
         }
+        return [$this->getPath()];
     }
 
     public function getContent()
