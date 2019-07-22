@@ -41,9 +41,14 @@ class File
         }
     }
 
+    public function isFileContentSame($content)
+    {
+        return $this->getContent() === $content;
+    }
+
     public function save($content)
     {
-        if(false === file_put_contents($this->file, $content, LOCK_EX)) {
+        if (false === file_put_contents($this->file, $content, LOCK_EX)) {
             throw new AccessDeniedException(sprintf("Could not write to %s", $this->file));
         }
     }

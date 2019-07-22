@@ -130,7 +130,7 @@ class TrackerUpdater
 
         $newContent = $this->getUpdatedTrackerFileContent();
 
-        if ($newContent !== $this->getCurrentTrackerFileContent()) {
+        if (!$this->toFile->isFileContentSame($newContent)) {
             $this->toFile->save($newContent);
 
             /**
@@ -151,7 +151,7 @@ class TrackerUpdater
         if (Common::stringEndsWith($this->toFile->getName(), $fromFile)) {
             $alternativeFilename = dirname($this->toFile->getPath()) . DIRECTORY_SEPARATOR . $toFile;
             $file = $this->toFile->setFile($alternativeFilename);
-            if ($file->hasWriteAccess() && $file->getContent() !== $newContent) {
+            if ($file->hasWriteAccess() && !$file->isFileContentSame($newContent)) {
                 $file->save($newContent);
                 Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$file->getPath()]);
             }
