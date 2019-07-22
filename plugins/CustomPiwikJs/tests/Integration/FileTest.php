@@ -199,8 +199,9 @@ class FileTest extends IntegrationTestCase
         $this->assertFalse($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
 
-        $notExistingFile->save('myTestContent');
+        $updatedFile =  $notExistingFile->save('myTestContent');
 
+        $this->assertEquals([$this->dir . 'notExisTinGFile.js'], $updatedFile);
         $this->assertEquals('myTestContent', $notExistingFile->getContent());
         $this->assertTrue($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
