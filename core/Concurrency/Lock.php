@@ -41,12 +41,12 @@ class Lock
         return $this->backend->getKeysMatchingPattern($this->lockKeyStart . '*');
     }
 
-    public function acquireLock($id)
+    public function acquireLock($id, $ttlInSeconds = 60)
     {
         $this->lockKey = $this->lockKeyStart . $id;
 
         $lockValue = substr(Common::generateUniqId(), 0, 12);
-        $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds = 60);
+        $locked    = $this->backend->setIfNotExists($this->lockKey, $lockValue, $ttlInSeconds);
 
         if ($locked) {
             $this->lockValue = $lockValue;
@@ -76,7 +76,6 @@ class Lock
     {
         if ($ttlInSeconds > 0 && $this->lockValue) {
             $success = $this->backend->expireIfKeyHasValue($this->lockKey, $this->lockValue, $ttlInSeconds);
-
             if (!$success) {
                 $value = $this->backend->get($this->lockKey);
                 $message = sprintf('Failed to expire key %s (%s / %s).', $this->lockKey, $this->lockValue, (string) $value);
@@ -86,7 +85,7 @@ class Lock
                 } elseif (!empty($value) && $value == $this->lockValue) {
                     Common::printDebug($message . ' We still have the lock but for some reason it did not expire.');
                 } elseif (!empty($value)) {
-                    Common::printDebug($message . ' It seems to be locked by another queue.');
+                    Common::printDebug($message . ' This lock has been acquired by another process/server.');
                 } else {
                     Common::printDebug($message . ' Failed to expire key.');
                 }
