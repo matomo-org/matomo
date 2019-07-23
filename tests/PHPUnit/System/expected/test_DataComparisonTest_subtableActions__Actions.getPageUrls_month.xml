@@ -547,7 +547,7 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>2</nb_visits>
@@ -584,7 +584,7 @@
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -621,10 +621,10 @@
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -809,10 +809,10 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1414,7 +1414,7 @@
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>
 									<row>
 										<nb_visits>1</nb_visits>
@@ -1451,10 +1451,10 @@
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 							</row>
 						</subtable>
 					</row>

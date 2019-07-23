@@ -418,7 +418,7 @@
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 									<row>
 										<nb_visits>2</nb_visits>
@@ -455,7 +455,7 @@
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 									<row>
 										<nb_visits>1</nb_visits>
@@ -492,10 +492,10 @@
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -680,10 +680,10 @@
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
 										
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -1022,7 +1022,7 @@
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
 												
-												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+												<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 											</row>
 											<row>
 												<nb_visits>1</nb_visits>
@@ -1059,10 +1059,10 @@
 												<compareSegmentPretty>All visits</compareSegmentPretty>
 												<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 												
-												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+												<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 											</row>
 										</comparisons>
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>
 								</subtable>
 							</row>
@@ -1348,7 +1348,7 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -1385,10 +1385,10 @@
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1446,7 +1446,7 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 					</row>
 					<row>
 						<nb_visits>0</nb_visits>
@@ -1491,10 +1491,10 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 			</row>
 			<row>
 				<label>manage-users</label>
@@ -1638,10 +1638,10 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1843,7 +1843,7 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 					</row>
 					<row>
 						<nb_visits>1</nb_visits>
@@ -1880,10 +1880,10 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 			<row>
 				<label>how-to</label>
@@ -2019,7 +2019,7 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -2056,10 +2056,10 @@
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -2205,10 +2205,10 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -2279,7 +2279,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2326,7 +2326,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2373,10 +2373,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 	</row>
 	<row>
 		<label>/index.htm</label>
@@ -2443,7 +2443,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2490,7 +2490,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2537,10 +2537,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>/moved-permanently</label>
@@ -2601,7 +2601,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2644,7 +2644,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2687,10 +2687,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 	</row>
 	<row>
 		<label>/register.php?0,approve=9a94a02145599</label>
@@ -2757,7 +2757,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2804,7 +2804,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2851,10 +2851,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+		<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 	</row>
 	<row>
 		<label>/temp-redirect</label>
@@ -2906,7 +2906,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2943,7 +2943,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2980,10 +2980,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 	</row>
 	<row>
 		<label>/to-an-error</label>
@@ -3050,7 +3050,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3097,7 +3097,7 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3144,10 +3144,10 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 	</row>
 	<row>
 		<label>download</label>
@@ -3394,10 +3394,10 @@
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
 								
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -3599,10 +3599,10 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -3802,7 +3802,7 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 					</row>
 					<row>
 						<nb_visits>1</nb_visits>
@@ -3839,10 +3839,10 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -4042,7 +4042,7 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 					</row>
 					<row>
 						<nb_visits>1</nb_visits>
@@ -4079,10 +4079,10 @@
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -4674,10 +4674,10 @@
 																						<compareSegment />
 																						<compareSegmentPretty>All visits</compareSegmentPretty>
 																						
-																						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
+																						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 																					</row>
 																				</comparisons>
-																				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
+																				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 																			</row>
 																		</subtable>
 																	</row>
@@ -4893,10 +4893,10 @@
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
 						
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 			</row>
 		</subtable>
 	</row>

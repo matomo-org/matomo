@@ -183,6 +183,7 @@ class DataComparisonTest extends SystemTestCase
             ]],
 
             // multiple sites + multiple periods + compare multiple segments/periods
+            // TODO
             [$apiToTest, [
                 'idSite' => 'all',
                 'date' => $multiPeriodDate1,
@@ -196,7 +197,7 @@ class DataComparisonTest extends SystemTestCase
                 ],
             ]],
 
-            // API.getProcessedReport test
+            // API.getProcessedReport tests
             // TODO
         ];
     }

@@ -12,11 +12,13 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Simple;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
@@ -96,8 +98,6 @@ class DataComparisonFilter
         $this->periodCompareLimit = (int) $generalConfig['data_comparison_period_limit'];
         $this->checkComparisonLimit($this->periodCompareLimit, 'data_comparison_period_limit');
 
-        $this->columnMappings = $this->getColumnMappings();
-
         $this->segmentName = $this->getSegmentNameFromReport($report);
 
         $this->compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
@@ -154,63 +154,36 @@ class DataComparisonFilter
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
 
-        $this->availableSegments = self::getAvailableSegments();
+        $this->columnMappings = $this->getColumnMappings();
 
-        $comparisonTotals = [];
+        $this->availableSegments = self::getAvailableSegments();
 
         // fetch data first
         $reportsToCompare = $this->getReportsToCompare();
         foreach ($reportsToCompare as $index => $modifiedParams) {
-            $metadata = $this->getMetadataFromModifiedParams($modifiedParams); // TODO: need to handle periods here
+            $compareMetadata = $this->getMetadataFromModifiedParams($modifiedParams);
 
-            $compareTable = $this->requestReport($metadata, $modifiedParams); // TODO: method should not be needed
-            $this->compareTables($metadata, $table, $compareTable, $comparisonTotals); // TODO: set comparison totals here
+            $compareTable = $this->requestReport($method, $modifiedParams);
+            $this->compareTables($compareMetadata, $table, $compareTable); // TODO: set comparison totals here + handle correctly
         }
 
         // format comparison table metrics
         $this->formatComparisonTables($table);
 
-        // TODO
-    }
-
-    /**
-     * @param DataTable $table
-     * @throws \Exception
-     */
-    private function filter($table)
-    {
-        foreach ($reportsToCompare as $modifiedParams) {
-
-
-            $totals = $compareTable->getMetadata('totals');
-            if (!empty($totals)) {
-                $totals = $this->replaceIndexesInTotals($totals);
-                $comparisonTotals[] = array_merge($metadata, [
-                    'totals' => $totals,
-                ]);
+        // add comparison parameters as metadata
+        $table->filter(function (DataTable $singleTable) {
+            if (isset($this->compareSegments)) {
+                $singleTable->setMetadata('compareSegments', $this->compareSegments);
             }
 
-            Common::destroy($compareTable);
-            unset($compareTable);
-        }
+            if (isset($this->comparePeriods)) {
+                $singleTable->setMetadata('comparePeriods', $this->comparePeriods);
+            }
 
-
-        // add comparison parameters as metadata
-        if (!empty($segments)) {
-            $table->setMetadata('compareSegments', $segments);
-        }
-
-        if (!empty($dates)) {
-            $table->setMetadata('compareDates', $dates);
-        }
-
-        if (!empty($periods)) {
-            $table->setMetadata('comparePeriods', $periods);
-        }
-
-        if (!empty($comparisonTotals)) {
-            $table->setMetadata('comparisonTotals', $comparisonTotals);
-        }
+            if (isset($this->compareDates)) {
+                $singleTable->setMetadata('compareDates', $this->compareDates);
+            }
+        });
     }
 
     private function getReportsToCompare()
@@ -244,11 +217,8 @@ class DataComparisonFilter
      * @param $paramsToModify
      * @return DataTable
      */
-    private function requestReport(DataTable $table, $method, $paramsToModify)
+    private function requestReport($method, $paramsToModify)
     {
-        /** @var Period $period */
-        $period = $table->getMetadata('period');
-
         $params = array_merge(
             [
                 'filter_limit' => -1,
@@ -264,13 +234,13 @@ class DataComparisonFilter
         );
 
         if (!isset($params['idSite'])) {
-            $params['idSite'] = $table->getMetadata('site')->getId();
+            $params['idSite'] = Common::getRequestVar('idSite', null, 'string', $this->request);
         }
         if (!isset($params['period'])) {
-            $params['period'] = $period->getLabel();
+            $params['period'] = Common::getRequestVar('period', null, 'string', $this->request);
         }
         if (!isset($params['date'])) {
-            $params['date'] = $period->getDateStart()->toString();
+            $params['date'] = Common::getRequestVar('date', null, 'string', $this->request);
         }
 
         $idSubtable = Common::getRequestVar('idSubtable', 0, 'int', $this->request);
@@ -298,31 +268,31 @@ class DataComparisonFilter
         return Request::processRequest($method, $params);
     }
 
-    private function formatComparisonTables(DataTable $table)
+    private function formatComparisonTables(DataTableInterface $tableOrMap)
     {
-        $formatter = new Formatter();
-        foreach ($table->getRows() as $row) {
-            /** @var DataTable $comparisonTable */
-            $comparisonTable = $row->getComparisons();
-            if (empty($comparisonTable)
-                || $comparisonTable->getRowsCount() === 0
-            ) { // sanity check
-                continue;
+        $tableOrMap->filter(function (DataTable $table) {
+            $formatter = new Formatter();
+            foreach ($table->getRows() as $row) {
+                /** @var DataTable $comparisonTable */
+                $comparisonTable = $row->getComparisons();
+                if (!empty($comparisonTable)
+                    && $comparisonTable->getRowsCount() > 0
+                ) { // sanity check
+                    $columnMappings = $this->columnMappings;
+                    $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
+
+                    $formatter->formatMetrics($comparisonTable);
+                }
+
+                $subtable = $row->getSubtable();
+                if ($subtable) {
+                    $this->formatComparisonTables($subtable);
+                }
             }
-
-            $columnMappings = $this->columnMappings;
-            $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
-
-            $formatter->formatMetrics($comparisonTable);
-
-            $subtable = $row->getSubtable();
-            if ($subtable) {
-                $this->formatComparisonTables($subtable);
-            }
-        }
+        });
     }
 
-    private function compareRow($metadata, DataTable\Row $row, DataTable\Row $compareRow = null)
+    private function compareRow($compareMetadata, DataTable\Row $row, DataTable\Row $compareRow = null)
     {
         $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
@@ -330,7 +300,7 @@ class DataComparisonFilter
             $row->setComparisons($comparisonDataTable);
         }
 
-        $this->addPrettifiedMetadata($metadata);
+        $this->addPrettifiedMetadata($compareMetadata);
 
         $columns = [];
         if ($compareRow) {
@@ -357,7 +327,7 @@ class DataComparisonFilter
 
         $newRow = new DataTable\Row([
             DataTable\Row::COLUMNS => $columns,
-            DataTable\Row::METADATA => $metadata,
+            DataTable\Row::METADATA => $compareMetadata,
         ]);
 
         // set subtable
@@ -403,11 +373,28 @@ class DataComparisonFilter
         if ($subtable
             && $compareRow
         ) {
-            $this->compareTables($metadata, $subtable, $compareRow->getSubtable());
+            $this->compareTables($compareMetadata, $subtable, $compareRow->getSubtable());
         }
     }
 
-    private function compareTables($metadata, DataTable $table, DataTable $compareTable = null)
+    private function compareTables($compareMetadata, DataTableInterface $tables, DataTableInterface $compareTables = null)
+    {
+        if ($tables instanceof DataTable) {
+            $this->compareTable($compareMetadata, $tables, $compareTables);
+        } else if ($tables instanceof DataTable\Map) {
+            $childTablesArray = array_values($tables->getDataTables());
+            $compareTablesArray = isset($compareTables) ? array_values($compareTables->getDataTables()) : [];
+
+            foreach ($childTablesArray as $index => $childTable) {
+                $compareChildTable = isset($compareTablesArray[$index]) ? $compareTablesArray[$index] : null;
+                $this->compareTables($compareMetadata, $childTable, $compareChildTable);
+            }
+        } else {
+            throw new \Exception("Unexpected DataTable type: " . get_class($tables));
+        }
+    }
+
+    private function compareTable($compareMetadata, DataTable $table, DataTable $compareTable = null)
     {
         // if there are no rows in the table because the metrics are 0, add one so we can still set comparison values
         if ($table->getRowsCount() == 0) {
@@ -419,12 +406,26 @@ class DataComparisonFilter
 
             $compareRow = null;
             if ($compareTable instanceof Simple) {
-                $compareRow = $compareTable->getFirstRow();
+                $compareRow = $compareTable->getFirstRow() ?: null;
             } else if ($compareTable instanceof DataTable) {
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
-            $this->compareRow($metadata, $row, $compareRow);
+            $this->compareRow($compareMetadata, $row, $compareRow);
+        }
+
+        if ($compareTable) {
+            $totals = $compareTable->getMetadata('totals');
+            if (!empty($totals)) {
+                $totals = $this->replaceIndexesInTotals($totals);
+                $comparisonTotalsEntry = array_merge($compareMetadata, [
+                    'totals' => $totals,
+                ]);
+
+                $allTotalsTables = $compareTable->getMetadata('comparisonTotals');
+                $allTotalsTables[] = $comparisonTotalsEntry;
+                $compareTable->setMetadata('comparisonTotals', $allTotalsTables);
+            }
         }
     }
 

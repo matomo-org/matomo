@@ -55,6 +55,10 @@ class Evolution extends JqplotGraph
         }
 
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
+
+        if ($this->isComparing()) {
+            // TODO
+        }
     }
 
     public function afterAllFiltersAreApplied()
