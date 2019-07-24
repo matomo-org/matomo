@@ -27,8 +27,6 @@ class Lock
         $this->backend = $backend;
         $this->lockKeyStart = $lockKeyStart;
         $this->lockKey = $this->lockKeyStart;
-
-        $this->backend->install();
     }
 
     public function getNumberOfAcquiredLocks()

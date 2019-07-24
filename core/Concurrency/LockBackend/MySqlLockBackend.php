@@ -19,25 +19,6 @@ class MySqlLockBackend implements LockBackend
 {
     const TABLE_NAME = 'locks';
 
-    private static $tableCreated = false;
-
-    public function install()
-    {
-        if (self::$tableCreated) {
-            return;
-        }
-
-        $tableName = self::getTableName();
-
-        DbHelper::createTable($tableName, "
-          `key` VARCHAR(70) NOT NULL,
-          `value` VARCHAR(255) NULL DEFAULT NULL,
-          `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
-          PRIMARY KEY (`key`)");
-
-        self::$tableCreated = true;
-    }
-
     /**
      * fyi: does not support list keys at the moment just because not really needed so much just yet
      */

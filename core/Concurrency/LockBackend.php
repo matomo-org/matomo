@@ -14,13 +14,6 @@ interface LockBackend
     /**
      * TODO
      *
-     * @return mixed
-     */
-    public function install();
-
-    /**
-     * TODO
-     *
      * @param $pattern
      * @return mixed
      */

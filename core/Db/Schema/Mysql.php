@@ -310,6 +310,13 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`idsite`, `idfailure`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+            'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
+                                      `key` VARCHAR(70) NOT NULL,
+                                      `value` VARCHAR(255) NULL DEFAULT NULL,
+                                      `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
+                                      PRIMARY KEY (`key`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
         );
 
         return $tables;
