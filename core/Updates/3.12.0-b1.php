@@ -7,7 +7,7 @@
  *
  */
 
-namespace Piwik\Plugins\core;
+namespace Piwik\Updates;
 
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
