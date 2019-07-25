@@ -62,8 +62,10 @@ class Model
         }
 
         $queries = [];
-        $hasStartEndDateMoreThanOneDayInBetween = $dateStart->addDay(1)->isEarlier($virtualDateEnd);
-        if ($limit && $hasStartEndDateMoreThanOneDayInBetween) {
+        $hasStartEndDateMoreThanOneDayInBetween = $dateStart && $dateStart->addDay(1)->isEarlier($virtualDateEnd);
+        if ($limit
+            && $hasStartEndDateMoreThanOneDayInBetween
+        ) {
             if ($hasStartEndDateMoreThanOneDayInBetween) {
                 $virtualDateEnd = $virtualDateEnd->subDay(1);
                 $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
@@ -88,7 +90,8 @@ class Model
             $queries[] = array($dateStart, $dateEnd);
         }
 
-        $deb = array_map(function ($query) { return $query[0]->getDatetime() . ' ' . $query[1]->getDatetime(); }, $queries);
+        // uncomment to see the dateTimes that have been generated.
+        // $debugDateTime = array_map(function ($query) { return $query[0]->getDatetime() . ' ' . $query[1]->getDatetime(); }, $queries);
 
         $foundVisits = array();
         foreach ($queries as $queryRange) {
