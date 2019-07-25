@@ -99,6 +99,9 @@ class Feedback extends \Piwik\Plugin
         if ($nextReminderDate === false) {
             $model = new Model();
             $user = $model->getUser($login);
+            if (empty($user['date_registered'])) {
+                return false;
+            }
             $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
         } else {
             $nextReminderDate = Date::factory($nextReminderDate);
