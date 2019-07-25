@@ -45,7 +45,7 @@
         "DefaultGoalConvertedOncePerVisit": "(par défaut) Un objectif peut-être converti une seule fois par visite",
         "DefaultRevenueLabel": "Revenu de l'objectif par défaut",
         "DefaultRevenueHelp": "Par exemple, un formulaire de contact soumis par un visiteur peut avoir une valeur de 10 € en moyenne. Matomo vous aidera à comprendre comment se comportent vos visiteurs.",
-        "DeleteGoalConfirm": "Êtes vous sûr de vouloir supprimer l'objectif %s?",
+        "DeleteGoalConfirm": "Êtes-vous sûr(e) de vouloir supprimer l'objectif %s ?",
         "DocumentationRevenueGeneratedByProductSales": "Ventes de produits. Hors taxes, expéditions et remises.",
         "Download": "Téléchargent un fichier",
         "Ecommerce": "E-Commerce",
@@ -80,7 +80,7 @@
         "MatchesExpression": "correspond à l'expression %s",
         "NewGoalIntro": "Le suivi de la conversion des objectifs et une des manières les plus efficaces de mesurer et améliorer vos objectifs d'affaires.",
         "NewVisitorsConversionRateIs": "Le taux de conversion des nouveaux visiteurs est %s",
-        "NoGoalsNeedAccess2": "Seulement un utilisateur de type Ecriture, Administrateur ou avec un accès super utilisateur peut gérer les objectifs pour un site web. Veuillez demander à votre administrateur Matomo de mettre en place un objectif pour votre site web. <br>Suivre des objectifs est une très bonne façon de comprendre et maximiser les performances de votre site web!",
+        "NoGoalsNeedAccess2": "Seulement un utilisateur de type Ecriture, Administrateur ou avec un accès super utilisateur peut gérer les objectifs pour un site web. Veuillez demander à votre administrateur Matomo de mettre en place un objectif pour votre site web. <br>Suivre des objectifs est une très bonne façon de comprendre et maximiser les performances de votre site web !",
         "NoConversionsNoReportsMessage": "Aucun rapport n'est affiché car il n'y a pas de données de conversion pour l'objectif et la période sélectionnée.",
         "NeedAccess": "Uniquement un administrateur ou un utilisateur avec le rôle super utilisateur peut gérer les objectifs pour un site web.",
         "Optional": "(optionnel)",
@@ -89,7 +89,7 @@
         "OverallRevenue": "revenu global",
         "PageTitle": "Titre de la page",
         "Pattern": "Modèle",
-        "PluginDescription": "Créez des Objectifs et obtenez des rapports détaillés à propos de leur conversion : évolution au cours du temps, revenus par visite, conversion par référent, par mot clef et plus.",
+        "PluginDescription": "Créez des Objectifs et obtenez des rapports détaillés à propos de leur conversion : évolution au cours du temps, revenus par visite, conversion par référent, par mot-clé et plus.",
         "ProductCategory": "Catégorie du produit",
         "ProductName": "Nom du produit",
         "ProductNames": "Noms Produit",
@@ -116,6 +116,6 @@
         "UseEventValueAsRevenue": "Utilisez la valeur de l'évènement (si elle existe) en tant que revenu lié à la conversion de l'objectif.",
         "GoalRevenue": "Revenu de l'objectif",
         "EventValueAsRevenueHelp": "Si l'évènement correspondant a un revenu, et que ce revenu est suivi en tant que valeur de l'évènement, vous pouvez activer cette option pour enregistrement la valeur de l'évènement en tant que revenu de conversion d'objectif. Si votre revenu objectif ne varie pas par conversion, vous pouvez ignorer cette option et simplement définir un revenu par défaut ci-dessus.",
-        "EventValueAsRevenueHelp2": "Note: si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie)."
+        "EventValueAsRevenueHelp2": "Note : si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie)."
     }
 }

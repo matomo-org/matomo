@@ -705,6 +705,11 @@ num_days_before_tracking_code_reminder = 5
 ; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
 
+; Whether or not to send weekly emails to superusers about tracking failures.
+; Default is 1.
+enable_tracking_failures_notification = 1
+
+
 [Tracker]
 
 ; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
@@ -773,7 +778,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.

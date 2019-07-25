@@ -2,6 +2,7 @@
     "Ecommerce": {
         "Sales": "売り上げ",
         "Order": "注文",
+        "OrderId": "オーダー ID",
         "Orders": "注文",
         "SalesBy": "%s 別売り上げ高",
         "SalesAdjective": "売り上げ %s",
