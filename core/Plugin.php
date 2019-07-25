@@ -18,6 +18,7 @@ use Piwik\Plugin\MetadataLoader;
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 
+if (!class_exists('Piwik\Plugin')) {
 /**
  * Base class of all Plugin Descriptor classes.
  *
@@ -598,3 +599,5 @@ class Plugin
         return $dependency;
     }
 }
+}
+    
