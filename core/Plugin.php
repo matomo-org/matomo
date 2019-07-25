@@ -14,11 +14,6 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
 
 /**
- * @see Piwik\Plugin\MetadataLoader
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
-
-/**
  * Base class of all Plugin Descriptor classes.
  *
  * Any plugin that wants to add event observers to one of Piwik's {@hook # hooks},
