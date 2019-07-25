@@ -425,7 +425,6 @@ class Model
                 && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
             ) {
                 $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
-                $where[] = " log_visit.visit_last_action_time <= ?";
                 $dateEnd = $dateEnd->addDay(1);
             }
         }
