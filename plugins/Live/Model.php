@@ -55,20 +55,66 @@ class Model
         }
 
         list($dateStart, $dateEnd) = $this->getStartAndEndDate($idSite, $period, $date);
-        list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $dateStart, $dateEnd, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        $visits = Db::getReader()->fetchAll($sql, $bind);
-
-        if ($checkforMoreEntries) {
-            if (count($visits) == $limit) {
-                array_pop($visits);
-                return [$visits, true];
-            }
-
-            return [$visits, false];
+        $virtualDateEnd = $dateEnd;
+        if (empty($dateEnd)) {
+            $virtualDateEnd = Date::now()->addDay(1); // matomo always adds one day for some reason
         }
 
-        return $visits;
+        $queries = [];
+        $hasStartEndDateMoreThanOneDayInBetween = $dateStart->addDay(1)->isEarlier($virtualDateEnd);
+        if ($limit && $hasStartEndDateMoreThanOneDayInBetween) {
+            if ($hasStartEndDateMoreThanOneDayInBetween) {
+                $virtualDateEnd = $virtualDateEnd->subDay(1);
+                $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
+            }
+            if ($dateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
+                $virtualDateEnd = $virtualDateEnd->subDay(7);
+            }
+            if ($dateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
+                $virtualDateEnd = $virtualDateEnd->subDay(30);
+            }
+            if ($dateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
+                $virtualDateEnd = $virtualDateEnd->subYear(1);
+            }
+
+            if ($dateStart->isEarlier($virtualDateEnd)) {
+                $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
+            }
+        } else {
+            $queries[] = array($dateStart, $dateEnd);
+        }
+
+        $deb = array_map(function ($query) { return $query[0]->getDatetime() . ' ' . $query[1]->getDatetime(); }, $queries);
+
+        $foundVisits = array();
+        foreach ($queries as $queryRange) {
+            $updatedLimit = $limit - count($foundVisits);
+
+            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $offset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+
+            $visits = Db::getReader()->fetchAll($sql, $bind);
+            $foundVisits += $visits;
+
+            if ($limit && count($foundVisits) >= $limit) {
+                $foundVisits = array_slice($foundVisits, 0, $limit);
+                break;
+            }
+        }
+
+        if ($checkforMoreEntries) {
+            if (count($foundVisits) == $limit) {
+                array_pop($foundVisits);
+                return [$foundVisits, true];
+            }
+
+            return [$foundVisits, false];
+        }
+
+        return $foundVisits;
     }
 
     /**
@@ -324,7 +370,16 @@ class Model
         return new Site($idSite);
     }
 
-    private function getStartAndEndDate($idSite, $period, $date)
+    /**
+     * for tests only
+     * @param $idSite
+     * @param $period
+     * @param $date
+     * @return Date[]
+     * @throws Exception
+     * @internal
+     */
+    public function getStartAndEndDate($idSite, $period, $date)
     {
         $dateStart = null;
         $dateEnd = null;

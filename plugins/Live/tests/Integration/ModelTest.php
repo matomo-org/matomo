@@ -34,10 +34,11 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryString()
     {
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 0,
                 $limit = 100,
@@ -75,10 +76,11 @@ class ModelTest extends IntegrationTestCase
         });
 
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 0,
                 $limit = 100,
@@ -114,10 +116,12 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryStringWithOffset()
     {
         $model = new Model();
+
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 15,
                 $limit = 100,
@@ -152,10 +156,11 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryString_whenSegment()
     {
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
             $idSite = 1,
-            $period = 'month',
-            $date = '2010-01-01',
+            $dateStart,
+            $dateEnd,
             $segment = 'customVariablePageName1==Test',
             $offset = 10,
             $limit = 100,
