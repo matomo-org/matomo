@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -178,7 +178,8 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function notifyTrackingFailures()
     {
         $failures = $this->trackingFailures->getAllFailures();
-        if (!empty($failures)) {
+        $general = Config::getInstance()->General;
+        if (!empty($failures) && $general['enable_tracking_failures_notification']) {
             $superUsers = Piwik::getAllSuperUserAccessEmailAddresses();
             foreach ($superUsers as $login => $email) {
                 $email = new TrackingFailuresEmail($login, $email, count($failures));
