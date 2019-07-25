@@ -89,6 +89,7 @@ class Model
             }
 
             if ($virtualDateStart->isEarlier($virtualDateEnd)) {
+                // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
                 $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
             }
         } else {
