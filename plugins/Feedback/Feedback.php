@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -82,6 +83,11 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        // Hide Feedback popup in all tests except if forced
+        if ($this->isDisabledInTestMode()) {
+            return false;
+        }
+
         $login = Piwik::getCurrentUserLogin();
         $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
         $nextReminderDate = Option::get($feedbackReminderKey);
@@ -100,6 +106,12 @@ class Feedback extends \Piwik\Plugin
 
         $now = Date::now()->getTimestamp();
         return $nextReminderDate->getTimestamp() <= $now;
+    }
+
+    // needs to be protected not private for testing purpose
+    protected function isDisabledInTestMode()
+    {
+        return PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
 
 }
