@@ -102,9 +102,16 @@ class Model
         $foundVisits = array();
 
         foreach ($queries as $queryRange) {
-            $updatedLimit = $limit - count($foundVisits);
+            $updatedLimit = $limit;
+            if (!empty($limit)) {
+                $updatedLimit = $limit - count($foundVisits);
+            }
+            $updatedOffset = $offset;
+            if (!empty($offset)) {
+                $updatedOffset = $offset - count($foundVisits);
+            }
 
-            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $offset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
             $visits = Db::getReader()->fetchAll($sql, $bind);
             $foundVisits = array_merge($foundVisits, $visits);
