@@ -100,13 +100,14 @@ class Model
         // $debugDateTime = array_map(function ($query) { return $query[0]->getDatetime() . ' ' . $query[1]->getDatetime(); }, $queries);
 
         $foundVisits = array();
+
         foreach ($queries as $queryRange) {
             $updatedLimit = $limit - count($foundVisits);
 
             list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $offset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
             $visits = Db::getReader()->fetchAll($sql, $bind);
-            $foundVisits += $visits;
+            $foundVisits = array_merge($foundVisits, $visits);
 
             if ($limit && count($foundVisits) >= $limit) {
                 $foundVisits = array_slice($foundVisits, 0, $limit);
