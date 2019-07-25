@@ -61,8 +61,13 @@ class Model
             $virtualDateEnd = Date::now()->addDay(1); // matomo always adds one day for some reason
         }
 
+        $virtualDateStart = $dateStart;
+        if (empty($virtualDateStart)) {
+            $virtualDateStart = Date::factory('1990-01-01'); // matomo always adds one day for some reason
+        }
+
         $queries = [];
-        $hasStartEndDateMoreThanOneDayInBetween = $dateStart && $dateStart->addDay(1)->isEarlier($virtualDateEnd);
+        $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
         if ($limit
             && $hasStartEndDateMoreThanOneDayInBetween
         ) {
@@ -70,20 +75,20 @@ class Model
                 $virtualDateEnd = $virtualDateEnd->subDay(1);
                 $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
             }
-            if ($dateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+            if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
                 $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
                 $virtualDateEnd = $virtualDateEnd->subDay(7);
             }
-            if ($dateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+            if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
                 $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
                 $virtualDateEnd = $virtualDateEnd->subDay(30);
             }
-            if ($dateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+            if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
                 $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
                 $virtualDateEnd = $virtualDateEnd->subYear(1);
             }
 
-            if ($dateStart->isEarlier($virtualDateEnd)) {
+            if ($virtualDateStart->isEarlier($virtualDateEnd)) {
                 $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
             }
         } else {
