@@ -98,7 +98,7 @@ class Model
         }
 
         // uncomment to see the dateTimes that have been generated.
-        // $debugDateTime = array_map(function ($query) { return $query[0]->getDatetime() . ' ' . $query[1]->getDatetime(); }, $queries);
+        //$debugDateTime = array_map(function ($query) { return ($query[0] ? $query[0]->getDatetime() : '') . ' ' . ($query[1] ? $query[1]->getDatetime() : ''); }, $queries);
 
         $foundVisits = array();
 
@@ -111,7 +111,9 @@ class Model
             list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $offset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
             $visits = Db::getReader()->fetchAll($sql, $bind);
-            $foundVisits = array_merge($foundVisits, $visits);
+            if (!empty($visits)) {
+                $foundVisits = array_merge($foundVisits, $visits);
+            }
 
             if ($limit && count($foundVisits) >= $limit) {
                 if (count($foundVisits) > $limit) {
@@ -471,10 +473,11 @@ class Model
             $where[] = "log_visit.visit_last_action_time >= ?";
             $whereBind[] = $startDate->toString('Y-m-d H:i:s');
 
-            if (!empty($endDate)) {
-                $where[] = " log_visit.visit_last_action_time <= ?";
-                $whereBind[] = $endDate->toString('Y-m-d H:i:s');
-            }
+        }
+
+        if (!empty($endDate)) {
+            $where[] = " log_visit.visit_last_action_time <= ?";
+            $whereBind[] = $endDate->toString('Y-m-d H:i:s');
         }
 
         if (count($where) > 0) {
