@@ -69,24 +69,32 @@ class Model
         $queries = [];
         $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
         if ($limit
-            && !$offset
             && $hasStartEndDateMoreThanOneDayInBetween
         ) {
             if ($hasStartEndDateMoreThanOneDayInBetween) {
                 $virtualDateEnd = $virtualDateEnd->subDay(1);
                 $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
             }
-            if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
-                $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
-                $virtualDateEnd = $virtualDateEnd->subDay(7);
-            }
-            if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
-                $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
-                $virtualDateEnd = $virtualDateEnd->subDay(30);
-            }
-            if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
-                $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
-                $virtualDateEnd = $virtualDateEnd->subYear(1);
+
+                if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subDay(7);
+                }
+
+            if (!$offset) {
+                // only when no offset
+                // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
+                // like we would need to execute each of the queries twice just to find out if there are some visits that
+                // need to be skipped...
+
+                if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subDay(30);
+                }
+                if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subYear(1);
+                }
             }
 
             if ($virtualDateStart->isEarlier($virtualDateEnd)) {
@@ -108,9 +116,28 @@ class Model
                 $updatedLimit = $limit - count($foundVisits);
             }
 
-            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $offset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+            $updatedOffset = $offset;
+            if (!empty($offset) && !empty($foundVisits)) {
+                $updatedOffset = 0; // we've already skipped enough rows
+            }
+
+            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
             $visits = Db::getReader()->fetchAll($sql, $bind);
+
+            if (!empty($offset) && empty($visits)) {
+                // find out if there are any matches
+                $updatedOffset = 0;
+                list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+
+                $visits = Db::getReader()->fetchAll($sql, $bind);
+                if (!empty($visits)) {
+                    // found out the number of visits that we skipped in this query
+                    $offset = $offset - count($visits);
+                }
+                continue;
+            }
+
             if (!empty($visits)) {
                 $foundVisits = array_merge($foundVisits, $visits);
             }
