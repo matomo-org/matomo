@@ -63,7 +63,7 @@ class Model
 
         $virtualDateStart = $dateStart;
         if (empty($virtualDateStart)) {
-            $virtualDateStart = Date::factory('1990-01-01'); // matomo always adds one day for some reason
+            $virtualDateStart = Date::factory(Date::FIRST_WEBSITE_TIMESTAMP); // matomo always adds one day for some reason
         }
 
         $queries = [];
