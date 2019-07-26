@@ -117,7 +117,9 @@ class Model
             $foundVisits = array_merge($foundVisits, $visits);
 
             if ($limit && count($foundVisits) >= $limit) {
-                $foundVisits = array_slice($foundVisits, 0, $limit);
+                if (count($foundVisits) > $limit) {
+                    $foundVisits = array_slice($foundVisits, 0, $limit);
+                }
                 break;
             }
         }
