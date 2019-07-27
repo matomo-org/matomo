@@ -41,6 +41,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -138,6 +139,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>

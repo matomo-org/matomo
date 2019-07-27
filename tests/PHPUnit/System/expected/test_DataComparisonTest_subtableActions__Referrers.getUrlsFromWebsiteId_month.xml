@@ -32,6 +32,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>referrerUrl==contribute%25</segment>
 			</row>
@@ -54,6 +55,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
 			</row>
@@ -76,6 +78,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
 			</row>

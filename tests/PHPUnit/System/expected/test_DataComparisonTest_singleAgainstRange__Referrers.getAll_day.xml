@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<comparisons>
+			<row>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+				
+			</row>
+			<row>
+				<compareSegment />
+				<comparePeriod>range</comparePeriod>
+				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
+				
+			</row>
+		</comparisons>
+	</row>
+</result>

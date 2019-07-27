@@ -669,6 +669,16 @@ class ProcessedReport
                 }
             }
 
+            /** @var DataTable $comparisons */
+            $comparisons = $row->getComparisons();
+
+            if (!empty($comparisons)
+                && $comparisons->getRowsCount() > 0
+            ) {
+                // TODO: should we process this in the same way as above?
+                $enhancedRow->setComparisons($comparisons);
+            }
+
             // If report has a dimension, extract metadata into a distinct DataTable
             if ($hasDimension) {
                 $rowMetadata = $row->getMetadata();

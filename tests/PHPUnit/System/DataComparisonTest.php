@@ -114,6 +114,12 @@ class DataComparisonTest extends SystemTestCase
         $multiPeriodDate1 = '2012-08-09,2012-08-16';
         $multiPeriodPeriod1 = 'day';
 
+        $multiPeriodDate2 = '2012-08-12,2012-08-15';
+        $multiPeriodPeriod2 = 'day';
+
+        $rangePeriodDate = '2012-08-09,2012-08-16';
+        $rangePeriodPeriod = 'range';
+
         return [
             // compare multiple segments
             [$apiToTest, [
@@ -183,7 +189,6 @@ class DataComparisonTest extends SystemTestCase
             ]],
 
             // multiple sites + multiple periods + compare multiple segments/periods
-            // TODO
             [$apiToTest, [
                 'idSite' => 'all',
                 'date' => $multiPeriodDate1,
@@ -196,9 +201,80 @@ class DataComparisonTest extends SystemTestCase
                     'compare' => '1',
                 ],
             ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $multiPeriodDate1,
+                'period' => $multiPeriodPeriod1,
+                'testSuffix' => '_multipleMultiPeriods',
+                'otherRequestParameters' => [
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$multiPeriodDate2],
+                    'comparePeriods' => [$multiPeriodPeriod2],
+                    'compare' => '1',
+                ],
+            ]],
+
+            // comparing with and against ranges
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $rangePeriodDate,
+                'period' => $rangePeriodPeriod,
+                'testSuffix' => '_rangePeriodAgainstSingle',
+                'otherRequestParameters' => [
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$date1, $date2],
+                    'comparePeriods' => [$period1, $period2],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $rangePeriodDate,
+                'period' => $rangePeriodPeriod,
+                'testSuffix' => '_rangePeriodAgainstMultiple',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date1, $multiPeriodDate1],
+                    'comparePeriods' => [$period1, $multiPeriodPeriod1],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date1,
+                'period' => $period1,
+                'testSuffix' => '_singleAgainstRange',
+                'otherRequestParameters' => [
+                    'compareDates' => [$rangePeriodDate],
+                    'comparePeriods' => [$rangePeriodPeriod],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $multiPeriodDate1,
+                'period' => $multiPeriodPeriod1,
+                'testSuffix' => '_multipleAgainstRange',
+                'otherRequestParameters' => [
+                    'compareDates' => [$rangePeriodDate],
+                    'comparePeriods' => [$rangePeriodPeriod],
+                    'compare' => '1',
+                ],
+            ]],
 
             // API.getProcessedReport tests
-            // TODO
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $multiPeriodDate1,
+                'period' => $multiPeriodPeriod2,
+                'testSuffix' => '_processedReport',
+                'apiModule' => 'VisitsSummary',
+                'apiAction' => 'get',
+                'otherRequestParameters' => [
+                    'compareDates' => [$multiPeriodDate2],
+                    'comparePeriods' => [$multiPeriodPeriod2],
+                    'compare' => '1',
+                ],
+            ]],
         ];
     }
 }

@@ -55,6 +55,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -93,6 +94,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -131,6 +133,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 			</row>
@@ -426,6 +429,7 @@
 						<exit_rate_change>+0%</exit_rate_change>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 					</row>
@@ -546,6 +550,7 @@
 								<exit_rate_change>+0%</exit_rate_change>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								
 								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
@@ -672,6 +677,7 @@
 						<exit_rate_change>+0%</exit_rate_change>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 					</row>
@@ -808,6 +814,7 @@
 								<exit_rate_change>+0%</exit_rate_change>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
@@ -873,6 +880,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>
@@ -911,6 +919,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>
@@ -949,6 +958,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 			</row>
@@ -1244,6 +1254,7 @@
 						<exit_rate_change>+0%</exit_rate_change>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 					</row>
@@ -1324,6 +1335,7 @@
 								<exit_rate_change>+0%</exit_rate_change>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 							</row>
@@ -1413,6 +1425,7 @@
 										<exit_rate_change>+0%</exit_rate_change>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
+										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										
 										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>

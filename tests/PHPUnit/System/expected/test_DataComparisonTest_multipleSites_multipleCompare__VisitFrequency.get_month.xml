@@ -38,6 +38,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -65,6 +66,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -92,6 +94,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -281,16 +284,19 @@
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -381,6 +387,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -408,6 +415,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
@@ -435,6 +443,7 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
 			<row>

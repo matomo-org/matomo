@@ -239,7 +239,9 @@ class DataTableFactory
     private function makeFromBlobRow($blobRow, $keyMetadata)
     {
         if ($blobRow === false) {
-            return new DataTable();
+            $table = new DataTable();
+            $table->setAllTableMetadata($keyMetadata);
+            return $table;
         }
 
         if (count($this->dataNames) === 1) {
@@ -399,6 +401,9 @@ class DataTableFactory
             $blobName = $dataName . "_" . $sid;
             if (isset($blobRow[$blobName])) {
                 $subtable = DataTable::fromSerializedArray($blobRow[$blobName]);
+                $subtable->setMetadata(self::TABLE_METADATA_PERIOD_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_PERIOD_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SITE_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SITE_INDEX));
+
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
                 // we edit the subtable ID so that it matches the newly table created in memory

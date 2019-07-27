@@ -22,9 +22,9 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
+use Piwik\Site;
 
 // TODO: unit test
-
 // TODO: if comparing days w/ non-days, in html table & elsewhere, we must display nb_visits instead of nb_uniq_visitors
 
 /**
@@ -87,6 +87,11 @@ class DataComparisonFilter
      */
     private $comparePeriodIndices;
 
+    /**
+     * @var bool
+     */
+    private $isRequestMultiplePeriod;
+
     public function __construct($request, Report $report = null)
     {
         $this->request = $request;
@@ -125,6 +130,8 @@ class DataComparisonFilter
             throw new \Exception("compare=1 set, but no segments or periods to compare.");
         }
 
+        $this->checkMultiplePeriodCompare();
+
         // add base compare against segment and date
         array_unshift($this->compareSegments, isset($this->request['segment']) ? $this->request['segment'] : '');
         array_unshift($this->compareDates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
@@ -139,12 +146,6 @@ class DataComparisonFilter
     }
 
     /**
-     * TODO
-     * - build permutations here
-     * - query data, once per permutation, not once per datable combination
-     * - then call filter
-     *
-     *
      * @param DataTable\DataTableInterface $table
      */
     public function compare(DataTable\DataTableInterface $table)
@@ -259,7 +260,10 @@ class DataComparisonFilter
 
             $comparisonIdSubtable = $comparisonIdSubtables[$segmentIndex][$periodIndex];
             if ($comparisonIdSubtable === -1) { // no subtable in comparison row
-                return new DataTable();
+                $table = new DataTable();
+                $table->setMetadata('site', new Site($params['idSite']));
+                $table->setMetadata('period', Period\Factory::build($params['period'], $params['date']));
+                return $table;
             }
 
             $params['idSubtable'] = $comparisonIdSubtable;
@@ -292,7 +296,7 @@ class DataComparisonFilter
         });
     }
 
-    private function compareRow($compareMetadata, DataTable\Row $row, DataTable\Row $compareRow = null)
+    private function compareRow($compareMetadata, DataTable\Row $row, DataTable\Row $compareRow = null, DataTable $rootTable = null)
     {
         $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
@@ -300,7 +304,7 @@ class DataComparisonFilter
             $row->setComparisons($comparisonDataTable);
         }
 
-        $this->addPrettifiedMetadata($compareMetadata);
+        $this->addPrettifiedMetadata($compareMetadata, $rootTable);
 
         $columns = [];
         if ($compareRow) {
@@ -373,14 +377,14 @@ class DataComparisonFilter
         if ($subtable
             && $compareRow
         ) {
-            $this->compareTables($compareMetadata, $subtable, $compareRow->getSubtable());
+            $this->compareTable($compareMetadata, $subtable, $rootTable, $compareRow->getSubtable());
         }
     }
 
     private function compareTables($compareMetadata, DataTableInterface $tables, DataTableInterface $compareTables = null)
     {
         if ($tables instanceof DataTable) {
-            $this->compareTable($compareMetadata, $tables, $compareTables);
+            $this->compareTable($compareMetadata, $tables, $compareTables, $compareTables);
         } else if ($tables instanceof DataTable\Map) {
             $childTablesArray = array_values($tables->getDataTables());
             $compareTablesArray = isset($compareTables) ? array_values($compareTables->getDataTables()) : [];
@@ -394,7 +398,7 @@ class DataComparisonFilter
         }
     }
 
-    private function compareTable($compareMetadata, DataTable $table, DataTable $compareTable = null)
+    private function compareTable($compareMetadata, DataTable $table, DataTable $rootCompareTable = null, DataTable $compareTable = null)
     {
         // if there are no rows in the table because the metrics are 0, add one so we can still set comparison values
         if ($table->getRowsCount() == 0) {
@@ -411,7 +415,7 @@ class DataComparisonFilter
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
-            $this->compareRow($compareMetadata, $row, $compareRow);
+            $this->compareRow($compareMetadata, $row, $compareRow, $rootCompareTable);
         }
 
         if ($compareTable) {
@@ -448,16 +452,15 @@ class DataComparisonFilter
         }
     }
 
-    private function addPrettifiedMetadata(array &$metadata)
+    private function addPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
         if (isset($metadata['compareSegment'])) {
             $storedSegment = $this->findSegment($metadata['compareSegment']);
             $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
         }
-        if (!empty($metadata['comparePeriod'])
-            && !empty($metadata['compareDate'])
-        ) {
-            $prettyPeriod = Period\Factory::build($metadata['comparePeriod'], $metadata['compareDate'])->getLocalizedLongString();
+
+        if ($parentTable) {
+            $prettyPeriod = $parentTable->getMetadata('period')->getLocalizedLongString();
             $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
         }
     }
@@ -535,5 +538,33 @@ class DataComparisonFilter
         $segment     = reset($segments);
         $segmentName = $segment->getSegment();
         return $segmentName;
+    }
+
+    private function checkMultiplePeriodCompare()
+    {
+        if ($this->isRequestMultiplePeriod()) {
+            foreach ($this->comparePeriods as $index => $period) {
+                if (!Period::isMultiplePeriod($this->compareDates[$index], $period)) {
+                    throw new \Exception("Cannot compare: original request is multiple period and cannot be compared with single periods.");
+                }
+            }
+        } else {
+            foreach ($this->comparePeriods as $index => $period) {
+                if (Period::isMultiplePeriod($this->compareDates[$index], $period)) {
+                    throw new \Exception("Cannot compare: original request is single period and cannot be compared with multiple periods.");
+                }
+            }
+        }
+    }
+
+    private function isRequestMultiplePeriod()
+    {
+        if ($this->isRequestMultiplePeriod === null) {
+            $period = Common::getRequestVar('period', $default = null, 'string');
+            $date = Common::getRequestVar('date', $default = null, 'string');
+
+            $this->isRequestMultiplePeriod = Period::isMultiplePeriod($date, $period);
+        }
+        return $this->isRequestMultiplePeriod;
     }
 }
