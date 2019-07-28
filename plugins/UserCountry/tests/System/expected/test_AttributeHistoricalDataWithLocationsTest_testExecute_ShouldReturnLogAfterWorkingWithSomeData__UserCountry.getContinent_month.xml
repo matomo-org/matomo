@@ -6,6 +6,7 @@
 		<nb_actions>60</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>11</bounce_count>
+		<nb_visits_converted>22</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>22</nb_conversions>
@@ -30,6 +31,7 @@
 		<nb_actions>22</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>8</nb_conversions>
@@ -54,6 +56,7 @@
 		<nb_actions>13</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>5</nb_conversions>

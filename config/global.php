@@ -150,7 +150,7 @@ return array(
         if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
             $ips = $general['login_whitelist_ip'];
         }
-        
+
         $ipsResolved = array();
 
         foreach ($ips as $ip) {
@@ -201,18 +201,10 @@ return array(
         return $transport;
     },
 
-    'Zend_Validate_EmailAddress' => function () {
-        return new \Zend_Validate_EmailAddress(array(
-            'hostname' => new \Zend_Validate_Hostname(array(
-                'tld' => false,
-            ))));
-    },
-
     'Piwik\Tracker\VisitorRecognizer' => DI\object()
         ->constructorParameter('trustCookiesOnly', DI\get('ini.Tracker.trust_visitors_cookies'))
         ->constructorParameter('visitStandardLength', DI\get('ini.Tracker.visit_standard_length'))
-        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor'))
-        ->constructorParameter('trackerAlwaysNewVisitor', DI\get('ini.Debug.tracker_always_new_visitor')),
+        ->constructorParameter('lookbackNSecondsCustom', DI\get('ini.Tracker.window_look_back_for_visitor')),
 
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),

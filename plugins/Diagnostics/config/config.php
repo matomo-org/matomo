@@ -7,6 +7,7 @@ return array(
     'diagnostics.required' => array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpVersionCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DbAdapterCheck'),
+        DI\get('Piwik\Plugins\Diagnostics\Diagnostic\DbReaderCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpExtensionsCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpFunctionsCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\PhpSettingsCheck'),
