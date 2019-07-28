@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -30,7 +31,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerat
 class JqplotDataGenerator
 {
     /**
-     * View properties. @see Piwik\ViewDataTable for more info.
+     * View properties. @see \Piwik\ViewDataTable for more info.
      *
      * @var array
      */
@@ -43,7 +44,14 @@ class JqplotDataGenerator
     /**
      * @var array
      */
-    private $comparisonsForLabels;
+    protected $comparisonsForLabels;
+
+    private $availableSegments;
+
+    /**
+     * @var JqplotGraph
+     */
+    protected $graph;
 
     /**
      * Creates a new JqplotDataGenerator instance for a graph type and view properties.
@@ -57,10 +65,10 @@ class JqplotDataGenerator
     {
         switch ($type) {
             case 'evolution':
-                return new JqplotDataGenerator\Evolution($properties, $type, $graph->isComparing());
+                return new JqplotDataGenerator\Evolution($properties, $type, $graph);
             case 'pie':
             case 'bar':
-                return new JqplotDataGenerator($properties, $type, $graph->isComparing());
+                return new JqplotDataGenerator($properties, $type, $graph);
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
         }
@@ -74,13 +82,15 @@ class JqplotDataGenerator
      *
      * @internal param \Piwik\Plugin\ViewDataTable $visualization
      */
-    public function __construct($properties, $graphType, $isComparing)
+    public function __construct($properties, $graphType, JqplotGraph $graph)
     {
         $this->properties = $properties;
         $this->graphType = $graphType;
-        $this->isComparing = $isComparing;
+        $this->isComparing = $graph->isComparing();
+        $this->graph = $graph;
 
         $this->setComparisonsForLabels();
+        $this->availableSegments = Request::processRequest('SegmentEditor.getAll', $override = [], $default = []);
     }
 
     /**
@@ -206,16 +216,37 @@ class JqplotDataGenerator
         return '(' . implode(') (', $comparisonLabels) . ')';
     }
 
-    protected function getComparisonSeriesLabelSuffixFromIndex(Row $compareRow, $index)
+    protected function getComparisonSeriesLabelSuffixFromIndex($index)
     {
         $comparisonPair = $this->comparisonsForLabels[$index];
+        $segment = $comparisonPair['segment'] ?: Common::getRequestVar('segment', $default = '');
         $period = $comparisonPair['period'] ?: Common::getRequestVar('period');
         $date = $comparisonPair['date'] ?: Common::getRequestVar('date');
+
+        $storedSegment = $this->findSegment($segment);
+        $segmentPretty = $storedSegment ? $storedSegment['name'] : $segment;
 
         $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
         $periodPretty = ucfirst($periodPretty);
 
-        return $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $compareRow->getMetadata('compareSegmentPretty'));
+        return $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty);
+    }
+
+    private function findSegment($segment) // TODO: copied from DataComparisonFilter
+    {
+        $segment = trim($segment);
+        if (empty($segment)) {
+            return ['name' => Piwik::translate('SegmentEditor_DefaultAllVisits')];
+        }
+        foreach ($this->availableSegments as $storedSegment) {
+            if ($storedSegment['definition'] == $segment
+                || $storedSegment['definition'] == urldecode($segment)
+                || $storedSegment['definition'] == urlencode($segment)
+            ) {
+                return $storedSegment;
+            }
+        }
+        return null;
     }
 
     protected function getUnitsForSerieses($yLabels)
@@ -248,6 +279,12 @@ class JqplotDataGenerator
         $compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array');
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
+
+        $segment = Common::getRequestVar('segment', $default = '');
+
+        array_unshift($compareSegments, $segment ? : '');
+        array_unshift($compareDates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
+        array_unshift($comparePeriods, '');
 
         $this->comparisonsForLabels = DataComparisonFilter::getReportsToCompare($compareSegments, $comparePeriods, $compareDates);
     }

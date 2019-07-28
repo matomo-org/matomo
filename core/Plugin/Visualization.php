@@ -857,7 +857,7 @@ class Visualization extends ViewDataTable
         return false;
     }
 
-    protected function getRequestArray()
+    public function getRequestArray()
     {
         if (empty($this->cachedRequestArray)) {
             $requestArray = $this->request->getRequestArray();

@@ -11,8 +11,11 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
+use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Period\Factory;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -47,10 +50,26 @@ class Evolution extends JqplotDataGenerator
             return;
         }
 
+        $dataTables = $dataTable->getDataTables();
+
         // the X label is extracted from the 'period' object in the table's metadata
-        $xLabels = array();
+        $xLabels[0] = [];
         foreach ($dataTable->getDataTables() as $metadataDataTable) {
-            $xLabels[] = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString(); // eg. "Aug 2009"
+            $xLabels[0][] = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString(); // eg. "Aug 2009"
+        }
+
+        // TODO: explain
+        $apiRequest = $this->graph->getRequestArray();
+
+        $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $apiRequest);
+        $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $apiRequest);
+        foreach ($comparePeriods as $index => $period) {
+            $date = $compareDates[$index];
+
+            $range = Factory::build($period, $date);
+            foreach ($range->getSubperiods() as $subperiod) {
+                $xLabels[$index + 1][] = $subperiod->getLocalizedShortString();
+            }
         }
 
         $units = $this->getUnitsForColumnsToDisplay();
@@ -61,12 +80,10 @@ class Evolution extends JqplotDataGenerator
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
 
-        // TODO:
-        /*
-        - need to determine xlabels and set it to map xlabel date => index
-        - initialize each series to array of 0's
-        - set series elements
-        */
+        $seriesLabels = [];
+        foreach ($this->comparisonsForLabels as $index => $ignore) {
+            $seriesLabels[] = $this->getComparisonSeriesLabelSuffixFromIndex($index);
+        }
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
@@ -97,11 +114,15 @@ class Evolution extends JqplotDataGenerator
                             continue;
                         }
 
-                        foreach ($comparisonTable->getRows() as $index => $compareRow) {
-                            $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName, $compareRow, $index);
+                        foreach ($seriesLabels as $seriesLabel) {
+                            $allSeriesData[$seriesLabel][] = 0;
+                            $seriesUnits[$seriesLabel] = $units[$columnName]; // TODO: doesn't have to be in every iteration
+                        }
 
-                            $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
-                            $seriesUnits[$seriesLabel] = $units[$columnName];
+                        foreach ($comparisonTable->getRows() as $index => $compareRow) {
+                            $seriesLabel = $seriesLabels[$index]; // $this->getSeriesLabel($rowLabel, $columnName, $compareRow, $index); TODO: deal w/ this
+                            $lastIndex = count($allSeriesData[$seriesLabel]) - 1;
+                            $allSeriesData[$seriesLabel][$lastIndex] = $compareRow->getColumn($columnName);
                         }
                     }
                 }
@@ -111,11 +132,9 @@ class Evolution extends JqplotDataGenerator
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
-        $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($allSeriesData);
         $visualization->setAxisYUnits($seriesUnits);
-
-        $dataTables = $dataTable->getDataTables();
+        $visualization->setAxisXLabelsMultiple($xLabels);
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');

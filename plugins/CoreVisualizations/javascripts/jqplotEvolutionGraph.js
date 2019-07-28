@@ -96,19 +96,38 @@
                 .on('jqplotPiwikTickOver', function (e, tick) {
                     lastTick = tick;
                     var label;
-                    if (typeof self.jqplotParams.axes.xaxis.labels != 'undefined') {
-                        label = self.jqplotParams.axes.xaxis.labels[tick];
-                    } else {
-                        label = self.jqplotParams.axes.xaxis.ticks[tick];
-                    }
 
-                    var text = [];
-                    for (var d = 0; d < self.data.length; d++) {
+                    var dataByAxis = {};
+                    for (var d = 0; d < self.data.length; ++d) {
+                        var axis = self.jqplotParams.series[d]._xaxis || 'xaxis';
+                        if (!dataByAxis[axis]) {
+                            dataByAxis[axis] = [];
+                        }
+
                         var value = self.formatY(self.data[d][tick], d);
                         var series = self.jqplotParams.series[d].label;
-                        text.push('<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
+                        dataByAxis[axis].push('<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
-                    var content = '<h3>'+piwikHelper.htmlEntities(label)+'</h3>'+text.join('<br />');
+
+                    var xAxisCount = 0;
+                    Object.keys(self.jqplotParams.axes).forEach(function (axis) {
+                        if (axis.substring(0, 1) === 'x') {
+                            ++xAxisCount;
+                        }
+                    });
+
+                    var content = '';
+                    for (var i = 0; i < xAxisCount; ++i) {
+                        var axisName = i === 0 ? 'xaxis' : 'x' + (i + 1) + 'axis';
+
+                        if (typeof self.jqplotParams.axes[axisName].labels != 'undefined') {
+                            label = self.jqplotParams.axes[axisName].labels[tick];
+                        } else {
+                            label = self.jqplotParams.axes[axisName].ticks[tick];
+                        }
+
+                        content += '<h3>'+piwikHelper.htmlEntities(label)+'</h3>'+dataByAxis[axisName].join('<br />');
+                    }
 
                     $(this).tooltip({
                         track:   true,

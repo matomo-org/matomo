@@ -25,12 +25,14 @@ class Chart
     // temporary
     public $properties;
 
-    public function setAxisXLabels($xLabels)
+    public function setAxisXLabels($xLabels, $index = 0)
     {
+        $axisName = $this->getXAxis($index);
+
         $xSteps = $this->properties['x_axis_step_size'];
         $showAllTicks = $this->properties['show_all_ticks'];
 
-        $this->axes['xaxis']['labels'] = array_values($xLabels);
+        $this->axes[$axisName]['labels'] = array_values($xLabels);
 
         $ticks = array_values($xLabels);
 
@@ -42,7 +44,7 @@ class Chart
                 }
             }
         }
-        $this->axes['xaxis']['ticks'] = $ticks;
+        $this->axes[$axisName]['ticks'] = $ticks;
     }
 
     public function setAxisXOnClick(&$onClick)
@@ -115,5 +117,27 @@ class Chart
         );
 
         return $data;
+    }
+
+    public function setAxisXLabelsMultiple($xLabels)
+    {
+        foreach ($xLabels as $index => $labels) {
+            $this->setAxisXLabels($labels, $index);
+
+            $axisName = $this->getXAxis($index);
+
+            // don't actually set xaxis otherwise jqplot will show too many axes. however, we need the xaxis labels, so we add them
+            // to the jqplot config
+            $this->series[$index]['_xaxis'] = $axisName;
+        }
+    }
+
+    private function getXAxis($index)
+    {
+        $axisName = 'xaxis';
+        if ($index !== 0) {
+            $axisName = 'x' . ($index + 1) . 'axis';
+        }
+        return $axisName;
     }
 }
