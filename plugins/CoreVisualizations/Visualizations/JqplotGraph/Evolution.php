@@ -9,8 +9,11 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Period;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
@@ -57,7 +60,33 @@ class Evolution extends JqplotGraph
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
 
         if ($this->isComparing()) {
-            // TODO
+            $requestArray = $this->request->getRequestArray();
+            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
+
+            if (!empty($requestArray['comparePeriods'])) {
+                $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
+                $subperiodCount = count($requestingPeriod->getSubperiods());
+
+                $idSite = Common::getRequestVar('idSite');
+
+                foreach ($requestArray['comparePeriods'] as $index => $comparePeriod) {
+                    $compareDate = $requestArray['compareDates'][$index];
+                    if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
+                        continue;
+                    }
+
+                    // if the comparison period is a single period, convert to multiple period
+                    if ($comparePeriod == 'range') {
+                        $requestArray['comparePeriods'][$index] = 'day';
+                    } else {
+                        $newDate = Range::getRelativeToEndDate($comparePeriod, 'last' . $subperiodCount, $compareDate, new Site($idSite));
+                        $requestArray['compareDates'][$index] = $newDate;
+                    }
+                }
+
+                $this->requestConfig->request_parameters_to_modify['compareDates'] = $requestArray['compareDates'];
+                $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $requestArray['comparePeriods'];
+            }
         }
     }
 

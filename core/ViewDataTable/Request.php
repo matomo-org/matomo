@@ -75,7 +75,7 @@ class Request
             'expanded',
             'pivotBy',
             'pivotByColumn',
-            'pivotByColumnLimit'
+            'pivotByColumnLimit',
         ), $this->requestConfig->getExtraParametersToSet());
 
         foreach ($toSetEventually as $varToSet) {

@@ -61,6 +61,13 @@ class Evolution extends JqplotDataGenerator
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
 
+        // TODO:
+        /*
+        - need to determine xlabels and set it to map xlabel date => index
+        - initialize each series to array of 0's
+        - set series elements
+        */
+
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
         $seriesUnits = array();
@@ -91,7 +98,7 @@ class Evolution extends JqplotDataGenerator
                         }
 
                         foreach ($comparisonTable->getRows() as $index => $compareRow) {
-                            $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName, $compareRow);
+                            $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName, $compareRow, $index);
 
                             $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
                             $seriesUnits[$seriesLabel] = $units[$columnName];
@@ -158,7 +165,7 @@ class Evolution extends JqplotDataGenerator
      * @param string $columnName
      * @return string
      */
-    private function getSeriesLabel($rowLabel, $columnName, Row $compareRow = null)
+    private function getSeriesLabel($rowLabel, $columnName, Row $compareRow = null, $comparisonIndex = null)
     {
         $metricLabel = @$this->properties['translations'][$columnName];
 
@@ -170,8 +177,9 @@ class Evolution extends JqplotDataGenerator
             $label = $metricLabel;
         }
 
+
         if (!empty($compareRow)) {
-            $label .= ' ' . $this->getComparisonSeriesLabelSuffix($compareRow);
+            $label .= ' ' . $this->getComparisonSeriesLabelSuffixFromIndex($compareRow, $comparisonIndex);
         }
 
         return $label;

@@ -160,7 +160,7 @@ class DataComparisonFilter
         $this->availableSegments = self::getAvailableSegments();
 
         // fetch data first
-        $reportsToCompare = $this->getReportsToCompare();
+        $reportsToCompare = self::getReportsToCompare($this->compareSegments, $this->comparePeriods, $this->compareDates);
         foreach ($reportsToCompare as $index => $modifiedParams) {
             $compareMetadata = $this->getMetadataFromModifiedParams($modifiedParams);
 
@@ -187,16 +187,16 @@ class DataComparisonFilter
         });
     }
 
-    private function getReportsToCompare()
+    public static function getReportsToCompare($compareSegments, $comparePeriods, $compareDates)
     {
         $permutations = [];
 
         // NOTE: the order of these loops determines the order of the rows in the comparison table. ie,
         // if we loop over dates then segments, then we'll see comparison rows change segments before changing
         // periods. this is because this loop determines in what order we fetch report data.
-        foreach ($this->compareDates as $index => $date) {
-            foreach ($this->compareSegments as $segment) {
-                $period = $this->comparePeriods[$index];
+        foreach ($compareDates as $index => $date) {
+            foreach ($compareSegments as $segment) {
+                $period = $comparePeriods[$index];
 
                 $params = [];
                 $params['segment'] = $segment;
@@ -560,8 +560,8 @@ class DataComparisonFilter
     private function isRequestMultiplePeriod()
     {
         if ($this->isRequestMultiplePeriod === null) {
-            $period = Common::getRequestVar('period', $default = null, 'string');
-            $date = Common::getRequestVar('date', $default = null, 'string');
+            $period = Common::getRequestVar('period', $default = null, 'string', $this->request);
+            $date = Common::getRequestVar('date', $default = null, 'string', $this->request);
 
             $this->isRequestMultiplePeriod = Period::isMultiplePeriod($date, $period);
         }

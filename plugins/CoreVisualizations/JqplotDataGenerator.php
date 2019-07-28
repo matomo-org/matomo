@@ -14,7 +14,9 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
@@ -37,6 +39,11 @@ class JqplotDataGenerator
     protected $graphType;
 
     protected $isComparing;
+
+    /**
+     * @var array
+     */
+    private $comparisonsForLabels;
 
     /**
      * Creates a new JqplotDataGenerator instance for a graph type and view properties.
@@ -72,6 +79,8 @@ class JqplotDataGenerator
         $this->properties = $properties;
         $this->graphType = $graphType;
         $this->isComparing = $isComparing;
+
+        $this->setComparisonsForLabels();
     }
 
     /**
@@ -180,13 +189,33 @@ class JqplotDataGenerator
 
     protected function getComparisonSeriesLabelSuffix(Row $compareRow)
     {
-        $comparisonLabels = [
+        return $this->getComparisonSeriesLabelSuffixFromParts(
             $compareRow->getMetadata('comparePeriodPretty'),
-            $compareRow->getMetadata('compareSegmentPretty'),
+            $compareRow->getMetadata('compareSegmentPretty')
+        );
+    }
+
+    protected function getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty)
+    {
+        $comparisonLabels = [
+            $periodPretty,
+            $segmentPretty,
         ];
         $comparisonLabels = array_filter($comparisonLabels);
 
         return '(' . implode(') (', $comparisonLabels) . ')';
+    }
+
+    protected function getComparisonSeriesLabelSuffixFromIndex(Row $compareRow, $index)
+    {
+        $comparisonPair = $this->comparisonsForLabels[$index];
+        $period = $comparisonPair['period'] ?: Common::getRequestVar('period');
+        $date = $comparisonPair['date'] ?: Common::getRequestVar('date');
+
+        $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
+        $periodPretty = ucfirst($periodPretty);
+
+        return $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $compareRow->getMetadata('compareSegmentPretty'));
     }
 
     protected function getUnitsForSerieses($yLabels)
@@ -212,5 +241,14 @@ class JqplotDataGenerator
             $units[$seriesId] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
+    }
+
+    private function setComparisonsForLabels()
+    {
+        $compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array');
+        $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
+        $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
+
+        $this->comparisonsForLabels = DataComparisonFilter::getReportsToCompare($compareSegments, $comparePeriods, $compareDates);
     }
 }

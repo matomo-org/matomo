@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\API\Request as ApiRequest;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -30,7 +31,6 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\API\Request as ApiRequest;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -824,6 +824,8 @@ class Visualization extends ViewDataTable
         return $request;
     }
 
+    private $isComparing = null;
+
     /**
      * TODO
      * @return bool
@@ -834,11 +836,16 @@ class Visualization extends ViewDataTable
             return false;
         }
 
-        $request = $this->getRequestArray();
+        if ($this->isComparing === null) {
+            $request = $this->request->getRequestArray();
+            $request = ApiRequest::getRequestArrayFromString($request);
 
-        return !empty($request['compareSegments'])
-            || !empty($request['comparePeriods'])
-            || !empty($request['compareDates']);
+            $this->isComparing = !empty($request['compareSegments'])
+                || !empty($request['comparePeriods'])
+                || !empty($request['compareDates']);
+        }
+
+        return $this->isComparing;
     }
 
     /**
@@ -850,7 +857,7 @@ class Visualization extends ViewDataTable
         return false;
     }
 
-    private function getRequestArray()
+    protected function getRequestArray()
     {
         if (empty($this->cachedRequestArray)) {
             $requestArray = $this->request->getRequestArray();
