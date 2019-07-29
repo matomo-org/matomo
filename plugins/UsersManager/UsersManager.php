@@ -298,6 +298,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_Add';
         $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'UsersManager_FilterByWebsite';
         $translationKeys[] = 'UsersManager_GiveAccessToAll';
         $translationKeys[] = 'UsersManager_OrManageIndividually';
@@ -308,5 +309,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
+        $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
+        $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
     }
 }

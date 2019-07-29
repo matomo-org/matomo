@@ -121,22 +121,25 @@
 </div>
 
 {% if showNewsletterSignup %}
-<div piwik-content-block id="newsletterSignup" content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+<div ng-controller="PersonalSettingsController as personalSettings">
+    <div piwik-content-block id="newsletterSignup"
+         ng-show="personalSettings.showNewsletterSignup"
+         content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
 
-    <div id="newsletterSignupMsg">
-        <div>
-            <input type="checkbox" id="newsletterSignupCheckbox"/>
-            <label for="newsletterSignupCheckbox">{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|raw }}</label>
+        <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
+             ng-model="personalSettings.newsletterSignupCheckbox"
+             full-width="true"
+             data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
+             >
         </div>
-        <br/><br/>
-    </div>
-    <div id="newsletterSignupFailure" style="display:none">{{ 'UsersManager_NewsletterSignupFailureMessage'|translate|raw }}<br/><br/></div>
-    <div id="newsletterSignupSuccess" style="display:none">{{ 'UsersManager_NewsletterSignupSuccessMessage'|translate|raw }}<br/><br/></div>
 
-    <button class="btn btn-link" id="newsletterSignupBtn"
-            ng-controller="PersonalSettingsController as personalSettings"
-            ng-click="personalSettings.signupForNewsletter()"
-    >{{ 'General_Yes'|translate }}</button>
+        <div piwik-save-button
+             onconfirm="personalSettings.signupForNewsletter()"
+             data-disabled="!personalSettings.newsletterSignupCheckbox"
+             value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
+             saving="myController.isLoading">
+        </div>
+    </div>
 </div>
 {% endif %}
 
