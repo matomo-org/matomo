@@ -368,6 +368,6 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = 'Goals_TimeInMinutes';
-        $translationKeys[] = 'Goals_Patterns';
+        $translationKeys[] = 'Goals_Pattern';
     }
 }
