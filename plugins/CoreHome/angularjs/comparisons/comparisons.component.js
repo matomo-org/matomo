@@ -22,6 +22,7 @@
         vm.comparisonsService = comparisonsService;
         vm.$onInit = $onInit;
         vm.comparisonHasSegment = comparisonHasSegment;
+        vm.getComparisonPeriodType = getComparisonPeriodType;
 
         function $onInit() {
             vm.comparisons = comparisonsService.getComparisons(); // TODO: on change need to modify this...
@@ -29,6 +30,14 @@
 
         function comparisonHasSegment(comparison) {
             return typeof comparison.params.segment !== 'undefined';
+        }
+
+        function getComparisonPeriodType(comparison) {
+            var period = comparison.params.period;
+            if (period === 'range') {
+                return _pk_translate('CoreHome_PeriodRange');
+            }
+            return _pk_translate('Intl_Period' + period.substring(0, 1).toUpperCase() + period.substring(1));
         }
     }
 })();

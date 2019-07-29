@@ -10,5 +10,19 @@ namespace Piwik\Plugins\Intl;
 
 class Intl extends \Piwik\Plugin
 {
+    public function getListHooksRegistered()
+    {
+        return [
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+        ];
+    }
 
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'Intl_PeriodDay';
+        $translationKeys[] = 'Intl_PeriodMonth';
+        $translationKeys[] = 'Intl_PeriodWeek';
+        $translationKeys[] = 'Intl_PeriodYear';
+        $translationKeys[] = 'CoreHome_PeriodRange';
+    }
 }
