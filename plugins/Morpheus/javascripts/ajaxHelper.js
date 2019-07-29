@@ -97,7 +97,7 @@ function ajaxHelper() {
     /**
      * Callback function to be executed on error
      */
-    this.errorCallback =  this.defaultErrorCallback;
+    this.errorCallback;
 
     this.withToken = false;
 
@@ -279,11 +279,18 @@ function ajaxHelper() {
         if(status == 'abort') {
             return;
         }
-        $('#loadingError').show();
-        setTimeout( function(){
-            $('#loadingError').fadeOut('slow');
-        }, 2000);
-    };
+
+        var loadingError = $('#loadingError');
+        if (Piwik_Popover.isOpen() && deferred && deferred.status === 500) {
+            if (deferred && deferred.status === 500) {
+                $(document.body).html(piwikHelper.escape(deferred.responseText));
+            }
+        } else {
+            loadingError.show();
+        }
+    }
+
+    this.errorCallback =  this.defaultErrorCallback;
 
     /**
      * Sets the response format for the request

@@ -85,7 +85,7 @@ class PasswordResetterTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage You have requested too many password resets shortly. A new request can be made in one hour. If you have problems resetting your password, please contact you administrator for help.
+     * @expectedExceptionMessage You have requested too many password resets recently. A new request can be made in one hour. If you have problems resetting your password, please contact your administrator for help.
      */
     public function test_passwordReset_notAllowedMoreThanThreeTimesInAnHour()
     {
