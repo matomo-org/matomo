@@ -137,7 +137,7 @@
              onconfirm="personalSettings.signupForNewsletter()"
              data-disabled="!personalSettings.newsletterSignupCheckbox"
              value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
-             saving="myController.isLoading">
+             saving="personalSettings.isProcessingNewsletterSignup">
         </div>
     </div>
 </div>
