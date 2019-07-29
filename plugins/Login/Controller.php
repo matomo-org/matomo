@@ -143,6 +143,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
             }
         }
+        
+        if ($messageNoAccess) {
+            Common::sendHeader('HTTP/1.0 403 Forbidden');
+        }
 
         $view = new View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
