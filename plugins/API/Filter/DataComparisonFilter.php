@@ -155,6 +155,11 @@ class DataComparisonFilter
             throw new \Exception("Data comparison is not enabled for the Live API.");
         }
 
+        // optimization, if empty, single table, don't need to make extra queries
+        if ($table->getRowsCount() == 0) {
+            return;
+        }
+
         $this->columnMappings = $this->getColumnMappings();
 
         $this->availableSegments = self::getAvailableSegments();
@@ -393,6 +398,38 @@ class DataComparisonFilter
                 $compareChildTable = isset($compareTablesArray[$index]) ? $compareTablesArray[$index] : null;
                 $this->compareTables($compareMetadata, $childTable, $compareChildTable);
             }
+
+            // in case one of the compared periods has more periods than the main one, we want to fill the result with empty datatables
+            // so the comparison data is still present. this allows us to see that data in an evolution report.
+            if ($tables->getKeyName() == 'date') {
+                $lastTable = end($childTablesArray);
+
+                /** @var Period $lastPeriod */
+                $lastPeriod = $lastTable->getMetadata('period');
+                $periodType = $lastPeriod->getLabel();
+
+                for ($i = count($childTablesArray); $i < count($compareTablesArray); ++$i) {
+                    $periodChangeCount = $i - count($childTablesArray) + 1;
+                    $newPeriod = Period\Factory::build($periodType, $lastPeriod->getDateStart()->addPeriod($periodChangeCount, $periodType));
+
+                    // create an empty table for the main request
+                    $newTable = new DataTable();
+                    $newTable->setAllTableMetadata($lastTable->getAllTableMetadata());
+                    $newTable->setMetadata('period', $newPeriod);
+
+                    if ($newPeriod->getLabel() === 'week' || $newPeriod->getLabel() === 'range') {
+                        $periodLabel = $newPeriod->getRangeString();
+                    } else {
+                        $periodLabel = $newPeriod->getPrettyString();
+                    }
+
+                    $tables->addTable($newTable, $periodLabel);
+
+                    // compare with the empty table
+                    $compareTable = $compareTablesArray[$i];
+                    $this->compareTables($compareMetadata, $newTable, $compareTable);
+                }
+            }
         } else {
             throw new \Exception("Unexpected DataTable type: " . get_class($tables));
         }
@@ -403,6 +440,10 @@ class DataComparisonFilter
         // if there are no rows in the table because the metrics are 0, add one so we can still set comparison values
         if ($table->getRowsCount() == 0) {
             $table->addRow(new DataTable\Row());
+        }
+
+        if (!$compareTable) {
+            return;
         }
 
         foreach ($table->getRows() as $row) {
@@ -418,18 +459,16 @@ class DataComparisonFilter
             $this->compareRow($compareMetadata, $row, $compareRow, $rootCompareTable);
         }
 
-        if ($compareTable) {
-            $totals = $compareTable->getMetadata('totals');
-            if (!empty($totals)) {
-                $totals = $this->replaceIndexesInTotals($totals);
-                $comparisonTotalsEntry = array_merge($compareMetadata, [
-                    'totals' => $totals,
-                ]);
+        $totals = $compareTable->getMetadata('totals');
+        if (!empty($totals)) {
+            $totals = $this->replaceIndexesInTotals($totals);
+            $comparisonTotalsEntry = array_merge($compareMetadata, [
+                'totals' => $totals,
+            ]);
 
-                $allTotalsTables = $compareTable->getMetadata('comparisonTotals');
-                $allTotalsTables[] = $comparisonTotalsEntry;
-                $compareTable->setMetadata('comparisonTotals', $allTotalsTables);
-            }
+            $allTotalsTables = $compareTable->getMetadata('comparisonTotals');
+            $allTotalsTables[] = $comparisonTotalsEntry;
+            $compareTable->setMetadata('comparisonTotals', $allTotalsTables);
         }
     }
 

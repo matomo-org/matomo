@@ -99,12 +99,17 @@
 
                     var dataByAxis = {};
                     for (var d = 0; d < self.data.length; ++d) {
+                        var valueUnformatted = self.data[d][tick];
+                        if (typeof valueUnformatted === 'undefined' || valueUnformatted === null) {
+                            continue;
+                        }
+
                         var axis = self.jqplotParams.series[d]._xaxis || 'xaxis';
                         if (!dataByAxis[axis]) {
                             dataByAxis[axis] = [];
                         }
 
-                        var value = self.formatY(self.data[d][tick], d);
+                        var value = self.formatY(valueUnformatted, d);
                         var series = self.jqplotParams.series[d].label;
                         dataByAxis[axis].push('<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
@@ -119,11 +124,18 @@
                     var content = '';
                     for (var i = 0; i < xAxisCount; ++i) {
                         var axisName = i === 0 ? 'xaxis' : 'x' + (i + 1) + 'axis';
+                        if (!dataByAxis[axisName] || !dataByAxis[axisName].length) {
+                            continue;
+                        }
 
                         if (typeof self.jqplotParams.axes[axisName].labels != 'undefined') {
                             label = self.jqplotParams.axes[axisName].labels[tick];
                         } else {
                             label = self.jqplotParams.axes[axisName].ticks[tick];
+                        }
+
+                        if (typeof label === 'undefined') { // sanity check
+                            continue;
                         }
 
                         content += '<h3>'+piwikHelper.htmlEntities(label)+'</h3>'+dataByAxis[axisName].join('<br />');

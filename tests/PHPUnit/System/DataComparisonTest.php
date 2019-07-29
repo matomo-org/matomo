@@ -104,6 +104,7 @@ class DataComparisonTest extends SystemTestCase
 
         $segment1 = urlencode('browserCode==ff');
         $segment2 = urlencode('browserCode==ie');
+        $segment3 = urlencode('browserName==icedragon');
 
         $date1 = '2012-08-10';
         $period1 = 'day';
@@ -120,7 +121,39 @@ class DataComparisonTest extends SystemTestCase
         $rangePeriodDate = '2012-08-09,2012-08-16';
         $rangePeriodPeriod = 'range';
 
+        $noDataDate1 = '2013-05-06';
+        $noDataPeriod1 = 'day';
+
+        $noDataDate2 = '2013-05-16';
+        $noDataPeriod2 = 'day';
+
         return [
+            // no data, multiple compare
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $noDataDate1,
+                'period' => $noDataPeriod1,
+                'testSuffix' => '_noData_againstWithData',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date1],
+                    'comparePeriods' => [$period1],
+                    'compareSegments' => [$segment1],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $noDataDate1,
+                'period' => $noDataPeriod1,
+                'testSuffix' => '_noData_againsNoData',
+                'otherRequestParameters' => [
+                    'compareDates' => [$noDataDate2],
+                    'comparePeriods' => [$noDataPeriod2],
+                    'compareSegments' => [$segment3],
+                    'compare' => '1',
+                ],
+            ]],
+
             // compare multiple segments
             [$apiToTest, [
                 'idSite' => self::$fixture->idSite,
@@ -257,6 +290,17 @@ class DataComparisonTest extends SystemTestCase
                 'otherRequestParameters' => [
                     'compareDates' => [$rangePeriodDate],
                     'comparePeriods' => [$rangePeriodPeriod],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => $multiPeriodDate2,
+                'period' => $multiPeriodPeriod2,
+                'testSuffix' => '_multipleAgainstLongMultiple',
+                'otherRequestParameters' => [
+                    'compareDates' => [$rangePeriodDate, '2012-08-13,2012-08-14'],
+                    'comparePeriods' => ['day', 'day'],
                     'compare' => '1',
                 ],
             ]],

@@ -1040,7 +1040,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            if (typeof position !== 'undefined') {
+                c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            }
         }
     }
 

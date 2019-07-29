@@ -52,11 +52,10 @@ class Evolution extends JqplotDataGenerator
 
         $dataTables = $dataTable->getDataTables();
 
-        // the X label is extracted from the 'period' object in the table's metadata
+        // determine x labels based on both the displayed date range and the compared periods
+        $xTicksCount = count(reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getSubperiods());
+
         $xLabels[0] = [];
-        foreach ($dataTable->getDataTables() as $metadataDataTable) {
-            $xLabels[0][] = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString(); // eg. "Aug 2009"
-        }
 
         // TODO: explain
         $apiRequest = $this->graph->getRequestArray();
@@ -70,6 +69,17 @@ class Evolution extends JqplotDataGenerator
             foreach ($range->getSubperiods() as $subperiod) {
                 $xLabels[$index + 1][] = $subperiod->getLocalizedShortString();
             }
+
+            $xTicksCount = max(count($range->getSubperiods()), $xTicksCount);
+        }
+
+        /** @var Date $startDate */
+        $startDate = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart();
+        $periodType = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLabel();
+
+        for ($i = 0; $i < $xTicksCount; ++$i) {
+            $period = Factory::build($periodType, $startDate->addPeriod($i, $periodType));
+            $xLabels[0][] = $period->getLocalizedShortString(); // eg. "Aug 2009"
         }
 
         $units = $this->getUnitsForColumnsToDisplay();
@@ -98,6 +108,10 @@ class Evolution extends JqplotDataGenerator
 
                     $seriesUnits[$seriesLabel] = $units[$columnName];
                 } else {
+                    foreach ($seriesLabels as $seriesLabel) {
+                        $seriesUnits[$seriesLabel] = $units[$columnName]; // TODO: doesn't have to be in every iteration
+                    }
+
                     foreach ($dataTable->getDataTables() as $label => $childTable) {
                         // get the row for this label (use the first if $rowLabel is false)
                         if ($rowLabel === false) {
@@ -114,15 +128,9 @@ class Evolution extends JqplotDataGenerator
                             continue;
                         }
 
-                        foreach ($seriesLabels as $seriesLabel) {
-                            $allSeriesData[$seriesLabel][] = 0;
-                            $seriesUnits[$seriesLabel] = $units[$columnName]; // TODO: doesn't have to be in every iteration
-                        }
-
                         foreach ($comparisonTable->getRows() as $index => $compareRow) {
-                            $seriesLabel = $seriesLabels[$index]; // $this->getSeriesLabel($rowLabel, $columnName, $compareRow, $index); TODO: deal w/ this
-                            $lastIndex = count($allSeriesData[$seriesLabel]) - 1;
-                            $allSeriesData[$seriesLabel][$lastIndex] = $compareRow->getColumn($columnName);
+                            $seriesLabel = $seriesLabels[$index];
+                            $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
                         }
                     }
                 }
@@ -184,7 +192,7 @@ class Evolution extends JqplotDataGenerator
      * @param string $columnName
      * @return string
      */
-    private function getSeriesLabel($rowLabel, $columnName, Row $compareRow = null, $comparisonIndex = null)
+    private function getSeriesLabel($rowLabel, $columnName)
     {
         $metricLabel = @$this->properties['translations'][$columnName];
 
@@ -194,11 +202,6 @@ class Evolution extends JqplotDataGenerator
         } else {
             // eg. "Visits"
             $label = $metricLabel;
-        }
-
-
-        if (!empty($compareRow)) {
-            $label .= ' ' . $this->getComparisonSeriesLabelSuffixFromIndex($compareRow, $comparisonIndex);
         }
 
         return $label;
