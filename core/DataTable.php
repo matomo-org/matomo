@@ -200,17 +200,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** The ID of the Summary Row. */
     const ID_SUMMARY_ROW = -1;
 
-    /** The original label of the Summary Row. */
-    const LABEL_SUMMARY_ROW = -1;
-    const LABEL_TOTALS_ROW = -2;
-
     /**
      * The ID of the special metadata row. This row only exists in the serialized row data and stores the datatable metadata.
      *
      * This allows us to save datatable metadata in archive data.
      */
     const ID_ARCHIVED_METADATA_ROW = -3;
-    const LABEL_ARCHIVED_METADATA_ROW = -3;
+
+    /** The original label of the Summary Row. */
+    const LABEL_SUMMARY_ROW = -1;
+    const LABEL_TOTALS_ROW = -2;
+    const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
