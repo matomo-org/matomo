@@ -963,6 +963,6 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::get();
+        return Db::getReader();
     }
 }
