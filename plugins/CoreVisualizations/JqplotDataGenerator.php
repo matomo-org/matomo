@@ -277,6 +277,8 @@ class JqplotDataGenerator
     private function setComparisonsForLabels()
     {
         $compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array');
+        $compareSegments = Common::unsanitizeInputValues($compareSegments);
+
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
 

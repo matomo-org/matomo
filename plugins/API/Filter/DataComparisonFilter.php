@@ -106,6 +106,7 @@ class DataComparisonFilter
         $this->segmentName = $this->getSegmentNameFromReport($report);
 
         $this->compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
+        $this->compareSegments = Common::unsanitizeInputValues($this->compareSegments);
         if (count($this->compareSegments) > $this->segmentCompareLimit) {
             throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
         }
