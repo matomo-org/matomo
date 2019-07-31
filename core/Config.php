@@ -155,8 +155,9 @@ class Config
             }
             if (function_exists('is_plugin_active')
                 && is_plugin_active('matomo-analytics/matomo-analytics.php' )) {
-                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.
-                return $pathUploadDir . '/matomo' . self::DEFAULT_LOCAL_CONFIG_PATH;
+                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.
+                return array(array('path' => $pathUploadDir . '/matomo' . self::DEFAULT_LOCAL_CONFIG_PATH,
+                                    'file' => 'config.ini.php'));
             }
         }
 
