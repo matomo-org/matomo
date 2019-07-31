@@ -65,7 +65,17 @@ class PluginList
     public function getActivatedPlugins()
     {
         $section = $this->settings->getSection('Plugins');
-        return @$section['Plugins'] ?: array();
+        $plugins = @$section['Plugins'] ?: array();
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_ENABLE_EXTRA'])) {
+            foreach ($GLOBALS['MATOMO_PLUGIN_NAMES_ENABLE_EXTRA'] as $pluginName) {
+                if (!in_array($pluginName, $plugins, true)) {
+                    $plugins[] = $pluginName;
+                }
+            }
+        }
+
+        return $plugins;
     }
 
     /**
