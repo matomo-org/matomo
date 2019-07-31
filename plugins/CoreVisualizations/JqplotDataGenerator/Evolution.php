@@ -53,7 +53,7 @@ class Evolution extends JqplotDataGenerator
         $dataTables = $dataTable->getDataTables();
 
         // determine x labels based on both the displayed date range and the compared periods
-        $xTicksCount = count(reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getSubperiods());
+        $xTicksCount = count($dataTables);
 
         $xLabels[0] = [];
 
