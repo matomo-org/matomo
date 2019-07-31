@@ -15,6 +15,22 @@
         }
 
         return {
+            'request': function(config) {
+                if ('object' === typeof matomoRelativeWebDirs
+                    && config && config.url && config.url.indexOf('plugins/') === 0
+                    && config.url.indexOf('.html') > 0
+                    && config.url.indexOf('/angularjs/') > 0) {
+
+                    var urlParts = config.url.split('/');
+                    if (urlParts && urlParts.length > 2 && urlParts[1]) {
+                        var pluginName = urlParts[1];
+                        if (pluginName && pluginName in matomoRelativeWebDirs) {
+                            config.url = matomoRelativeWebDirs[pluginName] + config.url;
+                        }
+                    }
+                }
+                return config;
+            },
             'responseError': function(rejection) {
 
                 if (rejection &&
