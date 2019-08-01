@@ -412,7 +412,7 @@ class Manager
 
     public function getWebRootDirectoriesForCustomPluginDirs()
     {
-        return self::$pluginsToWebRootDirCache;
+        return array_intersect_key(self::$pluginsToWebRootDirCache, array_flip($this->pluginsToLoad));
     }
 
     /**
