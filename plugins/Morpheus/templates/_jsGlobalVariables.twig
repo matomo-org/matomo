@@ -16,14 +16,13 @@
         symbolDecimal: "{{ 'Intl_NumberSymbolDecimal'|translate }}"
     };
 
+    piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }}
+
     {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
 
-    {% if siteName is defined %}
-    // NOTE: siteName is currently considered deprecated, use piwik.currentSiteName instead, which will not contain HTML entities
-    piwik.siteName = "{{ siteName|e('js') }}";
-    piwik.currentSiteName = {{ siteNameDecoded|json_encode|raw }};{% endif %}
+    {% if siteName is defined %}piwik.siteName = "{{ siteName|e('js') }}";{% endif %}
 
     {% if siteMainUrl is defined %}piwik.siteMainUrl = "{{ siteMainUrl|e('js') }}";{% endif %}
 
@@ -55,3 +54,4 @@
     piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>
+
