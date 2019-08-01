@@ -6853,8 +6853,8 @@ if (typeof window.Piwik !== 'object') {
 
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
-                        windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
-                        windowAlias.removeEventListener('blur', heartBeatOnBlur, true);
+                        windowAlias.removeEventListener('focus', heartBeatOnFocus);
+                        windowAlias.removeEventListener('blur', heartBeatOnBlur);
                     } else if  (windowAlias.detachEvent) {
                         windowAlias.detachEvent('onfocus', heartBeatOnFocus);
                         windowAlias.detachEvent('onblur', heartBeatOnBlur);
