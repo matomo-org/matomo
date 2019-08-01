@@ -45,7 +45,7 @@ class Model
 
         list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        $visits = Db::fetchAll($sql, $bind);
+        $visits = Db::getReader()->fetchAll($sql, $bind);
 
         if ($checkforMoreEntries) {
             if (count($visits) == $limit) {
@@ -161,7 +161,7 @@ class Model
         $segment = new Segment($segment, $idSite);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $numVisitors = Db::fetchOne($query['sql'], $query['bind']);
+        $numVisitors = Db::getReader()->fetchOne($query['sql'], $query['bind']);
 
         return $numVisitors;
     }
@@ -231,7 +231,7 @@ class Model
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
 
-        $visitorId = Db::fetchOne($sql, $bind);
+        $visitorId = Db::getReader()->fetchOne($sql, $bind);
         if (!empty($visitorId)) {
             $visitorId = bin2hex($visitorId);
         }

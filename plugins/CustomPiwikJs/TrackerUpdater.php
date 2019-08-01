@@ -130,15 +130,18 @@ class TrackerUpdater
 
         $newContent = $this->getUpdatedTrackerFileContent();
 
-        if ($newContent !== $this->getCurrentTrackerFileContent()) {
-            $this->toFile->save($newContent);
+        if (!$this->toFile->isFileContentSame($newContent)) {
+            $savedFiles = $this->toFile->save($newContent);
+            foreach ($savedFiles as $savedFile) {
 
-            /**
-             * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
-             *
-             * @param string $absolutePath The path to the new piwik.js file.
-             */
-            Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
+                /**
+                 * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
+                 *
+                 * @param string $absolutePath The path to the new piwik.js file.
+                 */
+                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
+            }
+
         }
 
         // we need to make sure to sync matomo.js / piwik.js
@@ -150,10 +153,12 @@ class TrackerUpdater
     {
         if (Common::stringEndsWith($this->toFile->getName(), $fromFile)) {
             $alternativeFilename = dirname($this->toFile->getPath()) . DIRECTORY_SEPARATOR . $toFile;
-            $file = new File($alternativeFilename);
-            if ($file->hasWriteAccess() && $file->getContent() !== $newContent) {
-                $file->save($newContent);
-                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$file->getPath()]);
+            $file = $this->toFile->setFile($alternativeFilename);
+            if ($file->hasWriteAccess() && !$file->isFileContentSame($newContent)) {
+                $savedFiles = $file->save($newContent);
+                foreach ($savedFiles as $savedFile) {
+                    Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
+                }
             }
         }
     }

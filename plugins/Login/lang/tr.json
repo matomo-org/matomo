@@ -36,6 +36,7 @@
         "PasswordChanged": "Parolanız değiştirildi.",
         "PasswordRepeat": "Parola onayı",
         "PasswordsDoNotMatch": "Parola ve onayı aynı değil",
+        "PasswordResetAlreadySent": "Kısa bir zaman içinde çok sayıda parola sıfırlama isteğinde bulundunuz. Ancak bir saat sonra yeni bir istekte bulunabilirsiniz. Parolanızı sıfırlamakta sorun yaşıyorsanız yardımcı olması için sistem yöneticiniz ile görüşebilirsiniz.",
         "WrongPasswordEntered": "Lütfen doğru parolayı yazın.",
         "ConfirmPasswordToContinue": "Devam etmek için parolanızı yazın",
         "PluginDescription": "Kullanıcı adı ve parola ile kimlik doğrulaması yapar. Ek olarak parola sıfırlama seçeneği bulunur. Kimlik doğrulama yöntemi, mağazadan alınabilecek LoginLdap gibi başka bir oturum açma uygulama eki kullanılarak değiştirilebilir.",

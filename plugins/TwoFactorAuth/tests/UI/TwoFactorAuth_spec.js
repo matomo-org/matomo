@@ -209,11 +209,15 @@ describe("TwoFactorAuth", function () {
     it('should force user to setup 2fa when not set up yet but enforced step 2', async function () {
         await (await page.jQuery('.setupTwoFactorAuthentication .backupRecoveryCode:first')).click();
         await page.click('.setupTwoFactorAuthentication .goToStep2');
+        await page.mouse.move(-10, -10);
+        await page.waitFor(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step2');
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
         await page.click('.setupTwoFactorAuthentication .goToStep3');
+        await page.mouse.move(-10, -10);
+        await page.waitFor(100);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step3');
     });
 
