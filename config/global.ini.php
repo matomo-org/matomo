@@ -45,6 +45,19 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; If configured, the following queries will be executed on the reader instead of the writer.
+; * archiving queries that hit a log table
+; * live queries that hit a log table
+; * fetching of archives when viewing a report
+; You only want to enable a reader if you can ensure there is minimal replication lag / delay on the reader.
+; Otherwise you might get corrupt data in the reports.
+[database_reader]
+host =
+username =
+password =
+dbname =
+port = 3306
+
 [database_tests]
 host = localhost
 username = "@USERNAME@"

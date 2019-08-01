@@ -649,9 +649,7 @@ class Piwik
      */
     public static function isValidEmailString($emailAddress)
     {
-        /** @var \Zend_Validate_EmailAddress $zendEmailValidator */
-        $zendEmailValidator = StaticContainer::get('Zend_Validate_EmailAddress');
-        return $zendEmailValidator->isValid($emailAddress);
+        return filter_var($emailAddress, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     /**
