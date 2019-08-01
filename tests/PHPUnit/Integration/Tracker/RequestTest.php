@@ -229,6 +229,16 @@ class RequestTest extends IntegrationTestCase
         $this->assertCustomVariablesInPageScope($expected, $customVars);
     }
 
+    public function test_getCustomVariables_nonStringInput()
+    {
+        $input = array('mykey' => array('myarraykey' => 'myvalue'), 'myotherkey' => 2);
+        $customVars = $this->buildCustomVars($input);
+        // Int value should come through; array value is invalid so should be discarded
+        $expected = array('custom_var_k2' => 'myotherkey', 'custom_var_v2' => 2);
+
+        $this->assertCustomVariablesInPageScope($expected, $customVars);
+    }
+
     public function test_isAuthenticated_ShouldBeNotAuthenticatedInTestsByDefault()
     {
         $this->assertFalse($this->request->isAuthenticated());
