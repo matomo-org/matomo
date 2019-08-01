@@ -25,7 +25,8 @@
                     if (urlParts && urlParts.length > 2 && urlParts[1]) {
                         var pluginName = urlParts[1];
                         if (pluginName && pluginName in piwik.relativePluginWebDirs) {
-                            config.url = piwik.relativePluginWebDirs[pluginName] + config.url;
+                            urlParts[0] = piwik.relativePluginWebDirs[pluginName];
+                            config.url = urlParts.join('/');
                         }
                     }
                 }
