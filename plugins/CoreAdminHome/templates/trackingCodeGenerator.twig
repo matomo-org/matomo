@@ -243,18 +243,22 @@
         </div>
 
         <div id="javascript-output-section">
-            <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+            <div class="valign-wrapper trackingHelpHeader matchWidth">
+                <div>
+                    <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
-            <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                    <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                </div>
 
+                <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
+                    {{ 'SitesManager_EmailInstructionsButton'|translate }}
+                </button>
+            </div>
             <div id="javascript-text">
                 <pre piwik-select-on-focus class="codeblock"
                      ng-bind="jsTrackingCode.trackingCode"> </pre>
             </div>
 
-            <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
-                {{ 'SitesManager_EmailInstructionsButton'|translate }}
-            </button>
         </div>
     </div>
 </div>

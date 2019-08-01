@@ -54,9 +54,18 @@
 
                 <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 
-                <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+                <div class="valign-wrapper trackingHelpHeader matchWidth">
+                    <div>
 
-                <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                        <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+
+                        <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                    </div>
+                    <a class="btn" id="emailTrackingCodeBtn"
+                       href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
+                        {{ 'SitesManager_EmailInstructionsButton'|translate }}
+                    </a>
+                </div>
 
                 <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
 
@@ -88,11 +97,6 @@
             <br />
             <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
                class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
-
-            <a class="btn" id="emailTrackingCodeBtn"
-               href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|replace({">\n<": "><"})|url_encode|e('html_attr') }}">
-                {{ 'SitesManager_EmailInstructionsButton'|translate }}
-            </a>
 
         </div>
 

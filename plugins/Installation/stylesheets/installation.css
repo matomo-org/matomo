@@ -133,3 +133,11 @@ p.next-step:first-child {
 .email-privacy-notice {
     margin-top: -4rem;
 }
+
+.trackingHelpHeader h2 {
+    display: inline-block;
+}
+.trackingHelpHeader a.btn {
+    float: right;
+    margin-top: -10px;
+}
