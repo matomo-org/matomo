@@ -7602,7 +7602,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
