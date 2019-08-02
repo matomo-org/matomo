@@ -16,7 +16,9 @@
 
         var self = this;
 
+        this.newsletterSignupButtonTitle = translate('General_Yes');
         this.doesRequirePasswordConfirmation = false;
+        this.showNewsletterSignup = true;
 
         function updateSettings(postParams)
         {
@@ -46,41 +48,30 @@
         };
 
         this.signupForNewsletter = function () {
-            var checkbox = $('#newsletterSignupCheckbox');
-            if (! checkbox.is(':checked')) {
-                return false;
-            }
-
             var signupBtn = $('#newsletterSignupBtn');
             signupBtn.html(translate('General_Loading'));
+            this.isProcessingNewsletterSignup = true;
 
-            var ajaxHandler = new ajaxHelper();
-            ajaxHandler.withTokenInUrl();
-            ajaxHandler.addParams(
-                {module: 'UsersManager', action: 'newsletterSignup'}, '' +
-                'GET'
-            );
+            piwikApi.withTokenInUrl();
+            piwikApi.fetch({module: 'UsersManager', action: 'newsletterSignup'}).then(function () {
+                self.isProcessingNewsletterSignup = false;
+                self.showNewsletterSignup = false;
 
-            var errorCallback = function() {
-                $('#newsletterSignupMsg').hide();
-                $('#newsletterSignupFailure').show();
-                signupBtn.html(translate('General_PleaseTryAgain'));
-            };
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupSuccessMessage'), { id: 'newslettersignup', context: 'success'});
+                notification.scrollToNotification();
 
-            ajaxHandler.setCallback(function (response) {
-                if (response['success'] == true) {
-                    $('#newsletterSignupMsg').hide();
-                    $('#newsletterSignupFailure').hide();
-                    $('#newsletterSignupSuccess').show();
-                    signupBtn.hide();
-                } else {
-                    errorCallback();
-                }
+            }, function () {
+                self.isProcessingNewsletterSignup = false;
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupFailureMessage'), { id: 'newslettersignup', context: 'error' });
+                notification.scrollToNotification();
+
+                self.newsletterSignupButtonTitle = translate('General_PleaseTryAgain');
             });
-            ajaxHandler.setErrorCallback(errorCallback);
-
-            ajaxHandler.send();
-            return false;
         };
 
         this.regenerateTokenAuth = function () {
