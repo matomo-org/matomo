@@ -7,7 +7,7 @@
         "CreateNewDashboard": "新しいダッシュボードを作成する",
         "Dashboard": "ダッシュボード",
         "DashboardCopied": "現在のダッシュボードは選択したユーザーへコピーされました。",
-        "DashboardEmptyNotification": "ダッシュボードには一つもウィジェットがありません。ダッシュボードにウィジェットを追加するか、あるいはダッシュボードをデフォルトのウィジェットにリセットしてから始めてください。",
+        "DashboardEmptyNotification": "ダッシュボードにウィジェットがありません。ダッシュボードにウィジェットを追加するか、ダッシュボードをデフォルトのウィジェットにリセットしてから始めてください。",
         "DashboardName": "ダッシュボード名:",
         "DashboardOf": "%s のダッシュボード",
         "DefaultDashboard": "デフォルトのダッシュボード - デフォルトのウィジェットとカラムレイアウトを使用します",
@@ -29,8 +29,8 @@
         "SelectWidget": "ダッシュボードに追加するウィジェットを選択してください",
         "SetAsDefaultWidgets": "デフォルトのウィジェット選択として設定",
         "SetAsDefaultWidgetsConfirm": "現在のウィジェットとダッシュボードのレイアウトをデフォルトのテンプレートとして設定しますか？",
-        "SetAsDefaultWidgetsConfirmHelp": "これらのウィジェットとダッシュボードのレイアウトは、新規ダッシュボードの作成時か、あるいは %s 機能の使用時に使われれます。",
-        "TopLinkTooltip": "%s のウェブ解析レポートを表示",
+        "SetAsDefaultWidgetsConfirmHelp": "これらのウィジェットとダッシュボードのレイアウトは、新規ダッシュボードの作成時か、あるいは %s 機能の使用時に使用されます。",
+        "TopLinkTooltip": "%s のウェブ解析レポートを表示します。",
         "WidgetNotFound": "ウィジェットが見つかりませんでした",
         "WidgetPreview": "ウィジェットのプレビュー"
     }
