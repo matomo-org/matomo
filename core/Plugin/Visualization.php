@@ -190,7 +190,9 @@ class Visualization extends ViewDataTable
             $this->applyFilters();
             $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
+
             $this->beforeRender();
+            $this->fireBeforeRenderHook();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
         } catch (NoAccessException $e) {
@@ -721,6 +723,14 @@ class Visualization extends ViewDataTable
     public function beforeRender()
     {
         // eg $this->config->showFooterColumns = true;
+    }
+
+    private function fireBeforeRenderHook()
+    {
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Visualization.beforeRender', [$this]);
     }
 
     private function makeDataTablePostProcessor()
