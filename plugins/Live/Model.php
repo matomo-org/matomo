@@ -56,57 +56,7 @@ class Model
 
         list($dateStart, $dateEnd) = $this->getStartAndEndDate($idSite, $period, $date);
 
-        $virtualDateEnd = $dateEnd;
-        if (empty($dateEnd)) {
-            $virtualDateEnd = Date::now()->addDay(1); // matomo always adds one day for some reason
-        }
-
-        $virtualDateStart = $dateStart;
-        if (empty($virtualDateStart)) {
-            $virtualDateStart = Date::factory(Date::FIRST_WEBSITE_TIMESTAMP); // matomo always adds one day for some reason
-        }
-
-        $queries = [];
-        $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
-        if ($limit
-            && $hasStartEndDateMoreThanOneDayInBetween
-        ) {
-            if ($hasStartEndDateMoreThanOneDayInBetween) {
-                $virtualDateEnd = $virtualDateEnd->subDay(1);
-                $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
-            }
-
-                if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
-                    $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
-                    $virtualDateEnd = $virtualDateEnd->subDay(7);
-                }
-
-            if (!$offset) {
-                // only when no offset
-                // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
-                // like we would need to execute each of the queries twice just to find out if there are some visits that
-                // need to be skipped...
-
-                if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
-                    $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
-                    $virtualDateEnd = $virtualDateEnd->subDay(30);
-                }
-                if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
-                    $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
-                    $virtualDateEnd = $virtualDateEnd->subYear(1);
-                }
-            }
-
-            if ($virtualDateStart->isEarlier($virtualDateEnd)) {
-                // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
-                $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
-            }
-        } else {
-            $queries[] = array($dateStart, $dateEnd);
-        }
-
-        // uncomment to see the dateTimes that have been generated.
-        //$debugDateTime = array_map(function ($query) { return ($query[0] ? $query[0]->getDatetime() : '') . ' ' . ($query[1] ? $query[1]->getDatetime() : ''); }, $queries);
+        $queries = $this->splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset);
 
         $foundVisits = array();
 
@@ -160,6 +110,57 @@ class Model
         }
 
         return $foundVisits;
+    }
+
+    public function splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset)
+    {
+        $virtualDateEnd = $dateEnd;
+        if (empty($dateEnd)) {
+            $virtualDateEnd = Date::now()->addDay(1); // matomo always adds one day for some reason
+        }
+
+        $virtualDateStart = $dateStart;
+        if (empty($virtualDateStart)) {
+            $virtualDateStart = Date::factory(Date::FIRST_WEBSITE_TIMESTAMP);
+        }
+
+        $queries = [];
+        $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
+        if ($limit
+            && $hasStartEndDateMoreThanOneDayInBetween
+        ) {
+            $virtualDateEnd = $virtualDateEnd->subDay(1);
+            $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
+
+            if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
+                $virtualDateEnd = $virtualDateEnd->subDay(7);
+            }
+
+            if (!$offset) {
+                // only when no offset
+                // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
+                // like we would need to execute each of the queries twice just to find out if there are some visits that
+                // need to be skipped...
+
+                if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subDay(30);
+                }
+                if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subYear(1);
+                }
+            }
+
+            if ($virtualDateStart->isEarlier($virtualDateEnd)) {
+                // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
+                $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
+            }
+        } else {
+            $queries[] = array($dateStart, $dateEnd);
+        }
+        return $queries;
     }
 
     /**
