@@ -317,6 +317,7 @@ class UITestFixture extends SqlDump
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
+                || $widget['uniqueId'] == 'widgetCoreHomequickLinks'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
             ) {
                 continue;
