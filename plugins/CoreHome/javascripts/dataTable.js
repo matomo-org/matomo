@@ -1958,7 +1958,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         actions.height(tr.innerHeight() - 6);
-        actions.css('marginLeft', (td.width() + 3 - actions.outerWidth()) + 'px');
+        actions.css('marginLeft', (td.width() - 3 - actions.outerWidth()) + 'px');
     },
 
     _findReportHeader: function (domElem) {
