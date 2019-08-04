@@ -36,6 +36,10 @@ class Controller extends \Piwik\Plugin\Controller
             throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
         }
 
+        if ($controllerName == 'Widgetize') {
+            throw new \Exception("Please set 'moduleToWidgetize' to a valid value.");
+        }
+
         $shouldEmbedEmpty = false;
 
         /**

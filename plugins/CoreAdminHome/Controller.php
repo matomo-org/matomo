@@ -186,6 +186,7 @@ class Controller extends ControllerAdmin
         if ($view->idSite) {
             try {
                 $view->siteName = Site::getNameFor($view->idSite);
+                $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
             } catch (Exception $e) {
                 // ignore if site no longer exists
             }

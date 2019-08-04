@@ -78,7 +78,9 @@ class EnvironmentValidator
 
         $general = $this->settingsProvider->getSection('General');
 
-        if (empty($general['enable_installer'])) {
+        if (isset($general['enable_installer'])
+            && !$general['enable_installer']
+        ) {
             throw new \Exception('Matomo is not set up yet');
         }
 

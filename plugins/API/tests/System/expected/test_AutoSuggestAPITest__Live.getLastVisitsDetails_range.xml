@@ -2578,7 +2578,7 @@
 		<country>China</country>
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region>Xizang</region>
+		<region>Xizang Zizhiqu</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
@@ -2880,7 +2880,7 @@
 		<country>China</country>
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region>Xizang</region>
+		<region>Xizang Zizhiqu</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
