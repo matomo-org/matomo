@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -138,6 +138,7 @@ class ArchiveSelector
      * @param array $periods
      * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
+     * @param bool $canUseReaderDb if enabled, will try to read archive from reader
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -146,7 +147,7 @@ class ArchiveSelector
      *               )
      * @throws
      */
-    public static function getArchiveIds($siteIds, $periods, $segment, $plugins)
+    public static function getArchiveIds($siteIds, $periods, $segment, $plugins, $canUseReaderDb)
     {
         if (empty($siteIds)) {
             throw new \Exception("Website IDs could not be read from the request, ie. idSite=");
@@ -171,6 +172,12 @@ class ArchiveSelector
             }
             $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
             $monthToPeriods[$table][] = $period;
+        }
+
+        if ($canUseReaderDb) {
+            $db = Db::getReader();
+        } else {
+            $db = Db::get();
         }
 
         // for every month within the archive query, select from numeric table
@@ -204,7 +211,8 @@ class ArchiveSelector
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
-            $archiveIds = Db::fetchAll($sql, $bind);
+
+            $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs
             foreach ($archiveIds as $row) {
@@ -227,12 +235,19 @@ class ArchiveSelector
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param int|null|string $idSubtable  null if the root blob should be loaded, an integer if a subtable should be
      *                                     loaded and 'all' if all subtables should be loaded.
-     * @throws Exception
+     * @param bool $canUseReaderDb if enabled, will try to read archive from reader DB
      * @return array
+     *@throws Exception
      */
-    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
+    public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable, $canUseReaderDb)
     {
         $chunk = new Chunk();
+
+        if ($canUseReaderDb) {
+            $db = Db::getReader();
+        } else {
+            $db = Db::get();
+        }
 
         // create the SQL to select archive data
         $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
@@ -293,7 +308,7 @@ class ArchiveSelector
             }
 
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
-            $dataRows = Db::fetchAll($sql, $bind);
+            $dataRows = $db->fetchAll($sql, $bind);
 
             foreach ($dataRows as $row) {
                 if ($isNumeric) {

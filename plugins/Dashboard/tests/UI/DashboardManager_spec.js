@@ -8,8 +8,6 @@
  */
 
 describe("DashboardManager", function () {
-    this.timeout(0);
-
     const selectorToCapture = '.dashboard-manager,.dashboard-manager .dropdown';
 
     const generalParams = 'idSite=1&period=day&date=2012-01-01';
@@ -66,12 +64,15 @@ describe("DashboardManager", function () {
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
+        await page.waitFor('#createDashboardName', { visible: true });
         await page.type('#createDashboardName', 'newdash2');
+        await page.waitFor(200); // sometimes the text doesn't seem to type fast enough
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
 
-        await page.waitForFunction('$("ul.navbar ul li.active:contains(newdash2)").length > 0');
-        await page.waitFor(500);
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('create_new');
@@ -83,6 +84,7 @@ describe("DashboardManager", function () {
         button = await page.jQuery('.modal.open .modal-footer a:contains(Yes)');
         await button.click();
 
+        await page.mouse.move(-10, -10);
         await page.waitFor(500);
         await page.waitForNetworkIdle();
 

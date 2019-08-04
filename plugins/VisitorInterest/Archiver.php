@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -48,7 +48,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * The set of ranges used when calculating the 'visitors who visited at least N times' report.
      */
-    protected static $visitNumberGap = array(
+    public static $visitNumberGap = array(
         array(1, 1),
         array(2, 2),
         array(3, 3),
@@ -67,7 +67,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * The set of ranges used when calculating the 'days since last visit' report.
      */
-    protected static $daysSinceLastVisitGap = array(
+    public static $daysSinceLastVisitGap = array(
         array(0, 0),
         array(1, 1),
         array(2, 2),
@@ -143,7 +143,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      * Transforms and returns the set of ranges used to calculate the 'visits by total time'
      * report from ranges in minutes to equivalent ranges in seconds.
      */
-    protected static function getSecondsGap()
+    public static function getSecondsGap()
     {
         $secondsGap = array();
         foreach (self::$timeGap as $gap) {

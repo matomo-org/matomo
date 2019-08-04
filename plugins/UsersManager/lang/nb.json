@@ -27,7 +27,6 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Det må være minst én bruker med superbrukertilgang. Vennligst gi superbrukertilgang til en annen bruker først.",
         "ExcludeVisitsViaCookie": "Ekskluder dine besøk med en informasjonskapsel",
         "ForAnonymousUsersReportDateToLoadByDefault": "Rapportdato som skal lastes som standard for anonyme brukere",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Hvis du vil endre passordet, skriv inn et nytt. Hvis ikke, lar du feltet være tomt.",
         "InjectedHostCannotChangePwd": "Du besøker nå med et ukjent vertsnavn (%1$s). Du kan ikke endre passord før problemet er rettet opp.",
         "LastSeen": "Sist sett",
         "ManageAccess": "Administrer tilgang",

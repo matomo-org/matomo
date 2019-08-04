@@ -6,6 +6,7 @@
 		<nb_actions>55</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>10</bounce_count>
+		<nb_visits_converted>20</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>20</nb_conversions>
@@ -22,9 +23,9 @@
 		<revenue>150</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==cn</segment>
 		<code>cn</code>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		<segment>countryCode==cn</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -33,6 +34,7 @@
 		<nb_actions>16</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -49,9 +51,9 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==ca</segment>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -60,6 +62,7 @@
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>3</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -76,9 +79,9 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -87,6 +90,7 @@
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -103,9 +107,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==id</segment>
 		<code>id</code>
 		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
+		<segment>countryCode==id</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -114,6 +118,7 @@
 		<nb_actions>6</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -130,9 +135,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==it</segment>
 		<code>it</code>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+		<segment>countryCode==it</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -141,6 +146,7 @@
 		<nb_actions>6</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -157,9 +163,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==us</segment>
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		<segment>countryCode==us</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

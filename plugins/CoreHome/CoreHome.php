@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -327,6 +327,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
         $translationKeys[] = 'CoreHome_DataTableIncludeAggregateRows';
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
+        $translationKeys[] = 'CoreHome_DataTableCombineDimensions';
+        $translationKeys[] = 'CoreHome_DataTableShowDimensions';
         $translationKeys[] = 'CoreHome_Default';
         $translationKeys[] = 'CoreHome_FormatMetrics';
         $translationKeys[] = 'CoreHome_ShowExportUrl';

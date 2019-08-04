@@ -1,5 +1,8 @@
 {
     "UsersManager": {
+        "2FA": "二次认证",
+        "TwoFactorAuthentication": "二次登陆认证",
+        "ResetTwoFactorAuthenticationInfo": "如果某位用户因遗失二次登录认证设备或应急恢复密钥而无法登陆，您可以为这位用户重置二次登录验证，以确保其能够再次登录。",
         "AddUser": "添加用户",
         "Alias": "别名",
         "AllWebsites": "所有网站",
@@ -22,7 +25,6 @@
         "ExceptionUserDoesNotExist": "用户 '%s' 不存在！",
         "ExcludeVisitsViaCookie": "用 cookie 排除您自己的访问记录",
         "ForAnonymousUsersReportDateToLoadByDefault": "匿名访客默认加载的报表日期",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "如果您要修改密码，请输入新的密码，否则留空。",
         "InjectedHostCannotChangePwd": "您正在访问的主机名 (%1$s) 未知，修复这个问题后才能修改密码。",
         "ManageAccess": "权限管理",
         "MenuAnonymousUserSettings": "匿名用户参数",
@@ -33,6 +35,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "说明: 不能在这里修改设置，因为没有任何公开的网站。",
         "NoUsersExist": "没有用户。",
         "PrivAdmin": "管理员权限",
+        "PrivWrite": "编辑",
         "PrivNone": "无查看权限",
         "PrivView": "查看",
         "ReportDateToLoadByDefault": "默认加载的报表日期",

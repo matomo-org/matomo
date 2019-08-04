@@ -3,7 +3,6 @@
         "UsesTwoFactorAuthentication": "Benytter tofaktorgodkendelse",
         "TwoFactorAuthentication": "Tofaktorgodkendelse",
         "ResetTwoFactorAuthentication": "Nulstil tofaktorgodkendelse",
-        "ResetTwoFactorAuthenticationInfo": "Hvis en bruger ikke længere kan logge ind pga. mistede genskabelseskoder eller mistet tofaktorgodkendelsesenhed, kan du nulstille tofaktorgodkendelse for brugeren, så de kan logge ind igen.",
         "AddUser": "Opret ny bruger",
         "EditUser": "Rediger bruger",
         "Alias": "Alias",
@@ -36,7 +35,6 @@
         "ExceptionNoValueForUsernameOrEmail": "Indtast et brugernavn eller en e-mailadresse.",
         "ExcludeVisitsViaCookie": "Udeluk egne besøg ved hjælp af en cookie",
         "ForAnonymousUsersReportDateToLoadByDefault": "Standard rapport dato for anonyme brugere",
-        "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Hvis du ønsker at ændre adgangskode skriv en ny. Ellers lad være blank.",
         "ConfirmWithPassword": "Indtast din adgangskode for at bekræfte denne ændring.",
         "InjectedHostCannotChangePwd": "Du besøger med en ukendt vært (%1$s). Du kan ikke ændre din adgangskode, før problemet er løst.",
         "LastSeen": "Sidst set",
@@ -75,7 +73,6 @@
         "SuperUsersPermissionsNotice": "Superbrugere har administratoradgang til alle hjemmesider, så der er ikke grund til at angive rettigheder for de enkelte hjemmesider.",
         "SuperUserIntro2": "Brug denne funktion med omtanke.",
         "HasSuperUserAccess": "Har superbrugeradgang",
-        "RemoveSuperuserAccessConfirm": "Når du fjerner superbrugeradgang, vil brugeren ikke længere have nogen rettigheder (dem skal du tilføje efterfølgende). Vil du fortsætte?",
         "ShowAll": "Vis alle",
         "Username": "Brugernavn"
     }

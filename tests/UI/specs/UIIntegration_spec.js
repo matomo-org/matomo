@@ -64,6 +64,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard2 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
@@ -72,6 +73,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard3 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
@@ -80,6 +82,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it("should load dashboard4 correctly", async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
+        await page.waitForNetworkIdle();
+        await page.waitFor('.widget');
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
@@ -214,26 +218,22 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                     + "&removeOldVisits=0");
 
         await page.waitForSelector('circle');
-        var pos = await page.webpage.evaluate(() => {
-            var circle = $('circle:first').offset();
-            return {
-                x: circle.left + 5,
-                y: circle.top + 5
-            };
-        });
-        console.log(pos.x, pos.y);
-        await page.mouse.move(pos.x, pos.y);
-        await page.waitFor(100); // wait for tooltip
+        await page.waitFor(250); // rendering
+        await (await page.jQuery('circle:eq(0)')).hover();
+        await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
-            $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
+            $('.ui-tooltip:visible .rel-time').data('actiontime', (Date.now() - (4 * 24 * 60 * 60 * 1000)) / 1000);
         });
 
-        pageWrap = await page.$('.pageWrap,.ui-tooltip');
-        expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_map');
+        // updating the time might take up to one second
+        await page.waitFor(1000);
+
+        expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
 
     it('should load the visitors > real-time visits page correctly', async function () {
         await page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
+        await page.mouse.move(-10, -10);
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_realtime_visits');
@@ -373,9 +373,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         let elem = await page.$('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV');
         await elem.hover();
 
+        elem = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
         await page.waitFor(500);
 
-        elem = await page.jQuery('.columnDocumentation:visible', { waitFor: true });
         expect(await elem.screenshot()).to.matchImage('metric_tooltip');
     });
 
@@ -833,6 +833,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await visitorsOT.click();
         await page.waitForNetworkIdle();
 
+        await page.waitFor('.widgetpreview-preview .widget', { visible: true });
+
         await page.evaluate(function () {
             $('.formEmbedCode').each(function () {
                 var val = $(this).val();
@@ -867,22 +869,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('email_reports_editor');
-    });
-
-    it('should load the feedback form when the feedback form link is clicked', async function() {
-        await page.goto("?" + generalParams + "&module=Feedback&action=index");
-
-        await page.evaluate(function () {
-            $('.enrichedHeadline .title').each(function () {
-                if ($(this).text().indexOf("Matomo") !== -1) {
-                    var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
-                    $(this).text(replace);
-                }
-            });
-        });
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('feedback_form');
     });
 
     // date range clicked
@@ -1001,7 +987,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto(adminUrl);
         await page.waitFor('#notificationContainer');
 
-        const pageWrap = await page.$('.pageWrap');
+        const pageWrap = await page.$('.pageWrap, #notificationContainer');
         expect(await pageWrap.screenshot()).to.matchImage('api_error');
     });
 

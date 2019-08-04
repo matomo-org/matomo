@@ -447,6 +447,7 @@
         "VisitorIPs": "IPs de visitantes",
         "Visitors": "Visitantes",
         "VisitsWith": "Visitas con %s",
+        "VisitorFingerprint": "Huella dactilar",
         "VisitorSettings": "Configuración de visitantes",
         "VisitType": "Tipo de visita",
         "VisitTypes": "Tipos de visitas",
@@ -565,7 +566,13 @@
         "VerifyAccount": "Verificando cuenta",
         "ValidateSslCertificate": "Validar certificado SSL",
         "VerifyLoginData": "Asegúrese que la combinación de nombre de usuario y contraseña sea correcta.",
-        "YouAreOffline": "Disculpe, está actualmente desconectado"
+        "YouAreOffline": "Disculpe, está actualmente desconectado",
+        "ExceptionNoViewAccess": "Verifique su nombre de usuario y contraseña y asegúrese de tener %s acceso a al menos un sitio web.",
+        "Mobile_HowtoExitAndroid": "Por favor clic VOLVER nuevamente para salir",
+        "MatomoMarketplace": "Matomo Marketplace",
+        "EnterAuthCode": "Ingrese el código de autenticación",
+        "EnterCorrectAuthCode": "Ingrese el código correcto de autenticación",
+        "EnterAuthCodeExplanation": "Parece que puedes estar usando autenticación de dos factores. Ingrese el código de seis dígitos para iniciar sesión en su cuenta."
     },
     "RowEvolution": {
         "AvailableMetrics": "Métricas disponibles",

@@ -34,6 +34,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>9</goalPageId>
 				
@@ -41,7 +42,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -161,6 +162,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>8</goalPageId>
 				
@@ -168,7 +170,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -288,6 +290,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>7</goalPageId>
 				
@@ -295,7 +298,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -415,6 +418,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>6</goalPageId>
 				
@@ -422,7 +426,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -542,6 +546,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>5</goalPageId>
 				
@@ -549,7 +554,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -669,6 +674,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>4</goalPageId>
 				
@@ -676,7 +682,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -796,6 +802,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>3</goalPageId>
 				
@@ -803,7 +810,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -923,6 +930,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>2</goalPageId>
 				
@@ -930,7 +938,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1050,6 +1058,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>81</goalPageId>
 				
@@ -1057,7 +1066,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1177,6 +1186,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>83</goalPageId>
 				
@@ -1184,7 +1194,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>all ($ 5 revenue)</subtitle>
+				<subtitle>all ($5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -182,9 +182,11 @@ class Http
             . ($userAgent ? " ($userAgent)" : '');
 
         // range header
+        $rangeBytes = '';
         $rangeHeader = '';
         if (!empty($byteRange)) {
-            $rangeHeader = 'Range: bytes=' . $byteRange[0] . '-' . $byteRange[1] . "\r\n";
+            $rangeBytes = $byteRange[0] . '-' . $byteRange[1];
+            $rangeHeader = 'Range: bytes=' . $rangeBytes . "\r\n";
         }
 
         list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
@@ -517,7 +519,6 @@ class Http
                 CURLOPT_HTTPHEADER     => array_merge(array(
                     $xff,
                     $via,
-                    $rangeHeader,
                     $acceptLanguage
                 ), $additionalHeaders),
                 // only get header info if not saving directly to file
@@ -525,6 +526,11 @@ class Http
                 CURLOPT_CONNECTTIMEOUT => $timeout,
                 CURLOPT_TIMEOUT        => $timeout,
             );
+
+            if ($rangeBytes) {
+                curl_setopt($ch, CURLOPT_RANGE, $rangeBytes);
+            }
+
             // Case core:archive command is triggering archiving on https:// and the certificate is not valid
             if ($acceptInvalidSslCertificate) {
                 $curl_options += array(
@@ -852,7 +858,17 @@ class Http
         }
 
         list($name, $value) = $parts;
-        $headers[trim($name)] = trim($value);
+        $name = trim($name);
+        $headers[$name] = trim($value);
+
+        /**
+         * With HTTP/2 Cloudflare is passing headers in lowercase (e.g. 'content-type' instead of 'Content-Type') 
+         * which breaks any code which uses the header data. 
+         */
+        $camelName = ucwords($name, '-');
+        if ($camelName !== $name) {
+            $headers[$camelName] = trim($value);
+        }
     }
 
     /**

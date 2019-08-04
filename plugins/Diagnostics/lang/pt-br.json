@@ -1,8 +1,18 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Arquivo de configuração",
-        "ConfigFileIntroduction": "Aqui você pode ver a configuração do Matomo. Se você estiver executando Matomo em um ambiente de balanceamento de carga a página pode ser diferente, dependendo de qual servidor esta página é carregada. Linhas com uma cor de fundo diferente são alterados os valores de configuração que são especificadas por exemplo, no arquivo %1$s.",
+        "MysqlMaxPacketSize": "Tamanho máximo de pacote",
+        "MysqlMaxPacketSizeWarning": "É recomendado configurar um tamanho máximo de pacote (max_allowed_packet) no seu banco de dados MySQL de pelo menos %1$s. Atualmente está configurado %2$s.",
+        "ConfigFileIntroduction": "Aqui você pode ver a configuração do Matomo. Se você estiver rodando o Matomo em um ambiente com balanceamento de carga, a página pode estar diferente dependendo de qual servidor esta página é carregada. Linhas com diferentes cores de fundo são valores de configuração alterados que estão especificados por exemplo no arquivo %1$s.",
         "HideUnchanged": "Se você quiser ver apenas valores alterados você pode %1$socultar todos os valores inalterados%2$s.",
-        "Sections": "Seções"
+        "Sections": "Seções",
+        "DatabaseReaderConnection": "Conexão do leitor de banco de dados",
+        "CronArchivingLastRunCheck": "Última conclusão de arquivamento com sucesso",
+        "CronArchivingHasNotRun": "O arquivamento ainda não foi realizado com sucesso.",
+        "CronArchivingHasNotRunInAWhile": "O último arquivamento realizado com sucesso foi em %1$s que é %2$s atrás.",
+        "CronArchivingRunDetails": "Favor checar que há um agendamento crontab chamando o %1$sconsole de comandos, e que há um %2$s configurado para receber erros por email se o arquivamento falhar. Você também pode tentar rodar o console de comandos para arquivar seus relatórios manualmente: %3$s. %4$sSaiba mais.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "O processo de arquivamento foi completado com sucesso %1$s atrás.",
+        "BrowserTriggeredArchivingEnabled": "Para uma performance ótima e um Matomo veloz, é altamente recomendável definir um crontab para automaticamente arquivar seus relatórios, e desabilitar o acionamento de navegador nas configurações do Matomo. %1$sSaiba mais.%2$s",
+        "NoDataForReportArchivingNotRun": "O arquivamento de seus relatórios não foi executado recentemente. %1$sSaiba mais sobre como gerar seus relatórios.%2$s"
     }
 }

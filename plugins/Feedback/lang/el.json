@@ -29,6 +29,10 @@
         "ProfessionalServicesCustomDevelopment": "Προσαρμοσμένες υπηρεσίες ανάπτυξης",
         "ProfessionalServicesAnalystConsulting": "Υπηρεσίες συμβουλευτικής αναλυτικών",
         "ContactUs": "Επικοινωνήστε μαζί μας",
-        "VisitTheForums": "Δείτε τα %1$sΦόρουμ%2$s και λάβετε βοήθεια από την κοινότητα χρηστών του Matomo"
+        "VisitTheForums": "Δείτε τα %1$sΦόρουμ%2$s και λάβετε βοήθεια από την κοινότητα χρηστών του Matomo",
+        "ReviewMatomoTitle": "Πιστεύετε στο Matomo;",
+        "PleaseLeaveExternalReviewForMatomo": "Μοιραστείτε τις σκέψεις σας σχετικά με τις ιστοσελίδες αυτές και εμπνεύστε άλλους να συμμετέχουν στην επανάστασή μας των δεδομένων.",
+        "RemindMeLater": "Να μου γίνει αργότερα υπενθύμιση",
+        "NeverAskMeAgain": "Να μην ερωτηθώ ποτέ ξανά"
     }
 }

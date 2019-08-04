@@ -30,6 +30,7 @@
 				<type>goal</type>
 				<goalName>matching purchase.htm</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>1</revenue>
 				<goalPageId>9</goalPageId>
 				
@@ -37,7 +38,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>matching purchase.htm ($ 1 revenue)</subtitle>
+				<subtitle>matching purchase.htm ($1 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -267,6 +268,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>42</revenue>
 				<goalPageId />
 				
@@ -274,7 +276,7 @@
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
-				<subtitle>triggered js ($ 42 revenue)</subtitle>
+				<subtitle>triggered js ($42 revenue)</subtitle>
 				
 			</row>
 			<row>

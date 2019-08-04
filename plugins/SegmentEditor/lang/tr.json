@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Dilim Yönetimi ile özel ziyaretçi dilimleri eklenip kullanılabilir.",
+        "PluginDescription": "Bir dilim, tüm ziyaretçi grubunun yalnız bir bölümünü seçmek için kullanılan bir ölçüt kümesidir. Dilimleri kullanarak, raporlarınızda isteğinize bağlı olarak seçebileceğiniz içeriğin görüntülenmesini sağlayabilirsiniz.",
         "AddANDorORCondition": "%s koşulu ekle",
         "AddNewSegment": "Yeni dilim ekle",
         "AreYouSureDeleteSegment": "Bu dilimi silmek istediğinize emin misiniz?",

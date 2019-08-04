@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -201,6 +201,7 @@ class SettingsPiwik
             $host = Url::getHostFromUrl($currentUrl);
 
             if (strlen($currentUrl) >= strlen('http://a/')
+                && Url::isValidHost($host)
                 && !Url::isLocalHost($host)) {
                 self::overwritePiwikUrl($currentUrl);
             }
@@ -264,7 +265,7 @@ class SettingsPiwik
     {
         return (bool) Config::getInstance()->General['enable_internet_features'];
     }
-    
+
     /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto

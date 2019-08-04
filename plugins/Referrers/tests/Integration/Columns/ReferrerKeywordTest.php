@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Referrers\tests\Integration\Columns;
 
+use Piwik\Common;
 use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -29,6 +30,7 @@ class ReferrerKeywordTest extends IntegrationTestCase
     private $keyword;
     private $idSite1 = 1;
     private $idSite2 = 2;
+    private $idSite3 = 3;
 
     public function setUp()
     {
@@ -38,7 +40,8 @@ class ReferrerKeywordTest extends IntegrationTestCase
         $ecommerce = false;
 
         Fixture::createWebsite($date, $ecommerce, $name = 'test1', $url = 'http://piwik.org/');
-        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = 'http://piwik.xyz/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test2', $url = 'http://piwik.xyz/');
+        Fixture::createWebsite($date, $ecommerce, $name = 'test3', $url = null);
 
         $this->keyword = new Keyword();
     }
@@ -84,7 +87,52 @@ class ReferrerKeywordTest extends IntegrationTestCase
 
             // search engine should have keyword the search term
             array('piwik', $this->idSite2, $url, 'http://google.com/search?q=piwik'),
+
+            // site w/o url
+            array($noReferrerKeyword, $this->idSite3, $url, $directReferrer . '/'),
         );
+    }
+
+    /**
+     * @dataProvider getTestDataForOnExistingVisit
+     */
+    public function test_onExistingVisit_shouldSometimesOverwriteReferrerInfo($expectedKeyword, $idSite, $url, $referrerUrl, $existingType)
+    {
+        $request = $this->getRequest(array('idsite' => $idSite, 'url' => $url, 'urlref' => $referrerUrl));
+        $visitor = $this->getNewVisitor();
+        $visitor->setVisitorColumn('referer_type', $existingType);
+        $keyword = $this->keyword->onExistingVisit($request, $visitor, $action = null);
+
+        $this->assertSame($expectedKeyword, $keyword);
+    }
+
+    public function getTestDataForOnExistingVisit()
+    {
+        return [
+            // direct entry => campaign
+            ['campaignkey1', $this->idSite2, 'http://piwik.xyz/abc?pk_campaign=testfoobar&pk_keyword=campaignkey1', 'http://piwik.org', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => website
+            ['piwik2', $this->idSite2, 'http://piwik.xyz/abc', 'http://google.com/search?q=piwik2', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry
+            [false, $this->idSite2, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry
+            [false, $this->idSite2, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+
+            // campaign => direct entry
+            [false, $this->idSite2, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_CAMPAIGN],
+
+            // direct entry => website (site w/o url)
+            ['piwik3', $this->idSite3, 'http://piwik.xyz/abc', 'http://google.com/search?q=piwik3', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // direct entry => direct entry (site w/o url)
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_DIRECT_ENTRY],
+
+            // website => direct entry (site w/o url)
+            [false, $this->idSite3, 'http://piwik.xyz/abc', 'http://piwik.xyz/def', Common::REFERRER_TYPE_WEBSITE],
+        ];
     }
 
     private function getRequest($params)

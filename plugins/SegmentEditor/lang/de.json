@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Erstellen und verwenden sie eigene Besucher-Segmente mit dem Segment-Editor",
+        "PluginDescription": "Ein Segment ist eine Sammlung an Kriterien, um nur einen Teil einer grossen Menge von Besuchen herauszufiltern. In dem Sie Segmente verwenden, können Sie Ihren Berichten praktisch beliebig skalierbar Kontext hinzufügen.",
         "AddANDorORCondition": "%s Bedingung hinzufügen",
         "AddNewSegment": "Neues Segment hinzufügen",
         "AreYouSureDeleteSegment": "Möchten Sie dieses Segment wirklich löschen?",

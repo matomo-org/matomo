@@ -14,9 +14,9 @@
     ],
     "support": {
         "forum": "https://forum.matomo.org/",
-        "issues": "https://github.com/matomo-org/piwik/issues",
-        "wiki": "https://github.com/matomo-org/piwik/wiki",
-        "source": "https://github.com/matomo-org/piwik"
+        "issues": "https://github.com/matomo-org/matomo/issues",
+        "wiki": "https://github.com/matomo-org/matomo/wiki",
+        "source": "https://github.com/matomo-org/matomo"
     },
     "config":{
         "platform": {

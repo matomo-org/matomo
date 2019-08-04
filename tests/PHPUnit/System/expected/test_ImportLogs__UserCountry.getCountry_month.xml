@@ -7,6 +7,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
 		<bounce_count>13</bounce_count>
+		<nb_visits_converted>14</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>14</nb_conversions>
@@ -18,9 +19,9 @@
 		<revenue>70</revenue>
 		<sum_daily_nb_uniq_visitors>15</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==jp</segment>
 		<code>jp</code>
 		<logo>plugins/Morpheus/icons/dist/flags/jp.png</logo>
+		<segment>countryCode==jp</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -30,6 +31,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>9</bounce_count>
+		<nb_visits_converted>11</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>11</nb_conversions>
@@ -41,9 +43,9 @@
 		<revenue>55</revenue>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
-		<segment>countryCode==us</segment>
 		<code>us</code>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
+		<segment>countryCode==us</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -53,6 +55,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>242</sum_visit_length>
 		<bounce_count>8</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>7</nb_conversions>
@@ -64,10 +67,9 @@
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>countryCode==xx</segment>
 		<code>xx</code>
 		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+		<segment>countryCode==xx</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -77,6 +79,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>3</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -88,9 +91,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==br</segment>
 		<code>br</code>
 		<logo>plugins/Morpheus/icons/dist/flags/br.png</logo>
+		<segment>countryCode==br</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -100,6 +103,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>3</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -111,9 +115,9 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==sg</segment>
 		<code>sg</code>
 		<logo>plugins/Morpheus/icons/dist/flags/sg.png</logo>
+		<segment>countryCode==sg</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -126,9 +130,9 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==au</segment>
 		<code>au</code>
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
+		<segment>countryCode==au</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -138,6 +142,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -149,9 +154,9 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==ca</segment>
 		<code>ca</code>
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
+		<segment>countryCode==ca</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -161,6 +166,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -172,9 +178,9 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==kr</segment>
 		<code>kr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
+		<segment>countryCode==kr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

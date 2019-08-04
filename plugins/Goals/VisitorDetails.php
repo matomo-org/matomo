@@ -70,12 +70,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 						'goal' as type,
 						goal.name as goalName,
 						goal.idgoal as goalId,
+						log_link_visit_action.idpageview,
 						log_conversion.revenue as revenue,
 						log_conversion.idlink_va,
 						log_conversion.idlink_va as goalPageId,
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.url as url
 				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
+				LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+				    ON log_link_visit_action.idlink_va = log_conversion.idlink_va
 				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
 					ON (goal.idsite = log_conversion.idsite
 						AND
@@ -83,9 +86,9 @@ class VisitorDetails extends VisitorDetailsAbstract
 					AND goal.deleted = 0
 				WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 					AND log_conversion.idgoal > 0
-                ORDER BY log_conversion.idvisit, server_time ASC
+                ORDER BY log_conversion.idvisit, log_conversion.server_time ASC
 			";
-        return Db::fetchAll($sql);
+        return $this->getDb()->fetchAll($sql);
     }
 
 

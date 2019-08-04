@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\ViewDataTable;
+use Piwik\Common;
 
 
 /**
@@ -344,6 +345,15 @@ class RequestConfig
         list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
 
         return $method;
+    }
+
+    public function getRequestParam($paramName)
+    {
+        if (isset($this->request_parameters_to_modify[$paramName])) {
+            return $this->request_parameters_to_modify[$paramName];
+        }
+
+        return Common::getRequestVar($paramName, false);
     }
 
     /**

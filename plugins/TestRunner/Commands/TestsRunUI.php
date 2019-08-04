@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\TestRunner\Commands;
@@ -133,7 +133,8 @@ class TestsRunUI extends ConsoleCommand
 
         $specs = implode(" ", $specs);
 
-        $cmd = "node " . $phantomJsOptions . " '" . PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/run-tests.js' $options $specs";
+        $screenshotTestingDir = PIWIK_INCLUDE_PATH . "/tests/lib/screenshot-testing/";
+        $cmd = "cd '$screenshotTestingDir' && NODE_PATH='$screenshotTestingDir/node_modules' node " . $phantomJsOptions . " run-tests.js $options $specs";
 
         $output->writeln('Executing command: <info>' . $cmd . '</info>');
         $output->writeln('');

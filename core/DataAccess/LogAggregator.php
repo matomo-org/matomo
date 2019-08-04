@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -318,13 +318,14 @@ class LogAggregator
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by {@link Piwik\RankingQuery::execute()}.
+     *
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read {@link queryVisitsByDimension() this}
      *               to see what aggregate data is calculated by the query.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
-                                           $metrics = false, $rankingQuery = false)
+                                           $metrics = false, $rankingQuery = false, $orderBy = false)
     {
         $tableName = self::LOG_VISIT_TABLE;
         $availableMetrics = $this->getVisitsMetricFields();
@@ -333,16 +334,22 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::VISIT_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
+        $orderBys = $orderBy ? [$orderBy] : [];
 
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $orderBys[] = '`' . Metrics::INDEX_NB_VISITS . '` DESC';
         }
 
-        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
         if ($rankingQuery) {
             unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
+
+            // INDEX_NB_UNIQ_FINGERPRINTS is only processed if specifically asked for
+            if (!$this->isMetricRequested(Metrics::INDEX_NB_UNIQ_FINGERPRINTS, $metrics)) {
+                unset($availableMetrics[Metrics::INDEX_NB_UNIQ_FINGERPRINTS]);
+            }
+
             $sumColumns = array_keys($availableMetrics);
 
             if ($metrics) {
@@ -956,6 +963,6 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::get();
+        return Db::getReader();
     }
 }

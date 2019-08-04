@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Framework;
@@ -26,6 +26,7 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Ini\IniReader;
 use Piwik\Log;
+use Piwik\NumberFormatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -377,6 +378,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
+        NumberFormatter::getInstance()->clearCache();
         PiwikCache::getTransientCache()->flushAll();
         PiwikCache::getEagerCache()->flushAll();
         PiwikCache::getLazyCache()->flushAll();

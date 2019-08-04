@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
@@ -256,7 +257,24 @@ class DataTablePostProcessor
         $addGoalProcessedMetrics = null;
         try {
             $addGoalProcessedMetrics = Common::getRequestVar(
-                'filter_update_columns_when_show_all_goals', null, 'integer', $this->request);
+                'filter_update_columns_when_show_all_goals', false, 'string', $this->request);
+            if ((int) $addGoalProcessedMetrics === 0
+                && $addGoalProcessedMetrics !== '0'
+                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                && $addGoalProcessedMetrics != Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
+            ) {
+                $addGoalProcessedMetrics = null;
+            }
+        } catch (Exception $ex) {
+            // ignore
+        }
+
+        $goalsToProcess = null;
+        try {
+            $goalsToProcess = Common::getRequestVar('filter_show_goal_columns_process_goals', null, 'string', $this->request);
+            $goalsToProcess = explode(',', $goalsToProcess);
+            $goalsToProcess = array_map('trim', $goalsToProcess);
+            $goalsToProcess = array_filter($goalsToProcess);
         } catch (Exception $ex) {
             // ignore
         }
@@ -265,7 +283,7 @@ class DataTablePostProcessor
             $idGoal = Common::getRequestVar(
                 'idGoal', DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string', $this->request);
 
-            $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal));
+            $dataTable->filter('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal, $goalsToProcess));
         }
 
         return $dataTable;

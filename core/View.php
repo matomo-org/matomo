@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -266,8 +266,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
-            $this->userAlias = $user['alias'];
+            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 
@@ -282,6 +281,8 @@ class View implements ViewInterface
         if(!empty($this->xFrameOptions)) {
             Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
         }
+        // don't send Referer-Header for outgoing links
+        Common::sendHeader('Referrer-Policy: same-origin');
 
         return $this->renderTwigTemplate();
     }

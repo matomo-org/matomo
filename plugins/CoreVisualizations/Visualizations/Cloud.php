@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -45,6 +45,11 @@ class Cloud extends Visualization
         $this->config->show_exclude_low_population = false;
         $this->config->show_offset_information     = false;
         $this->config->show_limit_control          = false;
+    }
+
+    public function beforeLoadDataTable()
+    {
+        $this->checkRequestIsNotForMultiplePeriods();
     }
 
     public function afterAllFiltersAreApplied()

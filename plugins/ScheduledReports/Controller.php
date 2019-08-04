@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -49,6 +49,15 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultEvolutionPeriodN = ImageGraph::getDefaultGraphEvolutionLastPeriods();
         $view->displayFormats = ScheduledReports::getDisplayFormats();
 
+        $view->paramPeriods = [];
+        foreach (Piwik::$idPeriods as $label => $id) {
+            if ($label === 'range') {
+                continue;
+            }
+
+            $view->paramPeriods[$label] = Piwik::translate('Intl_Period' . ucfirst($label));
+        }
+
         $reportsByCategoryByType = array();
         $reportFormatsByReportTypeOptions = array();
         $reportFormatsByReportType = array();
@@ -82,6 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
             foreach ($reports as &$report) {
                 $report['evolutionPeriodFor'] = $report['evolution_graph_within_period'] ? 'each' : 'prev';
                 $report['evolutionPeriodN'] = (int) $report['evolution_graph_period_n'] ?: ImageGraph::getDefaultGraphEvolutionLastPeriods();
+                $report['periodParam'] = $report['period_param'];
 
                 $report['recipients'] = API::getReportRecipients($report);
                 $reportsById[$report['idreport']] = $report;

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -177,10 +177,6 @@ class Option
 
         $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
                               'WHERE option_name = ?', $name);
-
-        if ($value === false) {
-            return false;
-        }
 
         $this->all[$name] = $value;
         return $value;

@@ -40,8 +40,8 @@ CREDITS
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
-	https://github.com/matomo-org/piwik/issues
-	https://github.com/matomo-org/piwik
+	https://github.com/matomo-org/matomo/issues
+	https://github.com/matomo-org/matomo
 
 
 SEPARATELY LICENSED COMPONENTS AND LIBRARIES
@@ -50,11 +50,11 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	and subject to their respective licenses.
 
 	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
-	Link:  https://github.com/matomo-org/piwik/blob/master/core/Tracker/javascriptTag.tpl
+	Link:  https://github.com/matomo-org/matomo/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
 	Name:  jquery.truncate
-	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
+	Link:  https://github.com/matomo-org/matomo/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
 	Name:  matomo.js & piwik.js - JavaScript tracker
@@ -63,7 +63,7 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
-	Link: https://github.com/matomo-org/piwik/blob/master/libs/PiwikTracker/
+	Link: https://github.com/matomo-org/matomo/blob/master/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  DeviceDetector

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -106,26 +106,48 @@ class Flattener extends DataTableManipulator
     (Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
                                 $labelPrefix = '', $parentLogo = false)
     {
+        $dimensions = $dataTable->getMetadata('dimensions');
+
+        if (empty($dimensions)) {
+            $dimensions = [];
+        }
+
+        if (!in_array($dimensionName, $dimensions)) {
+            $dimensions[] = $dimensionName;
+        }
+
+        $dataTable->setMetadata('dimensions', $dimensions);
+
         $origLabel = $label = $row->getColumn('label');
 
         if ($label !== false) {
-            $label = trim($label);
+            $origLabel = $label = trim($label);
 
             if ($this->recursiveLabelSeparator == '/') {
                 if (substr($label, 0, 1) == '/' && substr($labelPrefix, -1) == '/') {
-                    $label = substr($label, 1);
+                    $origLabel = $label = substr($label, 1);
                 } elseif ($rowId === DataTable::ID_SUMMARY_ROW && $labelPrefix && $label != DataTable::LABEL_SUMMARY_ROW) {
                     $label = ' - ' . $label;
                 }
             }
 
-            $origLabel = $label;
+            if ($rowId === DataTable::ID_SUMMARY_ROW) {
+                if ($row->getMetadata('url')) {
+                    // remove url metadata for flattened summary rows
+                    $row->deleteMetadata('url');
+                }
+                $row->setMetadata('is_summary', true);
+            }
 
             $label = $labelPrefix . $label;
             $row->setColumn('label', $label);
 
             if ($row->getMetadata($dimensionName)) {
-                $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                if ($rowId === DataTable::ID_SUMMARY_ROW && $this->recursiveLabelSeparator == '/') {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . ' - ' . $origLabel;
+                } else {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                }
             }
 
             $row->setMetadata($dimensionName, $origLabel);

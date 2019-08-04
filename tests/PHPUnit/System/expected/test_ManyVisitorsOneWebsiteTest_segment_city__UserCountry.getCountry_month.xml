@@ -7,6 +7,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>3242</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -23,9 +24,9 @@
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>countryCode==gb</segment>
 		<code>gb</code>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
+		<segment>countryCode==gb</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

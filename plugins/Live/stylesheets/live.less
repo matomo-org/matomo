@@ -26,7 +26,11 @@
 }
 
 #visitsLive .datetime, #visitsLive .country, #visitsLive .settings, #visitsLive .returning {
-    padding: 10px 5px 10px 12px;
+    padding: 10px 20px;
+
+    .widget & {
+      padding: 10px 11px;
+    }
 }
 
 #visitsLive .datetime {
@@ -129,11 +133,11 @@ ol.visitorLog {
     overflow: -moz-hidden-unscrollable;
 }
 
-ol.visitorLog > li {
-    margin-bottom: 7px;
+ol.actionList > li:not(.pageviewActions) {
+    margin-bottom: 10px;
     line-height: 20px;
     position: relative;
-    min-height: 25px;
+    min-height: 30px;
 
   &:before {
     vertical-align: top;
@@ -155,12 +159,12 @@ ol.visitorLog > li {
     border-left: 2px solid #d2d2d2;
     position: absolute;
     left: -10px;
-    height: 100%;
+    height: calc(~"100% - 20px");
     margin-top: 20px;
     z-index: 1;
   }
 
-  &:last-child:after {
+  &:last-of-type:after {
     border-left: none;
   }
 
@@ -182,6 +186,96 @@ ol.visitorLog > li {
         vertical-align: middle;
       }
   }
+
+  &.actionsForPageExpander {
+    a {
+      color: @theme-color-text;
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+
+    &:before {
+      margin-left: -5px;
+      visibility: hidden;
+    }
+
+    &.expanded:before {
+      content: "\f102";
+    }
+
+    &.collapsed:before {
+      content: "\f103";
+    }
+
+    &:before {
+      margin-top: 2px;
+      float: left;
+      margin-right: 5px;
+
+      // copied frim [class^=icon-] style
+      font-family: 'matomo' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+}
+
+ol.actionList > li.pageviewActions {
+  position: relative;
+  margin-top: -6px;
+
+  &:after {
+    content: " ";
+    border-left: 2px solid #d2d2d2;
+    position: absolute;
+    left: -10px;
+    height: calc(~"100% + 8px");
+    z-index: 1;
+    top: 0;
+    margin-top: -8px;
+  }
+
+  &:last-child:after {
+    height: calc(~"100% - 4px");
+  }
+
+  > ol > li:nth-last-child(2):after {
+    border-left: none;
+  }
+}
+
+// when last action group is just refreshes
+ol.actionList > li:nth-last-child(2).noPageviewActions:not(.refreshesExpanded):after {
+  border-left: none;
+}
+
+ol.actionList > li:not(.pageviewActions).last-action {
+  &:after {
+    border-left: none;
+  }
+}
+
+.pageviewActions.last-action > ol.actionList > li.last-action {
+  margin-bottom: 0;
+}
+
+li.collapsed-contents > div {
+  cursor: pointer;
+}
+
+li.collapsed-content-item {
+  margin-left: 1.5rem;
+}
+
+li.pageviewActions > ol.actionList {
+  margin-left: 1.5rem;
 }
 
 #visitsLive img {
@@ -294,7 +388,7 @@ ol.visitorLog p {
     }
   }
 
-  .visitorLog > li > div {
+  .actionList > li > div {
     width: 95%;
 
     .segmentedVisitorLogPopover & {
@@ -352,7 +446,7 @@ a.visitor-log-visitor-profile-link {
     }
 }
 
-.visitorLog {
+.actionList {
     > li > div {
       display: inline-block;
       width: 90%;
@@ -371,6 +465,7 @@ a.visitor-log-visitor-profile-link {
     background-color: #fff;
     z-index: 3;
     margin-top: 1px;
+    color: #999;
 }
 
 .action-list-url {
@@ -498,6 +593,10 @@ a.visitor-log-visitor-profile-link {
     float: left;
     margin-right: 10px;
   }
+}
+
+.refresh-divider {
+  display: none;
 }
 
 @media only screen and (min-width: 800px) {

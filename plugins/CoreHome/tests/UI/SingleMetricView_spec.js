@@ -48,11 +48,11 @@ describe('SingleMetricView', function () {
     });
 
     it('should handle individual goal metrics properly', async function () {
-        await page.webpage.evaluate(function(){
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').last().trigger('mouseenter');
         });
-        await page.waitFor(100);
-        await page.webpage.evaluate(function(){
+        await page.waitFor(250);
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea .jqplot-seriespicker-popover label:contains(_x)').click()
         });
         await page.waitForNetworkIdle();
@@ -64,11 +64,11 @@ describe('SingleMetricView', function () {
 
     it('should handle range periods correctly', async function () {
         await page.goto(rangeUrl);
-        await page.webpage.evaluate(function(){
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker').trigger('mouseenter');
         });
-        await page.waitFor(100);
-        await page.webpage.evaluate(function(){
+        await page.waitFor(250);
+        await page.evaluate(function(){
             $('#dashboardWidgetsArea #widgetCoreVisualizationssingleMetricViewcolumn .jqplot-seriespicker-popover label:contains(Revenue)').click()
         });
         await page.waitForNetworkIdle();

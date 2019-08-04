@@ -35,6 +35,7 @@
         vm.firstSiteAccess = null;
         vm.isUserModified = false;
         vm.passwordConfirmation = '';
+        vm.isPasswordModified = false;
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
@@ -46,6 +47,7 @@
         vm.saveUserInfo = saveUserInfo;
         vm.reset2FA = reset2FA;
         vm.updateUser = updateUser;
+        vm.setSuperUserAccessChecked = setSuperUserAccessChecked;
 
         function $onInit() {
             vm.firstSiteAccess = {
@@ -65,6 +67,8 @@
             if (!vm.isAdd) {
                 vm.user.password = 'XXXXXXXX'; // make sure password is not stored in the client after update/save
             }
+
+            setSuperUserAccessChecked();
         }
 
         function getFormTitle() {
@@ -105,13 +109,22 @@
                 method: 'UsersManager.setSuperUserAccess'
             }, {
                 userLogin: vm.user.login,
-                hasSuperUserAccess: vm.user.superuser_access ? '1' : '0'
+                hasSuperUserAccess: vm.user.superuser_access ? '0' : '1',
+                passwordConfirmation: vm.passwordConfirmationForSuperUser,
+            }).then(function () {
+                vm.user.superuser_access = !vm.user.superuser_access;
             }).catch(function () {
                 // ignore error (still displayed to user)
             }).then(function () {
                 vm.isSavingUserInfo = false;
                 vm.isUserModified = true;
+                vm.passwordConfirmationForSuperUser = null;
+                setSuperUserAccessChecked();
             });
+        }
+
+        function setSuperUserAccessChecked() {
+            vm.superUserAccessChecked = !! vm.user.superuser_access;
         }
 
         function saveUserInfo() {
@@ -175,7 +188,7 @@
                 method: 'UsersManager.updateUser'
             }, {
                 userLogin: vm.user.login,
-                password: vm.user.password ? vm.user.password : undefined,
+                password: (vm.isPasswordModified && vm.user.password) ? vm.user.password : undefined,
                 passwordConfirmation: vm.passwordConfirmation ? vm.passwordConfirmation : undefined,
                 email: vm.user.email,
                 alias: vm.user.alias
@@ -187,6 +200,7 @@
                 vm.isSavingUserInfo = false;
                 vm.passwordConfirmation = false;
                 vm.isUserModified = true;
+                vm.isPasswordModified = false;
 
                 showUserSavedNotification();
             });

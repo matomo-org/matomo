@@ -252,8 +252,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var params = {};
         for (var key in self.param) {
-            if (typeof self.param[key] != "undefined" && self.param[key] != '')
+            if (typeof self.param[key] != "undefined" && self.param[key] != '') {
+                if (key == 'filter_column' || key == 'filter_column_recursive' ) {
+                    // search in (metadata) `combinedLabel` when dimensions are shown separately in flattened tables
+                    // needs to be overwritten for each request as switching a searched table might return no results
+                    // otherwise, as search column doesn't fit anymore
+                    if (self.param.flat == "1" && self.param.show_dimensions == "1") {
+                        params[key] = 'combinedLabel';
+                    } else {
+                        params[key] = 'label';
+                    }
+                    continue;
+                }
+
                 params[key] = self.param[key];
+            }
         }
 
         ajaxRequest.addParams(params, 'get');
@@ -456,7 +469,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
-            return parseInt(labelWidth, 10);
+            return parseInt(labelWidth / $('tr:nth-child(1) td.label', domElem).length, 10);
         }
 
         function getLabelColumnMinWidth(domElem)
@@ -1322,6 +1335,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 }
             }));
 
+        $('.dataTableShowDimensions', domElem)
+            .each(function () {
+                setText(this, 'show_dimensions', 'CoreHome_DataTableCombineDimensions',
+                    'CoreHome_DataTableShowDimensions');
+            })
+            .click(generateClickCallback('show_dimensions'));
+
         // handle pivot by
         $('.dataTablePivotBySubtable', domElem)
             .each(function () {
@@ -1437,6 +1457,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // label (first column of a data row) or not
         $("th:first-child", domElem).addClass('label');
         $("td:first-child", domElem).addClass('label');
+
+        var metadata = this.getReportMetadata();
+
+        if (self.param.flat == "1" && self.param.show_dimensions == "1" && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
+            for (var i = 1; i < Object.keys(metadata.dimensions).length; i++) {
+                $("th:nth-child("+(i+1)+")", domElem).addClass('label');
+                $("td:nth-child("+(i+1)+")", domElem).addClass('label');
+            }
+        }
+
         $("tr td", domElem).addClass('column');
     },
 
@@ -1754,7 +1784,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var details = _pk_translate('General_LearnMore', [' (<a href="https://matomo.org/faq/how-to/faq_54/" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
-            var labelSpan = $(this).find('.label .value');
+            var labelSpan = $(this).find('.label .value').filter(function(index, elem){
+                return $(elem).text() != '-';
+            }).last();
             var defaultLabel = labelSpan.text();
 
             $(this).hover(function() {
@@ -1768,9 +1800,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // also used in action data table
     doHandleRowActions: function (trs) {
-        if (!trs || trs.length > this.maxNumRowsToHandleEvents) {
+        if (!trs || !trs.length || !trs[0]) {
             return;
         }
+        var parent = $(trs[0]).parents('table');
 
         var self = this;
 
@@ -1787,61 +1820,58 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             actionInstances[action.name] = action.createInstance(self);
         }
 
-        trs.each(function () {
-            var tr = $(this);
-            var td = tr.find('td:first');
+        var useTouchEvent = false;
+        var listenEvent = 'mouseenter';
+        var userAgent = String(navigator.userAgent).toLowerCase();
+        if (userAgent.match(/(iPod|iPhone|iPad|Android|IEMobile|Windows Phone)/i)) {
+            useTouchEvent = true;
+            listenEvent = 'click';
+        }
+
+        parent.on(listenEvent, 'tr', function () {
+            var tr = this;
+            var $tr = $(tr);
+            var td = $tr.find('td.label:last');
 
             // call initTr on all actions that are available for the report
             for (var i = 0; i < availableActionsForReport.length; i++) {
                 var action = availableActionsForReport[i];
-                actionInstances[action.name].initTr(tr);
+                actionInstances[action.name].initTr($tr);
             }
 
             // if there are row actions, make sure the first column is not too narrow
             td.css('minWidth', '145px');
 
-            // show actions that are available for the row on hover
-            var actionsDom = null;
-
-            var useTouchEvent = false;
-            var listenEvent = 'mouseenter';
-            var userAgent = String(navigator.userAgent).toLowerCase();
-            if (userAgent.match(/(iPod|iPhone|iPad|Android|IEMobile|Windows Phone)/i)) {
-                useTouchEvent = true;
-                listenEvent = 'click';
+            if (useTouchEvent && tr.actionsDom && tr.actionsDom.prop('rowActionsVisible')) {
+                tr.actionsDom.prop('rowActionsVisible', false);
+                tr.actionsDom.hide();
+                return;
             }
 
-            tr.on(listenEvent, function () {
-                if (useTouchEvent && actionsDom && actionsDom.prop('rowActionsVisible')) {
-                    actionsDom.prop('rowActionsVisible', false);
-                    actionsDom.hide();
-                    return;
-                }
+            if (!tr.actionsDom) {
+                // create dom nodes on the fly
+                tr.actionsDom = self.createRowActions(availableActionsForReport, $tr, actionInstances);
+                td.prepend(tr.actionsDom);
+            }
 
-                if (actionsDom === null) {
-                    // create dom nodes on the fly
-                    actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
-                    td.prepend(actionsDom);
-                }
+            // reposition and show the actions
+            self.repositionRowActions($tr);
+            if ($(window).width() >= 600 || useTouchEvent) {
+                tr.actionsDom.show();
+            }
 
-                // reposition and show the actions
-                self.repositionRowActions(tr);
-                if ($(window).width() >= 600 || useTouchEvent) {
-                    actionsDom.show();
-                }
-
-                if (useTouchEvent) {
-                    actionsDom.prop('rowActionsVisible', true);
-                }
-            });
-            if (!useTouchEvent) {
-                tr.on('mouseleave', function () {
-                    if (actionsDom !== null) {
-                        actionsDom.hide();
-                    }
-                });
+            if (useTouchEvent) {
+                tr.actionsDom.prop('rowActionsVisible', true);
             }
         });
+        if (!useTouchEvent) {
+            parent.on('mouseleave', 'tr', function () {
+                var tr = this;
+                if (tr.actionsDom) {
+                    tr.actionsDom.hide();
+                }
+            });
+        }
     },
 
     createRowActions: function (availableActionsForReport, tr, actionInstances) {
@@ -1918,7 +1948,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return;
         }
 
-        var td = tr.find('td:first');
+        var td = tr.find('td.label:last');
         var actions = tr.find('div.dataTableRowActions');
 
         if (!actions) {

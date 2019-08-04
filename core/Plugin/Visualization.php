@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -17,10 +17,12 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -252,6 +254,26 @@ class Visualization extends ViewDataTable
         }
 
         return $view->render();
+    }
+
+    protected function checkRequestIsNotForMultiplePeriods()
+    {
+        $date = $this->requestConfig->getRequestParam('date');
+        $period = $this->requestConfig->getRequestParam('period');
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new BadRequestException("The '" . static::ID . "' visualization does not support multiple periods.");
+        }
+    }
+
+    protected function checkRequestIsOnlyForMultiplePeriods()
+    {
+        try {
+            $this->checkRequestIsNotForMultiplePeriods();
+        } catch (BadRequestException $ex) {
+            return; // ignore
+        }
+
+        throw new BadRequestException("The '" . static::ID . "' visualization does not support single periods.");
     }
 
     private function hasAnyData(DataTable\DataTableInterface $dataTable)

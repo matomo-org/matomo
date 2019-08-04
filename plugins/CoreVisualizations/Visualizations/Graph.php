@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,8 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Plugin\Metric;
+use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
@@ -201,7 +203,25 @@ abstract class Graph extends Visualization
         $columnsToDisplay = $this->removeLabelFromArray($columnsToDisplay);
 
         // Strip out any columns_to_display that are not in the dataset
-        $allColumns = $this->getDataTable()->getColumns();
+        $allColumns = [];
+        if ($this->report) {
+            $allColumns = $this->report->getAllMetrics();
+        }
+        $allColumns = array_merge($allColumns, $this->getDataTable()->getColumns());
+
+        $dataTable = $this->getDataTable();
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTable = $dataTable->getFirstRow();
+        }
+
+        /** @var ProcessedMetric[] $extraProcessedMetrics */
+        $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+        if (!empty($extraProcessedMetrics)) {
+            $extraProcessedMetricNames = array_map(function (Metric $m) { return $m->getName(); }, $extraProcessedMetrics);
+            $allColumns = array_merge($allColumns, $extraProcessedMetricNames);
+        }
+
+        $allColumns = array_unique($allColumns);
 
         // If the datatable has no data, use the default columns (there must be data for evolution graphs or else nothing displays)
         if (empty($allColumns)) {

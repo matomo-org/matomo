@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -144,7 +144,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t4->setUrl('http://example.org/index.html');
         self::checkResponse($t4->doTrackPageView('Bonjour le monde'));
 
-        // test one action w/ no campaign & then one action w/ a campaign (should result in 2 visits)
+        // test one action w/ no campaign & then one action w/ a campaign (should result in 1 visit w/ overridden referrer)
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(10)->getDatetime());
         $t4->setUrlReferrer('');
         $t4->setUrl('http://example.org/index.html');
@@ -160,7 +160,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t4->setUrl('http://example.org/index.html');
         self::checkResponse($t4->doTrackPageView('Dia duit ar domhan'));
 
-        // test one action w/ no referrer website & then one action w/ referrer website (should result in 2 visits)
+        // test one action w/ no referrer website & then one action w/ referrer website (should result in 1 visit w/ overridden referrer)
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(11)->getDatetime());
         $t4->setUrlReferrer('');
         $t4->setUrl('http://example.org/index.html');
@@ -200,6 +200,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         $t5->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
         $t5->setUrlReferrer('http://apocalypsenow.org');
         $t5->setUrl('http://mutantrights.org');
+
         // params supplied, for existing campaign
         $t5->setAttributionInfo(json_encode(array('GA Campaign', 'some keyword',
             urlencode(Date::factory($dateTime)->addHour(2)->getDatetime()))));

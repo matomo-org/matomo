@@ -91,10 +91,10 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $ecommerceOrders = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $abandonedCarts = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -136,8 +136,8 @@ class VisitorDetails extends VisitorDetailsAbstract
      */
     protected function queryEcommerceConversionsForVisits($idVisits)
     {
-        $sql              = "SELECT
-						idvisit,
+        $sql = "SELECT
+						log_conversion.idvisit,
 						case idgoal when " . GoalManager::IDGOAL_CART
             . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART
             . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
@@ -149,12 +149,15 @@ class VisitorDetails extends VisitorDetailsAbstract
 						" . LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
 						log_conversion.server_time as serverTimePretty,
-						log_conversion.idlink_va
+						log_conversion.idlink_va,
+						log_link_visit_action.idpageview
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-					WHERE idvisit IN ('" . implode("','", $idVisits) . "')
+		       LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+		              ON log_link_visit_action.idlink_va = log_conversion.idlink_va
+					WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
-					ORDER BY idvisit, server_time ASC";
-        $ecommerceDetails = Db::fetchAll($sql);
+					ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
+        $ecommerceDetails = $this->getDb()->fetchAll($sql);
         return $ecommerceDetails;
     }
 
@@ -198,7 +201,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $bind = array($idVisit, $idOrder);
 
-        $itemsDetails = Db::fetchAll($sql, $bind);
+        $itemsDetails = $this->getDb()->fetchAll($sql, $bind);
 
         // create categories array for each item
         foreach ($itemsDetails as &$item) {

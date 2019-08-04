@@ -2,7 +2,6 @@
     "PrivacyManager": {
         "AnonymizeData": "Anonymiser data",
         "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
-        "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Matomo ikke bruge den fulde IP-adresse (f.eks %1$s), men i stedet vil Matomo anonymisere det først (til %2$s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%1$s bytes - f.eks %2$s",
         "AskingForConsent": "Samtykkeanmodning",
@@ -20,7 +19,6 @@
         "DeleteDataSettings": "Slet gamle besøgslogfiler og -rapporter",
         "DoNotTrack_Description": "Spor ikke er en teknologi og politisk forslag, der giver brugerne mulighed for at fravælge sporing af websteder, de ikke besøger, herunder analyse-tjenester, reklame netværk og sociale platforme.",
         "DoNotTrack_Disable": "Deaktiver spor ikke understøttelse",
-        "DoNotTrack_DisabledMoreInfo": "Vi anbefaler at respektere dine besøgende privatliv og muliggøre spor ikke understøttelse.",
         "DoNotTrack_Enable": "Aktiver spor ikke understøttelse",
         "DoNotTrack_Enabled": "Du respekterer beskyttelse af dine brugeres personlige oplysninger, bravo!",
         "DoNotTrack_EnabledMoreInfo": "Når brugere har indstillet deres browser til “jeg ønsker ikke at blive sporet” (DoNotTrack er aktiveret), vil Matomo ikke spore disse besøg.",
@@ -48,7 +46,6 @@
         "SeeAlsoOurOfficialGuidePrivacy": "Se også vores officielle vejledning: %1$sWeb Analytics Privacy%2$s",
         "TeaserHeadline": "Privatlivsindstillinger",
         "UseAnonymizedIpForVisitEnrichment": "Brug også anonymiserede IP-adresser ved berigelse af besøg.",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Programudvidelser som Geo Location via IP og udbyder forbedrer besøgendes metadata. Som standard bruger disse udvidelsesmoduler anonyme IP-adresser. Hvis du vælger 'Nej', så vil den ikke-anonymiseret fulde IP-adresse blive brugt i stedet for, hvilket resulterer i mindre privatliv, men bedre data nøjagtighed.",
         "UseAnonymizeIp": "Anonymisere besøgendes IP-adresser",
         "UseAnonymizeTrackingData": "Anonymiser sporingsdata",
         "PseudonymizeUserId": "Erstat bruger-ID med et pseudonym",

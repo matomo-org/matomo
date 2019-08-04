@@ -9,6 +9,7 @@
 		<max_actions>6</max_actions>
 		<sum_visit_length>4682</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>2</nb_conversions>
@@ -29,9 +30,9 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
-		<segment>countryCode==pl</segment>
 		<code>pl</code>
 		<logo>plugins/Morpheus/icons/dist/flags/pl.png</logo>
+		<segment>countryCode==pl</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
@@ -43,6 +44,7 @@
 		<max_actions>4</max_actions>
 		<sum_visit_length>721</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -52,9 +54,9 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
-		<segment>countryCode==fr</segment>
 		<code>fr</code>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>countryCode==fr</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 </result>

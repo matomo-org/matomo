@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -367,5 +367,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'Goals_DeleteGoalConfirm';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = 'Goals_TimeInMinutes';
+        $translationKeys[] = 'Goals_Pattern';
     }
 }

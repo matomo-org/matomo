@@ -17,6 +17,7 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -32,7 +33,7 @@
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (666)</title>
-				<subtitle>$ 240 revenue - 2 items: TRIPOD - bought day after)</subtitle>
+				<subtitle>$240 revenue - 2 items: TRIPOD - bought day after)</subtitle>
 				
 			</row>
 			<row>
@@ -45,12 +46,13 @@
 				<revenueDiscount>0</revenueDiscount>
 				<items>0</items>
 				
+				
 				<itemDetails>
 				</itemDetails>
 				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceOrder.svg</iconSVG>
 				<title>Ordered (777)</title>
-				<subtitle>$ 10000 revenue - 0 items: )</subtitle>
+				<subtitle>$10,000 revenue - 0 items: )</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -282,6 +284,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -317,7 +320,7 @@
 				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				<iconSVG>plugins/Morpheus/images/ecommerceAbandonedCart.svg</iconSVG>
 				<title>Abandoned Cart</title>
-				<subtitle>$ 2510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
+				<subtitle>$2,510.11 revenue - 4 items: PRODUCT THREE LEFT in cart, PRODUCT ONE LEFT in cart, PRODUCT TWO LEFT in cart)</subtitle>
 				
 			</row>
 		</actionDetails>
