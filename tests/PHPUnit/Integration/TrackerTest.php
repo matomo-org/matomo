@@ -491,6 +491,8 @@ class TestTracker extends Tracker
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->isInstalled = true;
         $this->record = true;
     }
