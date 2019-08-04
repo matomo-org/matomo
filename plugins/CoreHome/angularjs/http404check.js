@@ -7,7 +7,7 @@
 
         function isClientError(rejection)
         {
-            if (rejection.status === 500 || rejection.status === -1) {
+            if (rejection.status === 500 || rejection.status <= -1) {
                 return true;
             }
 
