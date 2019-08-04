@@ -728,7 +728,10 @@ class Visualization extends ViewDataTable
     private function fireBeforeRenderHook()
     {
         /**
-         * @ignore
+         * Posted immediately before rendering the view. Plugins can use this event to perform last minute
+         * configuration of the view based on it's data or the report being viewed.
+         *
+         * @param Visualization $view The instance to configure.
          */
         Piwik::postEvent('Visualization.beforeRender', [$this]);
     }
