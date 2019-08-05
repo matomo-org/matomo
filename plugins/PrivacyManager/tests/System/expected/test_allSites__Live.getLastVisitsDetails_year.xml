@@ -284,8 +284,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -448,8 +448,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -627,8 +627,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -1994,8 +1994,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -2173,8 +2173,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -3540,8 +3540,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -3719,8 +3719,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -4695,8 +4695,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -5099,8 +5099,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -5647,8 +5647,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -6599,8 +6599,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -7572,8 +7572,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7885,8 +7885,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -8227,8 +8227,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -9630,8 +9630,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10264,8 +10264,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10444,8 +10444,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -10614,8 +10614,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10778,8 +10778,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11157,8 +11157,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11321,8 +11321,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11700,8 +11700,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11935,8 +11935,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12554,8 +12554,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12703,8 +12703,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12852,8 +12852,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13001,8 +13001,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13150,8 +13150,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13299,8 +13299,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13469,8 +13469,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13973,8 +13973,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14296,8 +14296,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14460,8 +14460,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14947,8 +14947,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -15434,8 +15434,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15598,8 +15598,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15762,8 +15762,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15926,8 +15926,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16090,8 +16090,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -16254,8 +16254,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16582,8 +16582,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16910,8 +16910,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17074,8 +17074,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17238,8 +17238,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17411,8 +17411,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17575,8 +17575,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -18619,8 +18619,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -18783,8 +18783,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -18962,8 +18962,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -19938,8 +19938,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -20342,8 +20342,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -20911,8 +20911,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21625,8 +21625,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21789,8 +21789,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21969,8 +21969,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -22139,8 +22139,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22374,8 +22374,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22523,8 +22523,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22672,8 +22672,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22842,8 +22842,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23006,8 +23006,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23329,8 +23329,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23493,8 +23493,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -23657,8 +23657,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23821,8 +23821,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -23985,8 +23985,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24158,8 +24158,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24322,8 +24322,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24692,8 +24692,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -24856,8 +24856,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -25035,8 +25035,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -26402,8 +26402,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -26581,8 +26581,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -27557,8 +27557,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -27961,8 +27961,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -28509,8 +28509,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -29482,8 +29482,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -29795,8 +29795,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -30839,8 +30839,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31238,8 +31238,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31418,8 +31418,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -31588,8 +31588,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31752,8 +31752,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32102,8 +32102,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32337,8 +32337,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32721,8 +32721,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32870,8 +32870,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33019,8 +33019,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33168,8 +33168,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33338,8 +33338,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33672,8 +33672,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33995,8 +33995,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -34159,8 +34159,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -34646,8 +34646,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -34810,8 +34810,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -34974,8 +34974,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35138,8 +35138,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -35302,8 +35302,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35630,8 +35630,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35794,8 +35794,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35967,8 +35967,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -36131,8 +36131,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -37002,8 +37002,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -37181,8 +37181,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -38157,8 +38157,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -39130,8 +39130,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40037,8 +40037,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40416,8 +40416,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40800,8 +40800,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40949,8 +40949,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -41283,8 +41283,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -41770,8 +41770,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -41934,8 +41934,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -42262,8 +42262,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>

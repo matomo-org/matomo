@@ -265,7 +265,7 @@ class SettingsPiwik
     {
         return (bool) Config::getInstance()->General['enable_internet_features'];
     }
-    
+
     /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
