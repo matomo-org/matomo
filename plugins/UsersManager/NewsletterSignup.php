@@ -14,15 +14,19 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 
 class NewsletterSignup
 {
+    const NEWSLETTER_SIGNUP_OPTION = 'UsersManager.newsletterSignup.';
+
     public static function signupForNewsletter($userLogin, $email, $matomoOrg = false, $professionalServices = false)
     {
-        // Don't bother if they aren't signing up for at least one newsletter
-        if (! ($matomoOrg || $professionalServices)) {
-            return;
+        // Don't bother if they aren't signing up for at least one newsletter, or if we don't have internet access
+        $doSignup = ($matomoOrg || $professionalServices) && SettingsPiwik::isInternetEnabled();
+        if (!$doSignup) {
+            return false;
         }
 
         $url = Config::getInstance()->General['api_service_url'];
@@ -39,7 +43,7 @@ class NewsletterSignup
         $url .= '?' . Http::buildQuery($params);
         try {
             Http::sendHttpRequest($url, $timeout = 2);
-            $optionKey = 'UsersManager.newsletterSignup.' . $userLogin;
+            $optionKey = self::NEWSLETTER_SIGNUP_OPTION . $userLogin;
             Option::set($optionKey, 1);
             return true;
         } catch (Exception $e) {

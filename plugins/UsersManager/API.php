@@ -1363,6 +1363,18 @@ class API extends \Piwik\Plugin\API
         return $user['token_auth'];
     }
 
+    public function newsletterSignup()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $userLogin = Piwik::getCurrentUserLogin();
+        $email = Piwik::getCurrentUserEmail();
+
+        $success = NewsletterSignup::signupForNewsletter($userLogin, $email, true);
+        $result = $success ? array('success' => true) : array('error' => true);
+        return $result;
+    }
+
     private function isUserHasAdminAccessTo($idSite)
     {
         try {

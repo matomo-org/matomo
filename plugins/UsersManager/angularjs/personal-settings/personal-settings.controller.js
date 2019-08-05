@@ -16,7 +16,7 @@
 
         var self = this;
 
-        this.newsletterSignupButtonTitle = translate('General_Yes');
+        this.newsletterSignupButtonTitle = translate('General_Save');
         this.doesRequirePasswordConfirmation = false;
         this.showNewsletterSignup = true;
 
@@ -53,7 +53,7 @@
             this.isProcessingNewsletterSignup = true;
 
             piwikApi.withTokenInUrl();
-            piwikApi.fetch({module: 'UsersManager', action: 'newsletterSignup'}).then(function () {
+            piwikApi.fetch({module: 'API', method: 'UsersManager.newsletterSignup'}).then(function () {
                 self.isProcessingNewsletterSignup = false;
                 self.showNewsletterSignup = false;
 

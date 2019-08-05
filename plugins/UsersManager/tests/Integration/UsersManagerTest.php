@@ -15,6 +15,7 @@ use Piwik\Option;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Tests\Framework\Fixture;
@@ -430,11 +431,11 @@ class UsersManagerTest extends IntegrationTestCase
     {
         Fixture::createSuperUser();
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
-        Option::set('UsersManager.newsletterSignup.geggeqgeqag', 'yes');
+        Option::set(NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . 'geggeqgeqag', 'yes');
 
         $this->api->deleteUser("geggeqgeqag");
 
-        $option = Option::get('UsersManager.newsletterSignup.geggeqgeqag');
+        $option = Option::get(NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . 'geggeqgeqag');
         $this->assertFalse($option);
     }
 

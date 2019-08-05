@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
@@ -185,8 +184,9 @@ class Controller extends ControllerAdmin
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
 
-        $newsletterSignupOptionKey = 'UsersManager.newsletterSignup.' . $userLogin;
-        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) === false;
+        $newsletterSignupOptionKey = NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . $userLogin;
+        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) === false
+                                    && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();
@@ -408,24 +408,6 @@ class Controller extends ControllerAdmin
         }
 
         return $toReturn;
-    }
-
-    public function newsletterSignup()
-    {
-        Piwik::checkUserIsNotAnonymous();
-        $this->checkTokenInUrl();
-
-        $userLogin = Piwik::getCurrentUserLogin();
-        $email = Piwik::getCurrentUserEmail();
-
-        $success = NewsletterSignup::signupForNewsletter($userLogin, $email, true);
-        if ($success) {
-            $result = array('success' => true);
-        } else {
-            $result = array('error' => true);
-        }
-        Json::sendHeaderJSON();
-        return json_encode($result);
     }
 
     private function noAdminAccessToWebsite($idSiteSelected, $defaultReportSiteName, $message)
