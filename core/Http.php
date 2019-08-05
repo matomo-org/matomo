@@ -865,9 +865,11 @@ class Http
          * With HTTP/2 Cloudflare is passing headers in lowercase (e.g. 'content-type' instead of 'Content-Type') 
          * which breaks any code which uses the header data. 
          */
-        $camelName = ucwords($name, '-');
-        if ($camelName !== $name) {
-            $headers[$camelName] = trim($value);
+        if (version_compare(PHP_VERSION, '5.5.16', '>=')) {
+            $camelName = ucwords($name, '-');
+            if ($camelName !== $name) {
+                $headers[$camelName] = trim($value);
+            }
         }
     }
 
