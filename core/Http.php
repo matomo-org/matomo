@@ -866,6 +866,7 @@ class Http
          * which breaks any code which uses the header data. 
          */
         if (version_compare(PHP_VERSION, '5.5.16', '>=')) {
+            // Passing a second arg to ucwords is not supported by older versions of PHP
             $camelName = ucwords($name, '-');
             if ($camelName !== $name) {
                 $headers[$camelName] = trim($value);
