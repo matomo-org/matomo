@@ -36,6 +36,9 @@ use Piwik\Date;
  */
 class SessionFingerprint
 {
+    // used in case the global.ini.php becomes corrupt or doesn't update properly
+    const DEFAULT_IDLE_TIMEOUT = 3600;
+
     const USER_NAME_SESSION_VAR_NAME = 'user.name';
     const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
     const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
@@ -138,8 +141,17 @@ class SessionFingerprint
     {
         $time = $time ?: Date::now()->getTimestampUTC();
 
-        $nonRememberedSessionExpireTime = Config::getInstance()->General['login_session_not_remembered_idle_timeout'];
-        $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
+        $general = Config::getInstance()->General;
+
+        if (!isset($general['login_session_not_remembered_idle_timeout'])
+            || (int) $general['login_session_not_remembered_idle_timeout'] <= 0
+        ) {
+            $nonRememberedSessionExpireTime = self::DEFAULT_IDLE_TIMEOUT;
+        } else {
+            $nonRememberedSessionExpireTime = (int) $general['login_session_not_remembered_idle_timeout'];
+        }
+
+        $sessionCookieLifetime = $general['login_cookie_expire'];
 
         if ($this->isRemembered()) {
             $expireDuration = $sessionCookieLifetime;
