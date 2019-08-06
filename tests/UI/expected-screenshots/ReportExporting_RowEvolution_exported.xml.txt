@@ -12,6 +12,7 @@
 			<max_actions>7</max_actions>
 			<sum_visit_length>7398</sum_visit_length>
 			<bounce_count>2</bounce_count>
+			<nb_visits_converted>11</nb_visits_converted>
 			<goals>
 				<row idgoal='1'>
 					<nb_conversions>23</nb_conversions>

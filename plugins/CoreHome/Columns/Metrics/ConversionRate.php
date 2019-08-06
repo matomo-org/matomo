@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
@@ -45,7 +46,6 @@ class ConversionRate extends ProcessedMetric
     {
         $nbVisitsConverted = $this->getMetric($row, 'nb_visits_converted');
         $nbVisits = $this->getMetric($row, 'nb_visits');
-
         return Piwik::getQuotientSafe($nbVisitsConverted, $nbVisits, $precision = 4);
     }
 }

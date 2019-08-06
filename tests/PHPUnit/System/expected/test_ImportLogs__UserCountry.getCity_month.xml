@@ -7,6 +7,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>551</sum_visit_length>
 		<bounce_count>31</bounce_count>
+		<nb_visits_converted>32</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>32</nb_conversions>
@@ -18,7 +19,6 @@
 		<revenue>160</revenue>
 		<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
-		<nb_visits_converted>0</nb_visits_converted>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
 		<region>xx</region>
@@ -34,6 +34,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>5</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>5</nb_conversions>
@@ -62,6 +63,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -90,6 +92,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -118,6 +121,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

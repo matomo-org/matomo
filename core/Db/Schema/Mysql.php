@@ -132,7 +132,7 @@ class Mysql implements SchemaInterface
                               `description` varchar(255) NOT NULL DEFAULT '',
                               `match_attribute` varchar(20) NOT NULL,
                               `pattern` varchar(255) NOT NULL,
-                              `pattern_type` varchar(10) NOT NULL,
+                              `pattern_type` varchar(25) NOT NULL,
                               `case_sensitive` tinyint(4) NOT NULL,
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
@@ -308,6 +308,13 @@ class Mysql implements SchemaInterface
                                       `date_first_occurred` DATETIME NOT NULL ,
                                       `request_url` MEDIUMTEXT NOT NULL ,
                                       PRIMARY KEY(`idsite`, `idfailure`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+            'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
+                                      `key` VARCHAR(70) NOT NULL,
+                                      `value` VARCHAR(255) NULL DEFAULT NULL,
+                                      `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
+                                      PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
         );

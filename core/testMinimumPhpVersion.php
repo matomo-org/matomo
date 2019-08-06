@@ -116,6 +116,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
+            header('Cache-Control: private, no-cache, no-store');
 
             $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
             if ($isInternalServerError) {

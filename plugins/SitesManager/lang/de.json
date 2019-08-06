@@ -72,7 +72,6 @@
         "ShowTrackingTag": "Tracking-Code anzeigen",
         "Sites": "Websites",
         "SiteSearchUse": "Matomo kann auswerten, wonach Besucher in der internen Suche der Website suchen.",
-        "SiteWithoutDataTitle": "Bisher wurden keine Daten aufgezeichnet",
         "SiteWithoutDataDescription": "Für diese Website wurden bisher noch keine Analysedaten aufgezeichnet.",
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Website ein, insofern Sie dies noch nicht getan haben.",
         "SiteWithoutDataMessageDisappears": "Diese Nachricht wird verschwinden, sobald die ersten Daten für diese Website aufgezeichnet wurden.",

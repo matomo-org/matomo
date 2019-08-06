@@ -7,6 +7,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>725</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -38,6 +39,7 @@
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -57,6 +59,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>361</sum_visit_length>
 				<bounce_count>2</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -83,6 +86,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>364</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -109,6 +113,7 @@
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -130,6 +135,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>364</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -156,6 +162,7 @@
 				<max_actions>3</max_actions>
 				<sum_visit_length>364</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
@@ -206,6 +213,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>361</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -232,6 +240,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>361</sum_visit_length>
 				<bounce_count>2</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
