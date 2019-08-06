@@ -20,21 +20,16 @@ describe("UserSettings", function () {
         });
     });
 
-    it('should load the user settings admin page correctly', async function () {
-        await page.goto(url);
-        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('load');
-    });
-
     it('should show user settings page', async function () {
         await page.goto(url);
         expect(await page.screenshotSelector('.admin')).to.matchImage('load');
     });
 
     it('should allow user to subscribe to newsletter', async function () {
-        await page.click('#newsletterSignupMsg label');
-        await page.click('#newsletterSignupBtn');
+        await page.click('#newsletterSignup label');
+        await page.click('#newsletterSignupBtn input');
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('#newsletterSignup')).to.matchImage('signup_success');
+        expect(await page.screenshotSelector('.admin')).to.matchImage('signup_success');
     });
 
     it('should not prompt user to subscribe to newsletter again', async function () {
