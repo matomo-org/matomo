@@ -240,13 +240,13 @@
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
-				<label>109</label>
+				<label>0</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
-				<label>Others</label>
+				<label>109</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>

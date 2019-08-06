@@ -34,6 +34,11 @@
 	</columns>
 	<reportData>
 		<row>
+			<label>00</label>
+			<nb_visits>0</nb_visits>
+			<revenue>$0</revenue>
+		</row>
+		<row>
 			<label>01</label>
 			<nb_visits>0</nb_visits>
 			<revenue>$0</revenue>
@@ -148,13 +153,11 @@
 			<nb_visits>0</nb_visits>
 			<revenue>$0</revenue>
 		</row>
-		<row>
-			<label>00</label>
-			<nb_visits>0</nb_visits>
-			<revenue>$0</revenue>
-		</row>
 	</reportData>
 	<reportMetadata>
+		<row>
+			<segment>visitStartServerHour==0</segment>
+		</row>
 		<row>
 			<segment>visitStartServerHour==1</segment>
 		</row>
@@ -223,8 +226,6 @@
 		</row>
 		<row>
 			<segment>visitStartServerHour==23</segment>
-		</row>
-		<row>
 		</row>
 	</reportMetadata>
 	<reportTotal>

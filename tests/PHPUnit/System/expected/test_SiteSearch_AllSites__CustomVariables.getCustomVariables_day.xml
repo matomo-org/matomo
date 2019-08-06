@@ -15,12 +15,12 @@
 				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
-						<label>10</label>
+						<label>0</label>
 						<nb_visits>2</nb_visits>
 						<nb_actions>3</nb_actions>
 					</row>
 					<row>
-						<label>Others</label>
+						<label>10</label>
 						<nb_visits>2</nb_visits>
 						<nb_actions>3</nb_actions>
 					</row>
@@ -60,17 +60,17 @@
 				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
+						<label>0</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+					<row>
 						<label>5</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
 					<row>
 						<label>10</label>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
-					</row>
-					<row>
-						<label>Others</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -122,7 +122,7 @@
 				<segment>customVariableName==_pk_scount</segment>
 				<subtable>
 					<row>
-						<label>Others</label>
+						<label>0</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>2</nb_actions>
 					</row>

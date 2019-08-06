@@ -156,7 +156,7 @@ No data available
 
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-ValueIsZero - Others,5,16,"$13,361.11",3.2,00:22:49,20%
+ValueIsZero - 0,5,16,"$13,361.11",3.2,00:22:49,20%
 VisitorType - NewLoggedOut,5,16,"$13,361.11",3.2,00:22:49,20%
 VisitorName - Great name!,4,12,"$13,351.11",3,00:25:32,25%
 
