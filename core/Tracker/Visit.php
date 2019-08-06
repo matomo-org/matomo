@@ -558,12 +558,13 @@ class Visit implements VisitInterface
         $date = Date::factory((int)$time, $timezone);
 
         // $date->isToday() is buggy when server and website timezones don't match - so we'll do our own checking
-        $startOfToday = Date::factoryInTimezone('today', $timezone);
-        $isToday = $date->toString('Y-m-d') === $startOfToday->toString('Y-m-d');
-
-        if (!$isToday) { // we don't have to handle in case date is in future as it is not allowed by tracker
-            $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
+        $startOfTomorrow = Date::factoryInTimezone('today', $timezone)->addDay(1);
+        $isLaterThanToday = $date->getTimestamp() >= $startOfTomorrow->getTimestamp();
+        if ($isLaterThanToday) {
+            return;
         }
+
+        $this->invalidator->rememberToInvalidateArchivedReportsLater($idSite, $date);
     }
 
     private function getTimezoneForSite($idSite)
