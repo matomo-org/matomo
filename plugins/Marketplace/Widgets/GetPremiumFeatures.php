@@ -44,10 +44,12 @@ class GetPremiumFeatures extends Widget
         $config->setCategoryId(self::getCategory());
         $config->setName(self::getName());
         $config->setOrder(20);
+        $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }
 
     public function render()
     {
+        Piwik::checkUserIsNotAnonymous();
         $template = 'getPremiumFeatures';
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_PAID);

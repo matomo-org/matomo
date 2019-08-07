@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Marketplace\Widgets;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -42,10 +43,13 @@ class GetNewPlugins extends Widget
         $config->setCategoryId(self::getCategory());
         $config->setName(self::getName());
         $config->setOrder(19);
+        $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }
 
     public function render()
     {
+        Piwik::checkUserIsNotAnonymous();
+
         $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
 
         if (!empty($isAdminPage)) {
