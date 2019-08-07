@@ -287,6 +287,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
         $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->isEmbedded = Common::getRequestVar('embed', 'int', 0);
 
         return $view->render();
     }
