@@ -1,4 +1,4 @@
-{% extends isEmbedded ? "empty.twig" : "admin.twig" %}
+{% extends inReportingMenu ? "empty.twig" : "admin.twig" %}
 {% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
 
 {% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
@@ -25,7 +25,7 @@
                     {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
                     {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
                 {% endif %}
-                {% if isSuperUser and isEmbedded %}
+                {% if isSuperUser and inReportingMenu %}
                     {{ 'Marketplace_NoticeRemoveMarketplaceFromReportingMenu'|translate('<a href="#" piwik-plugin-name="WhiteLabel">', '</a>')|raw }}
                 {% endif %}
             </p>
