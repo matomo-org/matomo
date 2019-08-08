@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik;
+namespace Piwik\DeviceDetector;
 
 use Piwik\Cache as PiwikCache;
 
@@ -27,7 +27,7 @@ class DeviceDetectorCache implements \DeviceDetector\Cache\Cache
     public function __construct($ttl = 300)
     {
         $this->ttl   = (int) $ttl;
-        $this->cache = PiwikCache::getEagerCache();
+        $this->cache = PiwikCache::getLazyCache();
     }
 
     /**

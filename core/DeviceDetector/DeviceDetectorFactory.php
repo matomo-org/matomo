@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik;
+namespace Piwik\DeviceDetector;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
@@ -18,9 +18,10 @@ class DeviceDetectorFactory
     /**
      * Returns a Singleton instance of DeviceDetector for the given user agent
      * @param string $userAgent
+     * @param bool $useFileCache
      * @return DeviceDetector
      */
-    public static function getInstance($userAgent)
+    public static function getInstance($userAgent, $useFileCache = true)
     {
         $userAgent = Common::mb_substr($userAgent, 0, 500);
 
@@ -28,10 +29,14 @@ class DeviceDetectorFactory
             return self::$deviceDetectorInstances[$userAgent];
         }
 
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache(86400));
-        $deviceDetector->parse();
+        if ($useFileCache && DeviceDetectorCacheEntry::isCached($userAgent)) {
+            $deviceDetector = new DeviceDetectorCacheEntry($userAgent);
+        } else {
+            $deviceDetector = new DeviceDetector($userAgent);
+            $deviceDetector->discardBotInformation();
+            $deviceDetector->setCache(new DeviceDetectorCache(86400));
+            $deviceDetector->parse();
+        }
 
         self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
 

@@ -10,7 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Config;
 use Piwik\Tracker;
-use Piwik\DeviceDetectorFactory;
+use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
 
 class Settings // TODO: merge w/ visitor recognizer or make it it's own service. the class name is required for BC.

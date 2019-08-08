@@ -10,7 +10,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
-use Piwik\DeviceDetectorFactory;
+use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IP;
 use Piwik\Piwik;
