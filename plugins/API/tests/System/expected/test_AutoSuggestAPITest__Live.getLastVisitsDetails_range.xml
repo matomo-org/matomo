@@ -2581,7 +2581,7 @@
 		<region>Xizang Zizhiqu</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
-		<location>Lhasa, Xizang, China</location>
+		<location>Lhasa, Xizang Zizhiqu, China</location>
 		<latitude>29.650000</latitude>
 		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2883,7 +2883,7 @@
 		<region>Xizang Zizhiqu</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
-		<location>Lhasa, Xizang, China</location>
+		<location>Lhasa, Xizang Zizhiqu, China</location>
 		<latitude>29.650000</latitude>
 		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>

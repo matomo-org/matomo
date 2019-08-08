@@ -3374,6 +3374,25 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
+		<name>Quick Links</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreHome</module>
+		<action>quickLinks</action>
+		<order>16</order>
+		<parameters>
+			<module>CoreHome</module>
+			<action>quickLinks</action>
+		</parameters>
+		<uniqueId>widgetCoreHomequickLinks</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Example Widget Name</name>
 		<category>
 			<id>About Matomo</id>
