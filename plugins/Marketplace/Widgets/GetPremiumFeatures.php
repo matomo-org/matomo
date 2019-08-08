@@ -29,20 +29,11 @@ class GetPremiumFeatures extends Widget
         $this->marketplaceApiClient = $marketplaceApiClient;
     }
 
-    public static function getCategory()
-    {
-        return 'About Matomo';
-    }
-
-    public static function getName()
-    {
-        return Piwik::translate('Marketplace_PaidPlugins');
-    }
-
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId(self::getCategory());
-        $config->setName(self::getName());
+        $config->setCategoryId('Marketplace_Marketplace');
+        $config->setSubcategoryId('Marketplace_PaidPlugins');
+        $config->setName('Marketplace_PaidPlugins');
         $config->setOrder(20);
         $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }

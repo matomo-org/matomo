@@ -28,20 +28,10 @@ class GetNewPlugins extends Widget
         $this->marketplaceApiClient = $marketplaceApiClient;
     }
 
-    public static function getCategory()
-    {
-        return 'About Matomo';
-    }
-
-    public static function getName()
-    {
-        return 'Latest Marketplace Updates';
-    }
-
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId(self::getCategory());
-        $config->setName(self::getName());
+        $config->setCategoryId('Marketplace_Marketplace');
+        $config->setName('Marketplace_LatestMarketplaceUpdates');
         $config->setOrder(19);
         $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }

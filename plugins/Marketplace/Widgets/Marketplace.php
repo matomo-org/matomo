@@ -21,7 +21,7 @@ class Marketplace extends Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('Marketplace_Marketplace');
-        $config->setSubcategoryId('Marketplace_Marketplace');
+        $config->setSubcategoryId('Marketplace_Browse');
         $config->setName(Piwik::translate('Marketplace_Marketplace'));
         $config->setModule('Marketplace');
         $config->setAction('overview');

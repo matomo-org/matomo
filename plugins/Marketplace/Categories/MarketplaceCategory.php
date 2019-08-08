@@ -15,7 +15,7 @@ class MarketplaceCategory extends Category
 {
     protected $id = 'Marketplace_Marketplace';
     protected $order = 200;
-    protected $icon = 'icon-plus';
+    protected $icon = ' icon-open-source';
 
     public function getDisplayName()
     {
