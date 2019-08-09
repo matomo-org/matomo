@@ -188,14 +188,13 @@ class LogAggregator
             $segment = new Segment('', $this->sites);
 
             $segmentTable = 'logtmpsegment' . md5(json_encode($this->sites) . $this->segment->getString());
-            // $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time', $where);
-            // $segmentBind = $this->getGeneralQueryBindParams();
+            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time', $where);
+            $segmentBind = $this->getGeneralQueryBindParams();
 
-            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $where, $bind, 'log_visit.idvisit ASC');
+            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             try {
                 Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['query'], $segmentSql['bind']);
-                $where = '';
-                $bind = array();
+
 
                 if (!is_array($from)) {
                     $from = array($segmentTable, $from);
