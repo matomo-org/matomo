@@ -156,6 +156,10 @@ class LogAggregator
      */
     private $logger;
 
+    /**
+     * @var bool
+     */
+    private $isRootArchiveRequest;
 
     /**
      * Constructor.
@@ -168,6 +172,7 @@ class LogAggregator
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
@@ -181,22 +186,42 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
+    private function getSegmentTmpTableName()
+    {
+        $bind = $this->getGeneralQueryBindParams();
+        return self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+    }
+
+    public function cleanup()
+    {
+        if (!$this->segment->isEmpty()) {
+            $segmentTable = $this->getSegmentTmpTableName();
+            $segmentTable = Common::prefixTable($segmentTable);
+            Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+        }
+    }
+
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty()) {
-            // todo ... only use for day archives...
+            // todo make sure we want to apply this for all periods even if for some reason month was requested
+            // eg to get unique visitors?
+
+            // todo when we create table for query we cannot know if the archiver will use that same Db writer or Db reader
+            // if plugin doesn't support reader just yet... there will be a problem!
             $segment = new Segment('', $this->sites);
 
-            $segmentTable = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+            $segmentTable = $this->getSegmentTmpTableName();
+
             $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
             $segmentBind = $this->getGeneralQueryBindParams();
 
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             try {
-                Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
+                Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
 
                 if (!is_array($from)) {
                     $from = array($segmentTable, $from);
@@ -209,6 +234,9 @@ class LogAggregator
                 Piwik::addAction('LogTables.addLogTables', function (&$logTables) use ($segmentTable) {
                     foreach ($logTables as $logTable) {
                         if ($logTable->getName() === $segmentTable) {
+                            return;
+                        } elseif ($logTable instanceof LogTableTemporary) {
+                            $logTable->setName($segmentTable);
                             return;
                         }
                     }
@@ -235,8 +263,6 @@ class LogAggregator
                 throw $e;
             }
 
-
-
         }
 
         try {
@@ -252,7 +278,7 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-	// Log on DEBUG level all SQL archiving queries
+    	// Log on DEBUG level all SQL archiving queries
         $this->logger->debug($query['sql']);
 
         return $query;

@@ -199,7 +199,11 @@ class PluginsArchiver
     {
         $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
         $this->archiveWriter->finalizeArchive();
-        return $this->archiveWriter->getIdArchive();
+        $idArchive = $this->archiveWriter->getIdArchive();
+
+        $this->archiveProcessor->getLogAggregator()->cleanup();
+
+        return $idArchive;
     }
 
     /**

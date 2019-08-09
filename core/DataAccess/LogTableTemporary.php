@@ -21,6 +21,11 @@ class LogTableTemporary extends LogTable
         $this->tableName = $name;
     }
 
+    public function setName($name)
+    {
+        $this->tableName = $name;
+    }
+
     public function getName()
     {
         return $this->tableName;
