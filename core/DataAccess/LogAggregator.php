@@ -14,8 +14,13 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Piwik;
+use Piwik\Plugin\LogTablesProvider;
+use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -176,8 +181,50 @@ class LogAggregator
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
+        $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
-        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+
+        if (!$this->segment->isEmpty()) {
+            $segment = new Segment('', $this->sites);
+
+            $segmentTable = 'logtmpsegment' . md5(json_encode($this->sites) . $this->segment->getString());
+            // $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time', $where);
+            // $segmentBind = $this->getGeneralQueryBindParams();
+
+            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $where, $bind, 'log_visit.idvisit ASC');
+            try {
+                Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['query'], $segmentSql['bind']);
+                $where = '';
+                $bind = array();
+
+                if (!is_array($from)) {
+                    $from = array($segmentTable, $from);
+                } else {
+                    array_unshift($from, $segmentTable);
+                }
+
+                StaticContainer::get(LogTablesProvider::class)->clearCache();
+                Piwik::addAction('LogTables.addLogTables', function (&$logTables) use ($segmentTable) {
+                    foreach ($logTables as $logTable) {
+                        if ($logTable->getName() === $segmentTable) {
+                            return;
+                        }
+                    }
+                    $logTables[] = new LogTableTemporary($segmentTable);
+                });
+            } catch (\Exception $e) {
+
+            }
+
+
+        }
+
+        try {
+
+            $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {

@@ -44,6 +44,11 @@ class LogTablesProvider {
         }
     }
 
+    public function clearCache()
+    {
+        $this->tablesCache = null;
+    }
+
     /**
      * Get all log table instances defined by any activated and loaded plugin. The returned tables are not sorted in
      * any order.
