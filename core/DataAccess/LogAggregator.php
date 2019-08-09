@@ -195,7 +195,7 @@ class LogAggregator
 
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             try {
-                Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['query'], $segmentSql['bind']);
+                Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
 
                 if (!is_array($from)) {
                     $from = array($segmentTable, $from);
