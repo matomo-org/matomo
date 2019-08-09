@@ -187,9 +187,10 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty()) {
+            // todo ... only use for day archives...
             $segment = new Segment('', $this->sites);
 
-            $segmentTable = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($this->sites) . $this->segment->getString());
+            $segmentTable = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
             $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
             $segmentBind = $this->getGeneralQueryBindParams();
 
