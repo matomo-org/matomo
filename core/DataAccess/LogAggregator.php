@@ -132,6 +132,8 @@ class LogAggregator
 
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
+    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+
     /** @var \Piwik\Date */
     protected $dateStart;
 
@@ -187,14 +189,13 @@ class LogAggregator
         if (!$this->segment->isEmpty()) {
             $segment = new Segment('', $this->sites);
 
-            $segmentTable = 'logtmpsegment' . md5(json_encode($this->sites) . $this->segment->getString());
+            $segmentTable = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($this->sites) . $this->segment->getString());
             $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
             $segmentBind = $this->getGeneralQueryBindParams();
 
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             try {
                 Db::query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['query'], $segmentSql['bind']);
-
 
                 if (!is_array($from)) {
                     $from = array($segmentTable, $from);
@@ -211,8 +212,14 @@ class LogAggregator
                     }
                     $logTables[] = new LogTableTemporary($segmentTable);
                 });
-            } catch (\Exception $e) {
 
+                $tables = array(
+                    'log_visit' => 'visit_last_action_time',
+                    'log_link_visit_action' => 'server_time',
+                    'log_conversion' => 'server_time',
+                );
+            } catch (\Exception $e) {
+                throw $e;
             }
 
 
