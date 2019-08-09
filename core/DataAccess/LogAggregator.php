@@ -188,7 +188,7 @@ class LogAggregator
             $segment = new Segment('', $this->sites);
 
             $segmentTable = 'logtmpsegment' . md5(json_encode($this->sites) . $this->segment->getString());
-            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time', $where);
+            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
             $segmentBind = $this->getGeneralQueryBindParams();
 
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
@@ -214,6 +214,7 @@ class LogAggregator
             } catch (\Exception $e) {
 
             }
+
 
 
         }
