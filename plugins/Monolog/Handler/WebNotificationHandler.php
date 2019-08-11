@@ -47,6 +47,7 @@ class WebNotificationHandler extends AbstractProcessingHandler
         }
 
         $message = $record['level_name'] . ': ' . htmlentities($record['message'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        $message .= $this->getLiteDebuggingInfo();
 
         $notification = new Notification($message);
         $notification->context = $context;
@@ -57,5 +58,16 @@ class WebNotificationHandler extends AbstractProcessingHandler
             // Can happen if this handler is enabled in CLI
             // Silently ignore the error.
         }
+    }
+
+    private function getLiteDebuggingInfo()
+    {
+        $module = Common::getRequestVar('module', false);
+        $action = Common::getRequestVar('action', false);
+        $method = Common::getRequestVar('method', false);
+        $trigger = Common::getRequestVar('trigger', false);
+        $isCliMode = Common::isPhpCliMode() ? 'true' : 'false';
+
+        return "\n(Module: $module, Action: $action, Method: $method, Trigger: $trigger, In CLI mode: $isCliMode)";
     }
 }
