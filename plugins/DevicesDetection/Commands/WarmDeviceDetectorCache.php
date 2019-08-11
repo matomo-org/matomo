@@ -12,23 +12,33 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WarmDeviceDetectorCache extends ConsoleCommand
 {
+    const OPTION_INPUT_FILE = 'input-file';
+    const OPTION_SKIP_HEADER = 'skip-header-row';
+    const OPTION_ROWS_TO_PROCESS = 'count';
+
+    private static $userAgentsPatternsToIgnore = array(
+        '/Amazon-Route53-Health-Check-Service[.]*/'
+    );
+
+    private $numCacheEntriesWritten = 0;
+
     protected function configure()
     {
         $this->setName('devicedetector:warmcache');
         $this->setDescription(
             'Populate the device detector cache with commonly used useragent strings, as provided in the input file.');
-        $this->addArgument('inputFile', InputArgument::REQUIRED, 
+        $this->addArgument(self::OPTION_INPUT_FILE, InputArgument::REQUIRED, 
             'CSV file containing list of useragents to include');
         $this->addOption(
-            'count',
-            'c',
+            self::OPTION_ROWS_TO_PROCESS,
+            null,
             InputArgument::OPTIONAL,
             'Number of rows to process',
             0
         );
         $this->addOption(
-            'skipHeaderRow',
-            's',
+            self::OPTION_SKIP_HEADER,
+            null,
             InputArgument::OPTIONAL,
             'Whether to skip the first row',
             true);
@@ -36,9 +46,14 @@ class WarmDeviceDetectorCache extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $inputFile = $this->openFile($input->getArgument('inputFile'), $input->getOption('skipHeaderRow'));
+        $this->clearCacheDirectory();
 
-        $maxRowsToProcess = (int)$input->getOption('count');
+        $inputFile = $this->openFile(
+            $input->getArgument(self::OPTION_INPUT_FILE), 
+            $input->getOption(self::OPTION_SKIP_HEADER)
+        );
+
+        $maxRowsToProcess = (int)$input->getOption(self::OPTION_ROWS_TO_PROCESS);
         $counter = 0;
 
         try {
@@ -52,6 +67,17 @@ class WarmDeviceDetectorCache extends ConsoleCommand
             }
         } finally {
             fclose($inputFile);
+        }
+        $output->writeln("Written " . $this->numCacheEntriesWritten . " cache entries to file");
+    }
+
+    private function clearCacheDirectory()
+    {
+        $cacheDir = PIWIK_DOCUMENT_ROOT . rtrim(DeviceDetectorCacheEntry::CACHE_DIR, '/');
+        $di = new \RecursiveDirectoryIterator($cacheDir, \FilesystemIterator::SKIP_DOTS);
+        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ( $ri as $file ) {
+            $file->isDir() ?  rmdir($file) : unlink($file);
         }
     }
 
@@ -72,8 +98,33 @@ class WarmDeviceDetectorCache extends ConsoleCommand
         return $inputHandle;
     }
 
+    private function isValidUserAgentString($userAgent)
+    {
+        $matches = array();
+        foreach (self::$userAgentsPatternsToIgnore as $pattern) {
+            preg_match('/Amazon-Route53-Health-Check-Service[.]*/', $userAgent,   $matches);
+            if ($matches) {
+                return false;
+            }
+        }
+
+        $parts = explode($userAgent, ' ');
+        foreach ($parts as $part) {
+            if (filter_var($part, FILTER_VALIDATE_IP) !== false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function processUserAgent($userAgentStr)
     {
+        $userAgentStr = trim(trim($userAgentStr, '"'));
+        if (!$this->isValidUserAgentString($userAgentStr)) {
+            return;
+        }
+
         $deviceDetector = DeviceDetectorFactory::getInstance($userAgentStr, false);
         $outputArray = array(
             'bot' => $deviceDetector->getBot(),
@@ -90,15 +141,8 @@ class WarmDeviceDetectorCache extends ConsoleCommand
 
     private function writeUserAgent($filePath, $outputArray)
     {
-        $outputFile = fopen($filePath, 'w');
-        if ($outputFile === false) {
-            throw new \Exception("Could not write to $filePath");
-        }
-
-        try {
-            fwrite($outputFile,"<?php return " . var_export($outputArray, true) . ";");
-        } finally {
-            fclose($outputFile);
-        }
+        $content = "<?php return " . var_export($outputArray, true) . ";";
+        file_put_contents($filePath, $content, LOCK_EX);
+        $this->numCacheEntriesWritten++;
     }
 }

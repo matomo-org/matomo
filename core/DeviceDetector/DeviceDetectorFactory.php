@@ -42,4 +42,9 @@ class DeviceDetectorFactory
 
         return $deviceDetector;
     }
+
+    public static function clearInstancesCache()
+    {
+        self::$deviceDetectorInstances = array();
+    }
 }
