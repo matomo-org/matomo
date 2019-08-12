@@ -106,6 +106,7 @@
         "StandardReport": "Κανονική αναφορά",
         "FlattenReport": "Επίπεδη αναφορά",
         "ReportWithMetadata": "Αναφορά με μεταδεδομένα",
-        "SeeAvailableVersions": "Εμφάνιση Διαθέσιμων Εκδόσεων"
+        "SeeAvailableVersions": "Εμφάνιση Διαθέσιμων Εκδόσεων",
+        "QuickLinks": "Γρήγοροι Σύνδεσμοι"
     }
 }

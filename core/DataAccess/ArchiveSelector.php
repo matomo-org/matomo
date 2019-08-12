@@ -45,7 +45,13 @@ class ArchiveSelector
         return new Model();
     }
 
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
+    /**
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -55,11 +61,6 @@ class ArchiveSelector
 
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
 
-        $minDatetimeIsoArchiveProcessedUTC = null;
-        if ($minDatetimeArchiveProcessedUTC) {
-            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
-        }
-
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
@@ -67,7 +68,7 @@ class ArchiveSelector
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues);
 
         if (empty($results)) {
             return false;

@@ -36,6 +36,7 @@
         "PasswordChanged": "Fjalëkalimi juaj u ndryshua.",
         "PasswordRepeat": "Fjalëkalim (sërish)",
         "PasswordsDoNotMatch": "Fjalëkalimet nuk përputhen.",
+        "PasswordResetAlreadySent": "Tani së fundi keni kërkuar shumë ricaktime fjalëkalimi. Një kërkesë e re mund të bëhet pas një ore. Nëse keni probleme me ricaktimin e fjalëkalimit tuaj, ju lutemi, për ndihmë, lidhuni me përgjegjësin tuaj.",
         "WrongPasswordEntered": "Ju lutemi, jepni fjalëkalimin tuaj të saktë.",
         "ConfirmPasswordToContinue": "Që të vazhdohet, ripohoni fjalëkalimin tuaj",
         "PluginDescription": "Ofron mirëfilltësim përmes emri përdoruesi dhe fjalëkalimi, si dhe funksionin e ricaktimit të fjalëkalimeve. Metoda e mirëfilltësimit mund të ndryshohet duke përdorur një tjetër shtojcë Hyrjesh, të tillë si LoginLdap, të cilën e gjeni te Marketplace-i.",
