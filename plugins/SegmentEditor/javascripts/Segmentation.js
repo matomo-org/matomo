@@ -414,6 +414,14 @@ Segmentation = (function($) {
                 showAddNewSegmentForm();
             });
 
+            // emulate a click when pressing enter on one of the segments or the add button
+            self.target.on("keyup", ".segmentList li, .add_new_segment", function (event) {
+                var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.key));
+                if(keycode == '13'){
+                    $(this).trigger('click');
+                }
+            });
+
             // attach event that will clear segment list filtering input after clicking x
             self.target.on('click', ".segmentFilterContainer span", function (e) {
                 $(e.target).parent().find(".segmentFilter").val(self.translations['General_Search']).trigger('keyup');
