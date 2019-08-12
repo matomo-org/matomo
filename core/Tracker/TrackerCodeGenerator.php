@@ -278,8 +278,6 @@ class TrackerCodeGenerator
     public static function stripTags($jsTrackingCode)
     {
         // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
-        $rawJsTag = html_entity_decode($jsTrackingCode);
-        $rawJsTag = preg_replace('/<[^>]+>/', '', $rawJsTag);
-        return trim($rawJsTag);
+        return trim(strip_tags(html_entity_decode($jsTrackingCode)));
     }
 }
