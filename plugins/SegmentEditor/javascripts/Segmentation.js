@@ -147,8 +147,8 @@ Segmentation = (function($) {
             var html = self.editorTemplate.find("> .listHtml").clone();
             var segment, injClass;
             var listHtml = '<li data-idsegment="" ' +
-                (self.currentSegmentStr == "" ? " class='segmentSelected' tabindex='4' " : "")
-                + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
+                (self.currentSegmentStr == "" ? " class='segmentSelected'" : "")
+                + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span></li> ';
 
