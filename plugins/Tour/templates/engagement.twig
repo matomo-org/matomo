@@ -50,7 +50,9 @@
         <p class="tourSuperUserNote">{{ 'Tour_OnlyVisibleToSuperUser'|translate('<a href="https://matomo.org/faq/general/faq_35/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</p>
         <script>
             jQuery(window).off('focus.tourEngagement').on('focus.tourEngagement', function () {
-                tourEngagement.goToPage({{ currentPage|e('js') }});
+                if (jQuery('#widgetTourgetEngagement').size()) {
+                    tourEngagement.goToPage({{ currentPage|e('js') }});
+                }
             });
         </script>
     {% endif %}

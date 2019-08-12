@@ -47,6 +47,6 @@
         "UserAgent": "ユーザーエージェント",
         "XVisitsFromDevices": "%2$s デバイスからの %1$s ビジット",
         "WidgetBrowsers": "ブラウザ",
-        "WidgetBrowsersDocumentation": "ビジターがどのブラウザを使っているかについてのリポートです。各ブラウザのバージョンは別途記載されています。"
+        "WidgetBrowsersDocumentation": "ビジターが使用しているブラウザについてのリポートです。各ブラウザのバージョンは別途記載されています。"
     }
 }

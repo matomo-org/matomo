@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TestRunner\Commands;
 
+use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Profiler;
 use Piwik\Plugin\ConsoleCommand;
@@ -116,6 +117,9 @@ class TestsRun extends ConsoleCommand
                 }
             }
         }
+
+        // Tear down any DB that already exists
+        Db::destroyDatabaseObject();
 
         $this->executeTests($matomoDomain, $suite, $testFile, $groups, $options, $command, $output, $enableLogging);
 

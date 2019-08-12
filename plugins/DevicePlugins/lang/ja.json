@@ -2,7 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s のプラグインが有効ではありません",
         "BrowserWithPluginsEnabled": "%1$s のプラグイン %2$s は有効",
-        "PluginDescription": "ビジターのブラウザでサポートされているプラグインの一覧を報告します。",
+        "PluginDescription": "ビジターのブラウザでサポートされているプラグインの一覧をレポートします。",
         "PluginDetectionDoesNotWorkInIE": "注：プラグインの検出は Internet Explorer 11 より前では機能しません。このレポートは IE 以外のブラウザーと IE の新しいバージョンにのみ基づいています。",
         "WidgetPlugins": "ブラウザプラグイン",
         "WidgetPluginsDocumentation": "ビジターが利用しているブラウザのプラグインについてのリポートです。コンテンツの最適な表示方法を選択するために重要な情報です。"

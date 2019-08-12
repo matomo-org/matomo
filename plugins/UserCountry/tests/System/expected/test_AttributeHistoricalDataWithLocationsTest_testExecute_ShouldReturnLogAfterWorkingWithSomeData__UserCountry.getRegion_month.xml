@@ -120,7 +120,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 	</row>
 	<row>
-		<label>Xizang, China</label>
+		<label>Xizang Zizhiqu, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -146,7 +146,7 @@
 		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Xizang</region_name>
+		<region_name>Xizang Zizhiqu</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 </result>

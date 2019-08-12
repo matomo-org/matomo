@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\Model;
 use Piwik\Tests\Framework\Fixture;
@@ -34,10 +35,11 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryString()
     {
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 0,
                 $limit = 100,
@@ -75,10 +77,11 @@ class ModelTest extends IntegrationTestCase
         });
 
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 0,
                 $limit = 100,
@@ -114,10 +117,12 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryStringWithOffset()
     {
         $model = new Model();
+
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
                 $idSite = 1,
-                $period = 'month',
-                $date = '2010-01-01',
+                $dateStart,
+                $dateEnd,
                 $segment = false,
                 $offset = 15,
                 $limit = 100,
@@ -152,10 +157,11 @@ class ModelTest extends IntegrationTestCase
     public function test_makeLogVisitsQueryString_whenSegment()
     {
         $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'month', '2010-01-01');
         list($sql, $bind) = $model->makeLogVisitsQueryString(
             $idSite = 1,
-            $period = 'month',
-            $date = '2010-01-01',
+            $dateStart,
+            $dateEnd,
             $segment = 'customVariablePageName1==Test',
             $offset = 10,
             $limit = 100,
@@ -195,6 +201,77 @@ class ModelTest extends IntegrationTestCase
         );
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedSql), SegmentTest::removeExtraWhiteSpaces($sql));
         $this->assertEquals(SegmentTest::removeExtraWhiteSpaces($expectedBind), SegmentTest::removeExtraWhiteSpaces($bind));
+    }
+
+    public function test_splitDatesIntoMultipleQueries_notMoreThanADayUsesOnlyOneQuery()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:00:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2010-01-02 00:00:00'), $dates);
+    }
+
+
+    public function test_splitDatesIntoMultipleQueries_moreThanADayLessThanAWeek()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-02 00:01:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2010-01-01 00:01:00 2010-01-02 00:01:00', '2010-01-01 00:00:00 2010-01-01 00:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanAWeekLessThanMonth()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-01-20 04:01:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2010-01-19 04:01:00 2010-01-20 04:01:00', '2010-01-12 04:01:00 2010-01-19 04:00:59', '2010-01-01 00:00:00 2010-01-12 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanMonthLessThanYear()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2010-02-20 04:01:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2010-02-19 04:01:00 2010-02-20 04:01:00', '2010-02-12 04:01:00 2010-02-19 04:00:59', '2010-01-13 04:01:00 2010-02-12 04:00:59', '2010-01-01 00:00:00 2010-01-13 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanYear()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', '2010-01-01 00:00:00 2011-01-01 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanYear_withOffsetUsesLessQueries()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 5, $offset = 5);
+
+        $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2010-01-01 00:00:00 2012-02-12 04:00:59'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_moreThanYear_noLimitDoesntUseMultipleQueries()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries('2010-01-01 00:00:00', '2012-02-20 04:01:00', $limit = 0, $offset = 0);
+
+        $this->assertEquals(array('2010-01-01 00:00:00 2012-02-20 04:01:00'), $dates);
+    }
+
+    public function test_splitDatesIntoMultipleQueries_noStartDate()
+    {
+        $dates = $this->splitDatesIntoMultipleQueries(false, '2012-02-20 04:01:00', $limit = 5, $offset = 0);
+
+        $this->assertEquals(array('2012-02-19 04:01:00 2012-02-20 04:01:00', '2012-02-12 04:01:00 2012-02-19 04:00:59', '2012-01-13 04:01:00 2012-02-12 04:00:59', '2011-01-01 04:01:00 2012-01-13 04:00:59', ' 2011-01-01 04:00:59'), $dates);
+    }
+
+    private function splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset)
+    {
+        if ($startDate) {
+            $startDate = Date::factory($startDate);
+        }
+        if ($endDate) {
+            $endDate = Date::factory($endDate);
+        }
+        $model = new Model();
+        $queries = $model->splitDatesIntoMultipleQueries($startDate, $endDate, $limit, $offset);
+
+        return array_map(function ($query) { return ($query[0] ? $query[0]->getDatetime() : '') . ' ' . ($query[1] ? $query[1]->getDatetime() : ''); }, $queries);
     }
 
     protected function setSuperUser()

@@ -11,7 +11,7 @@
         "UserAuthentication": "ユーザー認証",
         "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",
         "Glossary": "用語集",
-        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について学びましょう。",
+        "LearnAboutCommonlyUsedTerms2": "Matomo Analytics を最大限に活用するためによく使われる用語について説明します。",
         "EvolutionMetricName": "%s 推移"
     }
 }
