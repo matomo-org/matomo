@@ -235,18 +235,7 @@ class LogAggregator
                 }
 
                 $logTablesProvider = StaticContainer::get(LogTablesProvider::class);
-                $logTablesProvider->clearCache();
-                Piwik::addAction('LogTables.addLogTables', function (&$logTables) use ($segmentTable) {
-                    foreach ($logTables as $logTable) {
-                        if ($logTable->getName() === $segmentTable) {
-                            return;
-                        } elseif ($logTable instanceof LogTableTemporary) {
-                            $logTable->setName($segmentTable);
-                            return;
-                        }
-                    }
-                    $logTables[] = new LogTableTemporary($segmentTable);
-                });
+                $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
                 foreach ($logTablesProvider->getAllLogTables() as $logTable) {
                     if ($logTable->getDateTimeColumn()) {
