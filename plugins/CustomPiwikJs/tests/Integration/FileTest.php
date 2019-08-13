@@ -11,6 +11,10 @@ namespace Piwik\Plugins\CustomPiwikJs\tests\Integration;
 use Piwik\Plugins\CustomPiwikJs\File;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+class CustomTestFile extends File {
+
+}
+
 /**
  * @group CustomPiwikJs
  * @group FileTest
@@ -98,6 +102,21 @@ class FileTest extends IntegrationTestCase
         $this->assertSame('notExisTinGFile.js', $this->makeNotReadableFile()->getName());
     }
 
+    public function test_setFile_createsNewObjectLeavesOldUnchanged()
+    {
+        $file = $this->makeFile();
+        $file2 = $file->setFile('foo/bar.png');
+        $this->assertSame('test.js', $file->getName());
+        $this->assertSame('bar.png', $file2->getName());
+    }
+
+    public function test_setFile_returnsObjectOfSameType()
+    {
+        $file = new CustomTestFile('foo/baz.png');
+        $file2 = $file->setFile('foo/bar.png');
+        $this->assertTrue($file2 instanceof CustomTestFile);
+    }
+
     public function test_getPath()
     {
         $this->assertSame($this->dir . 'notExisTinGFile.js', $this->makeNotReadableFile()->getPath());
@@ -161,6 +180,14 @@ class FileTest extends IntegrationTestCase
         $this->assertSame("// Hello world\nvar fooBar = 'test';", $this->makeFile()->getContent());
     }
 
+    public function test_isFileContentSame()
+    {
+        $this->assertTrue($this->makeFile()->isFileContentSame("// Hello world\nvar fooBar = 'test';"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("// Hello world\nvar foBar = 'test';"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("// Hello world\nvar foBar = 'test'"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("Hello world\nvar foBar = 'test'"));
+    }
+
     public function test_getContent_returnsNull_IfFileIsNotReadableOrNotExists()
     {
         $this->assertNull($this->makeNotReadableFile()->getContent());
@@ -172,8 +199,9 @@ class FileTest extends IntegrationTestCase
         $this->assertFalse($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
 
-        $notExistingFile->save('myTestContent');
+        $updatedFile =  $notExistingFile->save('myTestContent');
 
+        $this->assertEquals([$this->dir . 'notExisTinGFile.js'], $updatedFile);
         $this->assertEquals('myTestContent', $notExistingFile->getContent());
         $this->assertTrue($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());

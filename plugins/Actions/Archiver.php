@@ -200,7 +200,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
             $rankingQuery->addColumn('url_prefix');
 
@@ -281,7 +280,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(array(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS,
@@ -330,7 +328,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
@@ -374,7 +371,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));

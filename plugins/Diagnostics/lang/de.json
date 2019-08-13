@@ -6,6 +6,7 @@
         "ConfigFileIntroduction": "Hier können Sie die Matomo Konfiguration einsehen. Sollten Sie Matomo auf lastverteilten Systemen einsetzen, könnte diese Seite unterschiedlich sein, abhängig vom Server auf dem die Seite geladen wurde. Zeilen mit einer anderen Hintergrundfarbe sind geänderte Konfigurationswerte, die beispielsweise in der Datei %1$s definiert wurden.",
         "HideUnchanged": "Falls Sie nur die geänderten Werte einsehen möchten, können Sie %1$salle unveränderten Werte ausblenden%2$s.",
         "Sections": "Sektionen",
+        "DatabaseReaderConnection": "Datenbankleserecht-Verbindung",
         "CronArchivingLastRunCheck": "Letzter erfolgreicher Abschluss der Archivierung",
         "CronArchivingHasNotRun": "Die Archivierung wurde noch nicht erfolgreich abgeschlossen.",
         "CronArchivingHasNotRunInAWhile": "Die Archivierung ist zuletzt am %1$s erfolgreich gelaufen, also vor %2$s.",

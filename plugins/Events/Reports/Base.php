@@ -41,7 +41,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
     public function configureView(ViewDataTable $view)
     {
-        if (Common::getRequestVar('secondaryDimension')) {
+        if (Common::getRequestVar('secondaryDimension', '', 'string')) {
             foreach (['pivotBy', 'pivotByColumn'] as $property) {
                 $index = array_search($property, $view->requestConfig->overridableProperties);
                 if ($index) {

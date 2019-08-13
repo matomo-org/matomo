@@ -117,7 +117,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('contentPiece', 'contentTarget', 'contentName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_IMPRESSIONS, Metrics::INDEX_NB_VISITS), 'sum');
@@ -173,7 +172,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('contentPiece', 'contentInteraction', 'contentName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_CONTENT_NB_INTERACTIONS), 'sum');
         }
