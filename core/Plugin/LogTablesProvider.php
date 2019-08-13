@@ -54,7 +54,7 @@ class LogTablesProvider {
     }
 
     /**
-     * @param LogTableTemporary $table
+     * @param LogTableTemporary|null $table
      */
     public function setTempTable($table)
     {

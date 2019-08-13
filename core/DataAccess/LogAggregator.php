@@ -10,6 +10,7 @@ namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
@@ -194,11 +195,28 @@ class LogAggregator
 
     public function cleanup()
     {
-        if (!$this->segment->isEmpty()) {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
             Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+
+            $logTablesProvider = $this->getLogTableProvider();
+            if ($logTablesProvider->getLogTable($segmentTable)) {
+                $logTablesProvider->setTempTable(null); // no longer available
+            }
         }
+    }
+
+    private function isSegmentCacheEnabled()
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        return !empty($general['enable_segments_cache']);
+    }
+
+    private function getLogTableProvider()
+    {
+        return StaticContainer::get(LogTablesProvider::class);
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
@@ -206,7 +224,7 @@ class LogAggregator
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
 
-        if (!$this->segment->isEmpty()) {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             // todo make sure we want to apply this for all periods even if for some reason month was requested
             // eg to get unique visitors?
 
@@ -234,7 +252,7 @@ class LogAggregator
                     array_unshift($from, $segmentTable);
                 }
 
-                $logTablesProvider = StaticContainer::get(LogTablesProvider::class);
+                $logTablesProvider = $this->getLogTableProvider();
                 $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
 
                 foreach ($logTablesProvider->getAllLogTables() as $logTable) {
