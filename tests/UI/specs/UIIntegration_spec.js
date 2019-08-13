@@ -626,34 +626,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('admin_manage_websites');
     });
 
-    it('should load the user settings admin page correctly', async function () {
-        await page.goto("?" + generalParams + "&module=UsersManager&action=userSettings");
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings');
-    });
-
-    it('should ask for password confirmation when changing email', async function () {
-        await page.evaluate(function () {
-            $('#userSettingsTable input#email').val('testlogin123@example.com').change();
-        });
-        await page.click('#userSettingsTable [piwik-save-button] .btn');
-        await page.waitFor(500); // wait for animation
-
-        pageWrap = await page.$('.modal.open');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings_asks_confirmation');
-    });
-
-    it('should load error when wrong password specified', async function () {
-        await page.type('.modal.open #currentPassword', 'foobartest123');
-        btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
-        await btnNo.click();
-        await page.waitForNetworkIdle();
-
-        pageWrap = await page.$('#notificationContainer');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings_wrong_password_confirmed');
-    });
-
     it('should load the Manage > Tracking Code admin page correctly', async function () {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
 
