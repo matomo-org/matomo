@@ -225,9 +225,6 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-            // todo make sure we want to apply this for all periods even if for some reason month was requested
-            // eg to get unique visitors?
-
             // todo when we create table for query we cannot know if the archiver will use that same Db writer or Db reader
             // if plugin doesn't support reader just yet... there will be a problem!
             $segment = new Segment('', $this->sites);
