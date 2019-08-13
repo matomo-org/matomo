@@ -24,7 +24,8 @@ describe("GoalsTable", function () {
         const allGoalsUrl = page.url().replace(/viewDataTable=[^&]*/, "viewDataTable=tableGoals") + "&idGoal=0";
         await page.goto(allGoalsUrl);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table_full');
+        const table = await page.$('table.dataTable');
+        expect(await table.screenshot()).to.matchImage('goals_table_full');
     });
 
     it("should show columns for a single goal when idGoal is 1", async function () {
