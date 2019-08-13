@@ -42,6 +42,11 @@ class LogQueryBuilder
         $this->forcedInnerGroupBy = $innerGroupBy;
     }
 
+    public function getForcedInnerGroupBySubselect()
+    {
+        return $this->forcedInnerGroupBy;
+    }
+
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
                                          $orderBy, $limitAndOffset)
     {

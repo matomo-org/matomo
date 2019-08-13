@@ -219,7 +219,12 @@ class LogAggregator
             $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
             $segmentBind = $this->getGeneralQueryBindParams();
 
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect('');
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+            
             try {
                 Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
 
