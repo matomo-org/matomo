@@ -9,6 +9,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\SettingsPiwik;
@@ -37,7 +38,7 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
 
         $userAgent = $request->getUserAgent();
 
-        $deviceDetector = DeviceDetectorFactory::getInstance($userAgent);
+        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
         $aBrowserInfo   = $deviceDetector->getClient();
 
         if ($aBrowserInfo['type'] != 'browser') {

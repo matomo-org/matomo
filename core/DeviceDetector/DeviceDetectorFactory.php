@@ -10,6 +10,7 @@ namespace Piwik\DeviceDetector;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {
@@ -23,7 +24,8 @@ class DeviceDetectorFactory
      */
     public static function getInstance($userAgent)
     {
-        return (new DeviceDetectorFactory())->makeInstance($userAgent);
+        $factory = StaticContainer::get(self::class);
+        return $factory->makeInstance($userAgent);
     }
 
     /**

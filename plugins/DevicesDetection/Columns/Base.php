@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Plugin\Dimension\VisitDimension;
 
@@ -15,6 +16,6 @@ abstract class Base extends VisitDimension
 {
     protected function getUAParser($userAgent)
     {
-        return DeviceDetectorFactory::getInstance($userAgent);
+        return StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
     }
 }
