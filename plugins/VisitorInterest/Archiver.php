@@ -21,7 +21,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const VISITS_COUNT_RECORD_NAME = 'VisitorInterest_visitsByVisitCount';
     const DAYS_SINCE_LAST_RECORD_NAME = 'VisitorInterest_daysSinceLastVisit';
 
-    protected static $timeGap = array(
+    public static $timeGap = array(
         array(0, 10, 's'),
         array(11, 30, 's'),
         array(31, 60, 's'),
@@ -33,7 +33,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(15, 30),
         array(30)
     );
-    protected static $pageGap = array(
+    public static $pageGap = array(
         array(1, 1),
         array(2, 2),
         array(3, 3),
