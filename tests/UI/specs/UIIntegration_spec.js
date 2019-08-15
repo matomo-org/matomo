@@ -480,6 +480,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.overrideConfig('General', {
             enable_segments_cache: 0
         });
+        testEnvironment.save();
 
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
 
