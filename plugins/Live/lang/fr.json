@@ -37,7 +37,7 @@
         "TopVisitedPages": "Pages les plus visitées",
         "VisitsLog": "Journal des Visites",
         "VisitorLog": "Journal des Visites",
-        "VisitorLogDocumentation": "Ce tableau affiche les dernières visites parmi la période sélectionnée. %1$s Si la période inclut aujourd'hui, vous pouvez voir vos visiteurs en temps réel! %2$s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche automatique (cron) d'archivage.",
+        "VisitorLogDocumentation": "Ce tableau affiche les dernières visites parmi la période sélectionnée. %1$s Si la période inclut aujourd'hui, vous pouvez voir vos visiteurs en temps réel ! %2$s Les données affichées ici le sont toujours en temps réel, indépendamment de quand et à quelle fréquence vous utilisez la tâche automatique (cron) d'archivage.",
         "VisitorLogNoDataMessagePurged": "Il est probable que les données ait été supprimées par la suppression régulière des anciennes données brutes et ce rapport a plus de %s jours. Un super utilisateur peut modifier ce paramètre en allant dans Administration => Vie privée.",
         "VisitorProfile": "Profil visiteur",
         "VisitorsInRealTime": "Visites en temps-réel",
@@ -50,6 +50,7 @@
         "RowActionTooltipTitle": "Ouvrir le journal segmenté des visites",
         "SegmentedVisitorLogTitle": "Le journal des visites affiche les visites qui ont %1$s à \"%2$s\"",
         "OnClickPause": "%s est démarré. Cliquer pour mettre en pause.",
-        "OnClickStart": "%s est arrêté. Cliquer pour démarrer."
+        "OnClickStart": "%s est arrêté. Cliquer pour démarrer.",
+        "ClickToSeeAllContents": "Cliquez pour voir chaque interaction\/affichage de contenu"
     }
 }

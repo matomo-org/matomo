@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -18,6 +18,7 @@ class RankingQueryTest extends \PHPUnit_Framework_TestCase
     public function testBasic()
     {
         $query = new RankingQuery();
+        $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
         $query->addColumn('column');
         $query->addColumn('columnSum', 'sum');
@@ -58,6 +59,7 @@ class RankingQueryTest extends \PHPUnit_Framework_TestCase
     public function testExcludeRows()
     {
         $query = new RankingQuery(20);
+        $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
         $query->setColumnToMarkExcludedRows('exclude_marker');
 
@@ -95,6 +97,7 @@ class RankingQueryTest extends \PHPUnit_Framework_TestCase
     public function testPartitionResult()
     {
         $query = new RankingQuery(1000);
+        $query->setOthersLabel('Others');
         $query->addLabelColumn('label');
         $query->partitionResultIntoMultipleGroups('partition', array(1, 2, 3));
 

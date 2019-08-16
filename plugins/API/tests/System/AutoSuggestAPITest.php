@@ -136,6 +136,32 @@ class AutoSuggestAPITest extends SystemTestCase
             if (is_numeric($topSegmentValue) || is_float($topSegmentValue) || preg_match('/^\d*?,\d*$/', $topSegmentValue)) {
                 $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
             }
+
+            // use some specific test values for segments where auto suggest returns list of values that might not occur
+            switch ($params['segmentToComplete']) {
+                case 'countryName':
+                    $topSegmentValue = 'France';
+                    break;
+                case 'browserName':
+                    $topSegmentValue = 'Chrome';
+                    break;
+                case 'operatingSystemName':
+                    $topSegmentValue = 'Android';
+                    break;
+                case 'visitEndServerDate':
+                    $topSegmentValue = '2018-01-03';
+                    break;
+                case 'visitEndServerDayOfMonth':
+                    $topSegmentValue = '03';
+                    break;
+                case 'visitEndServerYear':
+                    $topSegmentValue = '2018';
+                    break;
+                case 'visitLocalMinute':
+                    $topSegmentValue = '34';
+                    break;
+            }
+
             // Now build the segment request
             $segmentValue = rawurlencode(html_entity_decode($topSegmentValue, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;

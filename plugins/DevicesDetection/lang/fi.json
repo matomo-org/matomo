@@ -47,6 +47,6 @@
         "UserAgent": "Käyttäjäagentti",
         "XVisitsFromDevices": "%1$s vierailua %2$s laitteelta",
         "WidgetBrowsers": "Kävijöiden selaimet",
-        "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia vierailijoillasi oli. Jokainen selaimen versio näytetään erikseen."
+        "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia kävijöilläsi oli. Jokainen selaimen versio näytetään erikseen."
     }
 }

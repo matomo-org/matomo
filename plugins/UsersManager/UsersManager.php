@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -197,9 +198,25 @@ class UsersManager extends \Piwik\Plugin
 
     public static function getPasswordHash($password)
     {
+        self::checkBasicPasswordStrength($password);
+
         // if change here, should also edit the installation process
         // to change how the root pwd is saved in the config file
         return md5($password);
+    }
+
+    public static function checkBasicPasswordStrength($password)
+    {
+        $ex = new \Exception('This password is too weak, please supply another value or reset it.');
+
+        $numDistinctCharacters = strlen(count_chars($password, 3));
+        if ($numDistinctCharacters < 2) {
+            throw $ex;
+        }
+
+        if (strlen($password) < 6) {
+            throw $ex;
+        }
     }
 
     /**
@@ -222,6 +239,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Pagination";
+        $translationKeys[] = "General_PleaseTryAgain";
         $translationKeys[] = "UsersManager_DeleteConfirm";
         $translationKeys[] = "UsersManager_ConfirmGrantSuperUserAccess";
         $translationKeys[] = "UsersManager_ConfirmProhibitOtherUsersSuperUserAccess";
@@ -297,6 +315,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_Add';
         $translationKeys[] = 'General_Note';
+        $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'UsersManager_FilterByWebsite';
         $translationKeys[] = 'UsersManager_GiveAccessToAll';
         $translationKeys[] = 'UsersManager_OrManageIndividually';
@@ -307,5 +326,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureAddCapability';
         $translationKeys[] = 'UsersManager_AreYouSureRemoveCapability';
         $translationKeys[] = 'UsersManager_IncludedInUsersRole';
+        $translationKeys[] = 'UsersManager_NewsletterSignupFailureMessage';
+        $translationKeys[] = 'UsersManager_NewsletterSignupSuccessMessage';
     }
 }

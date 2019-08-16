@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -128,6 +128,12 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         // track outlinks
         $this->trackActions($t, $visitorCounter, 'outlink', $userAgents, $resolutions);
 
+        // track events
+        $this->trackActions($t, $visitorCounter, 'event', $userAgents, $resolutions);
+
+        // track events
+        $this->trackActions($t, $visitorCounter, 'content', $userAgents, $resolutions);
+
         // track ecommerce product orders
         $this->trackOrders($t);
     }
@@ -139,10 +145,11 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $visitDate = Date::factory($this->dateTime);
 
             $t->setNewVisitorId();
+            $t->setUserId('user' . $visitorCounter);
             $t->setIp("156.5.3.$visitorCounter");
 
-            $t->setUserAgent($userAgents[$visitorCounter]);
-            list($w, $h) = explode('x', $resolutions[$visitorCounter]);
+            $t->setUserAgent($userAgents[$visitorCounter % count($userAgents)]);
+            list($w, $h) = explode('x', $resolutions[$visitorCounter % count($resolutions)]);
             $t->setResolution((int)$w, (int)$h);
 
             // one visit to root url
@@ -193,13 +200,14 @@ class ManyVisitsWithMockLocationProvider extends Fixture
             $cat = $i % 5;
 
             $t->setNewVisitorId();
+            $t->setUserId('user' . ($i + 10000));
             $t->setIp("155.5.4.$i");
             $t->setEcommerceView("id_book$i",  "Book$i", "Books Cat #$cat", 7.50);
             self::checkResponse($t->doTrackPageView('bought book'));
         }
     }
 
-    private function trackAction($t, $actionType, $visitorCounter, $actionNum)
+    private function trackAction(\PiwikTracker $t, $actionType, $visitorCounter, $actionNum)
     {
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(
@@ -212,6 +220,14 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         } else if ($actionType == 'outlink') {
             self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
                 : "http://othersite$visitorCounter.com/$actionNum/", 'link'));
+        } else if ($actionType == 'event') {
+            self::checkResponse($t->doTrackEvent('event category ' . ($visitorCounter % 6), 'event action ' . ($visitorCounter % 7), 'event name' . ($visitorCounter % 5)));
+        } else if ($actionType == 'content') {
+            self::checkResponse($t->doTrackContentImpression('content name ' . $visitorCounter, 'content piece ' . $visitorCounter));
+
+            if ($visitorCounter % 2 == 0) {
+                self::checkResponse($t->doTrackContentInteraction('click', 'content name ' . $visitorCounter, 'content piece ' . $visitorCounter));
+            }
         }
 
         // Add a site search to some visits

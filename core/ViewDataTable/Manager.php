@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -184,7 +184,7 @@ class Manager
         $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
         foreach ($nonCoreVisualizations as $id => $klass) {
-            if ($klass::canDisplayViewDataTable($view)) {
+            if ($klass::canDisplayViewDataTable($view) || $view::ID == $id) {
                 $footerIcon = static::getFooterIconFor($id);
                 if (Insight::ID == $footerIcon['id']) {
                     $insightsViewIcons['buttons'][] = static::getFooterIconFor($id);

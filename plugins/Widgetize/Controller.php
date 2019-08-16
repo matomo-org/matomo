@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -34,6 +34,10 @@ class Controller extends \Piwik\Plugin\Controller
 
         if ($controllerName == 'API') {
             throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
+        }
+
+        if ($controllerName == 'Widgetize') {
+            throw new \Exception("Please set 'moduleToWidgetize' to a valid value.");
         }
 
         $shouldEmbedEmpty = false;

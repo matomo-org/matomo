@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -185,14 +185,26 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function isErrNo($e, $errno)
     {
-        if (is_null($this->_connection)) {
+        return self::isMysqliErrorNumber($e, $this->_connection, $errno);
+    }
+
+    /**
+     * Test error number
+     *
+     * @param Exception $e
+     * @param string $errno
+     * @return bool
+     */
+    public static function isMysqliErrorNumber($e, $connection, $errno)
+    {
+        if (is_null($connection)) {
             if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
                 return $match[1] == $errno;
             }
             return mysqli_connect_errno() == $errno;
         }
 
-        return mysqli_errno($this->_connection) == $errno;
+        return mysqli_errno($connection) == $errno;
     }
 
     /**

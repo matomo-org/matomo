@@ -88,7 +88,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					AND log_conversion.idgoal > 0
                 ORDER BY log_conversion.idvisit, log_conversion.server_time ASC
 			";
-        return Db::fetchAll($sql);
+        return $this->getDb()->fetchAll($sql);
     }
 
 

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -49,13 +49,6 @@ class VisitorRecognizer
     private $lookBackNSecondsCustom;
 
     /**
-     * Forces all requests to result in new visits. For debugging only.
-     *
-     * @var int
-     */
-    private $trackerAlwaysNewVisitor;
-
-    /**
      * @var Model
      */
     private $model;
@@ -70,13 +63,12 @@ class VisitorRecognizer
      */
     private $visitRow;
 
-    public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom, $trackerAlwaysNewVisitor,
+    public function __construct($trustCookiesOnly, $visitStandardLength, $lookbackNSecondsCustom,
                                 Model $model, EventDispatcher $eventDispatcher)
     {
         $this->trustCookiesOnly = $trustCookiesOnly;
         $this->visitStandardLength = $visitStandardLength;
         $this->lookBackNSecondsCustom = $lookbackNSecondsCustom;
-        $this->trackerAlwaysNewVisitor = $trackerAlwaysNewVisitor;
 
         $this->model = $model;
         $this->eventDispatcher = $eventDispatcher;
@@ -109,22 +101,9 @@ class VisitorRecognizer
         $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
         $this->visitRow = $visitRow;
 
-        $isNewVisitForced = $request->getParam('new_visit');
-        $isNewVisitForced = !empty($isNewVisitForced);
-        $enforceNewVisit  = $isNewVisitForced || $this->trackerAlwaysNewVisitor;
-        if($isNewVisitForced) {
-            Common::printDebug("-> New visit forced: &new_visit=1 in request");
-        }
-        if($this->trackerAlwaysNewVisitor) {
-            Common::printDebug("-> New visit forced: Debug.tracker_always_new_visitor = 1 in config.ini.php");
-        }
-
-        if (!$enforceNewVisit
-            && $visitRow
+        if ($visitRow
             && count($visitRow) > 0
         ) {
-            $visitProperties->setProperty('visit_last_action_time', strtotime($visitRow['visit_last_action_time']));
-            $visitProperties->setProperty('visit_first_action_time', strtotime($visitRow['visit_first_action_time']));
             $visitProperties->setProperty('idvisitor', $visitRow['idvisitor']);
             $visitProperties->setProperty('user_id', $visitRow['user_id']);
 
@@ -145,11 +124,12 @@ class VisitorRecognizer
     {
         // These values will be used throughout the request
         foreach ($this->getVisitorFieldsPersist() as $field) {
+            $value = $this->visitRow[$field];
             if ($field == 'visit_last_action_time' || $field == 'visit_first_action_time') {
-                continue;
+                $value = strtotime($value);
             }
 
-            $visitProperties->setProperty($field, $this->visitRow[$field]);
+            $visitProperties->setProperty($field, $value);
         }
 
         Common::printDebug("The visit is part of an existing visit (
@@ -276,5 +256,10 @@ class VisitorRecognizer
         }
 
         return $this->visitFieldsToSelect;
+    }
+
+    public function getLastKnownVisit()
+    {
+        return $this->visitRow;
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\Login;
@@ -457,13 +457,37 @@ class PasswordResetter
      * @param string $login The user login for whom a password change was requested.
      * @param string $newPassword The new password to set.
      * @param string $keySuffix The suffix used in generating a token.
+     *
+     * @throws Exception if a password reset was already requested within one hour
      */
     private function savePasswordResetInfo($login, $newPassword, $keySuffix)
     {
-        $optionName = $this->getPasswordResetInfoOptionName($login);
+        $optionName = self::getPasswordResetInfoOptionName($login);
+
+        $existingResetInfo = Option::get($optionName);
+
+        $time = time();
+        $count = 0;
+
+        if ($existingResetInfo) {
+            $existingResetInfo = json_decode($existingResetInfo, true);
+
+            if (isset($existingResetInfo['timestamp']) && $existingResetInfo['timestamp'] > time()-3600) {
+                $time = $existingResetInfo['timestamp'];
+                $count = !empty($existingResetInfo['requests']) ? $existingResetInfo['requests'] : $count;
+
+                if(isset($existingResetInfo['requests']) && $existingResetInfo['requests'] > 2) {
+                    throw new Exception(Piwik::translate('Login_PasswordResetAlreadySent'));
+                }
+            }
+        }
+
+
         $optionData = [
             'hash' => $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword)),
             'keySuffix' => $keySuffix,
+            'timestamp' => $time,
+            'requests' => $count+1
         ];
         $optionData = json_encode($optionData);
 

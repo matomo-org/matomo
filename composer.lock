@@ -1042,16 +1042,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578"
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/0dcaaba79735bc2d60b72f020f6371eca633b578",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b000c45ce257b6949e2de4df7c094046986d85bc",
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc",
                 "shasum": ""
             },
             "require": {
@@ -1086,7 +1086,7 @@
                 "redis"
             ],
             "abandoned": "matomo/cache",
-            "time": "2018-03-05T02:55:54+00:00"
+            "time": "2019-07-14T20:55:33+00:00"
         },
         {
             "name": "piwik/decompress",
@@ -1127,21 +1127,21 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.11.7",
+            "version": "3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "92fa41434af96b762e6c25a8d2287fa2a79567d5"
+                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/92fa41434af96b762e6c25a8d2287fa2a79567d5",
-                "reference": "92fa41434af96b762e6c25a8d2287fa2a79567d5",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/a698de2c57d8e106b8f8e54671b4bf794dc9698e",
+                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e",
                 "shasum": ""
             },
             "require": {
                 "mustangostang/spyc": "*",
-                "php": ">=5.3.2"
+                "php": ">=5.5"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.7",
@@ -1178,7 +1178,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-05-24T19:45:35+00:00"
+            "time": "2019-07-22T14:35:14+00:00"
         },
         {
             "name": "piwik/ini",
@@ -2737,6 +2737,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {

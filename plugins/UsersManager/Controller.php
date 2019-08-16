@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -182,6 +183,10 @@ class Controller extends ControllerAdmin
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
+
+        $newsletterSignupOptionKey = NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . $userLogin;
+        $view->showNewsletterSignup = Option::get($newsletterSignupOptionKey) === false
+                                    && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();

@@ -566,7 +566,13 @@
         "VerifyAccount": "Verifica Account",
         "ValidateSslCertificate": "Valida Certificato SSL",
         "VerifyLoginData": "Verifica username e password.",
-        "YouAreOffline": "Spiacente, sei al momento offline"
+        "YouAreOffline": "Spiacente, sei al momento offline",
+        "ExceptionNoViewAccess": "Si prega di controllare user name e password e di assicurarsi di avere accesso %s almeno a un sito.",
+        "Mobile_HowtoExitAndroid": "Clicca ancora su INDIETRO per uscire",
+        "MatomoMarketplace": "Marketplace di Matomo",
+        "EnterAuthCode": "Inserisci codice di autenticazione",
+        "EnterCorrectAuthCode": "Inserisci il codice di autenticazione corretto",
+        "EnterAuthCodeExplanation": "Sembra che tu stia utilizzando l'autenticazione a due fattori. Inserisci il codice a sei cifre per accedere al tuo account."
     },
     "RowEvolution": {
         "AvailableMetrics": "Metriche disponibili",

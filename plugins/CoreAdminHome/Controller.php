@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -186,6 +186,7 @@ class Controller extends ControllerAdmin
         if ($view->idSite) {
             try {
                 $view->siteName = Site::getNameFor($view->idSite);
+                $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
             } catch (Exception $e) {
                 // ignore if site no longer exists
             }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -120,6 +120,8 @@ class View implements ViewInterface
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
     private $enableCacheBuster = true;
+
+    private $useStrictReferrerPolicy = true;
 
     /**
      * Constructor.
@@ -266,8 +268,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = APIUsersManager::getInstance()->getUser($this->userLogin);
-            $this->userAlias = $user['alias'];
+            $this->userAlias = $this->userLogin; // can be removed in Matomo 4.0
         } catch (Exception $e) {
             Log::debug($e);
 
@@ -281,6 +282,11 @@ class View implements ViewInterface
         // - when calling sendHeader() multiple times, the last one prevails
         if(!empty($this->xFrameOptions)) {
             Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        }
+
+        // don't send Referer-Header for outgoing links
+        if (!empty($this->useStrictReferrerPolicy)) {
+            Common::sendHeader('Referrer-Policy: same-origin');
         }
 
         return $this->renderTwigTemplate();
@@ -458,5 +464,25 @@ class View implements ViewInterface
     {
         $generalConfig = Config::getInstance()->General;
         return Common::getRequestVar('module', false) == 'Widgetize' || $generalConfig['enable_framed_pages'] == '1';
+    }
+
+    /**
+     * Returns whether a strict Referrer-Policy header will be sent. Generally this should be set to 'true'.
+     *
+     * @return bool
+     */
+    public function getUseStrictReferrerPolicy()
+    {
+        return $this->useStrictReferrerPolicy;
+    }
+
+    /**
+     * Sets whether a strict Referrer-Policy header will be sent (if not, nothing is sent).
+     *
+     * @param bool $useStrictReferrerPolicy
+     */
+    public function setUseStrictReferrerPolicy($useStrictReferrerPolicy)
+    {
+        $this->useStrictReferrerPolicy = $useStrictReferrerPolicy;
     }
 }

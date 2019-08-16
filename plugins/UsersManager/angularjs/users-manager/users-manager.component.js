@@ -26,7 +26,10 @@
 
     function UsersManagerController($element, piwik, piwikApi, $q, $timeout) {
         var vm = this;
-        vm.isEditing = false;
+
+        var search = String(window.location.search);
+        vm.isEditing = !!piwik.helper.getArrayFromQueryString(search).showadduser;
+
         vm.isCurrentUserSuperUser = true;
 
         // search state

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -818,6 +818,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     public function assertNotDbConnectionCreated($message = 'A database connection was created but should not.')
     {
         self::assertFalse(Db::hasDatabaseObject(), $message);
+        self::assertFalse(Db::hasReaderDatabaseObject(), $message);
     }
 
     public function assertDbConnectionCreated($message = 'A database connection was not created but should.')

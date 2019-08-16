@@ -1,11 +1,11 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "セグメントエディターでカスタム ユーザー セグメントを作成、編集できます。",
+        "PluginDescription": "セグメントは、一連の訪問全体の一部のみを選択するために使用される一連の基準です。 セグメントを使用すると、レポートに任意のコンテキストを挿入することができます。",
         "AddANDorORCondition": "%s の条件を追加",
         "AddNewSegment": "新しいセグメントを追加",
         "AreYouSureDeleteSegment": "このセグメントを削除してもよろしいですか？",
         "AutoArchivePreProcessed": "セグメントレポートの事前処理（archive.php の cron 設定が必要）",
-        "AutoArchiveRealTime": "セグメントレポートをリアルタイムに処理",
+        "AutoArchiveRealTime": "セグメント化されたレポートはリアルタイムで処理されます",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "セグメント定義を変更しようとしています。この新しいセグメントの分析レポートは、レポートが再処理されるまで利用できません。このセグメントにレポートデータが表示されるまでには数時間かかる場合があります。それでも続けますか？",
         "ChangingSegmentDefinitionConfirmationProcessedOnRequest": "セグメント定義を変更しようとしています。この新しいセグメントの分析レポートは、次回のリクエスト時にオンデマンドで再処理されます。レポートには数分かかることがあります。それでも進めますか？",
         "ChooseASegment": "セグメントを選択してください",
@@ -51,6 +51,7 @@
         "CustomUnprocessedSegmentApiError4": "エディタ（または API 経由）でセグメントを作成すると、このエラーメッセージが消え、セグメントデータが前処理された後、数時間以内にセグメント化されたレポートデータが表示されます。 （そうでない場合は、問題がある可能性があります）。",
         "CustomUnprocessedSegmentApiError5": "あなたのセグメントが Live.getLastVisitsDetails API を使用して処理されるのを待たずに動作するかどうかテストできます。",
         "CustomUnprocessedSegmentApiError6": "この API メソッドを使用すると、&segment= parameter で一致したユーザーとアクションが表示されます。",
-        "CustomUnprocessedSegmentNoData": "このセグメントのデータを表示するには、セグメントエディタでこのセグメントを手動で作成し、前処理が完了するまで数時間待つ必要があります。"
+        "CustomUnprocessedSegmentNoData": "このセグメントのデータを表示するには、セグメントエディタでこのセグメントを手動で作成し、前処理が完了するまで数時間待つ必要があります。",
+        "AddThisToMatomo": "このセグメントを Matomo に追加する"
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -305,16 +305,9 @@ class Mysqli extends Db
         }
     }
 
-    /**
-     * Test error number
-     *
-     * @param Exception $e
-     * @param string $errno
-     * @return bool
-     */
     public function isErrNo($e, $errno)
     {
-        return mysqli_errno($this->connection) == $errno;
+        return \Piwik\Db\Adapter\Mysqli::isMysqliErrorNumber($e, $this->connection, $errno);
     }
 
     /**

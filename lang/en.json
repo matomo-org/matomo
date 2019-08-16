@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "ThankYouForUsingMatomo": "Thank you for using Matomo",
-        "TheMatomoTeam": "The Matomo Team"
+        "TheMatomoTeam": "The Matomo Team",
+        "PleaseTryAgain": "Please try again"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",
@@ -566,7 +567,13 @@
         "VerifyAccount": "Verifying Account",
         "ValidateSslCertificate": "Validate SSL Certificate",
         "VerifyLoginData": "Make sure your username and password combination is correct.",
-        "YouAreOffline": "Sorry, you are currently offline"
+        "YouAreOffline": "Sorry, you are currently offline",
+        "ExceptionNoViewAccess": "Please check your username and password and make sure you have %s access for at least one website.",
+        "Mobile_HowtoExitAndroid": "Please click BACK again to exit",
+        "MatomoMarketplace": "Matomo Marketplace",
+        "EnterAuthCode": "Enter authentication code",
+        "EnterCorrectAuthCode": "Enter correct authentication code",
+        "EnterAuthCodeExplanation": "It looks like you may be using two-factor authentication. Please enter the six-digit code to log in to your account."
     },
     "RowEvolution": {
         "AvailableMetrics": "Available metrics",

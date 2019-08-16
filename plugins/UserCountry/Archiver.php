@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -107,12 +107,13 @@ class Archiver extends \Piwik\Plugin\Archiver
             $row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
         }
 
-        if (!empty($row[self::REGION_FIELD])) {
-            $row[self::REGION_FIELD] = $row[self::REGION_FIELD] . self::LOCATION_SEPARATOR . $row[self::COUNTRY_FIELD];
+        // set city first, as containing region might be manipulated afterwards if not empty
+        if (!empty($row[self::CITY_FIELD])) {
+            $row[self::CITY_FIELD] = $row[self::CITY_FIELD] . self::LOCATION_SEPARATOR . $row[self::REGION_FIELD] . self::LOCATION_SEPARATOR . $row[self::COUNTRY_FIELD];
         }
 
-        if (!empty($row[self::CITY_FIELD])) {
-            $row[self::CITY_FIELD] = $row[self::CITY_FIELD] . self::LOCATION_SEPARATOR . $row[self::REGION_FIELD];
+        if (!empty($row[self::REGION_FIELD])) {
+            $row[self::REGION_FIELD] = $row[self::REGION_FIELD] . self::LOCATION_SEPARATOR . $row[self::COUNTRY_FIELD];
         }
     }
 

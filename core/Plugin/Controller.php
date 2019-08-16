@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -614,6 +615,7 @@ abstract class Controller
         $this->setPeriodVariablesView($view);
 
         $view->siteName = $this->site->getName();
+        $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
         $view->siteMainUrl = $this->site->getMainUrl();
 
         $siteTimezone = $this->site->getTimezone();

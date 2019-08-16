@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -205,19 +205,13 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
             $dateEndIso,
             $period,
         );
-
-        $timeStampWhere = '';
-        if ($minDatetimeIsoArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
-            $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
-        }
 
         $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
@@ -229,7 +223,6 @@ class Model
                          AND ( ($sqlWhereArchiveName)
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
-                         $timeStampWhere
                      ORDER BY idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
