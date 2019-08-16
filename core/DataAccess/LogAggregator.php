@@ -198,7 +198,20 @@ class LogAggregator
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
-            Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+
+            try {
+                // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+                Db::getReader()->fetchOne('SELECT 1 FROM ' . $segmentTable . ' LIMIT 1');
+                $tableExists = true;
+            } catch (\Exception $e) {
+                $tableExists = false;
+            }
+
+            if ($tableExists) {
+                // safety in case an older MySQL version is used that does not drop table at the end of the connection
+                // automatically. also helps us release disk space/memory earlier when multiple segments are archived
+                Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+            }
 
             $logTablesProvider = $this->getLogTableProvider();
             if ($logTablesProvider->getLogTable($segmentTable)) {
