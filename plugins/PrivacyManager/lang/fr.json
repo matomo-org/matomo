@@ -70,7 +70,7 @@
         "PseudonymizeUserIdNote2": "Note : remplacer par un pseudonyme n'est pas identique à une anonymisation des données. Dans les termes énoncés par RGPD : un pseudonyme identifiant l'utilisateur compte toujours comme une données personnelle. L'identifiant utilisateur originel pourrait toujours être identifié si certaines informations complémentaires étaient disponibles (auxquelles uniquement Matomo et votre traitement de données ont accès).",
         "AnonymizeOrderIdNote": "Parce qu'un identifiant de commande peut être référencé au travers de plusieurs systèmes, typiquement un magasin de commerce électronique, l'identifiant de commande pourrait compter comme donnée personnelle pour RGPD. En sélectionnant cette option, un identifiant de commande va être automatiquement anonymisé de sorte qu'aucune information personnelle ne sera enregistrée.",
         "UseAnonymizeIp": "Rendre anonymes les adresses IP des visiteurs",
-        "UseAnonymizeTrackingData": "Anonymiser les données de suivit",
+        "UseAnonymizeTrackingData": "Anonymiser les données de suivi",
         "UseAnonymizeUserId": "Anonymiser l'identifiant utilisateur",
         "PseudonymizeUserId": "Remplacer l'identifiant utilisateur par un pseudonyme",
         "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande",
