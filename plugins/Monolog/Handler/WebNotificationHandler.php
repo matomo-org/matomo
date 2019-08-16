@@ -62,12 +62,27 @@ class WebNotificationHandler extends AbstractProcessingHandler
 
     private function getLiteDebuggingInfo()
     {
-        $module = Common::getRequestVar('module', false);
-        $action = Common::getRequestVar('action', false);
-        $method = Common::getRequestVar('method', false);
-        $trigger = Common::getRequestVar('trigger', false);
-        $isCliMode = Common::isPhpCliMode() ? 'true' : 'false';
+        $info = [
+            'Module' => Common::getRequestVar('module', false),
+            'Action' => Common::getRequestVar('action', false),
+            'Method' => Common::getRequestVar('method', false),
+            'Trigger' => Common::getRequestVar('trigger', false),
+            'In CLI mode' => Common::isPhpCliMode() ? 'true' : 'false',
+        ];
 
-        return "\n(Module: $module, Action: $action, Method: $method, Trigger: $trigger, In CLI mode: $isCliMode)";
+        $parts = [];
+        foreach ($info as $title => $value) {
+            if (empty($value)) {
+                continue;
+            }
+
+            $parts[] = "$title: $value";
+        }
+
+        if (empty($parts)) {
+            return "";
+        }
+
+        return "\n(" . implode(', ', $parts) . ")";
     }
 }
