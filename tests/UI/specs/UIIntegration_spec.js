@@ -477,6 +477,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // one page w/ segment
     it('should load the visitors > overview page correctly when a segment is specified', async function () {
+        testEnvironment.overrideConfig('General', {
+            enable_segments_cache: 0
+        });
+        testEnvironment.save();
+
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
 
         expect(await page.screenshotSelector('.pageWrap,.top_controls')).to.matchImage('visitors_overview_segment');
