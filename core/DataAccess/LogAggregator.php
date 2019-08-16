@@ -225,8 +225,8 @@ class LogAggregator
         $bind = $this->getGeneralQueryBindParams();
 
         if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
-            // todo when we create table for query we cannot know if the archiver will use that same Db writer or Db reader
-            // if plugin doesn't support reader just yet... there will be a problem!
+            // here we create the TMP table and apply the segment including the datetime and the requested idsite
+            // at the end we generated query will no longer need to apply the datetime/idsite and segment
             $segment = new Segment('', $this->sites);
 
             $segmentTable = $this->getSegmentTmpTableName();
@@ -239,47 +239,38 @@ class LogAggregator
             $logQueryBuilder->forceInnerGroupBySubselect('');
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
-            
-            try {
-                Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
 
-                if (!is_array($from)) {
-                    $from = array($segmentTable, $from);
-                } else {
-                    array_unshift($from, $segmentTable);
-                }
+            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
 
-                $logTablesProvider = $this->getLogTableProvider();
-                $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+            if (!is_array($from)) {
+                $from = array($segmentTable, $from);
+            } else {
+                array_unshift($from, $segmentTable);
+            }
 
-                foreach ($logTablesProvider->getAllLogTables() as $logTable) {
-                    if ($logTable->getDateTimeColumn()) {
-                        $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
-                        if (strpos($where, $whereTest) === 0) {
-                            // we don't need to apply the where statement again as it would have been applied already
-                            // in the temporary table... instead it should join the tables through the idvisit index
-                            $where = ltrim(str_replace($whereTest, '', $where));
-                            if (stripos($where, 'and ') === 0) {
-                                $where = substr($where, strlen('and '));
-                            }
-                            $bind = array_slice($bind, 3);
-                            break;
+            $logTablesProvider = $this->getLogTableProvider();
+            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+
+            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                if ($logTable->getDateTimeColumn()) {
+                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                    if (strpos($where, $whereTest) === 0) {
+                        // we don't need to apply the where statement again as it would have been applied already
+                        // in the temporary table... instead it should join the tables through the idvisit index
+                        $where = ltrim(str_replace($whereTest, '', $where));
+                        if (stripos($where, 'and ') === 0) {
+                            $where = substr($where, strlen('and '));
                         }
+                        $bind = array_slice($bind, 3);
+                        break;
                     }
-
                 }
-            } catch (\Exception $e) {
-                throw $e;
+
             }
 
         }
 
-        try {
-
-            $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
