@@ -128,7 +128,6 @@ abstract class ControllerAdmin extends Controller
     protected function setBasicVariablesViewAs($view, $viewType = 'admin')
     {
         $this->setBasicVariablesNoneAdminView($view);
-
         if ($viewType == 'admin') {
             self::setBasicVariablesAdminView($view);
         }
