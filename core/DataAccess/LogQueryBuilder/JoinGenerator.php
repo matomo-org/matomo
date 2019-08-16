@@ -197,7 +197,7 @@ class JoinGenerator
                     && is_string($this->tables[$i - 1])
                     && strpos($this->tables[$i - 1], LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
                     $joinName = 'INNER JOIN';
-                    // edge case when there is eg `logtmpsegment57cd546b7203d68a41027547c4abe1a2` as first table...
+                    // when we archive a segment there will be eg `logtmpsegment$HASH` as first table.
                     // then we join log_conversion for example... if we didn't use INNER JOIN we would as a result
                     // get rows for visits even when they didn't have a conversion. Instead we only want to find rows
                     // that have an entry in both tables when doing eg
