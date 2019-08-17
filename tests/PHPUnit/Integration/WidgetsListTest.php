@@ -92,7 +92,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(11, count($perCategory));
+        $this->assertEquals(10, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
