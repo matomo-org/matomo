@@ -27,6 +27,11 @@ class Conversion extends LogTable
         return 'idvisit';
     }
 
+    public function getDateTimeColumn()
+    {
+        return 'server_time';
+    }
+
     public function getPrimaryKey()
     {
         return array('idvisit', 'idgoal', 'buster');
