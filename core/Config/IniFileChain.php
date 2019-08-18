@@ -34,6 +34,7 @@ use Piwik\Ini\IniWriter;
  */
 class IniFileChain
 {
+    const CONFIG_CACHE_KEY = 'config.ini';
     /**
      * Maps INI file names with their parsed contents. The order of the files signifies the order
      * in the chain. Files with lower index are overwritten/merged with files w/ a higher index.
@@ -208,6 +209,19 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
+        if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+            $cache = new Cache();
+            $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
+            
+            if (!empty($values)
+                && isset($values['mergedSettings'])
+                && isset($values['settingsChain'])) {
+                $this->mergedSettings = $values['mergedSettings'];
+                $this->settingsChain = $values['settingsChain'];
+                return;
+            }
+        }
+
         $reader = new IniReader();
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
@@ -226,6 +240,28 @@ class IniFileChain
         // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
         // on PHP 7+ as they would be always equal
         $this->mergedSettings = $this->copy($merged);
+
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
+            && !empty($userSettingsFile)
+            && !empty($this->mergedSettings)
+            && !empty($this->settingsChain)) {
+
+            $ttlOneHour = 3600;
+            $cache = new Cache();
+            if ($cache->isValidHost($this->mergedSettings)) {
+                // we make sure to save the config only if the host is valid...
+                $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
+                $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
+            }
+        }
+    }
+
+    public function deleteConfigCache()
+    {
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+            $cache = new Cache();
+            $cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
+        }
     }
 
     private function copy($merged)

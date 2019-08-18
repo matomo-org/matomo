@@ -56,7 +56,7 @@
         "UsingNDistinctUrls": "(utilisant %s urls distinctes)",
         "GenerateUrl": "Générer l'URL",
         "URLCampaignBuilder": "Bâtisseur d'URL de campagne",
-        "URLCampaignBuilderIntro": "L'outil %1$s bâtisseur d'URL%2$s vous permet de générer des URLs prêtes à être utilisées pour suivre des campagnes Matomo. Reportez-vous à la documentation à propos %3$sdu suivit de Campagne%4$s pour plus d'information.",
+        "URLCampaignBuilderIntro": "L'outil %1$s bâtisseur d'URL%2$s vous permet de générer des URLs prêtes à être utilisées pour suivre des campagnes Matomo. Reportez-vous à la documentation à propos %3$sdu suivi de Campagne%4$s pour plus d'information.",
         "URLCampaignBuilderResult": "URL générée que vous pouvez copier\/coller dans vos Campagnes, Info courriel, Publicité Facebook ou Tweets:",
         "ViewAllReferrers": "Afficher tous les référents",
         "ViewReferrersBy": "Afficher les référents par %s",

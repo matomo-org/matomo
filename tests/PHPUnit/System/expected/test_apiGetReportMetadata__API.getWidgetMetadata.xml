@@ -3374,6 +3374,25 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
+		<name>Quick Links</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreHome</module>
+		<action>quickLinks</action>
+		<order>16</order>
+		<parameters>
+			<module>CoreHome</module>
+			<action>quickLinks</action>
+		</parameters>
+		<uniqueId>widgetCoreHomequickLinks</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Example Widget Name</name>
 		<category>
 			<id>About Matomo</id>
@@ -3447,44 +3466,6 @@
 			<action>getSystemCheck</action>
 		</parameters>
 		<uniqueId>widgetInstallationgetSystemCheck</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Latest Marketplace Updates</name>
-		<category>
-			<id>About Matomo</id>
-			<name>About Matomo</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Marketplace</module>
-		<action>getNewPlugins</action>
-		<order>19</order>
-		<parameters>
-			<module>Marketplace</module>
-			<action>getNewPlugins</action>
-		</parameters>
-		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
-		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Premium Features</name>
-		<category>
-			<id>About Matomo</id>
-			<name>About Matomo</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Marketplace</module>
-		<action>getPremiumFeatures</action>
-		<order>20</order>
-		<parameters>
-			<module>Marketplace</module>
-			<action>getPremiumFeatures</action>
-		</parameters>
-		<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
 		<isWide>0</isWide>
 	</row>
 	<row>
@@ -3580,6 +3561,48 @@
 			<action>getEngagement</action>
 		</parameters>
 		<uniqueId>widgetTourgetEngagement</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Latest Marketplace Updates</name>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory />
+		<module>Marketplace</module>
+		<action>getNewPlugins</action>
+		<order>19</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getNewPlugins</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetNewPlugins</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
+		<name>Premium Features</name>
+		<category>
+			<id>Marketplace_Marketplace</id>
+			<name>Marketplace</name>
+			<order>200</order>
+			<icon> icon-open-source</icon>
+		</category>
+		<subcategory>
+			<id>Marketplace_PaidPlugins</id>
+			<name>Premium Features</name>
+			<order>10</order>
+		</subcategory>
+		<module>Marketplace</module>
+		<action>getPremiumFeatures</action>
+		<order>20</order>
+		<parameters>
+			<module>Marketplace</module>
+			<action>getPremiumFeatures</action>
+		</parameters>
+		<uniqueId>widgetMarketplacegetPremiumFeatures</uniqueId>
 		<isWide>0</isWide>
 	</row>
 </result>

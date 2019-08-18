@@ -72,7 +72,6 @@
         "ShowTrackingTag": "Shihni kodin e Ndjekjes",
         "Sites": "Sajte",
         "SiteSearchUse": "Mund ta përdorni Matomo-n për të ndjekur dhe raportuar se çfarë kërkojnë vizitorët me motorin e kërkimeve të brendshme në sajtin tuaj .",
-        "SiteWithoutDataTitle": "Ende s’ka të dhëna të regjistruara",
         "SiteWithoutDataDescription": "Për këtë sajt s’janë ndjekur ende të dhëna analitike.",
         "SiteWithoutDataSetupTracking": "Ju lutemi, rregulloni më poshtë %1$skodin e ndjekjes%2$s për sajtin apo aplikacionin tuaj për celular, po qe se s’e keni bërë ende.",
         "SiteWithoutDataMessageDisappears": "Ky mesazh do të zhduket sapo të ketë ndoca të dhëna të ndjekura për këtë sajt.",

@@ -190,7 +190,9 @@ class Visualization extends ViewDataTable
             $this->applyFilters();
             $this->addVisualizationInfoFromMetricMetadata();
             $this->afterAllFiltersAreApplied();
+
             $this->beforeRender();
+            $this->fireBeforeRenderHook();
 
             $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
         } catch (NoAccessException $e) {
@@ -721,6 +723,17 @@ class Visualization extends ViewDataTable
     public function beforeRender()
     {
         // eg $this->config->showFooterColumns = true;
+    }
+
+    private function fireBeforeRenderHook()
+    {
+        /**
+         * Posted immediately before rendering the view. Plugins can use this event to perform last minute
+         * configuration of the view based on it's data or the report being viewed.
+         *
+         * @param Visualization $view The instance to configure.
+         */
+        Piwik::postEvent('Visualization.beforeRender', [$this]);
     }
 
     private function makeDataTablePostProcessor()
