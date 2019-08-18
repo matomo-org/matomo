@@ -5912,10 +5912,6 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             this.addTracker = function (piwikUrl, siteId) {
-                if (!siteId) {
-                    throw new Error('A siteId must be given to add a new tracker');
-                }
-
                 if (!isDefined(piwikUrl) || null === piwikUrl) {
                     piwikUrl = this.getTrackerUrl();
                 }
