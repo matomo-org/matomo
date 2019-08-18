@@ -232,6 +232,38 @@ class LogAggregator
         return StaticContainer::get(LogTablesProvider::class);
     }
 
+    private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
+    {
+        $table = Common::prefixTable($unprefixedSegmentTableName);
+        $createTableSql = 'CREATE TEMPORARY TABLE IF NOT EXISTS ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ';
+        // we do not insert the data right away using create temporary table ... select ...
+        // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
+
+        $readerDb = Db::getReader();
+        $readerDb->query($createTableSql);
+
+        $db = new Db\Settings();
+        $isInnoDb = strtolower($db->getEngine()) === 'innodb';
+
+        if ($isInnoDb) {
+            $value = $readerDb->fetchOne('SELECT @@TX_ISOLATION');
+            $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+        }
+
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+        if ($isInnoDb && !empty($value)) {
+            $value = strtoupper($value);
+            $value = str_replace('-', ' ', $value);
+            if (in_array($value, array('REPEATABLE READ', 'READ COMMITTED', 'SERIALIZABLE'))) {
+                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $value);
+            } elseif ($value !== 'READ UNCOMMITTED') {
+                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+            }
+        }
+    }
+
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
     {
         $segment = $this->segment;
@@ -253,7 +285,7 @@ class LogAggregator
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
+            $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
 
             if (!is_array($from)) {
                 $from = array($segmentTable, $from);
