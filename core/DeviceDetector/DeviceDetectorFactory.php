@@ -36,7 +36,7 @@ class DeviceDetectorFactory
      */
     public function makeInstance($userAgent)
     {
-        $userAgent = Common::mb_substr($userAgent, 0, 500);
+        $userAgent = self::getNormalizedUserAgent($userAgent);
 
         if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
             return self::$deviceDetectorInstances[$userAgent];
@@ -47,6 +47,11 @@ class DeviceDetectorFactory
         self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
 
         return $deviceDetector;
+    }
+
+    public static function getNormalizedUserAgent($userAgent)
+    {
+        return Common::mb_substr(trim($userAgent), 0, 500);
     }
 
     /**
