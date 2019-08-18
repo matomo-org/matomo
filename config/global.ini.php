@@ -48,7 +48,6 @@ charset = utf8
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
 ; * live queries that hit a log table
-; * fetching of archives when viewing a report
 ; You only want to enable a reader if you can ensure there is minimal replication lag / delay on the reader.
 ; Otherwise you might get corrupt data in the reports.
 [database_reader]
@@ -208,6 +207,12 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
 enabled_periods_API = "day,week,month,year,range"
+
+; whether to enable segment archiving cache
+; Note: if you use any plugins, this need to be compliant with Matomo and
+; * depending on the segment you create you may need a newer MySQL version (eg 5.7 or newer)
+; * use a reader database for archiving in case you have configured a database reader
+enable_segments_cache = 1
 
 ; whether to enable subquery cache for Custom Segment archiving queries
 enable_segments_subquery_cache = 0

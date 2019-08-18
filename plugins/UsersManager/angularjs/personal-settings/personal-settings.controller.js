@@ -7,14 +7,18 @@
 (function () {
     angular.module('piwikApp').controller('PersonalSettingsController', PersonalSettingsController);
 
-    PersonalSettingsController.$inject = ['piwikApi', '$window', 'piwik'];
+    PersonalSettingsController.$inject = ['piwikApi', '$filter', '$window', 'piwik'];
 
-    function PersonalSettingsController(piwikApi, $window, piwik) {
+    function PersonalSettingsController(piwikApi, $filter, $window, piwik) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
+
+        var translate = $filter('translate');
 
         var self = this;
 
+        this.newsletterSignupButtonTitle = translate('General_Save');
         this.doesRequirePasswordConfirmation = false;
+        this.showNewsletterSignup = true;
 
         function updateSettings(postParams)
         {
@@ -41,6 +45,33 @@
 
         this.requirePasswordConfirmation = function () {
             this.doesRequirePasswordConfirmation = true;
+        };
+
+        this.signupForNewsletter = function () {
+            var signupBtn = $('#newsletterSignupBtn');
+            signupBtn.html(translate('General_Loading'));
+            this.isProcessingNewsletterSignup = true;
+
+            piwikApi.withTokenInUrl();
+            piwikApi.fetch({module: 'API', method: 'UsersManager.newsletterSignup'}).then(function () {
+                self.isProcessingNewsletterSignup = false;
+                self.showNewsletterSignup = false;
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupSuccessMessage'), { id: 'newslettersignup', context: 'success'});
+                notification.scrollToNotification();
+
+            }, function () {
+                self.isProcessingNewsletterSignup = false;
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show(translate('UsersManager_NewsletterSignupFailureMessage'), { id: 'newslettersignup', context: 'error' });
+                notification.scrollToNotification();
+
+                self.newsletterSignupButtonTitle = translate('General_PleaseTryAgain');
+            });
         };
 
         this.regenerateTokenAuth = function () {

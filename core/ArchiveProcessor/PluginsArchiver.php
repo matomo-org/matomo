@@ -68,6 +68,7 @@ class PluginsArchiver
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->cleanup(); // in case the archiving failed earlier and the mysql wouldn't drop the temp table automatically
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
@@ -198,7 +199,11 @@ class PluginsArchiver
     {
         $this->params->logStatusDebug();
         $this->archiveWriter->finalizeArchive();
-        return $this->archiveWriter->getIdArchive();
+        $idArchive = $this->archiveWriter->getIdArchive();
+
+        $this->logAggregator->cleanup();
+
+        return $idArchive;
     }
 
     /**
