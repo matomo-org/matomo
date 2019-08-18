@@ -78,7 +78,7 @@ class LogQueryBuilder
             && strpos($from, 'log_link_visit_action') !== false);
 
         if (!empty($this->forcedInnerGroupBy)) {
-            if ($this->forcedInnerGroupBy) {
+            if ($this->forcedInnerGroupBy === self::FORCE_INNER_GROUP_BY_NO_SUBSELECT) {
                 $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
             } else {
                 $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $this->forcedInnerGroupBy);
