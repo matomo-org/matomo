@@ -17,18 +17,6 @@ class DeviceDetectorFactory
     protected static $deviceDetectorInstances = array();
 
     /**
-     * Returns a Singleton instance of DeviceDetector for the given user agent.
-     * @param string $userAgent
-     * @return DeviceDetector
-     * @deprecated Should get a factory via StaticContainer and call makeInstance() on it instead
-     */
-    public static function getInstance($userAgent)
-    {
-        $factory = StaticContainer::get(self::class);
-        return $factory->makeInstance($userAgent);
-    }
-
-    /**
      * Returns an instance of DeviceDetector for the given user agent. Uses template method pattern
      * and calls getDeviceDetectionInfo() when it doesn't find a matching instance in the cache.
      * @param string $userAgent
