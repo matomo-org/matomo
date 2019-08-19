@@ -274,7 +274,7 @@ class LogAggregator
                         if (stripos($where, 'and ') === 0) {
                             $where = substr($where, strlen('and '));
                         }
-                        $bind = array_slice($bind, 3);
+                        $bind = array();
                         break;
                     }
                 }
