@@ -6,6 +6,7 @@
         "ConfigFileIntroduction": "ここで Matomo の設定を見ることができます。 負荷分散環境で Matomo を実行している場合、このページがどのサーバーからロードされるかによってページが異なる場合があります。 背景色が異なる行は、 %1$sファイルなどで指定されている構成値が変更されます。",
         "HideUnchanged": "変更された値だけを表示する場合は、%1$s変更されていない値をすべて非表示にすることができます。%2$s",
         "Sections": "セクション",
+        "DatabaseReaderConnection": "データベースリーダー接続",
         "CronArchivingLastRunCheck": "最後に正常に完了したアーカイブ",
         "CronArchivingHasNotRun": "アーカイブはまだ正常に実行されていません。",
         "CronArchivingHasNotRunInAWhile": "アーカイブは、 %2$s 前の %1$s で正常に実行されました。",

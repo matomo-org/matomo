@@ -120,6 +120,29 @@
     </form>
 </div>
 
+{% if showNewsletterSignup %}
+<div ng-controller="PersonalSettingsController as personalSettings">
+    <div piwik-content-block id="newsletterSignup"
+         ng-show="personalSettings.showNewsletterSignup"
+         content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+
+        <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
+             ng-model="personalSettings.newsletterSignupCheckbox"
+             full-width="true"
+             data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
+             >
+        </div>
+
+        <div piwik-save-button id="newsletterSignupBtn"
+             onconfirm="personalSettings.signupForNewsletter()"
+             data-disabled="!personalSettings.newsletterSignupCheckbox"
+             value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
+             saving="personalSettings.isProcessingNewsletterSignup">
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
     <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>

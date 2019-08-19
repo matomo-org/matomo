@@ -2229,6 +2229,19 @@
   },
   {
     "::175.41.191.0/120": {
+      "city": {
+        "geoname_id": 1880252,
+        "names": {
+          "de": "Singapur",
+          "en": "Singapore",
+          "es": "Singapur",
+          "fr": "Singapour",
+          "ja": "シンガポール",
+          "pt-BR": "Cingapura",
+          "ru": "Сингапур",
+          "zh-CN": "新加坡"
+        }
+      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,

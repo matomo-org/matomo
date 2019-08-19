@@ -39,7 +39,13 @@ class Json extends ApiRenderer
     {
         $exceptionMessage = str_replace(array("\r\n", "\n"), " ", $message);
 
-        $result = json_encode(array('result' => 'error', 'message' => $exceptionMessage));
+        $data = array('result' => 'error', 'message' => $exceptionMessage);
+
+        if ($this->shouldSendBacktrace()) {
+            $data['backtrace'] = $exception->getTraceAsString();
+        }
+
+        $result = json_encode($data);
 
         return $this->applyJsonpIfNeeded($result);
     }

@@ -192,6 +192,92 @@
 		</subtable>
 	</row>
 	<row>
+		<label>rating</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_events>6</nb_events>
+		<nb_events_with_value>6</nb_events_with_value>
+		<sum_event_value>57.32</sum_event_value>
+		<min_event_value>9</min_event_value>
+		<max_event_value>10</max_event_value>
+		<avg_event_value>9.55</avg_event_value>
+		<segment>eventAction==rating</segment>
+		<subtable>
+			<row>
+				<label>La fiancée de l'eau</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>4</nb_events>
+				<nb_events_with_value>4</nb_events_with_value>
+				<sum_event_value>38</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+			<row>
+				<label>Spirited Away (千と千尋の神隠し)</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>clickBuyNow</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==clickBuyNow</segment>
+		<subtable>
+			<row>
+				<label>Spirited Away (千と千尋の神隠し)</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>19.32</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>9.66</max_event_value>
+		<avg_event_value>9.66</avg_event_value>
+		<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+		<subtable>
+			<row>
+				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>play</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
@@ -240,5 +326,42 @@
 				<avg_event_value>0</avg_event_value>
 			</row>
 		</subtable>
+	</row>
+	<row>
+		<label>Search</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventAction==Search</segment>
+		<subtable>
+			<row>
+				<label>Search query here</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>This is an event without a URL</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_events>3</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>23</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>23</max_event_value>
+		<avg_event_value>11.5</avg_event_value>
+		<segment>eventAction==This+is+an+event+without+a+URL</segment>
 	</row>
 </result>

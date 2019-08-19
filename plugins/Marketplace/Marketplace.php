@@ -77,8 +77,7 @@ class Marketplace extends \Piwik\Plugin
     public function filterWidgets($list)
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $list->remove(GetPremiumFeatures::getCategory(), GetPremiumFeatures::getName());
-            $list->remove(GetNewPlugins::getCategory(), GetNewPlugins::getName());
+            $list->remove('Marketplace_Marketplace');
         }
     }
 
