@@ -55,22 +55,28 @@ class Evolution extends JqplotDataGenerator
         // determine x labels based on both the displayed date range and the compared periods
         $xTicksCount = count($dataTables);
 
-        $xLabels[0] = [];
+        $xLabels = [
+            [],
+        ];
 
-        // TODO: explain
+        // TODO: explain, move to method
         $apiRequest = $this->graph->getRequestArray();
 
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $apiRequest);
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $apiRequest);
+
+        $seriesIndex = 1;
         foreach ($comparePeriods as $index => $period) {
             $date = $compareDates[$index];
 
             $range = Factory::build($period, $date);
             foreach ($range->getSubperiods() as $subperiod) {
-                $xLabels[$index + 1][] = $subperiod->getLocalizedShortString();
+                $xLabels[$seriesIndex][] = $subperiod->getLocalizedShortString();
             }
 
             $xTicksCount = max(count($range->getSubperiods()), $xTicksCount);
+
+            ++$seriesIndex;
         }
 
         /** @var Date $startDate */
@@ -92,7 +98,9 @@ class Evolution extends JqplotDataGenerator
 
         $seriesLabels = [];
         foreach ($this->comparisonsForLabels as $index => $ignore) {
-            $seriesLabels[] = $this->getComparisonSeriesLabelSuffixFromIndex($index);
+            $seriesLabel = $this->getComparisonSeriesLabelSuffixFromIndex($index);
+            $seriesLabels[] = $seriesLabel;
+            $allSeriesData[$seriesLabel] = [];
         }
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
@@ -136,13 +144,29 @@ class Evolution extends JqplotDataGenerator
                 }
             }
         }
-
+print_r($this->comparisonsForLabels);
+        print_r($allSeriesData);
+        print_r($xLabels);
+        exit;
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
         $visualization->setAxisYValues($allSeriesData);
         $visualization->setAxisYUnits($seriesUnits);
-        $visualization->setAxisXLabelsMultiple($xLabels);
+
+        // TODO: these two loops are used in a few places, maybe they should be in a static method for re-use. it's pretty important they are in the right order.
+        $compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $apiRequest);
+        array_unshift($compareSegments, '');
+
+        // TODO: this code needs to be rewritten, too confusing
+        $seriesToXAxis = [];
+        for ($periodIndex = 0; $periodIndex < count($comparePeriods) + 1; ++$periodIndex) {
+            for ($segmentIndex = 0; $segmentIndex < count($compareSegments); ++$segmentIndex) {
+                $seriesToXAxis[] = $periodIndex;
+            }
+        }
+
+        $visualization->setAxisXLabelsMultiple($xLabels, $seriesToXAxis);
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');

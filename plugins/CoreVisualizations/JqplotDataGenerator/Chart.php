@@ -119,16 +119,18 @@ class Chart
         return $data;
     }
 
-    public function setAxisXLabelsMultiple($xLabels)
+    public function setAxisXLabelsMultiple($xLabels, $seriesToXAxis)
     {
         foreach ($xLabels as $index => $labels) {
             $this->setAxisXLabels($labels, $index);
+        }
 
-            $axisName = $this->getXAxis($index);
+        foreach ($seriesToXAxis as $seriesIndex => $xAxisIndex) {
+            $axisName = $this->getXAxis($xAxisIndex);
 
             // don't actually set xaxis otherwise jqplot will show too many axes. however, we need the xaxis labels, so we add them
             // to the jqplot config
-            $this->series[$index]['_xaxis'] = $axisName;
+            $this->series[$seriesIndex]['_xaxis'] = $axisName;
         }
     }
 

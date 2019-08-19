@@ -217,6 +217,7 @@ class DataComparisonFilter
                 $permutations[] = $params;
             }
         }
+
         return $permutations;
     }
 
