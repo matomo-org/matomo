@@ -96,10 +96,9 @@ class Evolution extends JqplotDataGenerator
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
 
-        $seriesLabels = [];
-        foreach ($this->comparisonsForLabels as $index => $ignore) {
-            $seriesLabel = $this->getComparisonSeriesLabelSuffixFromIndex($index);
-            $seriesLabels[] = $seriesLabel;
+        // TODO: remove $this->comparisonsForLabels, shouldn't need it
+        $seriesLabels = reset($dataTables)->getMetadata('comparisonSeries');
+        foreach ($seriesLabels as $seriesLabel) {
             $allSeriesData[$seriesLabel] = [];
         }
 
@@ -136,18 +135,15 @@ class Evolution extends JqplotDataGenerator
                             continue;
                         }
 
-                        foreach ($comparisonTable->getRows() as $index => $compareRow) {
-                            $seriesLabel = $seriesLabels[$index];
+                        foreach ($comparisonTable->getRows() as $compareRow) {
+                            $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName);
                             $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
                         }
                     }
                 }
             }
         }
-print_r($this->comparisonsForLabels);
-        print_r($allSeriesData);
-        print_r($xLabels);
-        exit;
+
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 

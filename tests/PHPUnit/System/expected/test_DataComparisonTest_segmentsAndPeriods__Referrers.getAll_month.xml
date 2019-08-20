@@ -7,6 +7,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -26,6 +27,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -35,12 +37,14 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -50,6 +54,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -59,12 +64,14 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -74,6 +81,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -83,12 +91,14 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -98,6 +108,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -107,14 +118,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -124,6 +137,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -133,14 +147,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -150,6 +166,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -159,14 +176,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -176,6 +195,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -185,14 +205,16 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>
@@ -202,6 +224,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -211,14 +234,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>
@@ -228,6 +253,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -237,14 +263,16 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>
@@ -257,6 +285,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -276,6 +305,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -285,12 +315,14 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -300,6 +332,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -309,12 +342,14 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -324,6 +359,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -333,12 +369,14 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 			</row>
@@ -348,6 +386,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -357,14 +396,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -374,6 +415,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -383,14 +425,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -400,6 +444,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -409,14 +454,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
@@ -426,6 +473,7 @@
 				<max_actions>1</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
 				<nb_conversions>1</nb_conversions>
 				<revenue>5</revenue>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -435,14 +483,16 @@
 				<max_actions_change>+0%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>+0%</bounce_count_change>
+				<nb_visits_converted_change>+0%</nb_visits_converted_change>
 				<nb_conversions_change>+0%</nb_conversions_change>
 				<revenue_change>+0%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>
@@ -452,6 +502,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -461,14 +512,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>
@@ -478,6 +531,7 @@
 				<max_actions>0</max_actions>
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>0</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 				<nb_conversions>0</nb_conversions>
 				<revenue>0</revenue>
 				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
@@ -487,14 +541,16 @@
 				<max_actions_change>-100%</max_actions_change>
 				<sum_visit_length_change>+0%</sum_visit_length_change>
 				<bounce_count_change>-100%</bounce_count_change>
+				<nb_visits_converted_change>-100%</nb_visits_converted_change>
 				<nb_conversions_change>-100%</nb_conversions_change>
 				<revenue_change>-100%</revenue_change>
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 			</row>

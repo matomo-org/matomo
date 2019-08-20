@@ -17,6 +17,7 @@ use Piwik\DataTable\Simple;
 use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
@@ -165,10 +166,13 @@ class DataComparisonFilter
 
         $this->availableSegments = self::getAvailableSegments();
 
+        $comparisonSeries = [];
+
         // fetch data first
         $reportsToCompare = self::getReportsToCompare($this->compareSegments, $this->comparePeriods, $this->compareDates);
         foreach ($reportsToCompare as $index => $modifiedParams) {
             $compareMetadata = $this->getMetadataFromModifiedParams($modifiedParams);
+            $comparisonSeries[] = $compareMetadata['compareSeriesPretty'];
 
             $compareTable = $this->requestReport($method, $modifiedParams);
             $this->compareTables($compareMetadata, $table, $compareTable); // TODO: set comparison totals here + handle correctly
@@ -178,7 +182,7 @@ class DataComparisonFilter
         $this->formatComparisonTables($table);
 
         // add comparison parameters as metadata
-        $table->filter(function (DataTable $singleTable) {
+        $table->filter(function (DataTable $singleTable) use ($comparisonSeries) {
             if (isset($this->compareSegments)) {
                 $singleTable->setMetadata('compareSegments', $this->compareSegments);
             }
@@ -190,6 +194,8 @@ class DataComparisonFilter
             if (isset($this->compareDates)) {
                 $singleTable->setMetadata('compareDates', $this->compareDates);
             }
+
+            $singleTable->setMetadata('comparisonSeries', $comparisonSeries);
         });
     }
 
@@ -495,11 +501,6 @@ class DataComparisonFilter
 
     private function addPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
-        if (isset($metadata['compareSegment'])) {
-            $storedSegment = $this->findSegment($metadata['compareSegment']);
-            $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
-        }
-
         if ($parentTable) {
             $prettyPeriod = $parentTable->getMetadata('period')->getLocalizedLongString();
             $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
@@ -537,14 +538,39 @@ class DataComparisonFilter
         $metadata = [];
         if (isset($modifiedParams['segment'])) {
             $metadata['compareSegment'] = $modifiedParams['segment'];
+
+            $storedSegment = $this->findSegment($metadata['compareSegment']);
+            $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
         }
         if (!empty($modifiedParams['period'])) {
             $metadata['comparePeriod'] = $modifiedParams['period'];
-        }
-        if (!empty($modifiedParams['date'])) {
             $metadata['compareDate'] = $modifiedParams['date'];
         }
+
+        // set compareSeriesPretty
+        $segmentPretty = isset($metadata['compareSegmentPretty']) ? $metadata['compareSegmentPretty'] : '';
+
+        $period = isset($metadata['comparePeriod']) ? $metadata['comparePeriod'] : Common::getRequestVar('period', null, 'string', $this->request);
+        $date = isset($metadata['compareDate']) ? $metadata['compareDate'] : Common::getRequestVar('date', null, 'string', $this->request);
+
+        $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
+        $periodPretty = ucfirst($periodPretty);
+
+        $metadata['compareSeriesPretty'] = $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty);
+
+        // TODO: we should document this metadata
         return $metadata;
+    }
+
+    private function getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty)
+    {
+        $comparisonLabels = [
+            $periodPretty,
+            $segmentPretty,
+        ];
+        $comparisonLabels = array_filter($comparisonLabels);
+
+        return '(' . implode(') (', $comparisonLabels) . ')';
     }
 
     private function replaceIndexesInTotals($totals)

@@ -241,8 +241,8 @@ class DataComparisonTest extends SystemTestCase
                 'testSuffix' => '_multipleMultiPeriods',
                 'otherRequestParameters' => [
                     'compareSegments' => [$segment1, $segment2],
-                    'compareDates' => [$multiPeriodDate2],
-                    'comparePeriods' => [$multiPeriodPeriod2],
+                    'compareDates' => [$multiPeriodDate1, $multiPeriodDate2],
+                    'comparePeriods' => [$multiPeriodPeriod1, $multiPeriodPeriod2],
                     'compare' => '1',
                 ],
             ]],

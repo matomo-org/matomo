@@ -32,6 +32,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>referrerUrl==contribute%25</segment>
@@ -55,6 +56,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
@@ -78,6 +80,7 @@
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
@@ -100,9 +103,10 @@
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 				<segment>referrerUrl==contribute%25</segment>
@@ -125,9 +129,10 @@
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
@@ -150,9 +155,10 @@
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-10</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
@@ -175,9 +181,10 @@
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 				<segment>referrerUrl==contribute%25</segment>
@@ -200,9 +207,10 @@
 				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
@@ -225,9 +233,10 @@
 				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
 				<sum_daily_nb_users_change>+0%</sum_daily_nb_users_change>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
+				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
 				<compareDate>2012-08-16</compareDate>
-				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				
 				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>

@@ -189,64 +189,12 @@ class JqplotDataGenerator
         return [$seriesLabels, $serieses];
     }
 
-    private function getComparisonSeriesLabel(Row $compareRow, $columnName)
+    protected function getComparisonSeriesLabel(Row $compareRow, $columnName)
     {
         $columnTranslation = @$this->properties['translations'][$columnName];
 
-        $label = $columnTranslation . ' ' . $this->getComparisonSeriesLabelSuffix($compareRow);
+        $label = $columnTranslation . ' ' . $compareRow->getMetadata('compareSeriesPretty');
         return $label;
-    }
-
-    protected function getComparisonSeriesLabelSuffix(Row $compareRow)
-    {
-        return $this->getComparisonSeriesLabelSuffixFromParts(
-            $compareRow->getMetadata('comparePeriodPretty'),
-            $compareRow->getMetadata('compareSegmentPretty')
-        );
-    }
-
-    protected function getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty)
-    {
-        $comparisonLabels = [
-            $periodPretty,
-            $segmentPretty,
-        ];
-        $comparisonLabels = array_filter($comparisonLabels);
-
-        return '(' . implode(') (', $comparisonLabels) . ')';
-    }
-
-    protected function getComparisonSeriesLabelSuffixFromIndex($index)
-    {
-        $comparisonPair = $this->comparisonsForLabels[$index];
-        $segment = $comparisonPair['segment'] ?: Common::getRequestVar('segment', $default = '');
-        $period = $comparisonPair['period'] ?: Common::getRequestVar('period');
-        $date = $comparisonPair['date'] ?: Common::getRequestVar('date');
-
-        $storedSegment = $this->findSegment($segment);
-        $segmentPretty = $storedSegment ? $storedSegment['name'] : $segment;
-
-        $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
-        $periodPretty = ucfirst($periodPretty);
-
-        return $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty);
-    }
-
-    private function findSegment($segment) // TODO: copied from DataComparisonFilter
-    {
-        $segment = trim($segment);
-        if (empty($segment)) {
-            return ['name' => Piwik::translate('SegmentEditor_DefaultAllVisits')];
-        }
-        foreach ($this->availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
-                || $storedSegment['definition'] == urldecode($segment)
-                || $storedSegment['definition'] == urlencode($segment)
-            ) {
-                return $storedSegment;
-            }
-        }
-        return null;
     }
 
     protected function getUnitsForSerieses($yLabels)

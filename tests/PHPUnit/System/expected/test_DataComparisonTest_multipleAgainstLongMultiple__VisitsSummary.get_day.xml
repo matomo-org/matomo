@@ -5,6 +5,7 @@
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
 			</row>
@@ -32,17 +33,19 @@
 				<nb_actions_per_visit_change>+100%</nb_actions_per_visit_change>
 				<avg_time_on_site_change>+0%</avg_time_on_site_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-09,2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-13,2012-08-14</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 13 – 14, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
 			</row>
@@ -53,6 +56,7 @@
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
 			</row>
@@ -80,17 +84,19 @@
 				<nb_actions_per_visit_change>+100%</nb_actions_per_visit_change>
 				<avg_time_on_site_change>+0%</avg_time_on_site_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-09,2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-13,2012-08-14</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 13 – 14, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
 			</row>
@@ -101,6 +107,7 @@
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
 			</row>
@@ -128,9 +135,10 @@
 				<nb_actions_per_visit_change>+100%</nb_actions_per_visit_change>
 				<avg_time_on_site_change>+100%</avg_time_on_site_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-09,2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
 				
 			</row>
@@ -174,6 +182,7 @@
 				<avg_time_on_site_change>+0%</avg_time_on_site_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
 			</row>
@@ -201,9 +210,10 @@
 				<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
 				<avg_time_on_site_change>+0%</avg_time_on_site_change>
 				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
 				<compareDate>2012-08-09,2012-08-16</compareDate>
-				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
 			</row>
@@ -214,9 +224,10 @@
 			<comparisons>
 				<row>
 					<compareSegment />
+					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09,2012-08-16</compareDate>
-					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 					
 				</row>
@@ -228,9 +239,10 @@
 			<comparisons>
 				<row>
 					<compareSegment />
+					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09,2012-08-16</compareDate>
-					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 					
 				</row>
@@ -264,9 +276,10 @@
 					<nb_actions_per_visit_change>+100%</nb_actions_per_visit_change>
 					<avg_time_on_site_change>+0%</avg_time_on_site_change>
 					<compareSegment />
+					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09,2012-08-16</compareDate>
-					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 					
 				</row>
@@ -278,9 +291,10 @@
 			<comparisons>
 				<row>
 					<compareSegment />
+					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09,2012-08-16</compareDate>
-					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
 					
 				</row>
