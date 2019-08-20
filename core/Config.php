@@ -145,10 +145,10 @@ class Config
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
-        if (function_exists('wp_upload_dir')
+        if (function_exists('matomo_wp_upload_base_dir')
             && defined('ABSPATH')) {
-            $uploadDir = wp_upload_dir();
-            $pathUploadDir = $uploadDir['basedir'];
+            $pathUploadDir = matomo_wp_upload_base_dir();
+            
             if (!function_exists('is_plugin_active')
              && file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
                 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
