@@ -136,6 +136,15 @@ class Config
      */
     public static function getLocalConfigPath()
     {
+        if (function_exists('matomo_wp_upload_base_dir')
+            && defined('ABSPATH')
+            && defined('MATOMO_CONFIG_PATH')) {
+            $pathUploadDir = matomo_wp_upload_base_dir();
+
+            // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress
+            return $pathUploadDir . '/' . MATOMO_CONFIG_PATH;
+        }
+        
         $path = self::getByDomainConfigPath();
         if ($path) {
             return $path;
@@ -145,16 +154,6 @@ class Config
 
     private static function getLocalConfigInfoForHostname($hostname)
     {
-        if (function_exists('matomo_wp_upload_base_dir')
-            && defined('ABSPATH')
-            && defined('MATOMO_CONFIG_PATH')) {
-            $pathUploadDir = matomo_wp_upload_base_dir();
-
-            // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress
-            return array(array('path' => $pathUploadDir . '/' . MATOMO_CONFIG_PATH,
-                               'file' => basename(MATOMO_CONFIG_PATH)));
-        }
-
         if (!$hostname) {
             return array();
         }
