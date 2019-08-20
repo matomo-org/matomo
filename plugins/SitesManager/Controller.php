@@ -144,6 +144,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
         $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
         Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
 
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
