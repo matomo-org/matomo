@@ -7,6 +7,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-09</compareDate>
 				
 			</row>
 			<row>
@@ -14,6 +16,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-09</compareDate>
 				
 			</row>
 			<row>
@@ -21,13 +25,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-09</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
 				
@@ -36,7 +42,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
 				
@@ -45,7 +51,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
 				
@@ -54,7 +60,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -63,7 +69,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -72,7 +78,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -86,6 +92,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-10</compareDate>
 				
 			</row>
 			<row>
@@ -93,6 +101,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-10</compareDate>
 				
 			</row>
 			<row>
@@ -100,13 +110,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-10</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
@@ -115,7 +127,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
@@ -124,7 +136,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
@@ -133,7 +145,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -142,7 +154,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -151,7 +163,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -165,6 +177,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-11</compareDate>
 				
 			</row>
 			<row>
@@ -172,6 +186,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-11</compareDate>
 				
 			</row>
 			<row>
@@ -179,13 +195,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-11</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-11</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
 				
@@ -194,7 +212,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-11</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
 				
@@ -203,7 +221,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-11</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
 				
@@ -212,7 +230,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -221,7 +239,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -230,7 +248,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -244,6 +262,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-12</compareDate>
 				
 			</row>
 			<row>
@@ -251,6 +271,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-12</compareDate>
 				
 			</row>
 			<row>
@@ -258,13 +280,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-12</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -273,7 +297,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -282,7 +306,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 				
@@ -313,7 +337,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -322,7 +346,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -331,7 +355,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12,2012-08-15</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -345,6 +369,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-13</compareDate>
 				
 			</row>
 			<row>
@@ -352,6 +378,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-13</compareDate>
 				
 			</row>
 			<row>
@@ -359,13 +387,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-13</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -374,7 +404,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -383,7 +413,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 				
@@ -397,6 +427,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-14</compareDate>
 				
 			</row>
 			<row>
@@ -404,6 +436,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-14</compareDate>
 				
 			</row>
 			<row>
@@ -411,13 +445,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-14</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -426,7 +462,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -435,7 +471,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 				
@@ -482,6 +518,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-15</compareDate>
 				
 			</row>
 			<row>
@@ -511,6 +549,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-15</compareDate>
 				
 			</row>
 			<row>
@@ -540,6 +580,8 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-15</compareDate>
 				
 			</row>
 			<row>
@@ -568,7 +610,7 @@
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -599,7 +641,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -630,7 +672,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 				
@@ -644,6 +686,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
 				
 			</row>
 			<row>
@@ -651,6 +695,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
 				
 			</row>
 			<row>
@@ -658,13 +704,15 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+				<comparePeriod>day</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
 				
 			</row>
 			<row>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-16</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
 				
@@ -673,7 +721,7 @@
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-16</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
 				
@@ -682,7 +730,7 @@
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-09,2012-08-16</compareDate>
+				<compareDate>2012-08-16</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
 				

@@ -46,6 +46,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 			<row>
@@ -73,6 +75,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 			<row>
@@ -100,6 +104,8 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 		</comparisons>
@@ -150,6 +156,8 @@
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 			<row>
@@ -177,6 +185,8 @@
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 			<row>
@@ -204,6 +214,8 @@
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-01</compareDate>
 				
 			</row>
 		</comparisons>

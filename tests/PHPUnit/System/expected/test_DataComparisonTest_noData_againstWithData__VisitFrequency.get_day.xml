@@ -39,6 +39,8 @@
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
+			<comparePeriod>day</comparePeriod>
+			<compareDate>2013-05-06</compareDate>
 			
 		</row>
 		<row>
@@ -68,6 +70,8 @@
 			<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
 			<compareSeriesPretty>(Monday, May 6, 2013) (browserCode%3D%3Dff)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
+			<comparePeriod>day</comparePeriod>
+			<compareDate>2013-05-06</compareDate>
 			
 		</row>
 		<row>

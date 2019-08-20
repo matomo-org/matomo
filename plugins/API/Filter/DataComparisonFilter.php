@@ -317,7 +317,7 @@ class DataComparisonFilter
             $row->setComparisons($comparisonDataTable);
         }
 
-        $this->addPrettifiedMetadata($compareMetadata, $rootTable);
+        $this->addIndividualChildPrettifiedMetadata($compareMetadata, $rootTable);
 
         $columns = [];
         if ($compareRow) {
@@ -402,6 +402,8 @@ class DataComparisonFilter
             $childTablesArray = array_values($tables->getDataTables());
             $compareTablesArray = isset($compareTables) ? array_values($compareTables->getDataTables()) : [];
 
+            $isDatePeriod = $tables->getKeyName() == 'date';
+
             foreach ($childTablesArray as $index => $childTable) {
                 $compareChildTable = isset($compareTablesArray[$index]) ? $compareTablesArray[$index] : null;
                 $this->compareTables($compareMetadata, $childTable, $compareChildTable);
@@ -409,7 +411,7 @@ class DataComparisonFilter
 
             // in case one of the compared periods has more periods than the main one, we want to fill the result with empty datatables
             // so the comparison data is still present. this allows us to see that data in an evolution report.
-            if ($tables->getKeyName() == 'date') {
+            if ($isDatePeriod) {
                 $lastTable = end($childTablesArray);
 
                 /** @var Period $lastPeriod */
@@ -499,11 +501,17 @@ class DataComparisonFilter
         }
     }
 
-    private function addPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
+    private function addIndividualChildPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
         if ($parentTable) {
-            $prettyPeriod = $parentTable->getMetadata('period')->getLocalizedLongString();
+            /** @var Period $period */
+            $period = $parentTable->getMetadata('period');
+
+            $prettyPeriod = $period->getLocalizedLongString();
             $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
+
+            $metadata['comparePeriod'] = $period->getLabel();
+            $metadata['compareDate'] = $period->getDateStart()->toString();
         }
     }
 

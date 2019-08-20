@@ -44,6 +44,9 @@ class DataComparisonTest extends SystemTestCase
             ['Referrers.getWebsites', 'Referrers.getUrlsFromWebsiteId'],
         ];
 
+        $allSegments = ['', $segment1, $segment2];
+        $allPeriods = ['|', $period1 . '|' . $date1, $period2 . '|' . '2012-08-13']; // '2012-08-13' is the start of the week
+
         foreach ($apiToTest as list($superApiMethod, $subtableApiMethod)) {
             /** @var DataTable $topLevelComparisons */
             $topLevelComparisons = Request::processRequest($superApiMethod, [
@@ -70,8 +73,8 @@ class DataComparisonTest extends SystemTestCase
                 $date = $compareRow->getMetadata('compareDate');
                 $period = $compareRow->getMetadata('comparePeriod');
 
-                $segmentIndex = array_search($segment, ['', $segment1, $segment2]);
-                $periodIndex = array_search($period . '|' . $date, ['|', $period1 . '|' . $date1, $period2 . '|' . $date2]);
+                $segmentIndex = array_search($segment, $allSegments);
+                $periodIndex = array_search($period . '|' . $date, $allPeriods);
 
                 $comparisonIdSubtables[$segmentIndex][$periodIndex] = $compareRow->getMetadata('idsubdatatable_in_db');
             }
