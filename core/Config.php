@@ -146,19 +146,13 @@ class Config
     private static function getLocalConfigInfoForHostname($hostname)
     {
         if (function_exists('matomo_wp_upload_base_dir')
-            && defined('ABSPATH')) {
+            && defined('ABSPATH')
+            && defined('MATOMO_CONFIG_PATH')) {
             $pathUploadDir = matomo_wp_upload_base_dir();
-            
-            if (!function_exists('is_plugin_active')
-             && file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
-                include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-            }
-            if (function_exists('is_plugin_active')
-                && is_plugin_active('matomo-analytics/matomo-analytics.php' )) {
-                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.                // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress re security.
-                return array(array('path' => $pathUploadDir . '/matomo' . self::DEFAULT_LOCAL_CONFIG_PATH,
-                                    'file' => 'config.ini.php'));
-            }
+
+            // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress
+            return array(array('path' => $pathUploadDir . '/' . MATOMO_CONFIG_PATH,
+                               'file' => basename(MATOMO_CONFIG_PATH)));
         }
 
         if (!$hostname) {
