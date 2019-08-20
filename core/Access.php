@@ -412,7 +412,7 @@ class Access
     public function checkUserHasSuperUserAccess()
     {
         if (!$this->hasSuperUserAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
+            self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
     }
 
@@ -456,7 +456,7 @@ class Access
     public function checkUserHasSomeWriteAccess()
     {
         if (!$this->isUserHasSomeWriteAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
+            self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
         }
     }
 
@@ -468,7 +468,7 @@ class Access
     public function checkUserHasSomeAdminAccess()
     {
         if (!$this->isUserHasSomeAdminAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+            self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
         }
     }
 
@@ -486,7 +486,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 
         if (count($idSitesAccessible) == 0) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+            self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
         }
     }
 
@@ -508,7 +508,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
+                self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
             }
         }
     }
@@ -531,7 +531,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+                self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
     }
@@ -554,7 +554,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
+                self::throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
             }
         }
     }
@@ -578,7 +578,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
+                self::throwNoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
             }
         }
 
@@ -600,7 +600,7 @@ class Access
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
 
         if (empty($idSites)) {
-            throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
+            self::throwNoAccessException("The parameter 'idSite=' is missing from the request.");
         }
 
         return $idSites;
@@ -687,6 +687,18 @@ class Access
             }
         }
         return $result;
+    }
+
+    /**
+     * Throw a NoAccessException with the given message, or a more generic 'You need to log in' message if the
+     * user is not currently logged in (e.g. if session has expired).
+     * @param $message
+     * @throws NoAccessException
+     */
+    private static function throwNoAccessException($message)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        throw new NoAccessException($message);
     }
 }
 
