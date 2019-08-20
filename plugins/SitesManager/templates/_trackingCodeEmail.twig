@@ -2,10 +2,11 @@
 
 {{ jsTag|raw }}
 
-{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}
+{% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}
 
 {{ 'SitesManager_EmailInstructionsGenerateTrackingCode'|translate(piwikUrl ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}))|raw }}
 
+{% if showMatomoLinks %}
 ** Integrations
 {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
 https://matomo.org/integrate/
@@ -21,3 +22,4 @@ https://matomo.org/integrate/#programming-language-platforms-and-frameworks
 ** {{ 'CoreAdminHome_HttpTrackingApi'|translate }}
 {{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('', '') }}
 https://developer.matomo.org/api-reference/tracking-api
+{% endif %}

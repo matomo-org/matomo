@@ -143,8 +143,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
         $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
+        $showMatomoLinks = true;
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
         $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
-            'jsTag' => $rawJsTag
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks
         ), $viewType = 'basic');
 
         return $this->renderTemplateAs('siteWithoutData', array(

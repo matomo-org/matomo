@@ -380,8 +380,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
         $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
 
+        $showMatomoLinks = true;
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
         $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
-            'jsTag' => $rawJsTag
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks
         ), $viewType = 'basic');
 
         // Load the Tracking code and help text from the SitesManager
