@@ -235,12 +235,20 @@ class LogAggregator
     private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
     {
         $table = Common::prefixTable($unprefixedSegmentTableName);
-        $createTableSql = 'CREATE TEMPORARY TABLE IF NOT EXISTS ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ';
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ';
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
 
         $readerDb = Db::getReader();
-        $readerDb->query($createTableSql);
+        try {
+            $readerDb->query($createTableSql);
+        } catch (\Exception $e) {
+            if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                return;
+            }
+            throw $e;
+        }
+
 
         $db = new Db\Settings();
         $isInnoDb = strtolower($db->getEngine()) === 'innodb';
@@ -313,7 +321,7 @@ class LogAggregator
                         if (stripos($where, 'and ') === 0) {
                             $where = substr($where, strlen('and '));
                         }
-                        $bind = array_slice($bind, 3);
+                        $bind = array();
                         break;
                     }
                 }
