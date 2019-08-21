@@ -10,6 +10,8 @@ return array(
 
     'path.root' => PIWIK_USER_PATH,
 
+    'path.misc.user' => 'misc/user/',
+
     'path.tmp' => function (ContainerInterface $c) {
         $root = $c->get('path.root');
 

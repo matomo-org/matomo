@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -136,22 +137,22 @@ class CustomLogo
 
     public static function getPathUserLogo()
     {
-        return static::rewritePath('misc/user/logo.png');
+        return static::rewritePath(StaticContainer::get('path.misc.user') . 'logo.png');
     }
 
     public static function getPathUserFavicon()
     {
-        return static::rewritePath('misc/user/favicon.png');
+        return static::rewritePath(StaticContainer::get('path.misc.user') . 'favicon.png');
     }
 
     public static function getPathUserSvgLogo()
     {
-        return static::rewritePath('misc/user/logo.svg');
+        return static::rewritePath(StaticContainer::get('path.misc.user') . 'logo.svg');
     }
 
     public static function getPathUserLogoSmall()
     {
-        return static::rewritePath('misc/user/logo-header.png');
+        return static::rewritePath(StaticContainer::get('path.misc.user') . 'logo-header.png');
     }
 
     protected static function rewritePath($path)
@@ -288,3 +289,4 @@ class CustomLogo
     }
 
 }
+
