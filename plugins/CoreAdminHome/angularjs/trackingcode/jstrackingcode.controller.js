@@ -148,7 +148,7 @@
             var trackingCode = self.trackingCode;
             trackingCode = trackingCode.replace(/<[^>]+>/g, '');
             var bodyText = translate('SitesManager_JsTrackingTagHelp')  + '. '
-                + translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead', "'head")
+                + translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', "'head")
                 + "\n" + trackingCode;
 
             var linkText = 'mailto:?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(bodyText);
