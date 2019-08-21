@@ -8,28 +8,74 @@
     display: inline-block !important;
   }
 
-  .calendarCompare {
-    float: right;
-    margin-top: 1em;
-    font-style: italic;
+  .compare-checkbox {
+    margin-bottom: 20px;
+  }
 
-    &:hover {
-      text-decoration: none;
+  .compare-date-range {
+    padding-top: 20px;
+  }
+
+  #comparePeriodToDropdown {
+    height: 30px;
+    display: inline-block;
+    width: 60%;
+    transform: scale(.8);
+    margin-left: -5%;
+    margin-right: -5%;
+
+    .form-group {
+      margin: 0;
     }
 
-    > img {
-      width: 16px;
+    .input-field {
+      margin-top: 0;
     }
 
-    > span {
-      height: 16px;
-      display: inline-block;
-      line-height: 16px;
-      vertical-align: top;
+    .select-dropdown {
+      margin-bottom: 0;
+    }
 
-      &:hover {
-        text-decoration: underline;
-      }
+    .dropdown-content {
+      overflow-y: visible;
     }
   }
+
+  div#comparePeriodStartDate, div#comparePeriodEndDate {
+    display: inline-block;
+    width: calc(~"50% - 20px");
+
+    .form-group {
+      margin: 0;
+    }
+
+    .input-field {
+      margin-top: 0;
+      padding: 0;
+    }
+
+    .select-dropdown {
+      margin-bottom: 0;
+    }
+  }
+
+  .compare-dates-separator {
+    height: 1px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: #1a1a1a; // TODO: change colors to variables
+    width: 16px;
+    display: inline-block;
+    position: relative;
+    top: -30px;
+  }
+
+  label[for=comparePeriodTo] {
+    transform: scale(.9);
+  }
+
+  .apply-button-container {
+    text-align: right;
+  }
+
 }

@@ -271,7 +271,9 @@
             isRecognizedPeriod: isRecognizedPeriod,
             get: get,
             parse: parse,
-            parseDate: parseDate
+            parseDate: parseDate,
+            format: format,
+            RangePeriod: RangePeriod
         };
 
         function getAllLabels() {
@@ -292,6 +294,11 @@
 
         function isRecognizedPeriod(strPeriod) {
             return !! periods[strPeriod];
+        }
+
+        // TODO: use this function elsewhere
+        function format(date) {
+            return $.datepicker.formatDate('yy-mm-dd', date);
         }
     }
 

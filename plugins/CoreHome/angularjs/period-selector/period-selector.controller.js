@@ -27,7 +27,11 @@
         vm.isRangeValid = null;
 
         vm.isLoadingNewPage = false;
+
         vm.isComparing = false;
+        vm.comparePeriodType = 'previousPeriod';
+        vm.compareStartDate = '';
+        vm.compareEndDate = '';
 
         vm.getCurrentlyViewingText = getCurrentlyViewingText;
         vm.changeViewedPeriod = changeViewedPeriod;
@@ -99,9 +103,7 @@
         }
 
         function getQueryParamValue(name) {
-            // $location doesn't parse the URL before the hashbang, but it can hold the query param
-            // values, if the page doesn't have the hashbang.
-            var result = $location.search()[name];
+            var result = broadcast.getValueFromHash(name);
             if (!result) {
                 result = broadcast.getValueFromUrl(name);
             }
@@ -142,11 +144,6 @@
         }
 
         function onApplyClicked() {
-            if (vm.isComparing) {
-                compareSelectedPeriod();
-                return;
-            }
-
             if (vm.selectedPeriod === 'range') {
                 var dateString = getSelectedDateString();
                 if (!dateString) {
@@ -160,17 +157,6 @@
             }
 
             setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
-        }
-
-        function compareSelectedPeriod() {
-            vm.isComparing = false;
-
-            comparisonsService.addComparison({
-                date: getSelectedDateString(),
-                period: vm.selectedPeriod,
-            });
-
-            vm.closePeriodSelector();
         }
 
         function getSelectedDateString() {
@@ -204,11 +190,6 @@
             var currentDateString = formatDate(date);
             setRangeStartEndFromPeriod(period, currentDateString);
 
-            if (vm.isComparing) {
-                compareSelectedPeriod();
-                return;
-            }
-
             propagateNewUrlParams(currentDateString, vm.selectedPeriod);
             initTopControls();
         }
@@ -219,18 +200,66 @@
             vm.endRangeDate = formatDate(dateRange[1] > piwikMaxDate ? piwikMaxDate : dateRange[1]);
         }
 
+        function getSelectedComparisonParams() {
+            var previousDate;
+
+            if (!vm.isComparing) {
+                return {};
+            }
+
+            // TODO: check date validity and disable apply in that case
+
+            if (vm.comparePeriodType === 'custom') {
+                return {
+                    comparePeriods: ['range'],
+                    compareDates: [vm.compareStartDate + ',' + vm.compareEndDate],
+                };
+            } else if (vm.comparePeriodType === 'previousPeriod') {
+                previousDate = getPreviousPeriodDateToSelectedPeriod();
+                return {
+                    comparePeriods: [vm.selectedPeriod],
+                    compareDates: [piwikPeriods.format(previousDate)],
+                };
+            } else if (vm.comparePeriodType === 'previousYear') {
+                previousDate = new Date(vm.dateValue);
+                previousDate.setFullYear(previousDate.getFullYear() - 1);
+                return {
+                    comparePeriods: ['year'],
+                    compareDates: [piwikPeriods.format(previousDate)],
+                };
+            } else {
+                console.warn("Unknown compare period type: " + vm.comparePeriodType);
+                return {};
+            }
+        }
+
+        function getPreviousPeriodDateToSelectedPeriod() {
+            return piwikPeriods.RangePeriod.getLastNRange(vm.selectedPeriod, 2, vm.dateValue).startDate;
+        }
+
         function propagateNewUrlParams(date, period) {
+            var compareParams = getSelectedComparisonParams();
+
             if (piwik.helper.isAngularRenderingThePage()) {
                 vm.closePeriodSelector(); // defined in directive
 
                 var $search = $location.search();
-                if (date !== $search.date || period !== $search.period) {
+                if (date !== $search.date || period !== $search.period || vm.isComparing) {
                     // eg when using back button the date might be actually already changed in the URL and we do not
                     // want to change the URL again
                     $search.date = date;
                     $search.period = period;
-                    $location.search($search);
+                    $search.compareSegments = getQueryParamValue('compareSegments') || [];
+                    $.extend($search, compareParams);
+
+                    delete $search['compareSegments[]'];
+                    delete $search['comparePeriods[]'];
+                    delete $search['compareDates[]'];
+
+                    $location.search($.param($search));
                 }
+
+                vm.isComparing = false;
 
                 return;
             }
@@ -239,7 +268,10 @@
 
             // not in an angular context (eg, embedded dashboard), so must actually
             // change the URL
-            broadcast.propagateNewPage('date=' + date + '&period=' + period);
+            var url = $.param($.extend({ date: date, period: period }, compareParams));
+            broadcast.propagateNewPage(url);
+
+            vm.isComparing = false;
         }
 
         function isValidDate(d) {
