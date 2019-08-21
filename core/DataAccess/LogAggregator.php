@@ -245,10 +245,17 @@ class LogAggregator
         $db = new Db\Settings();
         $isInnoDb = strtolower($db->getEngine()) === 'innodb';
 
-        if ($isInnoDb) {
-            $value = $readerDb->fetchOne('SELECT @@TX_ISOLATION');
-            $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+        if (!$isInnoDb) {
+            $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
+            if (!empty($all)) {
+                // we're not using batchinsert since this would not support the reader DB.
+                $readerDb->query('INSERT INTO ' . $table . ' VALUES ('.implode('),(', array_column($all, 'idvisit')).')');
+            }
+            return;
         }
+
+        $value = $readerDb->fetchOne('SELECT @@TX_ISOLATION');
+        $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
 
         $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
