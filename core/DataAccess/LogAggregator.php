@@ -239,6 +239,8 @@ class LogAggregator
     public function allowUsageSegmentCache()
     {
         $this->allowUsageSegmentCache = true;
+        // in case the archiving failed earlier and the mysql wouldn't drop the temp table automatically
+        $this->cleanup();
     }
 
     private function getLogTableProvider()

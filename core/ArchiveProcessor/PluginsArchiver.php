@@ -69,7 +69,6 @@ class PluginsArchiver
 
         $this->logAggregator = new LogAggregator($params);
         $this->logAggregator->allowUsageSegmentCache();
-        $this->logAggregator->cleanup(); // in case the archiving failed earlier and the mysql wouldn't drop the temp table automatically
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
