@@ -180,6 +180,7 @@ class Db
         $dbConfig['schema'] = $masterDbConfig['schema'];
         $dbConfig['type'] = $masterDbConfig['type'];
         $dbConfig['tables_prefix'] = $masterDbConfig['tables_prefix'];
+        $dbConfig['charset'] = $masterDbConfig['charset'];
 
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
