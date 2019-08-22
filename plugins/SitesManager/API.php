@@ -615,6 +615,7 @@ class API extends \Piwik\Plugin\API
                             $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $this->checkName($siteName);
 
@@ -795,6 +796,7 @@ class API extends \Piwik\Plugin\API
     public function deleteSite($idSite)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
         if (!in_array($idSite, $idSites)) {
@@ -1255,6 +1257,7 @@ class API extends \Piwik\Plugin\API
                                $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
 

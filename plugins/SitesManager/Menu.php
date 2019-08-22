@@ -28,7 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addMeasurableItem('General_Settings', $this->urlForAction('globalSettings'), $order = 11);
         }
         
-        if (Piwik::isUserHasSomeAdminAccess()) {
+        if (Piwik::isUserHasSomeAdminAccess() && SitesManager::isSitesAdminEnabled()) {
             $menu->addMeasurableItem('SitesManager_MenuManage', $this->urlForAction('index'), $order = 10);
 
             $type = $this->getFirstTypeIfOnlyOneIsInUse();

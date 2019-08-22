@@ -13,9 +13,11 @@ use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\Write;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\SettingsPiwik;
 
 /**
@@ -42,6 +44,19 @@ class UsersManager extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'CronArchive.getTokenAuth'               => 'getCronArchiveTokenAuth'
         );
+    }
+
+    public static function isUsersAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_users_admin'];
+    }
+
+    public static function dieIfUsersAdminIsDisabled()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        if (!self::isUsersAdminEnabled()) {
+            throw new \Exception('Creating, updating, and deleting users has been disabled.');
+        }
     }
 
     public function addSystemSummaryItems(&$systemSummary)

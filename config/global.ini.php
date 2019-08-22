@@ -45,6 +45,18 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; If configured, the following queries will be executed on the reader instead of the writer.
+; * archiving queries that hit a log table
+; * live queries that hit a log table
+; You only want to enable a reader if you can ensure there is minimal replication lag / delay on the reader.
+; Otherwise you might get corrupt data in the reports.
+[database_reader]
+host =
+username =
+password =
+dbname =
+port = 3306
+
 [database_tests]
 host = localhost
 username = "@USERNAME@"
@@ -195,6 +207,12 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
 enabled_periods_API = "day,week,month,year,range"
+
+; whether to enable segment archiving cache
+; Note: if you use any plugins, this need to be compliant with Matomo and
+; * depending on the segment you create you may need a newer MySQL version (eg 5.7 or newer)
+; * use a reader database for archiving in case you have configured a database reader
+enable_segments_cache = 1
 
 ; whether to enable subquery cache for Custom Segment archiving queries
 enable_segments_subquery_cache = 0
@@ -645,6 +663,12 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
+; By setting this option to 0 the users management will be disabled
+enable_users_admin = 1
+
+; By setting this option to 1 the users management will be disabled
+enable_sites_admin = 1
+
 ; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
 ; Enabling this opens a remote code execution vulnerability where
 ; an attacker who gained Super User access could execute custom PHP code in a Matomo plugin.
@@ -704,6 +728,11 @@ num_days_before_tracking_code_reminder = 5
 ; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
 ; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
+
+; Whether or not to send weekly emails to superusers about tracking failures.
+; Default is 1.
+enable_tracking_failures_notification = 1
+
 
 [Tracker]
 

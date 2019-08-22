@@ -15,7 +15,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        if (Piwik::isUserHasSomeAdminAccess()) {
+        if (Piwik::isUserHasSomeAdminAccess() && UsersManager::isUsersAdminEnabled()) {
             $menu->addSystemItem('UsersManager_MenuUsers', $this->urlForAction('index'), $order = 15);
         }
 

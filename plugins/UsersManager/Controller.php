@@ -14,6 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -52,6 +53,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeAdminAccess();
+        UsersManager::dieIfUsersAdminIsDisabled();
 
         $view = new View('@UsersManager/index');
 
@@ -182,6 +184,7 @@ class Controller extends ControllerAdmin
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
+        $view->isUsersAdminEnabled = UsersManager::isUsersAdminEnabled();
 
         $userPreferences = new UserPreferences();
         $defaultReport   = $userPreferences->getDefaultReport();
@@ -205,11 +208,14 @@ class Controller extends ControllerAdmin
             $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
 
-        $view->defaultReportOptions = array(
-            array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard')),
-            array('key' => $reportOptionsValue, 'value' => Piwik::translate('General_DashboardForASpecificWebsite')),
-        );
+        $defaultReportOptions = array();
+        if (Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
+            $defaultReportOptions[] = array('key' => 'MultiSites', 'value' => Piwik::translate('General_AllWebsitesDashboard'));
+        }
 
+        $defaultReportOptions[] = array('key' => $reportOptionsValue, 'value' => Piwik::translate('General_DashboardForASpecificWebsite'));
+
+        $view->defaultReportOptions = $defaultReportOptions;
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
         $view->availableDefaultDates = $this->getDefaultDates();
 
@@ -378,7 +384,9 @@ class Controller extends ControllerAdmin
 
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
 
-            $this->processPasswordChange($userLogin);
+            if (UsersManager::isUsersAdminEnabled()) {
+                $this->processPasswordChange($userLogin);
+            }
 
             LanguagesManager::setLanguageForSession($language);
 
