@@ -163,6 +163,11 @@ class LogAggregator
     private $isRootArchiveRequest;
 
     /**
+     * @var bool
+     */
+    private $allowUsageSegmentCache = false;
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -222,9 +227,18 @@ class LogAggregator
 
     private function isSegmentCacheEnabled()
     {
+        if (!$this->allowUsageSegmentCache) {
+            return false;
+        }
+
         $config = Config::getInstance();
         $general = $config->General;
         return !empty($general['enable_segments_cache']);
+    }
+
+    public function allowUsageSegmentCache()
+    {
+        $this->allowUsageSegmentCache = true;
     }
 
     private function getLogTableProvider()
