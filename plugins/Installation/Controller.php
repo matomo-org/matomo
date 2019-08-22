@@ -383,9 +383,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $showMatomoLinks = true;
         Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
 
+        $trackingUrl = SettingsPiwik::getPiwikUrl() . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
+
         $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
             'jsTag' => $rawJsTag,
-            'showMatomoLinks' => $showMatomoLinks
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $idSite
         ), $viewType = 'basic');
 
         // Load the Tracking code and help text from the SitesManager
