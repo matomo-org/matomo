@@ -710,6 +710,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
+        UsersManager::dieIfUsersAdminIsDisabled();
 
         $requirePasswordConfirmation = self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION;
         self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
