@@ -9,27 +9,44 @@
     // can probably be shared
     angular.module('piwikApp').factory('piwikComparisonsService', ComparisonFactory);
 
-    ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods'];
+    ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods', 'piwikApi'];
 
     // TODO: unit test
-    function ComparisonFactory($location, $rootScope, piwikPeriods) {
+    function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi) {
         var comparisons = [];
+        var comparisonsDisabledFor = [];
+        var isEnabled = true;
 
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
+        $rootScope.$on('piwikPageChange', checkEnabledForCurrentPage);
+        $rootScope.$on('piwikSegmentationInited', updateComparisonsFromQueryParams);
 
-        updateComparisonsFromQueryParams();
+        loadComparisonsDisabledFor();
 
         return {
             getComparisons: getComparisons,
             removeComparison: removeComparison,
-            addComparison: addComparison
+            addComparison: addComparison,
+            isComparisonEnabled: isComparisonEnabled
         };
 
+        function isComparisonEnabled() {
+            return isEnabled;
+        }
+
         function getComparisons() {
+            if (!isComparisonEnabled()) {
+                return [];
+            }
+
             return comparisons;
         }
 
         function removeComparison(comparisonToRemove) {
+            if (isComparisonEnabled()) {
+                throw new Error('Comparison disabled.');
+            }
+
             var newComparisons = comparisons.filter(function (comparison) {
                 return comparison !== comparisonToRemove;
             });
@@ -37,6 +54,10 @@
         }
 
         function addComparison(params) {
+            if (isComparisonEnabled()) {
+                throw new Error('Comparison disabled.');
+            }
+
             var newComparisons = comparisons.concat([{ params: params }]);
             updateQueryParamsFromComparisons(newComparisons);
         }
@@ -92,7 +113,11 @@
         function updateComparisonsFromQueryParams() {
             var title;
 
-            var availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
+            try {
+                var availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
+            } catch (e) {
+                // segment editor is not initialized yet
+            }
 
             var compareSegments = getQueryParamValue('compareSegments') || [];
             compareSegments = compareSegments instanceof Array ? compareSegments : [compareSegments];
@@ -141,7 +166,7 @@
             setComparisons(newComparisons);
         }
 
-        function getQueryParamValue(name) { // TODO: code redundancy w/ period selector
+        function getQueryParamValue(name) { // TODO: code redundancy w/ period selector and elsewhere
             var result = broadcast.getValueFromHash(name);
             if (!result) {
                 result = broadcast.getValueFromUrl(name);
@@ -152,6 +177,26 @@
         function setComparisons(newComparisons) {
             comparisons = newComparisons;
             Object.freeze(comparisons);
+        }
+
+        function checkEnabledForCurrentPage() {
+            var category = getQueryParamValue('category');
+            var subcategory = getQueryParamValue('subcategory');
+
+            var id = category + "." + subcategory;
+            isEnabled = comparisonsDisabledFor.indexOf(id) === -1;
+
+            $('html').toggleClass('comparisonsDisabled', !isEnabled);
+        }
+
+        function loadComparisonsDisabledFor() {
+            piwikApi.fetch({
+                module: 'API',
+                method: 'API.getPagesComparisonsDisabledFor',
+            }).then(function (result) {
+                comparisonsDisabledFor = result;
+                checkEnabledForCurrentPage();
+            });
         }
     }
 

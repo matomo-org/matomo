@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikComparisonsService'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikComparisonsService) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
 
@@ -128,6 +128,7 @@
             $scope.renderPage(category, subcategory);
         });
 
+        // TODO: redundancy
         function getQueryParamValue(name) {
             var result = broadcast.getValueFromHash(name);
             if (!result) {

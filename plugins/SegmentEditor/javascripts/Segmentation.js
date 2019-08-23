@@ -167,7 +167,10 @@ Segmentation = (function($) {
                 + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
-            listHtml += '<span class="compareSegment allVisitsCompareSegment" title="Compare this segment with the selected segment and period."></span>';
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            if (comparisonService.isComparisonEnabled()) {
+                listHtml += '<span class="compareSegment allVisitsCompareSegment" title="Compare this segment with the selected segment and period."></span>';
+            }
             listHtml += '</li>';
 
             var isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
@@ -215,7 +218,9 @@ Segmentation = (function($) {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
                     // TODO: translate
-                    listHtml += '<span class="compareSegment" title="Compare this segment with the selected segment and period."></span>';
+                    if (comparisonService.isComparisonEnabled()) {
+                        listHtml += '<span class="compareSegment" title="Compare this segment with the selected segment and period."></span>';
+                    }
                     listHtml += '</li>';
                 }
 
@@ -1075,6 +1080,8 @@ $(document).ready(function() {
         $('body').on('mouseup', this.onMouseUp);
 
         initTopControls();
+
+        piwikHelper.getAngularDependency('$rootScope').$emit('piwikSegmentationInited');
     };
 
     /**

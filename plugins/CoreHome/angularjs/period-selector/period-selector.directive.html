@@ -67,7 +67,7 @@
             </tr>
         </table>
 
-        <div class="compare-checkbox">
+        <div class="compare-checkbox" ng-if="periodSelector.isComparisonEnabled()">
             <input id="comparePeriodTo" type="checkbox" ng-model="periodSelector.isComparing"/>
             <label for="comparePeriodTo">Compare to:</label>
 

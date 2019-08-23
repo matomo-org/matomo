@@ -10,7 +10,7 @@
 
     PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods, comparisonsService) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -43,6 +43,7 @@
         vm.onRangeChange = onRangeChange;
         vm.isApplyEnabled = isApplyEnabled;
         vm.$onInit = init;
+        vm.isComparisonEnabled = isComparisonEnabled;
 
         function init() {
             vm.updateSelectedValuesFromHash();
@@ -284,6 +285,10 @@
 
         function formatDate(date) {
             return $.datepicker.formatDate('yy-mm-dd', date);
+        }
+
+        function isComparisonEnabled() {
+            return piwikComparisonsService.isComparisonEnabled();
         }
     }
 })();

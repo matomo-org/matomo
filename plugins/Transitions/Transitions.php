@@ -21,8 +21,14 @@ class Transitions extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'API.getPagesComparisonsDisabledFor' => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = "General_Actions.Transitions_Transitions";
     }
 
     public function getStylesheetFiles(&$stylesheets)

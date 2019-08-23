@@ -620,6 +620,36 @@ class API extends \Piwik\Plugin\API
         return $values;
     }
 
+    /**
+     * Returns category/subcategory pairs as "CategoryId.SubcategoryId" for whom comparison features should
+     * be disabled.
+     *
+     * @return string[]
+     */
+    public function getPagesComparisonsDisabledFor()
+    {
+        $pages = [];
+
+        /**
+         * If your plugin has pages where you'd like comparison features to be disabled, you can add them
+         * via this event. Add the pages as "CategoryId.SubcategoryId".
+         *
+         * **Example**
+         *
+         * ```
+         * public function getPagesComparisonsDisabledFor(&$pages)
+         * {
+         *     $pages[] = "General_Visitors.MyPlugin_MySubcategory";
+         * }
+         * ```
+         *
+         * @param string[] &$pages
+         */
+        Piwik::postEvent('API.getPagesComparisonsDisabledFor', [&$pages]);
+
+        return $pages;
+    }
+
     private function findSegment($segmentName, $idSite)
     {
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
