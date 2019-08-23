@@ -67,14 +67,6 @@ class PluginList
         $section = $this->settings->getSection('Plugins');
         $plugins = @$section['Plugins'] ?: array();
 
-        if (!empty($GLOBALS['MATOMO_PLUGIN_NAMES_ENABLE_EXTRA'])) {
-            foreach ($GLOBALS['MATOMO_PLUGIN_NAMES_ENABLE_EXTRA'] as $pluginName) {
-                if (!in_array($pluginName, $plugins, true)) {
-                    $plugins[] = $pluginName;
-                }
-            }
-        }
-
         return $plugins;
     }
 
