@@ -115,10 +115,17 @@ class Model
         foreach ($datesByPeriodType as $periodType => $dates) {
             $dateConditions = array();
 
-            foreach ($dates as $date) {
-                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                $bind[] = $date;
-                $bind[] = $date;
+            if ($periodType == Period\Range::PERIOD_ID) {
+                foreach ($dates as $date) {
+                    $dateConditions[] = "(date1 = ? AND date2 = ?)";
+                    $bind = array_merge($bind, explode(',', $date));
+                }
+            } else {
+                foreach ($dates as $date) {
+                    $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                    $bind[] = $date;
+                    $bind[] = $date;
+                }
             }
 
             $dateConditionsSql = implode(" OR ", $dateConditions);
@@ -149,6 +156,47 @@ class Model
         return Db::query($sql, $bind);
     }
 
+    /**
+     * @param string $archiveTable Prefixed table name
+     * @param int[] $idSites
+     * @param Segment $segment
+     * @param array $datesByPeriodType
+     * @return \Zend_Db_Statement
+     * @throws Exception
+     */
+    public function updateAllRangeArchivesAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        $bind = array();
+
+        $periodConditions = array();
+        foreach ($datesByPeriodType as $periodType => $dates) {
+            $dateConditions = array();
+
+            foreach ($dates as $date) {
+                // Ranges in the DB match if their date2 is after the start of the search range and date2 is before the end
+                $dateConditions[] = "(date2 => ? AND date1 <= ?)";
+                $bind = array_merge($bind, explode(',', $date));
+            }
+
+            $dateConditionsSql = implode(" OR ", $dateConditions);
+            $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+        }
+
+        if ($segment) {
+            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        } else {
+            $nameCondition = "name LIKE 'done%'";
+        }
+
+        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+            . " WHERE $nameCondition
+                   AND idsite IN (" . implode(", ", $idSites) . ")
+                   AND (" . implode(" OR ", $periodConditions) . ")";
+
+        return Db::query($sql, $bind);
+    }
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
     {

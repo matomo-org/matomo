@@ -93,6 +93,11 @@ class InvalidateReportData extends ConsoleCommand
                 }
             }
         }
+
+        $periods = $input->getOption('periods');
+        if ($periods === self::ALL_OPTION_VALUE) {
+            $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $dateRanges, $segment);
+        }
     }
 
     private function getSitesToInvalidateFor(InputInterface $input)
@@ -123,6 +128,7 @@ class InvalidateReportData extends ConsoleCommand
 
         if ($periods == self::ALL_OPTION_VALUE) {
             $result = array_keys(Piwik::$idPeriods);
+            unset($result[4]);
             return $result;
         }
 

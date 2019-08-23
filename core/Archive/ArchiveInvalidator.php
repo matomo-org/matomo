@@ -206,6 +206,44 @@ class ArchiveInvalidator
     }
 
     /**
+     * @param $idSites int[]
+     * @param $dates Date[]
+     * @param $period string
+     * @param $segment Segment
+     * @param bool $cascadeDown
+     * @return InvalidationResult
+     * @throws \Exception
+     */
+    public function markArchivesOverlappingRangeAsInvalidated(array $idSites, array $dates, Segment $segment = null)
+    {
+        $invalidationInfo = new InvalidationResult();
+
+        // TODO: Figure out how to get ALL the periods, or just assume there'll only be one???
+        $periods = $this->getPeriodsToInvalidate($dates, 'range', false);
+        $invalidatedMonths = array();
+        $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
+        foreach ($archiveNumericTables as $table) {
+            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
+
+            $rowsAffected = $this->model->updateAllRangeArchivesAsInvalidated($table, $idSites, $periods, $segment);
+            if ($rowsAffected > 0) {
+                $invalidatedMonths[] = $tableDate;
+            }
+        }
+
+        foreach ($idSites as $idSite) {
+            foreach ($dates as $date) {
+                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+            }
+        }
+
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
+        $archivesToPurge->add($invalidatedMonths);
+
+        return $invalidationInfo;
+    }
+
+    /**
      * @param string[][][] $periodDates
      * @return string[][][]
      */
@@ -230,20 +268,13 @@ class ArchiveInvalidator
     {
         $periodsToInvalidate = array();
 
-        // Get the individual dates for a range, we need to check all of them
-        if ($periodType === 'range') {
-            $allDates = array();
-            for ($date = $dates[0]; $date->getTimestamp() <= $dates[1]->getTimestamp(); $date = $date->addDay(1)) {
-                $allDates[] = $date;
-            }
-            $dates = $allDates;
+        if ($periodType == 'range') {
+            $rangeString = $dates[0] . ',' . $dates[1];
+            $periodsToInvalidate[] = Period\Factory::build('range', $rangeString);
+            return $periodsToInvalidate;
         }
 
         foreach ($dates as $date) {
-            if ($periodType == 'range') {
-                $date = $date . ',' . $date;
-            }
-
             $period = Period\Factory::build($periodType, $date);
             $periodsToInvalidate[] = $period;
 
@@ -251,9 +282,7 @@ class ArchiveInvalidator
                 $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
             }
 
-            if ($periodType != 'year'
-                && $periodType != 'range'
-            ) {
+            if ($periodType != 'year') {
                 $periodsToInvalidate[] = Period\Factory::build('year', $date);
             }
         }
@@ -273,7 +302,11 @@ class ArchiveInvalidator
             $periodType = $period->getId();
 
             $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
-            $result[$yearMonth][$periodType][] = $date->toString();
+            $dateString = $date->toString();
+            if ($periodType == Period\Range::PERIOD_ID) {
+                $dateString = $period->getRangeString();
+            }
+            $result[$yearMonth][$periodType][] = $dateString;
         }
         return $result;
     }
