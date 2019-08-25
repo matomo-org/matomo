@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "Πρέπει να συνδεθείτε για να έχετε πρόσβαση στη λειτουργία",
         "YourChangesHaveBeenSaved": "Οι αλλαγές σας αποθηκεύτηκαν.",
         "ThankYouForUsingMatomo": "Ευχαριστούμε που χρησιμοποιείτε το Matomo",
-        "TheMatomoTeam": "Η ομάδα του Matomo"
+        "TheMatomoTeam": "Η ομάδα του Matomo",
+        "PleaseTryAgain": "Παρακαλούμε δοκιμάστε αργότερα"
     },
     "Mobile": {
         "AboutPiwikMobile": "Σχετικά με το Matomo για κινητά",
