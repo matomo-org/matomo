@@ -3,14 +3,14 @@
     {% import '@Marketplace/macros.twig' as marketplaceMacro %}
 
     <div>
-        <a id="update-selected-plugins" href="javascript:" class="btn">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
+        <a id="update-selected-plugins" href="javascript:" class="btn disabled">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
     </div>
     <table piwik-content-table>
         <thead>
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select-plugin-all" />
+                    <input type="checkbox" id="select-plugin-all" onclick="boxes_selected()"/>
                     <label for="select-plugin-all"></label>
                 </span>
             </th>
@@ -26,7 +26,7 @@
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                 <td class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" onclick="boxes_selected()" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
                         <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
                     </span>
                 </td>
@@ -101,6 +101,21 @@
                 });
             });
         });
+        
+        function boxes_selected(){
+            var checked_boxes = 0;
+            var boxes = document.querySelectorAll('span.checkbox-container > input');
+            
+            for (var i = 0; i < boxes.length; i++){
+                if (boxes[i].checked)
+                    checked_boxes += 1
+            }
+            if (checked_boxes >= 1) {
+                document.getElementById('update-selected-plugins').classList.remove('disabled');
+            } else if (checked_boxes === 0) {
+                document.getElementById('update-selected-plugins').classList.add('disabled');
+            }
+        }
     </script>
 
 {% endmacro %}
