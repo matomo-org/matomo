@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\API;
 
-use Piwik\DeviceDetectorCache;
+use Piwik\DeviceDetector\DeviceDetectorCache;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;

@@ -10,7 +10,8 @@ namespace Piwik\Tracker;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
-use Piwik\DeviceDetectorFactory;
+use Piwik\Container\StaticContainer;
+use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IP;
 use Piwik\Piwik;
@@ -175,7 +176,7 @@ class VisitExcluded
     {
         $allowBots = $this->request->getParam('bots');
 
-        $deviceDetector = DeviceDetectorFactory::getInstance($this->userAgent);
+        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($this->userAgent );
 
         return !$allowBots
             && ($deviceDetector->isBot() || $this->isIpInRange());
