@@ -164,25 +164,23 @@ class Model
      * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateAllRangeArchivesAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
+    public function updateAllRangeArchivesAsInvalidated($archiveTable, $idSites, $ranges, Segment $segment = null)
     {
         $idSites = array_map('intval', $idSites);
 
         $bind = array();
 
-        $periodConditions = array();
-        foreach ($datesByPeriodType as $periodType => $dates) {
-            $dateConditions = array();
+        $dateConditions = array();
 
-            foreach ($dates as $date) {
-                // Ranges in the DB match if their date2 is after the start of the search range and date2 is before the end
-                $dateConditions[] = "(date2 => ? AND date1 <= ?)";
-                $bind = array_merge($bind, explode(',', $date));
-            }
-
-            $dateConditionsSql = implode(" OR ", $dateConditions);
-            $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
+        foreach ($ranges as $range) {
+            // Ranges in the DB match if their date2 is after the start of the search range and date2 is before the end
+            $dateConditions[] = "(date2 >= ? AND date1 <= ?)";
+            $bind[] = $range->getDateStart()->toString();
+            $bind[] = $range->getDateEnd()->toString();
         }
+
+        $dateConditionsSql = implode(" OR ", $dateConditions);
+        $periodCondition = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
 
         if ($segment) {
             $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
@@ -193,7 +191,7 @@ class Model
         $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
             . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
-                   AND (" . implode(" OR ", $periodConditions) . ")";
+                   AND " . $periodCondition;
 
         return Db::query($sql, $bind);
     }

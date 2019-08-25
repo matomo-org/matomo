@@ -310,157 +310,185 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals($expectedIdArchives, $idArchives);
     }
 
+    /**
+     * @dataProvider getTestDataForMarkArchiveRangesAsInvalidated
+     */
+    public function test_markArchivesAsInvalidated_MarksAllSubrangesOfRange($idSites, $dates, $segment, $expectedIdArchives)
+    {
+        $dates = array_map(array('Piwik\Date', 'factory'), $dates);
+
+        $this->insertArchiveRowsForTest();
+
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        }
+
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
+        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, $dates, $segment);
+
+        $this->assertEquals($dates, $result->processedDates);
+
+        $idArchives = $this->getInvalidatedArchives();
+
+        // Remove empty values (some new empty entries may be added each month)
+        $idArchives = array_filter($idArchives);
+        $expectedIdArchives = array_filter($expectedIdArchives);
+
+        $this->assertEquals($expectedIdArchives, $idArchives);
+    }
+
     public function getTestDataForMarkArchivesAsInvalidated()
     {
         // $idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives
         return array(
             // day period, multiple sites, multiple dates across tables, cascade = true
-//            array(
-//                array(1, 2),
-//                array('2015-01-01', '2015-02-05', '2015-04-30'),
-//                'day',
-//                null,
-//                true,
-//                array(
-//                    '2015_04' => array(
-//                        '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-04-27.2015-05-03.2.done',
-//                        '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
-//                    ),
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
-//                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                        '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
-//                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-//                        '2.2015-01-01.2015-12-31.4.done',
-//                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-//                    ),
-//                    '2015_02' => array(
-//                        '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-02-02.2015-02-08.2.done',
-//                        '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-//                        '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1, 2),
+                array('2015-01-01', '2015-02-05', '2015-04-30'),
+                'day',
+                null,
+                true,
+                array(
+                    '2015_04' => array(
+                        '1.2015-04-30.2015-04-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-04-30.2015-04-30.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-04-27.2015-05-03.2.done',
+                        '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2015-01-01.2015-01-01.1.done.VisitsSummary',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
+                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '2.2015-01-01.2015-12-31.4.done',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                    '2015_02' => array(
+                        '1.2015-02-05.2015-02-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '2.2015-02-05.2015-02-05.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-02-02.2015-02-08.2.done',
+                        '2.2015-02-02.2015-02-08.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                        '2.2015-02-01.2015-02-28.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
 
             // month period, one site, one date, cascade = false
-//            array(
-//                array(1),
-//                array('2015-01-01'),
-//                'month',
-//                null,
-//                false,
-//                array(
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1),
+                array('2015-01-01'),
+                'month',
+                null,
+                false,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    ),
+                ),
+            ),
 
             // month period, one site, one date, cascade = true
-//            array(
-//                array(1),
-//                array('2015-01-15'),
-//                'month',
-//                null,
-//                true,
-//                array(
-//                    '2014_12' => array(
-//                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-//
-//                        // doesn't need to be invalidated since the month won't use the week above, but very difficult
-//                        // to keep it valid, while keeping invalidation logic simple.
-//                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
-//                    ),
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
-//                        '1.2015-01-04.2015-01-04.1.done',
-//                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-07.2015-01-07.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-08.2015-01-08.1.done.VisitsSummary',
-//                        '1.2015-01-09.2015-01-09.1.done',
-//                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-12.2015-01-12.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-13.2015-01-13.1.done.VisitsSummary',
-//                        '1.2015-01-14.2015-01-14.1.done',
-//                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-17.2015-01-17.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-18.2015-01-18.1.done.VisitsSummary',
-//                        '1.2015-01-19.2015-01-19.1.done',
-//                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-22.2015-01-22.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-23.2015-01-23.1.done.VisitsSummary',
-//                        '1.2015-01-24.2015-01-24.1.done',
-//                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
-//                        '1.2015-01-29.2015-01-29.1.done',
-//                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-05.2015-01-11.2.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-12.2015-01-18.2.done.VisitsSummary',
-//                        '1.2015-01-19.2015-01-25.2.done',
-//                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1),
+                array('2015-01-15'),
+                'month',
+                null,
+                true,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+
+                        // doesn't need to be invalidated since the month won't use the week above, but very difficult
+                        // to keep it valid, while keeping invalidation logic simple.
+                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
+                        '1.2015-01-04.2015-01-04.1.done',
+                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-07.2015-01-07.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-08.2015-01-08.1.done.VisitsSummary',
+                        '1.2015-01-09.2015-01-09.1.done',
+                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-12.2015-01-12.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-13.2015-01-13.1.done.VisitsSummary',
+                        '1.2015-01-14.2015-01-14.1.done',
+                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-17.2015-01-17.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-18.2015-01-18.1.done.VisitsSummary',
+                        '1.2015-01-19.2015-01-19.1.done',
+                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-22.2015-01-22.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-23.2015-01-23.1.done.VisitsSummary',
+                        '1.2015-01-24.2015-01-24.1.done',
+                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
+                        '1.2015-01-29.2015-01-29.1.done',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-11.2.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-12.2015-01-18.2.done.VisitsSummary',
+                        '1.2015-01-19.2015-01-25.2.done',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
 
             // week period, one site, multiple dates w/ redundant dates & periods, cascade = true
-//            array(
-//                array(1),
-//                array('2015-01-02', '2015-01-03', '2015-01-31'),
-//                'week',
-//                null,
-//                true,
-//                array(
-//                    '2014_12' => array(
-//                        '1.2014-12-29.2014-12-29.1.done',
-//                        '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-//                    ),
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
-//                        '1.2015-01-04.2015-01-04.1.done',
-//                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
-//                        '1.2015-01-29.2015-01-29.1.done',
-//                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-//                    ),
-//                    '2015_02' => array(
-//                        '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1),
+                array('2015-01-02', '2015-01-03', '2015-01-31'),
+                'week',
+                null,
+                true,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-29.2014-12-29.1.done',
+                        '1.2014-12-30.2014-12-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2014-12-31.2014-12-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2014-12-01.2014-12-31.3.done5447835b0a861475918e79e932abdfd8',
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-02.2015-01-02.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-03.2015-01-03.1.done.VisitsSummary',
+                        '1.2015-01-04.2015-01-04.1.done',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-27.2015-01-27.1.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-28.2015-01-28.1.done.VisitsSummary',
+                        '1.2015-01-29.2015-01-29.1.done',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                    '2015_02' => array(
+                        '1.2015-02-01.2015-02-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
+                    ),
+                ),
+            ),
 
             // range period, exact match
             array(
@@ -476,7 +504,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
             ),
 
-            // range period, one site, cascade = true
+            // range period, overlapping a range in the DB = not a match so not invalidated
             array(
                 array(1),
                 array('2015-01-02', '2015-03-05'),
@@ -484,148 +512,153 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-//                    ),
-//                    '2015_03' => array(
-//                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-//                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                    ),
                 ),
             ),
 
-//            // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
-//            array(
-//                array(1),
-//                array('2014-12-18', '2014-12-20'),
-//                'range',
-//                null,
-//                false,
-//                array(
-//                    '2014_12' => array(
-//                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-//                    ),
-//                ),
-//            ),
-//
-//            // range period, range is right at end of one archived range and right at start of another
-//            // the first range won't be invalidated as we don't trawl all of the previous month archives for ranges
-//            array(
-//                array(1),
-//                array('2015-01-01', '2015-01-03'),
-//                'range',
-//                null,
-//                true,
-//                array(
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
-//                    ),
-//                ),
-//            ),
-//
-//            // range period, range that overlaps start of archived range
-//            array(
-//                array(1),
-//                array('2014-12-01', '2014-12-05'),
-//                'range',
-//                null,
-//                true,
-//                array(
-//                    '2014_12' => array(
-//                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
-//                    ),
-//                ),
-//            ),
-//
-//            // range period, large range that includes the smallest archived range (3 to 4 March)
-//            array(
-//                array(1),
-//                array('2015-01-11', '2015-03-30'),
-//                'range',
-//                null,
-//                false,
-//                array(
-//                    '2015_03' => array(
-//                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
-//                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                    ),
-//                ),
-//            ),
-//
-//            // range period, doesn't match any archived ranges
-//            array(
-//                array(1),
-//                array('2014-12-01', '2014-12-04'),
-//                'range',
-//                null,
-//                false,
-//                array(
-//                ),
-//            ),
-//
-//            // three-month range period, there's a range archive for the middle month
-//            array(
-//                array(1),
-//                array('2014-09-01', '2014-11-08'),
-//                'range',
-//                null,
-//                false,
-//                array(
-//                    '2014_10' => array(
-//                        '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
-//                    ),
-//                ),
-//            ),
-
             // week period, one site, cascade = true, segment
-//            array(
-//                array(1),
-//                array('2015-01-05'),
-//                'month',
-//                self::TEST_SEGMENT_1,
-//                true,
-//                array(
-//                    '2014_12' => array(
-//                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
-//                    ),
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
-//                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1),
+                array('2015-01-05'),
+                'month',
+                self::TEST_SEGMENT_1,
+                true,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-29.2015-01-04.2.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-05.2015-01-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-06.2015-01-06.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-10.2015-01-10.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-11.2015-01-11.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-15.2015-01-15.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-16.2015-01-16.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-20.2015-01-20.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-21.2015-01-21.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-25.2015-01-25.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-26.2015-01-26.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-30.2015-01-30.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-31.2015-01-31.1.done3736b708e4d20cfc10610e816a1b2341',
+                        '1.2015-01-26.2015-02-01.2.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-01-01.2015-01-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                ),
+            ),
 
             // removing all periods
-//            array(
-//                array(1),
-//                array('2015-05-05'),
-//                '',
-//                null,
-//                false,
-//                array(
-//                    '2015_01' => array(
-//                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
-//                    ),
-//                    '2015_05' => array(
-//                        '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
-//                        '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
-//                        '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
-//                    ),
-//                ),
-//            ),
+            array(
+                array(1),
+                array('2015-05-05'),
+                '',
+                null,
+                false,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
+                    ),
+                    '2015_05' => array(
+                        '1.2015-05-05.2015-05-05.1.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                        '1.2015-05-04.2015-05-10.2.done5447835b0a861475918e79e932abdfd8',
+                        '1.2015-05-01.2015-05-31.3.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                ),
+            ),
+        );
+    }
+
+    public function getTestDataForMarkArchiveRangesAsInvalidated()
+    {
+        // $idSites, $dates, $segment, $expectedIdArchives
+        return array(
+            // range period, has an exact match, also a match where DB end date = reference start date
+            array(
+                array(1),
+                array('2015-01-01', '2015-01-10'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, overlapping range = a match
+            array(
+                array(1),
+                array('2015-01-02', '2015-03-05'),
+                null,
+                array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    ),
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
+
+            // range period, small range within the 2014-12-05 to 2015-01-01 range should cause it to be invalidated
+            array(
+                array(1),
+                array('2014-12-18', '2014-12-20'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, range that overlaps start of archived range
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-05'),
+                null,
+                array(
+                    '2014_12' => array(
+                        '1.2014-12-05.2015-01-01.5.done.VisitsSummary',
+                    ),
+                ),
+            ),
+
+            // range period, large range that includes the smallest archived range (3 to 4 March)
+            array(
+                array(1),
+                array('2015-01-11', '2015-03-30'),
+                null,
+                array(
+                    '2015_03' => array(
+                        '1.2015-03-04.2015-03-05.5.done.VisitsSummary',
+                        '1.2015-03-05.2015-03-10.5.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    ),
+                ),
+            ),
+
+            // range period, doesn't match any archived ranges
+            array(
+                array(1),
+                array('2014-12-01', '2014-12-04'),
+                null,
+                array(
+                ),
+            ),
+
+            // three-month range period, there's a range archive for the middle month
+            array(
+                array(1),
+                array('2014-09-01', '2014-11-08'),
+                null,
+                array(
+                    '2014_10' => array(
+                        '1.2014-10-15.2014-10-20.5.done3736b708e4d20cfc10610e816a1b2341',
+                    ),
+                ),
+            ),
         );
     }
 

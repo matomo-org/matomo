@@ -225,7 +225,8 @@ class ArchiveInvalidator
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $rowsAffected = $this->model->updateAllRangeArchivesAsInvalidated($table, $idSites, $periods, $segment);
+            $result = $this->model->updateAllRangeArchivesAsInvalidated($table, $idSites, $periods, $segment);
+            $rowsAffected = $result->rowCount();
             if ($rowsAffected > 0) {
                 $invalidatedMonths[] = $tableDate;
             }
@@ -234,6 +235,7 @@ class ArchiveInvalidator
         foreach ($idSites as $idSite) {
             foreach ($dates as $date) {
                 $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+                $invalidationInfo->processedDates[] = $date;
             }
         }
 
