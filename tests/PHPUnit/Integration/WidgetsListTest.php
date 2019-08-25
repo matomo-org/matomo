@@ -49,7 +49,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 10,
-            'About Matomo' => 10,
+            'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
         );
         // number of main categories
@@ -92,7 +92,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(10, count($perCategory));
+        $this->assertEquals(11, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
