@@ -158,11 +158,6 @@ class Visualization extends ViewDataTable
     protected $metricsFormatter = null;
 
     /**
-     * @var array
-     */
-    private $cachedRequestArray;
-
-    /**
      * @var Report
      */
     protected $report;
@@ -257,7 +252,7 @@ class Visualization extends ViewDataTable
         $this->setComparisonProperties($view);
 
         if (!$this->supportsComparison()
-            && Common::getRequestVar('compare', 0, 'int') == 1
+            && Common::getRequestVar('compare', 0, 'int') == 1 // TODO: this doesn't work, need to use some logic from isComparing()
         ) {
             // TODO: translate
             $view->show_footer_message .= '<br/>This visualization does not support segment/period comparison.';
@@ -835,49 +830,6 @@ class Visualization extends ViewDataTable
         }
 
         return $request;
-    }
-
-    private $isComparing = null;
-
-    /**
-     * TODO
-     * @return bool
-     */
-    public function isComparing()
-    {
-        if (!$this->supportsComparison()) {
-            return false;
-        }
-
-        if ($this->isComparing === null) {
-            $request = $this->request->getRequestArray();
-            $request = ApiRequest::getRequestArrayFromString($request);
-
-            $this->isComparing = !empty($request['compareSegments'])
-                || !empty($request['comparePeriods'])
-                || !empty($request['compareDates']);
-        }
-
-        return $this->isComparing;
-    }
-
-    /**
-     * TODO
-     * @return bool
-     */
-    public function supportsComparison()
-    {
-        return false;
-    }
-
-    public function getRequestArray()
-    {
-        if (empty($this->cachedRequestArray)) {
-            $requestArray = $this->request->getRequestArray();
-            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
-            $this->cachedRequestArray = $requestArray;
-        }
-        return $this->cachedRequestArray;
     }
 
     private function setComparisonProperties(View $view)

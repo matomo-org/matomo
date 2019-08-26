@@ -9,10 +9,12 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\Request;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -168,6 +170,13 @@ abstract class ViewDataTable implements ViewInterface
      * @var ViewDataTableRequest
      */
     protected $request;
+
+    private $isComparing = null;
+
+    /**
+     * @var array
+     */
+    private $cachedRequestArray;
 
     /**
      * Constructor. Initializes display and request properties to their default values.
@@ -356,7 +365,12 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
-        $this->dataTable = $this->request->loadDataTableFromAPI();
+        $extraParams = [];
+        if ($this->isComparing()) {
+            $extraParams['compare'] = '1';
+        }
+
+        $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
 
         return $this->dataTable;
     }
@@ -590,4 +604,44 @@ abstract class ViewDataTable implements ViewInterface
         return $paramsCannotBeOverridden;
     }
 
+    /**
+     * TODO
+     * @return bool
+     */
+    public function isComparing()
+    {
+        if (!$this->supportsComparison()) {
+            return false;
+        }
+
+        if ($this->isComparing === null) {
+            $request = $this->request->getRequestArray();
+            $request = ApiRequest::getRequestArrayFromString($request);
+
+            $this->isComparing = !empty($request['compareSegments'])
+                || !empty($request['comparePeriods'])
+                || !empty($request['compareDates']);
+        }
+
+        return $this->isComparing;
+    }
+
+    /**
+     * TODO
+     * @return bool
+     */
+    public function supportsComparison()
+    {
+        return false;
+    }
+
+    public function getRequestArray()
+    {
+        if (empty($this->cachedRequestArray)) {
+            $requestArray = $this->request->getRequestArray();
+            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
+            $this->cachedRequestArray = $requestArray;
+        }
+        return $this->cachedRequestArray;
+    }
 }

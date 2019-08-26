@@ -32,10 +32,11 @@ class Request
      * It builds the API request string and uses Request to call the API.
      * The requested DataTable object is stored in $this->dataTable.
      */
-    public function loadDataTableFromAPI()
+    public function loadDataTableFromAPI($extraParams = [])
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
+        $requestArray = array_merge($extraParams, $requestArray);
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);

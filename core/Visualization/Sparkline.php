@@ -35,7 +35,7 @@ class Sparkline implements ViewInterface
      * @var int
      */
     protected $_height = self::DEFAULT_HEIGHT;
-    private $values = array();
+    private $serieses = array();
     /**
      * @var \Davaxi\Sparkline
      */
@@ -43,14 +43,20 @@ class Sparkline implements ViewInterface
 
     /**
      * Array with format: array( x, y, z, ... )
-     * @param array $data
+     * @param array $data,...
      */
-    public function setValues($data) {
-        $this->values = $data;
+    public function setValues()
+    {
+        $this->serieses = func_get_args();
     }
 
-    public function main() {
+    public function addSeries(array $values)
+    {
+        $this->serieses[] = $values;
+    }
 
+    public function main()
+    {
         $sparkline = new \Davaxi\Sparkline();
 
         $seconds = Piwik::translate('Intl_NSecondsShort');
@@ -58,40 +64,46 @@ class Sparkline implements ViewInterface
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $decimalSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
-        $values = [];
-        foreach ($this->values as $value) {
-            // 50% and 50s should be plotted as 50
-            $value = str_replace($toRemove, '', $value);
-            // replace localized decimal separator
-            $value = str_replace($thousandSeparator, '', $value);
-            $value = str_replace($decimalSeparator, '.', $value);
-            if ($value == '') {
-                $value = 0;
+
+        $transformedSerieses = [];
+        foreach ($this->serieses as $series) {
+            $values = [];
+            foreach ($series as $value) {
+                // 50% and 50s should be plotted as 50
+                $value = str_replace($toRemove, '', $value);
+                // replace localized decimal separator
+                $value = str_replace($thousandSeparator, '', $value);
+                $value = str_replace($decimalSeparator, '.', $value);
+                if ($value == '') {
+                    $value = 0;
+                }
+                $values[] = $value;
             }
-            $values[] = $value;
-        }
 
-        $hasFloat = false;
-        foreach ($values as $value) {
-            if (is_numeric($value)
-                && is_float($value + 0) // coerce to int/float type before checking
-            ) {
-                $hasFloat = true;
-                break;
+            $hasFloat = false;
+            foreach ($values as $value) {
+                if (is_numeric($value)
+                    && is_float($value + 0) // coerce to int/float type before checking
+                ) {
+                    $hasFloat = true;
+                    break;
+                }
             }
+
+            // the sparkline lib used converts everything to integers (see the FormatTrait.php file) which means float
+            // numbers that are close to 1.0 or 0.0 will get floored. this can happen in the average page generation time
+            // report, and cause some values which are, eg, around ~.9 to appear as 0 in the sparkline. to workaround this, we
+            // scale the values.
+            if ($hasFloat) {
+                $values = array_map(function ($x) {
+                    return $x * 1000.0;
+                }, $values);
+            }
+
+            $transformedSerieses[] = $values;
         }
 
-        // the sparkline lib used converts everything to integers (see the FormatTrait.php file) which means float
-        // numbers that are close to 1.0 or 0.0 will get floored. this can happen in the average page generation time
-        // report, and cause some values which are, eg, around ~.9 to appear as 0 in the sparkline. to workaround this, we
-        // scale the values.
-        if ($hasFloat) {
-            $values = array_map(function ($x) {
-                return $x * 1000.0;
-            }, $values);
-        }
-
-        $sparkline->setData($values);
+        call_user_func_array([$sparkline, 'setData'], $transformedSerieses);
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
         $this->setSparklineColors($sparkline);
