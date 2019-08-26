@@ -279,27 +279,6 @@ class Model
         );
     }
 
-    public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
-    {
-        $tableWithoutLeadingPrefix = $numericTable;
-        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
-
-        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
-            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
-            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
-        }
-        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
-
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($dbLockName);
-
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
-            array($archiveId)
-        );
-
-        $this->releaseArchiveTableLock($dbLockName);
-    }
-
     public function insertRecord($tableName, $fields, $record, $name, $value)
     {
         // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
@@ -414,15 +393,4 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($dbLockName)
-    {
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("Cannot get named lock $dbLockName.");
-        }
-    }
-
-    protected function releaseArchiveTableLock($dbLockName)
-    {
-        Db::releaseDbLock($dbLockName);
-    }
 }
