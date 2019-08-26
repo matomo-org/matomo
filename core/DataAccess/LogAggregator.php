@@ -207,7 +207,7 @@ class LogAggregator
             if ($this->doesSegmentTableExist($segmentTable)) {
                 // safety in case an older MySQL version is used that does not drop table at the end of the connection
                 // automatically. also helps us release disk space/memory earlier when multiple segments are archived
-                $this->getDb()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
             }
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -244,8 +244,6 @@ class LogAggregator
     public function allowUsageSegmentCache()
     {
         $this->allowUsageSegmentCache = true;
-        // in case the archiving failed earlier and the mysql wouldn't drop the temp table automatically
-        $this->cleanup();
     }
 
     private function getLogTableProvider()

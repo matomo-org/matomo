@@ -99,6 +99,7 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
+        $this->logAggregator->cleanup();
         $this->logAggregator->setQueryOriginHint('Core');
 
         if ($this->shouldAggregateFromRawData) {
@@ -193,6 +194,8 @@ class PluginsArchiver
             Manager::getInstance()->deleteAll($latestUsedTableId);
             unset($archiver);
         }
+
+        $this->logAggregator->cleanup();
     }
 
     public function finalizeArchive()
@@ -200,8 +203,6 @@ class PluginsArchiver
         $this->params->logStatusDebug();
         $this->archiveWriter->finalizeArchive();
         $idArchive = $this->archiveWriter->getIdArchive();
-
-        $this->logAggregator->cleanup();
 
         return $idArchive;
     }
