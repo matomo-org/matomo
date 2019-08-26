@@ -218,8 +218,10 @@ class ArchiveInvalidator
     {
         $invalidationInfo = new InvalidationResult();
 
-        // TODO: Figure out how to get ALL the periods, or just assume there'll only be one???
-        $periods = $this->getPeriodsToInvalidate($dates, 'range', false);
+        $periods = array();
+        foreach ($dates as $dateRange) {
+            $periods[] = $this->getPeriodsToInvalidate($dateRange, 'range', false);
+        }
         $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
@@ -233,9 +235,9 @@ class ArchiveInvalidator
         }
 
         foreach ($idSites as $idSite) {
-            foreach ($dates as $date) {
-                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
-                $invalidationInfo->processedDates[] = $date;
+            foreach ($dates as $dateRange) {
+                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $dateRange[0]);
+                $invalidationInfo->processedDates[] = $dateRange[0];
             }
         }
 

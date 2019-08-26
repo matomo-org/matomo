@@ -96,7 +96,19 @@ class InvalidateReportData extends ConsoleCommand
 
         $periods = $input->getOption('periods');
         if ($periods === self::ALL_OPTION_VALUE) {
-            $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $dateRanges, $segment);
+            $rangeDates = array();
+            foreach ($dateRanges as $dateRange) {
+                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
+            }
+            foreach ($segments as $segment) {
+                $segmentStr = $segment ? $segment->getString() : '';
+                if ($dryRun) {
+                    $dateRangeStr = implode($dateRanges, ';');
+                    $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                } else {
+                    $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
+                }
+            }
         }
     }
 
