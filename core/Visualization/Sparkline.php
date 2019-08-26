@@ -65,8 +65,8 @@ class Sparkline implements ViewInterface
         $decimalSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
 
-        $transformedSerieses = [];
-        foreach ($this->serieses as $series) {
+        $sparkline->setData(); // remove default series
+        foreach ($this->serieses as $seriesIndex => $series) {
             $values = [];
             foreach ($series as $value) {
                 // 50% and 50s should be plotted as 50
@@ -100,13 +100,12 @@ class Sparkline implements ViewInterface
                 }, $values);
             }
 
-            $transformedSerieses[] = $values;
+            $sparkline->addSeries($values);
+            $this->setSparklineColors($sparkline, $seriesIndex);
         }
 
-        call_user_func_array([$sparkline, 'setData'], $transformedSerieses);
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $this->setSparklineColors($sparkline);
         $sparkline->setLineThickness(1);
         $sparkline->setPadding('5');
 
@@ -164,7 +163,7 @@ class Sparkline implements ViewInterface
      *
      * @param \Davaxi\Sparkline $sparkline
      */
-    private function setSparklineColors($sparkline) {
+    private function setSparklineColors($sparkline, $seriesIndex) {
         $colors = Common::getRequestVar('colors', false, 'json');
 
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
@@ -190,13 +189,13 @@ class Sparkline implements ViewInterface
             $sparkline->deactivateFillColor();
         }
         if (strtolower($colors['minPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("minimum", 5, $colors['minPointColor']);
+            $sparkline->addPoint("minimum", 5, $colors['minPointColor'], $seriesIndex);
         }
         if (strtolower($colors['maxPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("maximum", 5, $colors['maxPointColor']);
+            $sparkline->addPoint("maximum", 5, $colors['maxPointColor'], $seriesIndex);
         }
         if (strtolower($colors['lastPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("last", 5, $colors['lastPointColor']);
+            $sparkline->addPoint("last", 5, $colors['lastPointColor'], $seriesIndex);
         }
     }
 
