@@ -272,6 +272,13 @@ class Model
         return $idarchive;
     }
 
+    public function updateArchiveStatus($numericTable, $archiveId, $doneFlag, $value)
+    {
+        Db::query("UPDATE $numericTable SET `value` = '" . $value . "' WHERE idarchive = ? and `name` = ?",
+            array($archiveId, $doneFlag)
+        );
+    }
+
     public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
     {
         $tableWithoutLeadingPrefix = $numericTable;
