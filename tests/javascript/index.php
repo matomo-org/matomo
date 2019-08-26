@@ -2348,7 +2348,7 @@ function PiwikTest() {
     });
 
     test("Managing multiple trackers", function() {
-        expect(25);
+        expect(24);
 
         var asyncTracker = Piwik.getAsyncTracker();
         var i, tracker;
@@ -2378,6 +2378,8 @@ function PiwikTest() {
         equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
         equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
+        var trackerWithoutIdSite = asyncTracker.addTracker(tracker.url);
+        ok(!!trackerWithoutIdSite, 'addTracker() without siteId can be called');
 
         try {
             // should throw exception when no idSite given
