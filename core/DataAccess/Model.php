@@ -274,8 +274,8 @@ class Model
 
     public function updateArchiveStatus($numericTable, $archiveId, $doneFlag, $value)
     {
-        Db::query("UPDATE $numericTable SET `value` = '" . $value . "' WHERE idarchive = ? and `name` = ?",
-            array($archiveId, $doneFlag)
+        Db::query("UPDATE $numericTable SET `value` = ? WHERE idarchive = ? and `name` = ?",
+            array($value, $archiveId, $doneFlag)
         );
     }
 
