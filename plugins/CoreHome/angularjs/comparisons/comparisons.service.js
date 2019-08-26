@@ -43,7 +43,7 @@
         }
 
         function removeComparison(comparisonToRemove) {
-            if (isComparisonEnabled()) {
+            if (!isComparisonEnabled()) {
                 throw new Error('Comparison disabled.');
             }
 
@@ -54,7 +54,7 @@
         }
 
         function addComparison(params) {
-            if (isComparisonEnabled()) {
+            if (!isComparisonEnabled()) {
                 throw new Error('Comparison disabled.');
             }
 
