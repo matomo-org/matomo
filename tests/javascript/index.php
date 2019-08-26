@@ -2348,7 +2348,7 @@ function PiwikTest() {
     });
 
     test("Managing multiple trackers", function() {
-        expect(24);
+        expect(25);
 
         var asyncTracker = Piwik.getAsyncTracker();
         var i, tracker;
