@@ -204,18 +204,10 @@ class LogAggregator
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
 
-            try {
-                // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
-                Db::getReader()->fetchOne('SELECT 1 FROM ' . $segmentTable . ' LIMIT 1');
-                $tableExists = true;
-            } catch (\Exception $e) {
-                $tableExists = false;
-            }
-
-            if ($tableExists) {
+            if ($this->doesSegmentTableExist($segmentTable)) {
                 // safety in case an older MySQL version is used that does not drop table at the end of the connection
                 // automatically. also helps us release disk space/memory earlier when multiple segments are archived
-                Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+                $this->getDb()->query('DROP TABLE IF EXISTS ' . $segmentTable);
             }
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -223,6 +215,19 @@ class LogAggregator
                 $logTablesProvider->setTempTable(null); // no longer available
             }
         }
+    }
+
+    private function doesSegmentTableExist($segmentTablePrefixed)
+    {
+        try {
+            // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $tableExists = true;
+        } catch (\Exception $e) {
+            $tableExists = false;
+        }
+
+        return $tableExists;
     }
 
     private function isSegmentCacheEnabled()
@@ -251,6 +256,11 @@ class LogAggregator
     private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
     {
         $table = Common::prefixTable($unprefixedSegmentTableName);
+
+        if ($this->doesSegmentTableExist($table)) {
+            return; // no need to create the table, it was already created... better to have a select vs unneeded create table
+        }
+
         $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ';
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
