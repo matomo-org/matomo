@@ -258,8 +258,12 @@ class LogAggregator
         if ($this->doesSegmentTableExist($table)) {
             return; // no need to create the table, it was already created... better to have a select vs unneeded create table
         }
-
-        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ';
+	    
+        $engine = '';
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $engine = 'ENGINE=MEMORY';
+        }
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine;
         // we do not insert the data right away using create temporary table ... select ...
         // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
 
