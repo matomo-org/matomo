@@ -1,11 +1,15 @@
 <h3 ng-if="$ctrl.comparisonsService.getComparisons().length">Comparisons</h3>
 
-<div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getComparisons() track by $index">
-    <div class="comparison-type" ng-if="$ctrl.comparisonHasSegment(comparison)">Segment</div>
-    <div class="comparison-type" ng-if="comparison.params.period">{{ $ctrl.getComparisonPeriodType(comparison) }}</div>
+<div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
+    <div class="comparison-type">Segment</div>
 
     <div class="title">
         {{ comparison.title }}
+    </div>
+
+    <div class="comparison-period" ng-repeat="periodComparison in $ctrl.comparisonsService.getPeriodComparisons() track by $index">
+        <span class="comparison-dot" ng-style="{'background-color': $ctrl.comparisonsService.getSeriesColor(comparison, periodComparison)}"></span>
+        <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(comparison) }})</span>
     </div>
 
     <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)">

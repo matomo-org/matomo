@@ -13,9 +13,16 @@
 
     // TODO: unit test
     function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi) {
-        var comparisons = [];
+        var comparisons = []; // TODO: split into segment/period array, code will be simpler
+        var comparisonSeriesIndices = {};
         var comparisonsDisabledFor = [];
         var isEnabled = true;
+
+        var SERIES_COLOR_COUNT = 10;
+        var SERIES_SHADE_COUNT = 3;
+
+        var colors = {};
+        getAllSeriesColors();
 
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
         $rootScope.$on('piwikPageChange', checkEnabledForCurrentPage);
@@ -27,8 +34,31 @@
             getComparisons: getComparisons,
             removeComparison: removeComparison,
             addComparison: addComparison,
-            isComparisonEnabled: isComparisonEnabled
+            isComparisonEnabled: isComparisonEnabled,
+            getSegmentComparisons: getSegmentComparisons,
+            getPeriodComparisons: getPeriodComparisons,
+            getSeriesColor: getSeriesColor
         };
+
+        function getSegmentComparisons() {
+            return getComparisons().filter(function (comp) { return typeof comp.params.segment !== 'undefined'; });
+        }
+
+        function getPeriodComparisons() {
+            return getComparisons().filter(function (comp) { return typeof comp.params.period !== 'undefined'; });
+        }
+
+        function getSeriesColor(segmentComparison, periodComparison, metricIndex) {
+            metricIndex = metricIndex || 0;
+
+            var seriesIndex = comparisonSeriesIndices[segmentComparison.index][periodComparison.index] % SERIES_COLOR_COUNT;
+            if (metricIndex === 0) {
+                return colors['series' + seriesIndex];
+            } else {
+                var shadeIndex = metricIndex % SERIES_SHADE_COUNT;
+                return colors['series' + seriesIndex + '-shade' + shadeIndex];
+            }
+        }
 
         function isComparisonEnabled() {
             return isEnabled;
@@ -143,7 +173,8 @@
                     params: {
                         segment: segment
                     },
-                    title: segmentTitle
+                    title: segmentTitle,
+                    index: i
                 });
             });
 
@@ -159,7 +190,8 @@
                         date: compareDates[i],
                         period: comparePeriods[i]
                     },
-                    title: title
+                    title: title,
+                    index: i
                 });
             }
 
@@ -177,6 +209,17 @@
         function setComparisons(newComparisons) {
             comparisons = newComparisons;
             Object.freeze(comparisons);
+
+            comparisonSeriesIndices = {};
+
+            var seriesCount = 1;
+            getSegmentComparisons().forEach(function (segmentComp) {
+                comparisonSeriesIndices[segmentComp.index] = {};
+                getPeriodComparisons().forEach(function (periodComp) {
+                    comparisonSeriesIndices[segmentComp.index][periodComp.index] = seriesCount;
+                    ++seriesCount;
+                });
+            });
         }
 
         function checkEnabledForCurrentPage() {
@@ -197,6 +240,20 @@
                 comparisonsDisabledFor = result;
                 checkEnabledForCurrentPage();
             });
+        }
+
+        function getAllSeriesColors() {
+            var colorManager = piwik.ColorManager,
+                seriesColorNames = [];
+
+            for (var i = 1; i <= SERIES_COLOR_COUNT; ++i) {
+                seriesColorNames.push('series' + i);
+                for (var j = 1; j <= SERIES_SHADE_COUNT; ++j) {
+                    seriesColorNames.push('series' + i + '-shade' + j);
+                }
+            }
+
+            colors = colorManager.getColors('comparison-series-color', seriesColorNames);
         }
     }
 
