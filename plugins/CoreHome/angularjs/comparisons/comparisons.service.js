@@ -97,11 +97,22 @@
             var compareSegments = {};
             var comparePeriodDatePairs = {};
 
+            var firstSegment = false;
+            var firstPeriod = false;
+
             newComparisons.forEach(function (comparison) {
                 if (typeof comparison.params.segment !== 'undefined') {
-                    compareSegments[comparison.params.segment] = true;
+                    if (firstSegment) {
+                        compareSegments[comparison.params.segment] = true;
+                    } else {
+                        firstSegment = true;
+                    }
                 } else if (typeof comparison.params.period !== 'undefined') {
-                    comparePeriodDatePairs[comparison.params.period + '|' + comparison.params.date] = true;
+                    if (firstPeriod) {
+                        comparePeriodDatePairs[comparison.params.period + '|' + comparison.params.date] = true;
+                    } else {
+                        firstPeriod = true;
+                    }
                 }
             });
 
@@ -158,8 +169,18 @@
             var compareDates = getQueryParamValue('compareDates') || [];
             compareDates = compareDates instanceof Array ? compareDates : [compareDates];
 
+            if (!compareSegments.length && !comparePeriods.length) {
+                setComparisons([]);
+                return;
+            }
+
+            // add base comparisons
+            compareSegments.unshift(getQueryParamValue('segment'));
+            comparePeriods.unshift(getQueryParamValue('period'));
+            compareDates.unshift(getQueryParamValue('date'));
+
             var newComparisons = [];
-            compareSegments.forEach(function (segment) {
+            compareSegments.forEach(function (segment, idx) {
                 var storedSegment = availableSegments.find(function (s) {
                     return s.definition === segment;
                 });
@@ -174,7 +195,7 @@
                         segment: segment
                     },
                     title: segmentTitle,
-                    index: i
+                    index: idx
                 });
             });
 

@@ -37,7 +37,8 @@
             if (period === 'range') {
                 return _pk_translate('CoreHome_PeriodRange');
             }
-            return _pk_translate('Intl_Period' + period.substring(0, 1).toUpperCase() + period.substring(1));
+            var periodStr = _pk_translate('Intl_Period' + period.substring(0, 1).toUpperCase() + period.substring(1));
+            return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
         }
     }
 })();

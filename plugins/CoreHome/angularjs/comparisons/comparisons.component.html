@@ -9,10 +9,10 @@
 
     <div class="comparison-period" ng-repeat="periodComparison in $ctrl.comparisonsService.getPeriodComparisons() track by $index">
         <span class="comparison-dot" ng-style="{'background-color': $ctrl.comparisonsService.getSeriesColor(comparison, periodComparison)}"></span>
-        <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(comparison) }})</span>
+        <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(periodComparison) }})</span>
     </div>
 
-    <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)">
+    <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)" ng-if="$index > 0">
         <span class="icon icon-close" title="Click to remove this comparison."></span>
     </a>
 </div>
