@@ -147,8 +147,8 @@ Segmentation = (function($) {
             var html = self.editorTemplate.find("> .listHtml").clone();
             var segment, injClass;
             var listHtml = '<li data-idsegment="" ' +
-                (self.currentSegmentStr == "" ? " class='segmentSelected' tabindex='4' " : "")
-                + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
+                (self.currentSegmentStr == "" ? " class='segmentSelected'" : "")
+                + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span></li> ';
 
@@ -412,6 +412,14 @@ Segmentation = (function($) {
                 e.stopPropagation();
 
                 showAddNewSegmentForm();
+            });
+
+            // emulate a click when pressing enter on one of the segments or the add button
+            self.target.on("keyup", ".segmentList li, .add_new_segment", function (event) {
+                var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.key));
+                if(keycode == '13'){
+                    $(this).trigger('click');
+                }
             });
 
             // attach event that will clear segment list filtering input after clicking x

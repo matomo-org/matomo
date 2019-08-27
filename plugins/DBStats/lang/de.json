@@ -5,7 +5,7 @@
         "DBSize": "Datenbankgröße",
         "EstimatedSize": "Erwartete Größe",
         "IndexSize": "Indexgröße",
-        "LearnMore": "Um mehr darüber zu erfahren, wie Matomo Daten verarbeitet und wie Sie Matomo auf stark besuchten Websites einsetzen können, lesen Sie die Dokumentation unter %s.",
+        "LearnMore": "Um mehr darüber zu erfahren, wie Matomo Daten verarbeitet und wie Matomo gut mit Websites mit mittlerem und hohem Traffic funktioniert, lesen Sie diese Dokumentation: %s.",
         "MainDescription": "Matomo speichert sämtliche Webanalyse-Daten in der MySQL-Datenbank. Aktuell belegter Speicherplatz %s.",
         "MetricDataByYear": "Metriktabellen pro Jahr",
         "MetricTables": "Metriktabellen",
