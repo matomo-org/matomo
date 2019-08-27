@@ -74,7 +74,7 @@ class APITest extends IntegrationTestCase
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
-        $this->assertStringStartsWith('General_ExceptionPrivilegeAccessWebsite', $response['message']);
+        $this->assertStringStartsWith('General_YouMustBeLoggedIn', $response['message']);
     }
 
     private function assertResponseIsSuccess($response)
