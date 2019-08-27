@@ -106,7 +106,7 @@ class Sparkline implements ViewInterface
 
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $sparkline->setLineThickness(1);
+        $sparkline->setLineThickness(3);
         $sparkline->setPadding('5');
 
         $this->sparkline = $sparkline;
@@ -167,6 +167,7 @@ class Sparkline implements ViewInterface
         $colors = Common::getRequestVar('colors', false, 'json');
 
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
+            // TODO: test widgetized comparisons
             $colors = array(
                 'backgroundColor' => '#ffffff',
                 'lineColor' => '#162C4A',
@@ -182,7 +183,16 @@ class Sparkline implements ViewInterface
         } else {
             $sparkline->deactivateBackgroundColor();
         }
-        $sparkline->setLineColorHex($colors['lineColor']);
+
+        if (is_array($colors['lineColor'])) {
+            $sparkline->setLineColorHex($colors['lineColor'][$seriesIndex], $seriesIndex);
+
+            // set point colors to same as line colors so they can be better differentiated
+            $colors['minPointColor'] = $colors['maxPointColor'] = $colors['lastPointColor'] = $colors['lineColor'][$seriesIndex];
+        } else {
+            $sparkline->setLineColorHex($colors['lineColor']);
+        }
+
         if (strtolower($colors['fillColor'] !== "#ffffff")) {
             $sparkline->setFillColorHex($colors['fillColor']);
         } else {

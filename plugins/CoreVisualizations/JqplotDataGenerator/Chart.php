@@ -52,13 +52,19 @@ class Chart
         $this->axes['xaxis']['onclick'] = & $onClick;
     }
 
-    public function setAxisYValues(&$values)
+    public function setAxisYValues(&$values, $seriesMetadata = null)
     {
         foreach ($values as $label => &$data) {
-            $this->series[] = array(
+            $seriesInfo = array(
                 'label'         => $label,
-                'internalLabel' => $label
+                'internalLabel' => $label,
             );
+
+            if (isset($seriesMetadata[$label])) {
+                $seriesInfo = array_merge($seriesInfo, $seriesMetadata[$label]);
+            }
+
+            $this->series[] = $seriesInfo;
 
             array_walk($data, function (&$v) {
                 $v = (float) Common::forceDotAsSeparatorForDecimalPoint($v);

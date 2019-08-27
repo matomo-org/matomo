@@ -245,7 +245,8 @@
                 vm.closePeriodSelector(); // defined in directive
 
                 var $search = $location.search();
-                if (date !== $search.date || period !== $search.period || vm.isComparing) {
+                var isCurrentlyComparing = getQueryParamValue('compareSegments') || getQueryParamValue('comparePeriods');
+                if (date !== $search.date || period !== $search.period || vm.isComparing || isCurrentlyComparing) {
                     // eg when using back button the date might be actually already changed in the URL and we do not
                     // want to change the URL again
                     $search.date = date;

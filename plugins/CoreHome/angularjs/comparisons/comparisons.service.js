@@ -18,7 +18,7 @@
         var comparisonsDisabledFor = [];
         var isEnabled = true;
 
-        var SERIES_COLOR_COUNT = 10;
+        var SERIES_COLOR_COUNT = 8;
         var SERIES_SHADE_COUNT = 3;
 
         var colors = {};
@@ -37,8 +37,14 @@
             isComparisonEnabled: isComparisonEnabled,
             getSegmentComparisons: getSegmentComparisons,
             getPeriodComparisons: getPeriodComparisons,
-            getSeriesColor: getSeriesColor
+            getSeriesColor: getSeriesColor,
+            getAllComparisonSeries: getAllComparisonSeries,
+            isComparing: isComparing
         };
+
+        function isComparing() {
+            return isComparisonEnabled() && comparisons.length > 0;
+        }
 
         function getSegmentComparisons() {
             return getComparisons().filter(function (comp) { return typeof comp.params.segment !== 'undefined'; });
@@ -51,7 +57,7 @@
         function getSeriesColor(segmentComparison, periodComparison, metricIndex) {
             metricIndex = metricIndex || 0;
 
-            var seriesIndex = comparisonSeriesIndices[segmentComparison.index][periodComparison.index] % SERIES_COLOR_COUNT;
+            var seriesIndex = comparisonSeriesIndices[periodComparison.index][segmentComparison.index] % SERIES_COLOR_COUNT;
             if (metricIndex === 0) {
                 return colors['series' + seriesIndex];
             } else {
@@ -70,6 +76,23 @@
             }
 
             return comparisons;
+        }
+
+        function getAllComparisonSeries() {
+            var seriesInfo = [];
+
+            var seriesIndex = 0;
+            getPeriodComparisons().forEach(function (periodComp) {
+                getSegmentComparisons().forEach(function (segmentComp) {
+                    seriesInfo.push({
+                        index: seriesIndex,
+                        params: $.extend({}, segmentComp.params, periodComp.params),
+                        color: colors['series' + seriesIndex],
+                    });
+                    ++seriesIndex;
+                });
+            });
+            return seriesInfo;
         }
 
         function removeComparison(comparisonToRemove) {
@@ -233,11 +256,11 @@
 
             comparisonSeriesIndices = {};
 
-            var seriesCount = 1;
-            getSegmentComparisons().forEach(function (segmentComp) {
-                comparisonSeriesIndices[segmentComp.index] = {};
-                getPeriodComparisons().forEach(function (periodComp) {
-                    comparisonSeriesIndices[segmentComp.index][periodComp.index] = seriesCount;
+            var seriesCount = 0;
+            getPeriodComparisons().forEach(function (periodComp) {
+                comparisonSeriesIndices[periodComp.index] = {};
+                getSegmentComparisons().forEach(function (segmentComp) {
+                    comparisonSeriesIndices[periodComp.index][segmentComp.index] = seriesCount;
                     ++seriesCount;
                 });
             });
@@ -267,9 +290,9 @@
             var colorManager = piwik.ColorManager,
                 seriesColorNames = [];
 
-            for (var i = 1; i <= SERIES_COLOR_COUNT; ++i) {
+            for (var i = 0; i < SERIES_COLOR_COUNT; ++i) {
                 seriesColorNames.push('series' + i);
-                for (var j = 1; j <= SERIES_SHADE_COUNT; ++j) {
+                for (var j = 0; j < SERIES_SHADE_COUNT; ++j) {
                     seriesColorNames.push('series' + i + '-shade' + j);
                 }
             }

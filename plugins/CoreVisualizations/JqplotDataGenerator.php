@@ -125,13 +125,14 @@ class JqplotDataGenerator
     {
         $xLabels = $dataTable->getColumn('label');
 
-        $columnsToDisplay = $this->properties['columns_to_display'];
+        $columnsToDisplay = array_values($this->properties['columns_to_display']);
         if (($labelColumnIndex = array_search('label', $columnsToDisplay)) !== false) {
             unset($columnsToDisplay[$labelColumnIndex]);
         }
 
+        $seriesMetadata = null;
         if ($this->isComparing) {
-            list($yLabels, $serieses) = $this->getComparisonTableSerieses($dataTable, $columnsToDisplay);
+            list($yLabels, $serieses, $seriesMetadata) = $this->getComparisonTableSerieses($dataTable, $columnsToDisplay);
         } else {
             list($yLabels, $serieses) = $this->getMainTableSerieses($dataTable, $columnsToDisplay);
         }
@@ -140,7 +141,7 @@ class JqplotDataGenerator
         $visualization->properties = $this->properties;
 
         $visualization->setAxisXLabels($xLabels);
-        $visualization->setAxisYValues($serieses);
+        $visualization->setAxisYValues($serieses, $seriesMetadata);
         $visualization->setAxisYLabels($yLabels);
 
         $units = $this->getUnitsForSerieses($yLabels);
@@ -167,6 +168,9 @@ class JqplotDataGenerator
     {
         $seriesLabels = [];
         $serieses = [];
+        $seriesMetadata = [];
+
+        $seriesIndices = [];
 
         foreach ($dataTable->getRows() as $row) {
             /** @var DataTable $comparisonTable */
@@ -176,24 +180,38 @@ class JqplotDataGenerator
             }
 
             foreach ($comparisonTable->getRows() as $index => $compareRow) {
-                foreach ($columnsToDisplay as $columnName) {
+                foreach ($columnsToDisplay as $columnIndex => $columnName) {
                     $seriesId = $columnName . '|' . $index;
+
+                    if (!isset($seriesIndices[$seriesId])) {
+                        $seriesIndices[$seriesId] = count($seriesIndices);
+                    }
 
                     $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName);
                     $seriesLabels[$seriesId] = $seriesLabel;
                     $serieses[$seriesId][] = $compareRow->getColumn($columnName);
+
+                    $seriesMetadata[$seriesId] = [
+                        'seriesIndex' => $seriesIndices[$seriesId],
+                        'metricIndex' => $index,
+                    ];
                 }
             }
         }
 
-        return [$seriesLabels, $serieses];
+        return [$seriesLabels, $serieses, $seriesMetadata];
     }
 
     protected function getComparisonSeriesLabel(Row $compareRow, $columnName)
     {
+        return $this->getComparisonSeriesLabelFromCompareSeries($compareRow->getMetadata('compareSeriesPretty'), $columnName);
+    }
+
+    protected function getComparisonSeriesLabelFromCompareSeries($compareSeriesPretty, $columnName)
+    {
         $columnTranslation = @$this->properties['translations'][$columnName];
 
-        $label = $columnTranslation . ' ' . $compareRow->getMetadata('compareSeriesPretty');
+        $label = $columnTranslation . ' ' . $compareSeriesPretty;
         return $label;
     }
 

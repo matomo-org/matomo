@@ -13,7 +13,15 @@ var sparklineDisplayHeight = 25;
 var sparklineDisplayWidth = 100;
 
 piwik.getSparklineColors = function () {
-    return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
+    var colors = piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
+
+    var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+    if (comparisonService.isComparing()) {
+        var comparisons = comparisonService.getAllComparisonSeries();
+        colors.lineColor = comparisons.map(function (comp) { return comp.color; });
+    }
+
+    return colors;
 };
 
 // initializes each sparkline so they use colors defined in CSS

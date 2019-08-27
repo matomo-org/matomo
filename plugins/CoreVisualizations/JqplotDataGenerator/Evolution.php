@@ -96,17 +96,31 @@ class Evolution extends JqplotDataGenerator
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
 
+        $columnsToDisplay = array_values($this->properties['columns_to_display']);
+
+        $seriesMetadata = null;
+        $seriesUnits = array();
+
         // TODO: remove $this->comparisonsForLabels, shouldn't need it
         $seriesLabels = reset($dataTables)->getMetadata('comparisonSeries') ?: [];
-        foreach ($seriesLabels as $seriesLabel) {
+        foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
             $allSeriesData[$seriesLabel] = [];
+
+            foreach ($columnsToDisplay as $columnIndex => $columnName) {
+                $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName);
+                $seriesMetadata[$wholeSeriesLabel] = [
+                    'metricIndex' => $columnIndex,
+                    'seriesIndex' => $seriesIndex,
+                ];
+
+                $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
+            }
         }
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
-        $seriesUnits = array();
         foreach ($rowsToDisplay as $rowLabel) {
-            foreach ($this->properties['columns_to_display'] as $columnName) {
+            foreach ($columnsToDisplay as $columnName) {
                 if (!$this->isComparing) { // TODO: move this & to individual functions
                     $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
 
@@ -115,10 +129,6 @@ class Evolution extends JqplotDataGenerator
 
                     $seriesUnits[$seriesLabel] = $units[$columnName];
                 } else {
-                    foreach ($seriesLabels as $seriesLabel) {
-                        $seriesUnits[$seriesLabel] = $units[$columnName]; // TODO: doesn't have to be in every iteration
-                    }
-
                     foreach ($dataTable->getDataTables() as $label => $childTable) {
                         // get the row for this label (use the first if $rowLabel is false)
                         if ($rowLabel === false) {
@@ -147,7 +157,7 @@ class Evolution extends JqplotDataGenerator
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
-        $visualization->setAxisYValues($allSeriesData);
+        $visualization->setAxisYValues($allSeriesData, $seriesMetadata);
         $visualization->setAxisYUnits($seriesUnits);
 
         // TODO: these two loops are used in a few places, maybe they should be in a static method for re-use. it's pretty important they are in the right order.

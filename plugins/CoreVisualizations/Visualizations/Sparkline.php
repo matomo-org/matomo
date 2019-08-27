@@ -51,11 +51,7 @@ class Sparkline extends ViewDataTable
 
         $columnToPlot = $this->getColumnToPlot();
 
-        $values = $this->getValuesFromDataTable($this->dataTable, $columnToPlot);
-        $values = $this->ensureValuesEvenIfEmpty($values);
-
         $graph = new \Piwik\Visualization\Sparkline();
-        $graph->addSeries($values);
 
         if ($this->isComparing()) {
             $otherSeries = [];
@@ -83,6 +79,10 @@ class Sparkline extends ViewDataTable
                 $seriesValues = $this->ensureValuesEvenIfEmpty($seriesValues);
                 $graph->addSeries($seriesValues);
             }
+        } else {
+            $values = $this->getValuesFromDataTable($this->dataTable, $columnToPlot);
+            $values = $this->ensureValuesEvenIfEmpty($values);
+            $graph->addSeries($values);
         }
 
         $height = Common::getRequestVar('height', 0, 'int');
