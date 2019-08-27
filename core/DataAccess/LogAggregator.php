@@ -253,7 +253,11 @@ class LogAggregator
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $segmentSql['sql'], $segmentSql['bind']);
+            $engine = '';
+            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+                $engine = 'ENGINE=MEMORY ';
+            }
+            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine . $segmentSql['sql'], $segmentSql['bind']);
 
             if (!is_array($from)) {
                 $from = array($segmentTable, $from);
