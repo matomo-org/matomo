@@ -476,9 +476,9 @@ class DataComparisonFilter
                 'totals' => $totals,
             ]);
 
-            $allTotalsTables = $compareTable->getMetadata('comparisonTotals');
+            $allTotalsTables = $table->getMetadata('comparisonTotals');
             $allTotalsTables[] = $comparisonTotalsEntry;
-            $compareTable->setMetadata('comparisonTotals', $allTotalsTables);
+            $table->setMetadata('comparisonTotals', $allTotalsTables);
         }
     }
 
@@ -551,8 +551,8 @@ class DataComparisonFilter
             $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
         }
         if (!empty($modifiedParams['period'])) {
-            $metadata['comparePeriod'] = $modifiedParams['period'];
-            $metadata['compareDate'] = $modifiedParams['date'];
+            $metadata['comparePeriod'] = $metadata['comparePeriodOriginal'] = $modifiedParams['period'];
+            $metadata['compareDate'] = $metadata['compareDateOriginal'] = $modifiedParams['date'];
         }
 
         // set compareSeriesPretty
