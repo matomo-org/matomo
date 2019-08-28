@@ -405,16 +405,9 @@ class Config
     /**
      * Write user configuration file
      *
-     * @param array $configLocal
-     * @param array $configGlobal
-     * @param array $configCommon
-     * @param array $configCache
-     * @param string $pathLocal
-     * @param bool $clear
-     *
      * @throws \Exception if config file not writable
      */
-    protected function writeConfig($clear = true)
+    protected function writeConfig()
     {
         $output = $this->dumpConfig();
         if ($output !== null
@@ -441,10 +434,6 @@ class Config
              * @param string $localPath Absolute path to the changed file on the server.
              */
             Piwik::postEvent('Core.configFileChanged', [$localPath]);
-        }
-
-        if ($clear) {
-            $this->reload();
         }
     }
 
