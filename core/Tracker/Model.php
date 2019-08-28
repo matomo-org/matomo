@@ -313,7 +313,7 @@ class Model
     {
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idsite = ? AND idvisit = ?";
