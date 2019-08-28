@@ -136,13 +136,8 @@ class Config
      */
     public static function getLocalConfigPath()
     {
-        if (function_exists('matomo_wp_upload_base_dir')
-            && defined('ABSPATH')
-            && defined('MATOMO_CONFIG_PATH')) {
-            $pathUploadDir = matomo_wp_upload_base_dir();
-
-            // we need to make sure to serve UI only if matomo plugin is actually activated in wordpress
-            return $pathUploadDir . '/' . MATOMO_CONFIG_PATH;
+        if (!empty($GLOBALS['CONFIG_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_PATH_RESOLVER'])) {
+            return call_user_func($GLOBALS['CONFIG_PATH_RESOLVER']);
         }
         
         $path = self::getByDomainConfigPath();
