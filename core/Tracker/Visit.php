@@ -14,10 +14,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -94,9 +94,8 @@ class Visit implements VisitInterface
         $this->request = $request;
     }
 
-    private function validateRequest(Request $request)
+    private function checkSiteExists(Request $request)
     {
-        // Check that the site exists
         try {
             $request->getIdSite();
         } catch (UnexpectedWebsiteFoundException $e) {
@@ -106,13 +105,13 @@ class Visit implements VisitInterface
             StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
             throw $e;
         }
+    }
 
-        // Also check for params that aren't allowed to be included unless the request is authenticated
-        $requestParams = $request->getRawParams();
+    private function validateRequest(Request $request)
+    {
+        // Check for params that aren't allowed to be included unless the request is authenticated
         foreach ($this->fieldsThatRequireAuth as $field) {
-            if (isset($requestParams[$field]) && $requestParams[$field] && !$request->isAuthenticated()) {
-                throw new InvalidRequestParameterException("Tracker API '$field' was used, requires valid token_auth");
-            }
+            Base::getValueFromUrlParamsIfAllowed($field, $request);
         }
 
         // Special logic for timestamp as some overrides are OK without auth and others aren't
@@ -141,13 +140,15 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
-        $this->validateRequest($this->request);
+        $this->checkSiteExists($this->request);
 
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
             $processor->manipulateRequest($this->request);
         }
+
+        $this->validateRequest($this->request);
 
         $this->visitProperties = new VisitProperties();
 

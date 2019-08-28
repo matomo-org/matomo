@@ -26,6 +26,11 @@ abstract class Base extends VisitDimension
 
     protected function getUrlOverrideValueIfAllowed($urlParamToOverride, Request $request)
     {
+        return self::getValueFromUrlParamsIfAllowed($urlParamToOverride, $request);
+    }
+
+    public static function getValueFromUrlParamsIfAllowed($urlParamToOverride, Request $request)
+    {
         $value = Common::getRequestVar($urlParamToOverride, false, 'string', $request->getParams());
 
         if (!empty($value)) {
