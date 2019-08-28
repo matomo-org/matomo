@@ -260,8 +260,9 @@ describe("Dashboard", function () {
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
-        await page.waitForSelector('#createDashboardName'); // await animation
+        await page.waitFor('#createDashboardName', { visible: true });
         await page.type('#createDashboardName', 'newdash2');
+        await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);

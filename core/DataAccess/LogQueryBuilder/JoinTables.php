@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@
 namespace Piwik\DataAccess\LogQueryBuilder;
 
 use Exception;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Plugin\LogTablesProvider;
 
 class JoinTables extends \ArrayObject
@@ -148,10 +149,15 @@ class JoinTables extends \ArrayObject
 
         // the first entry is always the FROM table
         $firstTable = array_shift($tables);
+        $sorted = [$firstTable];
+
+        if (strpos($firstTable, LogAggregator::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX) === 0) {
+            // the first table might be a temporary segment table in which case we need to keep the next one as well
+            $sorted[] = array_shift($tables);
+        }
 
         $dependencies = $this->parseDependencies($tables);
 
-        $sorted = [$firstTable];
         $this->visitTableListDfs($tables, $dependencies, function ($tableInfo) use (&$sorted) {
             $sorted[] = $tableInfo;
         });

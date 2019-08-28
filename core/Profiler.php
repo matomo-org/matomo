@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -210,7 +210,7 @@ class Profiler
         }
 
         $hasXhprof = function_exists('xhprof_enable');
-        $hasTidewaysXhprof = function_exists('tideways_xhprof_enable');
+        $hasTidewaysXhprof = function_exists('tideways_xhprof_enable') || function_exists('tideways_enable');
 
         if (!$hasXhprof && !$hasTidewaysXhprof) {
             $xhProfPath = PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/extension/modules/xhprof.so';
@@ -248,6 +248,8 @@ class Profiler
 
         if (function_exists('xhprof_enable')) {
             xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+        } elseif (function_exists('tideways_enable')) {
+            tideways_enable(TIDEWAYS_FLAGS_MEMORY | TIDEWAYS_FLAGS_CPU);
         } elseif (function_exists('tideways_xhprof_enable')) {
             tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_MEMORY | TIDEWAYS_XHPROF_FLAGS_CPU);
         }
@@ -257,8 +259,12 @@ class Profiler
                 $xhprofData = xhprof_disable();
                 $xhprofRuns = new XHProfRuns_Default();
                 $runId = $xhprofRuns->save_run($xhprofData, $profilerNamespace);
-            } elseif (function_exists('tideways_xhprof_disable')) {
-                $xhprofData = tideways_xhprof_disable();
+            } elseif (function_exists('tideways_xhprof_disable') || function_exists('tideways_disable')) {
+                if (function_exists('tideways_xhprof_disable')) {
+                    $xhprofData = tideways_xhprof_disable();
+                } else {
+                    $xhprofData = tideways_disable();
+                }
                 $runId = uniqid();
                 file_put_contents(
                     $outputDir . DIRECTORY_SEPARATOR . $runId . '.' . $profilerNamespace . '.xhprof',

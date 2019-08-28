@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\Marketplace\Widgets;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
@@ -27,25 +28,18 @@ class GetNewPlugins extends Widget
         $this->marketplaceApiClient = $marketplaceApiClient;
     }
 
-    public static function getCategory()
-    {
-        return 'About Matomo';
-    }
-
-    public static function getName()
-    {
-        return 'Latest Marketplace Updates';
-    }
-
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId(self::getCategory());
-        $config->setName(self::getName());
+        $config->setCategoryId('Marketplace_Marketplace');
+        $config->setName('Marketplace_LatestMarketplaceUpdates');
         $config->setOrder(19);
+        $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }
 
     public function render()
     {
+        Piwik::checkUserIsNotAnonymous();
+
         $isAdminPage = Common::getRequestVar('isAdminPage', 0, 'int');
 
         if (!empty($isAdminPage)) {

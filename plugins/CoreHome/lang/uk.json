@@ -2,6 +2,7 @@
     "CoreHome": {
         "CategoryNoData": "Немає даних в цій категорії. Спробуйте \"Увімкнути усі показники\".",
         "ChangeVisualization": "Зміна візуалізації",
+        "ChangePeriod": "Виберіть період",
         "CheckForUpdates": "Перевірити на оновлення",
         "CheckPiwikOut": "Перевірити Matomo на оновлення!",
         "ClickToEditX": "Редагувати %s",
@@ -13,6 +14,7 @@
         "DataTableExcludeAggregateRows": "Вибрані рядки відображені %s Приховати їх",
         "DataTableIncludeAggregateRows": "Вибрані рядки приховані %s Показати їх",
         "DataTableHowToSearch": "Натисніть enter або клацніть значок пошуку для пошуку",
+        "DataTableShowDimensions": "Обє'кти об'єднані %s Показувати об'єкти окремо",
         "Default": "за замовчуванням",
         "DonateCall1": "Matomo завжди буде безкоштовним для використання, але це не означає, що нам це нічого не коштує.",
         "DonateCall2": "Matomo потребує вашої постійної підтримки, щоб рости і процвітати.",

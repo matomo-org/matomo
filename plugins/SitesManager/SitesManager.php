@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -423,5 +423,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
+        $translationKeys[] = "SitesManager_EmailInstructionsButton";
+        $translationKeys[] = "SitesManager_EmailInstructionsSubject";
+        $translationKeys[] = "SitesManager_JsTrackingTagHelp";
     }
 }

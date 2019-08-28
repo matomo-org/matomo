@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -70,22 +70,23 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function test_sendNotifications_shouldSentCorrectEmail()
     {
         $rootUrl = Fixture::getTestRootUrl();
+        $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);
         $message = "<p>ScheduledReports_EmailHello</p>
 
 <p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
 <p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
-{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
 </p>
 
 <p>
     CoreUpdater_ViewVersionChangelog
     <br/>
-    https://matomo.org/changelog/matomo-33-0-0/
+    <a href=\"https&#x3A;&#x2F;&#x2F;matomo.org&#x2F;changelog&#x2F;matomo-33-0-0&#x2F;\">https://matomo.org/changelog/matomo-33-0-0/</a>
 </p>
 
 <p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
-<p>CoreUpdater_FeedbackRequest<br/>https://matomo.org/contact/</p>
+<p>CoreUpdater_FeedbackRequest<br/><a href=\"https://matomo.org/contact/\">https://matomo.org/contact/</a></p>
 ";
 
         $this->assertEmailForVersion('33.0.0', $message);
@@ -94,17 +95,18 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function test_sendNotifications_shouldNotIncludeChangelogIfNotMajorVersionUpdate()
     {
         $rootUrl = Fixture::getTestRootUrl();
+        $rootUrlEscaped = str_replace(array(':', '/'), array('&#x3A;', '&#x2F;'), $rootUrl);
         $message = "<p>ScheduledReports_EmailHello</p>
 
 <p>CoreUpdater_ThereIsNewVersionAvailableForUpdate</p>
 
 <p>CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage<br/>
-{$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
+<a href=\"".$rootUrlEscaped."index.php?module=CoreUpdater&action=newVersionAvailable\">".$rootUrl."index.php?module=CoreUpdater&action=newVersionAvailable</a>
 </p>
 
 
 <p>CoreUpdater_ReceiveEmailBecauseIsSuperUser</p>
-<p>CoreUpdater_FeedbackRequest<br/>https://matomo.org/contact/</p>
+<p>CoreUpdater_FeedbackRequest<br/><a href=\"https://matomo.org/contact/\">https://matomo.org/contact/</a></p>
 ";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);

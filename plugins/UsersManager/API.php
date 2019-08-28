@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -973,6 +973,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->model->deleteUserOnly($userLogin);
+        $this->model->deleteUserOptions($userLogin);
         $this->model->deleteUserAccess($userLogin);
 
         Cache::deleteTrackerCache();
@@ -1366,6 +1367,18 @@ class API extends \Piwik\Plugin\API
         }
 
         return $user['token_auth'];
+    }
+
+    public function newsletterSignup()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $userLogin = Piwik::getCurrentUserLogin();
+        $email = Piwik::getCurrentUserEmail();
+
+        $success = NewsletterSignup::signupForNewsletter($userLogin, $email, true);
+        $result = $success ? array('success' => true) : array('error' => true);
+        return $result;
     }
 
     private function isUserHasAdminAccessTo($idSite)

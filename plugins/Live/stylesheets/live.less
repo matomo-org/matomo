@@ -26,7 +26,11 @@
 }
 
 #visitsLive .datetime, #visitsLive .country, #visitsLive .settings, #visitsLive .returning {
-    padding: 10px 5px 10px 12px;
+    padding: 10px 20px;
+
+    .widget & {
+      padding: 10px 11px;
+    }
 }
 
 #visitsLive .datetime {
@@ -83,6 +87,11 @@
   .icon-visitor-profile {
     font-size: 120%;
   }
+}
+
+.theWidgetContent .card .card-content #visitsTotal {
+  margin-left: -20px;
+  width: ~"calc(100% + 40px)";
 }
 
 .visitsLiveFooter img {

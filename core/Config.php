@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Config\Cache;
+use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
@@ -434,6 +436,8 @@ class Config
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
+
+            $this->settings->getIniFileChain()->deleteConfigCache();
 
             /**
              * Triggered when a INI config file is changed on disk.

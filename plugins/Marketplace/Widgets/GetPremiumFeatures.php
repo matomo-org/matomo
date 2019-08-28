@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -29,25 +29,18 @@ class GetPremiumFeatures extends Widget
         $this->marketplaceApiClient = $marketplaceApiClient;
     }
 
-    public static function getCategory()
-    {
-        return 'About Matomo';
-    }
-
-    public static function getName()
-    {
-        return Piwik::translate('Marketplace_PaidPlugins');
-    }
-
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId(self::getCategory());
-        $config->setName(self::getName());
+        $config->setCategoryId('Marketplace_Marketplace');
+        $config->setSubcategoryId('Marketplace_PaidPlugins');
+        $config->setName('Marketplace_PaidPlugins');
         $config->setOrder(20);
+        $config->setIsEnabled(!Piwik::isUserIsAnonymous());
     }
 
     public function render()
     {
+        Piwik::checkUserIsNotAnonymous();
         $template = 'getPremiumFeatures';
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_PAID);

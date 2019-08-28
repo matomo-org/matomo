@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -649,9 +649,7 @@ class Piwik
      */
     public static function isValidEmailString($emailAddress)
     {
-        /** @var \Zend_Validate_EmailAddress $zendEmailValidator */
-        $zendEmailValidator = StaticContainer::get('Zend_Validate_EmailAddress');
-        return $zendEmailValidator->isValid($emailAddress);
+        return filter_var($emailAddress, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     /**

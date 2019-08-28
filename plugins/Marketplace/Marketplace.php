@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -77,8 +77,7 @@ class Marketplace extends \Piwik\Plugin
     public function filterWidgets($list)
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $list->remove(GetPremiumFeatures::getCategory(), GetPremiumFeatures::getName());
-            $list->remove(GetNewPlugins::getCategory(), GetNewPlugins::getName());
+            $list->remove('Marketplace_Marketplace');
         }
     }
 

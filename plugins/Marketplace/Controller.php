@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -287,6 +287,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->isAutoUpdatePossible = SettingsPiwik::isAutoUpdatePossible();
         $view->isAutoUpdateEnabled = SettingsPiwik::isAutoUpdateEnabled();
         $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->inReportingMenu = (bool) Common::getRequestVar('embed', 0, 'int');
 
         return $view->render();
     }

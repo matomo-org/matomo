@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -108,6 +108,7 @@ class TestingEnvironmentVariables
         $disabledPlugins[] = 'LoginLdap';
         $disabledPlugins[] = 'MarketingCampaignsReporting';
         $disabledPlugins[] = 'ExampleVisualization';
+        $disabledPlugins[] = 'DeviceDetectorCache';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'

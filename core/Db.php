@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -36,6 +36,7 @@ class Db
     const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 
     private static $connection = null;
+    private static $readerConnection = null;
 
     private static $logQueries = true;
 
@@ -55,6 +56,39 @@ class Db
         }
 
         return self::$connection;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     * @return bool
+     */
+    public static function hasReaderConfigured()
+    {
+        $readerConfig = Config::getInstance()->database_reader;
+
+        return !empty($readerConfig['host']);
+    }
+
+    /**
+     * Returns the database connection and creates it if it hasn't been already. Make sure to not write any data on
+     * the reader and only use the connection to read data.
+     *
+     * @since Matomo 3.12
+     *
+     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
+     */
+    public static function getReader()
+    {
+        if (!self::hasReaderConfigured()) {
+            return self::get();
+        }
+
+        if (!self::hasReaderDatabaseObject()) {
+            self::createReaderDatabaseObject();
+        }
+
+        return self::$readerConnection;
     }
 
     /**
@@ -125,6 +159,35 @@ class Db
     }
 
     /**
+     * Connects to the reader database.
+     *
+     * Shouldn't be called directly, use {@link get()} instead.
+     *
+     * @param array|null $dbConfig Connection parameters in an array. Defaults to the `[database]`
+     *                             INI config section.
+     *
+     * @since Matomo 3.12
+     */
+    public static function createReaderDatabaseObject($dbConfig = null)
+    {
+        if (!isset($dbConfig)) {
+            $dbConfig = Config::getInstance()->database_reader;
+        }
+
+        $masterDbConfig = self::getDatabaseConfig();
+        $dbConfig = self::getDatabaseConfig($dbConfig);
+        $dbConfig['adapter'] = $masterDbConfig['adapter'];
+        $dbConfig['schema'] = $masterDbConfig['schema'];
+        $dbConfig['type'] = $masterDbConfig['type'];
+        $dbConfig['tables_prefix'] = $masterDbConfig['tables_prefix'];
+        $dbConfig['charset'] = $masterDbConfig['charset'];
+
+        $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
+
+        self::$readerConnection = $db;
+    }
+
+    /**
      * Detect whether a database object is initialized / created or not.
      *
      * @internal
@@ -132,6 +195,16 @@ class Db
     public static function hasDatabaseObject()
     {
         return isset(self::$connection);
+    }
+
+    /**
+     * Detect whether a database object is initialized / created or not.
+     *
+     * @internal
+     */
+    public static function hasReaderDatabaseObject()
+    {
+        return isset(self::$readerConnection);
     }
 
     /**
@@ -145,6 +218,11 @@ class Db
             DbHelper::disconnectDatabase();
         }
         self::$connection = null;
+
+        if (self::hasReaderDatabaseObject()) {
+            self::$readerConnection->closeConnection();
+        }
+        self::$readerConnection = null;
     }
 
     /**

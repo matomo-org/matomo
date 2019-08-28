@@ -26,7 +26,6 @@
             "idsite": "Site 1",
             "idvisit": "1",
             "idvisitor": "5484eb1bcd82eefe",
-            "last_idlink_va": "11",
             "location_browser_lang": "French (fr)",
             "location_country": "Intl_Continent_ie",
             "location_ip": "156.5.3.200",
@@ -68,7 +67,6 @@
             "idvisitor": "5484eb1bcd82eefe",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {

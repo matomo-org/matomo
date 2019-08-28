@@ -405,11 +405,6 @@ table.dataTable {
         border-left: 0;
       }
 
-      &.label + td.column {
-        // first column after label should have a bit less padding
-        padding-left: 10px;
-      }
-
       &.label .label {
         text-align: left;
       }
@@ -503,14 +498,20 @@ div.dataTableVizHtmlTable:not(.dataTableActions),
 }
 
 .visitsLiveFooter {
-  padding-left: 10px;
+  .widget & {
+    padding-left: 11px;
+  }
 
   a.rightLink {
     .font-default(13px, 16px);
 
     margin-top: 10px;
     margin-bottom: 10px;
-    padding-right: 10px;
+    padding-right: 0;
+
+    .widget & {
+      padding-right: 11px;
+    }
   }
 }
 

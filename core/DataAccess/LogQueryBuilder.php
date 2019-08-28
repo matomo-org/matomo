@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -40,6 +40,11 @@ class LogQueryBuilder
     public function forceInnerGroupBySubselect($innerGroupBy)
     {
         $this->forcedInnerGroupBy = $innerGroupBy;
+    }
+
+    public function getForcedInnerGroupBySubselect()
+    {
+        return $this->forcedInnerGroupBy;
     }
 
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
@@ -89,7 +94,7 @@ class LogQueryBuilder
     private function getKnownTables()
     {
         $names = array();
-        foreach ($this->logTableProvider->getAllLogTables() as $logTable) {
+        foreach ($this->logTableProvider->getAllLogTablesWithTemporary() as $logTable) {
             $names[] = $logTable->getName();
         }
         return $names;
