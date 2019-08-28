@@ -8,6 +8,6 @@
  */
 namespace Piwik\Exception;
 
-class NotYetInstalledException extends Exception
+class NotYetInstalledException extends InvalidRequestParameterException
 {
 }

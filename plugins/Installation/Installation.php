@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Installation;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Exception\NotYetInstalledException;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
@@ -65,7 +65,7 @@ class Installation extends \Piwik\Plugin
         $general = Config::getInstance()->General;
 
         if (!SettingsPiwik::isPiwikInstalled() && !$general['enable_installer']) {
-            throw new InvalidRequestParameterException('Matomo is not set up yet');
+            throw new NotYetInstalledException('Matomo is not set up yet');
         }
 
         if (empty($general['installation_in_progress'])) {
