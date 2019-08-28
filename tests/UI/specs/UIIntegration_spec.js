@@ -39,6 +39,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         if (testEnvironment.configOverride.General) {
             delete testEnvironment.configOverride.General;
         }
+        if (testEnvironment.idSitesViewAccess) {
+            delete testEnvironment.idSitesViewAccess;
+        }
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
