@@ -16,7 +16,8 @@
 {% set reportLabel   = row.getColumn(labelColumn)|truncate(40)|rawSafeDecoded %}
 {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
     'label': reportLabel,
-    'labelColumn': labelColumn
+    'labelColumn': labelColumn,
+    'translations': properties.translations
 } %}
 
 {% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}

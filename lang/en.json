@@ -494,7 +494,8 @@
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "ThankYouForUsingMatomo": "Thank you for using Matomo",
         "TheMatomoTeam": "The Matomo Team",
-        "PleaseTryAgain": "Please try again"
+        "PleaseTryAgain": "Please try again",
+        "ComparisonRatioTooltip": "This is a %1$s change compared to the '%2$s' segment on %3$s."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

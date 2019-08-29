@@ -1,4 +1,6 @@
 {% set lastSeenComparePeriod = false %}
+{% set comparedSegmentPretty = dataTable.getFirstRow().getMetadata('compareSegmentPretty') %}
+{% set comparedPeriodPretty = dataTable.getFirstRow().getMetadata('comparePeriodPretty') %}
 {%- for rowId, row in dataTable.getRows() -%}
     {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
     {% if lastSeenComparePeriod != comparePeriod %}
@@ -35,14 +37,17 @@
         <td>
             {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
             {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriodOriginal')|default('')][row.getMetadata('compareDateOriginal')|default('')]|default(null) %}
+            {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, comparedSegmentPretty, comparedPeriodPretty) %}
 
             {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
                 'changePercentage': columnChange,
                 'totals': comparisonTotals,
-                'label': comparisonLabel,
+                'label': comparedRow.getColumn('label'),
                 'labelColumn': properties.columns_to_display|first,
                 'changePercantage': columnChange,
-                'forceZero': true
+                'forceZero': true,
+                'tooltipSuffix': comparisonTooltipSuffix,
+                'translations': properties.translations
             } %}
             <span class="value">{{ columnValue|number(2,0)|rawSafeDecoded }}</span>
         </td>

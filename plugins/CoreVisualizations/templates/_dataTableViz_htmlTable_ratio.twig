@@ -19,6 +19,6 @@
     {% endif %}
 
     <span class="ratio"
-          title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }}"
+          title="{{ reportRatioTooltip|raw }} {{ totalRatioTooltip|e('html_attr') }} {{ tooltipSuffix|default|e('html_attr') }}"
     >&nbsp;{{ rowPercentage }} {% if changePercantage|default is not empty %}({{ changePercentage }}){% endif %}</span>
 {%- endif %}
