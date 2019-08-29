@@ -132,9 +132,8 @@ var hasBlockedContent = false;
 
             var ajaxCall = {
                 method: 'POST',
-                url: url,
+                url: url + '?' + $.param(mixinDefaultGetParams(getParams)),
                 responseType: requestFormat,
-                params: mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
                 headers: headers

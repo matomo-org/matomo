@@ -264,6 +264,8 @@
                     ++seriesCount;
                 });
             });
+
+            $rootScope.$emit('piwikComparisonsChanged');
         }
 
         function checkEnabledForCurrentPage() {

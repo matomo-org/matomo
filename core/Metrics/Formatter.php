@@ -209,6 +209,10 @@ class Formatter
             if (!empty($subtable)) {
                 $this->formatMetrics($subtable, $report, $metricsToFormat);
             }
+            $comparisons = $row->getComparisons();
+            if (!empty($comparisons)) {
+                $this->formatMetrics($comparisons, $report, $metricsToFormat);
+            }
         }
 
         $idSite = DataTableFactory::getSiteIdFromMetadata($dataTable);

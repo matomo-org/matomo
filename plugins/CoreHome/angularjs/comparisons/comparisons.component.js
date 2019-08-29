@@ -14,18 +14,50 @@
         controller: ComparisonsController
     });
 
-    ComparisonsController.$inject = ['piwikComparisonsService'];
+    ComparisonsController.$inject = ['piwikComparisonsService', '$rootScope', 'piwikApi', '$element'];
 
-    function ComparisonsController(comparisonsService) {
+    function ComparisonsController(comparisonsService, $rootScope, piwikApi, $element) {
         var vm = this;
+        var comparisonTooltips = null;
+
+        var loadingHtml;
 
         vm.comparisonsService = comparisonsService;
         vm.$onInit = $onInit;
+        vm.$onDestroy = $onDestroy;
         vm.comparisonHasSegment = comparisonHasSegment;
         vm.getComparisonPeriodType = getComparisonPeriodType;
+        vm.getComparisonTooltip = getComparisonTooltip;
 
         function $onInit() {
-            vm.comparisons = comparisonsService.getComparisons(); // TODO: on change need to modify this...
+            loadingHtml = $element.children('.loadingPiwik').clone().attr('style', '');
+
+            $rootScope.$on('piwikComparisonsChanged', onComparisonsChanged);
+
+            onComparisonsChanged();
+
+            setUpTooltips();
+        }
+
+
+        function $onDestroy() {
+            try {
+                $element.tooltip('destroy');
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        function setUpTooltips() {
+            $element.tooltip({
+                track: true,
+                content: function() {
+                    var title = $(this).attr('title');
+                    return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                },
+                show: {delay: 200, duration: 200},
+                hide: false
+            });
         }
 
         function comparisonHasSegment(comparison) {
@@ -39,6 +71,74 @@
             }
             var periodStr = _pk_translate('Intl_Period' + period.substring(0, 1).toUpperCase() + period.substring(1));
             return periodStr.substring(0, 1).toUpperCase() + periodStr.substring(1);
+        }
+
+        function getComparisonTooltip(segmentComparison, periodComparison) {
+            if (!comparisonTooltips) {
+                return loadingHtml.prop('outerHTML');
+            }
+
+            return comparisonTooltips[periodComparison.index][segmentComparison.index];
+        }
+
+        function onComparisonsChanged() {
+            comparisonTooltips = null;
+
+            if (!vm.comparisonsService.getComparisons().length) {
+                return;
+            }
+
+
+            piwikApi.fetch({
+                method: 'API.getProcessedReport',
+                apiModule: 'VisitsSummary',
+                apiAction: 'get',
+                compare: '1',
+                compareSegments: getQueryParamValue('compareSegments'),
+                comparePeriods: getQueryParamValue('comparePeriods'),
+                compareDates: getQueryParamValue('compareDates'),
+                format_metrics: '1',
+            }).then(function (report) {
+                comparisonTooltips = {};
+                comparisonsService.getPeriodComparisons().forEach(function (periodComp) {
+                    comparisonTooltips[periodComp.index] = {};
+
+                    var segmentComparisons = comparisonsService.getSegmentComparisons();
+                    segmentComparisons.forEach(function (segmentComp) {
+                        comparisonTooltips[periodComp.index][segmentComp.index] = generateComparisonTooltip(report, periodComp, segmentComp, segmentComparisons.length);
+                    });
+                });
+            });
+        }
+
+        // TODO: data structures used to store comparisons are all over the place, needs to be better.
+        function generateComparisonTooltip(visitsSummary, periodComp, segmentComp, segmentCompCount) {
+            var firstRow = visitsSummary.reportData.comparisons[0];
+            var comparedToSegmentLabel = firstRow.compareSegmentPretty + ', ' + firstRow.comparePeriodPretty;
+
+            var comparisonRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount + segmentComp.index];
+
+            var tooltip = '';
+            Object.keys(visitsSummary.columns).forEach(function (columnName) {
+                if (typeof comparisonRow[columnName] === 'undefined') {
+                    return;
+                }
+
+                tooltip += comparisonRow[columnName] + ' ' + visitsSummary.columns[columnName];
+                if (segmentComp.index > 0 || periodComp.index > 0) {
+                    tooltip += ' (' + _pk_translate('General_XComparedToY', [comparisonRow[columnName + '_change'], comparedToSegmentLabel]) + ')';
+                }
+                tooltip += '<br/>';
+            });
+            return tooltip;
+        }
+
+        function getQueryParamValue(name) { // TODO: code redundancy w/ period selector and elsewhere
+            var result = broadcast.getValueFromHash(name);
+            if (!result) {
+                result = broadcast.getValueFromUrl(name);
+            }
+            return result;
         }
     }
 })();
