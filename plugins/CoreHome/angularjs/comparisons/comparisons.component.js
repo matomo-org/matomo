@@ -20,8 +20,6 @@
         var vm = this;
         var comparisonTooltips = null;
 
-        var loadingHtml;
-
         vm.comparisonsService = comparisonsService;
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
@@ -30,15 +28,12 @@
         vm.getComparisonTooltip = getComparisonTooltip;
 
         function $onInit() {
-            loadingHtml = $element.children('.loadingPiwik').clone().attr('style', '');
-
             $rootScope.$on('piwikComparisonsChanged', onComparisonsChanged);
 
             onComparisonsChanged();
 
             setUpTooltips();
         }
-
 
         function $onDestroy() {
             try {
@@ -75,7 +70,7 @@
 
         function getComparisonTooltip(segmentComparison, periodComparison) {
             if (!comparisonTooltips) {
-                return loadingHtml.prop('outerHTML');
+                return undefined;
             }
 
             return comparisonTooltips[periodComparison.index][segmentComparison.index];
@@ -118,18 +113,20 @@
 
             var comparisonRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount + segmentComp.index];
 
-            var tooltip = '';
+            var tooltip = '<div class="comparison-card-tooltip">';
             Object.keys(visitsSummary.columns).forEach(function (columnName) {
                 if (typeof comparisonRow[columnName] === 'undefined') {
                     return;
                 }
 
+                tooltip += '<p>';
                 tooltip += comparisonRow[columnName] + ' ' + visitsSummary.columns[columnName];
                 if (segmentComp.index > 0 || periodComp.index > 0) {
-                    tooltip += ' (' + _pk_translate('General_XComparedToY', [comparisonRow[columnName + '_change'], comparedToSegmentLabel]) + ')';
+                    tooltip += ' (' + _pk_translate('General_XComparedToY', ['<strong>' + comparisonRow[columnName + '_change'] + '</strong>', comparedToSegmentLabel]) + ')';
                 }
-                tooltip += '<br/>';
+                tooltip += '</p>';
             });
+            tooltip += '</div>';
             return tooltip;
         }
 

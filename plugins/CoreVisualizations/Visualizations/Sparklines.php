@@ -48,6 +48,11 @@ class Sparklines extends ViewDataTable
         return new Sparklines\Config();
     }
 
+    public function supportsComparison()
+    {
+        return true;
+    }
+
     /**
      * @see ViewDataTable::main()
      * @return mixed

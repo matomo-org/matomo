@@ -178,6 +178,51 @@ class DataComparisonFilter
             $this->compareTables($compareMetadata, $table, $compareTable); // TODO: set comparison totals here + handle correctly
         }
 
+        // calculate changes (including processed metric changes)
+        // NOTE: it doesn't make to sense to calculate these values for segments, since segments are subsets of all visits, where periods are
+        //       time periods (so things can change from one to another).
+        // TODO: move to method
+        if (!empty($this->comparePeriods)) {
+            $originalPeriod = Common::getRequestVar('period', null, 'string', $this->request);
+            $originalDate = Common::getRequestVar('date', null, 'string', $this->request);
+
+            $table->filter(function (DataTable $table) use ($originalDate, $originalPeriod) {
+                foreach ($table->getRows() as $row) {
+                    $comparisons = $row->getComparisons();
+                    if (empty($comparisons)) {
+                        continue;
+                    }
+
+                    $indexedCompareRows = [];
+                    foreach ($comparisons->getRows() as $compareRow) {
+                        // TODO: this shouldn't be needed, we should set comparePeriodOriginal for compare against period too
+                        $period = $compareRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod;
+                        $date = $compareRow->getMetadata('compareDateOriginal') ?: $originalDate;
+                        $segment = $compareRow->getMetadata('compareSegment');
+
+                        $indexedCompareRows[$period][$date][$segment] = $compareRow;
+                    }
+
+                    foreach ($comparisons->getRows() as $compareRow) {
+                        $segment = $compareRow->getMetadata('compareSegment');
+                        $otherPeriodRow = $indexedCompareRows[$originalPeriod][$originalDate][$segment];
+
+                        foreach ($compareRow->getColumns() as $name => $value) {
+                            $valueToCompare = $otherPeriodRow->getColumn($name) ?: 0;
+                            $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
+
+                            if ($change >= 0) {
+                                $change = '+' . $change;
+                            }
+                            $change .= '%';
+
+                            $compareRow->addColumn($name . '_change', $change);
+                        }
+                    }
+                }
+            });
+        }
+
         // format comparison table metrics
         $this->formatComparisonTables($table);
 
@@ -368,19 +413,6 @@ class DataComparisonFilter
         ) {
             $segmentValue = $row->getMetadata('segmentValue');
             $newRow->setMetadata('segment', sprintf('%s==%s', $this->segmentName, urlencode($segmentValue)));
-        }
-
-        // calculate changes (including processed metric changes)
-        foreach ($newRow->getColumns() as $name => $value) {
-            $valueToCompare = $row->getColumn($name) ?: 0;
-            $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
-
-            if ($change >= 0) {
-                $change = '+' . $change;
-            }
-            $change .= '%';
-
-            $newRow->addColumn($name . '_change', $change);
         }
 
         $comparisonDataTable->addRow($newRow);
