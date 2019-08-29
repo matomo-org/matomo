@@ -1768,6 +1768,18 @@ class CronArchive
         return $url;
     }
 
+    private function wasSegmentCreatedRecently($definition, $allSegments)
+    {
+        foreach ($allSegments as $segment) {
+            if ($segment['definition'] === $definition) {
+                $twentyFourHoursAgo = Date::now()->subHour(24);
+                return Date::factory($segment['ts_created'])->isLater($twentyFourHoursAgo);
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param $idSite
      * @param $period
@@ -1793,18 +1805,24 @@ class CronArchive
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
 
+        $allSegmentsFullInfo = array();
+        if ($this->skipSegmentsToday) {
+            // small performance tweak... only needed when skip segments today
+            $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+            $allSegmentsFullInfo = $segmentEditorModel->getSegmentsToAutoArchive($idSite);
+        }
+
         foreach ($segments as $segment) {
+            $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentCreatedRecently($segment, $allSegmentsFullInfo);
 
-            $shouldIncludeToday = true;
-            if ($this->skipSegmentsToday) {
-                $wasCreatedRecently = Date::factory($segment['ts_created'])->isLater(Date::now()->subHour(24));
-                $shouldIncludeToday = $wasCreatedRecently;
-            }
-
-            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment, $shouldIncludeToday);
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            if ($shouldSkipToday) {
+                $urlWithSegment .= '&skipArchiveSegmentToday=1';
+            }
 
             if ($this->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
                 continue;

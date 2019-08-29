@@ -14,7 +14,6 @@ use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
-use Piwik\Site;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -60,42 +59,10 @@ class SegmentArchivingRequestUrlProvider
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
-    private function ignoreToday($date, $idSite)
-    {
-        if (strpos($date, 'last') === 0) {
-            return str_replace('last', 'previous', $date);
-        }
-
-        $timezone = Site::getTimezoneFor($idSite);
-        $nowInTimezone = Date::now()->setTimezone($timezone);
-
-        $today = $nowInTimezone->toString();
-        $yesterday = $nowInTimezone->subDay(1)->toString();
-
-        if (strpos($date, ',') !== false) {
-            $parts = explode(',', $date);
-            if (count($parts) === 2 && $parts[1] === $today) {
-                return $parts[0] . ',' . $yesterday;
-            }
-            if (count($parts) === 2 && $parts[0] === $today) {
-                return $yesterday . ',' . $yesterday;
-            }
-            return $date;
-        }
-
-        if ($date === $today) {
-            return $yesterday;
-        }
-        return $date;
-    }
-
-    public function getUrlParameterDateString($idSite, $period, $date, $segment, $shouldIncludeToday)
+    public function getUrlParameterDateString($idSite, $period, $date, $segment)
     {
         $oldestDateToProcessForNewSegment = $this->getOldestDateToProcessForNewSegment($idSite, $segment);
         if (empty($oldestDateToProcessForNewSegment)) {
-            if ($shouldIncludeToday) {
-                return $this->ignoreToday($date, $idSite);
-            }
             return $date;
         }
 
@@ -123,10 +90,6 @@ class SegmentArchivingRequestUrlProvider
             $date = $oldestDateToProcessForNewSegment->toString().','.$endDate;
 
             $this->logger->debug("Archiving request date range changed to {date} w/ period {period}.", array('date' => $date, 'period' => $period));
-        }
-
-        if ($shouldIncludeToday) {
-            return $this->ignoreToday($date, $idSite);
         }
 
         return $date;

@@ -102,7 +102,7 @@ class CoreArchiver extends ConsoleCommand
             'If specified, all segments will be skipped during archiving.');
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
-        $command->addOption('skip-segments-today', null, InputOption::VALUE_OPTIONAL,
+        $command->addOption('skip-segments-today', null, InputOption::VALUE_NONE,
             'If specified, segments will be only archived for yesterday, but not today. If the segment was created recently, then it will still be archived for today and the setting will be ignored for this segment.');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
