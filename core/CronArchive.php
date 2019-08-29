@@ -222,6 +222,13 @@ class CronArchive
      */
     public $disableSegmentsArchiving = false;
 
+    /**
+     * If enabled, segments will be only archived for yesterday, but not today. If the segment was created recently,
+     * then it will still be archived for today and the setting will be ignored for this segment.
+     * @var bool
+     */
+    public $skipSegmentsToday = false;
+
     private $websitesWithVisitsSinceLastRun = 0;
     private $skippedPeriodsArchivesWebsite = 0;
     private $skippedPeriodsNoDataInPeriod = 0;
@@ -288,6 +295,7 @@ class CronArchive
         $this->formatter = new Formatter();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
+
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
@@ -1786,7 +1794,14 @@ class CronArchive
         $processedSegmentCount = 0;
 
         foreach ($segments as $segment) {
-            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
+
+            $shouldIncludeToday = true;
+            if ($this->skipSegmentsToday) {
+                $wasCreatedRecently = Date::factory($segment['ts_created'])->isLater(Date::now()->subHour(24));
+                $shouldIncludeToday = $wasCreatedRecently;
+            }
+
+            $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment, $shouldIncludeToday);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
