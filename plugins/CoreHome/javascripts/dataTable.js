@@ -1879,7 +1879,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             // if there are row actions, make sure the first column is not too narrow
-            td.css('minWidth', tr.is('.comparisonRow') ? '117px' : '145px');
+            td.css('minWidth', $tr.is('.comparisonRow') ? '117px' : '145px');
 
             if ($(this).is('.parentComparisonRow,.comparePeriod').length) {
                 return;
