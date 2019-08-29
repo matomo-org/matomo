@@ -61,6 +61,10 @@ class ArchiveWriter
         'name',
         'value');
 
+    private $recordsToWriteSpool = array();
+
+    const MAX_SPOOL_SIZE = 50;
+
     public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
     {
         $this->idArchive = false;
@@ -128,6 +132,8 @@ class ArchiveWriter
 
     public function finalizeArchive()
     {
+        $this->flushSpool();
+
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
@@ -231,13 +237,31 @@ class ArchiveWriter
             return false;
         }
 
-        $tableName = $this->getTableNameToInsert($value);
-        $fields    = $this->getInsertFields();
-        $record    = $this->getInsertRecordBind();
+        $this->recordsToWriteSpool[] = array(
+            0 => $name,
+            1 => $value
+        );
 
-        $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
+        if (count($this->recordsToWriteSpool) >= self::MAX_SPOOL_SIZE) {
+            $this->flushSpool();
+        }
 
         return true;
+    }
+
+    private function flushSpool()
+    {
+        if (count($this->recordsToWriteSpool) > 1) {
+            $this->insertBulkRecords($this->recordsToWriteSpool);
+        } elseif (count($this->recordsToWriteSpool) == 1) {
+            list($name, $value) = $this->recordsToWriteSpool[0];
+            $tableName = $this->getTableNameToInsert($value);
+            $fields    = $this->getInsertFields();
+            $record    = $this->getInsertRecordBind();
+
+            $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
+        }
+        $this->recordsToWriteSpool = array();
     }
 
     protected function getInsertRecordBind()
