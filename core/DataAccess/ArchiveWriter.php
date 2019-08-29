@@ -61,7 +61,10 @@ class ArchiveWriter
         'name',
         'value');
 
-    private $recordsToWriteSpool = array();
+    private $recordsToWriteSpool = array(
+        'numeric' => array(),
+        'blob' => array()
+    );
 
     const MAX_SPOOL_SIZE = 50;
 
@@ -132,7 +135,7 @@ class ArchiveWriter
 
     public function finalizeArchive()
     {
-        $this->flushSpool();
+        $this->flushSpools();
 
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
@@ -167,6 +170,7 @@ class ArchiveWriter
     protected function logArchiveStatusAsIncomplete()
     {
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
+        $this->flushSpool('numeric');
     }
 
     protected function logArchiveStatusAsFinal()
@@ -178,6 +182,7 @@ class ArchiveWriter
         }
 
         $this->insertRecord($this->doneFlag, $status);
+        $this->flushSpool('numeric');
     }
 
     protected function insertBulkRecords($records)
@@ -237,31 +242,40 @@ class ArchiveWriter
             return false;
         }
 
-        $this->recordsToWriteSpool[] = array(
+        $valueType = is_numeric($value) ? 'numeric' : 'blob';
+        $this->recordsToWriteSpool[$valueType][] = array(
             0 => $name,
             1 => $value
         );
 
-        if (count($this->recordsToWriteSpool) >= self::MAX_SPOOL_SIZE) {
-            $this->flushSpool();
+        if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {
+            $this->flushSpool($valueType);
         }
 
         return true;
     }
 
-    private function flushSpool()
+    private function flushSpools()
     {
-        if (count($this->recordsToWriteSpool) > 1) {
-            $this->insertBulkRecords($this->recordsToWriteSpool);
-        } elseif (count($this->recordsToWriteSpool) == 1) {
-            list($name, $value) = $this->recordsToWriteSpool[0];
+        $this->flushSpool('numeric');
+        $this->flushSpool('blob');
+    }
+
+    private function flushSpool($valueType)
+    {
+        $spool = &$this->recordsToWriteSpool[$valueType];
+        $numRecords = count($spool);
+        if ($numRecords > 1) {
+            $this->insertBulkRecords($spool);
+        } elseif ($numRecords == 1) {
+            list($name, $value) = $spool[0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();
             $record    = $this->getInsertRecordBind();
 
             $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
         }
-        $this->recordsToWriteSpool = array();
+        $spool = array();
     }
 
     protected function getInsertRecordBind()
