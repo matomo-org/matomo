@@ -181,6 +181,7 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * @param array $requestParamsForSparkline You need to at least set a module / action eg
      *                                         array('columns' => array('nb_visit'), 'module' => '', 'action' => '')
+     * TODO: modify docs
      * @param int|float|string|array $value Either the metric value or an array of values.
      * @param string|array $description Either one description or an array of descriptions. If an array, both
      *                                         $value and $description need the same amount of array entries.
@@ -196,19 +197,39 @@ class Config extends \Piwik\ViewDataTable\Config
      *                                         displayed. By default the sparkline will be appended to the end.
      * @throws \Exception In case an evolution parameter is set but has wrong data structure
      */
-    public function addSparkline($requestParamsForSparkline, $value, $description, $evolution = null, $order = null)
+    public function addSparkline($requestParamsForSparkline, $metricInfos, $description, $evolution = null, $order = null, $title = null, $group = '', $seriesIndices = null)
     {
         $metrics = array();
 
-        if (is_array($value)) {
-            $values = $value;
+        if ($description === null && is_array($metricInfos)) {
+            $metrics = $metricInfos;
         } else {
-            $values = array($value);
+            $value = $metricInfos;
+
+            if (is_array($value)) {
+                $values = $value;
+            } else {
+                $values = array($value);
+            }
+
+            if (!is_array($description)) {
+                $description = array($description);
+            }
+
+            if (count($values) === count($description)) {
+                foreach ($values as $index => $value) {
+                    $metrics[] = array(
+                        'value' => $value,
+                        'description' => $description[$index]
+                    );
+                }
+            } else {
+                $msg  = 'The number of values and descriptions need to be the same to add a sparkline. ';
+                $msg .= 'Values: ' . implode(', ', $values). ' Descriptions: ' . implode(', ', $description);
+                throw new \Exception($msg);
+            }
         }
 
-        if (!is_array($description)) {
-            $description = array($description);
-        }
 
         if (!empty($requestParamsForSparkline['columns'])
             && is_array($requestParamsForSparkline['columns'])
@@ -222,34 +243,34 @@ class Config extends \Piwik\ViewDataTable\Config
             $columns = array();
         }
 
-        if (count($values) === count($description)) {
-            foreach ($values as $index => $value) {
-                $metrics[] = array(
-                    'column' => isset($columns[$index]) ? $columns[$index] : '',
-                    'value' => $value,
-                    'description' => $description[$index]
-                );
-            }
-        } else {
-            $msg  = 'The number of values and descriptions need to be the same to add a sparkline. ';
-            $msg .= 'Values: ' . implode(', ', $values). ' Descriptions: ' . implode(', ', $description);
-            throw new \Exception($msg);
+        foreach ($metrics as $index => $metricInfo) {
+            $metrics[$index]['column'] = isset($columns[$index]) ? $columns[$index] : '';
         }
 
         if (empty($metrics)) {
             return;
         }
 
+        $groupedMetrics = [];
+        foreach ($metrics as $metricInfo) {
+            $metricGroup = isset($metricInfo['group']) ? $metricInfo['group'] : '';
+            $groupedMetrics[$metricGroup][] = $metricInfo;
+        }
+
         $sparkline = array(
             'url' => $this->getUrlSparkline($requestParamsForSparkline),
-            'metrics' => $metrics,
-            'order' => $this->getSparklineOrder($order)
+            'metrics' => $groupedMetrics,
+            'order' => $this->getSparklineOrder($order),
+            'title' => $title,
+            'group' => $group,
+            'seriesIndices' => $seriesIndices,
         );
 
         if (!empty($evolution)) {
             if (!is_array($evolution) ||
                 !array_key_exists('currentValue', $evolution) ||
-                !array_key_exists('pastValue', $evolution)) {
+                !array_key_exists('pastValue', $evolution)
+            ) {
                 throw new \Exception('In order to show an evolution in the sparklines view a currentValue and pastValue array key needs to be present');
             }
 
@@ -300,7 +321,16 @@ class Config extends \Piwik\ViewDataTable\Config
             return ($a['order'] < $b['order']) ? -1 : 1;
         });
 
-        return $this->sparklines;
+        $sparklines = [];
+        foreach ($this->sparklines as $sparkline) {
+            if (empty($sparkline['url'])) {
+                continue;
+            }
+
+            $group = $sparkline['group'];
+            $sparklines[$group][] = $sparkline;
+        }
+        return $sparklines;
     }
 
     private function getSparklineOrder($order)

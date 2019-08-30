@@ -16,6 +16,7 @@
     angular.module('piwikApp').component('piwikSparkline', {
         template: '<img />',
         bindings: {
+            seriesIndices: '<',
             params: '<'
         },
         controller: SparklineController
@@ -34,12 +35,23 @@
         }
 
         function getSparklineUrl() {
+            var seriesIndices = vm.seriesIndices;
+            var sparklineColors = piwik.getSparklineColors();
+
+            if (seriesIndices) {
+                sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
+                    return seriesIndices.indexOf(index) !== -1;
+                });
+            }
+
+            var colors = JSON.stringify(sparklineColors);
+
             var defaultParams = {
                 forceView: '1',
                 viewDataTable: 'sparkline',
                 widget: $element.closest('[widgetId]').length ? '1' : '0',
                 showtitle: '1',
-                colors: JSON.stringify(piwik.getSparklineColors()),
+                colors: colors,
                 random: Date.now(),
                 date: getDefaultDate()
             };

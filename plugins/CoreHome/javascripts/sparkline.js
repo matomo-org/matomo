@@ -26,14 +26,23 @@ piwik.getSparklineColors = function () {
 
 // initializes each sparkline so they use colors defined in CSS
 piwik.initSparklines = function() {
-    $('.sparkline > img').each(function () {
+    $('.sparkline img').each(function () {
         var $self = $(this);
 
         if ($self.attr('src')) {
             return;
         }
 
-        var colors = JSON.stringify(piwik.getSparklineColors());
+        var seriesIndices = $self.closest('.sparkline').data('series-indices');
+        var sparklineColors = piwik.getSparklineColors();
+
+        if (seriesIndices) {
+            sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
+                return seriesIndices.indexOf(index) !== -1;
+            });
+        }
+
+        var colors = JSON.stringify(sparklineColors);
         var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
 
         // Append the token_auth to the URL if it was set (eg. embed dashboard)

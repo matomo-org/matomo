@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
@@ -87,6 +88,7 @@ class Sparklines extends ViewDataTable
         $view->titleAttributes = $this->config->title_attributes;
         $view->footerMessage = $this->config->show_footer_message;
         $view->areSparklinesLinkable = $this->config->areSparklinesLinkable();
+        $view->isComparing = $this->isComparing();
 
         $view->title = '';
         if ($this->config->show_title) {
@@ -108,39 +110,35 @@ class Sparklines extends ViewDataTable
             }
         }
 
-        $translations = $this->config->translations;
-
         $firstRow = $data->getFirstRow();
+        $comparisons = $firstRow->getComparisons();
 
-        foreach ($this->config->getSparklineMetrics() as $sparklineMetric) {
+        if (!empty($comparisons)) {
+            $comparisonRows = [];
+            foreach ($comparisons->getRows() as $comparisonRow) {
+                $segment = $comparisonRow->getMetadata('compareSegment');
+                $date = $comparisonRow->getMetadata('compareDateOriginal') ?: '';
+                $period = $comparisonRow->getMetadata('comparePeriodOriginal') ?: '';
+
+                $comparisonRows[$segment][$period][$date] = $comparisonRow;
+            }
+        }
+
+        foreach ($this->config->getSparklineMetrics() as $sparklineMetricIndex => $sparklineMetric) {
             $column = $sparklineMetric['columns'];
             $order  = $sparklineMetric['order'];
+
+            if (!isset($order)) {
+                $order = 1000;
+            }
 
             if ($column === 'label') {
                 continue;
             }
 
             if (empty($column)) {
-                $this->config->addPlaceholder($order);
+                $this->config->addPlaceholder($order, $column);
                 continue;
-            }
-
-            if (!is_array($column)) {
-                $column = array($column);
-            }
-
-            $values = array();
-            $descriptions = array();
-
-            foreach ($column as $col) {
-                $value = $firstRow->getColumn($col);
-
-                if ($value === false) {
-                    $value = 0;
-                }
-
-                $values[] = $value;
-                $descriptions[] = isset($translations[$col]) ? $translations[$col] : $col;
             }
 
             $sparklineUrlParams = array(
@@ -149,7 +147,56 @@ class Sparklines extends ViewDataTable
                 'action'  => $this->requestConfig->getApiMethodToRequest()
             );
 
-            $this->config->addSparkline($sparklineUrlParams, $values, $descriptions, null, $order);
+            if ($this->isComparing() && !empty($comparisons)) {
+                $sparklineUrlParams['compareSegments'] = [];
+
+                $comparePeriods = $data->getMetadata('comparePeriods');
+                $compareDates = $data->getMetadata('compareDates');
+
+                $originalPeriod = $data->getMetadata('period')->getLabel();
+
+                $compareSegments = $data->getMetadata('compareSegments');
+                foreach ($compareSegments as $segmentIndex => $segment) {
+                    $metrics = [];
+                    $seriesIndices = [];
+
+                    foreach ($comparePeriods as $index => $period) {
+                        $date = $compareDates[$index];
+
+                        $compareRow = $comparisonRows[$segment][$period][$date];
+                        $segmentPretty = $compareRow->getMetadata('compareSegmentPretty');
+                        $periodPretty = $compareRow->getMetadata('comparePeriodPretty');
+
+                        $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period ?: $originalPeriod); // TODO: this original period/date stuff has got to change
+                        list($compareValues, $compareDescriptions) = $this->getValuesAndDescriptions($compareRow, $columnToUse);
+
+                        foreach ($compareValues as $i => $value) {
+                            $metrics[] = [
+                                'value' => $value,
+                                'description' => $compareDescriptions[$i],
+                                'group' => $periodPretty,
+                            ];
+                        }
+
+                        $seriesIndices[] = count($compareSegments) * $index + $segmentIndex;
+                    }
+
+                    $params = array_merge($sparklineUrlParams, ['segment' => $segment]);
+                    $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $segmentPretty, $sparklineMetricIndex, $seriesIndices);
+                }
+            } else {
+                list($values, $descriptions) = $this->getValuesAndDescriptions($firstRow, $column);
+
+                $metrics = [];
+                foreach ($values as $i => $value) {
+                    $metrics[] = [
+                        'value' => $value,
+                        'description' => $descriptions[$i],
+                    ];
+                }
+
+                $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, null, $order, $title = null, $group = $sparklineMetricIndex);
+            }
         }
     }
 
@@ -165,5 +212,39 @@ class Sparklines extends ViewDataTable
         }
 
         $table->applyQueuedFilters();
+    }
+
+    private function getValuesAndDescriptions(DataTable\Row $firstRow, $columns)
+    {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
+
+        $translations = $this->config->translations;
+
+        $values = array();
+        $descriptions = array();
+
+        foreach ($columns as $col) {
+            $value = $firstRow->getColumn($col);
+
+            if ($value === false) {
+                $value = 0;
+            }
+
+            $values[] = $value;
+            $descriptions[] = isset($translations[$col]) ? $translations[$col] : $col;
+        }
+
+        return [$values, $descriptions];
+    }
+
+    private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)
+    {
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
+            return $columns;
+        }
+
+        return array_diff($columns, ['nb_users', 'nb_uniq_visitors']);
     }
 }

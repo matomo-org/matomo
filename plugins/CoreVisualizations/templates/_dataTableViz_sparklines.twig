@@ -10,12 +10,23 @@
     <div class="row">
         <div class="col m6">
     {% endif %}
-
-            {% for key, sparkline in sparklines %}
-                {% if key is even %}
+            {% if sparklines|length == 1 %}
+            {% for key, sparkline in sparklines|first %}
+                {% if loop.index0 is even %}
                     {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
                 {% endif %}
             {% endfor %}
+            {% else %}
+                {% for group in sparklines %}
+                    {% if loop.index0 is even %}
+                        <div>
+                            {% for key, sparkline in group %}
+                                {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
     {% if not isWidget %}
             <br style="clear:left"/>
@@ -23,11 +34,23 @@
         <div class="col m6">
     {% endif %}
 
+            {% if sparklines|length == 1 %}
             {% for key, sparkline in sparklines %}
-                {% if key is odd %}
+                {% if loop.index0 is odd %}
                     {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
                 {% endif %}
             {% endfor %}
+            {% else %}
+                {% for group in sparklines %}
+                    {% if loop.index0 is odd %}
+                        <div>
+                            {% for key, sparkline in group %}
+                                {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
             <br style="clear:left"/>
 

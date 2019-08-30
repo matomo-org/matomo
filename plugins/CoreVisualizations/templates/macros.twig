@@ -1,16 +1,24 @@
 {% macro singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) %}
 
-    <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}">
-        {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
+    <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}"
+         {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
+    >
+        <div>
+            {% if sparkline.title|default is not empty %}<h6 class="sparkline-title">{{ sparkline.title }}</h6>{% endif %}
+            {% if sparkline.url %}{{ sparkline(sparkline.url, sparkline.title|default)|raw }}{% endif %}
+        </div>
 	<div>
-        {% for metric in sparkline.metrics %}
-            <span {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
-            {% if '%s' in metric.description -%}
-                {{ metric.description|translate("<strong>"~metric.value~"</strong>")|raw }}
-            {%- else %}
-                <strong>{{ metric.value }}</strong> {{ metric.description }}
-            {%- endif %}{% if not loop.last %}, {% endif %}
-            </span>
+        {% for groupName, group in sparkline.metrics %}
+            {% if groupName is not empty %}<span class="metric-group-title">{{ groupName }}</span>{% endif %}
+            {% for metric in group %}
+                <span class="sparkline-metrics" {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
+                {% if '%s' in metric.description -%}
+                    {{ metric.description|translate("<strong>"~metric.value~"</strong>")|raw }}
+                {%- else %}
+                    <strong>{{ metric.value }}</strong> {{ metric.description }}
+                {%- endif %}{% if not loop.last %}, {% endif %}
+                </span>
+            {% endfor %}
         {% endfor %}
         {% if sparkline.evolution is defined %}
 
