@@ -367,6 +367,10 @@ class CronArchive
             $this->logger->info('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
         }
 
+        if ($this->skipSegmentsToday) {
+            $this->logger->info('Will skip segments archiving for today unless they were created recently');
+        }
+
         $this->logForcedSegmentInfo();
 
         /**
@@ -1768,7 +1772,7 @@ class CronArchive
         return $url;
     }
 
-    private function wasSegmentCreatedRecently($definition, $allSegments)
+    protected function wasSegmentCreatedRecently($definition, $allSegments)
     {
         foreach ($allSegments as $segment) {
             if ($segment['definition'] === $definition) {
@@ -1814,6 +1818,10 @@ class CronArchive
 
         foreach ($segments as $segment) {
             $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentCreatedRecently($segment, $allSegmentsFullInfo);
+
+            if ($this->skipSegmentsToday && !$shouldSkipToday) {
+                $this->logger->info(sprintf('Segment "%s" was created recently and will therefore archive today', $segment));
+            }
 
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
