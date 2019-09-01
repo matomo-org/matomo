@@ -454,7 +454,13 @@ class Model
                 }
                 $processedPeriod = Period\Factory::build($period, $processedDate);
             }
+
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
+
+            $now = Date::now();
+            if ($dateStart->isLater($now)) {
+                $dateStart = $now;
+            }
 
             if (!in_array($date, array('now', 'today', 'yesterdaySameTime'))
                 && strpos($date, 'last') === false
@@ -463,8 +469,14 @@ class Model
             ) {
                 $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
                 $dateEnd = $dateEnd->addDay(1);
+
+                if ($dateEnd->isLater(Date::now())) {
+                    // making sure dateEnd is bit higher than start date plus in case a second past by now ...
+                    $dateEnd = $now->addPeriod(1, 'second');
+                }
             }
         }
+
         return [$dateStart, $dateEnd];
     }
 
