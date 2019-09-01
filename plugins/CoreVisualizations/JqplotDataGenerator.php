@@ -193,7 +193,7 @@ class JqplotDataGenerator
 
                     $seriesMetadata[$seriesId] = [
                         'seriesIndex' => $seriesIndices[$seriesId],
-                        'metricIndex' => $index,
+                        'metricIndex' => $columnIndex,
                     ];
                 }
             }

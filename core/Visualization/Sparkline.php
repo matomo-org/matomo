@@ -106,7 +106,7 @@ class Sparkline implements ViewInterface
 
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $sparkline->setLineThickness(3);
+        $sparkline->setLineThickness(1);
         $sparkline->setPadding('5');
 
         $this->sparkline = $sparkline;
