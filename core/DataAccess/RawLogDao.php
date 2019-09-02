@@ -103,15 +103,16 @@ class RawLogDao
      *                            ```
      * @param int $iterationStep The number of rows to query at a time.
      * @param callable $callback The callback that processes each chunk of rows.
+     * @param string $willDelete Set to true if you will make sure to delete all rows that were fetched. If you are in
+     *                           doubt and not sure if to set true or false, use "false". Setting it to true will
+     *                           enable an internal performance improvement but it can result in an endless loop if not
+     *                           used properly.
      */
     public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback, $willDelete)
     {
         $lastId = 0;
 
         if ($willDelete) {
-            // it's fine if the reader has a delay and a very few visits are missed...
-            // usually we look at old data and they would be already synced/replicated on the reader for ages
-            $db = Db::getReader();
             // we don't want to look at eg idvisit so the query will be mostly index covered as the
             // "where idvisit > 0 ... ORDER BY idvisit ASC" will be gone... meaning we don't need to look at a huge range
             // of visits...
@@ -123,7 +124,6 @@ class RawLogDao
             // when we are not deleting, we need to ensure to iterate over each visitor step by step... meaning we
             // need to remember which visit we have already looked at and which one not. Therefore we need to apply
             // "where idvisit > $lastId" in the query and "order by idvisit ASC"
-            $db = Db::get();
             $idField = $this->getIdFieldForLogTable($logTable);
             $bindFunction = function ($bind, $lastId) {
                 return array_merge(array($lastId), $bind);
@@ -133,7 +133,7 @@ class RawLogDao
         list($query, $bind) = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
 
         do {
-            $rows = $db->fetchAll($query, call_user_func($bindFunction, $bind, $lastId));
+            $rows = Db::fetchAll($query, call_user_func($bindFunction, $bind, $lastId));
             if (!empty($rows)) {
                 $lastId = $rows[count($rows) - 1][$idField];
                 $callback($rows);
