@@ -104,14 +104,19 @@ class RawLogDao
      * @param int $iterationStep The number of rows to query at a time.
      * @param callable $callback The callback that processes each chunk of rows.
      */
-    public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback)
+    public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback, $useReader = false)
     {
         $idField = $this->getIdFieldForLogTable($logTable);
         list($query, $bind) = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
 
         $lastId = 0;
+        if ($useReader) {
+            $db = Db::getReader();
+        } else {
+            $db = Db::get();
+        }
         do {
-            $rows = Db::fetchAll($query, array_merge(array($lastId), $bind));
+            $rows = $db->fetchAll($query, array_merge(array($lastId), $bind));
             if (!empty($rows)) {
                 $lastId = $rows[count($rows) - 1][$idField];
 
