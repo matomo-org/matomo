@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\SitesManager\Model;
 
 /**
  * Service that deletes log entries. Methods in this class cascade, so deleting visits will delete visit actions,
@@ -84,6 +85,12 @@ class LogDeleter
 
         if (!empty($idSite)) {
             $conditions[] = array('idsite', '=', $idSite);
+        } elseif (!empty($startDatetime) || !empty($endDatetime)) {
+            // make sure to use index!
+            $sitesModel = new Model();
+            $allIdSites = $sitesModel->getSitesId();
+            $allIdSites = array_map('intval', $allIdSites);
+            $conditions[] = array('idsite', '', $allIdSites);
         }
 
         $logsDeleted = 0;
@@ -95,7 +102,7 @@ class LogDeleter
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
             }
-        });
+        }, $useReader = true);
 
         return $logsDeleted;
     }
