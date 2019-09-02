@@ -26,6 +26,11 @@ class Visit extends LogTable
     {
         return 'idvisit';
     }
+    
+    public function getDateTimeColumn()
+    {
+        return 'visit_last_action_time';
+    }
 
     public function shouldJoinWithSubSelect()
     {

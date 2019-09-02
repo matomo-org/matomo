@@ -37,11 +37,15 @@ class ArchiveWriter
      * @var int
      */
     const DONE_ERROR = 2;
+
     /**
      * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
      * Archives flagged will be regularly purged from the DB.
      *
+     * This flag is deprecated, new archives should not be written as temporary.
+     *
      * @var int
+     * @deprecated
      */
     const DONE_OK_TEMPORARY = 3;
 
@@ -69,6 +73,13 @@ class ArchiveWriter
     const MAX_SPOOL_SIZE = 50;
 
     public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
+    /**
+     * ArchiveWriter constructor.
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $isArchiveTemporary Deprecated. Has no effect.
+     * @throws Exception
+     */
+    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary = false)
     {
         $this->idArchive = false;
         $this->idSite    = $params->getSite()->getId();
@@ -77,7 +88,6 @@ class ArchiveWriter
 
         $idSites = array($this->idSite);
         $this->doneFlag = Rules::getDoneStringFlagFor($idSites, $this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
-        $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
     }
@@ -176,10 +186,6 @@ class ArchiveWriter
     protected function logArchiveStatusAsFinal()
     {
         $status = self::DONE_OK;
-
-        if ($this->isArchiveTemporary) {
-            $status = self::DONE_OK_TEMPORARY;
-        }
 
         $this->insertRecord($this->doneFlag, $status);
         $this->flushSpool('numeric');

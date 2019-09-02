@@ -11,6 +11,7 @@
         "UserAuthentication": "身份验证",
         "UsingTokenAuth": "如果您想在代码、定时任务中 %1$s 请求数据，%2$s 要在 API 调用需要认证的网址时增加参数 %3$s。",
         "Glossary": "词汇表",
-        "LearnAboutCommonlyUsedTerms2": "了解常用术语以便更好的利用Matomo数据分析。"
+        "LearnAboutCommonlyUsedTerms2": "了解常用术语以便更好的利用Matomo数据分析。",
+        "EvolutionMetricName": "%s演变"
     }
 }

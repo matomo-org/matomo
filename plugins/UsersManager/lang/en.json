@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "This change was initiated from the following device: %1$s (IP address = %2$s).",
         "IfThisWasYouIgnoreIfNot": "If this was you, feel free to ignore this email. If this was not you, please login, correct your email address, change your password and contact your Matomo administrator.",
         "PasswordChangeNotificationSubject": "Your Matomo account's password has just been changed",
-        "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s)."
+        "PasswordChangedEmail": "Your password has just been changed. The change was initiated from the following device: %1$s (IP address = %2$s).",
+        "NewsletterSignupTitle": "Newsletter Signup",
+        "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on our %1$sPrivacy Policy page%2$s.",
+        "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
+        "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon."
     }
 }

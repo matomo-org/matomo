@@ -9,6 +9,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\LogTableTemporary;
 use Piwik\Piwik;
 use Piwik\Tracker\LogTable;
 
@@ -24,6 +25,11 @@ class LogTablesProvider {
      */
     private $tablesCache;
 
+    /**
+     * @var LogTableTemporary
+     */
+    private $tempTable;
+
     public function __construct(Manager $pluginManager)
     {
         $this->pluginManager = $pluginManager;
@@ -37,11 +43,40 @@ class LogTablesProvider {
      */
     public function getLogTable($tableNameWithoutPrefix)
     {
+        if ($this->tempTable && $this->tempTable->getName() === $tableNameWithoutPrefix) {
+            return $this->tempTable;
+        }
         foreach ($this->getAllLogTables() as $table) {
             if ($table->getName() === $tableNameWithoutPrefix) {
                 return $table;
             }
         }
+    }
+
+    /**
+     * @param LogTableTemporary|null $table
+     */
+    public function setTempTable($table)
+    {
+        $this->tempTable = $table;
+    }
+
+    public function clearCache()
+    {
+        $this->tablesCache = null;
+    }
+
+    /**
+     * Needed for log query builder
+     * @return LogTable[]
+     */
+    public function getAllLogTablesWithTemporary()
+    {
+        $tables = $this->getAllLogTables();
+        if ($this->tempTable) {
+            $tables[] = $this->tempTable;
+        }
+        return $tables;
     }
 
     /**
