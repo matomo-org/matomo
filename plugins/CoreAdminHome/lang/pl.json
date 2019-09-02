@@ -31,7 +31,7 @@
         "JSTracking_CustomCampaignQueryParam": "Użyto niestandardowych nazw parametrów dla nazwy kampanii i słów kluczowych",
         "JSTracking_CrossDomain": "Domyślnie, ID użytkownika identyfikujące unikalnego odwiedzającego jest przechowywane w podstawowych ciasteczkach przeglądarki, które dostępne są jedynie w ramach stron w tej samej domenie. Włączenie linkowania między domenami pozwala Ci śledzić działania i otwarcia stron wybranego użytkownika podczas całej wizyty, nawet gdy dotyczy ona kilku domen. Za każdym razem, gdy użytkownik kliknie w link, który został skonfigurowany jako alias URL, do adresu URL zostanie dołączony parametr pk_vid przekazujący ID odwiedzającego.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "NOTKA: Aby korzystać z linkować między domenami, musisz podać co najmniej 2 domeny (URL'e) dla swojego serwisu.",
-        "JSTracking_CustomCampaignQueryParamDesc": "Ważne: %1$sMatomo automatycznie wykryje parametry Google Analystics..%2$s",
+        "JSTracking_CustomCampaignQueryParamDesc": "Ważne: %1$sMatomo automatycznie wykryje parametry Google Analystics.%2$s",
         "JSTracking_DisableCookies": "Wyłącz wszystkie pliki cookie",
         "JSTracking_DisableCookiesDesc": "Wyłącza wszystkie pliki cookie. Istniejące pliki cookie Matomo dla tej witryny zostaną usunięte po następnym odświeżeniu strony.",
         "JSTracking_EnableCrossDomainLinking": "Włącza powiązania między domenowe",

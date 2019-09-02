@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Log;
 use Piwik\SettingsServer;
+use Piwik\SettingsPiwik;
 
 class BatchInsert
 {
@@ -62,7 +63,12 @@ class BatchInsert
             && Db::get()->hasBulkLoader()) {
 
             $path = self::getBestPathForLoadData();
-            $filePath = $path . $tableName . '-' . Common::generateUniqId() . '.csv';
+            $instanceId = SettingsPiwik::getPiwikInstanceId();
+            if (empty($instanceId)) {
+                $instanceId = '';
+            }
+            $filePath = $path . $tableName . '-' . $instanceId . Common::generateUniqId() . '.csv';
+
 
             try {
                 $fileSpec = array(

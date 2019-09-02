@@ -108,6 +108,7 @@ class TestingEnvironmentVariables
         $disabledPlugins[] = 'LoginLdap';
         $disabledPlugins[] = 'MarketingCampaignsReporting';
         $disabledPlugins[] = 'ExampleVisualization';
+        $disabledPlugins[] = 'DeviceDetectorCache';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
             'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'

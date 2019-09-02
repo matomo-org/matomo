@@ -5,7 +5,7 @@
         "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %1$s nie upowszechniaj go%2$s!",
         "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
         "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Matomo, prosimy przeczytać %1$s Wprowadzenie do interfejsu API w Matomo%2$s, a także na stronie opracowania %3$s Matomo API Reference%4$s.",
-        "PluginDescription": "Wszystkie dane w Matomou są dostępne poprzez proste API. Ten plugin jest punktem końcowym serwisu web,",
+        "PluginDescription": "Wszystkie dane w Matomo są dostępne poprzez proste API. Ta wtyczka jest punktem wejściowym usługi sieciowej, którą możesz wywołać, aby uzyskać swoje statystyki w formacie xml, json, php, csv, itd.",
         "ReportingApiReference": "Referencje API Raportów",
         "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
         "UserAuthentication": "Uwierzytelnianie użytkownika",

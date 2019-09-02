@@ -566,7 +566,13 @@
         "VerifyAccount": "Tarkistetaan tiliä",
         "ValidateSslCertificate": "Validoi SSL-varmenne",
         "VerifyLoginData": "Varmista, että käyttäjätunnus ja salasana ovat oikein.",
-        "YouAreOffline": "Sinulla ei ole verkkoyhteyttä juuri nyt"
+        "YouAreOffline": "Sinulla ei ole verkkoyhteyttä juuri nyt",
+        "ExceptionNoViewAccess": "Tarkista käyttäjätunnuksesi ja salasanasi sekä varmista, että sinulla %s-käyttöoikeus vähintään yhdelle sivustolle.",
+        "Mobile_HowtoExitAndroid": "Napsauta uudelleen TAKAISIN poistuaksesi",
+        "MatomoMarketplace": "Matomo-markkinapaikka",
+        "EnterAuthCode": "Anna tunnistuskoodi",
+        "EnterCorrectAuthCode": "Anna oikea tunnistuskoodi",
+        "EnterAuthCodeExplanation": "Vaikuttaa siltä, että käytät kaksivaiheista tunnistautumista. Anna kuusinumeroinen koodi kirjautuaksesi tilillesi."
     },
     "RowEvolution": {
         "AvailableMetrics": "Saatavilla olevat metriikat",

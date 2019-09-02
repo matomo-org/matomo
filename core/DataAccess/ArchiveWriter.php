@@ -149,9 +149,7 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idArchive    = $this->getIdArchive();
 
-        $this->getModel()->deletePreviousArchiveStatus($numericTable, $idArchive, $this->doneFlag);
-
-        $this->logArchiveStatusAsFinal();
+        $this->getModel()->updateArchiveStatus($numericTable, $idArchive, $this->doneFlag, self::DONE_OK);
     }
 
     protected function compress($data)
@@ -179,14 +177,6 @@ class ArchiveWriter
     protected function logArchiveStatusAsIncomplete()
     {
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
-        $this->flushSpool('numeric');
-    }
-
-    protected function logArchiveStatusAsFinal()
-    {
-        $status = self::DONE_OK;
-
-        $this->insertRecord($this->doneFlag, $status);
         $this->flushSpool('numeric');
     }
 
