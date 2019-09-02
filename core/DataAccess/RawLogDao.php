@@ -135,7 +135,9 @@ class RawLogDao
         do {
             $rows = Db::fetchAll($query, call_user_func($bindFunction, $bind, $lastId));
             if (!empty($rows)) {
-                $lastId = $rows[count($rows) - 1][$idField];
+                if ($idField) {
+                    $lastId = $rows[count($rows) - 1][$idField];
+                }
                 $callback($rows);
             }
         } while (count($rows) == $iterationStep);
