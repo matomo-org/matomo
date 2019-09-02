@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 
@@ -130,8 +131,13 @@ class Model
 
     public function deleteSegment($idSegment)
     {
+        $fieldsToSet = array(
+            'deleted' => 1,
+            'ts_last_edit' => Date::getNowTimestamp()
+        );
+
         $db = $this->getDb();
-        $db->delete($this->getTable(), 'idsegment = ' . (int) $idSegment);
+        $db->update($this->getTable(), $fieldsToSet, 'idsegment = ' . (int) $idSegment);
     }
 
     public function updateSegment($idSegment, $segment)
