@@ -338,10 +338,13 @@ class Model
         if (empty($deletedSites)) {
             return array();
         }
+        $deletedSites = array_values($deletedSites);
 
         $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".Common::getSqlStringFieldsArray($deletedSites).")";
+
         $rows = Db::getReader()->fetchAll($sql, $deletedSites);
-        return $rows;
+
+        return array_column($rows, 'idarchive');
     }
 
     /**

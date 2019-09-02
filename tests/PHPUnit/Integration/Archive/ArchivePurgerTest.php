@@ -116,8 +116,8 @@ class ArchivePurgerTest extends IntegrationTestCase
 
         //There are 5 rows for website #3. We leave the other two because they're before our purge threshold.
         $deletedRowCount = $this->archivePurger->purgeDeletedSiteArchives($this->january);
-        $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10), $this->january);
+        $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 18), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_PurgesSegmentForAppropriateSitesOnly()
