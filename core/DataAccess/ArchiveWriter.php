@@ -219,7 +219,7 @@ class ArchiveWriter
 
         // For numeric records it's faster to do the insert directly; for blobs the data infile is better
         if ($valueType == 'numeric') {
-            BatchInsert::tableInsertBatchIterate($tableName, $fields, $values);
+            BatchInsert::tableInsertBatchSql($tableName, $fields, $values);
         } else {
             BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
         }

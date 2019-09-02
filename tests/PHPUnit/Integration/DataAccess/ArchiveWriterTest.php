@@ -17,6 +17,7 @@ use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
 
 /**
@@ -31,7 +32,7 @@ class ArchiveWriterTest extends IntegrationTestCase
     public function setUp()
     {
         Access::getInstance()->setSuperUserAccess(true);
-        $this->idSite = self::$fixture::createWebsite('2019-08-29');
+        $this->idSite = Fixture::createWebsite('2019-08-29');
     }
 
     public function test_initNewArchive_writesArchiveStatusToFile()
