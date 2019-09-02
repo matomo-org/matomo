@@ -130,17 +130,6 @@ class Visit implements VisitInterface
 
         $this->visitProperties = new VisitProperties();
 
-        // Break early if request timestamp is older than the cutoff for deleting older log entries
-        $cache = Tracker\Cache::getCacheGeneral();
-        if (!empty($cache['delete_logs_enable']) && !empty($cache['delete_logs_older_than'])) {
-            $scheduleInterval = $cache['delete_logs_schedule_lowest_interval'];
-            $maxLogAge = $cache['delete_logs_older_than'];
-            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
-            if ($this->request->getCurrentTimestamp() < $logEntryCutoff) {
-                return;
-            }
-        }
-
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::processRequestParams()...");
 

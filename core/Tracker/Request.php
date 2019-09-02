@@ -502,6 +502,18 @@ class Request
             }
         }
 
+        $cache = Tracker\Cache::getCacheGeneral();
+        if (!empty($cache['delete_logs_enable']) && !empty($cache['delete_logs_older_than'])) {
+            $scheduleInterval = $cache['delete_logs_schedule_lowest_interval'];
+            $maxLogAge = $cache['delete_logs_older_than'];
+            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
+            if ($cdt < $logEntryCutoff) {
+                $message = "Request skipped as custom timestamp is older than $maxLogAge days";
+                Common::printDebug($message);
+                throw new InvalidRequestParameterException($message);
+            }
+        }
+
         return $cdt;
     }
 
