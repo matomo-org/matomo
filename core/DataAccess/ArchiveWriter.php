@@ -187,16 +187,15 @@ class ArchiveWriter
 
     protected function insertBulkRecords($records)
     {
-        // Using standard plain INSERT if there is only one record to insert
-        if ($DEBUG_DO_NOT_USE_BULK_INSERT = false
-            || count($records) == 1
-        ) {
-            foreach ($records as $record) {
-                $this->insertRecord($record[0], $record[1]);
-            }
-
-            return true;
+        foreach ($records as $record) {
+            $this->insertRecord($record[0], $record[1]);
         }
+        return true;
+    }
+
+    protected function batchInsert($valueType)
+    {
+        $records = $this->recordsToWriteSpool[$valueType];
 
         $bindSql = $this->getInsertRecordBind();
         $values  = array();
@@ -223,7 +222,12 @@ class ArchiveWriter
         $tableName = $this->getTableNameToInsert($valueSeen);
         $fields    = $this->getInsertFields();
 
-        BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
+        // For numeric records it's faster to do the insert directly; for blobs the data infile is better
+        if ($valueType == 'numeric') {
+            BatchInsert::tableInsertBatchIterate($tableName, $fields, $values);
+        } else {
+            BatchInsert::tableInsertBatch($tableName, $fields, $values, $throwException = false, $charset = 'latin1');
+        }
 
         return true;
     }
@@ -242,7 +246,7 @@ class ArchiveWriter
             return false;
         }
 
-        $valueType = is_numeric($value) ? 'numeric' : 'blob';
+        $valueType = $this->getValueType($value);
         $this->recordsToWriteSpool[$valueType][] = array(
             0 => $name,
             1 => $value
@@ -263,19 +267,18 @@ class ArchiveWriter
 
     private function flushSpool($valueType)
     {
-        $spool = &$this->recordsToWriteSpool[$valueType];
-        $numRecords = count($spool);
+        $numRecords = count($this->recordsToWriteSpool[$valueType]);
         if ($numRecords > 1) {
-            $this->insertBulkRecords($spool);
+            $this->batchInsert($valueType);
         } elseif ($numRecords == 1) {
-            list($name, $value) = $spool[0];
+            list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
             $fields    = $this->getInsertFields();
             $record    = $this->getInsertRecordBind();
 
             $this->getModel()->insertRecord($tableName, $fields, $record, $name, $value);
         }
-        $spool = array();
+        $this->recordsToWriteSpool[$valueType] = array();
     }
 
     protected function getInsertRecordBind()
@@ -290,7 +293,7 @@ class ArchiveWriter
 
     protected function getTableNameToInsert($value)
     {
-        if (is_numeric($value)) {
+        if ($this->isRecordNumeric($value)) {
             return $this->getTableNumeric();
         }
 
@@ -310,5 +313,15 @@ class ArchiveWriter
     protected function isRecordZero($value)
     {
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
+    }
+
+    protected function getValueType($value)
+    {
+        return $this->isRecordNumeric($value) ? 'numeric' : 'blob';
+    }
+
+    protected function isRecordNumeric($value)
+    {
+        return is_numeric($value);
     }
 }
