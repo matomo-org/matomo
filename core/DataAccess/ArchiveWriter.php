@@ -72,7 +72,6 @@ class ArchiveWriter
 
     const MAX_SPOOL_SIZE = 50;
 
-    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
     /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
