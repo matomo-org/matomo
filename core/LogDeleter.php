@@ -70,7 +70,7 @@ class LogDeleter
      * @param callable $afterChunkDeleted Callback executed after every chunk of visits are deleted.
      * @return int The number of visits deleted.
      */
-    public function deleteVisitsFor($startDatetime, $endDatetime, $idSite = null, $iterationStep = 1000, $afterChunkDeleted = null)
+    public function deleteVisitsFor($startDatetime, $endDatetime, $idSite = null, $iterationStep = 2000, $afterChunkDeleted = null)
     {
         $fields = array('idvisit');
         $conditions = array();
