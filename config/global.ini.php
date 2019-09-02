@@ -666,7 +666,7 @@ enable_plugins_admin = 1
 ; By setting this option to 0 the users management will be disabled
 enable_users_admin = 1
 
-; By setting this option to 1 the users management will be disabled
+; By setting this option to 1 the websites management will be disabled
 enable_sites_admin = 1
 
 ; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
