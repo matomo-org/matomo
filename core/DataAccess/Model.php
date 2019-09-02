@@ -319,16 +319,29 @@ class Model
      * @param string $oldestToKeep Datetime string
      * @return array of IDs
      */
-    public function getArchiveIdsForDeletedSites($archiveTableName, $oldestToKeep)
+    public function getArchiveIdsForDeletedSites($archiveTableName)
     {
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " a "
-            . " LEFT JOIN " . Common::prefixTable('site') . " s USING (idsite)"
-            . " WHERE s.idsite IS NULL"
-            . " AND ts_archived < ?";
+        $sql = "SELECT DISTINCT idsite FROM " . $archiveTableName;
+        $rows = Db::getReader()->fetchAll($sql, array());
 
-        $rows = Db::fetchAll($sql, array($oldestToKeep));
+        if (empty($rows)) {
+            return array(); // nothing to delete
+        }
 
-        return array_column($rows, 'idarchive');
+        $idSitesUsed = array_column($rows, 'idsite');
+
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        $idSitesExisting = $model->getSitesId();
+
+        $deletedSites = array_diff($idSitesUsed, $idSitesExisting);
+
+        if (empty($deletedSites)) {
+            return array();
+        }
+
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".Common::getSqlStringFieldsArray($deletedSites).")";
+        $rows = Db::getReader()->fetchAll($sql, $deletedSites);
+        return $rows;
     }
 
     /**
