@@ -467,5 +467,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
         $translationKeys[] = 'General_XComparedToY';
+        $translationKeys[] = 'General_ComparisonCardTooltip1';
+        $translationKeys[] = 'General_ComparisonCardTooltip2';
     }
 }

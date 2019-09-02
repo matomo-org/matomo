@@ -160,25 +160,33 @@ class Sparklines extends ViewDataTable
                     $metrics = [];
                     $seriesIndices = [];
 
-                    foreach ($comparePeriods as $index => $period) {
-                        $date = $compareDates[$index];
+                    foreach ($comparePeriods as $periodIndex => $period) {
+                        $date = $compareDates[$periodIndex];
 
                         $compareRow = $comparisonRows[$segment][$period][$date];
                         $segmentPretty = $compareRow->getMetadata('compareSegmentPretty');
                         $periodPretty = $compareRow->getMetadata('comparePeriodPretty');
 
                         $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period ?: $originalPeriod); // TODO: this original period/date stuff has got to change
-                        list($compareValues, $compareDescriptions) = $this->getValuesAndDescriptions($compareRow, $columnToUse);
+                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse);
 
                         foreach ($compareValues as $i => $value) {
-                            $metrics[] = [
+                            $metricInfo = [
                                 'value' => $value,
                                 'description' => $compareDescriptions[$i],
                                 'group' => $periodPretty,
                             ];
+
+                            if ($periodIndex > 0
+                                && isset($evolutions[$i])
+                            ) {
+                                $metricInfo['evolution'] = $evolutions[$i];
+                            }
+
+                            $metrics[] = $metricInfo;
                         }
 
-                        $seriesIndices[] = count($compareSegments) * $index + $segmentIndex;
+                        $seriesIndices[] = count($compareSegments) * $periodIndex + $segmentIndex;
                     }
 
                     $params = array_merge($sparklineUrlParams, ['segment' => $segment]);
@@ -224,6 +232,7 @@ class Sparklines extends ViewDataTable
 
         $values = array();
         $descriptions = array();
+        $evolutions = [];
 
         foreach ($columns as $col) {
             $value = $firstRow->getColumn($col);
@@ -232,11 +241,16 @@ class Sparklines extends ViewDataTable
                 $value = 0;
             }
 
+            $evolution = $firstRow->getColumn($col . '_change'); // for comparison rows
+            if ($evolution !== false) {
+                $evolutions[] = ['percent' => ltrim($evolution, '+'), 'tooltip' => ''];
+            }
+
             $values[] = $value;
             $descriptions[] = isset($translations[$col]) ? $translations[$col] : $col;
         }
 
-        return [$values, $descriptions];
+        return [$values, $descriptions, $evolutions];
     }
 
     private function removeUniqueVisitorsIfNotEnabledForPeriod($columns, $period)

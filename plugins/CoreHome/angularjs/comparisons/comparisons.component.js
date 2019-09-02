@@ -108,24 +108,35 @@
 
         // TODO: data structures used to store comparisons are all over the place, needs to be better.
         function generateComparisonTooltip(visitsSummary, periodComp, segmentComp, segmentCompCount) {
-            var firstRow = visitsSummary.reportData.comparisons[0];
-            var comparedToSegmentLabel = firstRow.compareSegmentPretty + ', ' + firstRow.comparePeriodPretty;
+            if (segmentComp === 0) {
+                return;
+            }
+
+            var firstRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount];
 
             var comparisonRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount + segmentComp.index];
 
             var tooltip = '<div class="comparison-card-tooltip">';
-            Object.keys(visitsSummary.columns).forEach(function (columnName) {
-                if (typeof comparisonRow[columnName] === 'undefined') {
-                    return;
-                }
 
-                tooltip += '<p>';
-                tooltip += comparisonRow[columnName] + ' ' + visitsSummary.columns[columnName];
-                if (segmentComp.index > 0 || periodComp.index > 0) {
-                    tooltip += ' (' + _pk_translate('General_XComparedToY', ['<strong>' + comparisonRow[columnName + '_change'] + '</strong>', comparedToSegmentLabel]) + ')';
-                }
-                tooltip += '</p>';
-            });
+            var visitsPercent = ((comparisonRow.nb_visits / firstRow.nb_visits) * 100).toFixed(2) + '%';
+
+            tooltip += '<p>';
+            tooltip += _pk_translate('General_ComparisonCardTooltip1', [
+                "'" + comparisonRow.compareSegmentPretty + "'",
+                comparisonRow.comparePeriodPretty,
+                visitsPercent,
+                comparisonRow.nb_visits,
+                firstRow.nb_visits
+            ]);
+            tooltip += '</p>';
+            tooltip += '<p>';
+            tooltip += _pk_translate('General_ComparisonCardTooltip2', [
+                comparisonRow.nb_visits_change,
+                firstRow.compareSegmentPretty,
+                firstRow.comparePeriodPretty
+            ]);
+            tooltip += '</p>';
+
             tooltip += '</div>';
             return tooltip;
         }

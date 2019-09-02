@@ -219,7 +219,7 @@
                 previousDate = getPreviousPeriodDateToSelectedPeriod();
                 return {
                     comparePeriods: [vm.selectedPeriod],
-                    compareDates: [piwikPeriods.format(previousDate)],
+                    compareDates: [previousDate],
                 };
             } else if (vm.comparePeriodType === 'previousYear') {
                 previousDate = new Date(vm.dateValue);
@@ -235,7 +235,19 @@
         }
 
         function getPreviousPeriodDateToSelectedPeriod() {
-            return piwikPeriods.RangePeriod.getLastNRange(vm.selectedPeriod, 2, vm.dateValue).startDate;
+            if (vm.selectedPeriod === 'range') {
+                var currentStartRange = piwikPeriods.parseDate(vm.startRangeDate);
+                var currentEndRange = piwikPeriods.parseDate(vm.endRangeDate);
+                var newEndDate = piwikPeriods.RangePeriod.getLastNRange('day', 2, currentStartRange).startDate;
+
+                var rangeSize = Math.floor((currentEndRange - currentStartRange) / 86400000);
+                var newRange = piwikPeriods.RangePeriod.getLastNRange('day', 1 + rangeSize, newEndDate);
+
+                return piwikPeriods.format(newRange.startDate) + ',' + piwikPeriods.format(newRange.endDate);
+            }
+
+            var newStartDate = piwikPeriods.RangePeriod.getLastNRange(vm.selectedPeriod, 2, vm.dateValue).startDate;
+            return piwikPeriods.format(newStartDate);
         }
 
         function propagateNewUrlParams(date, period) {

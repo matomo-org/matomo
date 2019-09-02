@@ -166,9 +166,13 @@ class Evolution extends JqplotDataGenerator
 
         // TODO: this code needs to be rewritten, too confusing
         $seriesToXAxis = [];
-        for ($periodIndex = 0; $periodIndex < count($comparePeriods) + 1; ++$periodIndex) {
-            for ($segmentIndex = 0; $segmentIndex < count($compareSegments); ++$segmentIndex) {
-                $seriesToXAxis[] = $periodIndex;
+        foreach ($rowsToDisplay as $rowLabel) {
+            foreach ($columnsToDisplay as $columnName) {
+                for ($periodIndex = 0; $periodIndex < count($comparePeriods) + 1; ++$periodIndex) {
+                    for ($segmentIndex = 0; $segmentIndex < count($compareSegments); ++$segmentIndex) {
+                        $seriesToXAxis[] = $periodIndex;
+                    }
+                }
             }
         }
 

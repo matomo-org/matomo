@@ -1,3 +1,24 @@
+
+{% macro sparklineEvolution(evolution) %}
+    {% set evolutionPretty = evolution.percent %}
+
+    {% if evolution.percent < 0 %}
+        {% set evolutionClass = 'negative-evolution' %}
+        {% set evolutionIcon  = 'arrow_down.png' %}
+    {% elseif evolution.percent == 0 %}
+        {% set evolutionClass = 'neutral-evolution' %}
+        {% set evolutionIcon  = 'stop.png' %}
+    {% else %}
+        {% set evolutionClass  = 'positive-evolution' %}
+        {% set evolutionIcon   = 'arrow_up.png' %}
+        {% set evolutionPretty = '+' ~ evolution.percent %}
+    {% endif %}
+
+    <span class="metricEvolution" title="{{ evolution.tooltip }}">
+    <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
+    <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
+{% endmacro %}
+
 {% macro singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) %}
 
     <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}"
@@ -18,27 +39,13 @@
                     <strong>{{ metric.value }}</strong> {{ metric.description }}
                 {%- endif %}{% if not loop.last %}, {% endif %}
                 </span>
+                {% if metric.evolution is defined %}
+                    {{ _self.sparklineEvolution(metric.evolution) }}
+                {% endif %}
             {% endfor %}
         {% endfor %}
         {% if sparkline.evolution is defined %}
-
-            {% set evolutionPretty = sparkline.evolution.percent %}
-
-            {% if sparkline.evolution.percent < 0 %}
-                {% set evolutionClass = 'negative-evolution' %}
-                {% set evolutionIcon  = 'arrow_down.png' %}
-            {% elseif sparkline.evolution.percent == 0 %}
-                {% set evolutionClass = 'neutral-evolution' %}
-                {% set evolutionIcon  = 'stop.png' %}
-            {% else %}
-                {% set evolutionClass  = 'positive-evolution' %}
-                {% set evolutionIcon   = 'arrow_up.png' %}
-                {% set evolutionPretty = '+' ~ sparkline.evolution.percent %}
-            {% endif %}
-
-            <span class="metricEvolution" title="{{ sparkline.evolution.tooltip }}"><img
-                        style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
-                <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
+            {{ _self.sparklineEvolution(sparkline.evolution) }}
         {% endif %}
 	</div>
     </div>
