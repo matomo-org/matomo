@@ -90,7 +90,7 @@ class LogDeleter
             $sitesModel = new Model();
             $allIdSites = $sitesModel->getSitesId();
             $allIdSites = array_map('intval', $allIdSites);
-            $conditions[] = array('idsite', 'IN', '(' . implode(',', $allIdSites) .')');
+            $conditions[] = array('idsite', '', $allIdSites);
         }
 
         $logsDeleted = 0;
