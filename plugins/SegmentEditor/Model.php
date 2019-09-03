@@ -122,7 +122,7 @@ class Model
 
     public function getSegmentByDefinition($definition)
     {
-        $sql = $this->buildQuerySortedByName("definition = ?");
+        $sql = $this->buildQuerySortedByName("definition = ? AND deleted = 0");
         $bind = [$definition];
 
         $segment = $this->getDb()->fetchRow($sql, $bind);
@@ -133,7 +133,7 @@ class Model
     {
         $fieldsToSet = array(
             'deleted' => 1,
-            'ts_last_edit' => Date::getNowTimestamp()
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
         );
 
         $db = $this->getDb();
