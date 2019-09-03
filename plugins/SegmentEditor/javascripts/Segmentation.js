@@ -830,6 +830,10 @@ Segmentation = (function($) {
                     if (self.getSegment() != segment) {
                         self.setSegment(segment);
                         self.initHtml();
+                    } else {
+                        setTimeout(function () {
+                            self.markComparedSegments();
+                        });
                     }
                 });
             });

@@ -33,7 +33,13 @@ class Referrers extends \Piwik\Plugin
             'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral',
             'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
             'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'Referrers_Referrers.Referrers_URLCampaignBuilder';
     }
 
     public function getStylesheetFiles(&$stylesheets)

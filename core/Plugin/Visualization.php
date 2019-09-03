@@ -252,10 +252,9 @@ class Visualization extends ViewDataTable
         $this->setComparisonProperties($view);
 
         if (!$this->supportsComparison()
-            && Common::getRequestVar('compare', 0, 'int') == 1 // TODO: this doesn't work, need to use some logic from isComparing()
+            && $this->isCompareParamsPresent()
         ) {
-            // TODO: translate
-            $view->show_footer_message .= '<br/>This visualization does not support segment/period comparison.';
+            $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 
         if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {

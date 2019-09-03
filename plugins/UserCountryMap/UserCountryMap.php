@@ -31,9 +31,15 @@ class UserCountryMap extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
         return $hooks;
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.UserCountryMap_RealTimeMap';
     }
 
     public function getJsFiles(&$jsFiles)

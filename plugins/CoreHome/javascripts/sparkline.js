@@ -57,8 +57,6 @@ piwik.initSparklines = function() {
 };
 
 window.initializeSparklines = function () {
-    var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'showtitle', 'viewDataTable', 'forceView', 'random'];
-
     $('.dataTableVizEvolution[data-report]').each(function () {
         var graph = $(this);
 
@@ -90,18 +88,10 @@ window.initializeSparklines = function () {
 
                 $this.addClass('linked');
 
-                var params = broadcast.getValuesFromUrl(sparklineUrl);
-                for (var i = 0; i != sparklineUrlParamsToIgnore.length; ++i) {
-                    delete params[sparklineUrlParamsToIgnore[i]];
-                }
-                for (var key in params) {
-                    if (typeof params[key] == 'undefined') {
-                        // this happens for example with an empty segment parameter
-                        delete params[key];
-                    } else {
-                        params[key] = decodeURIComponent(params[key]);
-                    }
-                }
+                var urlParams = broadcast.getValuesFromUrl(sparklineUrl);
+                var params = {
+                    columns: decodeURIComponent(urlParams.columns)
+                };
 
                 // on click, reload the graph with the new url
                 $this.off('click.sparkline');

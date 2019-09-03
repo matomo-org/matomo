@@ -200,7 +200,9 @@
             var newComparisons = [];
             compareSegments.forEach(function (segment, idx) {
                 var storedSegment = availableSegments.find(function (s) {
-                    return s.definition === segment;
+                    return s.definition === segment
+                        || s.definition === decodeURIComponent(segment)
+                        || decodeURIComponent(s.definition) === segment;
                 });
 
                 var segmentTitle = storedSegment ? storedSegment.name : _pk_translate('General_Unknown');
@@ -246,6 +248,8 @@
         }
 
         function setComparisons(newComparisons) {
+            var oldComparisons = comparisons;
+
             comparisons = newComparisons;
             Object.freeze(comparisons);
 
@@ -260,7 +264,9 @@
                 });
             });
 
-            $rootScope.$emit('piwikComparisonsChanged');
+            if (JSON.stringify(oldComparisons) !== JSON.stringify(comparisons)) {
+                $rootScope.$emit('piwikComparisonsChanged');
+            }
         }
 
         function checkEnabledForCurrentPage() {

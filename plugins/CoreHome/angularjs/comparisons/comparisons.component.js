@@ -119,7 +119,6 @@
 
             var visitsPercent = ((comparisonRow.nb_visits / firstRow.nb_visits) * 100).toFixed(2) + '%';
 
-            tooltip += '<p>';
             tooltip += _pk_translate('General_ComparisonCardTooltip1', [
                 "'" + comparisonRow.compareSegmentPretty + "'",
                 comparisonRow.comparePeriodPretty,
@@ -127,14 +126,12 @@
                 comparisonRow.nb_visits,
                 firstRow.nb_visits
             ]);
-            tooltip += '</p>';
-            tooltip += '<p>';
+            tooltip += '<br/><br/>';
             tooltip += _pk_translate('General_ComparisonCardTooltip2', [
                 comparisonRow.nb_visits_change,
                 firstRow.compareSegmentPretty,
                 firstRow.comparePeriodPretty
             ]);
-            tooltip += '</p>';
 
             tooltip += '</div>';
             return tooltip;
