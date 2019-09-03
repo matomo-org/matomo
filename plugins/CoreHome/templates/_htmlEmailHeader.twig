@@ -17,7 +17,7 @@
                 {% if isCustomLogo and logoHeader %}
                     <img src="{{ logoHeader }}" height="20px" width="auto" />
                 {% else %}
-                    <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="{{ emailStyles.brandNameLong|e('html_attr') }}" />
+                    <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" style="margin-top: -3px" height="30px" width="auto" alt="{{ emailStyles.brandNameLong|e('html_attr') }}" />
                 {% endif %}
             </a>
         </td>
