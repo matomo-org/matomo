@@ -11,7 +11,9 @@ namespace Piwik\Tests\Integration\DataAccess;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period\Day;
 use Piwik\Period\Factory as PeriodFactory;
@@ -19,6 +21,13 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Integration\Settings\IntegrationTestCase;
+
+class TestArchiveWriter extends ArchiveWriter {
+    public function flushSpools()
+    {
+        parent::flushSpools();
+    }
+}
 
 /**
  * @group ArchiveWriterTest
@@ -35,7 +44,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->idSite = Fixture::createWebsite('2019-08-29');
     }
 
-    public function test_initNewArchive_writesArchiveStatusToFile()
+    public function test_initNewArchive_doesNotWiteNewArchiveStatusToFileRightAway()
     {
         $period = 'day';
         $date = '2019-08-29';
@@ -43,6 +52,11 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer = $this->buildWriter($period, $date);
         $writer->initNewArchive();
 
+        $this->assertEquals(array(), $this->getAllNumericRows($date));
+
+        // now we flush and it should be written
+        $writer->flushSpools();
+        $this->assertCount(1, $this->getAllNumericRows($date));
         $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, 'done', ArchiveWriter::DONE_ERROR);
     }
 
@@ -135,10 +149,13 @@ class ArchiveWriterTest extends IntegrationTestCase
         $writer->initNewArchive();
         foreach ($fields as $name => $value) {
             $writer->insertRecord($name, $value);
+            if ($value <= 48) {
+                $this->assertNumericArchiveNotExists(Day::PERIOD_ID, $date, $name);
+            }
         }
 
         foreach ($fields as $name => $value) {
-            if ($value <= 50) {
+            if ($value <= 49) {
                 $this->assertNumericArchiveExists(Day::PERIOD_ID, $date, $name, $value);
             } else {
                 $this->assertNumericArchiveNotExists(Day::PERIOD_ID, $date, $name);
@@ -151,7 +168,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $oPeriod = PeriodFactory::makePeriodFromQueryParams('UTC', $period, $date);
         $segment = new Segment('', []);
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
-        $writer  = new ArchiveWriter($params, false);
+        $writer  = new TestArchiveWriter($params, false);
         return $writer;
     }
 
@@ -179,15 +196,24 @@ class ArchiveWriterTest extends IntegrationTestCase
         $this->assertEmpty($row);
     }
 
+    private function getAllNumericRows($date)
+    {
+        $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        $sql = 'SELECT value FROM ' . $archiveTableName;
+
+        return Db::fetchAll($sql);
+    }
     private function getRowFromArchive($periodId, $date, $name, $numeric = true)
     {
-        $archiveType = $numeric ? 'numeric' : 'blob';
-        $tableDate = date('Y_m', strtotime($date));
-        $archiveTableName = Common::prefixTable('archive_' . $archiveType . '_' . $tableDate);
-        $sql = 'SELECT value FROM ' . $archiveTableName . ' WHERE name="' . $name 
-            . '" AND idsite=' . $this->idSite 
-            . ' AND date1="' . $date 
-            . '" AND date2="' . $date 
+        if ($numeric) {
+            $archiveTableName = ArchiveTableCreator::getNumericTable(Date::factory($date));
+        } else {
+            $archiveTableName = ArchiveTableCreator::getBlobTable(Date::factory($date));
+        }
+        $sql = 'SELECT value FROM ' . $archiveTableName . ' WHERE name="' . $name
+            . '" AND idsite=' . $this->idSite
+            . ' AND date1="' . $date
+            . '" AND date2="' . $date
             . '" AND period=' . $periodId;
         $result = Db::get()->query($sql);
         return $result->fetch();

@@ -239,7 +239,7 @@ class ArchiveWriter
         return true;
     }
 
-    private function flushSpools()
+    protected function flushSpools()
     {
         $this->flushSpool('numeric');
         $this->flushSpool('blob');
