@@ -287,6 +287,7 @@ class ArchiveTest extends IntegrationTestCase
         // directly trigger specific archiver for existing archive
         $archiver = new UserLanguage\Archiver($archiveProcessor);
         $archiver->aggregateDayReport();
+        $archiveWriter->finalizeArchive();
 
         // report should be updated
         $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(

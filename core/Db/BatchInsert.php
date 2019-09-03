@@ -43,6 +43,30 @@ class BatchInsert
     }
 
     /**
+     * Performs a batch insert into a specific table by sending all data in one SQL statement.
+     *
+     * @param string $tableName PREFIXED table name! you must call Common::prefixTable() before passing the table name
+     * @param array $fields array of unquoted field names
+     * @param array $values array of data to be inserted
+     * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
+     */
+    public static function tableInsertBatchSql($tableName, $fields, $values, $ignoreWhenDuplicate = true)
+    {
+        $insertLines = array();
+        $bind = array();
+        foreach ($values as $row) {
+            $insertLines[] = "(" . Common::getSqlStringFieldsArray($row) . ")";
+            $bind = array_merge($bind, $row);
+        }
+
+        $fieldList = '(' . implode(',', $fields) . ')';
+        $insertLines = implode(',', $insertLines);
+        $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
+        $query = "INSERT $ignore INTO $tableName $fieldList VALUES $insertLines";
+        Db::query($query, $bind);
+    }
+
+    /**
      * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
      * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
      *
