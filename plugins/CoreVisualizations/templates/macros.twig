@@ -25,7 +25,7 @@
          {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
     >
         <div>
-            {% if sparkline.title|default is not empty %}<h6 class="sparkline-title">{{ sparkline.title }}</h6>{% endif %}
+            {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
             {% if sparkline.url %}{{ sparkline(sparkline.url, sparkline.title|default)|raw }}{% endif %}
         </div>
 	<div>

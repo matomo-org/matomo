@@ -1,26 +1,28 @@
-<h3 ng-if="$ctrl.comparisonsService.getComparisons().length">Comparisons</h3>
+<div ng-if="$ctrl.comparisonsService.isComparing()">
+    <h3>Comparisons</h3>
 
-<div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
-    <div class="comparison-type">Segment</div>
+    <div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
+        <div class="comparison-type">Segment</div>
 
-    <div class="title">
-        {{ comparison.title }}
+        <div class="title" title="{{ comparison.title }}">
+            {{ comparison.title }}
+        </div>
+
+        <div class="comparison-period"
+             ng-repeat="periodComparison in $ctrl.comparisonsService.getPeriodComparisons() track by $index"
+             title="{{ $ctrl.getComparisonTooltip(comparison, periodComparison) }}"
+        >
+            <span class="comparison-dot" ng-style="{'background-color': $ctrl.comparisonsService.getSeriesColor(comparison, periodComparison)}"></span>
+            <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(periodComparison) }})</span>
+        </div>
+
+        <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)" ng-if="$index > 0">
+            <span class="icon icon-close" title="Click to remove this comparison."></span>
+        </a>
     </div>
 
-    <div class="comparison-period"
-         ng-repeat="periodComparison in $ctrl.comparisonsService.getPeriodComparisons() track by $index"
-         title="{{ $ctrl.getComparisonTooltip(comparison, periodComparison) }}"
-    >
-        <span class="comparison-dot" ng-style="{'background-color': $ctrl.comparisonsService.getSeriesColor(comparison, periodComparison)}"></span>
-        <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(periodComparison) }})</span>
+    <div class="loadingPiwik" style="display:none;">
+        <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />
+        {{ 'General_LoadingData'|translate }}
     </div>
-
-    <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)" ng-if="$index > 0">
-        <span class="icon icon-close" title="Click to remove this comparison."></span>
-    </a>
-</div>
-
-<div class="loadingPiwik" style="display:none;">
-    <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />
-    {{ 'General_LoadingData'|translate }}
 </div>

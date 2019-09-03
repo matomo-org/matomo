@@ -79,10 +79,9 @@
         function onComparisonsChanged() {
             comparisonTooltips = null;
 
-            if (!vm.comparisonsService.getComparisons().length) {
+            if (!vm.comparisonsService.isComparing()) {
                 return;
             }
-
 
             piwikApi.fetch({
                 method: 'API.getProcessedReport',

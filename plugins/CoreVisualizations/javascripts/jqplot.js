@@ -664,7 +664,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             // TODO: there is code redundancy here w/ comparisons. maybe just the code in the .forEach().
             var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
-            if (comparisonService.isComparing()) {
+            if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
                 namespace = 'comparison-series-color';
 
                 seriesColorNames = [];

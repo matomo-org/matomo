@@ -43,7 +43,7 @@
         };
 
         function isComparing() {
-            return isComparisonEnabled() && comparisons.length > 0;
+            return isComparisonEnabled() && comparisons.length > 2; // first two are for selected segment/period
         }
 
         function getSegmentComparisons() {
@@ -192,11 +192,6 @@
             var compareDates = getQueryParamValue('compareDates') || [];
             compareDates = compareDates instanceof Array ? compareDates : [compareDates];
 
-            if (!compareSegments.length && !comparePeriods.length) {
-                setComparisons([]);
-                return;
-            }
-
             // add base comparisons
             compareSegments.unshift(getQueryParamValue('segment'));
             comparePeriods.unshift(getQueryParamValue('period'));
@@ -217,7 +212,7 @@
                     params: {
                         segment: segment
                     },
-                    title: segmentTitle,
+                    title: piwikHelper.htmlDecode(segmentTitle),
                     index: idx
                 });
             });

@@ -19,6 +19,7 @@
                 </tr>
             {% endif %}
         {% else %}
+            {% set rowIndex = 1 %}
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
                 {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
@@ -41,7 +42,7 @@
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
                         <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
-                            {% include "@CoreHome/_dataTableCell.twig" with properties %}
+                            {% include "@CoreHome/_dataTableCell.twig" with properties|merge({ 'rowIndex': rowIndex }) %}
                         </td>
                     {% endfor %}
                 </tr>
@@ -59,6 +60,8 @@
                 {% if properties.show_expanded|default(false) and rowHasSubtable %}
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': rowSubtableId} %}
                 {% endif %}
+
+                {% set rowIndex = rowIndex + 1 %}
             {%- endfor -%}
             {% if dataTable.getTotalsRow and properties.show_totals_row %}
                 {% set row = dataTable.getTotalsRow %}

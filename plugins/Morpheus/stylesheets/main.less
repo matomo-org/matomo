@@ -8,7 +8,6 @@
 @import "ui/_charts";
 @import "ui/_map";
 
-
 body {
   background: @theme-color-background-base;
   font-family: @theme-fontFamily-base;
@@ -541,6 +540,11 @@ h6.sparkline-title {
   font-weight: bold;
   color: #999;
   margin-bottom: 4px;
+
+  max-width: 95px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 
 div.sparkline {
