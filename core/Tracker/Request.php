@@ -508,7 +508,7 @@ class Request
             $maxLogAge = $cache['delete_logs_older_than'];
             $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
             if ($cdt < $logEntryCutoff) {
-                $message = "Request skipped as custom timestamp is older than $maxLogAge days";
+                $message = "Custom timestamp is older than the configured 'deleted old raw data' value of $maxLogAge days";
                 Common::printDebug($message);
                 throw new InvalidRequestParameterException($message);
             }
