@@ -146,6 +146,59 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segment);
     }
 
+    public function test_getSegmentsDeletedSince_noDeletedSegments()
+    {
+        $date = Date::factory('now');
+        $segments = $this->model->getSegmentsDeletedSince($date);
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_oneDeletedSegment()
+    {
+        $this->model->deleteSegment($this->idSegment3);
+
+        $date = Date::factory('now')->subDay(1);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+    }
+
+    public function test_getSegmentsDeletedSince_segmentDeletedTooLongAgo()
+    {
+        // Manually delete it to set timestamp 8 days in past
+        $deletedAt = Date::factory('now')->subDay(9)->toString('Y-m-d H:i:s');
+        $this->model->updateSegment($this->idSegment1, array(
+            'deleted' => 1,
+            'ts_last_edit' => $deletedAt
+        ));
+
+        // The segment deleted above should not be included as it was more than 8 days ago
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegment()
+    {
+        // Turn segment1 into a duplicate of segment2, except it's also deleted
+        $this->model->updateSegment($this->idSegment1, array(
+            'definition' => 'country==Genovia',
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegmentDifferentIdSite()
+    {
+        // Make two duplicate segments, same definition but different idsites, and delete one of them
+    }
+
     private function assertReturnedIdsMatch(array $expectedIds, array $resultSet)
     {
         $this->assertEquals(count($expectedIds), count($resultSet));
