@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 
@@ -126,6 +127,38 @@ class Model
 
         $segment = $this->getDb()->fetchRow($sql, $bind);
         return $segment;
+    }
+
+    public function getSegmentsDeletedSince(Date $date)
+    {
+        $dateStr = $date->toString('Y-m-d');
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+            . " WHERE deleted = 1 AND ts_last_edit >= '$dateStr'";
+        $deletedSegments = Db::fetchAll($sql);
+
+        if (empty($deletedSegments)) {
+            return array();
+        }
+
+        $whereClauses = array();
+        $bind = array();
+        foreach ($deletedSegments as $segment) {
+            $whereClauses = "(definition = ? AND enable_only_idsite = ?)";
+            $bind[] = $segment['definition'];
+            $bind[] = $segment['enable_only_idsite'];
+        }
+        $whereClauses = implode(' OR ', $whereClauses);
+
+        // Check for any non-deleted segments with the same definition
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+            . " WHERE deleted = 0 AND (" . $whereClauses . ")";
+        $existingSegments = Db::fetchAll($sql);
+
+        if (count($existingSegments)) {
+            $deletedSegments = array_diff($deletedSegments, $existingSegments);
+        }
+
+        return $deletedSegments;
     }
 
     public function deleteSegment($idSegment)

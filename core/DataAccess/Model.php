@@ -335,50 +335,40 @@ class Model
      * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
      * may still be in use, as specified by the $oldestToKeep passed in.
      * @param string $archiveTableName
-     * @param array $segmentHashesById  Whitelist of existing segments, indexed by site ID
+     * @param array $segments  List of segments to match against
      * @param string $oldestToKeep Datetime string
      * @return array With keys idarchive, name, idsite
      */
-    public function getArchiveIdsForDeletedSegments($archiveTableName, array $segmentHashesById, $oldestToKeep)
+    public function getArchiveIdsForSegments($archiveTableName, array $segments, $oldestToKeep)
     {
-        $validSegmentClauses = [];
-
-        foreach ($segmentHashesById as $idSite => $segments) {
-            // segments are md5 hashes and such not a problem re sql injection. for performance etc we don't want to use
-            // bound parameters for the query
-            foreach ($segments as $segment) {
-                if (!preg_match('/^[a-z0-9A-Z]+$/', $segment)) {
-                    throw new Exception($segment . ' expected to be an md5 hash');
-                }
+        $segmentClauses = [];
+        foreach ($segments as $segment) {
+            $idSite = (int)$segment['enable_only_idsite'];
+            $segmentHash = Segment::getSegmentHash($segment['definition']);
+            // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
+            if (!preg_match('/^[a-z0-9A-Z]+$/', $segmentHash)) {
+                throw new Exception($segment . ' expected to be an md5 hash');
             }
 
-            // Special case as idsite=0 means the segments are not site-specific
-            if ($idSite === 0) {
-                foreach ($segments as $segmentHash) {
-                    $validSegmentClauses[] = '(name LIKE "done' . $segmentHash . '%")';
-                }
-                continue;
+            $nameClause = 'name LIKE "done' . $segmentHash . '%"';
+            $idSiteClause = '';
+            // idsite=0 means the segments are not site-specific
+            if ($idSite > 0) {
+                $idSiteClause = ' AND idsite = ' . $idSite;
             }
 
-            $idSite = (int)$idSite;
-
-            // Vanilla case - segments that are valid for a single site only
-            $sql = '(idsite = ' . $idSite . ' AND (';
-            $sql .= 'name LIKE "done' . implode('%" OR name LIKE "done', $segments) . '%"';
-            $sql .= '))';
-            $validSegmentClauses[] = $sql;
+            $segmentClauses[] = "($nameClause $idSiteClause)";
         }
 
-        $isValidSegmentSql = implode(' OR ', $validSegmentClauses);
+        $segmentClauses = implode(' OR ', $segmentClauses);
 
         $sql = 'SELECT idarchive FROM ' . $archiveTableName
-            . ' WHERE name LIKE "done%" AND name != "done"'
-            . ' AND ts_archived < ?'
-            . ' AND NOT (' . $isValidSegmentSql . ')';
+            . ' WHERE ts_archived < ?'
+            . ' AND (' . $segmentClauses . ')';
 
         $rows = Db::fetchAll($sql, array($oldestToKeep));
 
-        return array_map(function($row) { return $row['idarchive']; }, $rows);
+        return array_column($rows, 'idarchive');
     }
 
     /**
