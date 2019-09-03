@@ -186,13 +186,15 @@ class Model
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $idsToDelete = array_map('intval', $idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+
+        $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
 
         try {
-            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $queryObj = Db::query(sprintf($query, $blobTable), array());
             $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
@@ -339,10 +341,11 @@ class Model
             return array();
         }
         $deletedSites = array_values($deletedSites);
+        $deletedSites = array_map('intval', $deletedSites);
 
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".Common::getSqlStringFieldsArray($deletedSites).")";
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".implode(',',$deletedSites).")";
 
-        $rows = Db::getReader()->fetchAll($sql, $deletedSites);
+        $rows = Db::getReader()->fetchAll($sql, array());
 
         return array_column($rows, 'idarchive');
     }
