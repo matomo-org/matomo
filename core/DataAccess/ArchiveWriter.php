@@ -9,13 +9,11 @@
 namespace Piwik\DataAccess;
 
 use Exception;
-use Piwik\Archive;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Period;
 
 /**
  * This class is used to create a new Archive.
@@ -102,11 +100,10 @@ class ArchiveWriter
     public function insertBlobRecord($name, $values)
     {
         if (is_array($values)) {
-            $clean = array();
 
             if (isset($values[0])) {
                 // we always store the root table in a single blob for fast access
-                $clean[] = array($name, $this->compress($values[0]));
+                $this->insertRecord($name, $this->compress($values[0]));
                 unset($values[0]);
             }
 
@@ -115,16 +112,13 @@ class ArchiveWriter
                 $chunk  = new Chunk();
                 $chunks = $chunk->moveArchiveBlobsIntoChunks($name, $values);
                 foreach ($chunks as $index => $subtables) {
-                    $clean[] = array($index, $this->compress(serialize($subtables)));
+                    $this->insertRecord($index, $this->compress(serialize($subtables)));
                 }
             }
-
-            $this->insertBulkRecords($clean);
-            return;
+        } else {
+            $values = $this->compress($values);
+            $this->insertRecord($name, $values);
         }
-
-        $values = $this->compress($values);
-        $this->insertRecord($name, $values);
     }
 
     public function getIdArchive()
@@ -180,15 +174,7 @@ class ArchiveWriter
         $this->flushSpool('numeric');
     }
 
-    protected function insertBulkRecords($records)
-    {
-        foreach ($records as $record) {
-            $this->insertRecord($record[0], $record[1]);
-        }
-        return true;
-    }
-
-    protected function batchInsert($valueType)
+    private function batchInsertSpool($valueType)
     {
         $records = $this->recordsToWriteSpool[$valueType];
 
@@ -241,7 +227,7 @@ class ArchiveWriter
             return false;
         }
 
-        $valueType = $this->getValueType($value);
+        $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
         $this->recordsToWriteSpool[$valueType][] = array(
             0 => $name,
             1 => $value
@@ -254,7 +240,7 @@ class ArchiveWriter
         return true;
     }
 
-    private function flushSpools()
+    protected function flushSpools()
     {
         $this->flushSpool('numeric');
         $this->flushSpool('blob');
@@ -263,8 +249,9 @@ class ArchiveWriter
     private function flushSpool($valueType)
     {
         $numRecords = count($this->recordsToWriteSpool[$valueType]);
+
         if ($numRecords > 1) {
-            $this->batchInsert($valueType);
+            $this->batchInsertSpool($valueType);
         } elseif ($numRecords == 1) {
             list($name, $value) = $this->recordsToWriteSpool[$valueType][0];
             $tableName = $this->getTableNameToInsert($value);
@@ -310,12 +297,7 @@ class ArchiveWriter
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
 
-    protected function getValueType($value)
-    {
-        return $this->isRecordNumeric($value) ? 'numeric' : 'blob';
-    }
-
-    protected function isRecordNumeric($value)
+    private function isRecordNumeric($value)
     {
         return is_numeric($value);
     }

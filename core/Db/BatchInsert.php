@@ -59,8 +59,8 @@ class BatchInsert
             $bind = array_merge($bind, $row);
         }
 
-        $fieldList = '(' . join(',', $fields) . ')';
-        $insertLines = join(',', $insertLines);
+        $fieldList = '(' . implode(',', $fields) . ')';
+        $insertLines = implode(',', $insertLines);
         $ignore    = $ignoreWhenDuplicate ? 'IGNORE' : '';
         $query = "INSERT $ignore INTO $tableName $fieldList VALUES $insertLines";
         Db::query($query, $bind);
