@@ -158,7 +158,8 @@ class ArchivePurger
 
     public function purgeDeletedSiteArchives(Date $dateStart)
     {
-        $idArchivesToDelete = $this->getDeletedSiteArchiveIds($dateStart);
+        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $idArchivesToDelete = $this->model->getArchiveIdsForDeletedSites($archiveTable);
 
         return $this->purge($idArchivesToDelete, $dateStart, 'deleted sites');
     }
@@ -208,15 +209,6 @@ class ArchivePurger
         }
 
         return $deletedRowCount;
-    }
-
-    protected function getDeletedSiteArchiveIds(Date $date)
-    {
-        $archiveTable = ArchiveTableCreator::getNumericTable($date);
-        return $this->model->getArchiveIdsForDeletedSites(
-            $archiveTable, 
-            $this->getOldestTemporaryArchiveToKeepThreshold()
-        );
     }
 
     protected function getDeletedSegmentArchiveIds(Date $date, array $segmentHashesByIdSite)
