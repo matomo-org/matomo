@@ -197,7 +197,7 @@
                 if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
                     var total;
                     if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
-                    else if (id == 'world') total = _worldTotal;
+                    else if (id == 'world') total = self.config.visitsSummary[metric];
                     else {
                         total = 0;
                         $.each(UserCountryMap.countriesByIso, function (iso, country) {
