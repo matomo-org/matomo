@@ -339,7 +339,6 @@ class DataComparisonFilter
     private function formatComparisonTables(DataTableInterface $tableOrMap)
     {
         $tableOrMap->filter(function (DataTable $table) {
-            $formatter = new Formatter();
             foreach ($table->getRows() as $row) {
                 /** @var DataTable $comparisonTable */
                 $comparisonTable = $row->getComparisons();
@@ -348,8 +347,6 @@ class DataComparisonFilter
                 ) { // sanity check
                     $columnMappings = $this->columnMappings;
                     $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
-
-                    $formatter->formatMetrics($comparisonTable);
                 }
 
                 $subtable = $row->getSubtable();
