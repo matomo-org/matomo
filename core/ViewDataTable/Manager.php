@@ -428,7 +428,7 @@ class Manager
         return $graphViewIcons;
     }
 
-    private static function unsetComparisonParams(array $params)
+    private static function unsetComparisonParams(&$params)
     {
         unset($params['compareDates']);
         unset($params['comparePeriods']);
