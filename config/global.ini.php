@@ -543,6 +543,11 @@ live_widget_visitor_count_last_minutes = 3
 ; this limit can be adjusted by changing this value
 live_visitor_profile_max_visits_to_aggregate = 100
 
+; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
+; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
+; limited. Note: This feature requires a recent MySQL version (5.7 or newer).
+live_query_max_execution_time = -1
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
