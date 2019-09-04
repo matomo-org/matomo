@@ -487,6 +487,15 @@ class DataTablePostProcessor
         $filter = new DataComparisonFilter($this->request, $this->report);
         $filter->compare($dataTable);
 
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
+                $comparisons = $row->getComparisons();
+                if (!empty($comparisons)) {
+                    $this->computeProcessedMetrics($comparisons);
+                }
+            }
+        });
+
         return $dataTable;
     }
 }

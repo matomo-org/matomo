@@ -360,11 +360,13 @@ class DataComparisonFilter
         });
     }
 
-    private function compareRow($compareMetadata, DataTable\Row $row, DataTable\Row $compareRow = null, DataTable $rootTable = null)
+    private function compareRow(DataTable $table, $compareMetadata, DataTable\Row $row, DataTable\Row $compareRow = null, DataTable $rootTable = null)
     {
         $comparisonDataTable = $row->getComparisons();
         if (empty($comparisonDataTable)) {
             $comparisonDataTable = new DataTable();
+            $comparisonDataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME,
+                $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME));
             $row->setComparisons($comparisonDataTable);
         }
 
@@ -504,7 +506,7 @@ class DataComparisonFilter
                 $compareRow = $compareTable->getRowFromLabel($label) ?: null;
             }
 
-            $this->compareRow($compareMetadata, $row, $compareRow, $rootCompareTable);
+            $this->compareRow($table, $compareMetadata, $row, $compareRow, $rootCompareTable);
         }
 
         $totals = $compareTable->getMetadata('totals');
