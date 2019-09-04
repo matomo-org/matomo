@@ -36,7 +36,7 @@ piwik.initSparklines = function() {
         var seriesIndices = $self.closest('.sparkline').data('series-indices');
         var sparklineColors = piwik.getSparklineColors();
 
-        if (seriesIndices) {
+        if (seriesIndices && sparklineColors.lineColor instanceof Array) {
             sparklineColors.lineColor = sparklineColors.lineColor.filter(function (c, index) {
                 return seriesIndices.indexOf(index) !== -1;
             });
