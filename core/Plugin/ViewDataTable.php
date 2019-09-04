@@ -626,9 +626,9 @@ abstract class ViewDataTable implements ViewInterface
 
     public function isCompareParamsPresent($request = null)
     {
-        return !empty(Common::getRequestVar('compareSegments', false, $type = 'array', $request))
-            || !empty(Common::getRequestVar('comparePeriods', false, $type = 'array', $request))
-            || !empty(Common::getRequestVar('compareDates', false, $type = 'array', $request));
+        return !empty(Common::getRequestVar('compareSegments', [], $type = 'array', $request))
+            || !empty(Common::getRequestVar('comparePeriods', [], $type = 'array', $request))
+            || !empty(Common::getRequestVar('compareDates', [], $type = 'array', $request));
     }
 
     /**
