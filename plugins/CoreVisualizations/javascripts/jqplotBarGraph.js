@@ -58,9 +58,10 @@
                 var dataCount = this.data[0].length;
 
                 var totalBars = seriesCount * dataCount;
-                var totalMinWidth = (minBarWidth + barMargin) * totalBars + 100;
+                var totalMinWidth = (minBarWidth + barMargin) * totalBars + 50;
 
-                this.$element.css('min-width', totalMinWidth + 'px');
+                this.$element.find('.piwik-graph').css('min-width', totalMinWidth + 'px');
+                this.$element.css('overflow-x', 'scroll');
             }
         },
 
