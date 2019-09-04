@@ -22,6 +22,9 @@
         _setJqplotParameters: function (params) {
             JqplotGraphDataTable.prototype._setJqplotParameters.call(this, params);
 
+            var barMargin = this.data[0].length > 10 ? 2 : 10;
+            var minBarWidth = 10;
+
             this.jqplotParams.seriesDefaults = {
                 renderer: $.jqplot.BarRenderer,
                 rendererOptions: {
@@ -29,7 +32,7 @@
                     shadowDepth: 2,
                     shadowAlpha: .2,
                     fillToZero: true,
-                    barMargin: this.data[0].length > 10 ? 2 : 10
+                    barMargin: barMargin
                 }
             };
 
@@ -48,6 +51,17 @@
             this.jqplotParams.canvasLegend = {
                 show: true
             };
+
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            if (comparisonService.isComparing()) {
+                var seriesCount = this.jqplotParams.series.length;
+                var dataCount = this.data[0].length;
+
+                var totalBars = seriesCount * dataCount;
+                var totalMinWidth = (minBarWidth + barMargin) * totalBars + 100;
+
+                this.$element.css('min-width', totalMinWidth + 'px');
+            }
         },
 
         _bindEvents: function () {
