@@ -129,7 +129,7 @@ class DataComparisonFilter
         if (empty($this->compareSegments)
             && empty($this->comparePeriods)
         ) {
-            throw new \Exception("compare=1 set, but no segments or periods to compare.");
+            return;
         }
 
         $this->checkMultiplePeriodCompare();
@@ -152,6 +152,12 @@ class DataComparisonFilter
      */
     public function compare(DataTable\DataTableInterface $table)
     {
+        if (empty($this->compareSegments)
+            && empty($this->comparePeriods)
+        ) {
+            return;
+        }
+
         $method = Common::getRequestVar('method', $default = null, $type = 'string', $this->request);
         if ($method == 'Live') {
             throw new \Exception("Data comparison is not enabled for the Live API.");
