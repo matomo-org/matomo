@@ -233,11 +233,11 @@ class Config extends \Piwik\ViewDataTable\Config
 
         if (!empty($requestParamsForSparkline['columns'])
             && is_array($requestParamsForSparkline['columns'])
-            && count($requestParamsForSparkline['columns']) === count($values)) {
+            && count($requestParamsForSparkline['columns']) === count($metrics)) {
             $columns = array_values($requestParamsForSparkline['columns']);
         } elseif (!empty($requestParamsForSparkline['columns'])
                   && is_string($requestParamsForSparkline['columns'])
-                  && count($values) === 1) {
+                  && count($metrics) === 1) {
             $columns = array($requestParamsForSparkline['columns']);
         } else{
             $columns = array();

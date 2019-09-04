@@ -617,19 +617,18 @@ abstract class ViewDataTable implements ViewInterface
         $request = $this->request->getRequestArray();
         $request = ApiRequest::getRequestArrayFromString($request);
 
-        return $this->isCompareParamsPresent($request);
+        if ($this->isComparing === null) {
+            $this->isComparing = $this->isCompareParamsPresent($request);
+        }
+
+        return $this->isComparing;
     }
 
     public function isCompareParamsPresent($request = null)
     {
-        if ($this->isComparing === null) {
-
-            $this->isComparing = !empty(Common::getRequestVar('compareSegments', false, $type = 'array', $request))
-                || !empty(Common::getRequestVar('comparePeriods', false, $type = 'array', $request))
-                || !empty(Common::getRequestVar('compareDates', false, $type = 'array', $request));
-        }
-
-        return $this->isComparing;
+        return !empty(Common::getRequestVar('compareSegments', false, $type = 'array', $request))
+            || !empty(Common::getRequestVar('comparePeriods', false, $type = 'array', $request))
+            || !empty(Common::getRequestVar('compareDates', false, $type = 'array', $request));
     }
 
     /**
