@@ -192,6 +192,7 @@ abstract class DataTableManipulator
         $request['expanded'] = 0;
         $request['format'] = 'original';
         $request['format_metrics'] = 0;
+        $request['compare'] = 0;
 
         // don't want to run recursive filters on the subtables as they are loaded,
         // otherwise the result will be empty in places (or everywhere). instead we
