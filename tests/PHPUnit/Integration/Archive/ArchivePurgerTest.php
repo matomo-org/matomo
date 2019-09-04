@@ -138,6 +138,22 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertArchivesDoNotExist(array(22, 23, 24, 28), $this->january);
     }
 
+    public function test_purgeNoSegmentArchives_preservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
+    {
+        // Extra data set with segment and plugin archives
+        self::$fixture->insertSegmentArchives($this->january);
+
+        $segmentsToDelete = array(
+            // This segment also has archives for idsite = 1, which will be retained
+            array('definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => array(2))
+        );
+
+        // Archives for idsite=1 should be purged, but those for idsite=2 can stay
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+        $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(20, 21), $this->january);
+    }
+
     private function configureCustomRangePurging()
     {
         Config::getInstance()->General['purge_date_range_archives_after_X_days'] = 3;

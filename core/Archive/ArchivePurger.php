@@ -170,9 +170,10 @@ class ArchivePurger
      */
     public function purgeDeletedSegmentArchives(Date $dateStart, array $deletedSegments)
     {
-        $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $deletedSegments);
-
-        return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+        if (count($deletedSegments)) {
+            $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $deletedSegments);
+            return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+        }
     }
 
     /**

@@ -140,25 +140,47 @@ class Model
             return array();
         }
 
+        $existingSegments = self::getExistingSegmnetsLike($deletedSegments);
+
+        foreach ($deletedSegments as $i => $deleted) {
+            $deletedSegments[$i]['idsites_to_preserve'] = array();
+            foreach ($existingSegments as $existing) {
+                if ($existing['definition'] == $deleted['definition']
+                    && $existing['enable_only_idsite'] == $deleted['enable_only_idsite']
+                ) {
+                    unset($deletedSegments[$i]);
+                } elseif ($existing['definition'] == $deleted['definition']
+                    && $deleted['enable_only_idsite'] == 0
+                ) {
+                    $deletedSegments[$i]['idsites_to_preserve'][] = $existing['enable_only_idsite'];
+                }
+            }
+        }
+
+        return $deletedSegments;
+    }
+
+    private static function getExistingSegmnetsLike(array $segments)
+    {
         $whereClauses = array();
         $bind = array();
-        foreach ($deletedSegments as $segment) {
-            $whereClauses[] = "(definition = ? AND enable_only_idsite = ?)";
+        foreach ($segments as $segment) {
             $bind[] = $segment['definition'];
-            $bind[] = $segment['enable_only_idsite'];
+            if ($segment['enable_only_idsite'] == 0) {
+                // They deleted an all-sites segment, but there is a single-site segment with same definition?
+                // Need to handle this carefully so that the archives for the single-site segment are preserved
+                $whereClauses[] = "(definition = ?)";
+            } else {
+                $whereClauses[] = "(definition = ? AND enable_only_idsite = ?)";
+                $bind[] = $segment['enable_only_idsite'];
+            }
         }
         $whereClauses = implode(' OR ', $whereClauses);
 
         // Check for any non-deleted segments with the same definition
         $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
             . " WHERE deleted = 0 AND (" . $whereClauses . ")";
-        $existingSegments = Db::fetchAll($sql, $bind);
-
-        if (count($existingSegments)) {
-            $deletedSegments = array_diff($deletedSegments, $existingSegments);
-        }
-
-        return $deletedSegments;
+        return Db::fetchAll($sql, $bind);
     }
 
     public function deleteSegment($idSegment)

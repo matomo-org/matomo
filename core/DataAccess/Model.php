@@ -343,21 +343,7 @@ class Model
     {
         $segmentClauses = [];
         foreach ($segments as $segment) {
-            $idSite = (int)$segment['enable_only_idsite'];
-            $segmentHash = Segment::getSegmentHash($segment['definition']);
-            // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
-            if (!preg_match('/^[a-z0-9A-Z]+$/', $segmentHash)) {
-                throw new Exception($segment . ' expected to be an md5 hash');
-            }
-
-            $nameClause = 'name LIKE "done' . $segmentHash . '%"';
-            $idSiteClause = '';
-            // idsite=0 means the segments are not site-specific
-            if ($idSite > 0) {
-                $idSiteClause = ' AND idsite = ' . $idSite;
-            }
-
-            $segmentClauses[] = "($nameClause $idSiteClause)";
+            $segmentClauses[] = self::getDeletedSegmentWhereClause($segment);
         }
 
         $segmentClauses = implode(' OR ', $segmentClauses);
@@ -369,6 +355,27 @@ class Model
         $rows = Db::fetchAll($sql, array($oldestToKeep));
 
         return array_column($rows, 'idarchive');
+    }
+
+    private static function getDeletedSegmentWhereClause(array $segment)
+    {
+        $idSite = (int)$segment['enable_only_idsite'];
+        $segmentHash = Segment::getSegmentHash($segment['definition']);
+        // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
+        if (!preg_match('/^[a-z0-9A-Z]+$/', $segmentHash)) {
+            throw new Exception($segment . ' expected to be an md5 hash');
+        }
+
+        $nameClause = 'name LIKE "done' . $segmentHash . '%"';
+        $idSiteClause = '';
+        if ($idSite > 0) {
+            $idSiteClause = ' AND idsite = ' . $idSite;
+        } elseif (! empty($segment['idsites_to_preserve'])) {
+            // A segment for all sites was deleted, but there are segments for a single site with the same definition
+            $idSiteClause = ' AND idsite NOT IN (' . implode(',', $segment['idsites_to_preserve']) . ')';
+        }
+
+        return "($nameClause $idSiteClause)";
     }
 
     /**

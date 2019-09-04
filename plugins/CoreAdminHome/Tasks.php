@@ -289,7 +289,9 @@ class Tasks extends \Piwik\Plugin\Tasks
             $dateObj = Date::factory("$year-$month-15");
 
             $this->archivePurger->purgeDeletedSiteArchives($dateObj);
-            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $deletedSegments);
+            if (count($deletedSegments)) {
+                $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $deletedSegments);
+            }
 
             $datesPurged[$date] = true;
         }

@@ -196,7 +196,37 @@ class ModelTest extends IntegrationTestCase
 
     public function test_getSegmentsDeletedSince_duplicateSegmentDifferentIdSite()
     {
-        // Make two duplicate segments, same definition but different idsites, and delete one of them
+        // Turn segment2 into a duplicate of segment3, except for a different idsite and also deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country==Hobbiton',
+            'enable_only_idsite' => 2,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+        $this->assertEquals(2, $segments[0]['enable_only_idsite']);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegmentAllSitesAndSingleSite()
+    {
+        // Turn segment2 into a duplicate of segment3, except for all sites and also deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country==Hobbiton',
+            'enable_only_idsite' => 0,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+        $this->assertEquals(0, $segments[0]['enable_only_idsite']);
+        $this->assertEquals(array(1), $segments[0]['idsites_to_preserve']);
     }
 
     private function assertReturnedIdsMatch(array $expectedIds, array $resultSet)
