@@ -624,9 +624,9 @@ abstract class ViewDataTable implements ViewInterface
     {
         if ($this->isComparing === null) {
 
-            $this->isComparing = !empty(Common::getRequestVar('compareSegments', null, $type = 'array', $request))
-                || !empty(Common::getRequestVar('comparePeriods', null, $type = 'array', $request))
-                || !empty(Common::getRequestVar('compareDates', null, $type = 'array', $request));
+            $this->isComparing = !empty(Common::getRequestVar('compareSegments', false, $type = 'array', $request))
+                || !empty(Common::getRequestVar('comparePeriods', false, $type = 'array', $request))
+                || !empty(Common::getRequestVar('compareDates', false, $type = 'array', $request));
         }
 
         return $this->isComparing;
