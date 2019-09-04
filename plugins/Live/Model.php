@@ -149,6 +149,15 @@ class Model
 
                 $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
 
+                $params = array(
+                    'sql' => $sql, 'bind' => $bind, 'segment' => $segment, 'limit' => $limit
+                );
+
+                /**
+                 * @ignore
+                 * @internal
+                 */
+                Piwik::postEvent('Live.queryMaxExecutionTimeExceeded', array($params));
                 throw new MaxExecutionTimeExceededException($message);
             }
             throw $e;
