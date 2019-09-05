@@ -229,6 +229,23 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals(array(1), $segments[0]['idsites_to_preserve']);
     }
 
+    public function test_getSegmentsDeletedSince_duplicateSegmentSingleSiteAndAllSites()
+    {
+        // Turn segment3 into a duplicate of segment1, except for a single site and deleted
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'country==Narnia',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // There is still a live segment for all sites, so the deleted site-specific one is ignored
+        $this->assertEmpty($segments);
+    }
+
     private function assertReturnedIdsMatch(array $expectedIds, array $resultSet)
     {
         $this->assertEquals(count($expectedIds), count($resultSet));

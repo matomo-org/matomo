@@ -129,6 +129,13 @@ class Model
         return $segment;
     }
 
+    /**
+     * Gets a list of segments that have been deleted in the last week and therefore may have orphaned archives.
+     * @param Date $date Segments deleted on or after this date will be returned.
+     * @return array of segments. The segments are only populated with the fields needed for archive invalidation
+     * (e.g. definition, enable_only_idsite).
+     * @throws \Exception
+     */
     public function getSegmentsDeletedSince(Date $date)
     {
         $dateStr = $date->toString('Y-m-d');
@@ -145,13 +152,20 @@ class Model
         foreach ($deletedSegments as $i => $deleted) {
             $deletedSegments[$i]['idsites_to_preserve'] = array();
             foreach ($existingSegments as $existing) {
-                if ($existing['definition'] == $deleted['definition']
-                    && $existing['enable_only_idsite'] == $deleted['enable_only_idsite']
+                if ($existing['definition'] != $deleted['definition']) {
+                    continue;
+                }
+
+                if (
+                    $existing['enable_only_idsite'] == $deleted['enable_only_idsite']
+                    || $existing['enable_only_idsite'] == 0
                 ) {
+                    // There is an identical segment (for either the specific site or for all sites) that is active
+                    // The archives for this segment will therefore still be needed
                     unset($deletedSegments[$i]);
-                } elseif ($existing['definition'] == $deleted['definition']
-                    && $deleted['enable_only_idsite'] == 0
-                ) {
+                } elseif ($deleted['enable_only_idsite'] == 0) {
+                    // It is an all-sites segment that got deleted, but there is a single-site segment that is active
+                    // Need to make sure we don't erase the segment's archives for that particular site
                     $deletedSegments[$i]['idsites_to_preserve'][] = $existing['enable_only_idsite'];
                 }
             }
@@ -171,7 +185,7 @@ class Model
                 // Need to handle this carefully so that the archives for the single-site segment are preserved
                 $whereClauses[] = "(definition = ?)";
             } else {
-                $whereClauses[] = "(definition = ? AND enable_only_idsite = ?)";
+                $whereClauses[] = "(definition = ? AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
                 $bind[] = $segment['enable_only_idsite'];
             }
         }
