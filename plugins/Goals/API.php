@@ -488,7 +488,7 @@ class API extends \Piwik\Plugin\API
                 $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
 
                 $formatter = new Metrics\Formatter();
-                $formatter->formatMetrics($t, $getMetricsReport);
+                $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
             });
         }
 

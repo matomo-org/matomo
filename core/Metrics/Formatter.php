@@ -207,11 +207,11 @@ class Formatter
         foreach ($dataTable->getRows() as $row) {
             $subtable = $row->getSubtable();
             if (!empty($subtable)) {
-                $this->formatMetrics($subtable, $report, $metricsToFormat);
+                $this->formatMetrics($subtable, $report, $metricsToFormat, $formatAll);
             }
             $comparisons = $row->getComparisons();
             if (!empty($comparisons)) {
-                $this->formatMetrics($comparisons, $report, $metricsToFormat);
+                $this->formatMetrics($comparisons, $report, $metricsToFormat, $formatAll);
             }
         }
 
