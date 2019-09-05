@@ -197,13 +197,23 @@ class Sparklines extends ViewDataTable
 
                 $metrics = [];
                 foreach ($values as $i => $value) {
-                    $metrics[] = [
+                    $newMetric = [
                         'value' => $value,
                         'description' => $descriptions[$i],
                     ];
+
+                    $metrics[] = $newMetric;
                 }
 
-                $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, null, $order, $title = null, $group = $sparklineMetricIndex);
+                $evolution = null;
+
+                $computeEvolution = $this->config->compute_evolution;
+                if ($computeEvolution) { // TODO: hs to be a MAIN evolution...
+                    $evolution = $computeEvolution(array_combine($column, $values));
+                    $newMetric['evolution'] = $evolution;
+                }
+
+                $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, $evolution, $order, $title = null, $group = $sparklineMetricIndex);
             }
         }
     }

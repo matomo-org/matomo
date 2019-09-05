@@ -46,6 +46,12 @@ class Config extends \Piwik\ViewDataTable\Config
      */
     public $title_attributes = array();
 
+    /**
+     * TODO
+     * @var callable
+     */
+    public $compute_evolution = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -167,7 +173,8 @@ class Config extends \Piwik\ViewDataTable\Config
         $this->sparklines[] = array(
             'url' => '',
             'metrics' => array(),
-            'order' => $this->getSparklineOrder($order)
+            'order' => $this->getSparklineOrder($order),
+            'group' => 'placeholder' . count($this->sparklines), // TODO: explain
         );
     }
 
@@ -277,6 +284,7 @@ class Config extends \Piwik\ViewDataTable\Config
             $evolutionPercent = CalculateEvolutionFilter::calculate($evolution['currentValue'], $evolution['pastValue'], $precision = 1);
 
             // do not display evolution if evolution percent is 0 and current value is 0
+            // TODO: ^ this isn't applied for referrers & other places that set evolution directly
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,
@@ -323,10 +331,6 @@ class Config extends \Piwik\ViewDataTable\Config
 
         $sparklines = [];
         foreach ($this->sparklines as $sparkline) {
-            if (empty($sparkline['url'])) {
-                continue;
-            }
-
             $group = $sparkline['group'];
             $sparklines[$group][] = $sparkline;
         }

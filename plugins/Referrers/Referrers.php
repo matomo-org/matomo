@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
@@ -34,6 +35,7 @@ class Referrers extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
             'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
+            'Metrics.getDefaultMetricTranslations' => 'getDefaultMetricTranslations',
         );
     }
 

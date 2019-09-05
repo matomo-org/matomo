@@ -12,6 +12,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Map;
+use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
 use Piwik\Period\Range;
@@ -41,6 +42,11 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getSparklines()
     {
+        $_GET['forceView'] = '1';
+        $_GET['viewDataTable'] = Sparklines::ID;
+
+        return FrontController::getInstance()->fetchDispatch('Referrers', 'get');
+
         $metrics = $this->getReferrersVisitorsByType();
         $distinctMetrics = $this->getDistinctReferrersMetrics();
 
