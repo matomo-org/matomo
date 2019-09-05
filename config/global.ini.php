@@ -362,6 +362,11 @@ enable_browser_archiving_triggering = 1
 ; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
+; By default Matomo will automatically archive all date ranges any user has chosen in his account settings.
+; This is limited to the available options last7, previous7, last30 and previous30.
+; If you need any other period, or want to ensure one of those is always archived, you can define them here
+archiving_custom_ranges[] =
+
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
