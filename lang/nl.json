@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "U moet ingelogd zijn om deze functionaliteit te gebruiken.",
         "YourChangesHaveBeenSaved": "Uw wijzigingen zijn opgeslagen.",
         "ThankYouForUsingMatomo": "Bedankt voor het gebruiken van Matomo",
-        "TheMatomoTeam": "Het Matomo team"
+        "TheMatomoTeam": "Het Matomo team",
+        "PleaseTryAgain": "Probeer nogmaals"
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",
@@ -568,7 +569,11 @@
         "VerifyLoginData": "Zorg ervoor dat uw gebruikersnaam- en wachtwoordcombinatie juist zijn.",
         "YouAreOffline": "Sorry, u bent momenteel offline.",
         "ExceptionNoViewAccess": "Controleer gebruikersnaam en wachtwoord. Wees er zeker van dat je op ten minste één website de volgende rechten hebt: %s",
-        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen"
+        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen",
+        "MatomoMarketplace": "Matomo Markplaats",
+        "EnterAuthCode": "Voer authenticatiecode in",
+        "EnterCorrectAuthCode": "Voer correcte authenticatiecode in",
+        "EnterAuthCodeExplanation": "Het lijkt erop dat je 2 factor authenticatie gebruikt. Voer de 6 cijferige code in om op je account in te loggen."
     },
     "RowEvolution": {
         "AvailableMetrics": "Beschikbare statistieken",

@@ -1,0 +1,23 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "Двухфакторная аутентификация",
+        "TwoFAShort": "2FA",
+        "TwoFactorAuthenticationIsEnabled": "Двухфакторная аутентификация в настоящее время включена.",
+        "TwoFactorAuthenticationIsDisabled": "Двухфакторная аутентификация в настоящее время отключена.",
+        "TwoFactorAuthenticationRequired": "Двухфакторная аутентификация должна быть включена для всех, ее нельзя отключить.",
+        "ConfigureDifferentDevice": "Настроить другое устройство",
+        "SetUpTwoFactorAuthentication": "Настройка двухфакторной аутентификации (2FA)",
+        "RequiredToSetUpTwoFactorAuthentication": "Вы должны настроить двухфакторную аутентификацию, прежде чем вы сможете войти",
+        "AuthenticationCode": "Код аутентификации",
+        "Verify": "Подтвердить",
+        "MissingAuthCodeAPI": "Пожалуйста, укажите код двухфакторной аутентификации.",
+        "InvalidAuthCode": "Код двухфакторной аутентификации неверен.",
+        "RequiredAuthCodeNotConfiguredAPI": "Вам необходимо настроить двухфакторную аутентификацию. Пожалуйста, войдите в свой аккаунт.",
+        "VerifyIdentifyExplanation": "Откройте приложение двухфакторной аутентификации на своем устройстве, чтобы просмотреть код аутентификации и подтвердить свою личность.",
+        "DontHaveYourMobileDevice": "У вас нет мобильного устройства?",
+        "EnterRecoveryCodeInstead": "Введите один из ваших кодов восстановления",
+        "AskSuperUserResetAuthenticationCode": "Попросите супер пользователя сбросить ваш код аутентификации",
+        "SetupIntroFollowSteps": "Пожалуйста, выполните следующие действия для настройки двухфакторной аутентификации:",
+        "SetupFinishedTitle": "Поздравляем! Ваша учетная запись стала более безопасной."
+    }
+}
