@@ -755,9 +755,12 @@ class API extends \Piwik\Plugin\API
     private function mergeNumericArchives(DataTable\DataTableInterface $table, DataTable\DataTableInterface $numericArchives = null)
     {
         if ($table instanceof DataTable) {
+            /** @var DataTable $numericArchives */
             if (empty($numericArchives)) {
                 return;
             }
+
+            $table->setAllTableMetadata($numericArchives->getAllTableMetadata());
 
             if ($table->getRows() == 0) {
                 $table->addRow(new DataTable\Row());
