@@ -212,15 +212,6 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
-    protected function getDeletedSiteArchiveIds(Date $date)
-    {
-        $archiveTable = ArchiveTableCreator::getNumericTable($date);
-        return $this->model->getArchiveIdsForDeletedSites(
-            $archiveTable, 
-            $this->getOldestTemporaryArchiveToKeepThreshold()
-        );
-    }
-
     protected function getDeletedSegmentArchiveIds(Date $date, array $deletedSegments)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
