@@ -107,15 +107,17 @@ class Evolution extends JqplotDataGenerator
             $allSeriesData[$seriesLabel] = [];
         }
 
-        foreach ($columnsToDisplay as $columnIndex => $columnName) {
-            foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
-                $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName);
-                $seriesMetadata[$wholeSeriesLabel] = [
-                    'metricIndex' => $columnIndex,
-                    'seriesIndex' => $seriesIndex,
-                ];
+        foreach ($rowsToDisplay as $rowLabel) {
+            foreach ($columnsToDisplay as $columnIndex => $columnName) {
+                foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
+                    $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName, $rowLabel);
+                    $seriesMetadata[$wholeSeriesLabel] = [
+                        'metricIndex' => $columnIndex,
+                        'seriesIndex' => $seriesIndex,
+                    ];
 
-                $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
+                    $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
+                }
             }
         }
 
@@ -148,7 +150,7 @@ class Evolution extends JqplotDataGenerator
                         }
 
                         foreach ($comparisonTable->getRows() as $compareRow) {
-                            $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName);
+                            $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName, $rowLabel);
                             $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
                         }
                     }

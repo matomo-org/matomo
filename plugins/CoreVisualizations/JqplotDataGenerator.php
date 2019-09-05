@@ -202,16 +202,22 @@ class JqplotDataGenerator
         return [$seriesLabels, $serieses, $seriesMetadata];
     }
 
-    protected function getComparisonSeriesLabel(Row $compareRow, $columnName)
+    protected function getComparisonSeriesLabel(Row $compareRow, $columnName, $rowLabel = false)
     {
-        return $this->getComparisonSeriesLabelFromCompareSeries($compareRow->getMetadata('compareSeriesPretty'), $columnName);
+        return $this->getComparisonSeriesLabelFromCompareSeries($compareRow->getMetadata('compareSeriesPretty'), $columnName, $rowLabel);
     }
 
-    protected function getComparisonSeriesLabelFromCompareSeries($compareSeriesPretty, $columnName)
+    protected function getComparisonSeriesLabelFromCompareSeries($compareSeriesPretty, $columnName, $rowLabel = false)
     {
         $columnTranslation = @$this->properties['translations'][$columnName];
 
-        $label = $columnTranslation . ' ' . $compareSeriesPretty;
+        if (empty($rowLabel)) {
+            $label = $columnTranslation;
+        } else {
+            $label = "$rowLabel ($columnTranslation)";
+        }
+
+        $label .= ' ' . $compareSeriesPretty;
         return $label;
     }
 
