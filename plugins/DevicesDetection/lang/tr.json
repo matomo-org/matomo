@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Kullanıcı uygulaması %1$s olarak algılandı. Bu kullanıcı uygulaması ile yapılan ziyaretler Matomo tarafından varsayılan olarak izlenmeyecek.",
         "BrowserEngine": "Tarayıcı motoru",
         "BrowserEngineDocumentation": "Bu rapor ziyaretçilerin web tarayıcılarının tarayıcı motorlarına göre dağılımını görüntüler. %s Web tasarımcıları için en önemli bilgi ziyaretçilerin kullandığı görüntüleme motorudur. Etiketlerde motorların adı ve yanında köşeli parantez içinde bu motoru en çok kullanan tarayıcı görüntülenir.",
         "BrowserEngines": "Tarayıcı motorları",
