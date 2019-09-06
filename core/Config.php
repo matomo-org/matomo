@@ -138,8 +138,8 @@ class Config
      */
     public static function getLocalConfigPath()
     {
-        if (!empty($GLOBALS['CONFIG_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_PATH_RESOLVER'])) {
-            return call_user_func($GLOBALS['CONFIG_PATH_RESOLVER']);
+        if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
+            return call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
         }
         
         $path = self::getByDomainConfigPath();
