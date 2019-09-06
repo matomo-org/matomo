@@ -154,7 +154,7 @@ class Mysql implements SchemaInterface
 
             'log_action'          => "CREATE TABLE {$prefixTables}log_action (
                                       idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                      name VARCHAR(20000),
+                                      name VARCHAR(16000),
                                       hash INTEGER(10) UNSIGNED NOT NULL,
                                       type TINYINT UNSIGNED NULL,
                                       url_prefix TINYINT(2) NULL,
