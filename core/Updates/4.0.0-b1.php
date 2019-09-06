@@ -31,7 +31,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(20000)');
+        $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(16000)');
 
         return array(
             $migration1,
