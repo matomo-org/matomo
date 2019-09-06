@@ -1565,10 +1565,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 if (typeof self.loadedSubDataTable[divIdToReplaceWithSubTable] == "undefined") {
                     var numberOfColumns = $(this).children().length;
 
+                    var $insertAfter = $(this).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
+                    if (!$insertAfter.length) {
+                        $insertAfter = $(this);
+                    }
+
                     // at the end of the query it will replace the ID matching the new HTML table #ID
                     // we need to create this ID first
-                    var newRow = $(this).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last().after(
-                        '<tr>' +
+                    var newRow = $insertAfter.after(
+                        '<tr class="subDataTableContainer">' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
                             '<span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" />' + _pk_translate('General_Loading') + '</span>' +
@@ -1867,7 +1872,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             listenEvent = 'click';
         }
 
-        parent.on(listenEvent, 'tr', function () {
+        parent.on(listenEvent, 'tr:not(.subDataTableContainer)', function () {
             var tr = this;
             var $tr = $(tr);
             var td = $tr.find('td.label:last');
