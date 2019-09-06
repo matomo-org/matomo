@@ -103,14 +103,13 @@ class Evolution extends JqplotDataGenerator
 
         // TODO: remove $this->comparisonsForLabels, shouldn't need it
         $seriesLabels = reset($dataTables)->getMetadata('comparisonSeries') ?: [];
-        foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
-            $allSeriesData[$seriesLabel] = [];
-        }
-
         foreach ($rowsToDisplay as $rowLabel) {
             foreach ($columnsToDisplay as $columnIndex => $columnName) {
                 foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
                     $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName, $rowLabel);
+
+                    $allSeriesData[$wholeSeriesLabel] = [];
+
                     $seriesMetadata[$wholeSeriesLabel] = [
                         'metricIndex' => $columnIndex,
                         'seriesIndex' => $seriesIndex,
@@ -141,14 +140,19 @@ class Evolution extends JqplotDataGenerator
                             $row = $childTable->getRowFromLabel($rowLabel);
                         }
 
-                        // TODO: what happens if label isn't found?
+                        if (empty($row)
+                            || empty($row->getComparisons())
+                        ) {
+                            foreach ($seriesLabels as $seriesIndex => $seriesLabelPrefix) {
+                                $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabelPrefix, $columnName, $rowLabel);
+                                $allSeriesData[$wholeSeriesLabel][] = 0;
+                            }
 
-                        /** @var DataTable $comparisonTable */
-                        $comparisonTable = $row->getComparisons();
-                        if (empty($comparisonTable)) {
                             continue;
                         }
 
+                        /** @var DataTable $comparisonTable */
+                        $comparisonTable = $row->getComparisons();
                         foreach ($comparisonTable->getRows() as $compareRow) {
                             $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName, $rowLabel);
                             $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);

@@ -60,6 +60,8 @@ class API extends \Piwik\Plugin\API
             'visitorsFromDirectEntry',
             'visitorsFromSearchEngines',
             'visitorsFromCampaigns',
+            'visitorsFromSocialNetworks',
+            'visitorsFromWebsites',
         ];
         foreach ($percentColumns as $column) {
             $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [

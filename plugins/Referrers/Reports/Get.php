@@ -25,6 +25,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Referrers\Archiver;
+use Piwik\Plugins\Referrers\Controller;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
@@ -41,8 +42,6 @@ class Get extends Base
         $this->processedMetrics = [
             // none
         ];
-
-        // TODO: make this a static var (or the similar var in API)
         $this->metrics = [
             'visitorsFromSearchEngines',
             'visitorsFromSearchEngines_percent',
@@ -54,6 +53,11 @@ class Get extends Base
             'visitorsFromWebsites_percent',
             'visitorsFromCampaigns',
             'visitorsFromCampaigns_percent',
+            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME,
         ];
     }
 
@@ -74,19 +78,16 @@ class Get extends Base
             list($lastPeriodDate, $ignore) = Range::getLastDate();
             if ($lastPeriodDate !== false) {
                 $date = Common::getRequestVar('date');
-                $period = Common::getRequestVar('period');
 
                 /** @var DataTable $previousData */
                 $previousData = Request::processRequest('Referrers.get', ['date' => $lastPeriodDate]);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $columnsWithEvolution = ['visitorsFromDirectEntry', 'visitorsFromSearchEngines', 'visitorsFromCampaigns', 'visitorsFromSocialNetworks',
-                    Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME];
                 $view->config->compute_evolution = function ($columns) use ($date, $lastPeriodDate, $previousDataRow, $columnsWithEvolution) {
                     $value = reset($columns);
                     $columnName = key($columns);
 
-                    if (!in_array($columnName, $columnsWithEvolution)) {
+                    if (!in_array($columnName, $this->metrics)) {
                         return;
                     }
 
@@ -143,26 +144,48 @@ class Get extends Base
 
     private function addSparklineColumns(Sparklines $view)
     {
-        $view->config->addSparklineMetric(['visitorsFromDirectEntry', 'visitorsFromDirectEntry_percent'], 10);
-        $view->config->addPlaceholder(11);
-        $view->config->addSparklineMetric(['visitorsFromSearchEngines', 'visitorsFromSearchEngines_percent'], 20);
-        $view->config->addPlaceholder(21);
-        $view->config->addSparklineMetric(['visitorsFromCampaigns', 'visitorsFromCampaigns_percent'], 30);
-        $view->config->addPlaceholder(31);
-        $view->config->addSparklineMetric(['visitorsFromSocialNetworks'], 40);
-        $view->config->addPlaceholder(41);
-        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME], 50);
-        $view->config->addPlaceholder(51);
+        $directEntry = Controller::getTranslatedReferrerTypeLabel(Common::REFERRER_TYPE_DIRECT_ENTRY);
+        $directEntry = urlencode($directEntry);
+
+        $website = Controller::getTranslatedReferrerTypeLabel(Common::REFERRER_TYPE_WEBSITE);
+        $website = urlencode($website);
+
+        $searchEngine = Controller::getTranslatedReferrerTypeLabel(Common::REFERRER_TYPE_SEARCH_ENGINE);
+        $searchEngine = urlencode($searchEngine);
+
+        $campaigns = Controller::getTranslatedReferrerTypeLabel(Common::REFERRER_TYPE_CAMPAIGN);
+        $campaigns = urlencode($campaigns);
+
+        $socialNetworks = Controller::getTranslatedReferrerTypeLabel(Common::REFERRER_TYPE_SOCIAL_NETWORK);
+        $socialNetworks = urlencode($socialNetworks);
+
+        $total = Piwik::translate('General_Total');
+
+        $view->config->addSparklineMetric(['visitorsFromDirectEntry', 'visitorsFromDirectEntry_percent'], 10, ['rows' => $directEntry . ',' . $total]);
+        $view->config->addSparklineMetric(['visitorsFromWebsites', 'visitorsFromWebsites_percent'], 20, ['rows' => $website . ',' . $total]);
+        $view->config->addSparklineMetric(['visitorsFromSearchEngines', 'visitorsFromSearchEngines_percent'], 30, ['rows' => $searchEngine . ',' . $total]);
+        $view->config->addSparklineMetric(['visitorsFromSocialNetworks', 'visitorsFromSocialNetworks_percent'], 40, ['rows' => $socialNetworks . ',' . $total]);
+        $view->config->addSparklineMetric(['visitorsFromCampaigns', 'visitorsFromCampaigns_percent'], 50, ['rows' => $campaigns . ',' . $total]);
+        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME], 50);
+        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME], 60);
+        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME], 70);
+        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME], 80);
+        $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME], 90);
     }
 
     private function getSparklineTranslations()
     {
         $translations = [
             'visitorsFromDirectEntry' => Piwik::translate('Referrers_TypeDirectEntries'),
-            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME => Piwik::translate('Referrers_DistinctKeywords'),
+            'visitorsFromWebsites' => Piwik::translate('Referrers_TypeWebsites'),
             'visitorsFromSearchEngines' => Piwik::translate('Referrers_TypeSearchEngines'),
             'visitorsFromSocialNetworks' => Piwik::translate('Referrers_TypeSocialNetworks'),
             'visitorsFromCampaigns' => Piwik::translate('Referrers_TypeCampaigns'),
+            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => Piwik::translate('Referrers_DistinctSearchEngines'),
+            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => Piwik::translate('Referrers_DistinctSocialNetworks'),
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME => Piwik::translate('Referrers_DistinctWebsites'),
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME => Piwik::translate('Referrers_DistinctKeywords'),
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME => Piwik::translate('Referrers_DistinctCampaigns'),
         ];
 
         foreach ($translations as $name => $label) {

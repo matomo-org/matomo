@@ -127,6 +127,7 @@ class Sparklines extends ViewDataTable
         foreach ($this->config->getSparklineMetrics() as $sparklineMetricIndex => $sparklineMetric) {
             $column = $sparklineMetric['columns'];
             $order  = $sparklineMetric['order'];
+            $graphParams = $sparklineMetric['graphParams'];
 
             if (!isset($order)) {
                 $order = 1000;
@@ -190,7 +191,7 @@ class Sparklines extends ViewDataTable
                     }
 
                     $params = array_merge($sparklineUrlParams, ['segment' => $segment]);
-                    $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $segmentPretty, $sparklineMetricIndex, $seriesIndices);
+                    $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $segmentPretty, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
                 list($values, $descriptions) = $this->getValuesAndDescriptions($firstRow, $column);
@@ -208,12 +209,12 @@ class Sparklines extends ViewDataTable
                 $evolution = null;
 
                 $computeEvolution = $this->config->compute_evolution;
-                if ($computeEvolution) { // TODO: hs to be a MAIN evolution...
+                if ($computeEvolution) {
                     $evolution = $computeEvolution(array_combine($column, $values));
                     $newMetric['evolution'] = $evolution;
                 }
 
-                $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, $evolution, $order, $title = null, $group = $sparklineMetricIndex);
+                $this->config->addSparkline($sparklineUrlParams, $metrics, $desc = null, $evolution, $order, $title = null, $group = $sparklineMetricIndex, $seriesIndices = null, $graphParams);
             }
         }
     }

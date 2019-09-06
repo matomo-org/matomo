@@ -23,6 +23,7 @@
 
     <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}"
          {% if sparkline.seriesIndices|default is not empty %}data-series-indices="{{ sparkline.seriesIndices|json_encode|e('html_attr') }}"{% endif %}
+         {% if sparkline.graphParams|default is not empty %}data-graph-params="{{ sparkline.graphParams|json_encode|e('html_attr') }}"{% endif %}
     >
         <div>
             {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}

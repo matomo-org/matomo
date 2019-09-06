@@ -88,10 +88,17 @@ window.initializeSparklines = function () {
 
                 $this.addClass('linked');
 
-                var urlParams = broadcast.getValuesFromUrl(sparklineUrl);
-                var params = {
-                    columns: decodeURIComponent(urlParams.columns)
-                };
+                var params = $this.data('graph-params') || {};
+                if (!Object.keys(params).length) {
+                    var urlParams = broadcast.getValuesFromUrl(sparklineUrl);
+
+                    if (urlParams.columns) {
+                        params.columns = decodeURIComponent(urlParams.columns);
+                    }
+                    if (urlParams.rows) {
+                        params.rows = decodeURIComponent(urlParams.rows);
+                    }
+                }
 
                 // on click, reload the graph with the new url
                 $this.off('click.sparkline');

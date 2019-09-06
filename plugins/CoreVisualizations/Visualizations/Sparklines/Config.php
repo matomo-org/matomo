@@ -151,12 +151,15 @@ class Config extends \Piwik\ViewDataTable\Config
      * @param string|array $metricName  Either one metric name (eg 'nb_visits') or an array of metric names
      * @param int|null $order  Defines the order. The lower the order the earlier the sparkline will be displayed.
      *                         By default the sparkline will be appended to the end.
+     * @param array $graphParams The params to use when changing an associated evolution graph. By default this is determined
+     *                           from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
      */
-    public function addSparklineMetric($metricName, $order = null)
+    public function addSparklineMetric($metricName, $order = null, $graphParams = null)
     {
         $this->sparkline_metrics[] = array(
             'columns' => $metricName,
-            'order'   => $order
+            'order'   => $order,
+            'graphParams' => $graphParams,
         );
     }
 
@@ -202,9 +205,11 @@ class Config extends \Piwik\ViewDataTable\Config
      *                                               'tooltip' => '10 visits in 2015-07-26 compared to 20 visits in 2015-07-25')
      * @param int $order                       Defines the order. The lower the order the earlier the sparkline will be
      *                                         displayed. By default the sparkline will be appended to the end.
+     * @param array $graphParams               The params to use when changing an associated evolution graph. By default this is determined
+     *                                         from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
      * @throws \Exception In case an evolution parameter is set but has wrong data structure
      */
-    public function addSparkline($requestParamsForSparkline, $metricInfos, $description, $evolution = null, $order = null, $title = null, $group = '', $seriesIndices = null)
+    public function addSparkline($requestParamsForSparkline, $metricInfos, $description, $evolution = null, $order = null, $title = null, $group = '', $seriesIndices = null, $graphParams = null)
     {
         $metrics = array();
 
@@ -236,7 +241,6 @@ class Config extends \Piwik\ViewDataTable\Config
                 throw new \Exception($msg);
             }
         }
-
 
         if (!empty($requestParamsForSparkline['columns'])
             && is_array($requestParamsForSparkline['columns'])
@@ -271,6 +275,7 @@ class Config extends \Piwik\ViewDataTable\Config
             'title' => $title,
             'group' => $group,
             'seriesIndices' => $seriesIndices,
+            'graphParams' => $graphParams,
         );
 
         if (!empty($evolution)) {
