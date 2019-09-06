@@ -103,15 +103,16 @@ class Evolution extends JqplotDataGenerator
 
         // TODO: remove $this->comparisonsForLabels, shouldn't need it
         $seriesLabels = reset($dataTables)->getMetadata('comparisonSeries') ?: [];
-        foreach ($rowsToDisplay as $rowLabel) {
+        foreach ($rowsToDisplay as $rowIndex => $rowLabel) {
             foreach ($columnsToDisplay as $columnIndex => $columnName) {
                 foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
                     $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName, $rowLabel);
 
                     $allSeriesData[$wholeSeriesLabel] = [];
 
+                    $metricIndex = $rowIndex * count($columnsToDisplay) + $columnIndex;
                     $seriesMetadata[$wholeSeriesLabel] = [
-                        'metricIndex' => $columnIndex,
+                        'metricIndex' => $metricIndex,
                         'seriesIndex' => $seriesIndex,
                     ];
 
