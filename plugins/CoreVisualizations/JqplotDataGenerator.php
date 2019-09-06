@@ -104,12 +104,6 @@ class JqplotDataGenerator
         $visualization = new Chart();
 
         if ($dataTable->getRowsCount() > 0) {
-            // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
-            // different metrics
-            if ($this->properties['add_total_row']) {
-                $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
-            }
-
             $dataTable->applyQueuedFilters();
             $this->initChartObjectData($dataTable, $visualization);
         }

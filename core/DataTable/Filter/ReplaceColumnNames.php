@@ -81,7 +81,7 @@ class ReplaceColumnNames extends BaseFilter
      */
     protected function filterTable($table)
     {
-        foreach ($table->getRows() as $row) {
+        foreach ($table->getRowsWithTotalsRow() as $row) {
             $newColumns = $this->getRenamedColumns($row->getColumns());
             $row->setColumns($newColumns);
             $this->filterSubTable($row);

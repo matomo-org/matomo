@@ -193,7 +193,7 @@ class DataComparisonFilter
             $originalDate = Common::getRequestVar('date', null, 'string', $this->request);
 
             $table->filter(function (DataTable $table) use ($originalDate, $originalPeriod) {
-                foreach ($table->getRows() as $row) {
+                foreach ($table->getRowsWithTotalsRow() as $row) {
                     $comparisons = $row->getComparisons();
                     if (empty($comparisons)) {
                         continue;
@@ -298,6 +298,9 @@ class DataComparisonFilter
             $paramsToModify
         );
 
+        $params['keep_totals_row'] = Common::getRequestVar('keep_totals_row', 0, 'int', $this->request);
+        $params['keep_totals_row_label'] = Common::getRequestVar('keep_totals_row_label', '', 'string', $this->request);
+
         if (!isset($params['idSite'])) {
             $params['idSite'] = Common::getRequestVar('idSite', null, 'string', $this->request);
         }
@@ -307,6 +310,7 @@ class DataComparisonFilter
         if (!isset($params['date'])) {
             $params['date'] = Common::getRequestVar('date', null, 'string', $this->request);
         }
+
 
         $idSubtable = Common::getRequestVar('idSubtable', 0, 'int', $this->request);
         if ($idSubtable > 0) {
@@ -339,12 +343,10 @@ class DataComparisonFilter
     private function formatComparisonTables(DataTableInterface $tableOrMap)
     {
         $tableOrMap->filter(function (DataTable $table) {
-            foreach ($table->getRows() as $row) {
+            foreach ($table->getRowsWithTotalsRow() as $row) {
                 /** @var DataTable $comparisonTable */
                 $comparisonTable = $row->getComparisons();
-                if (!empty($comparisonTable)
-                    && $comparisonTable->getRowsCount() > 0
-                ) { // sanity check
+                if (!empty($comparisonTable)) { // sanity check
                     $columnMappings = $this->columnMappings;
                     $comparisonTable->filter(DataTable\Filter\ReplaceColumnNames::class, [$columnMappings]);
                 }
@@ -504,6 +506,12 @@ class DataComparisonFilter
             }
 
             $this->compareRow($table, $compareMetadata, $row, $compareRow, $rootCompareTable);
+        }
+
+        $totalsRow = $table->getTotalsRow();
+        if (!empty($totalsRow)) {
+            $compareRow = $compareTable ? $compareTable->getTotalsRow() : null;
+            $this->compareRow($table, $compareMetadata, $totalsRow, $compareRow, $rootCompareTable);
         }
 
         $totals = $compareTable->getMetadata('totals');
