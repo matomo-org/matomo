@@ -154,6 +154,17 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertArchivesDoNotExist(array(20, 21), $this->january);
     }
 
+    public function test_purgeNoSegmentArchives_blankSegmentName()
+    {
+        $segmentsToDelete = array(
+            array('definition' => '', 'enable_only_idsite' => 0)
+        );
+
+        // Should not purge all the "done%" archives!
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+        $this->assertEquals(0, $deletedRowCount);
+    }
+
     private function configureCustomRangePurging()
     {
         Config::getInstance()->General['purge_date_range_archives_after_X_days'] = 3;

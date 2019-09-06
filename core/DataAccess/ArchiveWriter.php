@@ -171,7 +171,6 @@ class ArchiveWriter
     protected function logArchiveStatusAsIncomplete()
     {
         $this->insertRecord($this->doneFlag, self::DONE_ERROR);
-        $this->flushSpool('numeric');
     }
 
     private function batchInsertSpool($valueType)

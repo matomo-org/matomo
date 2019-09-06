@@ -381,7 +381,7 @@ class Model
         $idSite = (int)$segment['enable_only_idsite'];
         $segmentHash = Segment::getSegmentHash($segment['definition']);
         // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
-        if (!preg_match('/^[a-z0-9A-Z]+$/', $segmentHash)) {
+        if (!ctype_xdigit($segmentHash)) {
             throw new Exception($segment . ' expected to be an md5 hash');
         }
 
@@ -391,7 +391,8 @@ class Model
             $idSiteClause = ' AND idsite = ' . $idSite;
         } elseif (! empty($segment['idsites_to_preserve'])) {
             // A segment for all sites was deleted, but there are segments for a single site with the same definition
-            $idSiteClause = ' AND idsite NOT IN (' . implode(',', $segment['idsites_to_preserve']) . ')';
+            $idSitesToPreserve = array_map('intval', $segment['idsites_to_preserve']);
+            $idSiteClause = ' AND idsite NOT IN (' . implode(',', $idSitesToPreserve) . ')';
         }
 
         return "($nameClause $idSiteClause)";

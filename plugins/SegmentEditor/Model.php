@@ -138,10 +138,10 @@ class Model
      */
     public function getSegmentsDeletedSince(Date $date)
     {
-        $dateStr = $date->toString('Y-m-d');
+        $dateStr = $date->getDatetime();
         $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
-            . " WHERE deleted = 1 AND ts_last_edit >= '$dateStr'";
-        $deletedSegments = Db::fetchAll($sql);
+            . " WHERE deleted = 1 AND ts_last_edit >= ?";
+        $deletedSegments = Db::fetchAll($sql, array($dateStr));
 
         if (empty($deletedSegments)) {
             return array();
@@ -163,6 +163,7 @@ class Model
                     // There is an identical segment (for either the specific site or for all sites) that is active
                     // The archives for this segment will therefore still be needed
                     unset($deletedSegments[$i]);
+                    break;
                 } elseif ($deleted['enable_only_idsite'] == 0) {
                     // It is an all-sites segment that got deleted, but there is a single-site segment that is active
                     // Need to make sure we don't erase the segment's archives for that particular site
