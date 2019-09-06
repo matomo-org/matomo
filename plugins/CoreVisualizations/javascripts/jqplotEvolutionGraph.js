@@ -111,7 +111,10 @@
 
                         var value = self.formatY(valueUnformatted, d);
                         var series = self.jqplotParams.series[d].label;
-                        dataByAxis[axis].push('<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
+
+                        var seriesColor = self.jqplotParams.seriesColors[d];
+
+                        dataByAxis[axis].push('<span class="tooltip-series-color" style="background-color: ' + seriesColor + ';"/>' + '<strong>' + value + '</strong> ' + piwikHelper.htmlEntities(series));
                     }
 
                     var xAxisCount = 0;
@@ -138,7 +141,7 @@
                             continue;
                         }
 
-                        content += '<h3>'+piwikHelper.htmlEntities(label)+'</h3>'+dataByAxis[axisName].join('<br />');
+                        content += '<h3 class="evolution-tooltip-header">'+piwikHelper.htmlEntities(label)+'</h3>'+dataByAxis[axisName].join('<br />');
                     }
 
                     $(this).tooltip({
