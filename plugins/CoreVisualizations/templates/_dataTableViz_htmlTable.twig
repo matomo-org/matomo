@@ -19,7 +19,7 @@
                 </tr>
             {% endif %}
         {% else %}
-            {% set rowIndex = 1 %}
+            {% set rowIndex = properties.filter_offset|default(0) + 1 %}
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
                 {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
