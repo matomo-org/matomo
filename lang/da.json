@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "Du skal være logget på for at få adgang til denne funktion.",
         "YourChangesHaveBeenSaved": "Ændringer er gemt.",
         "ThankYouForUsingMatomo": "Tak fordi du bruger Matomo",
-        "TheMatomoTeam": "Holdet bag Matomo"
+        "TheMatomoTeam": "Holdet bag Matomo",
+        "PleaseTryAgain": "Prøv venligst igen"
     },
     "Mobile": {
         "AboutPiwikMobile": "Om Matomo Mobil",

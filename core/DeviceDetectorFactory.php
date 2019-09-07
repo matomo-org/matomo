@@ -9,32 +9,19 @@
 namespace Piwik;
 
 use DeviceDetector\DeviceDetector;
-use Piwik\Common;
+use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {
-    protected static $deviceDetectorInstances = array();
-
     /**
-     * Returns a Singleton instance of DeviceDetector for the given user agent
+     * Returns a Singleton instance of DeviceDetector for the given user agent.
      * @param string $userAgent
      * @return DeviceDetector
+     * @deprecated Should get a factory via StaticContainer and call makeInstance() on it instead
      */
     public static function getInstance($userAgent)
     {
-        $userAgent = Common::mb_substr($userAgent, 0, 500);
-
-        if (array_key_exists($userAgent, self::$deviceDetectorInstances)) {
-            return self::$deviceDetectorInstances[$userAgent];
-        }
-
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->discardBotInformation();
-        $deviceDetector->setCache(new DeviceDetectorCache(86400));
-        $deviceDetector->parse();
-
-        self::$deviceDetectorInstances[$userAgent] = $deviceDetector;
-
-        return $deviceDetector;
+        $factory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+        return $factory->makeInstance($userAgent);
     }
 }

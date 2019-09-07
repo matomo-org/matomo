@@ -25,7 +25,7 @@
         "PiwikReports": "Matomo rapporter",
         "PleaseFindAttachedFile": "Se venligst %1$s rapport for %2$s i den vedhæftede fil.",
         "SentFromX": "Sendt fra %s.",
-        "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
+        "PleaseFindBelow": "Se venligst %1$s rapport for %2$s i den vedhæftede fil.",
         "PluginDescription": "Opret tilpassede rapporter og planlæg den udsendt pr. e-mail dagligt, ugentligt eller månedsvis til en eller flere modtagere. Adskillige rapport-formater understøttes (html, pdf, csv, billeder).",
         "ReportFormat": "Rapportformat",
         "ReportHour": "Send rapport kl. %s",

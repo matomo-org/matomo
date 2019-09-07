@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "Që të përdorni këtë funksion, duhet të keni bërë hyrjen.",
         "YourChangesHaveBeenSaved": "Ndryshimet tuaja u ruajtën.",
         "ThankYouForUsingMatomo": "Faleminderit që përdorni Matomo-n",
-        "TheMatomoTeam": "Ekipi i Matomo-s"
+        "TheMatomoTeam": "Ekipi i Matomo-s",
+        "PleaseTryAgain": "Ju lutemi, riprovoni"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",

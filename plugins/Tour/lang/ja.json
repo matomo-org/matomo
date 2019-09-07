@@ -1,0 +1,23 @@
+{
+    "Tour": {
+        "Tour": "ツアー",
+        "Engagement": "利用状況",
+        "UploadLogo": "ロゴをアップロード",
+        "AddUser": "他のユーザーを追加",
+        "AddWebsite": "他のウェブサイトを追加",
+        "AddSegment": "区分を追加",
+        "AddAnnotation": "注釈を追加",
+        "BrowseMarketplace": "ブラウズ・マーケットプレイス",
+        "PreviousChallenges": "前のチャレンジ",
+        "NextChallenges": "次のチャレンジ",
+        "ViewX": "ビュー %s",
+        "SetupX": "%sを設定する",
+        "SelectDateRange": "データの期間を選択",
+        "SelectDateRangeDescription": "カレンダーでデータの期間を選択",
+        "SkipThisChallenge": "このチャレンジをスキップする",
+        "ConfigureGeolocation": "場所を設定",
+        "CustomiseDashboard": "ダッシュボードをカスタマイズ",
+        "DefineGoal": "ゴールを追加",
+        "CompletionTitle": "よくできました！"
+    }
+}

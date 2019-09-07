@@ -1,0 +1,26 @@
+{
+    "Tour": {
+        "PluginDescription": "Станьте экспертом Matomo в кратчайшие сроки, выполняя задания, знакомящие вас с Matomo.",
+        "Tour": "Тур",
+        "Engagement": "Повторные посещения",
+        "UploadLogo": "Загрузите свой логотип",
+        "AddUser": "Добавить другого пользователя",
+        "AddWebsite": "Добавить другой сайт",
+        "AddReport": "Добавить запланированный отчет",
+        "AddSegment": "Добавить сегмент",
+        "AddAnnotation": "Добавить аннотацию",
+        "BrowseMarketplace": "Обзор Marketplace",
+        "SelectDateRange": "Выберите диапазон дат",
+        "SelectDateRangeDescription": "Выберите диапазон дат в календаре.",
+        "ChangeVisualisation": "Изменить визуализацию",
+        "ChangeVisualisationDescription": "Просмотрите отчет и выберите значок визуализации в нижней части отчета, чтобы просмотреть тот же отчет в другой визуализации.",
+        "FlattenActions": "Свести отчет страницы",
+        "ChallengeCompleted": "Поздравляю, вы выполнили эту задачу.",
+        "ConfigureGeolocationDescription": "Убедитесь, что местоположение ваших посетителей правильно определено.",
+        "DisableBrowserArchiving": "Отключите архивирование браузера для лучшей производительности",
+        "SkipThisChallenge": "Пропустить этот вызов",
+        "ShareYourAchievementOn": "Поделитесь своими достижениями на %1$s.",
+        "ConfigureGeolocation": "Настроить геолокацию",
+        "CompletionTitle": "Отлично!"
+    }
+}

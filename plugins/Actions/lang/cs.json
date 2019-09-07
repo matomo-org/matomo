@@ -69,6 +69,7 @@
         "WidgetSearchKeywords": "Klíčová slova hledané stránky",
         "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání",
         "ActionType": "Typ akce",
-        "ActionTypes": "Typy akcí"
+        "ActionTypes": "Typy akcí",
+        "Behaviour": "Chování"
     }
 }

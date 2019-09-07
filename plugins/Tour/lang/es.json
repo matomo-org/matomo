@@ -1,0 +1,26 @@
+{
+    "Tour": {
+        "Engagement": "Compromiso",
+        "UploadLogo": "Suba su logo",
+        "AddUser": "Agregar otro usuario",
+        "AddWebsite": "Agregar otro sitio de internet",
+        "BrowseMarketplace": "Explorar Mercado",
+        "NextChallenges": "Próximos desafíos",
+        "ViewX": "Ver %s",
+        "SetupX": "Configurar %s",
+        "SelectDateRange": "Seleccionar un rango de fecha",
+        "SelectDateRangeDescription": "Seleccione un intervalo de fechas en el calendario.",
+        "ChangeVisualisation": "Cambiar una visualización",
+        "ChallengeCompleted": "Felicitaciones, ha completado este desafío.",
+        "BecomeMatomoExpert": "Convertirse en un experto Matomo",
+        "ConfigureGeolocationDescription": "Asegúrese que la ubicación de sus visistantes son detectadas correctamente.",
+        "SkipThisChallenge": "Omitir este desafío",
+        "MatomoBeginner": "Matomo principiante",
+        "MatomoTalent": "Talento Matomo",
+        "MatomoProfessional": "Matomo Profesional",
+        "ConfigureGeolocation": "Configurar geolocalización",
+        "CustomiseDashboard": "Personalizar tablero",
+        "DefineGoal": "Agregar un objetivo",
+        "CompletionTitle": "¡Bien hecho!"
+    }
+}

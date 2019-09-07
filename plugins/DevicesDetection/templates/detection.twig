@@ -50,6 +50,12 @@
             <input type="submit" value="{{ 'General_Refresh'|translate }}" class="btn" />
         </form>
 
+        {% if bot_info %}
+
+        <h3>{{ 'DevicesDetection_BotDetected'|translate(bot_info.name) }}</h3>
+
+        {% else %}
+
         <h3>{{ 'DevicesDetection_ColumnOperatingSystem'|translate|e('html_attr') }}</h3>
         <table class="detection" piwik-content-table>
             <tbody>
@@ -103,6 +109,7 @@
             </tr></tbody>
         </table>
 
+        {% endif %}
     </div>
 
     <div class="ui-confirm" id="deviceDetectionItemList">

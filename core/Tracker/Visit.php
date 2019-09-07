@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -68,6 +69,14 @@ class Visit implements VisitInterface
      */
     private $invalidator;
 
+    protected $fieldsThatRequireAuth = array(
+        'city',
+        'region',
+        'country',
+        'lat',
+        'long'
+    );
+
     public function __construct()
     {
         $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
@@ -88,7 +97,7 @@ class Visit implements VisitInterface
     private function checkSiteExists(Request $request)
     {
         try {
-            $this->request->getIdSite();
+            $request->getIdSite();
         } catch (UnexpectedWebsiteFoundException $e) {
             // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
             // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
@@ -96,6 +105,17 @@ class Visit implements VisitInterface
             StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
             throw $e;
         }
+    }
+
+    private function validateRequest(Request $request)
+    {
+        // Check for params that aren't allowed to be included unless the request is authenticated
+        foreach ($this->fieldsThatRequireAuth as $field) {
+            Base::getValueFromUrlParamsIfAllowed($field, $request);
+        }
+
+        // Special logic for timestamp as some overrides are OK without auth and others aren't
+        $request->getCurrentTimestamp();
     }
 
     /**
@@ -127,6 +147,8 @@ class Visit implements VisitInterface
 
             $processor->manipulateRequest($this->request);
         }
+
+        $this->validateRequest($this->request);
 
         $this->visitProperties = new VisitProperties();
 

@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "Diese Änderung wurde von folgendem Gerät veranlasst: %1$s (IP-Adresse = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Falls Sie dies waren, können Sie diese E-Mail ignonieren. Falls Sie dies nicht waren, loggen Sie sich bitte ein, korrigieren Sie Ihre E-Mail-Adresse, ändern Sie Ihr Passwort und kontaktieren Sie Ihren Matomo-Administrator.",
         "PasswordChangeNotificationSubject": "Das Passwort Ihres Matomo Benutzerkontos wurde soeben geändert",
-        "PasswordChangedEmail": "Ihr Passwort wurde soeben geändert. Diese Änderung wurde von diesem Gerät veranlasst: %1$s (IP-Adresse = %2$s)."
+        "PasswordChangedEmail": "Ihr Passwort wurde soeben geändert. Diese Änderung wurde von diesem Gerät veranlasst: %1$s (IP-Adresse = %2$s).",
+        "NewsletterSignupTitle": "Newsletter-Anmeldung",
+        "NewsletterSignupMessage": "Abonnieren Sie unseren Newsletter, um regelmäßig Informationen über Matomo zu erhalten. Deabonnieren ist jederzeit möglich. Dieser Dienst verwendet MadMimi. Erfahren Sie mehr in unserer %1$sDatenschutzerklärung%2$s.",
+        "NewsletterSignupFailureMessage": "Hoppla, etwas ist schief gelaufen. Wir konnten Sie nicht für unseren Newsletter registrieren.",
+        "NewsletterSignupSuccessMessage": "Super, Sie wurden erfolgreich registriert! Wir werden in Kürze von uns hören lassen."
     }
 }

@@ -203,6 +203,11 @@ class PrivacyManager extends Plugin
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
+
+        $purgeSettings = PrivacyManager::getPurgeDataSettings();
+        $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
+        $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
+        $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
     }
 
     public function getJsFiles(&$jsFiles)
