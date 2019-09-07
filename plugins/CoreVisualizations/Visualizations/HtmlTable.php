@@ -42,6 +42,15 @@ class HtmlTable extends Visualization
     public function beforeLoadDataTable()
     {
         $this->checkRequestIsNotForMultiplePeriods();
+
+        if ($this->isComparing()) {
+            // forward the comparisonIdSubtables var if present so it will be used when next/prev links are clicked
+            $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', false, 'string');
+            if (!empty($comparisonIdSubtables)) {
+                $comparisonIdSubtables = Common::unsanitizeInputValue($comparisonIdSubtables);
+                $this->config->custom_parameters['comparisonIdSubtables'] = $comparisonIdSubtables;
+            }
+        }
     }
 
     public function beforeRender()
