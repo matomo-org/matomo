@@ -115,7 +115,7 @@ class JqplotDataGenerator
      * @param DataTable|DataTable\Map $dataTable
      * @param Chart $visualization
      */
-    protected function initChartObjectData($dataTable, Chart $visualization)
+    protected function initChartObjectData($dataTable, $visualization)
     {
         $xLabels = $dataTable->getColumn('label');
 
