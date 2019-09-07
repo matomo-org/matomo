@@ -25,7 +25,6 @@
         getAllSeriesColors();
 
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
-        $rootScope.$on('piwikPageChange', checkEnabledForCurrentPage);
         $rootScope.$on('piwikSegmentationInited', updateComparisonsFromQueryParams);
 
         loadComparisonsDisabledFor();
@@ -39,11 +38,16 @@
             getPeriodComparisons: getPeriodComparisons,
             getSeriesColor: getSeriesColor,
             getAllComparisonSeries: getAllComparisonSeries,
-            isComparing: isComparing
+            isComparing: isComparing,
+            isComparingPeriods: isComparingPeriods
         };
 
         function isComparing() {
             return isComparisonEnabled() && comparisons.length > 2; // first two are for selected segment/period
+        }
+
+        function isComparingPeriods() {
+            return getPeriodComparisons().length > 1; // first is currently selected period
         }
 
         function getSegmentComparisons() {
@@ -70,7 +74,7 @@
             return isEnabled;
         }
 
-        function getComparisons() {
+        function getComparisons(skipEnabledCheck) {
             if (!isComparisonEnabled()) {
                 return [];
             }
@@ -177,10 +181,12 @@
         function updateComparisonsFromQueryParams() {
             var title;
 
+            var availableSegments;
             try {
-                var availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
+                availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
             } catch (e) {
                 // segment editor is not initialized yet
+                availableSegments = [];
             }
 
             var compareSegments = getQueryParamValue('compareSegments') || [];
@@ -236,6 +242,7 @@
                 });
             }
 
+            checkEnabledForCurrentPage();
             setComparisons(newComparisons);
         }
 

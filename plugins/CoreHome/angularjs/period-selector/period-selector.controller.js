@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
-    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService'];
+    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -45,9 +45,16 @@
         vm.$onInit = init;
         vm.isComparisonEnabled = isComparisonEnabled;
 
+        $rootScope.$on('$locationChangeSuccess', setIsComparing);
+
         function init() {
             vm.updateSelectedValuesFromHash();
+            setIsComparing();
             initTopControls(); // must be called when a top control changes width
+        }
+
+        function setIsComparing() {
+            vm.isComparing = piwikComparisonsService.isComparingPeriods();
         }
 
         function $onChanges(changesObj) {
@@ -273,8 +280,6 @@
                     $location.search($.param($search));
                 }
 
-                vm.isComparing = false;
-
                 return;
             }
 
@@ -284,8 +289,6 @@
             // change the URL
             var url = $.param($.extend({ date: date, period: period }, compareParams));
             broadcast.propagateNewPage(url);
-
-            vm.isComparing = false;
         }
 
         function isValidDate(d) {
