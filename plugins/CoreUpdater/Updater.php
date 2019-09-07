@@ -298,11 +298,6 @@ class Updater
             $model->removeGoneFiles($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT);
         }
 
-        // Config files may be user (account) specific
-        if (PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH) {
-            Filesystem::copyRecursive($extractedArchiveDirectory . '/config', PIWIK_USER_PATH . '/config');
-        }
-
         Filesystem::unlinkRecursive($extractedArchiveDirectory, true);
 
         Filesystem::clearPhpCaches();

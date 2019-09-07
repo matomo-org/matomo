@@ -336,7 +336,7 @@ class AssetManagerTest extends IntegrationTestCase
      */
     private function getExpectedMergedJs($filename)
     {
-        $expectedMergeResult = new OnDiskUIAsset(PIWIK_USER_PATH, self::ASSET_MANAGER_TEST_DIR .'scripts/' . $filename);
+        $expectedMergeResult = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, self::ASSET_MANAGER_TEST_DIR .'scripts/' . $filename);
 
         $expectedContent = $expectedMergeResult->getContent();
 
@@ -357,7 +357,7 @@ class AssetManagerTest extends IntegrationTestCase
      */
     private function getExpectedMergedStylesheet()
     {
-        $expectedMergeResult = new OnDiskUIAsset(PIWIK_USER_PATH, self::ASSET_MANAGER_TEST_DIR .'stylesheets/ExpectedMergeResult.css');
+        $expectedMergeResult = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, self::ASSET_MANAGER_TEST_DIR .'stylesheets/ExpectedMergeResult.css');
 
         $expectedContent = $expectedMergeResult->getContent();
 

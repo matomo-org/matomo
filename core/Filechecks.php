@@ -23,7 +23,7 @@ class Filechecks
         if (!is_writable(PIWIK_INCLUDE_PATH . '/') ||
             !is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
             !is_writable(PIWIK_INCLUDE_PATH . '/core') ||
-            !is_writable(PIWIK_USER_PATH . '/config/global.ini.php')
+            !is_writable(PIWIK_DOCUMENT_ROOT . '/config/global.ini.php')
         ) {
             return false;
         }
@@ -40,7 +40,9 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
-            if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
+	        if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)
+	            && !preg_match('/^' . preg_quote(PIWIK_DOCUMENT_ROOT, '/') . '/', $directoryToCheck)
+	            && !preg_match('/^' . preg_quote(PIWIK_INCLUDE_PATH, '/') . '/', $directoryToCheck)) {
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
 
