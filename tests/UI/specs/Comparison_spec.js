@@ -93,6 +93,7 @@ describe("Comparison", function () {
 
     it('should show the tooltip correctly in an evolution graph', async () => {
         await page.hover('.piwik-graph');
+        await page.waitFor(250);
 
         const element = await page.$('.ui-tooltip');
         expect(await element.screenshot()).to.matchImage('visitors_overview_tooltip');
