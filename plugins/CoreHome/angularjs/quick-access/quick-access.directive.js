@@ -259,6 +259,11 @@
                     }
                 };
 
+                scope.urlEncode = function(term)
+                {
+                    return encodeURIComponent(term);
+                };
+
                 piwikHelper.registerShortcut('f', _pk_translate('CoreHome_ShortcutSearch'), function(event) {
                     if (event.altKey) {
                         return;

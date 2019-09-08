@@ -36,5 +36,12 @@
                 ng-click="quickAccess.selectSite(site.idsite)"
                 ng-repeat="site in quickAccess.sitesModel.sites"><a ng-bind="site.name"></a></li>
         </ul>
+        <ul>
+            <li class="quick-access-category helpCategory">{{ 'General_HelpResources' | translate }}</li>
+            <li ng-class="{selected: search.index == 'help'}"
+                ng-mouseenter="search.index='help'">
+                    <a href="https://matomo.org?s={{ urlEncode(search.term) }}" target="_blank">Search '{{ search.term }}' on matomo.org</a>
+            </li>
+        </ul>
     </div>
 </div>

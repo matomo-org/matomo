@@ -317,6 +317,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_Dashboard';
         $translationKeys[] = 'Dashboard_RemoveDefaultDashboardNotPossible';
         $translationKeys[] = 'General_Close';
+        $translationKeys[] = 'General_HelpResources';
         $translationKeys[] = 'General_Refresh';
     }
 }
