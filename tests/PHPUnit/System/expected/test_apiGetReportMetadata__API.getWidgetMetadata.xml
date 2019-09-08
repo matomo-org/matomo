@@ -3066,9 +3066,9 @@
 	<row>
 		<name>Metric</name>
 		<category>
-			<id>General_Generic</id>
-			<name>Generic</name>
-			<order>70</order>
+			<id>General_KpiMetric</id>
+			<name>KPI Metric</name>
+			<order>1</order>
 			<icon />
 		</category>
 		<subcategory />

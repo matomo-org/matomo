@@ -25,8 +25,8 @@ class SingleMetricView extends \Piwik\Widget\Widget
         $column = Common::getRequestVar('column', '', 'string');
 
         $config->addParameters(['column' => $column]);
-        $config->setCategoryId('General_Generic');
-        $config->setName('General_Metric');
+        $config->setCategoryId('General_KpiMetric');
+        $config->setName('General_KpiMetric');
         $config->setIsWidgetizable();
     }
 

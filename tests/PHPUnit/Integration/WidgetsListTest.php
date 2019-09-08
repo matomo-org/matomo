@@ -42,7 +42,7 @@ class WidgetsListTest extends IntegrationTestCase
         $numberOfWidgets = array(
             'Dashboard_Dashboard' => 1,
             'General_Actions' => 22,
-            'General_Generic' => 1,
+            'General_KpiMetric' => 1,
             'General_Visitors' => 31,
             'SEO' => 1,
             'Goals_Goals' => 3,

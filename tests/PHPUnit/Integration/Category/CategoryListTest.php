@@ -35,7 +35,7 @@ class CategoryListTest extends IntegrationTestCase
 
         $this->assertSame(array(
             'General_Actions',
-            'General_Generic',
+            'General_KpiMetric',
             'General_Visitors',
             'Dashboard_Dashboard',
             'General_MultiSitesSummary',
