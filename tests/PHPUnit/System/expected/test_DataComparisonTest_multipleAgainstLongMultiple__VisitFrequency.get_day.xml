@@ -3,27 +3,42 @@
 	<result date="2012-08-12">
 		<comparisons>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
+				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-12,2012-08-15</compareDateOriginal>
+				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
-				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-12</compareDate>
 				
 			</row>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-13,2012-08-14</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 13 – 14, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
@@ -34,27 +49,42 @@
 	<result date="2012-08-13">
 		<comparisons>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
+				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-12,2012-08-15</compareDateOriginal>
+				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
-				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-13</compareDate>
 				
 			</row>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				
 			</row>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-13,2012-08-14</compareDateOriginal>
 				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 13 – 14, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
@@ -65,18 +95,28 @@
 	<result date="2012-08-14">
 		<comparisons>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
+				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-12,2012-08-15</compareDateOriginal>
+				<compareDate>2012-08-14</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
-				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-14</compareDate>
 				
 			</row>
 			<row>
+				<avg_time_on_site_returning>0</avg_time_on_site_returning>
+				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-11</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
@@ -106,7 +146,7 @@
 				<bounce_count_returning>1</bounce_count_returning>
 				<sum_visit_length_returning>0</sum_visit_length_returning>
 				<max_actions_returning>1</max_actions_returning>
-				<bounce_rate_returning>1</bounce_rate_returning>
+				<bounce_rate_returning>100%</bounce_rate_returning>
 				<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 				<avg_time_on_site_returning>0</avg_time_on_site_returning>
 				<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
@@ -122,10 +162,12 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
+				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-12,2012-08-15</compareDateOriginal>
+				<compareDate>2012-08-15</compareDate>
 				<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
-				<comparePeriod>day</comparePeriod>
-				<compareDate>2012-08-15</compareDate>
 				
 			</row>
 			<row>
@@ -137,7 +179,7 @@
 				<bounce_count_returning>0</bounce_count_returning>
 				<sum_visit_length_returning>0</sum_visit_length_returning>
 				<max_actions_returning>0</max_actions_returning>
-				<bounce_rate_returning>0</bounce_rate_returning>
+				<bounce_rate_returning>0%</bounce_rate_returning>
 				<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 				<avg_time_on_site_returning>0</avg_time_on_site_returning>
 				<nb_uniq_visitors_returning_change>-100%</nb_uniq_visitors_returning_change>
@@ -153,7 +195,9 @@
 				<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
+				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-12</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
@@ -165,9 +209,14 @@
 		<row>
 			<comparisons>
 				<row>
+					<avg_time_on_site_returning>0</avg_time_on_site_returning>
+					<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+					<bounce_rate_returning>0%</bounce_rate_returning>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<comparePeriodOriginal>day</comparePeriodOriginal>
 					<comparePeriod>day</comparePeriod>
+					<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 					<compareDate>2012-08-13</compareDate>
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
@@ -180,9 +229,14 @@
 		<row>
 			<comparisons>
 				<row>
+					<avg_time_on_site_returning>0</avg_time_on_site_returning>
+					<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+					<bounce_rate_returning>0%</bounce_rate_returning>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<comparePeriodOriginal>day</comparePeriodOriginal>
 					<comparePeriod>day</comparePeriod>
+					<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 					<compareDate>2012-08-14</compareDate>
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
@@ -203,7 +257,7 @@
 					<bounce_count_returning>1</bounce_count_returning>
 					<sum_visit_length_returning>0</sum_visit_length_returning>
 					<max_actions_returning>1</max_actions_returning>
-					<bounce_rate_returning>1</bounce_rate_returning>
+					<bounce_rate_returning>100%</bounce_rate_returning>
 					<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 					<avg_time_on_site_returning>0</avg_time_on_site_returning>
 					<nb_uniq_visitors_returning_change>+100%</nb_uniq_visitors_returning_change>
@@ -219,7 +273,9 @@
 					<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<comparePeriodOriginal>day</comparePeriodOriginal>
 					<comparePeriod>day</comparePeriod>
+					<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 					<compareDate>2012-08-15</compareDate>
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
@@ -232,9 +288,14 @@
 		<row>
 			<comparisons>
 				<row>
+					<avg_time_on_site_returning>0</avg_time_on_site_returning>
+					<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+					<bounce_rate_returning>0%</bounce_rate_returning>
 					<compareSegment />
 					<compareSegmentPretty>All visits</compareSegmentPretty>
+					<comparePeriodOriginal>day</comparePeriodOriginal>
 					<comparePeriod>day</comparePeriod>
+					<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 					<compareDate>2012-08-16</compareDate>
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>

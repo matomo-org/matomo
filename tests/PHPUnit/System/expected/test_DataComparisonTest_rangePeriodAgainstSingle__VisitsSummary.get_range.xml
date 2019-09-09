@@ -17,7 +17,7 @@
 			<bounce_count>30</bounce_count>
 			<sum_visit_length>305</sum_visit_length>
 			<max_actions>3</max_actions>
-			<bounce_rate>0.94</bounce_rate>
+			<bounce_rate>94%</bounce_rate>
 			<nb_actions_per_visit>1.1</nb_actions_per_visit>
 			<avg_time_on_site>10</avg_time_on_site>
 			<nb_visits_change>+0%</nb_visits_change>
@@ -31,10 +31,12 @@
 			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriodOriginal>range</comparePeriodOriginal>
+			<comparePeriod>range</comparePeriod>
+			<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
+			<compareDate>2012-08-09</compareDate>
 			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
-			<comparePeriod>range</comparePeriod>
-			<compareDate>2012-08-09</compareDate>
 			
 		</row>
 		<row>
@@ -44,24 +46,26 @@
 			<bounce_count>2</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
-			<nb_visits_change>-93.8%</nb_visits_change>
-			<nb_actions_change>-94.3%</nb_actions_change>
-			<nb_visits_converted_change>-93.3%</nb_visits_converted_change>
-			<bounce_count_change>-93.3%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
-			<max_actions_change>-66.7%</max_actions_change>
-			<bounce_rate_change>+6.4%</bounce_rate_change>
-			<nb_actions_per_visit_change>-9.1%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<nb_visits_change>+0%</nb_visits_change>
+			<nb_actions_change>+0%</nb_actions_change>
+			<nb_visits_converted_change>+0%</nb_visits_converted_change>
+			<bounce_count_change>+0%</bounce_count_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
+			<max_actions_change>+0%</max_actions_change>
+			<bounce_rate_change>+0%</bounce_rate_change>
+			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+			<comparePeriodOriginal>range</comparePeriodOriginal>
+			<comparePeriod>range</comparePeriod>
+			<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
+			<compareDate>2012-08-09</compareDate>
 			<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
-			<comparePeriod>range</comparePeriod>
-			<compareDate>2012-08-09</compareDate>
 			
 		</row>
 		<row>
@@ -71,24 +75,26 @@
 			<bounce_count>6</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
-			<nb_visits_change>-81.3%</nb_visits_change>
-			<nb_actions_change>-82.9%</nb_actions_change>
-			<nb_visits_converted_change>-80%</nb_visits_converted_change>
-			<bounce_count_change>-80%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
-			<max_actions_change>-66.7%</max_actions_change>
-			<bounce_rate_change>+6.4%</bounce_rate_change>
-			<nb_actions_per_visit_change>-9.1%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<nb_visits_change>+0%</nb_visits_change>
+			<nb_actions_change>+0%</nb_actions_change>
+			<nb_visits_converted_change>+0%</nb_visits_converted_change>
+			<bounce_count_change>+0%</bounce_count_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
+			<max_actions_change>+0%</max_actions_change>
+			<bounce_rate_change>+0%</bounce_rate_change>
+			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Die</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+			<comparePeriodOriginal>range</comparePeriodOriginal>
+			<comparePeriod>range</comparePeriod>
+			<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
+			<compareDate>2012-08-09</compareDate>
 			<compareSeriesPretty>(August 9 – 16, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
-			<comparePeriod>range</comparePeriod>
-			<compareDate>2012-08-09</compareDate>
 			
 		</row>
 		<row>
@@ -100,7 +106,7 @@
 			<bounce_count>8</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+100%</nb_uniq_visitors_change>
@@ -116,7 +122,9 @@
 			<avg_time_on_site_change>-100%</avg_time_on_site_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -131,7 +139,7 @@
 			<bounce_count>0</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>0</max_actions>
-			<bounce_rate>0</bounce_rate>
+			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
@@ -140,14 +148,16 @@
 			<nb_actions_change>-100%</nb_actions_change>
 			<nb_visits_converted_change>-100%</nb_visits_converted_change>
 			<bounce_count_change>-100%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
 			<max_actions_change>-100%</max_actions_change>
 			<bounce_rate_change>-100%</bounce_rate_change>
 			<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -162,23 +172,25 @@
 			<bounce_count>3</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+100%</nb_uniq_visitors_change>
 			<nb_users_change>+0%</nb_users_change>
-			<nb_visits_change>-90.6%</nb_visits_change>
-			<nb_actions_change>-91.4%</nb_actions_change>
-			<nb_visits_converted_change>-90%</nb_visits_converted_change>
-			<bounce_count_change>-90%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
-			<max_actions_change>-66.7%</max_actions_change>
-			<bounce_rate_change>+6.4%</bounce_rate_change>
-			<nb_actions_per_visit_change>-9.1%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<nb_visits_change>-50%</nb_visits_change>
+			<nb_actions_change>-50%</nb_actions_change>
+			<nb_visits_converted_change>-50%</nb_visits_converted_change>
+			<bounce_count_change>-50%</bounce_count_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
+			<max_actions_change>+0%</max_actions_change>
+			<bounce_rate_change>+0%</bounce_rate_change>
+			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Die</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -193,7 +205,7 @@
 			<bounce_count>3</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+100%</nb_uniq_visitors_change>
@@ -209,7 +221,9 @@
 			<avg_time_on_site_change>-100%</avg_time_on_site_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriodOriginal>week</comparePeriodOriginal>
 			<comparePeriod>week</comparePeriod>
+			<compareDateOriginal>2012-08-16</compareDateOriginal>
 			<compareDate>2012-08-13</compareDate>
 			<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -224,7 +238,7 @@
 			<bounce_count>0</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>0</max_actions>
-			<bounce_rate>0</bounce_rate>
+			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
@@ -233,14 +247,16 @@
 			<nb_actions_change>-100%</nb_actions_change>
 			<nb_visits_converted_change>-100%</nb_visits_converted_change>
 			<bounce_count_change>-100%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
 			<max_actions_change>-100%</max_actions_change>
 			<bounce_rate_change>-100%</bounce_rate_change>
 			<nb_actions_per_visit_change>-100%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+			<comparePeriodOriginal>week</comparePeriodOriginal>
 			<comparePeriod>week</comparePeriod>
+			<compareDateOriginal>2012-08-16</compareDateOriginal>
 			<compareDate>2012-08-13</compareDate>
 			<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 			<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -255,23 +271,25 @@
 			<bounce_count>1</bounce_count>
 			<sum_visit_length>0</sum_visit_length>
 			<max_actions>1</max_actions>
-			<bounce_rate>1</bounce_rate>
+			<bounce_rate>100%</bounce_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
 			<nb_uniq_visitors_change>+100%</nb_uniq_visitors_change>
 			<nb_users_change>+0%</nb_users_change>
-			<nb_visits_change>-96.9%</nb_visits_change>
-			<nb_actions_change>-97.1%</nb_actions_change>
-			<nb_visits_converted_change>-96.7%</nb_visits_converted_change>
-			<bounce_count_change>-96.7%</bounce_count_change>
-			<sum_visit_length_change>-100%</sum_visit_length_change>
-			<max_actions_change>-66.7%</max_actions_change>
-			<bounce_rate_change>+6.4%</bounce_rate_change>
-			<nb_actions_per_visit_change>-9.1%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>-100%</avg_time_on_site_change>
+			<nb_visits_change>-83.3%</nb_visits_change>
+			<nb_actions_change>-83.3%</nb_actions_change>
+			<nb_visits_converted_change>-83.3%</nb_visits_converted_change>
+			<bounce_count_change>-83.3%</bounce_count_change>
+			<sum_visit_length_change>+0%</sum_visit_length_change>
+			<max_actions_change>+0%</max_actions_change>
+			<bounce_rate_change>+0%</bounce_rate_change>
+			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
+			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Die</compareSegment>
 			<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+			<comparePeriodOriginal>week</comparePeriodOriginal>
 			<comparePeriod>week</comparePeriod>
+			<compareDateOriginal>2012-08-16</compareDateOriginal>
 			<compareDate>2012-08-13</compareDate>
 			<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 			<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>

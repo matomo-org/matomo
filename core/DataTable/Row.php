@@ -595,7 +595,8 @@ class Row extends \ArrayObject
     }
 
     /**
-     * TODO
+     * Returns the associated comparisons DataTable, if any.
+     *
      * @return DataTable|null
      */
     public function getComparisons()
@@ -608,6 +609,8 @@ class Row extends \ArrayObject
     }
 
     /**
+     * Associates the supplied table with this row as the comparisons table.
+     *
      * @param DataTable $table
      */
     public function setComparisons(DataTable $table)

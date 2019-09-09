@@ -35,30 +35,16 @@
 				<sum_bandwidth>39314</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
@@ -77,30 +63,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
@@ -119,30 +91,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
@@ -177,25 +135,16 @@
 						<entry_bounce_count>10</entry_bounce_count>
 						<exit_nb_visits>10</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 					</row>
@@ -230,25 +179,16 @@
 								<entry_bounce_count>9</entry_bounce_count>
 								<exit_nb_visits>9</exit_nb_visits>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 							</row>
@@ -289,28 +229,16 @@
 										<sum_daily_entry_nb_uniq_visitors>9</sum_daily_entry_nb_uniq_visitors>
 										<sum_daily_exit_nb_uniq_visitors>9</sum_daily_exit_nb_uniq_visitors>
 										<avg_time_on_page>0</avg_time_on_page>
-										<bounce_rate>1</bounce_rate>
-										<exit_rate>1</exit_rate>
-										<nb_visits_change>+0%</nb_visits_change>
-										<nb_hits_change>+0%</nb_hits_change>
-										<sum_time_spent_change>+0%</sum_time_spent_change>
-										<entry_nb_visits_change>+0%</entry_nb_visits_change>
-										<entry_nb_actions_change>+0%</entry_nb_actions_change>
-										<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-										<entry_bounce_count_change>+0%</entry_bounce_count_change>
-										<exit_nb_visits_change>+0%</exit_nb_visits_change>
-										<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-										<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-										<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-										<avg_time_on_page_change>+0%</avg_time_on_page_change>
-										<bounce_rate_change>+0%</bounce_rate_change>
-										<exit_rate_change>+0%</exit_rate_change>
+										<bounce_rate>100%</bounce_rate>
+										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
+										<comparePeriodOriginal>month</comparePeriodOriginal>
+										<comparePeriod>month</comparePeriod>
+										<compareDateOriginal>2012-08-09</compareDateOriginal>
+										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
-										<comparePeriod>month</comparePeriod>
-										<compareDate>2012-08-01</compareDate>
 										
 										<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 									</row>
@@ -348,25 +276,16 @@
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 							</row>
@@ -407,28 +326,16 @@
 										<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 										<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 										<avg_time_on_page>0</avg_time_on_page>
-										<bounce_rate>1</bounce_rate>
-										<exit_rate>1</exit_rate>
-										<nb_visits_change>+0%</nb_visits_change>
-										<nb_hits_change>+0%</nb_hits_change>
-										<sum_time_spent_change>+0%</sum_time_spent_change>
-										<entry_nb_visits_change>+0%</entry_nb_visits_change>
-										<entry_nb_actions_change>+0%</entry_nb_actions_change>
-										<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-										<entry_bounce_count_change>+0%</entry_bounce_count_change>
-										<exit_nb_visits_change>+0%</exit_nb_visits_change>
-										<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-										<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-										<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-										<avg_time_on_page_change>+0%</avg_time_on_page_change>
-										<bounce_rate_change>+0%</bounce_rate_change>
-										<exit_rate_change>+0%</exit_rate_change>
+										<bounce_rate>100%</bounce_rate>
+										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
+										<comparePeriodOriginal>month</comparePeriodOriginal>
+										<comparePeriod>month</comparePeriod>
+										<compareDateOriginal>2012-08-09</compareDateOriginal>
+										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
-										<comparePeriod>month</comparePeriod>
-										<compareDate>2012-08-01</compareDate>
 										
 										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 									</row>
@@ -468,25 +375,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 					</row>
@@ -521,25 +419,16 @@
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 							</row>
@@ -574,25 +463,16 @@
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
 										<avg_time_on_page>0</avg_time_on_page>
-										<bounce_rate>1</bounce_rate>
-										<exit_rate>1</exit_rate>
-										<nb_visits_change>+0%</nb_visits_change>
-										<nb_hits_change>+0%</nb_hits_change>
-										<sum_time_spent_change>+0%</sum_time_spent_change>
-										<entry_nb_visits_change>+0%</entry_nb_visits_change>
-										<entry_nb_actions_change>+0%</entry_nb_actions_change>
-										<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-										<entry_bounce_count_change>+0%</entry_bounce_count_change>
-										<exit_nb_visits_change>+0%</exit_nb_visits_change>
-										<avg_time_on_page_change>+0%</avg_time_on_page_change>
-										<bounce_rate_change>+0%</bounce_rate_change>
-										<exit_rate_change>+0%</exit_rate_change>
+										<bounce_rate>100%</bounce_rate>
+										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
+										<comparePeriodOriginal>month</comparePeriodOriginal>
+										<comparePeriod>month</comparePeriod>
+										<compareDateOriginal>2012-08-09</compareDateOriginal>
+										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
-										<comparePeriod>month</comparePeriod>
-										<compareDate>2012-08-01</compareDate>
 										
 										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 									</row>
@@ -633,28 +513,16 @@
 												<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 												<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 												<avg_time_on_page>0</avg_time_on_page>
-												<bounce_rate>1</bounce_rate>
-												<exit_rate>1</exit_rate>
-												<nb_visits_change>+0%</nb_visits_change>
-												<nb_hits_change>+0%</nb_hits_change>
-												<sum_time_spent_change>+0%</sum_time_spent_change>
-												<entry_nb_visits_change>+0%</entry_nb_visits_change>
-												<entry_nb_actions_change>+0%</entry_nb_actions_change>
-												<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-												<entry_bounce_count_change>+0%</entry_bounce_count_change>
-												<exit_nb_visits_change>+0%</exit_nb_visits_change>
-												<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-												<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-												<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-												<avg_time_on_page_change>+0%</avg_time_on_page_change>
-												<bounce_rate_change>+0%</bounce_rate_change>
-												<exit_rate_change>+0%</exit_rate_change>
+												<bounce_rate>100%</bounce_rate>
+												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
+												<comparePeriodOriginal>month</comparePeriodOriginal>
+												<comparePeriod>month</comparePeriod>
+												<compareDateOriginal>2012-08-09</compareDateOriginal>
+												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
-												<comparePeriod>month</comparePeriod>
-												<compareDate>2012-08-01</compareDate>
 												
 												<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 											</row>
@@ -704,30 +572,16 @@
 				<sum_bandwidth>14296</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
@@ -746,30 +600,16 @@
 				<sum_bandwidth>7148</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>-50%</nb_visits_change>
-				<nb_hits_change>-50%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>-50%</entry_nb_visits_change>
-				<entry_nb_actions_change>-50%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-50%</entry_bounce_count_change>
-				<exit_nb_visits_change>-50%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>-50%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>-50%</max_bandwidth_change>
-				<min_bandwidth_change>-50%</min_bandwidth_change>
-				<sum_bandwidth_change>-50%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
@@ -788,30 +628,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>-75%</nb_visits_change>
-				<nb_hits_change>-75%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>-75%</entry_nb_visits_change>
-				<entry_nb_actions_change>-75%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-75%</entry_bounce_count_change>
-				<exit_nb_visits_change>-75%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>-75%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>-75%</max_bandwidth_change>
-				<min_bandwidth_change>-75%</min_bandwidth_change>
-				<sum_bandwidth_change>-75%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
@@ -846,25 +672,16 @@
 						<entry_bounce_count>2</entry_bounce_count>
 						<exit_nb_visits>2</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
@@ -878,25 +695,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>-50%</nb_visits_change>
-						<nb_hits_change>-50%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>-50%</entry_nb_visits_change>
-						<entry_nb_actions_change>-50%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-50%</entry_bounce_count_change>
-						<exit_nb_visits_change>-50%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
@@ -910,25 +718,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>-50%</nb_visits_change>
-						<nb_hits_change>-50%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>-50%</entry_nb_visits_change>
-						<entry_nb_actions_change>-50%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-50%</entry_bounce_count_change>
-						<exit_nb_visits_change>-50%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
@@ -969,28 +768,16 @@
 								<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 							</row>
@@ -1007,28 +794,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>-50%</nb_visits_change>
-								<nb_hits_change>-50%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>-50%</entry_nb_visits_change>
-								<entry_nb_actions_change>-50%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>-50%</entry_bounce_count_change>
-								<exit_nb_visits_change>-50%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>-50%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>-50%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>-50%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Dff</compareSegment>
 								<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 							</row>
@@ -1045,28 +820,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>-50%</nb_visits_change>
-								<nb_hits_change>-50%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>-50%</entry_nb_visits_change>
-								<entry_nb_actions_change>-50%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>-50%</entry_bounce_count_change>
-								<exit_nb_visits_change>-50%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>-50%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>-50%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>-50%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Die</compareSegment>
 								<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 							</row>
@@ -1110,28 +873,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 					</row>
@@ -1148,28 +899,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 					</row>
@@ -1190,32 +929,16 @@
 						<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0</bounce_rate>
-						<exit_rate>0</exit_rate>
-						<nb_visits_change>-100%</nb_visits_change>
-						<nb_hits_change>-100%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<sum_bandwidth_change>-100%</sum_bandwidth_change>
-						<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-						<min_bandwidth_change>-100%</min_bandwidth_change>
-						<max_bandwidth_change>-100%</max_bandwidth_change>
-						<entry_nb_visits_change>-100%</entry_nb_visits_change>
-						<entry_nb_actions_change>-100%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-100%</entry_bounce_count_change>
-						<exit_nb_visits_change>-100%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>-100%</bounce_rate_change>
-						<exit_rate_change>-100%</exit_rate_change>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 					</row>
@@ -1251,25 +974,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
@@ -1287,29 +1001,16 @@
 						<entry_bounce_count>0</entry_bounce_count>
 						<exit_nb_visits>0</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0</bounce_rate>
-						<exit_rate>0</exit_rate>
-						<nb_visits_change>-100%</nb_visits_change>
-						<nb_hits_change>-100%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<sum_bandwidth_change>-100%</sum_bandwidth_change>
-						<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-						<min_bandwidth_change>-100%</min_bandwidth_change>
-						<max_bandwidth_change>-100%</max_bandwidth_change>
-						<entry_nb_visits_change>-100%</entry_nb_visits_change>
-						<entry_nb_actions_change>-100%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-100%</entry_bounce_count_change>
-						<exit_nb_visits_change>-100%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>-100%</bounce_rate_change>
-						<exit_rate_change>-100%</exit_rate_change>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
@@ -1327,29 +1028,16 @@
 						<entry_bounce_count>0</entry_bounce_count>
 						<exit_nb_visits>0</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0</bounce_rate>
-						<exit_rate>0</exit_rate>
-						<nb_visits_change>-100%</nb_visits_change>
-						<nb_hits_change>-100%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<sum_bandwidth_change>-100%</sum_bandwidth_change>
-						<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-						<min_bandwidth_change>-100%</min_bandwidth_change>
-						<max_bandwidth_change>-100%</max_bandwidth_change>
-						<entry_nb_visits_change>-100%</entry_nb_visits_change>
-						<entry_nb_actions_change>-100%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-100%</entry_bounce_count_change>
-						<exit_nb_visits_change>-100%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>-100%</bounce_rate_change>
-						<exit_rate_change>-100%</exit_rate_change>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
@@ -1390,28 +1078,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 							</row>
@@ -1457,30 +1133,16 @@
 				<sum_bandwidth>14296</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
@@ -1499,30 +1161,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
@@ -1541,30 +1189,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>-75%</nb_visits_change>
-				<nb_hits_change>-75%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>-75%</entry_nb_visits_change>
-				<entry_nb_actions_change>-75%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-75%</entry_bounce_count_change>
-				<exit_nb_visits_change>-75%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>-75%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>-75%</max_bandwidth_change>
-				<min_bandwidth_change>-75%</min_bandwidth_change>
-				<sum_bandwidth_change>-75%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
@@ -1605,28 +1239,16 @@
 						<sum_daily_entry_nb_uniq_visitors>2</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>2</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 					</row>
@@ -1647,32 +1269,16 @@
 						<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0</bounce_rate>
-						<exit_rate>0</exit_rate>
-						<nb_visits_change>-100%</nb_visits_change>
-						<nb_hits_change>-100%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<sum_bandwidth_change>-100%</sum_bandwidth_change>
-						<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-						<min_bandwidth_change>-100%</min_bandwidth_change>
-						<max_bandwidth_change>-100%</max_bandwidth_change>
-						<entry_nb_visits_change>-100%</entry_nb_visits_change>
-						<entry_nb_actions_change>-100%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-100%</entry_bounce_count_change>
-						<exit_nb_visits_change>-100%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>-100%</bounce_rate_change>
-						<exit_rate_change>-100%</exit_rate_change>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 					</row>
@@ -1708,25 +1314,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
@@ -1740,25 +1337,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
@@ -1799,28 +1387,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 							</row>
@@ -1837,28 +1413,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Die</compareSegment>
 								<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 							</row>
@@ -1896,25 +1460,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
@@ -1932,29 +1487,16 @@
 						<entry_bounce_count>0</entry_bounce_count>
 						<exit_nb_visits>0</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>0</bounce_rate>
-						<exit_rate>0</exit_rate>
-						<nb_visits_change>-100%</nb_visits_change>
-						<nb_hits_change>-100%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<sum_bandwidth_change>-100%</sum_bandwidth_change>
-						<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-						<min_bandwidth_change>-100%</min_bandwidth_change>
-						<max_bandwidth_change>-100%</max_bandwidth_change>
-						<entry_nb_visits_change>-100%</entry_nb_visits_change>
-						<entry_nb_actions_change>-100%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>-100%</entry_bounce_count_change>
-						<exit_nb_visits_change>-100%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>-100%</bounce_rate_change>
-						<exit_rate_change>-100%</exit_rate_change>
+						<bounce_rate>0%</bounce_rate>
+						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
@@ -1995,28 +1537,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 							</row>
@@ -2068,33 +1598,16 @@
 				<sum_bandwidth>7148</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
@@ -2116,33 +1629,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
@@ -2164,33 +1660,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>-50%</nb_visits_change>
-				<nb_hits_change>-50%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>-50%</entry_nb_visits_change>
-				<entry_nb_actions_change>-50%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-50%</entry_bounce_count_change>
-				<exit_nb_visits_change>-50%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-50%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-50%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-50%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>-50%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>-50%</max_bandwidth_change>
-				<min_bandwidth_change>-50%</min_bandwidth_change>
-				<sum_bandwidth_change>-50%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
@@ -2238,33 +1717,16 @@
 				<sum_bandwidth>43</sum_bandwidth>
 				<avg_bandwidth>43</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
@@ -2286,33 +1748,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
@@ -2334,33 +1779,16 @@
 				<sum_bandwidth>43</sum_bandwidth>
 				<avg_bandwidth>43</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
@@ -2404,31 +1832,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>180</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
@@ -2448,31 +1861,16 @@
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>-100%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>-100%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>-100%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
@@ -2492,31 +1890,16 @@
 				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>-100%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>-100%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>-100%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
@@ -2564,33 +1947,16 @@
 				<sum_bandwidth>43</sum_bandwidth>
 				<avg_bandwidth>43</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
@@ -2612,33 +1978,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
@@ -2660,33 +2009,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
@@ -2724,28 +2056,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
@@ -2762,28 +2082,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
@@ -2800,28 +2108,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
@@ -2869,33 +2165,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
@@ -2917,33 +2196,16 @@
 				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
@@ -2965,33 +2227,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
@@ -3033,30 +2278,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
@@ -3075,30 +2306,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
@@ -3117,30 +2334,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
@@ -3175,25 +2378,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 					</row>
@@ -3234,28 +2428,16 @@
 								<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 								<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-								<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-								<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 							</row>
@@ -3301,30 +2483,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
@@ -3343,30 +2511,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
@@ -3385,30 +2539,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
@@ -3449,28 +2589,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 					</row>
@@ -3514,30 +2642,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
@@ -3556,30 +2670,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
@@ -3598,30 +2698,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
@@ -3662,28 +2748,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 					</row>
@@ -3727,30 +2801,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
@@ -3769,30 +2829,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
@@ -3811,30 +2857,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
@@ -3875,28 +2907,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 					</row>
@@ -3913,28 +2933,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 					</row>
@@ -3978,30 +2986,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
@@ -4020,30 +3014,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
@@ -4062,30 +3042,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
@@ -4120,25 +3086,16 @@
 						<entry_bounce_count>1</entry_bounce_count>
 						<exit_nb_visits>1</exit_nb_visits>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis</segment>
 					</row>
@@ -4173,25 +3130,16 @@
 								<entry_bounce_count>1</entry_bounce_count>
 								<exit_nb_visits>1</exit_nb_visits>
 								<avg_time_on_page>0</avg_time_on_page>
-								<bounce_rate>1</bounce_rate>
-								<exit_rate>1</exit_rate>
-								<nb_visits_change>+0%</nb_visits_change>
-								<nb_hits_change>+0%</nb_hits_change>
-								<sum_time_spent_change>+0%</sum_time_spent_change>
-								<entry_nb_visits_change>+0%</entry_nb_visits_change>
-								<entry_nb_actions_change>+0%</entry_nb_actions_change>
-								<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-								<entry_bounce_count_change>+0%</entry_bounce_count_change>
-								<exit_nb_visits_change>+0%</exit_nb_visits_change>
-								<avg_time_on_page_change>+0%</avg_time_on_page_change>
-								<bounce_rate_change>+0%</bounce_rate_change>
-								<exit_rate_change>+0%</exit_rate_change>
+								<bounce_rate>100%</bounce_rate>
+								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
+								<comparePeriodOriginal>month</comparePeriodOriginal>
+								<comparePeriod>month</comparePeriod>
+								<compareDateOriginal>2012-08-09</compareDateOriginal>
+								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
-								<comparePeriod>month</comparePeriod>
-								<compareDate>2012-08-01</compareDate>
 								
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot</segment>
 							</row>
@@ -4226,25 +3174,16 @@
 										<entry_bounce_count>1</entry_bounce_count>
 										<exit_nb_visits>1</exit_nb_visits>
 										<avg_time_on_page>0</avg_time_on_page>
-										<bounce_rate>1</bounce_rate>
-										<exit_rate>1</exit_rate>
-										<nb_visits_change>+0%</nb_visits_change>
-										<nb_hits_change>+0%</nb_hits_change>
-										<sum_time_spent_change>+0%</sum_time_spent_change>
-										<entry_nb_visits_change>+0%</entry_nb_visits_change>
-										<entry_nb_actions_change>+0%</entry_nb_actions_change>
-										<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-										<entry_bounce_count_change>+0%</entry_bounce_count_change>
-										<exit_nb_visits_change>+0%</exit_nb_visits_change>
-										<avg_time_on_page_change>+0%</avg_time_on_page_change>
-										<bounce_rate_change>+0%</bounce_rate_change>
-										<exit_rate_change>+0%</exit_rate_change>
+										<bounce_rate>100%</bounce_rate>
+										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
+										<comparePeriodOriginal>month</comparePeriodOriginal>
+										<comparePeriod>month</comparePeriod>
+										<compareDateOriginal>2012-08-09</compareDateOriginal>
+										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
-										<comparePeriod>month</comparePeriod>
-										<compareDate>2012-08-01</compareDate>
 										
 										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe</segment>
 									</row>
@@ -4279,25 +3218,16 @@
 												<entry_bounce_count>1</entry_bounce_count>
 												<exit_nb_visits>1</exit_nb_visits>
 												<avg_time_on_page>0</avg_time_on_page>
-												<bounce_rate>1</bounce_rate>
-												<exit_rate>1</exit_rate>
-												<nb_visits_change>+0%</nb_visits_change>
-												<nb_hits_change>+0%</nb_hits_change>
-												<sum_time_spent_change>+0%</sum_time_spent_change>
-												<entry_nb_visits_change>+0%</entry_nb_visits_change>
-												<entry_nb_actions_change>+0%</entry_nb_actions_change>
-												<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-												<entry_bounce_count_change>+0%</entry_bounce_count_change>
-												<exit_nb_visits_change>+0%</exit_nb_visits_change>
-												<avg_time_on_page_change>+0%</avg_time_on_page_change>
-												<bounce_rate_change>+0%</bounce_rate_change>
-												<exit_rate_change>+0%</exit_rate_change>
+												<bounce_rate>100%</bounce_rate>
+												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
+												<comparePeriodOriginal>month</comparePeriodOriginal>
+												<comparePeriod>month</comparePeriod>
+												<compareDateOriginal>2012-08-09</compareDateOriginal>
+												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
-												<comparePeriod>month</comparePeriod>
-												<compareDate>2012-08-01</compareDate>
 												
 												<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage</segment>
 											</row>
@@ -4332,25 +3262,16 @@
 														<entry_bounce_count>1</entry_bounce_count>
 														<exit_nb_visits>1</exit_nb_visits>
 														<avg_time_on_page>0</avg_time_on_page>
-														<bounce_rate>1</bounce_rate>
-														<exit_rate>1</exit_rate>
-														<nb_visits_change>+0%</nb_visits_change>
-														<nb_hits_change>+0%</nb_hits_change>
-														<sum_time_spent_change>+0%</sum_time_spent_change>
-														<entry_nb_visits_change>+0%</entry_nb_visits_change>
-														<entry_nb_actions_change>+0%</entry_nb_actions_change>
-														<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-														<entry_bounce_count_change>+0%</entry_bounce_count_change>
-														<exit_nb_visits_change>+0%</exit_nb_visits_change>
-														<avg_time_on_page_change>+0%</avg_time_on_page_change>
-														<bounce_rate_change>+0%</bounce_rate_change>
-														<exit_rate_change>+0%</exit_rate_change>
+														<bounce_rate>100%</bounce_rate>
+														<exit_rate>100%</exit_rate>
 														<compareSegment />
 														<compareSegmentPretty>All visits</compareSegmentPretty>
+														<comparePeriodOriginal>month</comparePeriodOriginal>
+														<comparePeriod>month</comparePeriod>
+														<compareDateOriginal>2012-08-09</compareDateOriginal>
+														<compareDate>2012-08-01</compareDate>
 														<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 														<comparePeriodPretty>August 2012</comparePeriodPretty>
-														<comparePeriod>month</comparePeriod>
-														<compareDate>2012-08-01</compareDate>
 														
 														<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi</segment>
 													</row>
@@ -4385,25 +3306,16 @@
 																<entry_bounce_count>1</entry_bounce_count>
 																<exit_nb_visits>1</exit_nb_visits>
 																<avg_time_on_page>0</avg_time_on_page>
-																<bounce_rate>1</bounce_rate>
-																<exit_rate>1</exit_rate>
-																<nb_visits_change>+0%</nb_visits_change>
-																<nb_hits_change>+0%</nb_hits_change>
-																<sum_time_spent_change>+0%</sum_time_spent_change>
-																<entry_nb_visits_change>+0%</entry_nb_visits_change>
-																<entry_nb_actions_change>+0%</entry_nb_actions_change>
-																<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-																<entry_bounce_count_change>+0%</entry_bounce_count_change>
-																<exit_nb_visits_change>+0%</exit_nb_visits_change>
-																<avg_time_on_page_change>+0%</avg_time_on_page_change>
-																<bounce_rate_change>+0%</bounce_rate_change>
-																<exit_rate_change>+0%</exit_rate_change>
+																<bounce_rate>100%</bounce_rate>
+																<exit_rate>100%</exit_rate>
 																<compareSegment />
 																<compareSegmentPretty>All visits</compareSegmentPretty>
+																<comparePeriodOriginal>month</comparePeriodOriginal>
+																<comparePeriod>month</comparePeriod>
+																<compareDateOriginal>2012-08-09</compareDateOriginal>
+																<compareDate>2012-08-01</compareDate>
 																<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																<comparePeriodPretty>August 2012</comparePeriodPretty>
-																<comparePeriod>month</comparePeriod>
-																<compareDate>2012-08-01</compareDate>
 																
 																<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam</segment>
 															</row>
@@ -4438,25 +3350,16 @@
 																		<entry_bounce_count>1</entry_bounce_count>
 																		<exit_nb_visits>1</exit_nb_visits>
 																		<avg_time_on_page>0</avg_time_on_page>
-																		<bounce_rate>1</bounce_rate>
-																		<exit_rate>1</exit_rate>
-																		<nb_visits_change>+0%</nb_visits_change>
-																		<nb_hits_change>+0%</nb_hits_change>
-																		<sum_time_spent_change>+0%</sum_time_spent_change>
-																		<entry_nb_visits_change>+0%</entry_nb_visits_change>
-																		<entry_nb_actions_change>+0%</entry_nb_actions_change>
-																		<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-																		<entry_bounce_count_change>+0%</entry_bounce_count_change>
-																		<exit_nb_visits_change>+0%</exit_nb_visits_change>
-																		<avg_time_on_page_change>+0%</avg_time_on_page_change>
-																		<bounce_rate_change>+0%</bounce_rate_change>
-																		<exit_rate_change>+0%</exit_rate_change>
+																		<bounce_rate>100%</bounce_rate>
+																		<exit_rate>100%</exit_rate>
 																		<compareSegment />
 																		<compareSegmentPretty>All visits</compareSegmentPretty>
+																		<comparePeriodOriginal>month</comparePeriodOriginal>
+																		<comparePeriod>month</comparePeriod>
+																		<compareDateOriginal>2012-08-09</compareDateOriginal>
+																		<compareDate>2012-08-01</compareDate>
 																		<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																		<comparePeriodPretty>August 2012</comparePeriodPretty>
-																		<comparePeriod>month</comparePeriod>
-																		<compareDate>2012-08-01</compareDate>
 																		
 																		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking</segment>
 																	</row>
@@ -4491,25 +3394,16 @@
 																				<entry_bounce_count>1</entry_bounce_count>
 																				<exit_nb_visits>1</exit_nb_visits>
 																				<avg_time_on_page>0</avg_time_on_page>
-																				<bounce_rate>1</bounce_rate>
-																				<exit_rate>1</exit_rate>
-																				<nb_visits_change>+0%</nb_visits_change>
-																				<nb_hits_change>+0%</nb_hits_change>
-																				<sum_time_spent_change>+0%</sum_time_spent_change>
-																				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-																				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-																				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-																				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-																				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-																				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-																				<bounce_rate_change>+0%</bounce_rate_change>
-																				<exit_rate_change>+0%</exit_rate_change>
+																				<bounce_rate>100%</bounce_rate>
+																				<exit_rate>100%</exit_rate>
 																				<compareSegment />
 																				<compareSegmentPretty>All visits</compareSegmentPretty>
+																				<comparePeriodOriginal>month</comparePeriodOriginal>
+																				<comparePeriod>month</comparePeriod>
+																				<compareDateOriginal>2012-08-09</compareDateOriginal>
+																				<compareDate>2012-08-01</compareDate>
 																				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																				<comparePeriodPretty>August 2012</comparePeriodPretty>
-																				<comparePeriod>month</comparePeriod>
-																				<compareDate>2012-08-01</compareDate>
 																				
 																				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 																			</row>
@@ -4550,28 +3444,16 @@
 																						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 																						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 																						<avg_time_on_page>0</avg_time_on_page>
-																						<bounce_rate>1</bounce_rate>
-																						<exit_rate>1</exit_rate>
-																						<nb_visits_change>+0%</nb_visits_change>
-																						<nb_hits_change>+0%</nb_hits_change>
-																						<sum_time_spent_change>+0%</sum_time_spent_change>
-																						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-																						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-																						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-																						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-																						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-																						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-																						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-																						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-																						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-																						<bounce_rate_change>+0%</bounce_rate_change>
-																						<exit_rate_change>+0%</exit_rate_change>
+																						<bounce_rate>100%</bounce_rate>
+																						<exit_rate>100%</exit_rate>
 																						<compareSegment />
 																						<compareSegmentPretty>All visits</compareSegmentPretty>
+																						<comparePeriodOriginal>month</comparePeriodOriginal>
+																						<comparePeriod>month</comparePeriod>
+																						<compareDateOriginal>2012-08-09</compareDateOriginal>
+																						<compareDate>2012-08-01</compareDate>
 																						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																						<comparePeriodPretty>August 2012</comparePeriodPretty>
-																						<comparePeriod>month</comparePeriod>
-																						<compareDate>2012-08-01</compareDate>
 																						
 																						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 																					</row>
@@ -4631,30 +3513,16 @@
 				<sum_bandwidth>3574</sum_bandwidth>
 				<avg_bandwidth>3574</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>1</bounce_rate>
-				<exit_rate>1</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
@@ -4673,30 +3541,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
@@ -4715,30 +3569,16 @@
 				<exit_nb_visits>0</exit_nb_visits>
 				<avg_bandwidth>0</avg_bandwidth>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>0</bounce_rate>
-				<exit_rate>0</exit_rate>
-				<nb_visits_change>-100%</nb_visits_change>
-				<nb_hits_change>-100%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<sum_bandwidth_change>-100%</sum_bandwidth_change>
-				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
-				<min_bandwidth_change>-100%</min_bandwidth_change>
-				<max_bandwidth_change>-100%</max_bandwidth_change>
-				<entry_nb_visits_change>-100%</entry_nb_visits_change>
-				<entry_nb_actions_change>-100%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>-100%</entry_bounce_count_change>
-				<exit_nb_visits_change>-100%</exit_nb_visits_change>
-				<avg_bandwidth_change>-100%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>-100%</bounce_rate_change>
-				<exit_rate_change>-100%</exit_rate_change>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+				<comparePeriodOriginal>month</comparePeriodOriginal>
+				<comparePeriod>month</comparePeriod>
+				<compareDateOriginal>2012-08-09</compareDateOriginal>
+				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
-				<comparePeriod>month</comparePeriod>
-				<compareDate>2012-08-01</compareDate>
 				
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
@@ -4779,28 +3619,16 @@
 						<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
 						<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 						<avg_time_on_page>0</avg_time_on_page>
-						<bounce_rate>1</bounce_rate>
-						<exit_rate>1</exit_rate>
-						<nb_visits_change>+0%</nb_visits_change>
-						<nb_hits_change>+0%</nb_hits_change>
-						<sum_time_spent_change>+0%</sum_time_spent_change>
-						<entry_nb_visits_change>+0%</entry_nb_visits_change>
-						<entry_nb_actions_change>+0%</entry_nb_actions_change>
-						<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-						<entry_bounce_count_change>+0%</entry_bounce_count_change>
-						<exit_nb_visits_change>+0%</exit_nb_visits_change>
-						<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-						<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-						<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-						<avg_time_on_page_change>+0%</avg_time_on_page_change>
-						<bounce_rate_change>+0%</bounce_rate_change>
-						<exit_rate_change>+0%</exit_rate_change>
+						<bounce_rate>100%</bounce_rate>
+						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
+						<comparePeriodOriginal>month</comparePeriodOriginal>
+						<comparePeriod>month</comparePeriod>
+						<compareDateOriginal>2012-08-09</compareDateOriginal>
+						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
-						<comparePeriod>month</comparePeriod>
-						<compareDate>2012-08-01</compareDate>
 						
 						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 					</row>

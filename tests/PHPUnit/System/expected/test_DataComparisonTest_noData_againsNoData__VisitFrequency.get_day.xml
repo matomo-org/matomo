@@ -21,7 +21,7 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>0</sum_visit_length_returning>
 			<max_actions_returning>0</max_actions_returning>
-			<bounce_rate_returning>0</bounce_rate_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
@@ -37,10 +37,12 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
+			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2013-05-06</compareDateOriginal>
+			<compareDate>2013-05-06</compareDate>
 			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
-			<comparePeriod>day</comparePeriod>
-			<compareDate>2013-05-06</compareDate>
 			
 		</row>
 		<row>
@@ -52,7 +54,7 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>0</sum_visit_length_returning>
 			<max_actions_returning>0</max_actions_returning>
-			<bounce_rate_returning>0</bounce_rate_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
@@ -68,10 +70,12 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment>browserName%3D%3Dicedragon</compareSegment>
 			<compareSegmentPretty>browserName%3D%3Dicedragon</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
+			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2013-05-06</compareDateOriginal>
+			<compareDate>2013-05-06</compareDate>
 			<compareSeriesPretty>(Monday, May 6, 2013) (browserName%3D%3Dicedragon)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
-			<comparePeriod>day</comparePeriod>
-			<compareDate>2013-05-06</compareDate>
 			
 		</row>
 		<row>
@@ -83,7 +87,7 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>0</sum_visit_length_returning>
 			<max_actions_returning>0</max_actions_returning>
-			<bounce_rate_returning>0</bounce_rate_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
@@ -99,7 +103,9 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2013-05-16</compareDateOriginal>
 			<compareDate>2013-05-16</compareDate>
 			<compareSeriesPretty>(Thursday, May 16, 2013) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Thursday, May 16, 2013</comparePeriodPretty>
@@ -114,7 +120,7 @@
 			<bounce_count_returning>0</bounce_count_returning>
 			<sum_visit_length_returning>0</sum_visit_length_returning>
 			<max_actions_returning>0</max_actions_returning>
-			<bounce_rate_returning>0</bounce_rate_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
@@ -130,7 +136,9 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment>browserName%3D%3Dicedragon</compareSegment>
 			<compareSegmentPretty>browserName%3D%3Dicedragon</compareSegmentPretty>
+			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
+			<compareDateOriginal>2013-05-16</compareDateOriginal>
 			<compareDate>2013-05-16</compareDate>
 			<compareSeriesPretty>(Thursday, May 16, 2013) (browserName%3D%3Dicedragon)</compareSeriesPretty>
 			<comparePeriodPretty>Thursday, May 16, 2013</comparePeriodPretty>

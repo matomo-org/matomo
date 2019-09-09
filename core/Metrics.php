@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\MetricsList;
+use Piwik\Container\StaticContainer;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -178,15 +179,32 @@ class Metrics
 
     public static function getMappingFromIdToName()
     {
-        $mapping = self::$mappingFromIdToName;
+        $cache = StaticContainer::get(PiwikCache\Transient::class);
+        $cacheKey = CacheId::pluginAware('Metrics.mappingFromIdToName');
 
-        /**
-         * TODO
-         * @ignore
-         */
-        Piwik::postEvent('Metrics.addMetricIdToNameMapping', [&$mapping]);
+        $value = $cache->fetch($cacheKey);
+        if (empty($value)) {
+            $value = self::$mappingFromIdToName;
 
-        return $mapping;
+            /**
+             * Use this event if your plugin uses custom metric integer IDs to associate those IDs with the
+             * actual metric names (eg, 2 => nb_visits). This allows matomo to automate the replacing
+             * of IDs => metric names for your new metrics.
+             *
+             * **Example**
+             *
+             *     public function addMetricIdToNameMapping(&$mapping)
+             *     {
+             *         $mapping[Archiver::INDEX_MY_NEW_METRIC] = $mapping['MyPlugin_myNewMetric'];
+             *     }
+             *
+             * @ignore
+             */
+            Piwik::postEvent('Metrics.addMetricIdToNameMapping', [&$value]);
+
+            $cache->save($cacheKey, $value);
+        }
+        return $value;
     }
 
     public static function getVisitsMetricNames()

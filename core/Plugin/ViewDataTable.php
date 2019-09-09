@@ -605,7 +605,9 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * TODO
+     * Returns true if both this current visualization supports comparison, and if comparison query parameters
+     * are present in the URL.
+     *
      * @return bool
      */
     public function isComparing()
@@ -632,7 +634,9 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * TODO
+     * Implementations should override this method if they support a special comparison view. By
+     * default, it is assumed visualizations do not support comparison.
+     *
      * @return bool
      */
     public function supportsComparison()

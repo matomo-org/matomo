@@ -27,9 +27,46 @@ use Piwik\Site;
 
 // TODO: unit test
 // TODO: if comparing days w/ non-days, in html table & elsewhere, we must display nb_visits instead of nb_uniq_visitors
+// TODO: get rid of comparePeriodOriginal/comparePeriodDate?
 
 /**
- * TODO
+ * Handles the API portion of the data comparison feature.
+ *
+ * If the `compareSegments`/`comparePeriods`/`compareDates` parameters are supplied this class will fetch
+ * the data to compare with and store this data next to each row in the root report.
+ *
+ * Additionally, `..._change` columns will be added that show the percentage change for a column. This is only
+ * done when comparing periods, since segments are subsets of visits, so it doesn't make sense to consider
+ * differences between them as "changes".
+ *
+ * ### Comparing multiple periods
+ *
+ * It is possible to compare multiple periods with other multiple periods. For example, it
+ * is possible to compare period=day, date=2018-02-03,2018-02-13 with period=day, date=2018-03-01,2018-03-15.
+ * When done, this filter will compare the first period in the first set w/ the first period in the second set,
+ * etc. So in the previous example, 2018-02-03 will be compared with 2018-03-01, 2018-02-04 with 2018-03-02, etc.
+ *
+ * ### Metadata
+ *
+ * This filter adds the following metadata to DataTables:
+ *
+ * - 'compareSegments': The list of segments being compared. The first entry will always be the value of the `segment` query param.
+ * - 'comparePeriods': The list of labels of periods being compared. The first entry will always be the value of the
+ *                     `period` query param.
+ * - 'compareDates': The list of dates being compared. The first entry will always be the value of the `date` query param.
+ * - 'comparisonSeries': Prettified labels for every comparison series in order.
+ *
+ * This filter adds the following metadata to rows in the comparison DataTables:
+ *
+ * - 'compareSegment': The segment of the data for the comparison row.
+ * - 'compareSegmentPretty': The prettified label for the segment.
+ * - 'comparePeriod': The period label for the data in the comparison row. This does not have to match a value in the
+ *                    `comparePeriods` query parameter if comparing multiple periods.
+ * - 'compareDate': The date for the period in the data in the comparison row. This does not have to match a value in the
+ *                    `compareDates` query parameter if comparing multiple periods.
+ * - 'comparePeriodPretty': The prettified label for the period.
+ * - 'compareSeriesPretty': Prettified label for the comparison data represented by the row. This will match an entry
+ *                          in the DataTable's `comparisonSeries` metadata.
  */
 class DataComparisonFilter
 {
@@ -145,6 +182,8 @@ class DataComparisonFilter
             $date = $this->compareDates[$index];
             $this->comparePeriodIndices[$period][$date] = $index;
         }
+
+        $this->availableSegments = self::getAvailableSegments($this->request['idSite']);
     }
 
     /**
@@ -170,8 +209,6 @@ class DataComparisonFilter
 
         $this->columnMappings = $this->getColumnMappings();
 
-        $this->availableSegments = self::getAvailableSegments();
-
         $comparisonSeries = [];
 
         // fetch data first
@@ -181,52 +218,14 @@ class DataComparisonFilter
             $comparisonSeries[] = $compareMetadata['compareSeriesPretty'];
 
             $compareTable = $this->requestReport($method, $modifiedParams);
-            $this->compareTables($compareMetadata, $table, $compareTable); // TODO: set comparison totals here + handle correctly
+            $this->compareTables($compareMetadata, $table, $compareTable);
         }
 
         // calculate changes (including processed metric changes)
         // NOTE: it doesn't make to sense to calculate these values for segments, since segments are subsets of all visits, where periods are
         //       time periods (so things can change from one to another).
-        // TODO: move to method
-        if (!empty($this->comparePeriods)) {
-            $originalPeriod = Common::getRequestVar('period', null, 'string', $this->request);
-            $originalDate = Common::getRequestVar('date', null, 'string', $this->request);
-
-            $table->filter(function (DataTable $table) use ($originalDate, $originalPeriod) {
-                foreach ($table->getRowsWithTotalsRow() as $row) {
-                    $comparisons = $row->getComparisons();
-                    if (empty($comparisons)) {
-                        continue;
-                    }
-
-                    $indexedCompareRows = [];
-                    foreach ($comparisons->getRows() as $compareRow) {
-                        // TODO: this shouldn't be needed, we should set comparePeriodOriginal for compare against period too
-                        $period = $compareRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod;
-                        $date = $compareRow->getMetadata('compareDateOriginal') ?: $originalDate;
-                        $segment = $compareRow->getMetadata('compareSegment');
-
-                        $indexedCompareRows[$period][$date][$segment] = $compareRow;
-                    }
-
-                    foreach ($comparisons->getRows() as $compareRow) {
-                        $segment = $compareRow->getMetadata('compareSegment');
-                        $otherPeriodRow = $indexedCompareRows[$originalPeriod][$originalDate][$segment];
-
-                        foreach ($compareRow->getColumns() as $name => $value) {
-                            $valueToCompare = $otherPeriodRow->getColumn($name) ?: 0;
-                            $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
-
-                            if ($change >= 0) {
-                                $change = '+' . $change;
-                            }
-                            $change .= '%';
-
-                            $compareRow->addColumn($name . '_change', $change);
-                        }
-                    }
-                }
-            });
+        if (count($this->comparePeriods) > 1) {
+            $this->compareChangePercents($table);
         }
 
         // format comparison table metrics
@@ -399,10 +398,6 @@ class DataComparisonFilter
             DataTable\Row::METADATA => $compareMetadata,
         ]);
 
-        if (empty($compareMetadata['comparePeriodOriginal'])) {
-            print "here?\n";
-        }
-
         // set subtable
         $newRow->setMetadata('idsubdatatable_in_db', -1);
         if ($compareRow) {
@@ -533,7 +528,7 @@ class DataComparisonFilter
 
     private function getColumnMappings()
     {
-        $allMappings = Metrics::getMappingFromIdToName(); // TODO: cache this
+        $allMappings = Metrics::getMappingFromIdToName();
 
         $mappings = [];
         foreach ($allMappings as $index => $name) {
@@ -564,9 +559,9 @@ class DataComparisonFilter
         }
     }
 
-    public static function getAvailableSegments() // TODO: should this be cached in transient cache?
+    public static function getAvailableSegments($idSite)
     {
-        $segments = Request::processRequest('SegmentEditor.getAll', $override = [], $default = []);
+        $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
         usort($segments, function ($lhs, $rhs) {
             return strcmp($lhs['name'], $rhs['name']);
         });
@@ -614,7 +609,6 @@ class DataComparisonFilter
 
         $metadata['compareSeriesPretty'] = $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty);
 
-        // TODO: we should document this metadata
         return $metadata;
     }
 
@@ -689,5 +683,52 @@ class DataComparisonFilter
             $this->isRequestMultiplePeriod = Period::isMultiplePeriod($date, $period);
         }
         return $this->isRequestMultiplePeriod;
+    }
+
+    private function compareChangePercents(DataTableInterface $result)
+    {
+        $originalPeriod = reset($this->comparePeriods);
+        $originalDate = reset($this->compareDates);
+
+        $result->filter(function (DataTable $table) use ($originalDate, $originalPeriod) {
+            foreach ($table->getRowsWithTotalsRow() as $row) {
+                $comparisons = $row->getComparisons();
+                if (empty($comparisons)) {
+                    continue;
+                }
+
+                $indexedCompareRows = [];
+                foreach ($comparisons->getRows() as $compareRow) {
+                    $period = $compareRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod; // TODO: remove these, should always be set
+                    $date = $compareRow->getMetadata('compareDateOriginal') ?: $originalDate;
+                    $segment = $compareRow->getMetadata('compareSegment');
+
+                    $indexedCompareRows[$period][$date][$segment] = $compareRow;
+                }
+
+                foreach ($comparisons->getRows() as $compareRow) {
+                    $segment = $compareRow->getMetadata('compareSegment');
+
+                    $otherPeriodRow = null;
+                    if (isset($indexedCompareRows[$originalPeriod][$originalDate][$segment])) {
+                        $otherPeriodRow = $indexedCompareRows[$originalPeriod][$originalDate][$segment];
+                    }
+
+                    foreach ($compareRow->getColumns() as $name => $value) {
+                        $valueToCompare = $otherPeriodRow ? $otherPeriodRow->getColumn($name) : 0;
+                        $valueToCompare = $valueToCompare ?: 0;
+
+                        $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
+
+                        if ($change >= 0) {
+                            $change = '+' . $change;
+                        }
+                        $change .= '%';
+
+                        $compareRow->addColumn($name . '_change', $change);
+                    }
+                }
+            }
+        });
     }
 }
