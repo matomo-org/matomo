@@ -3,7 +3,7 @@
 {% set comparedPeriodPretty = dataTable.getFirstRow().getMetadata('comparePeriodPretty') %}
 {%- for rowId, row in dataTable.getRows() -%}
     {% set isComparingSegments = comparisonSegmentIndices|length > 1 %}
-    {% set isComparingPeriods = comparePeriodIndices|length > 1 %}
+    {% set isComparingPeriods = comparePeriodIndices|length > 1 or comparePeriodIndices|first|length > 1 %}
 
     {% set comparePeriod = row.getMetadata('comparePeriodPretty') %}
     {% if lastSeenComparePeriod != comparePeriod and isComparingSegments and isComparingPeriods %}
