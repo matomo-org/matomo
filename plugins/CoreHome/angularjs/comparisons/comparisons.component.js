@@ -128,7 +128,7 @@
                 tooltip += _pk_translate('General_ComparisonCardTooltip2', [
                     comparisonRow.nb_visits_change,
                     firstPeriodRow.compareSegmentPretty,
-                    firstRow.comparePeriodPretty
+                    firstPeriodRow.comparePeriodPretty
                 ]);
             }
 
