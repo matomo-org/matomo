@@ -111,6 +111,10 @@ class Request
             $requestArray['disable_queued_filters'] = 1;
         }
 
+        if (!empty($requestArray['compareSegments'])) {
+            $requestArray['compareSegments'] = Common::unsanitizeInputValues($requestArray['compareSegments']);
+        }
+
         return $requestArray;
     }
 

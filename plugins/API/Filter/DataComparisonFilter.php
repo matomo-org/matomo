@@ -589,9 +589,9 @@ class DataComparisonFilter
     {
         $metadata = [];
 
-        $period = isset($modifiedParams['period']) ? $modifiedParams['period'] : Common::getRequestVar('period', null, 'string', $this->request);
-        $date = isset($modifiedParams['date']) ? $modifiedParams['date'] : Common::getRequestVar('date', null, 'string', $this->request);
-        $segment = isset($modifiedParams['segment']) ? $modifiedParams['segment'] : Common::getRequestVar('segment', '', 'string', $this->request);
+        $period = isset($modifiedParams['period']) ? $modifiedParams['period'] : reset($this->comparePeriods);
+        $date = isset($modifiedParams['date']) ? $modifiedParams['date'] : reset($this->compareDates);
+        $segment = isset($modifiedParams['segment']) ? $modifiedParams['segment'] : reset($this->compareSegments);
 
         $metadata['compareSegment'] = $segment;
 

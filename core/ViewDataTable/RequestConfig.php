@@ -98,7 +98,7 @@ class RequestConfig
         'pivotByColumnLimit',
         'compareSegments',
         'comparePeriods',
-        'compareDates'
+        'compareDates',
     );
 
     /**
@@ -123,7 +123,7 @@ class RequestConfig
         'pivotByColumnLimit',
         'compareSegments',
         'comparePeriods',
-        'compareDates'
+        'compareDates',
     );
 
     /**
