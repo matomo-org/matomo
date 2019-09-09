@@ -34,7 +34,6 @@ use Piwik\Site;
  */
 class API extends \Piwik\Plugin\API
 {
-    // TODO: Report class + api test
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -57,11 +56,11 @@ class API extends \Piwik\Plugin\API
         $totalVisits = array_sum($dataTableReferrersType->getColumn(Metrics::INDEX_NB_VISITS));
 
         $percentColumns = [
-            'visitorsFromDirectEntry',
-            'visitorsFromSearchEngines',
-            'visitorsFromCampaigns',
-            'visitorsFromSocialNetworks',
-            'visitorsFromWebsites',
+            'Referrers_visitorsFromDirectEntry',
+            'Referrers_visitorsFromSearchEngines',
+            'Referrers_visitorsFromCampaigns',
+            'Referrers_visitorsFromSocialNetworks',
+            'Referrers_visitorsFromWebsites',
         ];
         foreach ($percentColumns as $column) {
             $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [
@@ -722,11 +721,11 @@ class API extends \Piwik\Plugin\API
     {
         if ($table instanceof DataTable) {
             $nameToColumnId = array(
-                'visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
-                'visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
-                'visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
+                'Referrers_visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
+                'Referrers_visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+                'Referrers_visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
+                'Referrers_visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
+                'Referrers_visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
             );
 
             $newRow = array();
@@ -766,6 +765,10 @@ class API extends \Piwik\Plugin\API
 
             if ($table->getRows() == 0) {
                 $table->addRow(new DataTable\Row());
+            }
+
+            if ($numericArchives->getRowsCount() == 0) {
+                return;
             }
 
             $row = $table->getFirstRow();

@@ -43,16 +43,16 @@ class Get extends Base
             // none
         ];
         $this->metrics = [
-            'visitorsFromSearchEngines',
-            'visitorsFromSearchEngines_percent',
-            'visitorsFromSocialNetworks',
-            'visitorsFromSocialNetworks_percent',
-            'visitorsFromDirectEntry',
-            'visitorsFromDirectEntry_percent',
-            'visitorsFromWebsites',
-            'visitorsFromWebsites_percent',
-            'visitorsFromCampaigns',
-            'visitorsFromCampaigns_percent',
+            'Referrers_visitorsFromSearchEngines',
+            'Referrers_visitorsFromSearchEngines_percent',
+            'Referrers_visitorsFromSocialNetworks',
+            'Referrers_visitorsFromSocialNetworks_percent',
+            'Referrers_visitorsFromDirectEntry',
+            'Referrers_visitorsFromDirectEntry_percent',
+            'Referrers_visitorsFromWebsites',
+            'Referrers_visitorsFromWebsites_percent',
+            'Referrers_visitorsFromCampaigns',
+            'Referrers_visitorsFromCampaigns_percent',
             Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME,
             Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME,
             Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME,
@@ -161,11 +161,11 @@ class Get extends Base
 
         $total = Piwik::translate('General_Total');
 
-        $view->config->addSparklineMetric(['visitorsFromDirectEntry', 'visitorsFromDirectEntry_percent'], 10, ['rows' => $directEntry . ',' . $total]);
-        $view->config->addSparklineMetric(['visitorsFromWebsites', 'visitorsFromWebsites_percent'], 20, ['rows' => $website . ',' . $total]);
-        $view->config->addSparklineMetric(['visitorsFromSearchEngines', 'visitorsFromSearchEngines_percent'], 30, ['rows' => $searchEngine . ',' . $total]);
-        $view->config->addSparklineMetric(['visitorsFromSocialNetworks', 'visitorsFromSocialNetworks_percent'], 40, ['rows' => $socialNetworks . ',' . $total]);
-        $view->config->addSparklineMetric(['visitorsFromCampaigns', 'visitorsFromCampaigns_percent'], 50, ['rows' => $campaigns . ',' . $total]);
+        $view->config->addSparklineMetric(['Referrers_visitorsFromDirectEntry', 'Referrers_visitorsFromDirectEntry_percent'], 10, ['rows' => $directEntry . ',' . $total]);
+        $view->config->addSparklineMetric(['Referrers_visitorsFromWebsites', 'Referrers_visitorsFromWebsites_percent'], 20, ['rows' => $website . ',' . $total]);
+        $view->config->addSparklineMetric(['Referrers_visitorsFromSearchEngines', 'Referrers_visitorsFromSearchEngines_percent'], 30, ['rows' => $searchEngine . ',' . $total]);
+        $view->config->addSparklineMetric(['Referrers_visitorsFromSocialNetworks', 'Referrers_visitorsFromSocialNetworks_percent'], 40, ['rows' => $socialNetworks . ',' . $total]);
+        $view->config->addSparklineMetric(['Referrers_visitorsFromCampaigns', 'Referrers_visitorsFromCampaigns_percent'], 50, ['rows' => $campaigns . ',' . $total]);
         $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME], 50);
         $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME], 60);
         $view->config->addSparklineMetric([Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME], 70);
@@ -176,11 +176,11 @@ class Get extends Base
     private function getSparklineTranslations()
     {
         $translations = [
-            'visitorsFromDirectEntry' => Piwik::translate('Referrers_TypeDirectEntries'),
-            'visitorsFromWebsites' => Piwik::translate('Referrers_TypeWebsites'),
-            'visitorsFromSearchEngines' => Piwik::translate('Referrers_TypeSearchEngines'),
-            'visitorsFromSocialNetworks' => Piwik::translate('Referrers_TypeSocialNetworks'),
-            'visitorsFromCampaigns' => Piwik::translate('Referrers_TypeCampaigns'),
+            'Referrers_visitorsFromDirectEntry' => Piwik::translate('Referrers_TypeDirectEntries'),
+            'Referrers_visitorsFromWebsites' => Piwik::translate('Referrers_TypeWebsites'),
+            'Referrers_visitorsFromSearchEngines' => Piwik::translate('Referrers_TypeSearchEngines'),
+            'Referrers_visitorsFromSocialNetworks' => Piwik::translate('Referrers_TypeSocialNetworks'),
+            'Referrers_visitorsFromCampaigns' => Piwik::translate('Referrers_TypeCampaigns'),
             Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => Piwik::translate('Referrers_DistinctSearchEngines'),
             Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => Piwik::translate('Referrers_DistinctSocialNetworks'),
             Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME => Piwik::translate('Referrers_DistinctWebsites'),
