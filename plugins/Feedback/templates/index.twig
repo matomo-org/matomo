@@ -8,6 +8,22 @@
 {% block content %}
 
     <div id="feedback-faq" class="admin">
+        <div piwik-content-block content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
+            <form target="_blank" method="GET" action="https://matomo.org/">
+                <div class="search-matomo-form">
+                    <span class="icon-search"></span>
+                    <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                    <input type="submit" value="Search" class="btn"/>
+                </div>
+            </form>
+            <h4>{{'Feedback_PopularHelpTopics'|translate}}</h4>
+            {% for helpTopic in popularHelpTopics %}
+                <p> &bull;  <a rel="noreferrer noopener" target="_blank" href="{{helpTopic.url|e('html_attr')}}">{{helpTopic.title|translate}}</a></p>
+            {% endfor %}
+            <p><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">{{'Feedback_BrowseUserGuides'|translate}}</a></p>
+            <p><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">{{'Feedback_BrowseFaqs'|translate}}</a></p>
+        </div>
+
         <div piwik-content-block
              content-title="{{ headline|e('html_attr') }}"
              feature="{{ 'General_Help'|translate|e('html_attr') }}">

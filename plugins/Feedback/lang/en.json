@@ -31,6 +31,15 @@
         "ReviewMatomoTitle": "Believe in Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Share your thoughts on one of these sites and inspire others to join our data revolution.",
         "RemindMeLater": "Remind me later",
-        "NeverAskMeAgain": "Never ask me again"
+        "NeverAskMeAgain": "Never ask me again",
+        "HowCanWeHelp": "How can we help?",
+        "NotTrackingVisits": "Matomo isn't tracking any visits",
+        "TrackMultipleSites": "I need to track multiple sites or subdomains",
+        "RemoveOtherLabel": "I want to see my 'Others' data",
+        "PurgeOldData": "I want to remove some old data",
+        "BrowseUserGuides": "Browse all user guides",
+        "BrowseFaqs": "Browse all FAQs",
+        "SearchHelpResources": "Search matomo.org help resources",
+        "PopularHelpTopics": "Popular help topics"
     }
 }
