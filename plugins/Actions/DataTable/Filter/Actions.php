@@ -35,9 +35,7 @@ class Actions extends BaseFilter
      */
     public function filter($table)
     {
-        $isFlattening = Common::getRequestVar('flat', 0);
-
-        $table->filter(function (DataTable $dataTable) use ($isFlattening) {
+        $table->filter(function (DataTable $dataTable) {
             $site = $dataTable->getMetadata('site');
             $urlPrefix = $site ? $site->getMainUrl() : null;
 
@@ -61,9 +59,7 @@ class Actions extends BaseFilter
                 $folderUrlStart = $row->getMetadata('folder_url_start');
                 $label = $row->getColumn('label');
                 if ($url) {
-                    // encoding the value since Segment will decode the condition AND the value. without encoding here, segments
-                    // that for URLs w/ plus signs will decode to whitespace, and select no data.
-                    $row->setMetadata('segmentValue', urlencode($url));
+                    $row->setMetadata('segmentValue', urldecode($url));
                 } else if ($folderUrlStart) {
                     $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
                 } else if ($pageTitlePath) {
@@ -84,7 +80,7 @@ class Actions extends BaseFilter
                 }
 
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
-                if ($isFlattening) {
+                if (Common::getRequestVar('flat', 0)) {
                     $label = $row->getColumn('label');
                     $stringToSearch = $actionDelimiter.$defaultActionName;
                     if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
@@ -100,12 +96,10 @@ class Actions extends BaseFilter
             }
         });
 
-        if (!$isFlattening) { // SafeDecodeLabel is not called when subtables are requested during flattening
-            $table->queueFilter('GroupBy', array('label', function ($label) {
-                return DataTable\Filter\SafeDecodeLabel::decodeLabelSafe($label); // to make up for SafeDecodeLabel later
-            }));
-            $table->setMetadata(DataTable\Filter\SafeDecodeLabel::APPLIED_METADATA_NAME, 1);
-        }
+        // TODO can we remove this one again?
+        $table->queueFilter('GroupBy', array('label', function ($label) {
+            return urldecode($label);
+        }));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();
