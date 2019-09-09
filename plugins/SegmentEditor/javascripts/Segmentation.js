@@ -20,6 +20,18 @@ Segmentation = (function($) {
     });
 
 
+    var uriEncodeSegmentDefinition = function (segmentDefinition) {
+        segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
+        segmentDefinition = encodeURIComponent(segmentDefinition);
+        return segmentDefinition;
+    };
+
+    var cleanupSegmentDefinition = function(definition) {
+        definition = definition.replace(/'/g, "%27");
+        definition = definition.replace(/&/g, "%26");
+        return definition;
+    };
+
     var segmentation = function segmentation(config) {
         if (!config.target) {
             throw new Error("target property must be set in config to segment editor control element");
@@ -315,7 +327,13 @@ Segmentation = (function($) {
             var $rootScope = piwikHelper.getAngularDependency('$rootScope');
             $rootScope.$emit('Segmentation.initAddSegment', parameters);
             if (parameters && !parameters.isAllowed) {
-                return;
+                return;        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
+            segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
+            segmentDefinition = encodeURIComponent(segmentDefinition);
+            return segmentDefinition;
+        };
+
+
             }
 
             displayFormAddNewSegment(segment);
@@ -615,6 +633,11 @@ Segmentation = (function($) {
                 e.preventDefault();
                 parseFormAndSave();
             });
+            $(self.form).find(".testSegment").bind("click", function (e) {
+                debugger;
+                e.preventDefault();
+                testSegment();
+            });
 
             if(typeof mode !== "undefined" && mode == "new")
             {
@@ -700,6 +723,21 @@ Segmentation = (function($) {
                     self.updateMethod(params);
                 }
             }
+        };
+
+        var testSegment = function() {
+            var segmentStr = getSegmentGeneratorController().getSegmentString();
+            var encSegment = uriEncodeSegmentDefinition(segmentStr);
+
+            var url = window.location.href;
+            url = broadcast.updateParamValue('addSegmentAsNew=' + segmentStr, url);
+            url = broadcast.updateParamValue('popover=', url);
+            // Show user the Visits Log so that they can easily refine their new segment if needed
+            url = broadcast.updateParamValue('category=General_Visitors', url);
+            url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+            url = broadcast.updateParamValue('segment=' + encSegment, url);
+
+            window.open(url, "_self");
         };
 
         var makeDropList = function(spanId, selectId){
@@ -831,12 +869,6 @@ $(document).ready(function() {
 
         var self = this;
 
-        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
-            segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
-            segmentDefinition = encodeURIComponent(segmentDefinition);
-            return segmentDefinition;
-        };
-
         this.changeSegment = function(segmentDefinition) {
             if (piwikHelper.isAngularRenderingThePage()) {
                 angular.element(document).injector().invoke(function ($location, $rootScope) {
@@ -861,7 +893,8 @@ $(document).ready(function() {
         };
 
         this.forceSegmentReload = function (segmentDefinition) {
-            segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
+            debugger;
+            segmentDefinition = uriEncodeSegmentDefinition(segmentDefinition);
 
             if (piwikHelper.isAngularRenderingThePage()) {
                 return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition);
@@ -872,12 +905,6 @@ $(document).ready(function() {
         };
 
         this.changeSegmentList = function () {};
-
-        var cleanupSegmentDefinition = function(definition) {
-            definition = definition.replace(/'/g, "%27");
-            definition = definition.replace(/&/g, "%26");
-            return definition;
-        };
 
         var addSegment = function(params){
             var ajaxHandler = new ajaxHelper();
