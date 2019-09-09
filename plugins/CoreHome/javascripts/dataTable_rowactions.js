@@ -144,7 +144,7 @@ DataTable_RowAction.prototype.initTr = function (tr) {
     // API actions. For the label filter to work, we need to use the parent action.
     // We use jQuery events to let subtables access their parents.
     tr.bind(self.trEventName, function (e, params) {
-        self.trigger($(this), params.originalEvent, params.label);
+        self.trigger($(this), params.originalEvent, params.label, params.originalRow);
     });
 };
 
@@ -152,7 +152,7 @@ DataTable_RowAction.prototype.initTr = function (tr) {
  * This method is called from the click event and the tr event (see this.trEventName).
  * It derives the label and calls performAction.
  */
-DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
+DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel, originalRow) {
     var label = this.getLabelFromTr(tr);
 
     // if we have received the event from the sub table, add the label
@@ -166,7 +166,8 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
     if (subtable.is('.subDataTable')) {
         subtable.closest('tr').prev().trigger(this.trEventName, {
             label: label,
-            originalEvent: e
+            originalEvent: e,
+            originalRow: tr
         });
         return;
     }
@@ -186,14 +187,15 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
                 }
                 ptr.trigger(this.trEventName, {
                     label: label,
-                    originalEvent: e
+                    originalEvent: e,
+                    originalRow: tr
                 });
                 return;
             }
         }
     }
 
-    this.performAction(label, tr, e);
+    this.performAction(label, tr, e, originalRow);
 };
 
 /** Get the label string from a tr dom element */
@@ -277,7 +279,7 @@ DataTable_RowActions_RowEvolution.launch = function (apiMethod, label) {
 
 DataTable_RowActions_RowEvolution.prototype = new DataTable_RowAction;
 
-DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr, e) {
+DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr, e, originalRow) {
     if (e.shiftKey) {
         // only mark for multi row evolution if shift key is pressed
         this.addMultiEvolutionRow(label);
@@ -287,7 +289,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.addMultiEvolutionRow(label);
 
     // check whether we have rows marked for multi row evolution
-    var extraParams = $(tr).data('param-override');
+    var extraParams = $(originalRow || tr).data('param-override');
     if (typeof extraParams !== 'object') {
         extraParams = {};
     }

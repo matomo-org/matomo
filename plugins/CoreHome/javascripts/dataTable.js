@@ -1624,14 +1624,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     self.loadedSubDataTable[divIdToReplaceWithSubTable] = true;
 
-                    $(this).next().toggle();
-
                     // when "loading..." is displayed, hide actions
                     // repositioning after loading is not easily possible
                     $(this).find('div.dataTableRowActions').hide();
+                } else {
+                    $(this).nextUntil('.subDataTableContainer').last().next().toggle();
                 }
 
-                $(this).next().toggle();
                 $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }

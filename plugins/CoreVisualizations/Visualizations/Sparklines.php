@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -113,12 +114,15 @@ class Sparklines extends ViewDataTable
         $firstRow = $data->getFirstRow();
         $comparisons = $firstRow->getComparisons();
 
+        $originalDate = Common::getRequestVar('date');
+        $originalPeriod = Common::getRequestVar('period');
+
         if (!empty($comparisons)) {
             $comparisonRows = [];
             foreach ($comparisons->getRows() as $comparisonRow) {
-                $segment = $comparisonRow->getMetadata('compareSegment');
-                $date = $comparisonRow->getMetadata('compareDateOriginal') ?: '';
-                $period = $comparisonRow->getMetadata('comparePeriodOriginal') ?: '';
+                $segment = $comparisonRow->getMetadata('compareSegment') ?: Request::getRawSegmentFromRequest() ?: '';
+                $date = $comparisonRow->getMetadata('compareDateOriginal') ?: $originalDate;
+                $period = $comparisonRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod;
 
                 $comparisonRows[$segment][$period][$date] = $comparisonRow;
             }
@@ -190,8 +194,11 @@ class Sparklines extends ViewDataTable
                         $seriesIndices[] = count($compareSegments) * $periodIndex + $segmentIndex;
                     }
 
+                    // only set the title (which is the segment) if comparing more than one segment
+                    $title = count($compareSegments) > 1 ? $segmentPretty : null;
+
                     $params = array_merge($sparklineUrlParams, ['segment' => $segment]);
-                    $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $segmentPretty, $sparklineMetricIndex, $seriesIndices, $graphParams);
+                    $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
                 list($values, $descriptions) = $this->getValuesAndDescriptions($firstRow, $column);

@@ -136,8 +136,8 @@ class DataComparisonFilter
 
         // add base compare against segment and date
         array_unshift($this->compareSegments, isset($this->request['segment']) ? $this->request['segment'] : '');
-        array_unshift($this->compareDates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
-        array_unshift($this->comparePeriods, '');
+        array_unshift($this->compareDates, isset($this->request['date']) ? $this->request['date'] : '');
+        array_unshift($this->comparePeriods, isset($this->request['period']) ? $this->request['period'] : '');
 
         // map segments/periods to their indexes in the query parameter arrays for comparisonIdSubtable matching
         $this->compareSegmentIndices = array_flip($this->compareSegments);
@@ -399,6 +399,10 @@ class DataComparisonFilter
             DataTable\Row::METADATA => $compareMetadata,
         ]);
 
+        if (empty($compareMetadata['comparePeriodOriginal'])) {
+            print "here?\n";
+        }
+
         // set subtable
         $newRow->setMetadata('idsubdatatable_in_db', -1);
         if ($compareRow) {
@@ -589,22 +593,21 @@ class DataComparisonFilter
     private function getMetadataFromModifiedParams($modifiedParams)
     {
         $metadata = [];
-        if (isset($modifiedParams['segment'])) {
-            $metadata['compareSegment'] = $modifiedParams['segment'];
 
-            $storedSegment = $this->findSegment($metadata['compareSegment']);
-            $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
-        }
-        if (!empty($modifiedParams['period'])) {
-            $metadata['comparePeriod'] = $metadata['comparePeriodOriginal'] = $modifiedParams['period'];
-            $metadata['compareDate'] = $metadata['compareDateOriginal'] = $modifiedParams['date'];
-        }
+        $period = isset($modifiedParams['period']) ? $modifiedParams['period'] : Common::getRequestVar('period', null, 'string', $this->request);
+        $date = isset($modifiedParams['date']) ? $modifiedParams['date'] : Common::getRequestVar('date', null, 'string', $this->request);
+        $segment = isset($modifiedParams['segment']) ? $modifiedParams['segment'] : Common::getRequestVar('segment', '', 'string', $this->request);
+
+        $metadata['compareSegment'] = $segment;
+
+        $storedSegment = $this->findSegment($metadata['compareSegment']);
+        $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
+
+        $metadata['comparePeriod'] = $metadata['comparePeriodOriginal'] = $period;
+        $metadata['compareDate'] = $metadata['compareDateOriginal'] = $date;
 
         // set compareSeriesPretty
         $segmentPretty = isset($metadata['compareSegmentPretty']) ? $metadata['compareSegmentPretty'] : '';
-
-        $period = isset($metadata['comparePeriod']) ? $metadata['comparePeriod'] : Common::getRequestVar('period', null, 'string', $this->request);
-        $date = isset($metadata['compareDate']) ? $metadata['compareDate'] : Common::getRequestVar('date', null, 'string', $this->request);
 
         $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
         $periodPretty = ucfirst($periodPretty);

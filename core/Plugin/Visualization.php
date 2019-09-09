@@ -837,15 +837,24 @@ class Visualization extends ViewDataTable
         if ($view->isComparing) {
             $request = $this->getRequestArray();
 
-            $comparisonSegmentIndices = ['' => 0]; // first is all visits segment
-            foreach ($request['compareSegments'] as $index => $segment) {
+            $compareSegments = isset($request['compareSegments']) ? $request['compareSegments'] : [];
+            $comparePeriods = isset($request['comparePeriods']) ? $request['comparePeriods'] : [];
+            $compareDates = isset($request['compareDates']) ? $request['compareDates'] : [];
+
+            $segment = Request::getRawSegmentFromRequest() ?: '';
+
+            $comparisonSegmentIndices = [$segment => 0]; // first is all visits segment
+            foreach ($compareSegments as $index => $segment) {
                 $comparisonSegmentIndices[$segment] = $index + 1;
             }
             $view->comparisonSegmentIndices = $comparisonSegmentIndices;
 
-            $comparePeriodIndices = ['' => ['' => 0]]; // first is selected date/period
-            foreach ($request['comparePeriods'] as $index => $period) {
-                $date = $request['compareDates'][$index];
+            $period = Common::getRequestVar('period');
+            $date = Common::getRequestVar('date');
+
+            $comparePeriodIndices = [$period => [$date => 0]]; // first is selected date/period
+            foreach ($comparePeriods as $index => $period) {
+                $date = $compareDates[$index];
                 $comparePeriodIndices[$period][$date] = $index + 1;
             }
             $view->comparePeriodIndices = $comparePeriodIndices;

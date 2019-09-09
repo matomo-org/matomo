@@ -36,8 +36,8 @@ $(function () {
                 tr = getRealRowIfComparisonRow(tr);
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
-            trigger: function (tr, e, subTableLabel) {
-                var overrideParams = tr.data('param-override');
+            trigger: function (tr, e, subTableLabel, originalRow) {
+                var overrideParams = $(originalRow || tr).data('param-override');
                 if (typeof overrideParams !== 'object') {
                     overrideParams = {};
                 }

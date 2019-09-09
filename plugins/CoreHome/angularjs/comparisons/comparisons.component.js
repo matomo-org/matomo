@@ -107,13 +107,10 @@
 
         // TODO: data structures used to store comparisons are all over the place, needs to be better.
         function generateComparisonTooltip(visitsSummary, periodComp, segmentComp, segmentCompCount) {
-            if (segmentComp === 0) {
-                return;
-            }
-
             var firstRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount];
 
             var comparisonRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount + segmentComp.index];
+            var firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
 
             var tooltip = '<div class="comparison-card-tooltip">';
 
@@ -126,12 +123,14 @@
                 comparisonRow.nb_visits,
                 firstRow.nb_visits
             ]);
-            tooltip += '<br/><br/>';
-            tooltip += _pk_translate('General_ComparisonCardTooltip2', [
-                comparisonRow.nb_visits_change,
-                firstRow.compareSegmentPretty,
-                firstRow.comparePeriodPretty
-            ]);
+            if (periodComp.index > 0) {
+                tooltip += '<br/><br/>';
+                tooltip += _pk_translate('General_ComparisonCardTooltip2', [
+                    comparisonRow.nb_visits_change,
+                    firstPeriodRow.compareSegmentPretty,
+                    firstRow.comparePeriodPretty
+                ]);
+            }
 
             tooltip += '</div>';
             return tooltip;

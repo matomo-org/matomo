@@ -87,6 +87,8 @@ describe("Comparison", function () {
         await (await page.jQuery('.sparkline:contains(pageviews):eq(0)')).click();
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_switched');
     });
@@ -102,6 +104,8 @@ describe("Comparison", function () {
     it('should remove segment comparison when the x button is clicked', async () => {
         await page.click('.card.comparison .remove-button');
         await page.waitForNetworkIdle();
+
+        await page.mouse.move(-10, -10);
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_segment_removed');

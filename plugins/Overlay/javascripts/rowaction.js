@@ -21,7 +21,7 @@ DataTable_RowActions_Overlay.registerReport = function (handler) {
 };
 
 
-DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
+DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e, originalRow) {
     if (!actionA.data('overlay-manipulated')) {
         actionA.data('overlay-manipulated', 1);
 
@@ -48,7 +48,7 @@ DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
             }
         }
 
-        var paramOverride = $(tr).data('param-override');
+        var paramOverride = $(originalRow || tr).data('param-override');
         if (typeof paramOverride === 'object' && paramOverride.segment) {
             if (segment) {
                 segment += ';' + paramOverride.segment;

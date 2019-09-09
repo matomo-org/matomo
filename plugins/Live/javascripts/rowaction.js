@@ -78,7 +78,7 @@
         this.performAction(segment, tr, e);
     };
 
-    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e) {
+    DataTable_RowActions_SegmentVisitorLog.prototype.performAction = function (segment, tr, e, originalRow) {
 
         var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
 
@@ -89,7 +89,7 @@
         }
 
         // TODO: would be nice if this didn't have to be done in every row action, but that would be a big refactor probably
-        var paramOverride = $(tr).data('param-override');
+        var paramOverride = $(originalRow || tr).data('param-override');
         if (typeof paramOverride !== 'object') {
             paramOverride = {};
         }

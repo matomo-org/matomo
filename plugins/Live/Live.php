@@ -41,6 +41,7 @@ class Live extends \Piwik\Plugin
     public function getPagesComparisonsDisabledFor(&$pages)
     {
         $pages[] = 'General_Visitors.Live_VisitorLog';
+        $pages[] = 'General_Visitors.General_RealTime';
     }
 
     public function addJsGlobalVariables(&$out)

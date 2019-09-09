@@ -35,7 +35,6 @@ class Referrers extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
             'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
             'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
-            'Metrics.getDefaultMetricTranslations' => 'getDefaultMetricTranslations',
         );
     }
 
