@@ -254,7 +254,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var params = {};
         for (var key in self.param) {
-            if (typeof self.param[key] != "undefined" && self.param[key] != '') {
+            if (typeof self.param[key] != "undefined" && self.param[key] !== null && self.param[key] !== '') {
                 if (key == 'filter_column' || key == 'filter_column_recursive' ) {
                     // search in (metadata) `combinedLabel` when dimensions are shown separately in flattened tables
                     // needs to be overwritten for each request as switching a searched table might return no results
