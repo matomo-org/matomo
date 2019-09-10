@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "Cosa intendi misurare",
         "YouCurrentlyHaveAccessToNWebsites": "Al momento hai accesso a %s siti.",
         "YourCurrentIpAddressIs": "Il tuo indirizzo IP è %s",
-        "DeleteSiteExplanation": "L'eliminazione di un sito web comporta la cancellazione di tutti i dati di registro che sono stati raccolti per esso. Questa azione è permanente e non può essere annullata."
+        "DeleteSiteExplanation": "L'eliminazione di un sito web comporta la cancellazione di tutti i dati di registro che sono stati raccolti per esso. Questa azione è permanente e non può essere annullata.",
+        "EmailInstructionsButton": "Invia queste istruzioni per email",
+        "EmailInstructionsSubject": "Codice Tracking di Matomo Analytics",
+        "EmailInstructionsDocsPlainText": "Se vuoi fare altro oltre che monitorare le pagine viste, guardati la documentazione di Matomo su %1$s.",
+        "EmailInstructionsGenerateTrackingCode": "Puoi anche generare un codice tracking personalizzato su %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Dettagli del tuo sito",
+        "EmailInstructionsSiteDetails": "Avrai bisogno di questi dettagli per utilizzare API o SDK per tracciare le visite di Matomo.",
+        "EmailInstructionsYourSiteId": "ID del tuo sito: %1$s",
+        "EmailInstructionsYourTrackingUrl": "La tua tracking URL: %1$s"
     }
 }

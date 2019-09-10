@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "2FA": "A2F",
+        "TwoFactorAuthentication": "Autenticação de dois fatores",
         "AddUser": "Adicionar novo usuário",
         "AddExistingUser": "Adicionar um usuário existente",
         "AddNewUser": "Adicionar novo usuário",
