@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "Neyi ölçmek istiyorsunuz?",
         "YouCurrentlyHaveAccessToNWebsites": "%s web sitesine erişme izniniz var.",
         "YourCurrentIpAddressIs": "Geçerli IP adresiniz: %s",
-        "DeleteSiteExplanation": "Bir web sitesi silindiğinde ilgili tüm günlük verileri silinir. Bu işlem geri alınamaz."
+        "DeleteSiteExplanation": "Bir web sitesi silindiğinde ilgili tüm günlük verileri silinir. Bu işlem geri alınamaz.",
+        "EmailInstructionsButton": "Bu yönergeleri e-posta ile gönder",
+        "EmailInstructionsSubject": "Matomo İstatistikler İzleme Kodu",
+        "EmailInstructionsDocsPlainText": "Sayfa görüntülemelerinden fazlasını izlemek istiyorsanız, %1$s üzerindeki Matomo belgelerine bakabilirsiniz.",
+        "EmailInstructionsGenerateTrackingCode": "Ayrıca %1$s üzerinden özel bir izleme kodu oluşturabilirsiniz.",
+        "EmailInstructionsSiteDetailsHeading": "Sitenizin Ayrıntıları",
+        "EmailInstructionsSiteDetails": "Matomo ziyaretlerini izlerken API ya da SDK kullanabilmek için bu bilgilere gerek duyacaksınız.",
+        "EmailInstructionsYourSiteId": "Sitenizin kodu: %1$s",
+        "EmailInstructionsYourTrackingUrl": "İzleme adresiniz: %1$s"
     }
 }

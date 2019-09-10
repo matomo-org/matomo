@@ -32,6 +32,7 @@ class Controller extends \Piwik\Plugin\Controller
         $uaParser->parse();
 
         $view->userAgent           = $userAgent;
+        $view->bot_info            = $uaParser->getBot();
         $view->browser_name        = $uaParser->getClient('name');
         $view->browser_short_name  = $uaParser->getClient('short_name');
         $view->browser_version     = $uaParser->getClient('version');
