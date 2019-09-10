@@ -64,6 +64,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
+        $translationKeys[] = 'Feedback_SearchOnMatomo';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }

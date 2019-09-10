@@ -9,7 +9,7 @@
     line-height: 18px;
   }
 
-  p {
+  p, h4 {
     line-height: 1.7em;
     font-size: 13px;
   }
@@ -39,15 +39,21 @@
     .search-matomo-form {
       margin-right: 20px;
       width: 100%;
+      display: table-row;
+
+      div {
+        display: table-cell;
+        width: 100%;
+      }
 
       input[type="text"] {
         display: inline-block;
-        padding-left: 20px;
-        width: 80%;
+        width: 90%;
       }
 
       input[type="submit"] {
-        display: inline-block;
+        float: right;
+        display: table-cell;
       }
     }
   }

@@ -11,8 +11,10 @@
         <div piwik-content-block content-title="{{ "Feedback_HowCanWeHelp"|translate|e('html_attr') }}" class="feedback-help-resources">
             <form target="_blank" method="GET" action="https://matomo.org/">
                 <div class="search-matomo-form">
-                    <span class="icon-search"></span>
-                    <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                    <div>
+                        <span class="icon-search"></span>
+                        <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
+                    </div>
                     <input type="submit" value="Search" class="btn"/>
                 </div>
             </form>

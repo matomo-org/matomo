@@ -40,6 +40,7 @@
         "BrowseUserGuides": "Browse all user guides",
         "BrowseFaqs": "Browse all FAQs",
         "SearchHelpResources": "Search matomo.org help resources",
-        "PopularHelpTopics": "Popular help topics"
+        "PopularHelpTopics": "Popular help topics",
+        "SearchOnMatomo": "Search '%1$s' on Matomo.org"
     }
 }
