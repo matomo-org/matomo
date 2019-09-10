@@ -306,9 +306,10 @@ var broadcast = {
      * @param {string} str  url with parameters to be updated
      * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
      * @param {string} strHash additional parameters that should be updated on the hash
+     * @param {array} paramsToRemove Optional parameters to remove from the URL.
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading, strHash) {
+    propagateNewPage: function (str, showAjaxLoading, strHash, paramsToRemove) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
@@ -332,10 +333,12 @@ var broadcast = {
         params_vals.forEach(function (param) {
             if (/\[]=/.test(decodeURIComponent(param))) {
                 var paramName = decodeURIComponent(param).split('[]=')[0];
-                var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)=[^&?#]+&?', 'gi');
-                currentSearchStr = currentSearchStr.replace(paramRegex, '');
-                currentHashStr = currentHashStr.replace(paramRegex, '');
+                removeParam(paramName);
             }
+        });
+
+        paramsToRemove.forEach(function (paramName) {
+            removeParam(paramName);
         });
 
         params_vals.forEach(function (param) {
@@ -394,6 +397,12 @@ var broadcast = {
             window.location.href = newUrl;
         }
         return false;
+
+        function removeParam(paramName) {
+            var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)?=[^&?#]*?&?', 'gi');
+            currentSearchStr = currentSearchStr.replace(paramRegex, '');
+            currentHashStr = currentHashStr.replace(paramRegex, '');
+        }
     },
 
     /*************************************************

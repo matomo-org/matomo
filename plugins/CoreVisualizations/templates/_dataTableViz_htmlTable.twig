@@ -41,9 +41,16 @@
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
-                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}>
-                            {% include "@CoreHome/_dataTableCell.twig" with properties|merge({ 'rowIndex': rowIndex }) %}
+                        {% if not isComparing or column == 'label' %}
+                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
+                            {% if isComparing and column == 'label' %}colspan="{{ properties.columns_to_display|length }}"{% endif %}
+                        >
+                            {% if isComparing and column == 'label' %}
+                                <span class="prefix-numeral">{{ rowIndex }}.</span>
+                            {% endif %}
+                            {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
 

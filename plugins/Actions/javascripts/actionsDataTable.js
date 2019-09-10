@@ -137,7 +137,8 @@
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)
                 .each(function () {
-                    $(this).prepend('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />');
+                    $('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />').insertBefore($(this).children('.label'));
+
                     if (self.param.filter_pattern_recursive) {
                         setImageMinus(this);
                     }
@@ -190,7 +191,12 @@
 
             var divIdToReplaceWithSubTable = 'subDataTable_' + idSubTable;
 
-            var NextStyle = $(domElem).next().attr('class');
+            var $insertAfter = $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
+            if (!$insertAfter.length) {
+                $insertAfter = $(domElem);
+            }
+
+            var NextStyle = $insertAfter.next().attr('class');
             var CurrentStyle = $(domElem).attr('class');
 
             var currentRowLevel = getLevelFromClass(CurrentStyle);
@@ -203,11 +209,6 @@
                 //unbind click to avoid double click problem
                 $(domElem).off('click');
                 self.disabledRowDom = $(domElem);
-
-                var $insertAfter = $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
-                if (!$insertAfter.length) {
-                    $insertAfter = $(domElem);
-                }
 
                 var numberOfColumns = $(domElem).children().length;
                 $insertAfter.after('\

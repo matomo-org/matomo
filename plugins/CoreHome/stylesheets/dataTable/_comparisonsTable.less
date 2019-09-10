@@ -29,13 +29,13 @@
     }
   }
 
-  span.label .prefix-numeral {
+  td.label .prefix-numeral {
     display: inline-block;
-    min-width: 30px;
+    margin-right: 8px;
   }
 
   .totalsRow,.summaryRow {
-    span.label .prefix-numeral {
+    td.label .prefix-numeral {
       visibility: hidden;
     }
   }
@@ -43,11 +43,25 @@
 
 tr.comparePeriod, tr.comparisonRow {
   &.level0 td.label {
-    padding-left: 35px !important;
+    padding-left: 40px !important;
   }
 
   &.level1 td.label {
-    padding-left: 50px !important;
+    padding-left: 60px !important;
+  }
+
+  &.level2 td.label {
+    padding-left: 80px !important;
+  }
+}
+
+tr.parentComparisonRow {
+  td.label img.plusMinus {
+    margin-right: 8px;
+  }
+
+  &.level1 td.label {
+    padding-left: 40px !important;
   }
 
   &.level2 td.label {

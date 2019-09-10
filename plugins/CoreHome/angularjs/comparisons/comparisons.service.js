@@ -111,12 +111,10 @@
             var extraParams = {};
             if (comparisonToRemove.index === 0) {
                 var firstSegmentComp = newComparisons.find(function (comp) {
-                    return comp.index === 1 && typeof comp.params.segment !== "undefined";
+                    return typeof comp.params.segment !== "undefined";
                 });
 
-                if (firstSegmentComp) {
-                    extraParams.segment = firstSegmentComp.params.segment;
-                }
+                extraParams.segment = firstSegmentComp.params.segment;
             }
 
             updateQueryParamsFromComparisons(newComparisons, extraParams);
@@ -189,9 +187,16 @@
                 return;
             }
 
+            var paramsToRemove = [];
+            ['compareSegments', 'comparePeriods', 'compareDates'].forEach(function (name) {
+                if (!compareParams[name].length) {
+                    paramsToRemove.push(name);
+                }
+            });
+
             // angular is not rendering the page (ie, we are in the embedded dashboard)
             var url = $.param($.extend({}, compareParams, extraParams));
-            broadcast.propagateNewPage(url);
+            broadcast.propagateNewPage(url, undefined, undefined, paramsToRemove);
         }
 
         function updateComparisonsFromQueryParams() {
