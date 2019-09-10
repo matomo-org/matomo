@@ -331,7 +331,8 @@ var broadcast = {
         // remove any array query params being set
         params_vals.forEach(function (param) {
             if (/\[]=/.test(decodeURIComponent(param))) {
-                var paramRegex = new RegExp(param + '\\[]=[^&?#]+&?', 'g');
+                var paramName = decodeURIComponent(param).split('[]=')[0];
+                var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)=[^&?#]+&?', 'gi');
                 currentSearchStr = currentSearchStr.replace(paramRegex, '');
                 currentHashStr = currentHashStr.replace(paramRegex, '');
             }

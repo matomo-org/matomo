@@ -16,7 +16,7 @@
             <span class="comparison-period-label">{{ periodComparison.title }} ({{ $ctrl.getComparisonPeriodType(periodComparison) }})</span>
         </div>
 
-        <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)" ng-if="$index > 0">
+        <a class="remove-button" ng-click="$ctrl.comparisonsService.removeComparison(comparison)">
             <span class="icon icon-close" title="Click to remove this comparison."></span>
         </a>
     </div>

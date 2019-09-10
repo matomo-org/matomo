@@ -99,7 +99,7 @@
             return seriesInfo;
         }
 
-        function removeComparison(comparisonToRemove) {
+        function removeComparison(comparisonToRemove) { // TODO: this only allows segment comparisons to be removed, should change signature to take an index
             if (!isComparisonEnabled()) {
                 throw new Error('Comparison disabled.');
             }
@@ -107,7 +107,19 @@
             var newComparisons = comparisons.filter(function (comparison) {
                 return comparison !== comparisonToRemove;
             });
-            updateQueryParamsFromComparisons(newComparisons);
+
+            var extraParams = {};
+            if (comparisonToRemove.index === 0) {
+                var firstSegmentComp = newComparisons.find(function (comp) {
+                    return comp.index === 1 && typeof comp.params.segment !== "undefined";
+                });
+
+                if (firstSegmentComp) {
+                    extraParams.segment = firstSegmentComp.params.segment;
+                }
+            }
+
+            updateQueryParamsFromComparisons(newComparisons, extraParams);
         }
 
         function addComparison(params) {
@@ -119,7 +131,9 @@
             updateQueryParamsFromComparisons(newComparisons);
         }
 
-        function updateQueryParamsFromComparisons(newComparisons) {
+        function updateQueryParamsFromComparisons(newComparisons, extraParams) {
+            extraParams = extraParams || {};
+
             // get unique segments/periods/dates from new Comparisons
             var compareSegments = {};
             var comparePeriodDatePairs = {};
@@ -158,15 +172,17 @@
             };
 
             // change the page w/ these new param values
-            if (piwik.helper.isAngularRenderingThePage()) {
+            if (piwik.helper.isAngularRenderingThePage()
+                && typeof extraParams.segment === 'undefined'
+            ) {
                 var search = $location.search();
-                var newSearch = $.extend({}, search, compareParams);
+                var newSearch = $.extend({}, search, compareParams, extraParams);
 
                 delete newSearch['compareSegments[]'];
                 delete newSearch['comparePeriods[]'];
                 delete newSearch['compareDates[]'];
 
-                if (JSON.stringify(newSearch) !== JSON.stringify(search)) { // TODO: test this
+                if (JSON.stringify(newSearch) !== JSON.stringify(search)) {
                     $location.search($.param(newSearch));
                 }
 
@@ -174,7 +190,7 @@
             }
 
             // angular is not rendering the page (ie, we are in the embedded dashboard)
-            var url = $.param(compareParams);
+            var url = $.param($.extend({}, compareParams, extraParams));
             broadcast.propagateNewPage(url);
         }
 
