@@ -1478,10 +1478,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleColumnHighlighting: function (domElem) {
-        if (!this.canHandleRowEvents(domElem)) {
-            return;
-        }
-
         var maxWidth = {};
         var currentNthChild = null;
         var self = this;
@@ -1512,14 +1508,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         // higlight all columns on hover
-        $('td', domElem).hover(function() {
-            var $this = $(this);
+        $(domElem).on('mouseenter', 'td', function (e) {
+            e.stopPropagation();
+            var $this = $(e.target);
             if ($this.hasClass('label')) {
                 return;
             }
 
             var table    = $this.closest('table');
-            var nthChild = $this.parent('tr').children().index($(this)) + 1;
+            var nthChild = $this.parent('tr').children().index($(e.target)) + 1;
             var rows     = $('> tbody > tr', table);
 
             if (currentNthChild === nthChild) {
@@ -1530,8 +1527,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
             self.repositionRowActions($this.parent('tr'));
-        }, function(event) {
-            var $this = $(this);
+        });
+
+        $(domElem).on('mouseleave', 'td', function(event) {
+            var $this = $(event.target);
             var table    = $this.closest('table');
             var $parentTr = $this.parent('tr');
             var tr       = $parentTr.children();
@@ -1685,10 +1684,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $(this).prev().stop(true, true).fadeOut(400);
             });
         });
-    },
-
-    canHandleRowEvents: function (domElem) {
-        return domElem.find('table > tbody > tr').length <= this.maxNumRowsToHandleEvents;
     },
 
     handleRowActions: function (domElem) {

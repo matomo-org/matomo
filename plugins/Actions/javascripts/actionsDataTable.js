@@ -204,8 +204,13 @@
                 $(domElem).off('click');
                 self.disabledRowDom = $(domElem);
 
+                var $insertAfter = $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
+                if (!$insertAfter.length) {
+                    $insertAfter = $(domElem);
+                }
+
                 var numberOfColumns = $(domElem).children().length;
-                $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last().after('\
+                $insertAfter.after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
                             <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\
