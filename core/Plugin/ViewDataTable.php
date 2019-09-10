@@ -612,7 +612,9 @@ abstract class ViewDataTable implements ViewInterface
      */
     public function isComparing()
     {
-        if (!$this->supportsComparison()) {
+        if (!$this->supportsComparison()
+            || $this->config->disable_comparison
+        ) {
             return false;
         }
 
