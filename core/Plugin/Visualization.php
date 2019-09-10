@@ -841,9 +841,9 @@ class Visualization extends ViewDataTable
         if ($view->isComparing) {
             $request = $this->getRequestArray();
 
-            $compareSegments = isset($request['compareSegments']) ? $request['compareSegments'] : [];
-            $comparePeriods = isset($request['comparePeriods']) ? $request['comparePeriods'] : [];
-            $compareDates = isset($request['compareDates']) ? $request['compareDates'] : [];
+            $compareSegments = Common::getRequestVar('compareSegments', [], 'array', $request);
+            $comparePeriods = Common::getRequestVar('comparePeriods', [], 'array', $request);
+            $compareDates = Common::getRequestVar('compareDates', [], 'array', $request);
 
             $segment = Request::getRawSegmentFromRequest() ?: '';
 
