@@ -163,6 +163,11 @@ class LogAggregator
     private $isRootArchiveRequest;
 
     /**
+     * @var bool
+     */
+    private $allowUsageSegmentCache = false;
+
+    /**
      * Constructor.
      *
      * @param \Piwik\ArchiveProcessor\Parameters $params
@@ -199,18 +204,10 @@ class LogAggregator
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
 
-            try {
-                // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
-                Db::getReader()->fetchOne('SELECT 1 FROM ' . $segmentTable . ' LIMIT 1');
-                $tableExists = true;
-            } catch (\Exception $e) {
-                $tableExists = false;
-            }
-
-            if ($tableExists) {
+            if ($this->doesSegmentTableExist($segmentTable)) {
                 // safety in case an older MySQL version is used that does not drop table at the end of the connection
                 // automatically. also helps us release disk space/memory earlier when multiple segments are archived
-                Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+                $this->getDb()->query('DROP TEMPORARY TABLE IF EXISTS ' . $segmentTable);
             }
 
             $logTablesProvider = $this->getLogTableProvider();
@@ -220,16 +217,94 @@ class LogAggregator
         }
     }
 
+    private function doesSegmentTableExist($segmentTablePrefixed)
+    {
+        try {
+            // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+            $this->getDb()->fetchOne('SELECT 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $tableExists = true;
+        } catch (\Exception $e) {
+            $tableExists = false;
+        }
+
+        return $tableExists;
+    }
+
     private function isSegmentCacheEnabled()
     {
+        if (!$this->allowUsageSegmentCache) {
+            return false;
+        }
+
         $config = Config::getInstance();
         $general = $config->General;
         return !empty($general['enable_segments_cache']);
     }
 
+    public function allowUsageSegmentCache()
+    {
+        $this->allowUsageSegmentCache = true;
+    }
+
     private function getLogTableProvider()
     {
         return StaticContainer::get(LogTablesProvider::class);
+    }
+
+    private function createTemporaryTable($unprefixedSegmentTableName, $segmentSelectSql, $segmentSelectBind)
+    {
+        $table = Common::prefixTable($unprefixedSegmentTableName);
+
+        if ($this->doesSegmentTableExist($table)) {
+            return; // no need to create the table, it was already created... better to have a select vs unneeded create table
+        }
+	    
+        $engine = '';
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+            $engine = 'ENGINE=MEMORY';
+        }
+        $createTableSql = 'CREATE TEMPORARY TABLE ' . $table . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine;
+        // we do not insert the data right away using create temporary table ... select ...
+        // to avoid metadata lock see eg https://www.percona.com/blog/2018/01/10/why-avoid-create-table-as-select-statement/
+
+        $readerDb = Db::getReader();
+        try {
+            $readerDb->query($createTableSql);
+        } catch (\Exception $e) {
+            if ($readerDb->isErrNo($e, \Piwik\Updater\Migration\Db::ERROR_CODE_TABLE_EXISTS)) {
+                return;
+            }
+            throw $e;
+        }
+
+
+        $db = new Db\Settings();
+        $isInnoDb = strtolower($db->getEngine()) === 'innodb';
+
+        if (!$isInnoDb) {
+            $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
+            if (!empty($all)) {
+                // we're not using batchinsert since this would not support the reader DB.
+                $readerDb->query('INSERT INTO ' . $table . ' VALUES ('.implode('),(', array_column($all, 'idvisit')).')');
+            }
+            return;
+        }
+
+        $value = $readerDb->fetchOne('SELECT @@TX_ISOLATION');
+        $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+
+        $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
+        $readerDb->query($insertIntoStatement, $segmentSelectBind);
+
+        if ($isInnoDb && !empty($value)) {
+            $value = strtoupper($value);
+            $value = str_replace('-', ' ', $value);
+            if (in_array($value, array('REPEATABLE READ', 'READ COMMITTED', 'SERIALIZABLE'))) {
+                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $value);
+            } elseif ($value !== 'READ UNCOMMITTED') {
+                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+            }
+        }
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
@@ -253,11 +328,7 @@ class LogAggregator
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
-            $engine = '';
-            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
-                $engine = 'ENGINE=MEMORY ';
-            }
-            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine . $segmentSql['sql'], $segmentSql['bind']);
+            $this->createTemporaryTable($segmentTable, $segmentSql['sql'], $segmentSql['bind']);
 
             if (!is_array($from)) {
                 $from = array($segmentTable, $from);
@@ -278,7 +349,7 @@ class LogAggregator
                         if (stripos($where, 'and ') === 0) {
                             $where = substr($where, strlen('and '));
                         }
-                        $bind = array_slice($bind, 3);
+                        $bind = array();
                         break;
                     }
                 }
