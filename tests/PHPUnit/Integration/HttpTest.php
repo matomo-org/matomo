@@ -357,7 +357,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 			'headers' => array(
 				'Range: bytes=10-20',
 				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
-				'X-Forwarded-For: 192.168.33.11',
+				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,
 			'destinationPath' => $destinationPath
@@ -373,7 +373,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 			'headers' => array(
 				'Range: bytes=10-20',
 				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
-				'X-Forwarded-For: 192.168.33.11',
+				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,
 			'destinationPath' => $destinationPath
