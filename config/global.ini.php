@@ -545,7 +545,8 @@ live_visitor_profile_max_visits_to_aggregate = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
-; limited. Note: This feature requires a recent MySQL version (5.7 or newer).
+; limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB might not
+; support this feature which uses the MAX_EXECUTION_TIME hint.
 live_query_max_execution_time = -1
 
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
