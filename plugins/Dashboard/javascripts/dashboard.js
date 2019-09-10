@@ -21,7 +21,7 @@ function createDashboard() {
             format: 'json'
         }, 'get');
         ajaxRequest.addParams({
-            dashboardName: encodeURIComponent(dashboardName),
+            dashboardName: dashboardName,
             addDefaultWidgets: addDefaultWidgets,
             login: piwik.userLogin
         }, 'post');
