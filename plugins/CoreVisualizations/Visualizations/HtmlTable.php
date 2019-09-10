@@ -159,6 +159,9 @@ class HtmlTable extends Visualization
                 });
             }
         }
+
+        $this->assignTemplateVar('segmentTitlePretty', $this->dataTable->getMetadata('segmentPretty'));
+        $this->assignTemplateVar('periodTitlePretty', $this->dataTable->getMetadata('period')->getLocalizedShortString());
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()

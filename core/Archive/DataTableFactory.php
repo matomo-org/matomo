@@ -9,9 +9,15 @@
 
 namespace Piwik\Archive;
 
+use Piwik\API\Request;
+use Piwik\Cache;
+use Piwik\Cache\Transient;
+use Piwik\CacheId;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period\Week;
+use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -22,6 +28,9 @@ use Piwik\Site;
  */
 class DataTableFactory
 {
+    const TABLE_METADATA_SEGMENT_INDEX = 'segment';
+    const TABLE_METADATA_SEGMENT_PRETTY_INDEX = 'segmentPretty';
+
     /**
      * @see DataCollection::$dataNames.
      */
@@ -68,6 +77,11 @@ class DataTableFactory
     private $periods;
 
     /**
+     * @var Segment
+     */
+    private $segment;
+
+    /**
      * The ID of the subtable to create a DataTable for. Only relevant for blob data.
      *
      * @var int|null
@@ -85,7 +99,7 @@ class DataTableFactory
     /**
      * Constructor.
      */
-    public function __construct($dataNames, $dataType, $sitesId, $periods, $defaultRow)
+    public function __construct($dataNames, $dataType, $sitesId, $periods, Segment $segment, $defaultRow)
     {
         $this->dataNames = $dataNames;
         $this->dataType = $dataType;
@@ -93,6 +107,7 @@ class DataTableFactory
 
         //here index period by string only
         $this->periods = $periods;
+        $this->segment = $segment;
         $this->defaultRow = $defaultRow;
     }
 
@@ -241,6 +256,7 @@ class DataTableFactory
         if ($blobRow === false) {
             $table = new DataTable();
             $table->setAllTableMetadata($keyMetadata);
+            $this->setPrettySegmentMetadata($table);
             return $table;
         }
 
@@ -274,6 +290,7 @@ class DataTableFactory
 
         // set table metadata
         $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
+        $this->setPrettySegmentMetadata($table);
 
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -300,6 +317,7 @@ class DataTableFactory
         foreach ($blobRow as $name => $blob) {
             $newTable = DataTable::fromSerializedArray($blob);
             $newTable->setAllTableMetadata(array_merge($newTable->getAllTableMetadata(), $tableMetadata));
+            $this->setPrettySegmentMetadata($newTable);
 
             $table->addTable($newTable, $name);
         }
@@ -403,6 +421,8 @@ class DataTableFactory
                 $subtable = DataTable::fromSerializedArray($blobRow[$blobName]);
                 $subtable->setMetadata(self::TABLE_METADATA_PERIOD_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_PERIOD_INDEX));
                 $subtable->setMetadata(self::TABLE_METADATA_SITE_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SITE_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX));
 
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
@@ -424,6 +444,8 @@ class DataTableFactory
         return array(
             DataTableFactory::TABLE_METADATA_SITE_INDEX => new Site(reset($this->sitesId)),
             DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods),
+            DataTableFactory::TABLE_METADATA_SEGMENT_INDEX => $this->segment->getString(),
+            DataTableFactory::TABLE_METADATA_SEGMENT_PRETTY_INDEX => $this->segment->getString(),
         );
     }
 
@@ -458,6 +480,7 @@ class DataTableFactory
 
         if (!empty($data)) {
             $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($data), $keyMetadata));
+            $this->setPrettySegmentMetadata($table);
 
             DataCollection::removeMetadataFromDataRow($data);
 
@@ -476,6 +499,7 @@ class DataTableFactory
             }
 
             $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $keyMetadata));
+            $this->setPrettySegmentMetadata($table);
         }
 
         $result = $table;
@@ -502,6 +526,7 @@ class DataTableFactory
             }
 
             $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $metadata));
+            $this->setPrettySegmentMetadata($table);
             $map->addTable($table, $this->prettifyIndexLabel(self::TABLE_METADATA_PERIOD_INDEX, $range));
 
             $tables[$range] = $table;
@@ -537,6 +562,7 @@ class DataTableFactory
         }
 
         $table->setAllTableMetadata(array(DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods)));
+        $this->setPrettySegmentMetadata($table);
 
         foreach ($index as $idsite => $row) {
             if (!empty($row)) {
@@ -553,5 +579,55 @@ class DataTableFactory
         }
 
         return $table;
+    }
+
+    private function getAllSegmentsForSite($idSite)
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('DataTableFactory.SegmentEditor_getAll', [$idSite]);
+
+        $segments = $cache->fetch($cacheKey);
+        if (!is_array($segments)) {
+            $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
+            usort($segments, function ($lhs, $rhs) {
+                return strcmp($lhs['name'], $rhs['name']);
+            });
+            $cache->save($cacheKey, $segments);
+        }
+        return $segments;
+
+    }
+
+    private function setPrettySegmentMetadata(DataTable $table)
+    {
+        $segmentPretty = $this->getPrettySegmentMetadata($table);
+        $table->setMetadata('segmentPretty', $segmentPretty);
+    }
+
+    // TODO: maybe put this logic in Segment?
+    private function getPrettySegmentMetadata(DataTable $table)
+    {
+        $segment = $this->segment->getString();
+        if (empty($segment)) {
+            return Piwik::translate('SegmentEditor_DefaultAllVisits');
+        }
+
+        $idSite = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX)->getId();
+        $availableSegments = $this->getAllSegmentsForSite($idSite);
+
+        $foundStoredSegment = null;
+        foreach ($availableSegments as $storedSegment) {
+            if ($storedSegment['definition'] == $segment
+                || $storedSegment['definition'] == urldecode($segment)
+                || $storedSegment['definition'] == urlencode($segment)
+            ) {
+                $foundStoredSegment = $storedSegment;
+            }
+        }
+
+        if (isset($foundStoredSegment)) {
+            return $foundStoredSegment['name'];
+        }
+        return $segment;
     }
 }

@@ -557,6 +557,10 @@ class Request
             }
         }
 
+        $params['compareDates'] = null;
+        $params['comparePeriods'] = null;
+        $params['compareSegments'] = null;
+
         return Url::getCurrentQueryStringWithParametersModified($params);
     }
 

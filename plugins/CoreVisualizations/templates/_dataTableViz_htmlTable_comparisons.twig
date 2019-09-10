@@ -1,5 +1,4 @@
 {% set lastSeenComparePeriod = false %}
-{% set comparedSegmentPretty = dataTable.getFirstRow().getMetadata('compareSegmentPretty') %}
 {% set comparedPeriodPretty = dataTable.getFirstRow().getMetadata('comparePeriodPretty') %}
 {%- for rowId, row in dataTable.getRows() -%}
     {% set isComparingSegments = comparisonSegmentIndices|length > 1 %}
@@ -42,9 +41,14 @@
         {% if column != 'label' %}
         {% set columnValue = row.getColumn(column) %}
         <td>
-            {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
             {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriodOriginal')|default('')][row.getMetadata('compareDateOriginal')|default('')]|default(null) %}
-            {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, comparedSegmentPretty, comparedPeriodPretty) %}
+
+            {% set comparisonTooltipSuffix = '' %}
+            {% set columnChange = false %}
+            {% if row.getColumn(column ~ '_change')|default is not empty %}
+                {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
+                {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, row.getMetadata('compareSegmentPretty'), comparedPeriodPretty) %}
+            {% endif %}
 
             {% include "@CoreVisualizations/_dataTableViz_htmlTable_ratio.twig" with {
                 'changePercentage': columnChange,
@@ -54,9 +58,11 @@
                 'changePercantage': columnChange,
                 'forceZero': true,
                 'tooltipSuffix': comparisonTooltipSuffix,
-                'translations': properties.translations
+                'translations': properties.translations,
+                'segmentTitlePretty': row.getMetadata('compareSegmentPretty'),
+                'periodTitlePretty': row.getMetadata('comparePeriodPretty')
             } %}
-            <span class="value">{{ columnValue|number(2,0)|rawSafeDecoded }}</span>
+            <span class="value">{{ columnValue|default(0)|number(2,0)|rawSafeDecoded }}</span>
         </td>
         {% endif %}
         {% endfor %}

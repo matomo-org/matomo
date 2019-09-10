@@ -28,6 +28,7 @@ use Piwik\Site;
 // TODO: unit test
 // TODO: if comparing days w/ non-days, in html table & elsewhere, we must display nb_visits instead of nb_uniq_visitors
 // TODO: get rid of comparePeriodOriginal/comparePeriodDate?
+// TODO: use segmentPretty instead of any other matching
 
 /**
  * Handles the API portion of the data comparison feature.
@@ -707,6 +708,12 @@ class DataComparisonFilter
                 }
 
                 foreach ($comparisons->getRows() as $compareRow) {
+                    if ($compareRow->getMetadata('comparePeriod') == $originalPeriod
+                        && $compareRow->getMetadata('compareDate') == $originalDate
+                    ) {
+                        continue;
+                    }
+
                     $segment = $compareRow->getMetadata('compareSegment');
 
                     $otherPeriodRow = null;
