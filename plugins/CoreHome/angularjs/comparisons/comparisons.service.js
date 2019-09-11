@@ -9,10 +9,10 @@
     // can probably be shared
     angular.module('piwikApp').factory('piwikComparisonsService', ComparisonFactory);
 
-    ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods', 'piwikApi'];
+    ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods', 'piwikApi', 'piwikUrl'];
 
     // TODO: unit test
-    function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi) {
+    function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi, piwikUrl) {
         var comparisons = []; // TODO: split into segment/period array, code will be simpler
         var comparisonSeriesIndices = {};
         var comparisonsDisabledFor = [];
@@ -210,19 +210,19 @@
                 availableSegments = [];
             }
 
-            var compareSegments = getQueryParamValue('compareSegments') || [];
+            var compareSegments = piwikUrl.getSearchParam('compareSegments') || [];
             compareSegments = compareSegments instanceof Array ? compareSegments : [compareSegments];
 
-            var comparePeriods = getQueryParamValue('comparePeriods') || [];
+            var comparePeriods = piwikUrl.getSearchParam('comparePeriods') || [];
             comparePeriods = comparePeriods instanceof Array ? comparePeriods : [comparePeriods];
 
-            var compareDates = getQueryParamValue('compareDates') || [];
+            var compareDates = piwikUrl.getSearchParam('compareDates') || [];
             compareDates = compareDates instanceof Array ? compareDates : [compareDates];
 
             // add base comparisons
-            compareSegments.unshift(getQueryParamValue('segment'));
-            comparePeriods.unshift(getQueryParamValue('period'));
-            compareDates.unshift(getQueryParamValue('date'));
+            compareSegments.unshift(piwikUrl.getSearchParam('segment'));
+            comparePeriods.unshift(piwikUrl.getSearchParam('period') || '');
+            compareDates.unshift(piwikUrl.getSearchParam('date') || '');
 
             var newComparisons = [];
             compareSegments.forEach(function (segment, idx) {
@@ -267,14 +267,6 @@
             setComparisons(newComparisons);
         }
 
-        function getQueryParamValue(name) { // TODO: code redundancy w/ period selector and elsewhere
-            var result = broadcast.getValueFromHash(name);
-            if (!result) {
-                result = broadcast.getValueFromUrl(name);
-            }
-            return result;
-        }
-
         function setComparisons(newComparisons) {
             var oldComparisons = comparisons;
 
@@ -298,8 +290,8 @@
         }
 
         function checkEnabledForCurrentPage() {
-            var category = getQueryParamValue('category');
-            var subcategory = getQueryParamValue('subcategory');
+            var category = piwikUrl.getSearchParam('category');
+            var subcategory = piwikUrl.getSearchParam('subcategory');
 
             var id = category + "." + subcategory;
             isEnabled = comparisonsDisabledFor.indexOf(id) === -1;

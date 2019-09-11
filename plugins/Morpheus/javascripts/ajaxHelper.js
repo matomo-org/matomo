@@ -535,12 +535,9 @@ function ajaxHelper() {
      * @private
      */
     this._mixinDefaultGetParams = function (params) {
+        var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
 
-        if (window.location.hash) {
-            var segment = broadcast.getValueFromHash('segment', window.location.href.split('#')[1]);
-        } else {
-            var segment = broadcast.getValueFromUrl('segment');
-        }
+        var segment = piwikUrl.getSearchParam('segment');
 
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),

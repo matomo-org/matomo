@@ -413,9 +413,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $domElem.width('');
             parentDataTable.width('');
 
-            var requiredTableWidth = $('table.dataTable', domElem).width() - 40; // 40 is padding on card content
-            if (domElem.width() > requiredTableWidth) {
-                domElem.css('max-width', requiredTableWidth + 'px');
+            var $table = $('table.dataTable', domElem);
+            if ($table.closest('.reportsByDimensionView').length) {
+                var requiredTableWidth = $table.width() - 40; // 40 is padding on card content
+                if (domElem.width() > requiredTableWidth) {
+                    domElem.css('max-width', requiredTableWidth + 'px');
+                }
             }
 
             var tableWidth = getTableWidth(domElem);
@@ -544,7 +547,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (isTableVisualization) {
             // we do this only for html tables
 
-            var tableWidth = getTableWidth(domElem);``
+            var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
             var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);

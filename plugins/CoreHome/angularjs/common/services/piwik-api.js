@@ -11,9 +11,9 @@ var hasBlockedContent = false;
 (function () {
     angular.module('piwikApp.service').factory('piwikApi', piwikApiService);
 
-    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window'];
+    piwikApiService.$inject = ['$http', '$q', '$rootScope', 'piwik', '$window', 'piwikUrl'];
 
-    function piwikApiService ($http, $q, $rootScope, piwik, $window) {
+    function piwikApiService ($http, $q, $rootScope, piwik, $window, piwikUrl) {
 
         var url = 'index.php';
         var format = 'json';
@@ -198,15 +198,16 @@ var hasBlockedContent = false;
          * @private
          */
         function mixinDefaultGetParams (getParamsToMixin) {
-            var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
-
             // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
             // angular will encode it again before sending the value in an HTTP request.
-            segment = decodeURIComponent(segment);
+            var segment = piwikUrl.getSearchParam('segment');
+            if (segment) {
+                segment = decodeURIComponent(segment);
+            }
 
             var defaultParams = {
-                idSite:  piwik.idSite || piwik.broadcast.getValueFromUrl('idSite'),
-                period:  piwik.period || piwik.broadcast.getValueFromUrl('period'),
+                idSite:  piwik.idSite || piwikUrl.getSearchParam('idSite'),
+                period:  piwik.period || piwikUrl.getSearchParam('period'),
                 segment: segment
             };
 

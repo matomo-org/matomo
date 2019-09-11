@@ -120,7 +120,11 @@ class Sparklines extends ViewDataTable
         if (!empty($comparisons)) {
             $comparisonRows = [];
             foreach ($comparisons->getRows() as $comparisonRow) {
-                $segment = $comparisonRow->getMetadata('compareSegment') ?: Request::getRawSegmentFromRequest() ?: '';
+                $segment = $comparisonRow->getMetadata('compareSegment');
+                if ($segment === false) {
+                    $segment = Request::getRawSegmentFromRequest() ?: '';;
+                }
+
                 $date = $comparisonRow->getMetadata('compareDateOriginal') ?: $originalDate;
                 $period = $comparisonRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod;
 

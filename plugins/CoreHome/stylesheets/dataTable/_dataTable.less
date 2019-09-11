@@ -83,7 +83,7 @@ body>.widget table.dataTable {
 }
 
 // for dataTables in report pages (not for widgets in the dashboard)
-.theWidgetContent .card .card-content table.dataTable {
+.theWidgetContent .card .card-content table.dataTable, table.dataTable, table.subDataTable {
 
   th {
     background: @theme-color-background-base !important;
@@ -615,9 +615,11 @@ div.dataTableScroller {
   overflow-x: scroll;
 }
 
-.theWidgetContent .card .card-content div.dataTableScroller {
-  margin-left: -20px;
-  width: ~"calc(100% + 40px)";
+.theWidgetContent .card .card-content, table.dataTable {
+  div.dataTableScroller {
+    margin-left: -20px;
+    width: ~"calc(100% + 40px)";
+  }
 }
 
 @media only screen and (min-width: 993px) {

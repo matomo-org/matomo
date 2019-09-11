@@ -14,7 +14,7 @@
         {% set evolutionPretty = '+' ~ evolution.percent %}
     {% endif %}
 
-    <span class="metricEvolution" title="{{ evolution.tooltip }}">
+    <span class="metricEvolution" title="{{ evolution.tooltip|rawSafeDecoded|e('html_attr') }}">
     <img style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
     <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
 {% endmacro %}
@@ -26,8 +26,8 @@
          {% if sparkline.graphParams|default is not empty %}data-graph-params="{{ sparkline.graphParams|json_encode|e('html_attr') }}"{% endif %}
     >
         <div>
-            {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
-            {% if sparkline.url %}{{ sparkline(sparkline.url, sparkline.title|default)|raw }}{% endif %}
+            {% if sparkline.title|default is not empty %}<h6 class="sparkline-title" title="{{ sparkline.title|rawSafeDecoded|e('html_attr') }}">{{ sparkline.title }}</h6>{% endif %}
+            {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
         </div>
 	<div>
         {% for groupName, group in sparkline.metrics %}
