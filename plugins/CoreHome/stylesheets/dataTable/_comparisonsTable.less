@@ -1,7 +1,7 @@
 .theWidgetContent .card .card-content table.dataTable, table.dataTable {
   tr.comparePeriod, tr.comparisonRow {
     > td:first-child {
-      padding-left: 50px;
+      padding-left: 43px;
     }
   }
 
@@ -10,10 +10,8 @@
       display: none !important;
     }
 
-    > td:not(:first-child) {
-      &, & .ratio {
-        visibility: hidden;
-      }
+    > td:not(:first-child) > * {
+      visibility: hidden;
     }
   }
 

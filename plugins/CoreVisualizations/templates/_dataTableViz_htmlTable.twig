@@ -25,6 +25,7 @@
                 {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
                 {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') or row.getMetadata('is_summary') -%}
                 {%- set shouldHighlightRow = isSummaryRow and properties.highlight_summary_row -%}
+                {% set dimensions = dataTable.getMetadata('dimensions')|default([]) %}
 
                 {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
                 {%- set showRow = subtablesAreDisabled
@@ -41,16 +42,15 @@
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
-                        {% if not isComparing or column == 'label' %}
-                        <td {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
-                            {% if isComparing and column == 'label' %}colspan="{{ properties.columns_to_display|length }}"{% endif %}
+                        <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {{ cellAttributes.class|default }}"
+                            {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
                         >
                             {% if isComparing and column == 'label' %}
                                 <span class="prefix-numeral">{{ rowIndex }}.</span>
                             {% endif %}
+
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
-                        {% endif %}
                     {% endfor %}
                 </tr>
 
@@ -76,7 +76,7 @@
                 <tr class="{{ row.getMetadata('css_class') }} totalsRow"
                         title="Total values for this table">
                     {% for column in properties.columns_to_display %}
-                        <td>
+                        <td class="{% if column =='label' %}label{% else %}column{% endif %}">
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}

@@ -172,10 +172,7 @@
         },
 
         addOddAndEvenClasses: function(domElem) {
-            // Add some styles on the cells
-            // label (first column of a data row) or not
-            $("tr:not(.hidden) td:first-child", domElem).addClass('label');
-            $("tr:not(.hidden) td", domElem).slice(1).addClass('column');
+            // empty
         },
 
         handleRowActions: function (domElem, rows) {

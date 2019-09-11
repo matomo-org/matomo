@@ -413,6 +413,11 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $domElem.width('');
             parentDataTable.width('');
 
+            var requiredTableWidth = $('table.dataTable', domElem).width() - 40; // 40 is padding on card content
+            if (domElem.width() > requiredTableWidth) {
+                domElem.css('max-width', requiredTableWidth + 'px');
+            }
+
             var tableWidth = getTableWidth(domElem);
 
             if (tableWidth <= maxTableWidth) {
@@ -446,7 +451,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         {
             var labelWidth = minLabelWidth;
 
-            var columnsInFirstRow = $('tr:nth-child(1) td:not(.label)', domElem);
+            var columnsInFirstRow = $('tbody tr:not(.parentComparisonRow):not(.comparePeriod):eq(0) td:not(.label)', domElem);
 
             var widthOfAllColumns = 0;
             columnsInFirstRow.each(function (index, column) {
@@ -468,7 +473,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             if (labelWidth > maxLabelWidth
                 && !self.isWidgetized()
                 && innerWidth !== domElem.width()
-                && !self.isDashboard()) {
+                && !self.isDashboard()
+            ) {
                 labelWidth = maxLabelWidth; // prevent for instance table in Actions-Pages is not too wide
             }
 
@@ -531,8 +537,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return labelWidth;
         }
 
-        setMaxTableWidthIfNeeded(domElem, 1200);
-
         var isTableVisualization = this.jsViewDataTable
             && typeof this.jsViewDataTable === 'string'
             && typeof this.jsViewDataTable.indexOf === 'function'
@@ -540,7 +544,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (isTableVisualization) {
             // we do this only for html tables
 
-            var tableWidth = getTableWidth(domElem);
+            var tableWidth = getTableWidth(domElem);``
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
             var labelColumnWidth    = getLabelWidth(domElem, tableWidth, 125, 440);
@@ -566,6 +570,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             self.overflowContentIfNeeded(domElem);
         }
+
+        setMaxTableWidthIfNeeded(domElem, 1200);
 
         if (!self.windowResizeTableAttached) {
             self.windowResizeTableAttached = true;
@@ -1458,23 +1464,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     //Apply some miscelleaneous style to the DataTable
     applyCosmetics: function (domElem) {
-        var self = this;
-
-        // Add some styles on the cells even/odd
-        // label (first column of a data row) or not
-        $("th:first-child", domElem).addClass('label');
-        $("td:first-child", domElem).addClass('label');
-
-        var metadata = this.getReportMetadata();
-
-        if (self.param.flat == "1" && self.param.show_dimensions == "1" && metadata.dimensions && Object.keys(metadata.dimensions).length > 1) {
-            for (var i = 1; i < Object.keys(metadata.dimensions).length; i++) {
-                $("th:nth-child("+(i+1)+")", domElem).addClass('label');
-                $("td:nth-child("+(i+1)+")", domElem).addClass('label');
-            }
-        }
-
-        $("tr td", domElem).addClass('column');
+        // empty
     },
 
     handleColumnHighlighting: function (domElem) {
@@ -1495,7 +1485,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (!maxWidth[nthChild]) {
                 maxWidth[nthChild] = 0;
-                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
+                rows.find("td:nth-child(" + (nthChild) + ").column .value").add('> thead th:not(.label) .thDIV', table).each(function (index, element) {
                     var width = $(element).width();
                     if (width > maxWidth[nthChild]) {
                         maxWidth[nthChild] = width;
@@ -1503,6 +1493,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 });
                 rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
                     $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
+                    $(element).closest('td').css({width: maxWidth[nthChild]});
                 });
             }
         });
@@ -1562,7 +1553,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                 // if the subDataTable is not already loaded
                 if (typeof self.loadedSubDataTable[divIdToReplaceWithSubTable] == "undefined") {
-                    var numberOfColumns = $(this).children().length;
+                    var numberOfColumns = $(this).closest('table').find('thead tr').first().children().length;
 
                     var $insertAfter = $(this).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
                     if (!$insertAfter.length) {

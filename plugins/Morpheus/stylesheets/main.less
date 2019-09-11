@@ -488,7 +488,7 @@ table.dataTable {
 div.dataTableVizHtmlTable:not(.dataTableActions),
  div.dataTableVizAllColumns,
  div.dataTableVizGoals {
-  tr.subDataTable > td:first-child::before {
+  tr.subDataTable > td > span.label::before {
     display: inline-block;
     float: left;
     top: 0;
@@ -500,11 +500,11 @@ div.dataTableVizHtmlTable:not(.dataTableActions),
     content: '';
   }
 
-  tr.subDataTable:not(.expanded) > td:first-child::before {
+  tr.subDataTable:not(.expanded) > td > span.label::before {
     background-image: url(plugins/Morpheus/images/plus.png);
   }
 
-  tr.subDataTable.expanded > td:first-child::before {
+  tr.subDataTable.expanded > td > span.label::before {
     background-image: url(plugins/Morpheus/images/minus.png);
   }
 }
