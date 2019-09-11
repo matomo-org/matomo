@@ -17,7 +17,7 @@
 		<nb_impressions>6</nb_impressions>
 		<nb_interactions>4</nb_interactions>
 		<interaction_rate>66.67%</interaction_rate>
-		<contentTarget>http://piwik.org/</contentTarget>
+		<contentTarget />
 		<segment>contentName==Text+Ad</segment>
 	</row>
 	<row>

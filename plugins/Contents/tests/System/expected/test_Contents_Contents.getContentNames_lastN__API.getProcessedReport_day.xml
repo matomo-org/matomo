@@ -65,12 +65,12 @@
 			<row>
 				<contentTarget>http://www.example.com</contentTarget>
 				<segment>contentName==ImageAd</segment>
-				<idsubdatatable>1</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget>http://piwik.org/</contentTarget>
+				<contentTarget />
 				<segment>contentName==Text+Ad</segment>
-				<idsubdatatable>2</idsubdatatable>
+				<idsubdatatable>1</idsubdatatable>
 			</row>
 			<row>
 				<contentTarget />

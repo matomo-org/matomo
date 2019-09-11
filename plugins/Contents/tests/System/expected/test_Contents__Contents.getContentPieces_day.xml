@@ -7,7 +7,7 @@
 		<nb_impressions>4</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>50%</interaction_rate>
-		<contentTarget>http://piwik.org/download</contentTarget>
+		<contentTarget />
 		<segment>contentPiece==Click+to+download+Piwik+now</segment>
 	</row>
 	<row>
