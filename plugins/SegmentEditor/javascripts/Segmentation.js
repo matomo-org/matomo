@@ -20,18 +20,6 @@ Segmentation = (function($) {
     });
 
 
-    var uriEncodeSegmentDefinition = function (segmentDefinition) {
-        segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
-        segmentDefinition = encodeURIComponent(segmentDefinition);
-        return segmentDefinition;
-    };
-
-    var cleanupSegmentDefinition = function(definition) {
-        definition = definition.replace(/'/g, "%27");
-        definition = definition.replace(/&/g, "%26");
-        return definition;
-    };
-
     var segmentation = function segmentation(config) {
         if (!config.target) {
             throw new Error("target property must be set in config to segment editor control element");
@@ -327,13 +315,7 @@ Segmentation = (function($) {
             var $rootScope = piwikHelper.getAngularDependency('$rootScope');
             $rootScope.$emit('Segmentation.initAddSegment', parameters);
             if (parameters && !parameters.isAllowed) {
-                return;        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
-            segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
-            segmentDefinition = encodeURIComponent(segmentDefinition);
-            return segmentDefinition;
-        };
-
-
+                return;
             }
 
             displayFormAddNewSegment(segment);
@@ -656,7 +638,7 @@ Segmentation = (function($) {
         };
 
         function getSegmentGeneratorController()
-        {
+        { 
             return angular.element(self.form.find('.segment-generator')).scope().segmentGenerator;
         }
 
@@ -727,7 +709,8 @@ Segmentation = (function($) {
 
         var testSegment = function() {
             var segmentStr = getSegmentGeneratorController().getSegmentString();
-            var encSegment = uriEncodeSegmentDefinition(segmentStr);
+            debugger;
+            var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;
             url = broadcast.updateParamValue('addSegmentAsNew=' + segmentStr, url);
@@ -868,6 +851,18 @@ $(document).ready(function() {
         }
 
         var self = this;
+
+        this.uriEncodeSegmentDefinition = function (segmentDefinition) {
+            segmentDefinition = self.cleanupSegmentDefinition(segmentDefinition);
+            segmentDefinition = encodeURIComponent(segmentDefinition);
+            return segmentDefinition;
+        };
+
+        this.cleanupSegmentDefinition = function(definition) {
+            definition = definition.replace(/'/g, "%27");
+            definition = definition.replace(/&/g, "%26");
+            return definition;
+        };
 
         this.changeSegment = function(segmentDefinition) {
             if (piwikHelper.isAngularRenderingThePage()) {
