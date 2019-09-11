@@ -68,7 +68,7 @@
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget />
+				<contentTarget>http://piwik.org/</contentTarget>
 				<segment>contentName==Text+Ad</segment>
 				<idsubdatatable>1</idsubdatatable>
 			</row>

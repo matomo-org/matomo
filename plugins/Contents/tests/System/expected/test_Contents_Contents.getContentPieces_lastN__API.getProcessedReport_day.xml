@@ -87,7 +87,7 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
-				<contentTarget />
+				<contentTarget>http://piwik.org/download</contentTarget>
 				<segment>contentPiece==Click+to+download+Piwik+now</segment>
 				<idsubdatatable>1</idsubdatatable>
 			</row>
