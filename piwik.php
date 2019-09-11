@@ -22,6 +22,9 @@ use Piwik\API\CORSHandler;
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php')) {
+	require_once PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php';
+}
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
