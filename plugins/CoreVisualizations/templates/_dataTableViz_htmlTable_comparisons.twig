@@ -1,5 +1,6 @@
 {% set lastSeenComparePeriod = false %}
 {% set comparedPeriodPretty = dataTable.getFirstRow().getMetadata('comparePeriodPretty') %}
+{% if properties.columns_to_display is not empty %}
 {%- for rowId, row in dataTable.getRows() -%}
     {% set isComparingSegments = comparisonSegmentIndices|length > 1 %}
     {% set isComparingPeriods = comparePeriodIndices|length > 1 or comparePeriodIndices|first|length > 1 %}
@@ -76,3 +77,4 @@
     </tr>
     {% set lastSeenComparePeriod = comparePeriod %}
 {%- endfor -%}
+{% endif %}

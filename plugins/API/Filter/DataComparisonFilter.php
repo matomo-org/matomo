@@ -551,6 +551,9 @@ class DataComparisonFilter
         if ($parentTable) {
             /** @var Period $period */
             $period = $parentTable->getMetadata('period');
+            if (empty($period)) {
+                return;
+            }
 
             $prettyPeriod = $period->getLocalizedLongString();
             $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);

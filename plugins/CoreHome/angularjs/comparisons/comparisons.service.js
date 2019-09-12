@@ -294,7 +294,7 @@
             var subcategory = piwikUrl.getSearchParam('subcategory');
 
             var id = category + "." + subcategory;
-            isEnabled = comparisonsDisabledFor.indexOf(id) === -1;
+            isEnabled = comparisonsDisabledFor.indexOf(id) === -1 && comparisonsDisabledFor.indexOf(category + ".*") === -1;
 
             $('html').toggleClass('comparisonsDisabled', !isEnabled);
         }

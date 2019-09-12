@@ -69,7 +69,9 @@
         }
 
         function getComparisonTooltip(segmentComparison, periodComparison) {
-            if (!comparisonTooltips) {
+            if (!comparisonTooltips
+                || !Object.keys(comparisonTooltips).length
+            ) {
                 return undefined;
             }
 
@@ -83,6 +85,8 @@
                 return;
             }
 
+            var periodComparisons = comparisonsService.getPeriodComparisons();
+            var segmentComparisons = comparisonsService.getSegmentComparisons();
             piwikApi.fetch({
                 method: 'API.getProcessedReport',
                 apiModule: 'VisitsSummary',
@@ -94,10 +98,9 @@
                 format_metrics: '1',
             }).then(function (report) {
                 comparisonTooltips = {};
-                comparisonsService.getPeriodComparisons().forEach(function (periodComp) {
+                periodComparisons.forEach(function (periodComp) {
                     comparisonTooltips[periodComp.index] = {};
 
-                    var segmentComparisons = comparisonsService.getSegmentComparisons();
                     segmentComparisons.forEach(function (segmentComp) {
                         comparisonTooltips[periodComp.index][segmentComp.index] = generateComparisonTooltip(report, periodComp, segmentComp, segmentComparisons.length);
                     });

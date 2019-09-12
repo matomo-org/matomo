@@ -161,7 +161,9 @@ class HtmlTable extends Visualization
         }
 
         $this->assignTemplateVar('segmentTitlePretty', $this->dataTable->getMetadata('segmentPretty'));
-        $this->assignTemplateVar('periodTitlePretty', $this->dataTable->getMetadata('period')->getLocalizedShortString());
+
+        $period = $this->dataTable->getMetadata('period');
+        $this->assignTemplateVar('periodTitlePretty', $period ? $period->getLocalizedShortString() : '');
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()

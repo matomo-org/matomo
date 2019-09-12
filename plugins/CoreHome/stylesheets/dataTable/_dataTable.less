@@ -163,11 +163,17 @@ table.dataTable span.label.highlighted {
   font-style: italic;
 }
 
+.widget div.dataTable:not(.isComparing) table.dataTable tbody > tr > td:not(.cellSubDataTable):first-child {
+  padding-left: 12px;
+}
+
 /* the cell containing the subdatatable */
-table.dataTable .cellSubDataTable {
-  margin: 0;
-  border-left: 0;
-  padding: 6px 12px 6px;
+table.dataTable tr td.cellSubDataTable {
+  &, .widget & {
+    margin: 0;
+    border-left: 0;
+    padding: 6px 20px 6px;
+  }
 }
 
 .cellSubDataTable > .dataTable {
@@ -445,9 +451,8 @@ tr.level0 td.label {
 }
 
 .widget {
-  table.dataTable tr.level0 td.label,
-  table.dataTable th,
-  table.dataTable td:first-child {
+  div.dataTable:not(.isComparing) table.dataTable tr.level0 td.label,
+  div.dataTable:not(.isComparing) table.dataTable th {
     padding-left: 12px !important;
   }
 }

@@ -162,8 +162,6 @@ class Sparklines extends ViewDataTable
                 $comparePeriods = $data->getMetadata('comparePeriods');
                 $compareDates = $data->getMetadata('compareDates');
 
-                $originalPeriod = $data->getMetadata('period')->getLabel();
-
                 $compareSegments = $data->getMetadata('compareSegments');
                 foreach ($compareSegments as $segmentIndex => $segment) {
                     $metrics = [];

@@ -19,9 +19,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidgetLoader', piwikWidgetLoader);
 
-    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications', '$rootScope', '$timeout'];
+    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications', '$rootScope', '$timeout', 'piwikComparisonsService'];
 
-    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications, $rootScope, $timeout){
+    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications, $rootScope, $timeout, piwikComparisonsService){
         return {
             restrict: 'A',
             transclude: true,
@@ -97,14 +97,16 @@
                             }
                         });
 
-                        ['comparePeriods', 'compareDates', 'compareSegments'].forEach(function (paramName) {
-                            var value = getQueryParamValue(paramName);
-                            if (value) {
-                                var map = {};
-                                map[paramName] = value;
-                                url += '&' + $.param(map);
-                            }
-                        });
+                        if (piwikComparisonsService.isComparisonEnabled()) {
+                            ['comparePeriods', 'compareDates', 'compareSegments'].forEach(function (paramName) {
+                                var value = getQueryParamValue(paramName);
+                                if (value) {
+                                    var map = {};
+                                    map[paramName] = value;
+                                    url += '&' + $.param(map);
+                                }
+                            });
+                        }
 
                         if (!parameters || !('showtitle' in parameters)) {
                             url += '&showtitle=1';
