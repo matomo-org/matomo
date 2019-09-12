@@ -445,13 +445,19 @@ tr.level0 td.label {
 }
 
 .widget {
-  tr.level0 td.label {
+  table.dataTable tr.level0 td.label,
+  table.dataTable th,
+  table.dataTable td:first-child {
     padding-left: 12px !important;
   }
 }
 
 tr.level1 td.label {
   padding-left: 2.5em !important;
+
+  .widget & {
+    padding-left: 28px !important;
+  }
 }
 
 tr.level2 td.label {
@@ -505,7 +511,7 @@ table.dataTable td.label img {
 
 tr td.label img.plusMinus {
   margin-left: -3px;
-  margin-right: 3px;
+  margin-right: 6px;
   margin-top: 0;
 }
 

@@ -494,7 +494,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var minWidthBody = $('tbody tr:nth-child(1) td.label', domElem).css('minWidth');
-
             if (minWidthBody) {
                 minWidthBody = parseInt(minWidthBody, 10);
                 if (minWidthBody && minWidthBody > minWidth) {
@@ -1495,7 +1494,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     }
                 });
                 rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                    $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
                     $(element).closest('td').css({width: maxWidth[nthChild]});
                 });
             }
@@ -1621,7 +1619,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     // repositioning after loading is not easily possible
                     $(this).find('div.dataTableRowActions').hide();
                 } else {
-                    $(this).nextUntil('.subDataTableContainer').last().next().toggle();
+                    var $toToggle = $(this).nextUntil('.subDataTableContainer').last();
+                    $toToggle = $toToggle.length ? $toToggle : $(this);
+                    $toToggle.next().toggle();
                 }
 
                 $(this).toggleClass('expanded');
