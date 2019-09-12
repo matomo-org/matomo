@@ -229,11 +229,14 @@
                     compareDates: [previousDate],
                 };
             } else if (vm.comparePeriodType === 'previousYear') {
-                previousDate = new Date(vm.dateValue);
-                previousDate.setFullYear(previousDate.getFullYear() - 1);
+                var dateStr = vm.selectedPeriod === 'range' ? (vm.startRangeDate + ',' + vm.endRangeDate) : vm.dateValue;
+                var currentDateRange = piwikPeriods.parse(vm.selectedPeriod, dateStr).getDateRange();
+                currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
+                currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
+
                 return {
-                    comparePeriods: ['year'],
-                    compareDates: [piwikPeriods.format(previousDate)],
+                    comparePeriods: ['range'],
+                    compareDates: [piwikPeriods.format(currentDateRange[0]) + ',' + piwikPeriods.format(currentDateRange[1])],
                 };
             } else {
                 console.warn("Unknown compare period type: " + vm.comparePeriodType);

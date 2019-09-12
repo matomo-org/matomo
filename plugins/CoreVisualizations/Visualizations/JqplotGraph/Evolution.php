@@ -46,7 +46,9 @@ class Evolution extends JqplotGraph
 
     public function beforeLoadDataTable()
     {
-        $this->calculateEvolutionDateRange();
+        if (!$this->isComparing()) {
+            $this->calculateEvolutionDateRange();
+        }
 
         parent::beforeLoadDataTable();
 
@@ -63,25 +65,22 @@ class Evolution extends JqplotGraph
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
 
+            $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
+
+            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
+            $this->requestConfig->request_parameters_to_modify['date'] = $requestingPeriod->getDateStart()->toString() . ',' . $requestingPeriod->getDateEnd()->toString();
+
             if (!empty($requestArray['comparePeriods'])) {
-                $requestingPeriod = Factory::build($requestArray['period'], $requestArray['date']);
-                $subperiodCount = count($requestingPeriod->getSubperiods());
-
-                $idSite = Common::getRequestVar('idSite');
-
                 foreach ($requestArray['comparePeriods'] as $index => $comparePeriod) {
                     $compareDate = $requestArray['compareDates'][$index];
                     if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
                         continue;
                     }
 
-                    // if the comparison period is a single period, convert to multiple period
-                    if ($comparePeriod == 'range') {
-                        $requestArray['comparePeriods'][$index] = 'day';
-                    } else {
-                        $newDate = Range::getRelativeToEndDate($comparePeriod, 'last' . $subperiodCount, $compareDate, new Site($idSite));
-                        $requestArray['compareDates'][$index] = $newDate;
-                    }
+                    $comparePeriodObj = Factory::build($comparePeriod, $compareDate);
+
+                    $requestArray['comparePeriods'][$index] = 'day';
+                    $requestArray['compareDates'][$index] = $comparePeriodObj->getRangeString();
                 }
 
                 $this->requestConfig->request_parameters_to_modify['compareDates'] = $requestArray['compareDates'];
