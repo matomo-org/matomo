@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period\Factory;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
@@ -196,7 +197,7 @@ class Sparklines extends ViewDataTable
                             $metrics[] = $metricInfo;
                         }
 
-                        $seriesIndices[] = count($compareSegments) * $periodIndex + $segmentIndex;
+                        $seriesIndices[] = DataComparisonFilter::getComparisonSeriesIndex($data, $periodIndex, $segmentIndex);
                     }
 
                     // only set the title (which is the segment) if comparing more than one segment

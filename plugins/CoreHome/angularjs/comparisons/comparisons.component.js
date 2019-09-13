@@ -9,7 +9,7 @@
     angular.module('piwikApp').component('piwikComparisons', {
         templateUrl: 'plugins/CoreHome/angularjs/comparisons/comparisons.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // TODO
+            // empty
         },
         controller: ComparisonsController
     });
@@ -102,17 +102,20 @@
                     comparisonTooltips[periodComp.index] = {};
 
                     segmentComparisons.forEach(function (segmentComp) {
-                        comparisonTooltips[periodComp.index][segmentComp.index] = generateComparisonTooltip(report, periodComp, segmentComp, segmentComparisons.length);
+                        comparisonTooltips[periodComp.index][segmentComp.index] = generateComparisonTooltip(report, periodComp, segmentComp);
                     });
                 });
             });
         }
 
         // TODO: data structures used to store comparisons are all over the place, needs to be better.
-        function generateComparisonTooltip(visitsSummary, periodComp, segmentComp, segmentCompCount) {
-            var firstRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount];
+        function generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {
+            var firstRowIndex = comparisonsService.getComparisonSeriesIndex(periodComp.index, 0);
+            var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
 
-            var comparisonRow = visitsSummary.reportData.comparisons[periodComp.index * segmentCompCount + segmentComp.index];
+            var comparisonRowIndex = comparisonsService.getComparisonSeriesIndex(periodComp.index, segmentComp.index);
+            var comparisonRow = visitsSummary.reportData.comparisons[comparisonRowIndex];
+
             var firstPeriodRow = visitsSummary.reportData.comparisons[segmentComp.index];
 
             var tooltip = '<div class="comparison-card-tooltip">';

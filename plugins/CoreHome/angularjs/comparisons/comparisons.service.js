@@ -43,8 +43,26 @@
             getSeriesColor: getSeriesColor,
             getAllComparisonSeries: getAllComparisonSeries,
             isComparing: isComparing,
-            isComparingPeriods: isComparingPeriods
+            isComparingPeriods: isComparingPeriods,
+            getIndividualComparisonRowIndices: getIndividualComparisonRowIndices,
+            getComparisonSeriesIndex: getComparisonSeriesIndex
         };
+
+        function getIndividualComparisonRowIndices(comparisonRowIndex) {
+            var segmentCount = getSegmentComparisons().length;
+            var segmentIndex = comparisonRowIndex % segmentCount;
+            var periodIndex = Math.floor(comparisonRowIndex / segmentCount);
+
+            return {
+                segmentIndex: segmentIndex,
+                periodIndex: periodIndex,
+            };
+        }
+
+        function getComparisonSeriesIndex(periodIndex, segmentIndex) {
+            var segmentCount = getSegmentComparisons().length;
+            return periodIndex * segmentCount + segmentIndex;
+        }
 
         function isComparing() {
             return isComparisonEnabled() && comparisons.length > 2; // first two are for selected segment/period

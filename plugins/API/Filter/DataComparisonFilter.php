@@ -664,8 +664,9 @@ class DataComparisonFilter
                         continue; // do not calculate for first period
                     }
 
-                    // TODO: move this math to a helper method (in JS too)
-                    $otherPeriodRowIndex = $index % $segmentCount;
+                    list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
+
+                    $otherPeriodRowIndex = $segmentIndex;
                     $otherPeriodRow = $comparisons[$otherPeriodRowIndex];
 
                     foreach ($compareRow->getColumns() as $name => $value) {
@@ -684,5 +685,36 @@ class DataComparisonFilter
                 }
             }
         });
+    }
+
+    /**
+     * Returns the period and segment indices for a given comparison index.
+     *
+     * @param DataTable $table
+     * @param $comparisonRowIndex
+     * @param null $segmentCount
+     * @return array
+     */
+    public static function getIndividualComparisonRowIndices(DataTable $table, $comparisonRowIndex, $segmentCount = null)
+    {
+        $segmentCount = $segmentCount ?: count($table->getMetadata('compareSegments'));
+        $segmentIndex = $comparisonRowIndex % $segmentCount;
+        $periodIndex = floor($comparisonRowIndex / $segmentCount);
+        return [$periodIndex, $segmentIndex];
+    }
+
+    /**
+     * Returns the series index for a comparison based on the period and segment indices.
+     *
+     * @param DataTable $table
+     * @param int $periodIndex
+     * @param int $segmentIndex
+     * @param int|null $segmentCount
+     * @return int
+     */
+    public static function getComparisonSeriesIndex(DataTable $table, $periodIndex, $segmentIndex, $segmentCount = null)
+    {
+        $segmentCount = $segmentCount ?: count($table->getMetadata('compareSegments'));
+        return $periodIndex * $segmentCount + $segmentIndex;
     }
 }
