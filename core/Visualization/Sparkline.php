@@ -167,7 +167,6 @@ class Sparkline implements ViewInterface
         $colors = Common::getRequestVar('colors', false, 'json');
 
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
-            // TODO: test widgetized comparisons
             $colors = array(
                 'backgroundColor' => '#ffffff',
                 'lineColor' => '#162C4A',

@@ -27,6 +27,10 @@
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
         $rootScope.$on('piwikSegmentationInited', updateComparisonsFromQueryParams);
 
+        if (!piwikHelper.isAngularRenderingThePage()) { // if we're, eg, widgetized
+            updateComparisonsFromQueryParams();
+        }
+
         loadComparisonsDisabledFor();
 
         return {

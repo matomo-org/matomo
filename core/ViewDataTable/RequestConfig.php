@@ -279,19 +279,22 @@ class RequestConfig
     public $pivotByColumnLimit = false;
 
     /**
-     * TODO
+     * List of segments to compare with. Defaults to segments used in `compareSegments[]` query parameter.
+     *
      * @var array
      */
     public $compareSegments = [];
 
     /**
-     * TODO
+     * List of period labels to compare with. Defaults to values used in `comparePeriods[]` query parameter.
+     *
      * @var array
      */
     public $comparePeriods = [];
 
     /**
-     * TODO
+     * List of period dates to compare with. Defaults to values used in `compareDates[]` query parameter.
+     *
      * @var array
      */
     public $compareDates = [];

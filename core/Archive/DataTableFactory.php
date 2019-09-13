@@ -581,53 +581,10 @@ class DataTableFactory
         return $table;
     }
 
-    private function getAllSegmentsForSite($idSite)
-    {
-        $cache = Cache::getTransientCache();
-        $cacheKey = CacheId::siteAware('DataTableFactory.SegmentEditor_getAll', [$idSite]);
-
-        $segments = $cache->fetch($cacheKey);
-        if (!is_array($segments)) {
-            $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
-            usort($segments, function ($lhs, $rhs) {
-                return strcmp($lhs['name'], $rhs['name']);
-            });
-            $cache->save($cacheKey, $segments);
-        }
-        return $segments;
-
-    }
-
     private function setPrettySegmentMetadata(DataTable $table)
     {
-        $segmentPretty = $this->getPrettySegmentMetadata($table);
-        $table->setMetadata('segmentPretty', $segmentPretty);
-    }
-
-    // TODO: maybe put this logic in Segment?
-    private function getPrettySegmentMetadata(DataTable $table)
-    {
-        $segment = $this->segment->getString();
-        if (empty($segment)) {
-            return Piwik::translate('SegmentEditor_DefaultAllVisits');
-        }
-
         $idSite = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX)->getId();
-        $availableSegments = $this->getAllSegmentsForSite($idSite);
-
-        $foundStoredSegment = null;
-        foreach ($availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
-                || $storedSegment['definition'] == urldecode($segment)
-                || $storedSegment['definition'] == urlencode($segment)
-            ) {
-                $foundStoredSegment = $storedSegment;
-            }
-        }
-
-        if (isset($foundStoredSegment)) {
-            return $foundStoredSegment['name'];
-        }
-        return $segment;
+        $segmentPretty = $this->segment->getPrettySegmentMetadata($idSite);
+        $table->setMetadata('segmentPretty', $segmentPretty);
     }
 }

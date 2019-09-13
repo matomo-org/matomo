@@ -32,7 +32,10 @@ describe("Comparison", function () {
         htmlTableUrlNoPeriods = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getSearchEngines&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1" + compareSegment,
         htmlTableUrlNoSegments = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
-            + "actionToWidgetize=getSearchEngines&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1" + comparePeriod
+            + "actionToWidgetize=getSearchEngines&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1" + comparePeriod,
+        visitOverviewWidget = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+            "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&" + generalParams + "&" +
+            compareParams
     ;
 
     it('should compare periods correctly when comparing the last period', async () => {
@@ -215,4 +218,9 @@ describe("Comparison", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('goals_table');
     });
 
+    it('should load a widgetized sparklines visualization correctly', async () => {
+        await page.goto(visitOverviewWidget);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget');
+    });
 });
