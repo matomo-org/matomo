@@ -1539,6 +1539,21 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
     },
 
+    getComparisonIdSubtables: function ($row) {
+        if ($row.is('.parentComparisonRow')) {
+            var comparisonRows = $row.nextUntil('.parentComparisonRow').filter('.comparisonRow');
+
+            var comparisonIdSubtables = {};
+            comparisonRows.each(function () {
+                var comparisonSeriesIndex = +$(this).data('comparison-series');
+                comparisonIdSubtables[comparisonSeriesIndex] = $(this).data('idsubtable');
+            });
+
+            return JSON.stringify(comparisonIdSubtables);
+        }
+        return undefined;
+    },
+
     //behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
     handleSubDataTable: function (domElem) {
         var self = this;
@@ -1586,17 +1601,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 					delete self.param.totalRows;
 
                     var extraParams = {};
-                    if ($(this).is('.parentComparisonRow')) {
-                        var comparisonRows = $(this).nextUntil('.parentComparisonRow').filter('.comparisonRow');
-
-                        var comparisonIdSubtables = {};
-                        comparisonRows.each(function () {
-                            var comparisonSeriesIndex = +$(this).data('comparison-series');
-                            comparisonIdSubtables[comparisonSeriesIndex] = $(this).data('idsubtable');
-                        });
-
-                        extraParams.comparisonIdSubtables = JSON.stringify(comparisonIdSubtables);
-                    }
+                    extraParams.comparisonIdSubtables = self.getComparisonIdSubtables($(this));
 
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
