@@ -47,12 +47,12 @@
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
-			<compareSegmentPretty>browserCode%3D%3Dff</compareSegmentPretty>
+			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 			<comparePeriodOriginal>month</comparePeriodOriginal>
 			<comparePeriod>month</comparePeriod>
 			<compareDateOriginal>2012-08-09</compareDateOriginal>
 			<compareDate>2012-08-01</compareDate>
-			<compareSeriesPretty>(August 2012) (browserCode%3D%3Dff)</compareSeriesPretty>
+			<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
 			
 		</row>
@@ -69,12 +69,12 @@
 			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
 			<compareSegment>browserCode%3D%3Die</compareSegment>
-			<compareSegmentPretty>browserCode%3D%3Die</compareSegmentPretty>
+			<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 			<comparePeriodOriginal>month</comparePeriodOriginal>
 			<comparePeriod>month</comparePeriod>
 			<compareDateOriginal>2012-08-09</compareDateOriginal>
 			<compareDate>2012-08-01</compareDate>
-			<compareSeriesPretty>(August 2012) (browserCode%3D%3Die)</compareSeriesPretty>
+			<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
 			
 		</row>

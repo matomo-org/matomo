@@ -87,11 +87,6 @@ class DataComparisonFilter
     private $periodCompareLimit;
 
     /**
-     * @var array[]
-     */
-    private $availableSegments;
-
-    /**
      * @var array
      */
     private $columnMappings;
@@ -183,8 +178,6 @@ class DataComparisonFilter
             $date = $this->compareDates[$index];
             $this->comparePeriodIndices[$period][$date] = $index;
         }
-
-        $this->availableSegments = self::getAvailableSegments($this->request['idSite']);
     }
 
     /**
@@ -563,32 +556,6 @@ class DataComparisonFilter
         }
     }
 
-    public static function getAvailableSegments($idSite)
-    {
-        $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
-        usort($segments, function ($lhs, $rhs) {
-            return strcmp($lhs['name'], $rhs['name']);
-        });
-        return $segments;
-    }
-
-    private function findSegment($segment)
-    {
-        $segment = trim($segment);
-        if (empty($segment)) {
-            return ['name' => Piwik::translate('SegmentEditor_DefaultAllVisits')];
-        }
-        foreach ($this->availableSegments as $storedSegment) {
-            if ($storedSegment['definition'] == $segment
-                || $storedSegment['definition'] == urldecode($segment)
-                || $storedSegment['definition'] == urlencode($segment)
-            ) {
-                return $storedSegment;
-            }
-        }
-        return null;
-    }
-
     private function getMetadataFromModifiedParams($modifiedParams)
     {
         $metadata = [];
@@ -599,8 +566,8 @@ class DataComparisonFilter
 
         $metadata['compareSegment'] = $segment;
 
-        $storedSegment = $this->findSegment($metadata['compareSegment']);
-        $metadata['compareSegmentPretty'] = $storedSegment ? $storedSegment['name'] : $metadata['compareSegment'];
+        $segmentObj = new Segment($segment, []);
+        $metadata['compareSegmentPretty'] = $segmentObj->getPrettySegmentName(false);
 
         $metadata['comparePeriod'] = $metadata['comparePeriodOriginal'] = $period;
         $metadata['compareDate'] = $metadata['compareDateOriginal'] = $date;

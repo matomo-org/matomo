@@ -584,7 +584,9 @@ class DataTableFactory
     private function setPrettySegmentMetadata(DataTable $table)
     {
         $idSite = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX)->getId();
-        $segmentPretty = $this->segment->getPrettySegmentMetadata($idSite);
+        $segmentPretty = $this->segment->getPrettySegmentName($idSite);
+
+        $table->setMetadata('segment', $this->segment->getString());
         $table->setMetadata('segmentPretty', $segmentPretty);
     }
 }

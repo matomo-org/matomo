@@ -77,6 +77,11 @@ class Segment
     private $segmentQueryBuilder;
 
     /**
+     * @var bool
+     */
+    private $isSegmentEncoded;
+
+    /**
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -104,8 +109,10 @@ class Segment
         // If that also fails, it will throw the exception
         try {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
+            $this->isSegmentEncoded = true;
         } catch (Exception $e) {
             $this->initializeSegment($segmentCondition, $idSites);
+            $this->isSegmentEncoded = false;
         }
     }
 
@@ -410,7 +417,7 @@ class Segment
             || $segment === urldecode($segmentCondition);
     }
 
-    public function getPrettySegmentMetadata($idSite)
+    public function getPrettySegmentName($idSite)
     {
         $segment = $this->getString();
         if (empty($segment)) {
@@ -432,6 +439,7 @@ class Segment
         if (isset($foundStoredSegment)) {
             return $foundStoredSegment['name'];
         }
-        return $segment;
+
+        return $this->isSegmentEncoded ? urldecode($segment) : $segment;
     }
 }

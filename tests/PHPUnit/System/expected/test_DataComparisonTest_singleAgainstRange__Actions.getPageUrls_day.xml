@@ -37,22 +37,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -290,7 +274,7 @@
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										
-										<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+										<segment>pageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 									</row>
 									<row>
 										<nb_visits>8</nb_visits>
@@ -316,10 +300,10 @@
 										<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 										
-										<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+										<segment>pageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%253A%252F%252Fincluded1.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
+								<segment>pageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 							</row>
 						</subtable>
 					</row>
@@ -572,7 +556,7 @@
 												<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 												
-												<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
+												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 											</row>
 											<row>
 												<nb_visits>1</nb_visits>
@@ -598,10 +582,10 @@
 												<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 												
-												<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
+												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 											</row>
 										</comparisons>
-										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
+										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 									</row>
 								</subtable>
 							</row>
@@ -648,22 +632,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -767,7 +735,7 @@
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 					<row>
 						<nb_visits>2</nb_visits>
@@ -793,10 +761,10 @@
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
+				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 			</row>
 			<row>
 				<label>how-to</label>
@@ -911,7 +879,7 @@
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -937,10 +905,10 @@
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -983,22 +951,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -1169,7 +1121,7 @@
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 							<row>
 								<nb_visits>2</nb_visits>
@@ -1195,10 +1147,10 @@
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 								
-								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
+								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1241,22 +1193,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -1360,7 +1296,7 @@
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 					</row>
 					<row>
 						<nb_visits>1</nb_visits>
@@ -1386,10 +1322,10 @@
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
+				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -1430,22 +1366,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -1549,7 +1469,7 @@
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 					<row>
 						<nb_visits>1</nb_visits>
@@ -1575,10 +1495,10 @@
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 						
-						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
+						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 				</comparisons>
-				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
+				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 			</row>
 		</subtable>
 	</row>

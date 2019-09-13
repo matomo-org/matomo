@@ -24,17 +24,6 @@
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
-			<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
-			<nb_users_change>+0%</nb_users_change>
-			<nb_visits_change>+0%</nb_visits_change>
-			<nb_actions_change>+0%</nb_actions_change>
-			<nb_visits_converted_change>+0%</nb_visits_converted_change>
-			<bounce_count_change>+0%</bounce_count_change>
-			<sum_visit_length_change>+0%</sum_visit_length_change>
-			<max_actions_change>+0%</max_actions_change>
-			<bounce_rate_change>+0%</bounce_rate_change>
-			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriodOriginal>day</comparePeriodOriginal>
@@ -57,24 +46,13 @@
 			<bounce_rate>0%</bounce_rate>
 			<nb_actions_per_visit>0</nb_actions_per_visit>
 			<avg_time_on_site>0</avg_time_on_site>
-			<nb_uniq_visitors_change>+0%</nb_uniq_visitors_change>
-			<nb_users_change>+0%</nb_users_change>
-			<nb_visits_change>+0%</nb_visits_change>
-			<nb_actions_change>+0%</nb_actions_change>
-			<nb_visits_converted_change>+0%</nb_visits_converted_change>
-			<bounce_count_change>+0%</bounce_count_change>
-			<sum_visit_length_change>+0%</sum_visit_length_change>
-			<max_actions_change>+0%</max_actions_change>
-			<bounce_rate_change>+0%</bounce_rate_change>
-			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
-			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserName%3D%3Dicedragon</compareSegment>
-			<compareSegmentPretty>browserName%3D%3Dicedragon</compareSegmentPretty>
+			<compareSegmentPretty>browserName==icedragon</compareSegmentPretty>
 			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
 			<compareDateOriginal>2013-05-06</compareDateOriginal>
 			<compareDate>2013-05-06</compareDate>
-			<compareSeriesPretty>(Monday, May 6, 2013) (browserName%3D%3Dicedragon)</compareSeriesPretty>
+			<compareSeriesPretty>(Monday, May 6, 2013) (browserName==icedragon)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
 			
 		</row>
@@ -135,12 +113,12 @@
 			<nb_actions_per_visit_change>+0%</nb_actions_per_visit_change>
 			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserName%3D%3Dicedragon</compareSegment>
-			<compareSegmentPretty>browserName%3D%3Dicedragon</compareSegmentPretty>
+			<compareSegmentPretty>browserName==icedragon</compareSegmentPretty>
 			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
 			<compareDateOriginal>2013-05-16</compareDateOriginal>
 			<compareDate>2013-05-16</compareDate>
-			<compareSeriesPretty>(Thursday, May 16, 2013) (browserName%3D%3Dicedragon)</compareSeriesPretty>
+			<compareSeriesPretty>(Thursday, May 16, 2013) (browserName==icedragon)</compareSeriesPretty>
 			<comparePeriodPretty>Thursday, May 16, 2013</comparePeriodPretty>
 			
 		</row>

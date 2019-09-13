@@ -2,7 +2,7 @@
 <results>
 	<result date="2012-08-12">
 		<row>
-			<label>0</label>
+			<label />
 			<comparisons>
 				<row>
 					<avg_bandwidth>0</avg_bandwidth>
@@ -54,7 +54,7 @@
 	</result>
 	<result date="2012-08-13">
 		<row>
-			<label>0</label>
+			<label />
 			<comparisons>
 				<row>
 					<avg_bandwidth>0</avg_bandwidth>
@@ -106,7 +106,7 @@
 	</result>
 	<result date="2012-08-14">
 		<row>
-			<label>0</label>
+			<label />
 			<comparisons>
 				<row>
 					<avg_bandwidth>0</avg_bandwidth>
@@ -213,7 +213,7 @@
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 					
-					<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
+					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
 				<row>
 					<nb_visits>0</nb_visits>
@@ -263,10 +263,10 @@
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 					
-					<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
+					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
 			</comparisons>
-			<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
+			<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 		</row>
 		<row>
 			<label>/register.php?0,approve=9a94a02145599</label>
@@ -339,7 +339,7 @@
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 					
-					<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
+					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
 				<row>
 					<nb_visits>0</nb_visits>
@@ -389,10 +389,10 @@
 					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 					
-					<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
+					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
 			</comparisons>
-			<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
+			<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 		</row>
 	</result>
 	<result date="2012-08-16">
