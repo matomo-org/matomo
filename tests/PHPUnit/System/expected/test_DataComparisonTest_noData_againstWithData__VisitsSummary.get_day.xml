@@ -26,9 +26,7 @@
 			<avg_time_on_site>0</avg_time_on_site>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
-			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
-			<compareDateOriginal>2013-05-06</compareDateOriginal>
 			<compareDate>2013-05-06</compareDate>
 			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
@@ -48,9 +46,7 @@
 			<avg_time_on_site>0</avg_time_on_site>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
 			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
-			<compareDateOriginal>2013-05-06</compareDateOriginal>
 			<compareDate>2013-05-06</compareDate>
 			<compareSeriesPretty>(Monday, May 6, 2013) (browserCode==ff)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
@@ -81,9 +77,7 @@
 			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
-			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
-			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -114,9 +108,7 @@
 			<avg_time_on_site_change>+0%</avg_time_on_site_change>
 			<compareSegment>browserCode%3D%3Dff</compareSegment>
 			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
-			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>

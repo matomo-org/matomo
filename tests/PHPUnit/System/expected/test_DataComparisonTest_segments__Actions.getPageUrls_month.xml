@@ -39,9 +39,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -67,9 +65,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -95,9 +91,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -139,9 +133,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -183,9 +175,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -233,9 +223,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -280,9 +268,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -330,9 +316,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -379,9 +363,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -423,9 +405,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -467,9 +447,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -517,9 +495,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>month</comparePeriodOriginal>
 												<comparePeriod>month</comparePeriod>
-												<compareDateOriginal>2012-08-09</compareDateOriginal>
 												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -576,9 +552,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -604,9 +578,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -632,9 +604,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -676,9 +646,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -699,9 +667,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -722,9 +688,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -772,9 +736,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -798,9 +760,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Dff</compareSegment>
 								<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -824,9 +784,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Die</compareSegment>
 								<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -877,9 +835,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -903,9 +859,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -933,9 +887,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -978,9 +930,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1005,9 +955,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Dff</compareSegment>
 						<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1032,9 +980,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1082,9 +1028,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1137,9 +1081,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1165,9 +1107,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1193,9 +1133,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1243,9 +1181,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1273,9 +1209,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1318,9 +1252,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1341,9 +1273,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1391,9 +1321,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1417,9 +1345,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment>browserCode%3D%3Die</compareSegment>
 								<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1464,9 +1390,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1491,9 +1415,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1541,9 +1463,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1602,9 +1522,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1633,9 +1551,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1664,9 +1580,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1721,9 +1635,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1752,9 +1664,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1783,9 +1693,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1836,9 +1744,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1865,9 +1771,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1894,9 +1798,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1951,9 +1853,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1982,9 +1882,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2013,9 +1911,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2060,9 +1956,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2086,9 +1980,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2112,9 +2004,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2169,9 +2059,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2200,9 +2088,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2231,9 +2117,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2282,9 +2166,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2310,9 +2192,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2338,9 +2218,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2382,9 +2260,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2432,9 +2308,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2487,9 +2361,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2515,9 +2387,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2543,9 +2413,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2593,9 +2461,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2646,9 +2512,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2674,9 +2538,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2702,9 +2564,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2752,9 +2612,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2805,9 +2663,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2833,9 +2689,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2861,9 +2715,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2911,9 +2763,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2937,9 +2787,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment>browserCode%3D%3Die</compareSegment>
 						<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2990,9 +2838,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3018,9 +2864,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3046,9 +2890,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3090,9 +2932,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3134,9 +2974,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3178,9 +3016,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3222,9 +3058,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>month</comparePeriodOriginal>
 												<comparePeriod>month</comparePeriod>
-												<compareDateOriginal>2012-08-09</compareDateOriginal>
 												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3266,9 +3100,7 @@
 														<exit_rate>100%</exit_rate>
 														<compareSegment />
 														<compareSegmentPretty>All visits</compareSegmentPretty>
-														<comparePeriodOriginal>month</comparePeriodOriginal>
 														<comparePeriod>month</comparePeriod>
-														<compareDateOriginal>2012-08-09</compareDateOriginal>
 														<compareDate>2012-08-01</compareDate>
 														<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 														<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3310,9 +3142,7 @@
 																<exit_rate>100%</exit_rate>
 																<compareSegment />
 																<compareSegmentPretty>All visits</compareSegmentPretty>
-																<comparePeriodOriginal>month</comparePeriodOriginal>
 																<comparePeriod>month</comparePeriod>
-																<compareDateOriginal>2012-08-09</compareDateOriginal>
 																<compareDate>2012-08-01</compareDate>
 																<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3354,9 +3184,7 @@
 																		<exit_rate>100%</exit_rate>
 																		<compareSegment />
 																		<compareSegmentPretty>All visits</compareSegmentPretty>
-																		<comparePeriodOriginal>month</comparePeriodOriginal>
 																		<comparePeriod>month</comparePeriod>
-																		<compareDateOriginal>2012-08-09</compareDateOriginal>
 																		<compareDate>2012-08-01</compareDate>
 																		<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																		<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3398,9 +3226,7 @@
 																				<exit_rate>100%</exit_rate>
 																				<compareSegment />
 																				<compareSegmentPretty>All visits</compareSegmentPretty>
-																				<comparePeriodOriginal>month</comparePeriodOriginal>
 																				<comparePeriod>month</comparePeriod>
-																				<compareDateOriginal>2012-08-09</compareDateOriginal>
 																				<compareDate>2012-08-01</compareDate>
 																				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3448,9 +3274,7 @@
 																						<exit_rate>100%</exit_rate>
 																						<compareSegment />
 																						<compareSegmentPretty>All visits</compareSegmentPretty>
-																						<comparePeriodOriginal>month</comparePeriodOriginal>
 																						<comparePeriod>month</comparePeriod>
-																						<compareDateOriginal>2012-08-09</compareDateOriginal>
 																						<compareDate>2012-08-01</compareDate>
 																						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3517,9 +3341,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3545,9 +3367,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Dff</compareSegment>
 				<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3573,9 +3393,7 @@
 				<exit_rate>0%</exit_rate>
 				<compareSegment>browserCode%3D%3Die</compareSegment>
 				<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3623,9 +3441,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>

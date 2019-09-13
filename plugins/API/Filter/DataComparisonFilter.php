@@ -481,10 +481,6 @@ class DataComparisonFilter
             $table->addRow(new DataTable\Row());
         }
 
-        if (!$compareTable) {
-            return;
-        }
-
         foreach ($table->getRows() as $row) {
             $label = $row->getColumn('label');
 
@@ -504,16 +500,18 @@ class DataComparisonFilter
             $this->compareRow($table, $compareMetadata, $totalsRow, $compareRow, $rootCompareTable);
         }
 
-        $totals = $compareTable->getMetadata('totals');
-        if (!empty($totals)) {
-            $totals = $this->replaceIndexesInTotals($totals);
-            $comparisonTotalsEntry = array_merge($compareMetadata, [
-                'totals' => $totals,
-            ]);
+        if ($compareTable) {
+            $totals = $compareTable->getMetadata('totals');
+            if (!empty($totals)) {
+                $totals = $this->replaceIndexesInTotals($totals);
+                $comparisonTotalsEntry = array_merge($compareMetadata, [
+                    'totals' => $totals,
+                ]);
 
-            $allTotalsTables = $table->getMetadata('comparisonTotals');
-            $allTotalsTables[] = $comparisonTotalsEntry;
-            $table->setMetadata('comparisonTotals', $allTotalsTables);
+                $allTotalsTables = $table->getMetadata('comparisonTotals');
+                $allTotalsTables[] = $comparisonTotalsEntry;
+                $table->setMetadata('comparisonTotals', $allTotalsTables);
+            }
         }
     }
 
@@ -566,8 +564,8 @@ class DataComparisonFilter
         $segmentObj = new Segment($segment, []);
         $metadata['compareSegmentPretty'] = $segmentObj->getPrettySegmentName(false);
 
-        $metadata['comparePeriod'] = $metadata['comparePeriodOriginal'] = $period;
-        $metadata['compareDate'] = $metadata['compareDateOriginal'] = $date;
+        $metadata['comparePeriod'] = $period;
+        $metadata['compareDate'] = $date;
 
         // set compareSeriesPretty
         $segmentPretty = isset($metadata['compareSegmentPretty']) ? $metadata['compareSegmentPretty'] : '';
@@ -655,38 +653,25 @@ class DataComparisonFilter
 
     private function compareChangePercents(DataTableInterface $result)
     {
-        $originalPeriod = reset($this->comparePeriods);
-        $originalDate = reset($this->compareDates);
+        $segmentCount = count($this->compareSegments);
 
-        $result->filter(function (DataTable $table) use ($originalDate, $originalPeriod) {
+        $result->filter(function (DataTable $table) use ($segmentCount) {
             foreach ($table->getRowsWithTotalsRow() as $row) {
                 $comparisons = $row->getComparisons();
                 if (empty($comparisons)) {
                     continue;
                 }
 
-                $indexedCompareRows = [];
-                foreach ($comparisons->getRows() as $compareRow) {
-                    $period = $compareRow->getMetadata('comparePeriodOriginal') ?: $originalPeriod; // TODO: remove these, should always be set
-                    $date = $compareRow->getMetadata('compareDateOriginal') ?: $originalDate;
-                    $segment = $compareRow->getMetadata('compareSegment');
-
-                    $indexedCompareRows[$period][$date][$segment] = $compareRow;
-                }
-
-                foreach ($comparisons->getRows() as $compareRow) {
-                    if ($compareRow->getMetadata('comparePeriod') == $originalPeriod
-                        && $compareRow->getMetadata('compareDate') == $originalDate
-                    ) {
-                        continue;
+                /** @var DataTable\Row[] $rows */
+                $rows = array_values($comparisons->getRows());
+                foreach ($rows as $index => $compareRow) {
+                    if ($index < $segmentCount) {
+                        continue; // do not calculate for first period
                     }
 
-                    $segment = $compareRow->getMetadata('compareSegment');
-
-                    $otherPeriodRow = null;
-                    if (isset($indexedCompareRows[$originalPeriod][$originalDate][$segment])) {
-                        $otherPeriodRow = $indexedCompareRows[$originalPeriod][$originalDate][$segment];
-                    }
+                    // TODO: move this math to a helper method (in JS too)
+                    $otherPeriodRowIndex = $index % $segmentCount;
+                    $otherPeriodRow = $comparisons[$otherPeriodRowIndex];
 
                     foreach ($compareRow->getColumns() as $name => $value) {
                         $valueToCompare = $otherPeriodRow ? $otherPeriodRow->getColumn($name) : 0;

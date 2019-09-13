@@ -37,27 +37,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -99,9 +81,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -143,9 +123,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -187,9 +165,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -210,9 +186,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -233,9 +207,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>week</comparePeriodOriginal>
 						<comparePeriod>week</comparePeriod>
-						<compareDateOriginal>2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-13</compareDate>
 						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -277,9 +249,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -300,9 +270,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -323,9 +291,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>week</comparePeriodOriginal>
 								<comparePeriod>week</comparePeriod>
-								<compareDateOriginal>2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-13</compareDate>
 								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -373,9 +339,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -399,9 +363,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>day</comparePeriodOriginal>
 										<comparePeriod>day</comparePeriod>
-										<compareDateOriginal>2012-08-10</compareDateOriginal>
 										<compareDate>2012-08-10</compareDate>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -425,9 +387,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>week</comparePeriodOriginal>
 										<comparePeriod>week</comparePeriod>
-										<compareDateOriginal>2012-08-16</compareDateOriginal>
 										<compareDate>2012-08-13</compareDate>
 										<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -472,9 +432,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -499,9 +457,7 @@
 								<exit_rate>0%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -526,9 +482,7 @@
 								<exit_rate>0%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>week</comparePeriodOriginal>
 								<comparePeriod>week</comparePeriod>
-								<compareDateOriginal>2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-13</compareDate>
 								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -576,9 +530,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -625,9 +577,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -648,9 +598,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -675,9 +623,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>week</comparePeriodOriginal>
 						<comparePeriod>week</comparePeriod>
-						<compareDateOriginal>2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-13</compareDate>
 						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -719,9 +665,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -742,9 +686,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -786,9 +728,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -809,9 +749,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>day</comparePeriodOriginal>
 										<comparePeriod>day</comparePeriod>
-										<compareDateOriginal>2012-08-10</compareDateOriginal>
 										<compareDate>2012-08-10</compareDate>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -859,9 +797,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>month</comparePeriodOriginal>
 												<comparePeriod>month</comparePeriod>
-												<compareDateOriginal>2012-08-09</compareDateOriginal>
 												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -885,9 +821,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>day</comparePeriodOriginal>
 												<comparePeriod>day</comparePeriod>
-												<compareDateOriginal>2012-08-10</compareDateOriginal>
 												<compareDate>2012-08-10</compareDate>
 												<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -942,27 +876,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1004,9 +920,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1048,9 +962,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -1092,9 +1004,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1115,9 +1025,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1165,9 +1073,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1191,9 +1097,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1244,9 +1148,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1274,9 +1176,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1319,9 +1219,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1346,9 +1244,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1396,9 +1292,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1449,27 +1343,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1511,9 +1387,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1555,9 +1429,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -1605,9 +1477,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1631,9 +1501,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1676,9 +1544,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1699,9 +1565,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1749,9 +1613,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1775,9 +1637,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1822,9 +1682,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1849,9 +1707,7 @@
 						<exit_rate>0%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1899,9 +1755,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -1958,30 +1812,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2029,9 +1862,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2079,9 +1910,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2134,30 +1963,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2205,9 +2013,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2255,9 +2061,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2306,28 +2110,9 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2371,9 +2156,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2417,9 +2200,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2472,30 +2253,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2543,9 +2303,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2593,9 +2351,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2638,25 +2394,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2694,9 +2434,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2734,9 +2472,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2789,30 +2525,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
-				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
-				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -2860,9 +2575,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -2910,9 +2623,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -2959,27 +2670,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3021,9 +2714,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3065,9 +2756,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -3109,9 +2798,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3159,9 +2846,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3212,27 +2897,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3274,9 +2941,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3318,9 +2983,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -3368,9 +3031,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3419,27 +3080,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3481,9 +3124,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3525,9 +3166,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -3575,9 +3214,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3601,9 +3238,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3652,27 +3287,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3714,9 +3331,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3758,9 +3373,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -3808,9 +3421,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3834,9 +3445,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3885,27 +3494,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -3947,9 +3538,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -3991,9 +3580,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -4035,9 +3622,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4079,9 +3664,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>month</comparePeriodOriginal>
 								<comparePeriod>month</comparePeriod>
-								<compareDateOriginal>2012-08-09</compareDateOriginal>
 								<compareDate>2012-08-01</compareDate>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4123,9 +3706,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>month</comparePeriodOriginal>
 										<comparePeriod>month</comparePeriod>
-										<compareDateOriginal>2012-08-09</compareDateOriginal>
 										<compareDate>2012-08-01</compareDate>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4167,9 +3748,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>month</comparePeriodOriginal>
 												<comparePeriod>month</comparePeriod>
-												<compareDateOriginal>2012-08-09</compareDateOriginal>
 												<compareDate>2012-08-01</compareDate>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4211,9 +3790,7 @@
 														<exit_rate>100%</exit_rate>
 														<compareSegment />
 														<compareSegmentPretty>All visits</compareSegmentPretty>
-														<comparePeriodOriginal>month</comparePeriodOriginal>
 														<comparePeriod>month</comparePeriod>
-														<compareDateOriginal>2012-08-09</compareDateOriginal>
 														<compareDate>2012-08-01</compareDate>
 														<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 														<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4255,9 +3832,7 @@
 																<exit_rate>100%</exit_rate>
 																<compareSegment />
 																<compareSegmentPretty>All visits</compareSegmentPretty>
-																<comparePeriodOriginal>month</comparePeriodOriginal>
 																<comparePeriod>month</comparePeriod>
-																<compareDateOriginal>2012-08-09</compareDateOriginal>
 																<compareDate>2012-08-01</compareDate>
 																<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4299,9 +3874,7 @@
 																		<exit_rate>100%</exit_rate>
 																		<compareSegment />
 																		<compareSegmentPretty>All visits</compareSegmentPretty>
-																		<comparePeriodOriginal>month</comparePeriodOriginal>
 																		<comparePeriod>month</comparePeriod>
-																		<compareDateOriginal>2012-08-09</compareDateOriginal>
 																		<compareDate>2012-08-01</compareDate>
 																		<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																		<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4343,9 +3916,7 @@
 																				<exit_rate>100%</exit_rate>
 																				<compareSegment />
 																				<compareSegmentPretty>All visits</compareSegmentPretty>
-																				<comparePeriodOriginal>month</comparePeriodOriginal>
 																				<comparePeriod>month</comparePeriod>
-																				<compareDateOriginal>2012-08-09</compareDateOriginal>
 																				<compareDate>2012-08-01</compareDate>
 																				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4393,9 +3964,7 @@
 																						<exit_rate>100%</exit_rate>
 																						<compareSegment />
 																						<compareSegmentPretty>All visits</compareSegmentPretty>
-																						<comparePeriodOriginal>month</comparePeriodOriginal>
 																						<comparePeriod>month</comparePeriod>
-																						<compareDateOriginal>2012-08-09</compareDateOriginal>
 																						<compareDate>2012-08-01</compareDate>
 																						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 																						<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4460,27 +4029,9 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<nb_visits_change>+0%</nb_visits_change>
-				<nb_hits_change>+0%</nb_hits_change>
-				<sum_time_spent_change>+0%</sum_time_spent_change>
-				<entry_nb_visits_change>+0%</entry_nb_visits_change>
-				<entry_nb_actions_change>+0%</entry_nb_actions_change>
-				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
-				<entry_bounce_count_change>+0%</entry_bounce_count_change>
-				<exit_nb_visits_change>+0%</exit_nb_visits_change>
-				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
-				<max_bandwidth_change>+0%</max_bandwidth_change>
-				<min_bandwidth_change>+0%</min_bandwidth_change>
-				<sum_bandwidth_change>+0%</sum_bandwidth_change>
-				<avg_bandwidth_change>+0%</avg_bandwidth_change>
-				<avg_time_on_page_change>+0%</avg_time_on_page_change>
-				<bounce_rate_change>+0%</bounce_rate_change>
-				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>month</comparePeriodOriginal>
 				<comparePeriod>month</comparePeriod>
-				<compareDateOriginal>2012-08-09</compareDateOriginal>
 				<compareDate>2012-08-01</compareDate>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -4522,9 +4073,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -4566,9 +4115,7 @@
 				<exit_rate_change>-100%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>week</comparePeriodOriginal>
 				<comparePeriod>week</comparePeriod>
-				<compareDateOriginal>2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-13</compareDate>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
@@ -4616,9 +4163,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>month</comparePeriodOriginal>
 						<comparePeriod>month</comparePeriod>
-						<compareDateOriginal>2012-08-09</compareDateOriginal>
 						<compareDate>2012-08-01</compareDate>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>

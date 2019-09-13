@@ -24,22 +24,9 @@
 			<bounce_rate_returning>100%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>0</avg_time_on_site_returning>
-			<nb_uniq_visitors_returning_change>+0%</nb_uniq_visitors_returning_change>
-			<nb_users_returning_change>+0%</nb_users_returning_change>
-			<nb_visits_returning_change>+0%</nb_visits_returning_change>
-			<nb_actions_returning_change>+0%</nb_actions_returning_change>
-			<nb_visits_converted_returning_change>+0%</nb_visits_converted_returning_change>
-			<bounce_count_returning_change>+0%</bounce_count_returning_change>
-			<sum_visit_length_returning_change>+0%</sum_visit_length_returning_change>
-			<max_actions_returning_change>+0%</max_actions_returning_change>
-			<bounce_rate_returning_change>+0%</bounce_rate_returning_change>
-			<nb_actions_per_visit_returning_change>+0%</nb_actions_per_visit_returning_change>
-			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
-			<comparePeriodOriginal>month</comparePeriodOriginal>
 			<comparePeriod>month</comparePeriod>
-			<compareDateOriginal>2012-08-09</compareDateOriginal>
 			<compareDate>2012-08-01</compareDate>
 			<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
@@ -70,9 +57,7 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
-			<comparePeriodOriginal>day</comparePeriodOriginal>
 			<comparePeriod>day</comparePeriod>
-			<compareDateOriginal>2012-08-10</compareDateOriginal>
 			<compareDate>2012-08-10</compareDate>
 			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -103,9 +88,7 @@
 			<avg_time_on_site_returning_change>+0%</avg_time_on_site_returning_change>
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
-			<comparePeriodOriginal>week</comparePeriodOriginal>
 			<comparePeriod>week</comparePeriod>
-			<compareDateOriginal>2012-08-16</compareDateOriginal>
 			<compareDate>2012-08-13</compareDate>
 			<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>

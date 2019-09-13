@@ -39,9 +39,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -83,9 +81,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>range</comparePeriodOriginal>
 				<comparePeriod>range</comparePeriod>
-				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -127,9 +123,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -150,9 +144,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -194,9 +186,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -217,9 +207,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>range</comparePeriodOriginal>
 								<comparePeriod>range</comparePeriod>
-								<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-09</compareDate>
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -267,9 +255,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>day</comparePeriodOriginal>
 										<comparePeriod>day</comparePeriod>
-										<compareDateOriginal>2012-08-10</compareDateOriginal>
 										<compareDate>2012-08-10</compareDate>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -293,9 +279,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>range</comparePeriodOriginal>
 										<comparePeriod>range</comparePeriod>
-										<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 										<compareDate>2012-08-09</compareDate>
 										<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -342,9 +326,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -365,9 +347,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -409,9 +389,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -432,9 +410,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>range</comparePeriodOriginal>
 								<comparePeriod>range</comparePeriod>
-								<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-09</compareDate>
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -476,9 +452,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>day</comparePeriodOriginal>
 										<comparePeriod>day</comparePeriod>
-										<compareDateOriginal>2012-08-10</compareDateOriginal>
 										<compareDate>2012-08-10</compareDate>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -499,9 +473,7 @@
 										<exit_rate>100%</exit_rate>
 										<compareSegment />
 										<compareSegmentPretty>All visits</compareSegmentPretty>
-										<comparePeriodOriginal>range</comparePeriodOriginal>
 										<comparePeriod>range</comparePeriod>
-										<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 										<compareDate>2012-08-09</compareDate>
 										<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 										<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -549,9 +521,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>day</comparePeriodOriginal>
 												<comparePeriod>day</comparePeriod>
-												<compareDateOriginal>2012-08-10</compareDateOriginal>
 												<compareDate>2012-08-10</compareDate>
 												<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -575,9 +545,7 @@
 												<exit_rate>100%</exit_rate>
 												<compareSegment />
 												<compareSegmentPretty>All visits</compareSegmentPretty>
-												<comparePeriodOriginal>range</comparePeriodOriginal>
 												<comparePeriod>range</comparePeriod>
-												<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 												<compareDate>2012-08-09</compareDate>
 												<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 												<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -634,9 +602,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -678,9 +644,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>range</comparePeriodOriginal>
 				<comparePeriod>range</comparePeriod>
-				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -728,9 +692,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -754,9 +716,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -799,9 +759,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -822,9 +780,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -872,9 +828,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -898,9 +852,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>range</comparePeriodOriginal>
 								<comparePeriod>range</comparePeriod>
-								<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-09</compareDate>
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -953,9 +905,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -997,9 +947,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>range</comparePeriodOriginal>
 				<comparePeriod>range</comparePeriod>
-				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1041,9 +989,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1064,9 +1010,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1114,9 +1058,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>day</comparePeriodOriginal>
 								<comparePeriod>day</comparePeriod>
-								<compareDateOriginal>2012-08-10</compareDateOriginal>
 								<compareDate>2012-08-10</compareDate>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1140,9 +1082,7 @@
 								<exit_rate>100%</exit_rate>
 								<compareSegment />
 								<compareSegmentPretty>All visits</compareSegmentPretty>
-								<comparePeriodOriginal>range</comparePeriodOriginal>
 								<comparePeriod>range</comparePeriod>
-								<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 								<compareDate>2012-08-09</compareDate>
 								<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 								<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1195,9 +1135,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1239,9 +1177,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>range</comparePeriodOriginal>
 				<comparePeriod>range</comparePeriod>
-				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1289,9 +1225,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1315,9 +1249,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1368,9 +1300,7 @@
 				<exit_rate>100%</exit_rate>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>day</comparePeriodOriginal>
 				<comparePeriod>day</comparePeriod>
-				<compareDateOriginal>2012-08-10</compareDateOriginal>
 				<compareDate>2012-08-10</compareDate>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1412,9 +1342,7 @@
 				<exit_rate_change>+0%</exit_rate_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
-				<comparePeriodOriginal>range</comparePeriodOriginal>
 				<comparePeriod>range</comparePeriod>
-				<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 				<compareDate>2012-08-09</compareDate>
 				<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 				<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
@@ -1462,9 +1390,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>day</comparePeriodOriginal>
 						<comparePeriod>day</comparePeriod>
-						<compareDateOriginal>2012-08-10</compareDateOriginal>
 						<compareDate>2012-08-10</compareDate>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
@@ -1488,9 +1414,7 @@
 						<exit_rate>100%</exit_rate>
 						<compareSegment />
 						<compareSegmentPretty>All visits</compareSegmentPretty>
-						<comparePeriodOriginal>range</comparePeriodOriginal>
 						<comparePeriod>range</comparePeriod>
-						<compareDateOriginal>2012-08-09,2012-08-16</compareDateOriginal>
 						<compareDate>2012-08-09</compareDate>
 						<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 						<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>

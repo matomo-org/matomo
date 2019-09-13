@@ -249,6 +249,7 @@ class Visualization extends ViewDataTable
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
+        $view->isComparing = $this->isComparing();
 
         if (!$this->supportsComparison()
             && $this->isCompareParamsPresent()
