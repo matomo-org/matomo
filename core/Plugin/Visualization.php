@@ -28,6 +28,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
@@ -413,6 +414,19 @@ class Visualization extends ViewDataTable
         $columns = $this->dataTable->getColumns();
         $hasNbVisits       = in_array('nb_visits', $columns);
         $hasNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
+
+        // if any comparison period doesn't support unique visitors, we can't display it for the main table
+        if ($this->isComparing()) {
+            $request = $this->getRequestArray();
+            if (!empty($request['comparePeriods'])) {
+                foreach ($request['comparePeriods'] as $comparePeriod) {
+                    if (!SettingsPiwik::isUniqueVisitorsEnabled($comparePeriod)) {
+                        $hasNbUniqVisitors = false;
+                        break;
+                    }
+                }
+            }
+        }
 
         // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
         // dataset. otherwise, default to all columns in dataset.
