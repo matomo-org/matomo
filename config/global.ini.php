@@ -674,6 +674,12 @@ enable_load_data_infile = 1
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
 
+; By setting this option to 0 the users management will be disabled
+enable_users_admin = 1
+
+; By setting this option to 0 the websites management will be disabled
+enable_sites_admin = 1
+
 ; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
 ; Enabling this opens a remote code execution vulnerability where
 ; an attacker who gained Super User access could execute custom PHP code in a Matomo plugin.
