@@ -15,17 +15,12 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Simple;
 use Piwik\Metrics;
-use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Period\Factory;
-use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
-
-// TODO: unit test
 
 /**
  * Handles the API portion of the data comparison feature.

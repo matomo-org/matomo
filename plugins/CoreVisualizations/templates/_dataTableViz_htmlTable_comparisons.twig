@@ -44,7 +44,7 @@
         {% if column != 'label' %}
         {% set columnValue = row.getColumn(column) %}
         <td class="column">
-            {% set comparisonTotals = indexedComparisonTotals[row.getMetadata('compareSegment')|default('')][row.getMetadata('comparePeriod')|default('')][row.getMetadata('compareDate')|default('')]|default(null) %}
+            {% set comparisonTotals = comparisonTotals[loop.index0].totals|default(null) %}
 
             {% set comparisonTooltipSuffix = '' %}
             {% set columnChange = false %}

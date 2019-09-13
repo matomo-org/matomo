@@ -108,7 +108,7 @@ class HtmlTable extends Visualization
         if ($this->isComparing()
             && !empty($this->dataTable)
         ) {
-            $this->assignTemplateVar('indexedComparisonTotals', $this->getIndexedComparisonTotals());
+            $this->assignTemplateVar('comparisonTotals', $this->dataTable->getMetadata('comparisonTotals'));
         }
 
         // Note: This needs to be done right before rendering, as otherwise some plugins might change the columns to display again
@@ -235,22 +235,6 @@ class HtmlTable extends Visualization
     public function supportsComparison()
     {
         return true;
-    }
-
-    private function getIndexedComparisonTotals()
-    {
-        $result = [];
-
-        $comparisonTotals = $this->dataTable->getMetadata('comparisonTotals');
-        foreach ($comparisonTotals as $totalsEntry) {
-            $segment = isset($totalsEntry['compareSegment']) ? $totalsEntry['compareSegment'] : '';
-            $period = isset($totalsEntry['comparePeriod']) ? $totalsEntry['comparePeriod'] : '';
-            $date = isset($totalsEntry['compareDate']) ? $totalsEntry['compareDate'] : '';
-
-            $result[$segment][$period][$date] = $totalsEntry['totals'];
-        }
-
-        return $result;
     }
 
     protected function isFlattened()

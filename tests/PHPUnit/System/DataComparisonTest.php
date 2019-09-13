@@ -327,4 +327,4 @@ class DataComparisonTest extends SystemTestCase
     }
 }
 
-DataComparisonTest::$fixture = new ManySitesImportedLogs(); // TODO: use better data
+DataComparisonTest::$fixture = new ManySitesImportedLogs();

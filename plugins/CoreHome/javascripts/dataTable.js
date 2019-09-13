@@ -12,8 +12,6 @@
 
 (function ($, require) {
 
-    // TODO: need to double check that total percent calculation is correct w/ comparisons, since the totals for each row are different
-
 var exports = require('piwik/UI'),
     UIControl = exports.UIControl;
 
