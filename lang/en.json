@@ -498,7 +498,8 @@
         "ComparisonRatioTooltip": "This is a %1$s change compared to the '%2$s' segment on %3$s.",
         "ComparisonCardTooltip1": "'%1$s' on %2$s contains %3$s of all visits (%4$s out of %5$s total).",
         "ComparisonCardTooltip2": "The visit count is different by %1$s compared to %2$s over %3$s.",
-        "VisualizationDoesNotSupportComparison": "This visualization does not support segment/period comparison."
+        "VisualizationDoesNotSupportComparison": "This visualization does not support segment/period comparison.",
+        "ChangeInX": "Change in %1$s"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

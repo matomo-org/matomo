@@ -600,15 +600,17 @@ class ProcessedReport
      * - extract row metadata to a separate Simple $rowsMetadata
      *
      * @param int $idSite enables monetary value formatting based on site currency
-     * @param Simple $simpleDataTable
+     * @param DataTable $simpleDataTable
      * @param array $metadataColumns
      * @param boolean $hasDimension
      * @param bool $returnRawMetrics If set to true, the original metrics will be returned
      * @param bool|null $formatMetrics
      * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
      */
-    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null)
+    private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false, $formatMetrics = null, $keepMetadata = false)
     {
+        $comparisonColumns = $this->getComparisonColumns($metadataColumns);
+
         // new DataTable to store metadata
         $rowsMetadata = new DataTable();
 
@@ -634,7 +636,11 @@ class ProcessedReport
                 }
             }
 
-            $enhancedRow = new Row();
+            $c = [];
+            if ($keepMetadata) {
+                $c[Row::METADATA] = $row->getMetadata();
+            }
+            $enhancedRow = new Row($c);
             $enhancedDataTable->addRow($enhancedRow);
 
             foreach ($rowMetrics as $columnName => $columnValue) {
@@ -675,8 +681,8 @@ class ProcessedReport
             if (!empty($comparisons)
                 && $comparisons->getRowsCount() > 0
             ) {
-                // TODO: should we process this in the same way as above?
-                $enhancedRow->setComparisons($comparisons);
+                list($newComparisons, $ignore) = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);
+                $enhancedRow->setComparisons($newComparisons);
             }
 
             // If report has a dimension, extract metadata into a distinct DataTable
@@ -840,6 +846,10 @@ class ProcessedReport
             return $value;
         }
 
+        if (strpos($columnName, '_change') !== false) { // comparison change columns are formatted by DataComparisonFilter
+            return $value == '0' ? '+0%' : $value;
+        }
+
         // Display time in human readable
 		if (strpos($columnName, 'time_generation') !== false) {
 			return $formatter->getPrettyTimeFromSeconds($value, true);
@@ -862,5 +872,14 @@ class ProcessedReport
         }
 
         return $value;
+    }
+
+    private function getComparisonColumns(array $metadataColumns)
+    {
+        $result = $metadataColumns;
+        foreach ($metadataColumns as $columnName => $columnTranslation) {
+            $result[$columnName . '_change'] = Piwik::translate('General_ChangeInX', lcfirst($columnName));
+        }
+        return $result;
     }
 }
