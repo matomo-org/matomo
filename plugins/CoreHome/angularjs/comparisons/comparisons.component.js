@@ -14,9 +14,9 @@
         controller: ComparisonsController
     });
 
-    ComparisonsController.$inject = ['piwikComparisonsService', '$rootScope', 'piwikApi', '$element'];
+    ComparisonsController.$inject = ['piwikComparisonsService', '$rootScope', 'piwikApi', '$element', 'piwikUrl'];
 
-    function ComparisonsController(comparisonsService, $rootScope, piwikApi, $element) {
+    function ComparisonsController(comparisonsService, $rootScope, piwikApi, $element, piwikUrl) {
         var vm = this;
         var comparisonTooltips = null;
 
@@ -92,9 +92,9 @@
                 apiModule: 'VisitsSummary',
                 apiAction: 'get',
                 compare: '1',
-                compareSegments: getQueryParamValue('compareSegments'),
-                comparePeriods: getQueryParamValue('comparePeriods'),
-                compareDates: getQueryParamValue('compareDates'),
+                compareSegments: piwikUrl.getSearchParam('compareSegments'),
+                comparePeriods: piwikUrl.getSearchParam('comparePeriods'),
+                compareDates: piwikUrl.getSearchParam('compareDates'),
                 format_metrics: '1',
             }).then(function (report) {
                 comparisonTooltips = {};
@@ -140,14 +140,6 @@
 
             tooltip += '</div>';
             return tooltip;
-        }
-
-        function getQueryParamValue(name) { // TODO: code redundancy w/ period selector and elsewhere
-            var result = broadcast.getValueFromHash(name);
-            if (!result) {
-                result = broadcast.getValueFromUrl(name);
-            }
-            return result;
         }
     }
 })();
