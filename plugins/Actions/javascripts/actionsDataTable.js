@@ -235,13 +235,8 @@
 
                     var comparisonIdSubtables = {};
                     comparisonRows.each(function () {
-                        var comparisonSegmentIndex = +$(this).data('comparison-segment');
-                        var comparisonPeriodIndex = +$(this).data('comparison-period');
-
-                        if (!comparisonIdSubtables[comparisonSegmentIndex]) {
-                            comparisonIdSubtables[comparisonSegmentIndex] = {};
-                        }
-                        comparisonIdSubtables[comparisonSegmentIndex][comparisonPeriodIndex] = $(this).data('idsubtable');
+                        var comparisonSeriesIndex = +$(this).data('comparison-series');
+                        comparisonIdSubtables[comparisonSeriesIndex] = $(this).data('idsubtable');
                     });
 
                     extraParams.comparisonIdSubtables = JSON.stringify(comparisonIdSubtables);

@@ -36,8 +36,14 @@ class Sparkline extends ViewDataTable
     {
         // If period=range, we force the sparkline to draw daily data points
         $period = Common::getRequestVar('period');
-        if ($period == 'range') {
+        $date = Common::getRequestVar('date');
+
+        if ($period == 'range'
+            || $this->isComparing()
+        ) {
+            $periodObj = Period\Factory::build($period, $date);
             $_GET['period'] = 'day';
+            $_GET['date'] = $periodObj->getRangeString();
         }
 
         if ($this->isComparing()) {
@@ -48,6 +54,7 @@ class Sparkline extends ViewDataTable
 
         // then revert the hack for potentially subsequent getRequestVar
         $_GET['period'] = $period;
+        $_GET['date'] = $date;
 
         $columnToPlot = $this->getColumnToPlot();
 
@@ -193,27 +200,15 @@ class Sparkline extends ViewDataTable
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $site = new Site($idSite);
-
-        $compareAgainstPeriod = Common::getRequestVar('period');
-        $compareAgainstDate = Common::getRequestVar('date');
-        $compareAgainstPeriodObj = Period\Factory::build($compareAgainstPeriod, $compareAgainstDate);
-
-        $subperiodCount = $compareAgainstPeriodObj->getNumberOfSubperiods();
-
         foreach ($comparePeriods as $index => $comparePeriod) {
             $compareDate = $compareDates[$index];
             if (Period::isMultiplePeriod($compareDate, $comparePeriod)) {
                 continue;
             }
 
-            if ($comparePeriod == 'range') {
-                $comparePeriods[$index] = 'day';
-            } else {
-                $newDate = Period\Range::getRelativeToEndDate($comparePeriod, 'last' . $subperiodCount, $compareDate, $site);
-                $compareDates[$index] = $newDate;
-            }
+            $periodObj = Period\Factory::build($comparePeriod, $compareDate);
+            $comparePeriods[$index] = 'day';
+            $compareDates[$index] = $periodObj->getRangeString();
         }
 
         $this->requestConfig->request_parameters_to_modify['comparePeriods'] = $comparePeriods;

@@ -250,8 +250,6 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
 
-        $this->setComparisonProperties($view);
-
         if (!$this->supportsComparison()
             && $this->isCompareParamsPresent()
         ) {
@@ -847,35 +845,5 @@ class Visualization extends ViewDataTable
         }
 
         return $request;
-    }
-
-    private function setComparisonProperties(View $view)
-    {
-        $view->isComparing = $this->isComparing();
-        if ($view->isComparing) {
-            $request = $this->getRequestArray();
-
-            $compareSegments = Common::getRequestVar('compareSegments', [], 'array', $request);
-            $comparePeriods = Common::getRequestVar('comparePeriods', [], 'array', $request);
-            $compareDates = Common::getRequestVar('compareDates', [], 'array', $request);
-
-            $segment = Request::getRawSegmentFromRequest() ?: '';
-
-            $comparisonSegmentIndices = [$segment => 0]; // first is all visits segment
-            foreach ($compareSegments as $index => $segment) {
-                $comparisonSegmentIndices[$segment] = $index + 1;
-            }
-            $view->comparisonSegmentIndices = $comparisonSegmentIndices;
-
-            $period = Common::getRequestVar('period');
-            $date = Common::getRequestVar('date');
-
-            $comparePeriodIndices = [$period => [$date => 0]]; // first is selected date/period
-            foreach ($comparePeriods as $index => $period) {
-                $date = $compareDates[$index];
-                $comparePeriodIndices[$period][$date] = $index + 1;
-            }
-            $view->comparePeriodIndices = $comparePeriodIndices;
-        }
     }
 }

@@ -301,7 +301,6 @@ class DataComparisonFilter
             $params['date'] = Common::getRequestVar('date', null, 'string', $this->request);
         }
 
-
         $idSubtable = Common::getRequestVar('idSubtable', 0, 'int', $this->request);
         if ($idSubtable > 0) {
             $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', $default = false, 'json', $this->request);
@@ -311,12 +310,13 @@ class DataComparisonFilter
 
             $segmentIndex = empty($paramsToModify['segment']) ? 0 : $this->compareSegmentIndices[$paramsToModify['segment']];
             $periodIndex = empty($paramsToModify['period']) ? 0 : $this->comparePeriodIndices[$paramsToModify['period']][$paramsToModify['date']];
+            $seriesIndex = $periodIndex * count($this->compareSegments) + $segmentIndex;
 
-            if (!isset($comparisonIdSubtables[$segmentIndex][$periodIndex])) {
+            if (!isset($comparisonIdSubtables[$seriesIndex])) {
                 throw new \Exception("Invalid comparisonIdSubtables parameter: no idSubtable found for segment $segmentIndex and period $periodIndex");
             }
 
-            $comparisonIdSubtable = $comparisonIdSubtables[$segmentIndex][$periodIndex];
+            $comparisonIdSubtable = $comparisonIdSubtables[$seriesIndex];
             if ($comparisonIdSubtable === -1) { // no subtable in comparison row
                 $table = new DataTable();
                 $table->setMetadata('site', new Site($params['idSite']));

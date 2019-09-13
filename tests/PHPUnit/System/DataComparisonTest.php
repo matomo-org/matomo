@@ -75,8 +75,9 @@ class DataComparisonTest extends SystemTestCase
 
                 $segmentIndex = array_search($segment, $allSegments);
                 $periodIndex = array_search($period . '|' . $date, $allPeriods);
+                $seriesIndex = $periodIndex * count($allSegments) + $segmentIndex;
 
-                $comparisonIdSubtables[$segmentIndex][$periodIndex] = $compareRow->getMetadata('idsubdatatable_in_db');
+                $comparisonIdSubtables[$seriesIndex] = $compareRow->getMetadata('idsubdatatable_in_db');
             }
 
             $this->runApiTests($subtableApiMethod, [

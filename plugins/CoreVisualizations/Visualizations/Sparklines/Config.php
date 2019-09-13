@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Metrics;
 use Piwik\NoAccessException;
+use Piwik\Period\Factory;
 use Piwik\Period\Range;
 use Piwik\Site;
 use Piwik\Url;
@@ -429,7 +430,13 @@ class Config extends \Piwik\ViewDataTable\Config
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
 
-        $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $site);
+        if (!isset($paramsToSet['date'])
+            || !Range::isMultiplePeriod($paramsToSet['date'], $period)
+        ) {
+            $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $site);
+        } else {
+            $paramDate = $paramsToSet['date'];
+        }
 
         $params = array_merge($paramsToSet, array('date' => $paramDate));
         return $params;

@@ -12,6 +12,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Period\Factory;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
@@ -117,7 +118,7 @@ class Sparklines extends ViewDataTable
         $originalDate = Common::getRequestVar('date');
         $originalPeriod = Common::getRequestVar('period');
 
-        if (!empty($comparisons)) {
+        if ($this->isComparing() && !empty($comparisons)) {
             $comparisonRows = [];
             foreach ($comparisons->getRows() as $comparisonRow) {
                 $segment = $comparisonRow->getMetadata('compareSegment');
@@ -157,6 +158,8 @@ class Sparklines extends ViewDataTable
             );
 
             if ($this->isComparing() && !empty($comparisons)) {
+                $periodObj = Factory::build($originalPeriod, $originalDate);
+
                 $sparklineUrlParams['compareSegments'] = [];
 
                 $comparePeriods = $data->getMetadata('comparePeriods');
@@ -174,7 +177,7 @@ class Sparklines extends ViewDataTable
                         $segmentPretty = $compareRow->getMetadata('compareSegmentPretty');
                         $periodPretty = $compareRow->getMetadata('comparePeriodPretty');
 
-                        $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period ?: $originalPeriod); // TODO: this original period/date stuff has got to change
+                        $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period);
                         list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse);
 
                         foreach ($compareValues as $i => $value) {
@@ -199,7 +202,11 @@ class Sparklines extends ViewDataTable
                     // only set the title (which is the segment) if comparing more than one segment
                     $title = count($compareSegments) > 1 ? $segmentPretty : null;
 
-                    $params = array_merge($sparklineUrlParams, ['segment' => $segment]);
+                    $params = array_merge($sparklineUrlParams, [
+                        'segment' => $segment,
+                        'period' => $periodObj->getLabel(),
+                        'date' => $periodObj->getRangeString(),
+                    ]);
                     $this->config->addSparkline($params, $metrics, $desc = null, null, ($order * 100) + $segmentIndex, $title, $sparklineMetricIndex, $seriesIndices, $graphParams);
                 }
             } else {
