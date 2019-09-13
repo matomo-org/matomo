@@ -313,6 +313,8 @@ var broadcast = {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
+        paramsToRemove = paramsToRemove || [];
+
         if (typeof showAjaxLoading === 'undefined' || showAjaxLoading) {
             piwikHelper.showAjaxLoading();
         }
