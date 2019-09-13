@@ -6,12 +6,10 @@
  */
 
 (function () {
-    // can probably be shared
-    angular.module('piwikApp').factory('piwikComparisonsService', ComparisonFactory);
+    angular.module('piwikApp.service').factory('piwikComparisonsService', ComparisonFactory);
 
     ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods', 'piwikApi', 'piwikUrl'];
 
-    // TODO: unit test
     function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi, piwikUrl) {
         var comparisons = []; // TODO: split into segment/period array, code will be simpler
         var comparisonSeriesIndices = {};
@@ -47,22 +45,6 @@
             getIndividualComparisonRowIndices: getIndividualComparisonRowIndices,
             getComparisonSeriesIndex: getComparisonSeriesIndex
         };
-
-        function getIndividualComparisonRowIndices(comparisonRowIndex) {
-            var segmentCount = getSegmentComparisons().length;
-            var segmentIndex = comparisonRowIndex % segmentCount;
-            var periodIndex = Math.floor(comparisonRowIndex / segmentCount);
-
-            return {
-                segmentIndex: segmentIndex,
-                periodIndex: periodIndex,
-            };
-        }
-
-        function getComparisonSeriesIndex(periodIndex, segmentIndex) {
-            var segmentCount = getSegmentComparisons().length;
-            return periodIndex * segmentCount + segmentIndex;
-        }
 
         function isComparing() {
             return isComparisonEnabled() && comparisons.length > 2; // first two are for selected segment/period
@@ -102,6 +84,22 @@
             }
 
             return comparisons;
+        }
+
+        function getIndividualComparisonRowIndices(comparisonRowIndex) {
+            var segmentCount = getSegmentComparisons().length;
+            var segmentIndex = comparisonRowIndex % segmentCount;
+            var periodIndex = Math.floor(comparisonRowIndex / segmentCount);
+
+            return {
+                segmentIndex: segmentIndex,
+                periodIndex: periodIndex,
+            };
+        }
+
+        function getComparisonSeriesIndex(periodIndex, segmentIndex) {
+            var segmentCount = getSegmentComparisons().length;
+            return periodIndex * segmentCount + segmentIndex;
         }
 
         function getAllComparisonSeries() {
@@ -243,8 +241,8 @@
 
             // add base comparisons
             compareSegments.unshift(piwikUrl.getSearchParam('segment'));
-            comparePeriods.unshift(piwikUrl.getSearchParam('period') || '');
-            compareDates.unshift(piwikUrl.getSearchParam('date') || '');
+            comparePeriods.unshift(piwikUrl.getSearchParam('period'));
+            compareDates.unshift(piwikUrl.getSearchParam('date'));
 
             var newComparisons = [];
             compareSegments.forEach(function (segment, idx) {

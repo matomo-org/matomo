@@ -108,7 +108,6 @@
             });
         }
 
-        // TODO: data structures used to store comparisons are all over the place, needs to be better.
         function generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {
             var firstRowIndex = comparisonsService.getComparisonSeriesIndex(periodComp.index, 0);
             var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];

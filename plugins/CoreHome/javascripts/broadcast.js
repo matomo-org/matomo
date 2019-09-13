@@ -242,9 +242,10 @@ var broadcast = {
         }
 
         if (disableHistory) {
-            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
+            var $window = piwikHelper.getAngularDependency('$window');
+            var newLocation = $window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
-            window.location.replace(newLocation);
+            $window.location.replace(newLocation);
         }
         else {
             // Let history know about this new Hash and load it.
@@ -321,8 +322,10 @@ var broadcast = {
 
         var params_vals = str.split("&");
 
+        var $window = piwikHelper.getAngularDependency('$window');
+
         // available in global scope
-        var currentSearchStr = window.location.search;
+        var currentSearchStr = $window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
         
         if (!currentSearchStr) {
@@ -393,10 +396,10 @@ var broadcast = {
         }
 
         if (oldUrl == newUrl) {
-            window.location.reload();
+            $window.location.reload();
         } else {
             this.forceReload = true;
-            window.location.href = newUrl;
+            $window.location.href = newUrl;
         }
         return false;
 
@@ -508,7 +511,8 @@ var broadcast = {
             }
         }
 
-        var urlStr = window.location.hash;
+        var $window = piwikHelper.getAngularDependency('$window');
+        var urlStr = $window.location.hash;
         urlStr = broadcast.updateParamValue('popover=' + encodeURIComponent(popover), urlStr);
         urlStr = urlStr.replace(/^[#?]+/, '');
         $location.search(urlStr);
@@ -824,7 +828,7 @@ var broadcast = {
             var urlParts = url.split('#');
             searchString = urlParts[0];
         } else {
-            searchString = location.search;
+            searchString = window.location.search;
         }
         return searchString;
     }
