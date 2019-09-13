@@ -303,7 +303,7 @@
         }
 
         function formatDate(date) {
-            return $.datepicker.formatDate('yy-mm-dd', date);
+            return piwikPeriods.format(date);
         }
 
         function isComparisonEnabled() {

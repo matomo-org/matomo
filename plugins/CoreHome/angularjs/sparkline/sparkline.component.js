@@ -79,8 +79,8 @@
                 dateRange[0] = piwikMinDate;
             }
 
-            var startDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            var endDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+            var startDateStr = piwikPeriods.format(dateRange[0]);
+            var endDateStr = piwikPeriods.format(dateRange[1]);
             return startDateStr + ',' + endDateStr;
         }
     }

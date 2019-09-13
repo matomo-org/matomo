@@ -59,7 +59,7 @@
 
     DayPeriod.prototype = {
         getPrettyString: function () {
-            return $.datepicker.formatDate('yy-mm-dd', this.dateInPeriod);
+            return format(this.dateInPeriod);
         },
 
         getDateRange: function () {
@@ -83,8 +83,8 @@
     WeekPeriod.prototype = {
         getPrettyString: function () {
             var weekDates = this.getDateRange(this.dateInPeriod);
-            var startWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[0]);
-            var endWeek = $.datepicker.formatDate('yy-mm-dd', weekDates[1]);
+            var startWeek = format(weekDates[0]);
+            var endWeek = format(weekDates[1]);
 
             return _pk_translate('General_DateRangeFromTo', [startWeek, endWeek]);
         },
@@ -252,8 +252,8 @@
 
     RangePeriod.prototype = {
         getPrettyString: function () {
-            var start = $.datepicker.formatDate('yy-mm-dd', this.startDate);
-            var end = $.datepicker.formatDate('yy-mm-dd', this.endDate);
+            var start = format(this.startDate);
+            var end = format(this.endDate);
             return _pk_translate('General_DateRangeFromTo', [start, end]);
         },
 
@@ -295,11 +295,6 @@
         function isRecognizedPeriod(strPeriod) {
             return !! periods[strPeriod];
         }
-
-        // TODO: use this function elsewhere
-        function format(date) {
-            return $.datepicker.formatDate('yy-mm-dd', date);
-        }
     }
 
     function addCustomPeriod(name, periodClass) {
@@ -315,6 +310,10 @@
         return function (strDate) {
             return new periodClass(parseDate(strDate));
         };
+    }
+
+    function format(date) {
+        return $.datepicker.formatDate('yy-mm-dd', date);
     }
 
     function parseDate(strDate) {
