@@ -289,6 +289,47 @@ class ModelTest extends IntegrationTestCase
         $this->assertEmpty($segments);
     }
 
+    public function test_getSegmentsDeletedSince_urlDecodedVersionOfSegment()
+    {
+        // Turn segment2 into a duplicate of segment3, except a urlencoded version
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country%3D%3DHobbiton',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The two encoded and decoded version of the segments should be treated as duplicates
+        // This means there segment has a non-deleted version so it's not returned
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_urlEncodedVersionOfSegment()
+    {
+        // segment1 => url decoded version, deleted
+        $this->model->updateSegment($this->idSegment1, array(
+            'definition' => 'country==Narnia',
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+        // segment2 => url encoded version, not deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country%3D%3DNarnia',
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The two encoded and decoded version of the segments should be treated as duplicates
+        // This means there segment has a non-deleted version so it's not returned
+        $this->assertEmpty($segments);
+    }
+
     private function assertReturnedIdsMatch(array $expectedIds, array $resultSet)
     {
         $this->assertEquals(count($expectedIds), count($resultSet));

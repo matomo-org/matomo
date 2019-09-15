@@ -147,12 +147,15 @@ class Model
             return array();
         }
 
-        $existingSegments = self::getExistingSegmnetsLike($deletedSegments);
+        $existingSegments = $this->getExistingSegmentsLike($deletedSegments);
 
         foreach ($deletedSegments as $i => $deleted) {
             $deletedSegments[$i]['idsites_to_preserve'] = array();
             foreach ($existingSegments as $existing) {
-                if ($existing['definition'] != $deleted['definition']) {
+                if ($existing['definition'] != $deleted['definition'] &&
+                    $existing['definition'] != urlencode($deleted['definition']) &&
+                    $existing['definition'] != urldecode($deleted['definition'])
+                ) {
                     continue;
                 }
 
@@ -175,18 +178,27 @@ class Model
         return $deletedSegments;
     }
 
-    private static function getExistingSegmnetsLike(array $segments)
+    private function getExistingSegmentsLike(array $segments)
     {
+        if (empty($segments)) {
+            return array();
+        }
+
         $whereClauses = array();
         $bind = array();
+        $definitionWhereClauseTemplate = '(definition = ? OR definition = ? OR definition = ?)';
         foreach ($segments as $segment) {
+            // Sometimes they are stored encoded and sometimes they aren't
             $bind[] = $segment['definition'];
+            $bind[] = urlencode($segment['definition']);
+            $bind[] = urldecode($segment['definition']);
+
             if ($segment['enable_only_idsite'] == 0) {
                 // They deleted an all-sites segment, but there is a single-site segment with same definition?
                 // Need to handle this carefully so that the archives for the single-site segment are preserved
-                $whereClauses[] = "(definition = ?)";
+                $whereClauses[] = "$definitionWhereClauseTemplate";
             } else {
-                $whereClauses[] = "(definition = ? AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
+                $whereClauses[] = "($definitionWhereClauseTemplate AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
                 $bind[] = $segment['enable_only_idsite'];
             }
         }

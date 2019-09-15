@@ -362,7 +362,13 @@ class Model
     {
         $segmentClauses = [];
         foreach ($segments as $segment) {
-            $segmentClauses[] = self::getDeletedSegmentWhereClause($segment);
+            if (!empty($segment['definition'])) {
+                $segmentClauses[] = $this->getDeletedSegmentWhereClause($segment);
+            }
+        }
+
+        if (empty($segmentClauses)) {
+            return array();
         }
 
         $segmentClauses = implode(' OR ', $segmentClauses);
@@ -376,7 +382,7 @@ class Model
         return array_column($rows, 'idarchive');
     }
 
-    private static function getDeletedSegmentWhereClause(array $segment)
+    private function getDeletedSegmentWhereClause(array $segment)
     {
         $idSite = (int)$segment['enable_only_idsite'];
         $segmentHash = Segment::getSegmentHash($segment['definition']);
