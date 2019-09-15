@@ -616,7 +616,6 @@ Segmentation = (function($) {
                 parseFormAndSave();
             });
             $(self.form).find(".testSegment").bind("click", function (e) {
-                debugger;
                 e.preventDefault();
                 testSegment();
             });
@@ -709,7 +708,6 @@ Segmentation = (function($) {
 
         var testSegment = function() {
             var segmentStr = getSegmentGeneratorController().getSegmentString();
-            debugger;
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;
@@ -858,12 +856,6 @@ $(document).ready(function() {
             return segmentDefinition;
         };
 
-        this.cleanupSegmentDefinition = function(definition) {
-            definition = definition.replace(/'/g, "%27");
-            definition = definition.replace(/&/g, "%26");
-            return definition;
-        };
-
         this.changeSegment = function(segmentDefinition) {
             if (piwikHelper.isAngularRenderingThePage()) {
                 angular.element(document).injector().invoke(function ($location, $rootScope) {
@@ -888,7 +880,6 @@ $(document).ready(function() {
         };
 
         this.forceSegmentReload = function (segmentDefinition) {
-            debugger;
             segmentDefinition = uriEncodeSegmentDefinition(segmentDefinition);
 
             if (piwikHelper.isAngularRenderingThePage()) {
@@ -900,6 +891,12 @@ $(document).ready(function() {
         };
 
         this.changeSegmentList = function () {};
+
+        this.cleanupSegmentDefinition = function(definition) {
+            definition = definition.replace(/'/g, "%27");
+            definition = definition.replace(/&/g, "%26");
+            return definition;
+        };
 
         var addSegment = function(params){
             var ajaxHandler = new ajaxHelper();
