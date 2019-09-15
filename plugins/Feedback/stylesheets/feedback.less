@@ -14,6 +14,10 @@
     font-size: 13px;
   }
 
+  h4 {
+    font-weight: bold;
+  }
+
   .piwik-donate-call {
     border: 0px;
     padding-left: 0px;
@@ -36,24 +40,39 @@
   }
 
   .feedback-help-resources {
+    h4 {
+      padding-top: 20px;
+    }
+
     .search-matomo-form {
       margin-right: 20px;
+      padding-bottom: 10px;
       width: 100%;
       display: table-row;
 
-      div {
+      div.search-field {
         display: table-cell;
         width: 100%;
+        padding-left: 10px;
+      }
+
+      div.search-button {
+        height: 100%;
+        vertical-align: middle;
+        display: table-cell;
+        padding-right: 10px;
       }
 
       input[type="text"] {
-        display: inline-block;
         width: 90%;
-      }
+        padding-left: 10px;
+        border: none;
+        margin-bottom: 0;
 
-      input[type="submit"] {
-        float: right;
-        display: table-cell;
+        &:focus {
+          border: none;
+          box-shadow: none;
+        }
       }
     }
   }

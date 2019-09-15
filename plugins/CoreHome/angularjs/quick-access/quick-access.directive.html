@@ -23,7 +23,7 @@
                 ng-click="quickAccess.selectMenuItem(submenuEntry.index)"
                 ng-repeat="submenuEntry in subcategory.items"><a>{{ submenuEntry.name | trim }}</a></li>
         </ul>
-        <ul>
+        <ul class="quickAccessMatomoSearch">
             <li class="quick-access-category websiteCategory"
                 ng-show="hasSitesSelector && ((quickAccess.sitesModel.sites | length) || quickAccess.sitesModel.isLoading)"
             >{{ 'SitesManager_Sites' | translate }}</li>
