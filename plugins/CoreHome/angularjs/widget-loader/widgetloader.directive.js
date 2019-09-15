@@ -148,7 +148,7 @@
                             $compile(currentElement)(newScope);
 
                             notifications.parseNotificationDivs();
-                        })['catch'](function () {
+                        })['catch'](function (response) {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -158,8 +158,13 @@
 
                             cleanupLastWidgetContent();
 
-                            scope.loading = false;
-                            scope.loadingFailed = true;
+                            if (response.status === 403) {
+                                // An auth error, refreshing the page will trigger the login page
+                                location.reload();
+                            } else {
+                                scope.loading = false;
+                                scope.loadingFailed = true;
+                            }
                         });
                     }
 
