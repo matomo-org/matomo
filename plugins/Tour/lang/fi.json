@@ -22,7 +22,6 @@
         "StatusLevel": "Olet %1$s. Suorita %2$s haastetta lisää, niin seuraava kehitysaskel on %3$s.",
         "ConfigureGeolocationDescription": "Varmista että sivustojen vierailijoiden sijainti havaitaan oikein.",
         "SkipThisChallenge": "Ohita tämä haaste",
-        "MatomoSenior": "Matomo-lahjakkuus",
         "MatomoBeginner": "Matomo-aloittelija",
         "MatomoIntermediate": "Matomo-osaaja",
         "MatomoTalent": "Matomo-lahjakkuus",
