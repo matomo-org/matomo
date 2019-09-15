@@ -14,29 +14,37 @@
         ];
         var piwikComparisonsService;
         var $httpBackend;
-        var $browser;
         var $rootScope;
         var $location;
+        var oldInjectorFn;
+        var $window;
 
-        beforeEach(module('piwikApp.service', 'ngMockE2E'));
+        beforeEach(module('piwikApp.service'));
         beforeEach(module(function($provide) {
             var loc = {};
             Object.defineProperty(loc, 'href', {
                 get: function () {
-                    return $browser.url();
+                    return $location.absUrl();
+                },
+                set: function (v) {
+                    $location.url(v);
                 },
             });
             Object.defineProperty(loc, 'search', {
                 get: function () {
-                    return $browser.url().split('?')[1];
+                    return '?' + $location.absUrl().split('?')[1];
                 },
             });
 
-            $provide.value('$window', {
+            $window = {
                 location: loc,
-            });
+            };
+            $provide.value('$window', $window);
         }));
         beforeEach(inject(function($injector) {
+            oldInjectorFn = angular.element.prototype.injector;
+            angular.element.prototype.injector = function () { return $injector; };
+
             window.piwik.ColorManager = {
                 getColors: function () {
                     return [];
@@ -50,21 +58,32 @@
                 'General_DateRangeFromTo': 'General_DateRangeFromTo',
             };
 
-            $httpBackend = $injector.get('$httpBackend');
-            $browser = $injector.get('$browser');
             $rootScope = $injector.get('$rootScope');
             $location = $injector.get('$location');
-            piwikComparisonsService = $injector.get('piwikComparisonsService');
+            $httpBackend = $injector.get('$httpBackend');
         }));
-        beforeEach(function () {
+        beforeEach(inject(function($injector) {
             $httpBackend.whenPOST(function (url) {
                 return /API\.getPagesComparisonsDisabledFor/.test(url);
-            }).respond(DISABLED_PAGES);
+            }).respond(function () {
+                return [200, DISABLED_PAGES];
+            });
+
+            piwikComparisonsService = $injector.get('piwikComparisonsService');
+
+            $httpBackend.flush();
+        }));
+        afterEach(function () {
+            angular.element.prototype.injector = oldInjectorFn;
+        });
+        afterEach (function () {
+            $httpBackend.verifyNoOutstandingExpectation ();
+            $httpBackend.verifyNoOutstandingRequest ();
         });
 
         describe('#getComparisons()', function () {
-            it.only('should return all comparisons in URL', function () {
-                $location.search('module=MyModule1&action=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+            it('should return all comparisons in URL', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
                 $rootScope.$apply();
 
                 expect(piwikComparisonsService.getComparisons()).to.deep.equal([
@@ -84,6 +103,13 @@
                     },
                     {
                         params: {
+                            segment: '',
+                        },
+                        title: 'SegmentEditor_DefaultAllVisits',
+                        index: 2,
+                    },
+                    {
+                        params: {
                             date: '2018-01-02',
                             period: 'day'
                         },
@@ -97,49 +123,359 @@
                         },
                         title: 'General_DateRangeFromTo',
                         index: 1,
-                    }
+                    },
                 ]);
+            });
+
+            it('should return base params if there are no comparisons', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([
+                    {
+                        params: {
+                            segment: 'abcdefg'
+                        },
+                        title: 'General_Unknown',
+                        index: 0,
+                    },
+                    {
+                        params: {
+                            date: '2018-01-02',
+                            period: 'day'
+                        },
+                        title: '2018-01-02',
+                        index: 0,
+                    },
+                ]);
+            });
+
+            it('should return nothing if comparison is not enabled for the page', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([]);
             });
         });
 
         describe('#removeComparison()', function () {
-            // TODO
+            it('should remove an existing segment comparison from the URL', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                piwikComparisonsService.removeComparison(piwikComparisonsService.getSegmentComparisons()[1]);
+
+                expect('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04&updated=1').to.equal($location.url().split('#')[0]);
+            });
+
+            it('should change the base comparison if the first segment is removed', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                piwikComparisonsService.removeComparison(piwikComparisonsService.getSegmentComparisons()[0]);
+
+                expect('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04&updated=1').to.equal($location.url().split('#')[0]);
+            });
         });
 
         describe('#addComparison()', function () {
-            // TODO
+            it('should add a new segment comparison to the URL', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                piwikComparisonsService.addComparison({
+                    segment: 'newsegment',
+                });
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([
+                    {"params":{"segment":""},"title":"SegmentEditor_DefaultAllVisits","index":0},
+                    {"params":{"segment":"comparedsegment"},"title":"General_Unknown","index":1},
+                    {"params":{"date":"2018-01-02","period":"day"},"title":"2018-01-02","index":0},
+                    {"params":{"date":"2018-03-04","period":"week"},"title":"General_DateRangeFromTo","index":1},
+                ]);
+            });
+
+            it('should add the all visits segment to the URL', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                piwikComparisonsService.addComparison({
+                    segment: '',
+                });
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([
+                    {"params":{"segment":"abcdefg"},"title":"General_Unknown","index":0},
+                    {"params":{"segment":"comparedsegment"},"title":"General_Unknown","index":1},
+                    {"params":{"date":"2018-01-02","period":"day"},"title":"2018-01-02","index":0},
+                    {"params":{"date":"2018-03-04","period":"week"},"title":"General_DateRangeFromTo","index":1}
+                ]);
+            });
+
+            it('should add a new period comparison to the URL', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                piwikComparisonsService.addComparison({
+                    period: 'month',
+                    date: '2018-02-03',
+                });
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([
+                    {"params":{"segment":""},"title":"SegmentEditor_DefaultAllVisits","index":0},
+                    {"params":{"segment":"comparedsegment"},"title":"General_Unknown","index":1},
+                    {"params":{"date":"2018-01-02","period":"day"},"title":"2018-01-02","index":0},
+                ]);
+            });
+
+            it('should add another period comparison to the URL if one is already there', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                piwikComparisonsService.addComparison({
+                    period: 'year',
+                    date: '2018-02-03',
+                });
+
+                expect(piwikComparisonsService.getComparisons()).to.deep.equal([
+                    {"params":{"segment":""},"title":"SegmentEditor_DefaultAllVisits","index":0},
+                    {"params":{"segment":"comparedsegment"},"title":"General_Unknown","index":1},
+                    {"params":{"date":"2018-01-02","period":"day"},"title":"2018-01-02","index":0},
+                    {"params":{"date":"2018-03-04","period":"week"},"title":"General_DateRangeFromTo","index":1},
+                ]);
+            });
         });
 
         describe('#isComparisonEnabled()', function () {
-            // TODO
+            it('should return true if comparison is enabled for the page', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparisonEnabled()).to.be.true;
+            });
+
+            it('should return false if comparison is disabled for the page', function () {
+                $location.search('category=MyModule2&subcategory=disabledPage2&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparisonEnabled()).to.be.false;
+            });
+
+            it('should return false if comparison is disabled for the entire category', function () {
+                $location.search('category=MyModule3&subcategory=enabledPage&date=2018-01-02&period=day&segment=&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparisonEnabled()).to.be.false;
+            });
         });
 
         describe('#getSegmentComparisons()', function () {
-            // TODO
+            it('should return the segment comparisons only', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getSegmentComparisons()).to.be.deep.equal([
+                    {"params":{"segment":"abcdefg"},"title":"General_Unknown","index":0},
+                    {"params":{"segment":"comparedsegment"},"title":"General_Unknown","index":1},
+                    {"params":{"segment":""},"title":"SegmentEditor_DefaultAllVisits","index":2}
+                ]);
+            });
+
+            it('should return nothing if comparison is not enabled', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getSegmentComparisons()).to.be.deep.equal([]);
+            });
         });
 
         describe('#getPeriodComparisons()', function () {
-            // TODO
+            it('should return the period comparisons only', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getPeriodComparisons()).to.be.deep.equal([
+                    {
+                        params: {
+                            date: '2018-01-02',
+                            period: 'day',
+                        },
+                        title: '2018-01-02',
+                        index: 0,
+                    },
+                    {
+                        params: {
+                            date: '2018-03-04',
+                            period: 'week',
+                        },
+                        title: 'General_DateRangeFromTo',
+                        index: 1,
+                    },
+                ]);
+            });
+
+            it('should return nothing if comparison is not enabled', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getPeriodComparisons()).to.be.deep.equal([]);
+            });
         });
 
         describe('#getAllComparisonSeries()', function () {
-            // TODO
+            it('should return all individual comparison serieses', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getAllComparisonSeries()).to.be.deep.equal([
+                    {
+                        index: 0,
+                        params: {
+                            segment: 'abcdefg',
+                            date: '2018-01-02',
+                            period: 'day',
+                        },
+                        color: undefined,
+                    },
+                    {
+                        "index":1,
+                        "params": {
+                            "segment":"comparedsegment",
+                            "date":"2018-01-02",
+                            "period":"day"
+                        },
+                        color: undefined,
+                    },
+                    {
+                        "index":2,
+                        "params": {
+                            "segment":"",
+                            "date":"2018-01-02",
+                            "period":"day"
+                        },
+                        color: undefined,
+                    },
+                    {
+                        "index":3,
+                        "params": {
+                            "segment":"abcdefg",
+                            "date":"2018-03-04",
+                            "period":"week"
+                        },
+                        color: undefined,
+                    },
+                    {
+                        "index":4,
+                        "params": {
+                            "segment":"comparedsegment",
+                            "date":"2018-03-04",
+                            "period":"week"
+                        },
+                        color: undefined,
+                    },
+                    {
+                        "index":5,
+                        "params": {
+                            "segment":"",
+                            "date":"2018-03-04",
+                            "period":"week"
+                        },
+                        color: undefined,
+                    },
+                ]);
+            });
+
+            it('should return nothing if comparison is not enabled', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getAllComparisonSeries()).to.be.deep.equal([]);
+            });
         });
 
         describe('#isComparing()', function () {
-            // TODO
+            it('should return true if there are comparison parameters present', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparing()).to.be.true;
+            });
+
+            it('should return false if there are no comparison parameters present', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparing()).to.be.false;
+
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparing()).to.be.false;
+            });
+
+            it('should return false if comparison is not enabled', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparing()).to.be.false;
+            });
         });
 
         describe('#isComparingPeriods()', function () {
-            // TODO
+            it('should return true if there are periods being compared', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparingPeriods()).to.be.true;
+            });
+
+            it('should return false if there are no periods being compared, just segments', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
+            });
+
+            it('should return false if there is nothing being compared', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
+            });
+
+            it('should return false if comparing is not enabled', function () {
+                $location.search('category=MyModule1&subcategory=disabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.isComparingPeriods()).to.be.false;
+            });
         });
 
         describe('#getIndividualComparisonRowIndices()', function () {
-            // TODO
+            it('should calculate the segment/period index from the given series index', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getIndividualComparisonRowIndices(3)).to.be.deep.equal({
+                    segmentIndex: 0,
+                    periodIndex: 1,
+                });
+
+                expect(piwikComparisonsService.getIndividualComparisonRowIndices(0)).to.be.deep.equal({
+                    segmentIndex: 0,
+                    periodIndex: 0,
+                });
+            });
         });
 
         describe('#getComparisonSeriesIndex()', function () {
-            // TODO
+            it('should return the comparison series index from the given segment & period indices', function () {
+                $location.search('category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates[]=2018-03-04&comparePeriods[]=week&compareSegments[]=comparedsegment&compareSegments[]=');
+                $rootScope.$apply();
+
+                expect(piwikComparisonsService.getComparisonSeriesIndex(1, 1)).to.be.deep.equal(4);
+
+                expect(piwikComparisonsService.getComparisonSeriesIndex(0, 1)).to.be.deep.equal(1);
+            });
         });
     });
 })();

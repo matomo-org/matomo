@@ -14,7 +14,7 @@
         var comparisons = []; // TODO: split into segment/period array, code will be simpler
         var comparisonSeriesIndices = {};
         var comparisonsDisabledFor = [];
-        var isEnabled = true;
+        var isEnabled = false;
 
         var SERIES_COLOR_COUNT = 8;
         var SERIES_SHADE_COUNT = 3;
@@ -86,10 +86,10 @@
             return comparisons;
         }
 
-        function getIndividualComparisonRowIndices(comparisonRowIndex) {
+        function getIndividualComparisonRowIndices(seriesIndex) {
             var segmentCount = getSegmentComparisons().length;
-            var segmentIndex = comparisonRowIndex % segmentCount;
-            var periodIndex = Math.floor(comparisonRowIndex / segmentCount);
+            var segmentIndex = seriesIndex % segmentCount;
+            var periodIndex = Math.floor(seriesIndex / segmentCount);
 
             return {
                 segmentIndex: segmentIndex,
@@ -221,7 +221,6 @@
 
         function updateComparisonsFromQueryParams() {
             var title;
-
             var availableSegments;
             try {
                 availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];

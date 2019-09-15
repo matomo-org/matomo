@@ -22,9 +22,9 @@
 
         function getSearchParam(paramName)
         {
-            var hash = window.location.href.split('#');
+            var hash = $window.location.href.split('#');
             if (hash && hash[1] && (new RegExp(paramName + '(\\[]|=)')).test(decodeURIComponent(hash[1]))) {
-                return broadcast.getValueFromHash(paramName);
+                return broadcast.getValueFromHash(paramName, $window.location.href);
             }
             return broadcast.getValueFromUrl(paramName, $window.location.search);
         }

@@ -7,10 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-/*
-- TODO: js unit tests for comparison service
- */
-
 describe("Comparison", function () {
     const generalParams = 'idSite=1&period=range&date=2012-01-12,2012-01-17',
         urlBase = 'module=CoreHome&action=index&' + generalParams,

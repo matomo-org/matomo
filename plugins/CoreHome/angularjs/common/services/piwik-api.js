@@ -95,9 +95,7 @@ var hasBlockedContent = false;
 
                 if (!angular.isDefined(response) || response === null) {
                     return $q.reject(null);
-
                 } else if (isErrorResponse(response)) {
-
                     createResponseErrorNotification(response, options);
 
                     return $q.reject(response.message || null);

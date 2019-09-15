@@ -404,7 +404,7 @@ var broadcast = {
         return false;
 
         function removeParam(paramName) {
-            var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)?=[^&?#]*?&?', 'gi');
+            var paramRegex = new RegExp(paramName + '(\\[]|%5B%5D)?=[^&?#]*&?', 'gi');
             currentSearchStr = currentSearchStr.replace(paramRegex, '');
             currentHashStr = currentHashStr.replace(paramRegex, '');
         }
