@@ -54,6 +54,7 @@
         "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete.",
         "AddThisToMatomo": "Add this segment to Matomo",
         "ThisSegmentIsCompared": "This segment is currently compared.",
-        "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare."
+        "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
+        "CompareThisSegment": "Compare this segment with the selected segment and period."
     }
 }

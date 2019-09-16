@@ -53,7 +53,7 @@ describe("Comparison", function () {
 
     it('should add a segment comparison when the compare icon in the segment list is clicked', async () => {
         await page.click('.segmentationContainer');
-        await (await page.jQuery('li[data-idsegment=2] .compareSegment')).click();
+        await (await page.jQuery('li[data-idsegment=2] .compareSegment', { waitFor: true })).click();
         await page.waitForNetworkIdle();
         await page.waitFor('.widget');
         await page.waitForNetworkIdle();

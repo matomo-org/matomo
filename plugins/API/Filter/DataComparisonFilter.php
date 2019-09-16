@@ -531,7 +531,9 @@ class DataComparisonFilter
 
     private function addIndividualChildPrettifiedMetadata(array &$metadata, DataTable $parentTable = null)
     {
-        if ($parentTable) {
+        if ($parentTable
+            && $this->isRequestMultiplePeriod()
+        ) {
             /** @var Period $period */
             $period = $parentTable->getMetadata('period');
             if (empty($period)) {
@@ -561,6 +563,9 @@ class DataComparisonFilter
 
         $metadata['comparePeriod'] = $period;
         $metadata['compareDate'] = $date;
+
+        $prettyPeriod = Factory::build($period, $date)->getLocalizedLongString();
+        $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
 
         // set compareSeriesPretty
         $segmentPretty = isset($metadata['compareSegmentPretty']) ? $metadata['compareSegmentPretty'] : '';

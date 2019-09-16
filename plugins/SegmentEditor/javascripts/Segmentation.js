@@ -82,9 +82,7 @@ Segmentation = (function($) {
 
         segmentation.prototype.markComparedSegments = function() {
             var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
-            var comparedSegments = comparisonService.getComparisons().filter(function (comparison) {
-                return typeof comparison.params.segment !== 'undefined';
-            }).map(function (comparison) {
+            var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
 
@@ -168,8 +166,10 @@ Segmentation = (function($) {
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
             var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
-            if (comparisonService.isComparisonEnabled()) {
-                listHtml += '<span class="compareSegment allVisitsCompareSegment" title="Compare this segment with the selected segment and period."></span>';
+            if (comparisonService.isComparisonEnabled()
+                || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+            ) {
+                listHtml += '<span class="compareSegment allVisitsCompareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
             }
             listHtml += '</li>';
 
@@ -217,9 +217,10 @@ Segmentation = (function($) {
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
                     }
-                    // TODO: translate
-                    if (comparisonService.isComparisonEnabled()) {
-                        listHtml += '<span class="compareSegment" title="Compare this segment with the selected segment and period."></span>';
+                    if (comparisonService.isComparisonEnabled()
+                        || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+                    ) {
+                        listHtml += '<span class="compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
                     }
                     listHtml += '</li>';
                 }

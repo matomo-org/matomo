@@ -106,7 +106,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";

@@ -81,6 +81,29 @@
                 return false;
             }
 
+            if (vm.isComparing
+                && vm.comparePeriodType === 'custom'
+                && !isCompareRangeValid()
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function isCompareRangeValid() {
+            try {
+                piwikPeriods.parseDate(vm.compareStartDate);
+            } catch (e) {
+                return false;
+            }
+
+            try {
+                piwikPeriods.parseDate(vm.compareEndDate);
+            } catch (e) {
+                return false;
+            }
+
             return true;
         }
 

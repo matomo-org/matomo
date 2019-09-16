@@ -41,11 +41,6 @@ class JqplotDataGenerator
 
     protected $isComparing;
 
-    /**
-     * @var array
-     */
-    protected $comparisonsForLabels;
-
     private $availableSegments;
 
     /**
@@ -89,7 +84,6 @@ class JqplotDataGenerator
         $this->isComparing = $graph->isComparing();
         $this->graph = $graph;
 
-        $this->setComparisonsForLabels();
         $this->availableSegments = Request::processRequest('SegmentEditor.getAll', $override = [], $default = []);
     }
 
@@ -238,22 +232,5 @@ class JqplotDataGenerator
             $units[$seriesId] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
-    }
-
-    private function setComparisonsForLabels()
-    {
-        $compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array');
-        $compareSegments = Common::unsanitizeInputValues($compareSegments);
-
-        $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
-        $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
-
-        $segment = Common::getRequestVar('segment', $default = '');
-
-        array_unshift($compareSegments, $segment ? : '');
-        array_unshift($compareDates, ''); // for date/period, we use the metadata in the table to avoid requesting multiple periods
-        array_unshift($comparePeriods, '');
-
-        $this->comparisonsForLabels = DataComparisonFilter::getReportsToCompare($compareSegments, $comparePeriods, $compareDates);
     }
 }

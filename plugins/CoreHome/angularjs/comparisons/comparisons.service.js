@@ -14,7 +14,7 @@
         var segmentComparisons = [];
         var periodComparisons = [];
         var comparisonsDisabledFor = [];
-        var isEnabled = false;
+        var isEnabled = null;
 
         var SERIES_COLOR_COUNT = 8;
         var SERIES_SHADE_COUNT = 3;

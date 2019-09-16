@@ -143,7 +143,7 @@ class Chart
     private function getXAxis($index)
     {
         $axisName = 'xaxis';
-        if ($index !== 0) {
+        if ($index != 0) {
             $axisName = 'x' . ($index + 1) . 'axis';
         }
         return $axisName;
