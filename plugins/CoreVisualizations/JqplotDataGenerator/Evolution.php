@@ -180,6 +180,10 @@ class Evolution extends JqplotDataGenerator
         $comparePeriods = $table->getMetadata('comparePeriods') ?: [];
         $compareDates = $table->getMetadata('compareDates') ?: [];
 
+        // get rid of selected period
+        array_shift($comparePeriods);
+        array_shift($compareDates);
+
         foreach (array_values($comparePeriods) as $index => $period) {
             $date = $compareDates[$index];
 

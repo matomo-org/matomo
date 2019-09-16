@@ -621,7 +621,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
             ['nb_visits' => 6, 'nb_random' => 7],
             ['nb_visits' => 8, 'nb_random' => 9],
         ]);
-        $row->setMetadata('comparisons', $otherDataTable);
+        $row->setComparisons($otherDataTable);
 
         $dataTable->addRow($row);
 
@@ -663,7 +663,7 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
             ['nb_visits' => 6, 'nb_random' => 7],
             ['nb_visits' => 8, 'nb_random' => 9],
         ]);
-        $row->setMetadata('comparisons', $otherDataTable);
+        $row->setComparisons($otherDataTable);
 
         $dataTable->addRow($row);
 

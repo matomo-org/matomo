@@ -231,6 +231,14 @@
             var availableSegments = [];
             try {
                 availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
+
+                if (!(availableSegments instanceof Array)) {
+                    var values = [];
+                    Object.keys(availableSegments).forEach(function (name) {
+                        values.push(availableSegments[name]);
+                    });
+                    availableSegments = values;
+                }
             } catch (e) {
                 // segment editor is not initialized yet
             }
