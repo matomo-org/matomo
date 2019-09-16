@@ -668,7 +668,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
                 seriesColorNames = [];
                 this.jqplotParams.series.forEach(function (s) {
-                    var seriesColorName = piwikComparisonsService.getSeriesColorName(s.seriesIndex, s.metricIndex);
+                    var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
                     seriesColorNames.push(seriesColorName);
                 });
             }

@@ -46,6 +46,7 @@ describe("Comparison", function () {
         await page.waitForNetworkIdle();
         await page.waitFor('.widget');
         await page.waitForNetworkIdle();
+        await page.waitFor('.piwik-graph');
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('dashboard_last_period');
@@ -77,6 +78,7 @@ describe("Comparison", function () {
         await page.waitFor(100);
         await (await page.jQuery('li.menuTab:contains(Visitors) a.item:contains(Overview)')).click();
         await page.waitForNetworkIdle();
+        await page.waitFor('.piwik-graph');
 
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
