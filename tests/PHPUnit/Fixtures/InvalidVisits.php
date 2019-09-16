@@ -51,7 +51,6 @@ class InvalidVisits extends Fixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
         API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
         Cache::regenerateCacheWebsiteAttributes([1]);
 

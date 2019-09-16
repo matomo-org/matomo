@@ -52,7 +52,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $globalSettings = array();
         $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
-        $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
         $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
         $globalSettings['searchKeywordParametersGlobal'] = API::getInstance()->getSearchKeywordParametersGlobal();
         $globalSettings['searchCategoryParametersGlobal'] = API::getInstance()->getSearchCategoryParametersGlobal();
@@ -80,7 +79,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $currency = Common::getRequestVar('currency', false);
             $searchKeywordParameters = Common::getRequestVar('searchKeywordParameters', $default = "");
             $searchCategoryParameters = Common::getRequestVar('searchCategoryParameters', $default = "");
-            $enableSiteUserAgentExclude = Common::getRequestVar('enableSiteUserAgentExclude', $default = 0);
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
 
             $api = API::getInstance();
@@ -90,7 +88,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $api->setGlobalExcludedIps($excludedIps);
             $api->setGlobalExcludedUserAgents($excludedUserAgents);
             $api->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
-            $api->setSiteSpecificUserAgentExcludeEnabled($enableSiteUserAgentExclude == 1);
             $api->setKeepURLFragmentsGlobal($keepURLFragments);
 
             $toReturn = $response->getResponse();

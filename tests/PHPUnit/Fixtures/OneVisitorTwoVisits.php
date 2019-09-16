@@ -81,10 +81,6 @@ class OneVisitorTwoVisits extends Fixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        if ($this->excludeMozilla) {
-            APISitesManager::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
-        }
-
         self::createSuperUser();
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 

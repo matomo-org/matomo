@@ -15,8 +15,6 @@
         "EcommerceHelp": "When enabled, the \"Goals\" report will have a new \"Ecommerce\" section.",
         "EnableEcommerce": "Ecommerce enabled",
         "EnableSiteSearch": "Site Search tracking enabled",
-        "EnableSiteSpecificUserAgentExclude": "Enable website specific user agent exclusion.",
-        "EnableSiteSpecificUserAgentExclude_Help": "If you need to exclude different user agents for different websites, check this box, click save and %1$sadd the user agents above%2$s.",
         "ExceptionDeleteSite": "It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one.",
         "ExceptionEmptyName": "The website name can't be empty.",
         "ExceptionInvalidCurrency": "The currency \"%1$s\" is not valid. Please enter a valid currency symbol (eg. %2$s)",
