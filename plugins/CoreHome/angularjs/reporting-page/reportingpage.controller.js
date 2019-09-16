@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikComparisonsService'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications', 'piwikUrl'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikComparisonsService) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications, piwikUrl) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
 
@@ -29,9 +29,9 @@
             currentPeriod = $search.period;
             currentDate = $search.date;
             currentSegment = $search.segment;
-            currentCompareSegments = getQueryParamValue('compareSegments');
-            currentCompareDates = getQueryParamValue('compareDates');
-            currentComparePeriods = getQueryParamValue('comparePeriods');
+            currentCompareSegments = piwikUrl.getSearchParam('compareSegments');
+            currentCompareDates = piwikUrl.getSearchParam('compareDates');
+            currentComparePeriods = piwikUrl.getSearchParam('comparePeriods');
             $scope.renderPage($search.category, $search.subcategory);
         }
 
@@ -97,9 +97,9 @@
             var segment = $search.segment;
 
             // $location does not handle array parameters properly
-            var compareSegments = getQueryParamValue('compareSegments');
-            var compareDates = getQueryParamValue('compareDates');
-            var comparePeriods = getQueryParamValue('comparePeriods');
+            var compareSegments = piwikUrl.getSearchParam('compareSegments');
+            var compareDates = piwikUrl.getSearchParam('compareDates');
+            var comparePeriods = piwikUrl.getSearchParam('comparePeriods');
 
             if (category === currentCategory
                 && subcategory === currentSubcategory
@@ -127,14 +127,5 @@
         $rootScope.$on('loadPage', function (event, category, subcategory) {
             $scope.renderPage(category, subcategory);
         });
-
-        // TODO: redundancy
-        function getQueryParamValue(name) {
-            var result = broadcast.getValueFromHash(name);
-            if (!result) {
-                result = broadcast.getValueFromUrl(name);
-            }
-            return result;
-        }
     }
 })();

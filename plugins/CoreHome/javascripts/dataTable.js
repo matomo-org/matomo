@@ -107,7 +107,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         this.workingDivId = this._createDivId();
         domElem.attr('id', this.workingDivId);
 
-        this.maxNumRowsToHandleEvents = 255; // TODO: need to remove this, but need more data to test
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
@@ -558,11 +557,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             if (labelColumnWidth) {
                 $('td.label', domElem).each(function() {
-                    var w = labelColumnWidth;
-                    if ($(this).parent().is('.comparisonRow')) {
-                        // TODO: w = labelColumnWidth - 28; // TODO: 28 is the left margin for .comparisonsTable, should get if from css, not hard code it
-                    }
-                    $(this).width(removePaddingFromWidth($(this), w));
+                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
                 });
             }
 

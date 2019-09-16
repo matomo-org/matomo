@@ -461,7 +461,8 @@ var broadcast = {
     },
 
     /**
-     * TODO
+     * Adds a query param value. Use it to add an array parameter value where you don't want to remove an existing value first.
+     *
      * @param newParamValue
      * @param urlStr
      */

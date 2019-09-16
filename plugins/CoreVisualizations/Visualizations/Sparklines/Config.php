@@ -48,7 +48,10 @@ class Config extends \Piwik\ViewDataTable\Config
     public $title_attributes = array();
 
     /**
-     * TODO
+     * If supplied, this function is used to compute the evolution percent displayed next to non-comparison sparkline views.
+     *
+     * The function is passed an array mapping column names with column values.
+     *
      * @var callable
      */
     public $compute_evolution = null;
@@ -178,7 +181,9 @@ class Config extends \Piwik\ViewDataTable\Config
             'url' => '',
             'metrics' => array(),
             'order' => $this->getSparklineOrder($order),
-            'group' => 'placeholder' . count($this->sparklines), // TODO: explain
+
+            // adding this group ensures the sparkline will be placed between individual sparklines, and not in their own group together
+            'group' => 'placeholder' . count($this->sparklines),
         );
     }
 
@@ -192,7 +197,6 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * @param array $requestParamsForSparkline You need to at least set a module / action eg
      *                                         array('columns' => array('nb_visit'), 'module' => '', 'action' => '')
-     * TODO: modify docs
      * @param int|float|string|array $value Either the metric value or an array of values.
      * @param string|array $description Either one description or an array of descriptions. If an array, both
      *                                         $value and $description need the same amount of array entries.
@@ -206,6 +210,9 @@ class Config extends \Piwik\ViewDataTable\Config
      *                                               'tooltip' => '10 visits in 2015-07-26 compared to 20 visits in 2015-07-25')
      * @param int $order                       Defines the order. The lower the order the earlier the sparkline will be
      *                                         displayed. By default the sparkline will be appended to the end.
+     * @param string $title                    The title of this specific sparkline. It is displayed on the left above the sparkline image.
+     * @param string $group                    The ID of the group for this sparkline.
+     * @param int $seriesIndices               The indexes of each series displayed in the sparkline. This determines what color is used for each series. Mainly used for comparison.
      * @param array $graphParams               The params to use when changing an associated evolution graph. By default this is determined
      *                                         from the sparkline URL, but sometimes the sparkline API method may not match the evolution graph API method.
      * @throws \Exception In case an evolution parameter is set but has wrong data structure
@@ -290,7 +297,6 @@ class Config extends \Piwik\ViewDataTable\Config
             $evolutionPercent = CalculateEvolutionFilter::calculate($evolution['currentValue'], $evolution['pastValue'], $precision = 1);
 
             // do not display evolution if evolution percent is 0 and current value is 0
-            // TODO: ^ this isn't applied for referrers & other places that set evolution directly
             if ($evolutionPercent != 0 || $evolution['currentValue'] != 0) {
                 $sparkline['evolution'] = array(
                     'percent' => $evolutionPercent,

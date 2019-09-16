@@ -238,8 +238,6 @@
                 return {};
             }
 
-            // TODO: check date validity and disable apply in that case
-
             if (vm.comparePeriodType === 'custom') {
                 return {
                     comparePeriods: ['range'],

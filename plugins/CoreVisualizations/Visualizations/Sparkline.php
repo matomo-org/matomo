@@ -196,7 +196,6 @@ class Sparkline extends ViewDataTable
 
     private function transformSingleComparisonPeriods()
     {
-        // TODO: there's a lot of compare periods/dates access, perhaps this logic can be put somewhere else, w/ some better validation...
         $comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array');
         $compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array');
 
