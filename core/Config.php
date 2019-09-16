@@ -11,6 +11,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Config\Cache;
+use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
@@ -430,6 +432,8 @@ class Config
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
+
+            $this->settings->getIniFileChain()->deleteConfigCache();
 
             /**
              * Triggered when a INI config file is changed on disk.

@@ -265,7 +265,7 @@ class VisitorGeolocator
                     $onLogProcessed($row, $updatedValues);
                 }
             }
-        });
+        }, $willDelete = false);
     }
 
     /**

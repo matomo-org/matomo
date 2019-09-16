@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "Bu özelliği kullanabilmek için oturumu açmalısınız.",
         "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi.",
         "ThankYouForUsingMatomo": "Matomo kullandığınız için teşekkürler",
-        "TheMatomoTeam": "Matomo Ekibi"
+        "TheMatomoTeam": "Matomo Ekibi",
+        "PleaseTryAgain": "Lütfen yeniden deneyin"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

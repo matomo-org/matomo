@@ -26,7 +26,6 @@
             "idsite": "Site 1",
             "idvisit": "1",
             "idvisitor": "5484eb1bcd82eefe",
-            "last_idlink_va": "11",
             "location_browser_lang": "French (fr)",
             "location_country": "Intl_Continent_ie",
             "location_ip": "156.5.3.200",
@@ -79,7 +78,6 @@
             "idsite": "Site 1",
             "idvisit": "2",
             "idvisitor": "6f1ccf4b4463998f",
-            "last_idlink_va": "17",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_in",
             "location_ip": "156.5.3.201",
@@ -134,7 +132,6 @@
             "idsite": "Site 1",
             "idvisit": "3",
             "idvisitor": "6f1ccf4b4463998f",
-            "last_idlink_va": "18",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_in",
             "location_ip": "156.5.3.201",
@@ -188,7 +185,6 @@
             "idsite": "Site 1",
             "idvisit": "4",
             "idvisitor": "dbfd79b34328023f",
-            "last_idlink_va": "20",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_it",
             "location_ip": "156.5.3.202",
@@ -241,7 +237,6 @@
             "idsite": "Site 1",
             "idvisit": "5",
             "idvisitor": "dbfd79b34328023f",
-            "last_idlink_va": "22",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_it",
             "location_ip": "156.5.3.202",
@@ -296,7 +291,6 @@
             "idsite": "Site 1",
             "idvisit": "6",
             "idvisitor": "dbfd79b34328023f",
-            "last_idlink_va": "24",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_it",
             "location_ip": "156.5.3.202",
@@ -350,7 +344,6 @@
             "idsite": "Site 1",
             "idvisit": "7",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "27",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -403,7 +396,6 @@
             "idsite": "Site 1",
             "idvisit": "8",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "30",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -457,7 +449,6 @@
             "idsite": "Site 1",
             "idvisit": "9",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "33",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -512,7 +503,6 @@
             "idsite": "Site 1",
             "idvisit": "10",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "36",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -565,7 +555,6 @@
             "idsite": "Site 1",
             "idvisit": "11",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "39",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -619,7 +608,6 @@
             "idsite": "Site 1",
             "idvisit": "12",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "42",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -674,7 +662,6 @@
             "idsite": "Site 1",
             "idvisit": "13",
             "idvisitor": "5ea465f8f6fc61a0",
-            "last_idlink_va": "45",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_mx",
             "location_ip": "156.5.3.203",
@@ -728,7 +715,6 @@
             "idsite": "Site 1",
             "idvisit": "14",
             "idvisitor": "93daa0102b94a590",
-            "last_idlink_va": "58",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_pt",
             "location_ip": "156.5.3.204",
@@ -782,7 +768,6 @@
             "idsite": "Site 1",
             "idvisit": "15",
             "idvisitor": "10b7b3f2a3a3cbc0",
-            "last_idlink_va": "61",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_ru",
             "location_ip": "156.5.3.205",
@@ -835,7 +820,6 @@
             "idsite": "Site 1",
             "idvisit": "16",
             "idvisitor": "10b7b3f2a3a3cbc0",
-            "last_idlink_va": "63",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_ru",
             "location_ip": "156.5.3.205",
@@ -888,7 +872,6 @@
             "idsite": "Site 1",
             "idvisit": "17",
             "idvisitor": "f92bfd7922b77e32",
-            "last_idlink_va": "66",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_gb",
             "location_ip": "156.5.3.206",
@@ -942,7 +925,6 @@
             "idsite": "Site 1",
             "idvisit": "18",
             "idvisitor": "f92bfd7922b77e32",
-            "last_idlink_va": "69",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_gb",
             "location_ip": "156.5.3.206",
@@ -995,7 +977,6 @@
             "idsite": "Site 1",
             "idvisit": "19",
             "idvisitor": "f92bfd7922b77e32",
-            "last_idlink_va": "72",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_gb",
             "location_ip": "156.5.3.206",
@@ -1050,7 +1031,6 @@
             "idsite": "Site 1",
             "idvisit": "20",
             "idvisitor": "f92bfd7922b77e32",
-            "last_idlink_va": "75",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_gb",
             "location_ip": "156.5.3.206",
@@ -1103,7 +1083,6 @@
             "idsite": "Site 1",
             "idvisit": "21",
             "idvisitor": "10ad1da713b1d678",
-            "last_idlink_va": "81",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_us",
             "location_ip": "156.5.3.207",
@@ -1157,7 +1136,6 @@
             "idsite": "Site 1",
             "idvisit": "22",
             "idvisitor": "10ad1da713b1d678",
-            "last_idlink_va": "82",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_us",
             "location_ip": "156.5.3.207",
@@ -1210,7 +1188,6 @@
             "idsite": "Site 1",
             "idvisit": "23",
             "idvisitor": "19c222fa6e2f7922",
-            "last_idlink_va": "91",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_ca",
             "location_ip": "156.5.3.208",
@@ -1264,7 +1241,6 @@
             "idsite": "Site 1",
             "idvisit": "24",
             "idvisitor": "19c222fa6e2f7922",
-            "last_idlink_va": "93",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_ca",
             "location_ip": "156.5.3.208",
@@ -1317,7 +1293,6 @@
             "idsite": "Site 1",
             "idvisit": "25",
             "idvisitor": "cb9a53c4ce1dc123",
-            "last_idlink_va": "96",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_cn",
             "location_ip": "156.5.3.209",
@@ -1372,7 +1347,6 @@
             "idsite": "Site 1",
             "idvisit": "26",
             "idvisitor": "cb9a53c4ce1dc123",
-            "last_idlink_va": "99",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_cn",
             "location_ip": "156.5.3.209",
@@ -1425,7 +1399,6 @@
             "idsite": "Site 1",
             "idvisit": "27",
             "idvisitor": "8311682d2bcc0232",
-            "last_idlink_va": "106",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_de",
             "location_ip": "156.5.3.210",
@@ -1477,7 +1450,6 @@
             "idsite": "Site 1",
             "idvisit": "28",
             "idvisitor": "26a1aa089f52e271",
-            "last_idlink_va": "108",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_es",
             "location_ip": "156.5.3.211",
@@ -1531,7 +1503,6 @@
             "idsite": "Site 1",
             "idvisit": "29",
             "idvisitor": "26a1aa089f52e271",
-            "last_idlink_va": "110",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_es",
             "location_ip": "156.5.3.211",
@@ -1584,7 +1555,6 @@
             "idsite": "Site 1",
             "idvisit": "30",
             "idvisitor": "26a1aa089f52e271",
-            "last_idlink_va": "112",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_es",
             "location_ip": "156.5.3.211",
@@ -1637,7 +1607,6 @@
             "idsite": "Site 1",
             "idvisit": "31",
             "idvisitor": "26a1aa089f52e271",
-            "last_idlink_va": "114",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_es",
             "location_ip": "156.5.3.211",
@@ -1690,7 +1659,6 @@
             "idsite": "Site 1",
             "idvisit": "32",
             "idvisitor": "26a1aa089f52e271",
-            "last_idlink_va": "116",
             "location_browser_lang": "Unknown ()",
             "location_country": "Intl_Continent_es",
             "location_ip": "156.5.3.211",
@@ -1732,7 +1700,6 @@
             "idvisitor": "5484eb1bcd82eefe",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2022,7 +1989,6 @@
             "idvisitor": "dbfd79b34328023f",
             "interaction_position": "1",
             "server_time": "2016-12-31 08:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2053,7 +2019,6 @@
             "idvisitor": "dbfd79b34328023f",
             "interaction_position": "1",
             "server_time": "2017-01-01 23:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2084,7 +2049,6 @@
             "idvisitor": "dbfd79b34328023f",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2115,7 +2079,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2016-12-31 08:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2161,7 +2124,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-01 09:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2207,7 +2169,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-01 14:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2253,7 +2214,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-01 19:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2299,7 +2259,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-02 00:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2345,7 +2304,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-02 02:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2391,7 +2349,6 @@
             "idvisitor": "5ea465f8f6fc61a0",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2655,7 +2612,6 @@
             "idvisitor": "10b7b3f2a3a3cbc0",
             "interaction_position": "1",
             "server_time": "2017-01-02 00:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2704,7 +2660,6 @@
             "idvisitor": "10b7b3f2a3a3cbc0",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2735,7 +2690,6 @@
             "idvisitor": "f92bfd7922b77e32",
             "interaction_position": "1",
             "server_time": "2017-01-02 01:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2781,7 +2735,6 @@
             "idvisitor": "f92bfd7922b77e32",
             "interaction_position": "1",
             "server_time": "2017-01-01 22:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2827,7 +2780,6 @@
             "idvisitor": "f92bfd7922b77e32",
             "interaction_position": "1",
             "server_time": "2017-01-02 00:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -2873,7 +2825,6 @@
             "idvisitor": "f92bfd7922b77e32",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3033,7 +2984,6 @@
             "idvisitor": "19c222fa6e2f7922",
             "interaction_position": "1",
             "server_time": "2017-01-01 19:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3183,7 +3133,6 @@
             "idvisitor": "19c222fa6e2f7922",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3214,7 +3163,6 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "interaction_position": "1",
             "server_time": "2017-01-02 01:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3260,7 +3208,6 @@
             "idvisitor": "cb9a53c4ce1dc123",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3416,7 +3363,6 @@
             "idvisitor": "26a1aa089f52e271",
             "interaction_position": "1",
             "server_time": "2017-01-02 02:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3447,7 +3393,6 @@
             "idvisitor": "26a1aa089f52e271",
             "interaction_position": "1",
             "server_time": "2017-01-01 14:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3478,7 +3423,6 @@
             "idvisitor": "26a1aa089f52e271",
             "interaction_position": "1",
             "server_time": "2017-01-01 17:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3509,7 +3453,6 @@
             "idvisitor": "26a1aa089f52e271",
             "interaction_position": "1",
             "server_time": "2017-01-01 23:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -3540,7 +3483,6 @@
             "idvisitor": "26a1aa089f52e271",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {

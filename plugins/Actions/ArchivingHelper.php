@@ -15,6 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
+use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Zend_Db_Statement;
@@ -57,7 +58,7 @@ class ArchivingHelper
                 continue;
             }
 
-            $hasRowName = !empty($row['name']) && $row['name'] != DataTable::LABEL_SUMMARY_ROW;
+            $hasRowName = !empty($row['name']) && $row['name'] != RankingQuery::LABEL_SUMMARY_ROW;
 
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
@@ -381,7 +382,7 @@ class ArchivingHelper
         }
 
         // check for ranking query cut-off
-        if ($actionName == DataTable::LABEL_SUMMARY_ROW) {
+        if ($actionName == RankingQuery::LABEL_SUMMARY_ROW) {
             $summaryRow = $currentTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($summaryRow === false) {
                 $summaryRow = $currentTable->addSummaryRow(self::createSummaryRow());
@@ -499,7 +500,7 @@ class ArchivingHelper
      */
     private static function getCachedActionRowKey($idAction, $actionType)
     {
-        return $idAction == DataTable::LABEL_SUMMARY_ROW
+        return $idAction == RankingQuery::LABEL_SUMMARY_ROW
             ? $actionType . '_others'
             : $idAction;
     }

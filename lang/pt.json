@@ -187,7 +187,9 @@
         "ExceptionLanguageFileNotFound": "O ficheiro de idioma '%s' não foi encontrado.",
         "ExceptionMethodNotFound": "O método '%1$s' não existe ou não está disponível no módulo '%2$s'.",
         "ExceptionMissingFile": "Ficheiro em falta: %s",
+        "ExceptionUnexpectedFile": "Foram encontrados ficheiros no seu Matomo que não estávamos à espera.",
         "ExceptionUnexpectedFilePleaseDelete": "Por favor, elimine estes ficheiros para evitar erros.",
+        "ExceptionUnexpectedDirectory": "Foram encontrados diretórios no seu Matomo que não estávamos à espera.",
         "ExceptionUnexpectedDirectoryPleaseDelete": "Por favor, elimine estes diretórios para evitar erros.",
         "ExceptionFileToDelete": "Ficheiro a eliminar: %s",
         "ExceptionDirectoryToDelete": "Diretório a eliminar: %s",
@@ -235,6 +237,7 @@
         "Hide": "ocultar",
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "Id",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Assumindo que o processo de arquivamento é rápido na sua configuração, pode configurar o crontab para o executar com mais frequência.",
         "InfoFor": "Informação para %s",
         "Installed": "Instalado",
         "InvalidDateRange": "Intervalo de datas inválido, por favor, tente novamente",
@@ -324,6 +327,8 @@
         "OverlayRowActionTooltipTitle": "Abrir sobreposição na página",
         "Overview": "Visão geral",
         "Pages": "Páginas",
+        "Pagination": "%1$s–%2$s de %3$s",
+        "PaginationWithoutTotal": "%1$s–%2$s",
         "ParameterMustIntegerBetween": "O parâmetro %1$s tem que ser um valor inteiro entre %2$s e %3$s.",
         "Password": "Palavra-passe",
         "Period": "Período",
@@ -485,7 +490,10 @@
         "YouAreCurrentlyUsing": "Atualmente está a utilizar o Matomo %s.",
         "YouAreViewingDemoMessage": "Está a ver a demonstração do %1$sMatomo%2$s",
         "YouMustBeLoggedIn": "Tem que estar autenticado para aceder a esta funcionalidade.",
-        "YourChangesHaveBeenSaved": "As suas alterações foram guardadas."
+        "YourChangesHaveBeenSaved": "As suas alterações foram guardadas.",
+        "ThankYouForUsingMatomo": "Obrigado por utilizar o Matomo",
+        "TheMatomoTeam": "A Equipa do Matomo",
+        "PleaseTryAgain": "Por favor tente novamente"
     },
     "Mobile": {
         "AboutPiwikMobile": "Sobre o Matomo Mobile",
@@ -558,7 +566,13 @@
         "VerifyAccount": "A verificar a conta",
         "ValidateSslCertificate": "Validar certificado SSL",
         "VerifyLoginData": "Confirme que a combinação do seu nome de utilizador e senha está correta.",
-        "YouAreOffline": "Desculpe, mas está offline"
+        "YouAreOffline": "Desculpe, mas está offline",
+        "ExceptionNoViewAccess": "Por favor, verifique o seu nome de utilizador e a sua palavra-passe e certifique-se que possui acesso %s a pelo menos um site.",
+        "Mobile_HowtoExitAndroid": "Por favor, clique em RETROCEDER novamente para sair",
+        "MatomoMarketplace": "Loja do Matomo",
+        "EnterAuthCode": "Introduza o código de autenticação",
+        "EnterCorrectAuthCode": "Introduza o código de autenticação correto",
+        "EnterAuthCodeExplanation": "Parece que está a utilizar a autenticação de dois fatores. Por favor, introduza o código de seis dígitos para iniciar sessão na sua conta."
     },
     "RowEvolution": {
         "AvailableMetrics": "Métricas disponíveis",

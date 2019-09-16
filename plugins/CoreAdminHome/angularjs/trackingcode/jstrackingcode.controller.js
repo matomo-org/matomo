@@ -28,9 +28,11 @@
 
     angular.module('piwikApp').controller('JsTrackingCodeController', JsTrackingCodeController);
 
-    JsTrackingCodeController.$inject = ['$scope', 'piwikApi'];
+    JsTrackingCodeController.$inject = ['$scope', '$filter', 'piwikApi'];
 
-    function JsTrackingCodeController($scope, piwikApi) {
+    function JsTrackingCodeController($scope, $filter, piwikApi) {
+
+        var translate = $filter('translate');
 
         this.showAdvanced = false;
         this.isLoading = false;
@@ -138,6 +140,19 @@
 
         this.updateTrackingCode = function () {
             generateJsCode(true);
+        };
+
+        this.sendEmail = function() {
+            var subjectLine = translate('SitesManager_EmailInstructionsSubject');
+
+            var trackingCode = self.trackingCode;
+            trackingCode = trackingCode.replace(/<[^>]+>/g, '');
+            var bodyText = translate('SitesManager_JsTrackingTagHelp')  + '. '
+                + translate('CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail', "'head")
+                + "\n" + trackingCode;
+
+            var linkText = 'mailto:?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(bodyText);
+            window.location.href = linkText;
         };
 
         this.changeSite = function (trackingCodeChangedManually) {

@@ -138,11 +138,33 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::checkUserHasViewAccess($this->idSite);
         }
 
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $this->idSite
+        ), $viewType = 'basic');
+
         return $this->renderTemplateAs('siteWithoutData', array(
-            'siteName'     => $this->site->getName(),
-            'idSite' => $this->idSite,
-            'jsTag'           => Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl)),
-            'piwikUrl'        => $piwikUrl,
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'jsTag'         => $jsTag,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent
         ), $viewType = 'basic');
     }
 }

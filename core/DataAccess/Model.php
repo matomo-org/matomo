@@ -186,13 +186,15 @@ class Model
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $idsToDelete = array_map('intval', $idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+
+        $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
 
         try {
-            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $queryObj = Db::query(sprintf($query, $blobTable), array());
             $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
@@ -205,19 +207,13 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
             $dateEndIso,
             $period,
         );
-
-        $timeStampWhere = '';
-        if ($minDatetimeIsoArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
-            $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
-        }
 
         $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
@@ -229,7 +225,6 @@ class Model
                          AND ( ($sqlWhereArchiveName)
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
-                         $timeStampWhere
                      ORDER BY idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
@@ -279,25 +274,11 @@ class Model
         return $idarchive;
     }
 
-    public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
+    public function updateArchiveStatus($numericTable, $archiveId, $doneFlag, $value)
     {
-        $tableWithoutLeadingPrefix = $numericTable;
-        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
-
-        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
-            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
-            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
-        }
-        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
-
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($dbLockName);
-
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
-            array($archiveId)
+        Db::query("UPDATE $numericTable SET `value` = ? WHERE idarchive = ? and `name` = ?",
+            array($value, $archiveId, $doneFlag)
         );
-
-        $this->releaseArchiveTableLock($dbLockName);
     }
 
     public function insertRecord($tableName, $fields, $record, $name, $value)
@@ -340,14 +321,31 @@ class Model
      * @param string $oldestToKeep Datetime string
      * @return array of IDs
      */
-    public function getArchiveIdsForDeletedSites($archiveTableName, $oldestToKeep)
+    public function getArchiveIdsForDeletedSites($archiveTableName)
     {
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " a "
-            . " LEFT JOIN " . Common::prefixTable('site') . " s USING (idsite)"
-            . " WHERE s.idsite IS NULL"
-            . " AND ts_archived < ?";
+        $sql = "SELECT DISTINCT idsite FROM " . $archiveTableName;
+        $rows = Db::getReader()->fetchAll($sql, array());
 
-        $rows = Db::fetchAll($sql, array($oldestToKeep));
+        if (empty($rows)) {
+            return array(); // nothing to delete
+        }
+
+        $idSitesUsed = array_column($rows, 'idsite');
+
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        $idSitesExisting = $model->getSitesId();
+
+        $deletedSites = array_diff($idSitesUsed, $idSitesExisting);
+
+        if (empty($deletedSites)) {
+            return array();
+        }
+        $deletedSites = array_values($deletedSites);
+        $deletedSites = array_map('intval', $deletedSites);
+
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".implode(',',$deletedSites).")";
+
+        $rows = Db::getReader()->fetchAll($sql, array());
 
         return array_column($rows, 'idarchive');
     }
@@ -414,15 +412,4 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($dbLockName)
-    {
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("Cannot get named lock $dbLockName.");
-        }
-    }
-
-    protected function releaseArchiveTableLock($dbLockName)
-    {
-        Db::releaseDbLock($dbLockName);
-    }
 }

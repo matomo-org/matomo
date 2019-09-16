@@ -177,6 +177,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->mainUrl   = $site['main_url'];
 
         $this->outputCORSHeaders();
+        $view->setUseStrictReferrerPolicy(false);
         Common::sendHeader('Content-Type: text/html; charset=UTF-8');
 
         return $view->render();

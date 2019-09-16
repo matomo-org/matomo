@@ -1564,6 +1564,8 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     } else {
                         Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
                     }
+
+                    $('#transitions_inline_loading').hide();
                 };
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {

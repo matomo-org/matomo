@@ -58,6 +58,10 @@
 	path = plugins/TagManager
 	url = https://github.com/matomo-org/tag-manager.git
 	branch = master
+[submodule "plugins/DeviceDetectorCache"]
+	path = plugins/DeviceDetectorCache
+	url = https://github.com/matomo-org/plugin-DeviceDetectorCache.git
+
 
 # Add new Plugin submodule above this line ^^
 # 

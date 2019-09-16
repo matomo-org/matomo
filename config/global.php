@@ -116,6 +116,8 @@ return array(
         'misc/package/WebAppGallery/*.xml',
         'misc/package/WebAppGallery/install.sql',
         'plugins/ImageGraph/fonts/unifont.ttf',
+        'plugins/*/config/tracker.php',
+        'plugins/*/config/config.php',
         'vendor/autoload.php',
         'vendor/composer/autoload_real.php',
         'vendor/szymach/c-pchart/app/*',

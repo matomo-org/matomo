@@ -152,8 +152,9 @@ class IniFileChainCacheTest extends IniFileChainTest
         $this->assertNotEmpty($value);
 
         // dumping the cache should delete it
+
         $fileChain = new TestIniFileChain($defaultSettingFiles, $userSettingsFile);
-        $fileChain->dump('');
+        $fileChain->deleteConfigCache();
 
         $value = $this->cache->doFetch(IniFileChain::CONFIG_CACHE_KEY);
         $this->assertEquals(false, $value);

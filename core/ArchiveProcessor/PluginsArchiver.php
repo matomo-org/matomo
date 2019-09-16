@@ -61,14 +61,14 @@ class PluginsArchiver
      */
     private $shouldAggregateFromRawData;
 
-    public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
-        $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
+        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
+        $this->logAggregator->cleanup(); // in case the archiving failed earlier and the mysql wouldn't drop the temp table automatically
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
@@ -197,9 +197,13 @@ class PluginsArchiver
 
     public function finalizeArchive()
     {
-        $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
+        $this->params->logStatusDebug();
         $this->archiveWriter->finalizeArchive();
-        return $this->archiveWriter->getIdArchive();
+        $idArchive = $this->archiveWriter->getIdArchive();
+
+        $this->logAggregator->cleanup();
+
+        return $idArchive;
     }
 
     /**
@@ -318,9 +322,9 @@ class PluginsArchiver
          * @param \Piwik\Plugin\Archiver &$archiver The newly created plugin archiver instance.
          * @param string $pluginName The name of plugin of which archiver instance was created.
          * @param array $this->params Array containing archive parameters (Site, Period, Date and Segment)
-         * @param bool $this->isTemporaryArchive Flag indicating whether the archive being processed is temporary (ie. the period isn't finished yet) or final (the period is already finished and in the past).
+         * @param bool false This parameter is deprecated and will be removed.
          */
-        Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
+        Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, false));
 
         return $archiver;
     }

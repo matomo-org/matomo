@@ -255,6 +255,36 @@ class TasksTest extends IntegrationTestCase
         $this->assertEquals($expected, $segmentsByIdSite);
     }
 
+    public function test_getSegmentHashesByIdSite_deletedSegment()
+    {
+        $model = new Model();
+        $model->createSegment(array(
+            'name' => 'Test Segment 1',
+            'definition' => 'continentCode==eur',
+            'enable_only_idsite' => 0,
+            'deleted' => 0
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 2',
+            'definition' => 'countryCode==nz',
+            'enable_only_idsite' => 0,
+            'deleted' => 1
+        ));
+        $model->createSegment(array(
+            'name' => 'Test Segment 3',
+            'definition' => 'countryCode==au',
+            'enable_only_idsite' => 2,
+            'deleted' => 0
+        ));
+
+        $segmentsByIdSite = $this->tasks->getSegmentHashesByIdSite();
+        $expected = array(
+            0 => array('be90051048558489e1d62f4245a6dc65'),
+            2 => array('cffd4336c22c6782211f853495076b1a')
+        );
+        $this->assertEquals($expected, $segmentsByIdSite);
+    }
+
     public function test_getSegmentHashesByIdSite_invalidSegment()
     {
         $model = new Model();

@@ -313,6 +313,10 @@ abstract class Controller
             $view->$key = $value;
         }
 
+        if (isset($view->siteName)) {
+            $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
+        }
+
         return $view->render();
     }
 
@@ -615,7 +619,6 @@ abstract class Controller
         $this->setPeriodVariablesView($view);
 
         $view->siteName = $this->site->getName();
-        $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
         $view->siteMainUrl = $this->site->getMainUrl();
 
         $siteTimezone = $this->site->getTimezone();

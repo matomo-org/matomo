@@ -32,6 +32,51 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2010-01-01');
     }
 
+    public function test_getStandAndEndDate_usesNowWhenDateOutOfRange()
+    {
+        $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', '2025-01-01');
+
+        $validDates = $this->getValidNowDates();
+
+        $this->assertTrue(in_array($dateStart->getDatetime(), $validDates));
+        $this->assertTrue(in_array($dateEnd->getDatetime(), $validDates));
+        $this->assertNotEquals($dateStart->getDatetime(), $dateEnd->getDatetime());
+    }
+
+    public function test_getStandAndEndDate_usesNowWhenEndDateOutOfRange()
+    {
+        $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', date('Y').'-01-01');
+
+        $validDates = $this->getValidNowDates();
+
+        $this->assertEquals(date('Y') . '-01-01 00:00:00', $dateStart->getDatetime());
+        $this->assertTrue(in_array($dateEnd->getDatetime(), $validDates));
+        $this->assertNotEquals($dateStart->getDatetime(), $dateEnd->getDatetime());
+    }
+
+    private function getValidNowDates()
+    {
+        $now = Date::now();
+        $validDates = [$now->getDatetime()];
+        $validDates[] = $now->subSeconds(1)->getDatetime();
+        $validDates[] = $now->subSeconds(2)->getDatetime();
+        $validDates[] = $now->addPeriod(1, 'second')->getDatetime();
+        $validDates[] = $now->addPeriod(2, 'second')->getDatetime();
+
+        return $validDates;
+    }
+
+    public function test_getStandAndEndDate()
+    {
+        $model = new Model();
+        list($dateStart, $dateEnd) = $model->getStartAndEndDate($idSite = 1, 'year', '2018-02-01');
+
+        $this->assertEquals('2018-01-01 00:00:00', $dateStart->getDatetime());
+        $this->assertEquals('2019-01-01 00:00:00', $dateEnd->getDatetime());
+    }
+
     public function test_makeLogVisitsQueryString()
     {
         $model = new Model();

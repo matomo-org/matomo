@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "You must be logged in to access this functionality.",
         "YourChangesHaveBeenSaved": "Your changes have been saved.",
         "ThankYouForUsingMatomo": "Thank you for using Matomo",
-        "TheMatomoTeam": "The Matomo Team"
+        "TheMatomoTeam": "The Matomo Team",
+        "PleaseTryAgain": "Please try again"
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

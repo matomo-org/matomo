@@ -10,12 +10,18 @@ namespace Piwik\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Piwik;
+use Piwik\Plugin\LogTablesProvider;
+use Piwik\Segment;
+use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker\GoalManager;
 use Psr\Log\LoggerInterface;
 
@@ -127,6 +133,8 @@ class LogAggregator
 
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
+    const LOG_TABLE_SEGMENT_TEMPORARY_PREFIX = 'logtmpsegment';
+
     /** @var \Piwik\Date */
     protected $dateStart;
 
@@ -149,6 +157,10 @@ class LogAggregator
      */
     private $logger;
 
+    /**
+     * @var bool
+     */
+    private $isRootArchiveRequest;
 
     /**
      * Constructor.
@@ -161,6 +173,7 @@ class LogAggregator
         $this->dateEnd = $params->getDateTimeEnd();
         $this->segment = $params->getSegment();
         $this->sites = $params->getIdSites();
+        $this->isRootArchiveRequest = $params->isRootArchiveRequest();
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
@@ -174,10 +187,107 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    private function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        $query = $this->segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        return self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+    }
+
+    public function cleanup()
+    {
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            $segmentTable = $this->getSegmentTmpTableName();
+            $segmentTable = Common::prefixTable($segmentTable);
+
+            try {
+                // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
+                Db::getReader()->fetchOne('SELECT 1 FROM ' . $segmentTable . ' LIMIT 1');
+                $tableExists = true;
+            } catch (\Exception $e) {
+                $tableExists = false;
+            }
+
+            if ($tableExists) {
+                // safety in case an older MySQL version is used that does not drop table at the end of the connection
+                // automatically. also helps us release disk space/memory earlier when multiple segments are archived
+                Db::getReader()->query('DROP TABLE IF EXISTS ' . $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            if ($logTablesProvider->getLogTable($segmentTable)) {
+                $logTablesProvider->setTempTable(null); // no longer available
+            }
+        }
+    }
+
+    private function isSegmentCacheEnabled()
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        return !empty($general['enable_segments_cache']);
+    }
+
+    private function getLogTableProvider()
+    {
+        return StaticContainer::get(LogTablesProvider::class);
+    }
+
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    {
+        $segment = $this->segment;
+        $bind = $this->getGeneralQueryBindParams();
+
+        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+            // here we create the TMP table and apply the segment including the datetime and the requested idsite
+            // at the end we generated query will no longer need to apply the datetime/idsite and segment
+            $segment = new Segment('', $this->sites);
+
+            $segmentTable = $this->getSegmentTmpTableName();
+
+            $segmentWhere = $this->getWhereStatement('log_visit', 'visit_last_action_time');
+            $segmentBind = $this->getGeneralQueryBindParams();
+
+            $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
+            $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
+            $logQueryBuilder->forceInnerGroupBySubselect('');
+            $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
+            $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
+
+            $engine = '';
+            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+                $engine = 'ENGINE=MEMORY ';
+            }
+            Db::getReader()->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . Common::prefixTable($segmentTable) . ' (idvisit  BIGINT(10) UNSIGNED NOT NULL) ' . $engine . $segmentSql['sql'], $segmentSql['bind']);
+
+            if (!is_array($from)) {
+                $from = array($segmentTable, $from);
+            } else {
+                array_unshift($from, $segmentTable);
+            }
+
+            $logTablesProvider = $this->getLogTableProvider();
+            $logTablesProvider->setTempTable(new LogTableTemporary($segmentTable));
+
+            foreach ($logTablesProvider->getAllLogTables() as $logTable) {
+                if ($logTable->getDateTimeColumn()) {
+                    $whereTest = $this->getWhereStatement($logTable->getName(), $logTable->getDateTimeColumn());
+                    if (strpos($where, $whereTest) === 0) {
+                        // we don't need to apply the where statement again as it would have been applied already
+                        // in the temporary table... instead it should join the tables through the idvisit index
+                        $where = ltrim(str_replace($whereTest, '', $where));
+                        if (stripos($where, 'and ') === 0) {
+                            $where = substr($where, strlen('and '));
+                        }
+                        $bind = array_slice($bind, 3);
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
 
         $select = 'SELECT';
         if ($this->queryOriginHint && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
@@ -185,7 +295,7 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-	// Log on DEBUG level all SQL archiving queries
+    	// Log on DEBUG level all SQL archiving queries
         $this->logger->debug($query['sql']);
 
         return $query;

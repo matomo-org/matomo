@@ -33,6 +33,7 @@
         "SocialsReportDocumentation": "Rapporten viser, hvilke sociale netværk der førte besøgende til hjemmesiden.<br\/> Ved at klikke på en række i tabellen, kan du se, fra hvilke sociale netværkssider besøgende kom til hjemmesiden.",
         "SubmenuSearchEngines": "Søgemaskine og søgeord",
         "SubmenuWebsitesOnly": "Hjemmesider",
+        "Type": "Kanaltype",
         "TypeCampaigns": "%s fra kampagner",
         "TypeDirectEntries": "%s direkte besøg",
         "TypeSearchEngines": "%s fra søgemaskine",

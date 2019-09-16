@@ -1685,9 +1685,17 @@ class CronArchive
         if (is_null($cache)) {
             $cache = $this->loadCustomDateRangeToPreProcess();
         }
+
         if (empty($cache[$idSite])) {
-            return array();
+            $cache[$idSite] = array();
         }
+
+        $customRanges = array_filter(Config::getInstance()->General['archiving_custom_ranges']);
+
+        if (!empty($customRanges)) {
+            $cache[$idSite] = array_merge($cache[$idSite], $customRanges);
+        }
+
         $dates = array_unique($cache[$idSite]);
         return $dates;
     }

@@ -109,6 +109,8 @@
         "VisitPageTitle": "入力されたタイトルのページを訪問",
         "VisitsUntilConv": "ビジット数別のコンバージョン",
         "VisitUrl": "特定の URL を訪問（ページまたはページグループ）",
+        "VisitDurationMatchAttr": "一定時間滞在する",
+        "VisitDuration": "訪問時間は",
         "WhenVisitors": "ビジター",
         "WhereThe": "対象：",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "訪問したページに JavaScript の 'trackGoal' メソッドを呼び出す必要があります( %1$s詳細はこちら%2$s )",
@@ -117,6 +119,7 @@
         "GoalRevenue": "目標収益",
         "EventValueAsRevenueHelp": "一致するイベントに収益があり、その収益がイベント値としてトラッキングされている場合は、このオプションを有効にすると、イベントの値を目標コンバージョンの収益として記録できます。 コンバージョンごとに目標収入が変化しない場合は、このオプションを無視して上のデフォルト収益額を設定することができます。",
         "EventValueAsRevenueHelp2": "注：デフォルトの目標収入とイベント値の両方が定義されている場合は、イベント値が使用されます。 このオプションを有効にして、要求でイベント値が送信されない場合は、デフォルト収益が使用されます（定義されている場合）。",
-        "AtLeastMinutes": "少なくとも%1$s分。秒を一致させるには小数を使用します。たとえば、30秒を一致させるには%2$sを使用します。"
+        "AtLeastMinutes": "少なくとも%1$s分。秒を一致させるには小数を使用します。たとえば、30秒を一致させるには%2$sを使用します。",
+        "TimeInMinutes": "分単位の時間"
     }
 }

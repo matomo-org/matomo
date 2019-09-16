@@ -3880,14 +3880,10 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-                if (!isDefined(navigatorAlias.cookieEnabled)) {
-                    var testCookieName = getCookieName('testcookie');
-                    setCookie(testCookieName, '1');
+				var testCookieName = getCookieName('testcookie');
+				setCookie(testCookieName, '1');
 
-                    return getCookie(testCookieName) === '1' ? '1' : '0';
-                }
-
-                return navigatorAlias.cookieEnabled ? '1' : '0';
+                return getCookie(testCookieName) === '1' ? '1' : '0';
             }
 
             /*
@@ -5916,10 +5912,6 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             this.addTracker = function (piwikUrl, siteId) {
-                if (!siteId) {
-                    throw new Error('A siteId must be given to add a new tracker');
-                }
-
                 if (!isDefined(piwikUrl) || null === piwikUrl) {
                     piwikUrl = this.getTrackerUrl();
                 }

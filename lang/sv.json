@@ -15,7 +15,7 @@
         "API": "API",
         "Apply": "Verkställ",
         "ArchivingInlineHelp": "För webbplatser med medelhög till hög trafik rekommenderas det att du stänger av Matomos funktion för arkivering att aktiveras från webbläsare. Istället rekommenderar vi att du konfigurerar ett cronjobb för att processa Matomorapporter varje timme.",
-        "ArchivingTriggerDescription": "För större Matomo-installationer rekommenderas det att du %1$ssätta upp ett cron-jobb%2$s för att behandla rapporterna automatiskt.",
+        "ArchivingTriggerDescription": "För större Matomo-installationer rekommenderas det att du %1$ssätter upp ett cron-jobb%2$s för att behandla rapporterna automatiskt.",
         "AuthenticationMethodSmtp": "Autentiseringsmetod för SMTP",
         "AverageOrderValue": "Genomsnittligt ordervärde",
         "AveragePrice": "Genomsnittligt pris",
@@ -566,7 +566,12 @@
         "VerifyAccount": "Verifierar konto",
         "ValidateSslCertificate": "Validera SSL-certifikat",
         "VerifyLoginData": "Kontrollera så att ditt användarnamn och lösenord är korrekt.",
-        "YouAreOffline": "Tyvärr, du är offline just nu"
+        "YouAreOffline": "Tyvärr, du är offline just nu",
+        "ExceptionNoViewAccess": "Kontrollera ditt användarnamn och lösenord samt se till åtminstone ha behörigheten %s för minst en webbplats.",
+        "Mobile_HowtoExitAndroid": "Klicka BAKÅT igen för att avsluta",
+        "EnterAuthCode": "Fyll i autentiseringskod",
+        "EnterCorrectAuthCode": "Fyll i korrekt autentiseringskod",
+        "EnterAuthCodeExplanation": "Det ser ut som att du använder tvåfaktorsautentisering. Fyll i den sexsiffriga koden för att logga in på ditt konto."
     },
     "RowEvolution": {
         "AvailableMetrics": "Tillgänglig statistik",

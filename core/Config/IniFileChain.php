@@ -11,7 +11,6 @@ use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
-use Piwik\Url;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -213,6 +212,7 @@ class IniFileChain
         if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
             $cache = new Cache();
             $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
+            
             if (!empty($values)
                 && isset($values['mergedSettings'])
                 && isset($values['settingsChain'])) {
@@ -253,6 +253,14 @@ class IniFileChain
                 $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
                 $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
             }
+        }
+    }
+
+    public function deleteConfigCache()
+    {
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+            $cache = new Cache();
+            $cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
         }
     }
 
@@ -502,11 +510,6 @@ class IniFileChain
 
     private function dumpSettings($values, $header)
     {
-        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
-            $cache = new Cache();
-            $cache->doDelete(self::CONFIG_CACHE_KEY);
-        }
-
         $values = $this->encodeValues($values);
 
         $writer = new IniWriter();

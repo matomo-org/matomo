@@ -1,9 +1,15 @@
-<h2>{{ 'SitesManager_TrackingTags'|translate(displaySiteName) }}</h2>
+<div class="trackingHelpHeader">
+    <h2>{{ 'SitesManager_TrackingTags'|translate(displaySiteName) }}</h2>
+    <a class="btn" 
+        href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
+        {{ 'SitesManager_EmailInstructionsButton'|translate }}
+    </a>
+</div>
 
 <div class='trackingHelp'>
     <p>{{ 'Installation_JSTracking_Intro'|translate }}</p>
 
-    <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+    <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
 
     <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
@@ -32,5 +38,4 @@
     <p></p>
 
     {{ postEvent('Template.endTrackingHelpPage') }}
-
 </div>

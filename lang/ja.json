@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "この機能にアクセスするにはログインする必要があります。",
         "YourChangesHaveBeenSaved": "変更内容が保存されました。",
         "ThankYouForUsingMatomo": "Matomoをご利用いただきありがとうございます",
-        "TheMatomoTeam": "Matomo チーム"
+        "TheMatomoTeam": "Matomo チーム",
+        "PleaseTryAgain": "やり直してください。"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo モバイルについて",
