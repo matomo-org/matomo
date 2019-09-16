@@ -17,7 +17,6 @@ class UrlsFromWebsiteIdTest extends \PHPUnit_Framework_TestCase
 {
     public function test_filter_ignoresDomainsPortssAndPortsInRecord()
     {
-        // TODO
         $table = new DataTable();
         $table->addRowsFromSimpleArray([
             ['label' => 'https://abc.com/x/y/z', 'nb_visits' => 1],

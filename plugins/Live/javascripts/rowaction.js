@@ -88,7 +88,6 @@
             extraParams = {date: this.dataTable.param.date, period: this.dataTable.param.period};
         }
 
-        // TODO: would be nice if this didn't have to be done in every row action, but that would be a big refactor probably
         var paramOverride = $(originalRow || tr).data('param-override');
         if (typeof paramOverride !== 'object') {
             paramOverride = {};

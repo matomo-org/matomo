@@ -662,18 +662,14 @@ function rowEvolutionGetMetricNameFromRow(tr)
                 seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
                     'series6', 'series7', 'series8', 'series9', 'series10'];
 
-            // TODO: there is code redundancy here w/ comparisons. maybe just the code in the .forEach().
             var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
             if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
                 namespace = 'comparison-series-color';
 
                 seriesColorNames = [];
                 this.jqplotParams.series.forEach(function (s) {
-                    var colorName = 'series' + (s.seriesIndex % 8);
-                    if (s.metricIndex > 0) {
-                        colorName += '-shade' + (s.metricIndex % 3); // TODO: 3 is SERIES_SHADE_COUNT from comparisons.service.js
-                    }
-                    seriesColorNames.push(colorName);
+                    var seriesColorName = piwikComparisonsService.getSeriesColorName(s.seriesIndex, s.metricIndex);
+                    seriesColorNames.push(seriesColorName);
                 });
             }
 

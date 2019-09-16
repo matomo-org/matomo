@@ -42,7 +42,8 @@
             isComparing: isComparing,
             isComparingPeriods: isComparingPeriods,
             getIndividualComparisonRowIndices: getIndividualComparisonRowIndices,
-            getComparisonSeriesIndex: getComparisonSeriesIndex
+            getComparisonSeriesIndex: getComparisonSeriesIndex,
+            getSeriesColorName: getSeriesColorName
         };
 
         function getComparisons() {
@@ -83,6 +84,14 @@
                 var shadeIndex = metricIndex % SERIES_SHADE_COUNT;
                 return colors['series' + seriesIndex + '-shade' + shadeIndex];
             }
+        }
+
+        function getSeriesColorName(seriesIndex, metricIndex) {
+            var colorName = 'series' + (seriesIndex % SERIES_COLOR_COUNT);
+            if (metricIndex > 0) {
+                colorName += '-shade' + (metricIndex % SERIES_SHADE_COUNT);
+            }
+            return colorName;
         }
 
         function isComparisonEnabled() {
