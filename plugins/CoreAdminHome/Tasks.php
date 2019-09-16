@@ -23,9 +23,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\TrackingFailuresEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\SpecificTime;
-use Piwik\Segment;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tracker\Failures;
 use Piwik\Site;
@@ -275,7 +275,10 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function purgeOrphanedArchives()
     {
-        $segmentHashesByIdSite = $this->getSegmentHashesByIdSite();
+        $eightDaysAgo = Date::factory('now')->subDay(8);
+        $model = new Model();
+        $deletedSegments = $model->getSegmentsDeletedSince($eightDaysAgo);
+
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
 
         $datesPurged = array();
@@ -286,32 +289,12 @@ class Tasks extends \Piwik\Plugin\Tasks
             $dateObj = Date::factory("$year-$month-15");
 
             $this->archivePurger->purgeDeletedSiteArchives($dateObj);
-            $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $segmentHashesByIdSite);
+            if (count($deletedSegments)) {
+                $this->archivePurger->purgeDeletedSegmentArchives($dateObj, $deletedSegments);
+            }
 
             $datesPurged[$date] = true;
         }
-    }
-
-    /**
-     * Get a list of all segment hashes that currently exist, indexed by idSite.
-     * @return array
-     */
-    public function getSegmentHashesByIdSite()
-    {
-        //Get a list of hashes of all segments that exist now
-        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
-            . " WHERE deleted = 0";
-        $rows = Db::fetchAll($sql);
-        $segmentHashes = array();
-        foreach ($rows as $row) {
-            $idSite = (int)$row['enable_only_idsite'];
-            if (! isset($segmentHashes[$idSite])) {
-                $segmentHashes[$idSite] = array();
-            }
-            $segmentHashes[$idSite][] = Segment::getSegmentHash($row['definition']);
-        }
-
-        return $segmentHashes;
     }
 
     /**
