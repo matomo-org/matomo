@@ -422,7 +422,7 @@ Segmentation = (function($) {
                 e.preventDefault();
 
                 var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
-                comparisonService.addComparison({
+                comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
 

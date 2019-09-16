@@ -11,16 +11,15 @@
     ComparisonFactory.$inject = ['$location', '$rootScope', 'piwikPeriods', 'piwikApi', 'piwikUrl'];
 
     function ComparisonFactory($location, $rootScope, piwikPeriods, piwikApi, piwikUrl) {
-        var comparisons = []; // TODO: split into segment/period array, code will be simpler
-        var comparisonSeriesIndices = {};
+        var segmentComparisons = [];
+        var periodComparisons = [];
         var comparisonsDisabledFor = [];
         var isEnabled = false;
 
         var SERIES_COLOR_COUNT = 8;
         var SERIES_SHADE_COUNT = 3;
 
-        var colors = {};
-        getAllSeriesColors();
+        var colors = getAllSeriesColors();
 
         $rootScope.$on('$locationChangeSuccess', updateComparisonsFromQueryParams);
         $rootScope.$on('piwikSegmentationInited', updateComparisonsFromQueryParams);
@@ -33,8 +32,8 @@
 
         return {
             getComparisons: getComparisons,
-            removeComparison: removeComparison,
-            addComparison: addComparison,
+            removeSegmentComparison: removeSegmentComparison,
+            addSegmentComparison: addSegmentComparison,
             isComparisonEnabled: isComparisonEnabled,
             getSegmentComparisons: getSegmentComparisons,
             getPeriodComparisons: getPeriodComparisons,
@@ -46,8 +45,12 @@
             getComparisonSeriesIndex: getComparisonSeriesIndex
         };
 
+        function getComparisons() {
+            return getSegmentComparisons().concat(getPeriodComparisons());
+        }
+
         function isComparing() {
-            return isComparisonEnabled() && comparisons.length > 2; // first two are for selected segment/period
+            return isComparisonEnabled() && (segmentComparisons.length > 1 || periodComparisons.length > 1); // first two are for selected segment/period
         }
 
         function isComparingPeriods() {
@@ -55,17 +58,25 @@
         }
 
         function getSegmentComparisons() {
-            return getComparisons().filter(function (comp) { return typeof comp.params.segment !== 'undefined'; });
+            if (!isComparisonEnabled()) {
+                return [];
+            }
+
+            return segmentComparisons;
         }
 
         function getPeriodComparisons() {
-            return getComparisons().filter(function (comp) { return typeof comp.params.period !== 'undefined'; });
+            if (!isComparisonEnabled()) {
+                return [];
+            }
+
+            return periodComparisons;
         }
 
         function getSeriesColor(segmentComparison, periodComparison, metricIndex) {
             metricIndex = metricIndex || 0;
 
-            var seriesIndex = comparisonSeriesIndices[periodComparison.index][segmentComparison.index] % SERIES_COLOR_COUNT;
+            var seriesIndex = getComparisonSeriesIndex(periodComparison.index, segmentComparison.index) % SERIES_COLOR_COUNT;
             if (metricIndex === 0) {
                 return colors['series' + seriesIndex];
             } else {
@@ -76,14 +87,6 @@
 
         function isComparisonEnabled() {
             return isEnabled;
-        }
-
-        function getComparisons(skipEnabledCheck) {
-            if (!isComparisonEnabled()) {
-                return [];
-            }
-
-            return comparisons;
         }
 
         function getIndividualComparisonRowIndices(seriesIndex) {
@@ -119,37 +122,32 @@
             return seriesInfo;
         }
 
-        function removeComparison(comparisonToRemove) { // TODO: this only allows segment comparisons to be removed, should change signature to take an index
+        function removeSegmentComparison(index) {
             if (!isComparisonEnabled()) {
                 throw new Error('Comparison disabled.');
             }
 
-            var newComparisons = comparisons.filter(function (comparison) {
-                return comparison !== comparisonToRemove;
-            });
+            var newComparisons = [].concat(segmentComparisons);
+            newComparisons.splice(index, 1);
 
             var extraParams = {};
-            if (comparisonToRemove.index === 0) {
-                var firstSegmentComp = newComparisons.find(function (comp) {
-                    return typeof comp.params.segment !== "undefined";
-                });
-
-                extraParams.segment = firstSegmentComp.params.segment;
+            if (index === 0) {
+                extraParams.segment = newComparisons[0].params.segment;
             }
 
-            updateQueryParamsFromComparisons(newComparisons, extraParams);
+            updateQueryParamsFromComparisons(newComparisons, periodComparisons, extraParams);
         }
 
-        function addComparison(params) {
+        function addSegmentComparison(params) {
             if (!isComparisonEnabled()) {
                 throw new Error('Comparison disabled.');
             }
 
-            var newComparisons = comparisons.concat([{ params: params }]);
-            updateQueryParamsFromComparisons(newComparisons);
+            var newComparisons = segmentComparisons.concat([{ params: params }]);
+            updateQueryParamsFromComparisons(newComparisons, periodComparisons);
         }
 
-        function updateQueryParamsFromComparisons(newComparisons, extraParams) {
+        function updateQueryParamsFromComparisons(segmentComparisons, periodComparisons, extraParams) {
             extraParams = extraParams || {};
 
             // get unique segments/periods/dates from new Comparisons
@@ -159,19 +157,19 @@
             var firstSegment = false;
             var firstPeriod = false;
 
-            newComparisons.forEach(function (comparison) {
-                if (typeof comparison.params.segment !== 'undefined') {
-                    if (firstSegment) {
-                        compareSegments[comparison.params.segment] = true;
-                    } else {
-                        firstSegment = true;
-                    }
-                } else if (typeof comparison.params.period !== 'undefined') {
-                    if (firstPeriod) {
-                        comparePeriodDatePairs[comparison.params.period + '|' + comparison.params.date] = true;
-                    } else {
-                        firstPeriod = true;
-                    }
+            segmentComparisons.forEach(function (comparison) {
+                if (firstSegment) {
+                    compareSegments[comparison.params.segment] = true;
+                } else {
+                    firstSegment = true;
+                }
+            });
+
+            periodComparisons.forEach(function (comparison) {
+                if (firstPeriod) {
+                    comparePeriodDatePairs[comparison.params.period + '|' + comparison.params.date] = true;
+                } else {
+                    firstPeriod = true;
                 }
             });
 
@@ -214,7 +212,7 @@
                 }
             });
 
-            // angular is not rendering the page (ie, we are in the embedded dashboard)
+            // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change the segment
             var url = $.param($.extend({}, compareParams, extraParams));
             broadcast.propagateNewPage(url, undefined, undefined, paramsToRemove);
         }
@@ -243,7 +241,7 @@
             comparePeriods.unshift(piwikUrl.getSearchParam('period'));
             compareDates.unshift(piwikUrl.getSearchParam('date'));
 
-            var newComparisons = [];
+            var newSegmentComparisons = [];
             compareSegments.forEach(function (segment, idx) {
                 var storedSegment = availableSegments.find(function (s) {
                     return s.definition === segment
@@ -256,7 +254,7 @@
                     segmentTitle = _pk_translate('SegmentEditor_DefaultAllVisits');
                 }
 
-                newComparisons.push({
+                newSegmentComparisons.push({
                     params: {
                         segment: segment
                     },
@@ -265,6 +263,7 @@
                 });
             });
 
+            var newPeriodComparisons = [];
             for (var i = 0; i < Math.min(compareDates.length, comparePeriods.length); ++i) {
                 try {
                     title = piwikPeriods.parse(comparePeriods[i], compareDates[i]).getPrettyString();
@@ -272,7 +271,7 @@
                     title = _pk_translate('General_Error');
                 }
 
-                newComparisons.push({
+                newPeriodComparisons.push({
                     params: {
                         date: compareDates[i],
                         period: comparePeriods[i]
@@ -283,27 +282,22 @@
             }
 
             checkEnabledForCurrentPage();
-            setComparisons(newComparisons);
+            setComparisons(newSegmentComparisons, newPeriodComparisons);
         }
 
-        function setComparisons(newComparisons) {
-            var oldComparisons = comparisons;
+        function setComparisons(newSegmentComparisons, newPeriodComparisons) {
+            var oldSegmentComparisons = segmentComparisons;
+            var oldPeriodComparisons = periodComparisons;
 
-            comparisons = newComparisons;
-            Object.freeze(comparisons);
+            segmentComparisons = newSegmentComparisons;
+            Object.freeze(segmentComparisons);
 
-            comparisonSeriesIndices = {};
+            periodComparisons = newPeriodComparisons;
+            Object.freeze(periodComparisons);
 
-            var seriesCount = 0;
-            getPeriodComparisons().forEach(function (periodComp) {
-                comparisonSeriesIndices[periodComp.index] = {};
-                getSegmentComparisons().forEach(function (segmentComp) {
-                    comparisonSeriesIndices[periodComp.index][segmentComp.index] = seriesCount;
-                    ++seriesCount;
-                });
-            });
-
-            if (JSON.stringify(oldComparisons) !== JSON.stringify(comparisons)) {
+            if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(periodComparisons)
+                && JSON.stringify(oldSegmentComparisons) !== JSON.stringify(segmentComparisons)
+            ) {
                 $rootScope.$emit('piwikComparisonsChanged');
             }
         }
@@ -339,7 +333,7 @@
                 }
             }
 
-            colors = colorManager.getColors('comparison-series-color', seriesColorNames);
+            return colorManager.getColors('comparison-series-color', seriesColorNames);
         }
     }
 
