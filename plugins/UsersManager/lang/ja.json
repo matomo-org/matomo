@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "この変更は次の端末から開始されました：%1$s（ IP アドレス= %2$s）。",
         "IfThisWasYouIgnoreIfNot": "これがあなたなら、この E メールを無視してください。 そうでない場合は、ログインして電子メールアドレスを修正し、パスワードを変更して Matomo 管理者に連絡してください。",
         "PasswordChangeNotificationSubject": "あなたの Matomo アカウントのパスワードは変更されたばかりです",
-        "PasswordChangedEmail": "あなたのパスワードは変更されたばかりです。 変更は次のデバイスから開始されました：%1$s（ IP アドレス= %2$s）。"
+        "PasswordChangedEmail": "あなたのパスワードは変更されたばかりです。 変更は次のデバイスから開始されました：%1$s（ IP アドレス= %2$s）。",
+        "NewsletterSignupTitle": "ニュースレターに登録",
+        "NewsletterSignupMessage": "Matomoの情報を受信するためにニュースレターに登録してください。ニュースレターからいつでも登録を解除することができます。このサービスはMadMimiを使用しています。詳細は%1$sプライバシーポリシーの%2$sページを確認してください。",
+        "NewsletterSignupFailureMessage": "登録に失敗しました。",
+        "NewsletterSignupSuccessMessage": "登録が完了しました。"
     }
 }
