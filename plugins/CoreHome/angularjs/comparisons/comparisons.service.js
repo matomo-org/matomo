@@ -228,12 +228,11 @@
 
         function updateComparisonsFromQueryParams() {
             var title;
-            var availableSegments;
+            var availableSegments = [];
             try {
                 availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
             } catch (e) {
                 // segment editor is not initialized yet
-                availableSegments = [];
             }
 
             var compareSegments = piwikUrl.getSearchParam('compareSegments') || [];

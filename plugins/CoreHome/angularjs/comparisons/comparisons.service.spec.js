@@ -6,7 +6,7 @@
  */
 
 (function () {
-    describe.only('piwikComparisonsService', function () {
+    describe('piwikComparisonsService', function () {
         var DISABLED_PAGES = [
             'MyModule1.disabledPage',
             'MyModule2.disabledPage2',

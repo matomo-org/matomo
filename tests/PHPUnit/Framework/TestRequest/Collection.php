@@ -51,6 +51,7 @@ class Collection
         'LogViewer',
         'Referrers.getKeywordNotDefinedString',
         'CorePluginsAdmin.getSystemSettings',
+        'API.getPagesComparisonsDisabledFor',
     );
 
     /**
