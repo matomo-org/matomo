@@ -1024,8 +1024,8 @@ abstract class Controller
 
     protected function checkSitePermission()
     {
-        if (!empty($this->idSite) && empty($this->site)) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
+        if (!empty($this->idSite)) {
+            Access::getInstance()->checkUserHasViewAccess($this->idSite);
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
 				Please check that you are logged in Matomo and have permission to access the specified website.");
