@@ -468,5 +468,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_XComparedToY';
         $translationKeys[] = 'General_ComparisonCardTooltip1';
         $translationKeys[] = 'General_ComparisonCardTooltip2';
+        $translationKeys[] = 'General_Comparisons';
+        $translationKeys[] = 'General_ClickToRemoveComp';
     }
 }

@@ -499,7 +499,9 @@
         "ComparisonCardTooltip1": "'%1$s' on %2$s contains %3$s of all visits (%4$s out of %5$s total).",
         "ComparisonCardTooltip2": "The visit count is different by %1$s compared to %2$s over %3$s.",
         "VisualizationDoesNotSupportComparison": "This visualization does not support segment/period comparison.",
-        "ChangeInX": "Change in %1$s"
+        "ChangeInX": "Change in %1$s",
+        "Comparisons": "Comparisons",
+        "ClickToRemoveComp": "Click to remove this comparison."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

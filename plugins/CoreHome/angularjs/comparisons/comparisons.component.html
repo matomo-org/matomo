@@ -1,8 +1,8 @@
 <div ng-if="$ctrl.comparisonsService.isComparing()">
-    <h3>Comparisons</h3>
+    <h3>{{ 'General_Comparisons'|translate }}</h3>
 
     <div class="comparison card" ng-repeat="comparison in $ctrl.comparisonsService.getSegmentComparisons() track by $index">
-        <div class="comparison-type">Segment</div>
+        <div class="comparison-type">{{ 'General_Segment'|translate }}</div>
 
         <div class="title" title="{{ comparison.title }}">
             {{ comparison.title }}
@@ -17,7 +17,7 @@
         </div>
 
         <a class="remove-button" ng-click="$ctrl.comparisonsService.removeSegmentComparison($index)" ng-if="$ctrl.comparisonsService.getSegmentComparisons().length > 1">
-            <span class="icon icon-close" title="Click to remove this comparison."></span>
+            <span class="icon icon-close" title="{{ 'General_ClickToRemoveComp'|translate }}"></span>
         </a>
     </div>
 

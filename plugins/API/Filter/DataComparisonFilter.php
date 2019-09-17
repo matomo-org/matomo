@@ -305,7 +305,7 @@ class DataComparisonFilter
 
             $segmentIndex = empty($paramsToModify['segment']) ? 0 : $this->compareSegmentIndices[$paramsToModify['segment']];
             $periodIndex = empty($paramsToModify['period']) ? 0 : $this->comparePeriodIndices[$paramsToModify['period']][$paramsToModify['date']];
-            $seriesIndex = $periodIndex * count($this->compareSegments) + $segmentIndex;
+            $seriesIndex = self::getComparisonSeriesIndex(null, $periodIndex, $segmentIndex, count($this->compareSegments));
 
             if (!isset($comparisonIdSubtables[$seriesIndex])) {
                 throw new \Exception("Invalid comparisonIdSubtables parameter: no idSubtable found for segment $segmentIndex and period $periodIndex");
@@ -711,13 +711,13 @@ class DataComparisonFilter
     /**
      * Returns the series index for a comparison based on the period and segment indices.
      *
-     * @param DataTable $table
+     * @param DataTable|null $table
      * @param int $periodIndex
      * @param int $segmentIndex
      * @param int|null $segmentCount
      * @return int
      */
-    public static function getComparisonSeriesIndex(DataTable $table, $periodIndex, $segmentIndex, $segmentCount = null)
+    public static function getComparisonSeriesIndex($table, $periodIndex, $segmentIndex, $segmentCount = null)
     {
         $segmentCount = $segmentCount ?: count($table->getMetadata('compareSegments'));
         return $periodIndex * $segmentCount + $segmentIndex;

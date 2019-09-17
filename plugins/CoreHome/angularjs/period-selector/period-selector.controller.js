@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
-    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope'];
+    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope', 'piwikUrl'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope, piwikUrl) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -114,8 +114,8 @@
         }
 
         function updateSelectedValuesFromHash() {
-            var strDate = getQueryParamValue('date');
-            var strPeriod = getQueryParamValue('period');
+            var strDate = piwikUrl.getSearchParam('date');
+            var strPeriod = piwikUrl.getSearchParam('period');
 
             vm.periodValue = strPeriod;
             vm.selectedPeriod = strPeriod;
@@ -131,14 +131,6 @@
                 vm.dateValue = piwikPeriods.parseDate(strDate);
                 setRangeStartEndFromPeriod(strPeriod, strDate);
             }
-        }
-
-        function getQueryParamValue(name) {
-            var result = broadcast.getValueFromHash(name);
-            if (!result) {
-                result = broadcast.getValueFromUrl(name);
-            }
-            return result;
         }
 
         function getPeriodDisplayText(periodLabel) {
@@ -288,13 +280,13 @@
                 vm.closePeriodSelector(); // defined in directive
 
                 var $search = $location.search();
-                var isCurrentlyComparing = getQueryParamValue('compareSegments') || getQueryParamValue('comparePeriods');
+                var isCurrentlyComparing = piwikUrl.getSearchParam('compareSegments') || piwikUrl.getSearchParam('comparePeriods');
                 if (date !== $search.date || period !== $search.period || vm.isComparing || isCurrentlyComparing) {
                     // eg when using back button the date might be actually already changed in the URL and we do not
                     // want to change the URL again
                     $search.date = date;
                     $search.period = period;
-                    $search.compareSegments = getQueryParamValue('compareSegments') || [];
+                    $search.compareSegments = piwikUrl.getSearchParam('compareSegments') || [];
                     $.extend($search, compareParams);
 
                     delete $search['compareSegments[]'];

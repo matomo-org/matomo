@@ -27,9 +27,9 @@
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>month</comparePeriod>
-			<compareDate>2012-08-01</compareDate>
-			<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+			<compareDate>2012-08-09</compareDate>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
+			<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 			
 		</row>
 		<row>
@@ -59,8 +59,8 @@
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>day</comparePeriod>
 			<compareDate>2012-08-10</compareDate>
-			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			
 		</row>
 		<row>
@@ -89,9 +89,9 @@
 			<compareSegment />
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>week</comparePeriod>
-			<compareDate>2012-08-13</compareDate>
-			<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+			<compareDate>2012-08-16</compareDate>
 			<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+			<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 			
 		</row>
 	</comparisons>

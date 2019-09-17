@@ -42,8 +42,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -68,8 +68,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -94,8 +94,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -136,8 +136,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -178,8 +178,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -220,8 +220,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -262,8 +262,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -304,8 +304,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -346,8 +346,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -388,8 +388,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -409,8 +409,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -451,8 +451,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -472,8 +472,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -520,8 +520,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-09</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fwww.included2.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -544,8 +544,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-09</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fwww.included2.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -589,8 +589,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 								</row>
@@ -610,8 +610,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 								</row>
@@ -658,8 +658,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-09</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
 										</row>
@@ -682,8 +682,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-09</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
 										</row>
@@ -737,8 +737,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -763,8 +763,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -789,8 +789,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -831,8 +831,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -873,8 +873,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -915,8 +915,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -957,8 +957,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -999,8 +999,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -1041,8 +1041,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -1089,8 +1089,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 						</row>
@@ -1113,8 +1113,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 						</row>
@@ -1137,8 +1137,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 						</row>
@@ -1161,8 +1161,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 						</row>
@@ -1204,8 +1204,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 						</row>
@@ -1229,8 +1229,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 						</row>
@@ -1250,8 +1250,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 						</row>
@@ -1275,8 +1275,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 						</row>
@@ -1323,8 +1323,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
 								</row>
@@ -1347,8 +1347,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
 								</row>
@@ -1392,8 +1392,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -1413,8 +1413,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -1434,8 +1434,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -1455,8 +1455,8 @@
 							<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -1503,8 +1503,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -1527,8 +1527,8 @@
 									<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -1551,8 +1551,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -1575,8 +1575,8 @@
 									<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -1634,8 +1634,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1663,8 +1663,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1692,8 +1692,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1740,8 +1740,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1788,8 +1788,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1836,8 +1836,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1884,8 +1884,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
+					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
-					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1932,8 +1932,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -1980,8 +1980,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -2029,8 +2029,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2055,8 +2055,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2081,8 +2081,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2123,8 +2123,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2165,8 +2165,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2207,8 +2207,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2249,8 +2249,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2291,8 +2291,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2333,8 +2333,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 				</row>
@@ -2375,8 +2375,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 						</row>
@@ -2396,8 +2396,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 						</row>
@@ -2444,8 +2444,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
 								</row>
@@ -2468,8 +2468,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-09</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
 								</row>
@@ -2521,8 +2521,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2547,8 +2547,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2573,8 +2573,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2615,8 +2615,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2657,8 +2657,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2699,8 +2699,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2741,8 +2741,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2783,8 +2783,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2825,8 +2825,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -2873,8 +2873,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -2897,8 +2897,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -2948,8 +2948,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -2974,8 +2974,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3000,8 +3000,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3042,8 +3042,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3084,8 +3084,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3126,8 +3126,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-09</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3168,8 +3168,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3210,8 +3210,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3252,8 +3252,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 				</row>
@@ -3300,8 +3300,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
 						</row>
@@ -3324,8 +3324,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-09</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Thursday, August 9, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
 						</row>
@@ -3377,8 +3377,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3403,8 +3403,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3429,8 +3429,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3471,8 +3471,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3513,8 +3513,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3555,8 +3555,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3597,8 +3597,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3639,8 +3639,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3681,8 +3681,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -3723,8 +3723,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -3744,8 +3744,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -3786,8 +3786,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -3807,8 +3807,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -3855,8 +3855,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-10</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -3879,8 +3879,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-10</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fincluded1.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -3926,8 +3926,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 						</row>
@@ -3947,8 +3947,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 						</row>
@@ -3989,8 +3989,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 								</row>
@@ -4010,8 +4010,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 								</row>
@@ -4052,8 +4052,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-10</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 										</row>
@@ -4073,8 +4073,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-10</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 										</row>
@@ -4121,8 +4121,8 @@
 													<compareSegmentPretty>All visits</compareSegmentPretty>
 													<comparePeriod>day</comparePeriod>
 													<compareDate>2012-08-10</compareDate>
-													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													
 													<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 												</row>
@@ -4145,8 +4145,8 @@
 													<compareSegmentPretty>All visits</compareSegmentPretty>
 													<comparePeriod>day</comparePeriod>
 													<compareDate>2012-08-10</compareDate>
-													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													
 													<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 												</row>
@@ -4202,8 +4202,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4228,8 +4228,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4254,8 +4254,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4296,8 +4296,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4338,8 +4338,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4380,8 +4380,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4422,8 +4422,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4464,8 +4464,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4506,8 +4506,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -4554,8 +4554,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -4582,8 +4582,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -4606,8 +4606,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -4634,8 +4634,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 						</row>
@@ -4677,8 +4677,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 						</row>
@@ -4698,8 +4698,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 						</row>
@@ -4719,8 +4719,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 						</row>
@@ -4740,8 +4740,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 						</row>
@@ -4788,8 +4788,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 								</row>
@@ -4812,8 +4812,8 @@
 									<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 								</row>
@@ -4836,8 +4836,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 								</row>
@@ -4860,8 +4860,8 @@
 									<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 								</row>
@@ -4913,8 +4913,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -4939,8 +4939,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -4965,8 +4965,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5007,8 +5007,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5049,8 +5049,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5091,8 +5091,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5133,8 +5133,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
+					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
-					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5175,8 +5175,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5217,8 +5217,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 				</row>
@@ -5259,8 +5259,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -5280,8 +5280,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -5301,8 +5301,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -5322,8 +5322,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 						</row>
@@ -5370,8 +5370,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -5394,8 +5394,8 @@
 									<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -5418,8 +5418,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -5442,8 +5442,8 @@
 									<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-10</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 								</row>
@@ -5495,8 +5495,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5521,8 +5521,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5547,8 +5547,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5589,8 +5589,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5631,8 +5631,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5673,8 +5673,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5715,8 +5715,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5757,8 +5757,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5799,8 +5799,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 				</row>
@@ -5847,8 +5847,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 						</row>
@@ -5871,8 +5871,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 						</row>
@@ -5922,8 +5922,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -5948,8 +5948,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -5974,8 +5974,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6016,8 +6016,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6058,8 +6058,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6100,8 +6100,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-10</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6142,8 +6142,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
+					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
-					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6184,8 +6184,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6226,8 +6226,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 				</row>
@@ -6274,8 +6274,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 						</row>
@@ -6298,8 +6298,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 						</row>
@@ -6322,8 +6322,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 						</row>
@@ -6346,8 +6346,8 @@
 							<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-10</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 						</row>
@@ -6399,8 +6399,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6425,8 +6425,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6451,8 +6451,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6493,8 +6493,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6535,8 +6535,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6577,8 +6577,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6619,8 +6619,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6661,8 +6661,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6703,8 +6703,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 				</row>
@@ -6745,8 +6745,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -6766,8 +6766,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 						</row>
@@ -6808,8 +6808,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -6829,8 +6829,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 								</row>
@@ -6877,8 +6877,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-11</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -6901,8 +6901,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-11</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fmeta%2F</segment>
 										</row>
@@ -6962,8 +6962,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -6991,8 +6991,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7020,8 +7020,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7068,8 +7068,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7116,8 +7116,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7164,8 +7164,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7212,8 +7212,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7260,8 +7260,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7308,8 +7308,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 				</row>
@@ -7359,8 +7359,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7386,8 +7386,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7413,8 +7413,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7457,8 +7457,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7501,8 +7501,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7545,8 +7545,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7589,8 +7589,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7633,8 +7633,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7677,8 +7677,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 				</row>
@@ -7722,8 +7722,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7746,8 +7746,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7770,8 +7770,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7808,8 +7808,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7846,8 +7846,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7884,8 +7884,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7922,8 +7922,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7960,8 +7960,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -7998,8 +7998,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 				</row>
@@ -8053,8 +8053,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8082,8 +8082,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8111,8 +8111,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8159,8 +8159,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8207,8 +8207,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8255,8 +8255,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8303,8 +8303,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
+					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
-					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8351,8 +8351,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8399,8 +8399,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 				</row>
@@ -8448,8 +8448,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8474,8 +8474,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8500,8 +8500,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8542,8 +8542,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8584,8 +8584,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8626,8 +8626,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8668,8 +8668,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8710,8 +8710,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8752,8 +8752,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 				</row>
@@ -8794,8 +8794,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 						</row>
@@ -8815,8 +8815,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 						</row>
@@ -8863,8 +8863,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
 								</row>
@@ -8887,8 +8887,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
 								</row>
@@ -8940,8 +8940,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -8966,8 +8966,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -8992,8 +8992,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9034,8 +9034,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9076,8 +9076,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9118,8 +9118,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9160,8 +9160,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9202,8 +9202,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9244,8 +9244,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 				</row>
@@ -9292,8 +9292,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
 						</row>
@@ -9316,8 +9316,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
 						</row>
@@ -9367,8 +9367,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9393,8 +9393,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9419,8 +9419,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9461,8 +9461,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9503,8 +9503,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9545,8 +9545,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-11</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9587,8 +9587,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9629,8 +9629,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9671,8 +9671,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 				</row>
@@ -9713,8 +9713,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis</segment>
 						</row>
@@ -9734,8 +9734,8 @@
 							<compareSegmentPretty>All visits</compareSegmentPretty>
 							<comparePeriod>day</comparePeriod>
 							<compareDate>2012-08-11</compareDate>
-							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 							
 							<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis</segment>
 						</row>
@@ -9776,8 +9776,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot</segment>
 								</row>
@@ -9797,8 +9797,8 @@
 									<compareSegmentPretty>All visits</compareSegmentPretty>
 									<comparePeriod>day</comparePeriod>
 									<compareDate>2012-08-11</compareDate>
-									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+									<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 									
 									<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot</segment>
 								</row>
@@ -9839,8 +9839,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-11</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe</segment>
 										</row>
@@ -9860,8 +9860,8 @@
 											<compareSegmentPretty>All visits</compareSegmentPretty>
 											<comparePeriod>day</comparePeriod>
 											<compareDate>2012-08-11</compareDate>
-											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+											<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 											
 											<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe</segment>
 										</row>
@@ -9902,8 +9902,8 @@
 													<compareSegmentPretty>All visits</compareSegmentPretty>
 													<comparePeriod>day</comparePeriod>
 													<compareDate>2012-08-11</compareDate>
-													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													
 													<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage</segment>
 												</row>
@@ -9923,8 +9923,8 @@
 													<compareSegmentPretty>All visits</compareSegmentPretty>
 													<comparePeriod>day</comparePeriod>
 													<compareDate>2012-08-11</compareDate>
-													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+													<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 													
 													<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage</segment>
 												</row>
@@ -9965,8 +9965,8 @@
 															<compareSegmentPretty>All visits</compareSegmentPretty>
 															<comparePeriod>day</comparePeriod>
 															<compareDate>2012-08-11</compareDate>
-															<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 															<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+															<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 															
 															<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi</segment>
 														</row>
@@ -9986,8 +9986,8 @@
 															<compareSegmentPretty>All visits</compareSegmentPretty>
 															<comparePeriod>day</comparePeriod>
 															<compareDate>2012-08-11</compareDate>
-															<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 															<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+															<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 															
 															<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi</segment>
 														</row>
@@ -10028,8 +10028,8 @@
 																	<compareSegmentPretty>All visits</compareSegmentPretty>
 																	<comparePeriod>day</comparePeriod>
 																	<compareDate>2012-08-11</compareDate>
-																	<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																	<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																	<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																	
 																	<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam</segment>
 																</row>
@@ -10049,8 +10049,8 @@
 																	<compareSegmentPretty>All visits</compareSegmentPretty>
 																	<comparePeriod>day</comparePeriod>
 																	<compareDate>2012-08-11</compareDate>
-																	<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																	<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																	<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																	
 																	<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam</segment>
 																</row>
@@ -10091,8 +10091,8 @@
 																			<compareSegmentPretty>All visits</compareSegmentPretty>
 																			<comparePeriod>day</comparePeriod>
 																			<compareDate>2012-08-11</compareDate>
-																			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																			<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																			
 																			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking</segment>
 																		</row>
@@ -10112,8 +10112,8 @@
 																			<compareSegmentPretty>All visits</compareSegmentPretty>
 																			<comparePeriod>day</comparePeriod>
 																			<compareDate>2012-08-11</compareDate>
-																			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																			<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																			
 																			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking</segment>
 																		</row>
@@ -10154,8 +10154,8 @@
 																					<compareSegmentPretty>All visits</compareSegmentPretty>
 																					<comparePeriod>day</comparePeriod>
 																					<compareDate>2012-08-11</compareDate>
-																					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																					
 																					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 																				</row>
@@ -10175,8 +10175,8 @@
 																					<compareSegmentPretty>All visits</compareSegmentPretty>
 																					<comparePeriod>day</comparePeriod>
 																					<compareDate>2012-08-11</compareDate>
-																					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																					<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																					
 																					<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 																				</row>
@@ -10223,8 +10223,8 @@
 																							<compareSegmentPretty>All visits</compareSegmentPretty>
 																							<comparePeriod>day</comparePeriod>
 																							<compareDate>2012-08-11</compareDate>
-																							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																							
 																							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
 																						</row>
@@ -10247,8 +10247,8 @@
 																							<compareSegmentPretty>All visits</compareSegmentPretty>
 																							<comparePeriod>day</comparePeriod>
 																							<compareDate>2012-08-11</compareDate>
-																							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																							<comparePeriodPretty>Saturday, August 11, 2012</comparePeriodPretty>
+																							<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 																							
 																							<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
 																						</row>
@@ -10287,8 +10287,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10300,8 +10300,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10313,8 +10313,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10326,8 +10326,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10339,8 +10339,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10352,8 +10352,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Sunday, August 12, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10365,8 +10365,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
+					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
-					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
 					
 				</row>
 				<row>
@@ -10378,8 +10378,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10391,8 +10391,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 			</comparisons>
@@ -10411,8 +10411,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10424,8 +10424,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10437,8 +10437,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10450,8 +10450,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10463,8 +10463,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10476,8 +10476,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-13</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Monday, August 13, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10489,6 +10489,7 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
@@ -10501,6 +10502,7 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
@@ -10513,6 +10515,7 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
@@ -10532,8 +10535,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10545,8 +10548,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10558,8 +10561,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10571,8 +10574,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10584,8 +10587,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10597,8 +10600,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-14</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Tuesday, August 14, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -10610,6 +10613,7 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
@@ -10622,6 +10626,7 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
@@ -10634,6 +10639,7 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
@@ -10688,8 +10694,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10717,8 +10723,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10746,8 +10752,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10794,8 +10800,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10842,8 +10848,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10890,8 +10896,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 				</row>
@@ -10938,6 +10944,7 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
@@ -10985,6 +10992,7 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
@@ -11032,6 +11040,7 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
@@ -11086,8 +11095,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11115,8 +11124,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11144,8 +11153,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11192,8 +11201,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11240,8 +11249,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11288,8 +11297,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-15</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Wednesday, August 15, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 				</row>
@@ -11336,6 +11345,7 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
@@ -11383,6 +11393,7 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
@@ -11430,6 +11441,7 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 					<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
@@ -11451,8 +11463,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11464,8 +11476,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11477,8 +11489,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11490,8 +11502,8 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11503,8 +11515,8 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11516,8 +11528,8 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-16</compareDate>
-					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					<comparePeriodPretty>Thursday, August 16, 2012</comparePeriodPretty>
+					<compareSeriesPretty>(August 9 – 16, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>
 				<row>
@@ -11529,6 +11541,7 @@
 					<compareSegmentPretty>All visits</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (All visits)</compareSeriesPretty>
 					
 				</row>
@@ -11541,6 +11554,7 @@
 					<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ff)</compareSeriesPretty>
 					
 				</row>
@@ -11553,6 +11567,7 @@
 					<compareSegmentPretty>browserCode==ie</compareSegmentPretty>
 					<comparePeriod>day</comparePeriod>
 					<compareDate>2012-08-12,2012-08-15</compareDate>
+					<comparePeriodPretty>August 12 – 15, 2012</comparePeriodPretty>
 					<compareSeriesPretty>(August 12 – 15, 2012) (browserCode==ie)</compareSeriesPretty>
 					
 				</row>

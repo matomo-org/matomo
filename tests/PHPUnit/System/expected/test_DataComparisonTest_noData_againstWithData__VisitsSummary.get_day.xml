@@ -28,8 +28,8 @@
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>day</comparePeriod>
 			<compareDate>2013-05-06</compareDate>
-			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
+			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
 			
 		</row>
 		<row>
@@ -48,8 +48,8 @@
 			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 			<comparePeriod>day</comparePeriod>
 			<compareDate>2013-05-06</compareDate>
-			<compareSeriesPretty>(Monday, May 6, 2013) (browserCode==ff)</compareSeriesPretty>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
+			<compareSeriesPretty>(Monday, May 6, 2013) (browserCode==ff)</compareSeriesPretty>
 			
 		</row>
 		<row>
@@ -79,8 +79,8 @@
 			<compareSegmentPretty>All visits</compareSegmentPretty>
 			<comparePeriod>day</comparePeriod>
 			<compareDate>2012-08-10</compareDate>
-			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 			
 		</row>
 		<row>
@@ -110,8 +110,8 @@
 			<compareSegmentPretty>browserCode==ff</compareSegmentPretty>
 			<comparePeriod>day</comparePeriod>
 			<compareDate>2012-08-10</compareDate>
-			<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
+			<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
 			
 		</row>
 	</comparisons>

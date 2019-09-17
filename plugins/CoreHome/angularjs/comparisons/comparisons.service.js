@@ -197,9 +197,7 @@
             };
 
             // change the page w/ these new param values
-            if (piwik.helper.isAngularRenderingThePage()
-                && typeof extraParams.segment === 'undefined'
-            ) {
+            if (piwik.helper.isAngularRenderingThePage()) {
                 var search = $location.search();
                 var newSearch = $.extend({}, search, compareParams, extraParams);
 
@@ -222,8 +220,9 @@
             });
 
             // angular is not rendering the page (ie, we are in the embedded dashboard) or we need to change the segment
-            var url = $.param($.extend({}, compareParams, extraParams));
-            broadcast.propagateNewPage(url, undefined, undefined, paramsToRemove);
+            var url = $.param($.extend({}, extraParams));
+            var strHash = $.param($.extend({}, compareParams));
+            broadcast.propagateNewPage(url, undefined, strHash, paramsToRemove);
         }
 
         function updateComparisonsFromQueryParams() {
