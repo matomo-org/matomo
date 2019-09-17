@@ -174,7 +174,11 @@ class Session extends Zend_Session
 
     public static function close()
     {
-        parent::writeClose();
+        if (self::isSessionStarted()) {
+            // only write/close session if the session was actually started by us
+            // otherwise we will set the session values to base64 encoded and whoever the session started might not expect the values in that way
+            parent::writeClose();
+        }
     }
 
     public static function isSessionStarted()
