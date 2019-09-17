@@ -8,7 +8,7 @@ use Piwik\Config;
 
 return array(
 
-    'path.root' => PIWIK_USER_PATH,
+    'path.root' => PIWIK_DOCUMENT_ROOT,
 
     'path.misc.user' => 'misc/user/',
 

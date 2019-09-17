@@ -42,7 +42,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchApiLatestVersion()
     {
-        $destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/LATEST';
         Http::fetchRemoteFile(Fixture::getRootUrl(), $destinationPath, 3);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
@@ -50,7 +50,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchLatestZip()
     {
-        $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/latest.zip';
         Http::fetchRemoteFile(Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/fixture.zip', $destinationPath, 3, 30);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
