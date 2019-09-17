@@ -47,7 +47,7 @@
 
     <div class="dataTableWrapper">
         {% if error is defined %}
-            {{ error.message }}
+            <div piwik-alert="danger">{{ error.message }}</div>
         {% else %}
             {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
                 <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>
