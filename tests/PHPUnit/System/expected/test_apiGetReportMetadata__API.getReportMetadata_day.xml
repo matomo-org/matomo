@@ -1622,6 +1622,32 @@
 	</row>
 	<row>
 		<category>Referrers</category>
+		<name>Referrers Overview</name>
+		<module>Referrers</module>
+		<action>get</action>
+		<metrics>
+			<Referrers_visitorsFromSearchEngines>Referrers_visitorsFromSearchEngines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Referrers_visitorsFromSearchEngines_percent</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Referrers_visitorsFromSocialNetworks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Referrers_visitorsFromSocialNetworks_percent</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Referrers_visitorsFromDirectEntry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Referrers_visitorsFromDirectEntry_percent</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Referrers_visitorsFromWebsites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Referrers_visitorsFromWebsites_percent</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Referrers_visitorsFromCampaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Referrers_visitorsFromCampaigns_percent</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Referrers_distinctSearchEngines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Referrers_distinctSocialNetworks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Referrers_distinctWebsites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Referrers_distinctKeywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Referrers_distinctCampaigns</Referrers_distinctCampaigns>
+		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Referrers_get</uniqueId>
+	</row>
+	<row>
+		<category>Referrers</category>
 		<subcategory>All Channels</subcategory>
 		<name>Channel Type</name>
 		<module>Referrers</module>
@@ -2517,6 +2543,21 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<Referrers_visitorsFromSearchEngines>Referrers_visitorsFromSearchEngines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Referrers_visitorsFromSearchEngines_percent</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Referrers_visitorsFromSocialNetworks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Referrers_visitorsFromSocialNetworks_percent</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Referrers_visitorsFromDirectEntry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Referrers_visitorsFromDirectEntry_percent</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Referrers_visitorsFromWebsites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Referrers_visitorsFromWebsites_percent</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Referrers_visitorsFromCampaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Referrers_visitorsFromCampaigns_percent</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Referrers_distinctSearchEngines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Referrers_distinctSocialNetworks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Referrers_distinctWebsites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Referrers_distinctKeywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Referrers_distinctCampaigns</Referrers_distinctCampaigns>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<revenue>Revenue</revenue>

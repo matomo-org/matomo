@@ -743,6 +743,7 @@ class API extends \Piwik\Plugin\API
             return $result;
         } else if ($table instanceof DataTable\Map) {
             $result = new DataTable\Map();
+            $result->setKeyName($table->getKeyName());
             foreach ($table->getDataTables() as $label => $childTable) {
                 $referrerTypeTable = $this->createReferrerTypeTable($childTable);
                 $result->addTable($referrerTypeTable, $label);

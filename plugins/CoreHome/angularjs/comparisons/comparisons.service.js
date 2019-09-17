@@ -231,14 +231,6 @@
             var availableSegments = [];
             try {
                 availableSegments = $('.segmentEditorPanel').data('uiControlObject').impl.availableSegments || [];
-
-                if (!(availableSegments instanceof Array)) {
-                    var values = [];
-                    Object.keys(availableSegments).forEach(function (name) {
-                        values.push(availableSegments[name]);
-                    });
-                    availableSegments = values;
-                }
             } catch (e) {
                 // segment editor is not initialized yet
             }
@@ -259,10 +251,15 @@
 
             var newSegmentComparisons = [];
             compareSegments.forEach(function (segment, idx) {
-                var storedSegment = availableSegments.find(function (s) {
-                    return s.definition === segment
+                var storedSegment = null;
+
+                availableSegments.forEach(function (s) {
+                    if (s.definition === segment
                         || s.definition === decodeURIComponent(segment)
-                        || decodeURIComponent(s.definition) === segment;
+                        || decodeURIComponent(s.definition) === segment
+                    ) {
+                        storedSegment = s;
+                    }
                 });
 
                 var segmentTitle = storedSegment ? storedSegment.name : _pk_translate('General_Unknown');

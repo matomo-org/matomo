@@ -345,6 +345,7 @@ class Collection
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
                                             'API.getPhpVersion',
+                                            'API.getPagesComparisonsDisabledFor',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {
