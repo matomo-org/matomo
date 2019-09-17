@@ -33,6 +33,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         return $this->renderTemplate('index');
     }

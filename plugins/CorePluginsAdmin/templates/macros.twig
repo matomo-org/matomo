@@ -282,6 +282,7 @@
         </tbody>
     </table>
 
+    {% if displayAdminLinks %}
     <div class="tableActionBar">
         {% if isTheme %}
             <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
@@ -289,6 +290,7 @@
             <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
         {% endif %}
     </div>
+    {% endif %}
 
     <div class="footer-message">
         {% set pluginsAlwaysActivated %}
