@@ -69,6 +69,12 @@
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
         "XPercentOfVisits": "%s of visits",
-        "Acquisition": "Acquisition"
+        "Acquisition": "Acquisition",
+        "VisitorsFromSearchEngines": "Visitors from Search Engines",
+        "PercentOfX": "Percent of %s",
+        "VisitorsFromSocialNetworks": "Visitors from Social Networks",
+        "VisitorsFromDirectEntry": "Visitors from Direct Entry",
+        "VisitorsFromWebsites": "Visitors from Websites",
+        "VisitorsFromCampaigns": "Visitors from Campaigns"
     }
 }

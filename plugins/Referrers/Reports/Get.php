@@ -83,7 +83,7 @@ class Get extends Base
                 $previousData = Request::processRequest('Referrers.get', ['date' => $lastPeriodDate]);
                 $previousDataRow = $previousData->getFirstRow();
 
-                $view->config->compute_evolution = function ($columns) use ($date, $lastPeriodDate, $previousDataRow, $columnsWithEvolution) {
+                $view->config->compute_evolution = function ($columns) use ($date, $lastPeriodDate, $previousDataRow) {
                     $value = reset($columns);
                     $columnName = key($columns);
 
@@ -181,16 +181,19 @@ class Get extends Base
             'Referrers_visitorsFromSearchEngines' => Piwik::translate('Referrers_TypeSearchEngines'),
             'Referrers_visitorsFromSocialNetworks' => Piwik::translate('Referrers_TypeSocialNetworks'),
             'Referrers_visitorsFromCampaigns' => Piwik::translate('Referrers_TypeCampaigns'),
-            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => Piwik::translate('Referrers_DistinctSearchEngines'),
-            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => Piwik::translate('Referrers_DistinctSocialNetworks'),
-            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME => Piwik::translate('Referrers_DistinctWebsites'),
-            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME => Piwik::translate('Referrers_DistinctKeywords'),
-            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME => Piwik::translate('Referrers_DistinctCampaigns'),
         ];
 
         foreach ($translations as $name => $label) {
             $translations[$name . '_percent'] = Piwik::translate('Referrers_XPercentOfVisits');
         }
+
+        $translations = array_merge($translations, [
+            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => Piwik::translate('Referrers_DistinctSearchEngines'),
+            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => Piwik::translate('Referrers_DistinctSocialNetworks'),
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME => Piwik::translate('Referrers_DistinctWebsites'),
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME => Piwik::translate('Referrers_DistinctKeywords'),
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME => Piwik::translate('Referrers_DistinctCampaigns'),
+        ]);
 
         return $translations;
     }

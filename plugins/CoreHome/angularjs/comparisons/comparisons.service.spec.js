@@ -169,7 +169,7 @@
 
                 piwikComparisonsService.removeSegmentComparison(1);
 
-                expect('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04&updated=1').to.equal($location.url().split('#')[0]);
+                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=abcdefg&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fdate=2012-01-01,2012-01-02&period=range&comparePeriods%255B%255D=week&compareDates%255B%255D=2018-03-04');
             });
 
             it('should change the base comparison if the first segment is removed', function () {
@@ -178,7 +178,7 @@
 
                 piwikComparisonsService.removeSegmentComparison(0);
 
-                expect('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareSegments%5B%5D=&comparePeriods%5B%5D=week&compareDates%5B%5D=2018-03-04&updated=1').to.equal($location.url().split('#')[0]);
+                expect($location.url()).to.equal('?category=MyModule1&subcategory=enabledPage&date=2018-01-02&period=day&segment=comparedsegment&compareDates%5B%5D=2018-03-04&comparePeriods%5B%5D=week&compareSegments%5B%5D=comparedsegment&compareSegments%5B%5D=&updated=1#%3Fdate=2012-01-01,2012-01-02&period=range&segment=comparedsegment&comparePeriods%255B%255D=week&compareDates%255B%255D=2018-03-04');
             });
         });
 
