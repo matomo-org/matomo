@@ -1626,21 +1626,21 @@
 		<module>Referrers</module>
 		<action>get</action>
 		<metrics>
-			<Referrers_visitorsFromSearchEngines>Referrers_visitorsFromSearchEngines</Referrers_visitorsFromSearchEngines>
-			<Referrers_visitorsFromSearchEngines_percent>Referrers_visitorsFromSearchEngines_percent</Referrers_visitorsFromSearchEngines_percent>
-			<Referrers_visitorsFromSocialNetworks>Referrers_visitorsFromSocialNetworks</Referrers_visitorsFromSocialNetworks>
-			<Referrers_visitorsFromSocialNetworks_percent>Referrers_visitorsFromSocialNetworks_percent</Referrers_visitorsFromSocialNetworks_percent>
-			<Referrers_visitorsFromDirectEntry>Referrers_visitorsFromDirectEntry</Referrers_visitorsFromDirectEntry>
-			<Referrers_visitorsFromDirectEntry_percent>Referrers_visitorsFromDirectEntry_percent</Referrers_visitorsFromDirectEntry_percent>
-			<Referrers_visitorsFromWebsites>Referrers_visitorsFromWebsites</Referrers_visitorsFromWebsites>
-			<Referrers_visitorsFromWebsites_percent>Referrers_visitorsFromWebsites_percent</Referrers_visitorsFromWebsites_percent>
-			<Referrers_visitorsFromCampaigns>Referrers_visitorsFromCampaigns</Referrers_visitorsFromCampaigns>
-			<Referrers_visitorsFromCampaigns_percent>Referrers_visitorsFromCampaigns_percent</Referrers_visitorsFromCampaigns_percent>
-			<Referrers_distinctSearchEngines>Referrers_distinctSearchEngines</Referrers_distinctSearchEngines>
-			<Referrers_distinctSocialNetworks>Referrers_distinctSocialNetworks</Referrers_distinctSocialNetworks>
-			<Referrers_distinctWebsites>Referrers_distinctWebsites</Referrers_distinctWebsites>
-			<Referrers_distinctKeywords>Referrers_distinctKeywords</Referrers_distinctKeywords>
-			<Referrers_distinctCampaigns>Referrers_distinctCampaigns</Referrers_distinctCampaigns>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
@@ -2543,21 +2543,21 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
-			<Referrers_visitorsFromSearchEngines>Referrers_visitorsFromSearchEngines</Referrers_visitorsFromSearchEngines>
-			<Referrers_visitorsFromSearchEngines_percent>Referrers_visitorsFromSearchEngines_percent</Referrers_visitorsFromSearchEngines_percent>
-			<Referrers_visitorsFromSocialNetworks>Referrers_visitorsFromSocialNetworks</Referrers_visitorsFromSocialNetworks>
-			<Referrers_visitorsFromSocialNetworks_percent>Referrers_visitorsFromSocialNetworks_percent</Referrers_visitorsFromSocialNetworks_percent>
-			<Referrers_visitorsFromDirectEntry>Referrers_visitorsFromDirectEntry</Referrers_visitorsFromDirectEntry>
-			<Referrers_visitorsFromDirectEntry_percent>Referrers_visitorsFromDirectEntry_percent</Referrers_visitorsFromDirectEntry_percent>
-			<Referrers_visitorsFromWebsites>Referrers_visitorsFromWebsites</Referrers_visitorsFromWebsites>
-			<Referrers_visitorsFromWebsites_percent>Referrers_visitorsFromWebsites_percent</Referrers_visitorsFromWebsites_percent>
-			<Referrers_visitorsFromCampaigns>Referrers_visitorsFromCampaigns</Referrers_visitorsFromCampaigns>
-			<Referrers_visitorsFromCampaigns_percent>Referrers_visitorsFromCampaigns_percent</Referrers_visitorsFromCampaigns_percent>
-			<Referrers_distinctSearchEngines>Referrers_distinctSearchEngines</Referrers_distinctSearchEngines>
-			<Referrers_distinctSocialNetworks>Referrers_distinctSocialNetworks</Referrers_distinctSocialNetworks>
-			<Referrers_distinctWebsites>Referrers_distinctWebsites</Referrers_distinctWebsites>
-			<Referrers_distinctKeywords>Referrers_distinctKeywords</Referrers_distinctKeywords>
-			<Referrers_distinctCampaigns>Referrers_distinctCampaigns</Referrers_distinctCampaigns>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<revenue>Revenue</revenue>
