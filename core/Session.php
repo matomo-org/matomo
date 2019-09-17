@@ -50,6 +50,7 @@ class Session extends Zend_Session
         if (headers_sent()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
+            || session_status() == PHP_SESSION_ACTIVE
         ) {
             return;
         }
