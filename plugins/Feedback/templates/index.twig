@@ -32,7 +32,7 @@
                         <input type="text" placeholder="{{'Feedback_SearchHelpResources'|translate|e('html_attr')}}" name="s"/>
                     </div>
                     <div class="search-button">
-                        <input type="submit" value="Search" class="btn"/>
+                        <input type="submit" value="Search" class="btn hide-on-small-only"/>
                     </div>
                 </div>
             </form>
@@ -46,7 +46,7 @@
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/docs/">{{ 'Feedback_UserGuides'|translate }}</a> - {{ 'Feedback_ViewUserGuides'|translate("","") }}.</p>
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/">{{ 'Feedback_FAQs'|translate }}</a> - {{ 'Feedback_ViewAnswersToFAQ'|translate("","") }}.</p>
             <p> &bull; <a target="_blank" rel="noreferrer noopener" href="https://forum.matomo.org/">{{ 'Feedback_Forums'|translate }}</a> - {{ 'Feedback_VisitTheForums'|translate("","") }}.</p>
-            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}">{{ 'API_Glossary'|translate }}</a> - {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}.</p>
+            <p> &bull; <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({'module':"API",'action':"glossary"}) }}">{{ 'API_Glossary'|translate }}</a> - {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }}</p>
 
             <h4>{{ 'Feedback_ProfessionalHelp'|translate }}</h4>
             <p>{{ 'Feedback_ProfessionalServicesIntro'|translate }}</p>
