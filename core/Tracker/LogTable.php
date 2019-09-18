@@ -79,6 +79,17 @@ abstract class LogTable {
     {
         return false;
     }
+
+    /**
+     * Defines a column that stores the date/time at which time an entry was written or updated. Setting this
+     * can help improve the performance of some archive queries. For example the log_link_visit_action table would define
+     * server_time while log_visit would define visit_last_action_time
+     * @return string
+     */
+    public function getDateTimeColumn()
+    {
+        return '';
+    }
     
     /**
      * Returns the name of a log table that allows to join on a visit. Eg if there is a table "action", and it is not

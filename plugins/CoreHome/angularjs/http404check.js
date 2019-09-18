@@ -7,7 +7,7 @@
 
         function isClientError(rejection)
         {
-            if (rejection.status === 500) {
+            if (rejection.status === 500 || rejection.status <= 0) {
                 return true;
             }
 
@@ -29,6 +29,10 @@
 
                     var message = 'Please check your server configuration. You may want to whitelist "*.html" files from the "plugins" directory.';
                     message    += ' The HTTP status code is ' + rejection.status + ' for URL "' + url + '"';
+                    
+                    if (rejection.status === -1) {
+                        message = 'Please check if you have an ad blocker or something similar enabled.';
+                    }
 
                     var UI = require('piwik/UI');
                     var notification = new UI.Notification();

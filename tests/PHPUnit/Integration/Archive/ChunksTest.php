@@ -139,7 +139,7 @@ class ChunksTest extends IntegrationTestCase
     {
         $params = $this->createArchiveProcessorParamaters();
 
-        return new ArchiveProcessor\PluginsArchiver($params, $isTemporary = false);
+        return new ArchiveProcessor\PluginsArchiver($params);
     }
 
     public function provideContainerConfig()

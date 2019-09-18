@@ -1,0 +1,25 @@
+{
+    "Tour": {
+        "PluginDescription": "Word in een mum van tijd een Matomo-expert door uitdagingen aan te gaan die je vertrouwd maken met Matomo.",
+        "Tour": "Tour",
+        "Engagement": "Betrokkenheid",
+        "UploadLogo": "Upload je logo",
+        "AddUser": "Voeg een andere gebruiker toe",
+        "AddWebsite": "Voeg een website toe",
+        "AddReport": "Voeg een gepland rapport toe",
+        "AddSegment": "Voeg een segment toe",
+        "AddAnnotation": "Voeg een annotatie toe",
+        "BrowseMarketplace": "Marktplaats doorzoeken",
+        "PreviousChallenges": "Voorgaande uitdagingen",
+        "NextChallenges": "Volgende uitdagingen",
+        "RowEvolution": "Rij evolutie",
+        "ViewX": "View %s",
+        "SetupX": "Setup %s",
+        "SelectDateRange": "Selecteer een periode",
+        "SelectDateRangeDescription": "Selecteer een periode in de kalender.",
+        "ChangeVisualisation": "Wijzig een visualisatie",
+        "FlattenActions": "Maak een pagina rapport vlak",
+        "BecomeMatomoExpert": "Wordt een Matomo Expert",
+        "CompletionTitle": "Goed gedaan!"
+    }
+}

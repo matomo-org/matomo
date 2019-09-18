@@ -8,7 +8,9 @@ use Piwik\Config;
 
 return array(
 
-    'path.root' => PIWIK_USER_PATH,
+    'path.root' => PIWIK_DOCUMENT_ROOT,
+
+    'path.misc.user' => 'misc/user/',
 
     'path.tmp' => function (ContainerInterface $c) {
         $root = $c->get('path.root');
@@ -116,6 +118,8 @@ return array(
         'misc/package/WebAppGallery/*.xml',
         'misc/package/WebAppGallery/install.sql',
         'plugins/ImageGraph/fonts/unifont.ttf',
+        'plugins/*/config/tracker.php',
+        'plugins/*/config/config.php',
         'vendor/autoload.php',
         'vendor/composer/autoload_real.php',
         'vendor/szymach/c-pchart/app/*',

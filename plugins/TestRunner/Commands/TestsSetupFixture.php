@@ -108,9 +108,13 @@ class TestsSetupFixture extends ConsoleCommand
             $_SERVER = json_decode($serverGlobal, true);
         }
 
+        // Tear down any DB that already exists
+        Db::destroyDatabaseObject();
+
         if(Config::getInstance()->database_tests['tables_prefix'] !== '') {
             throw new \Exception("To generate OmniFixture for the UI tests, you must set an empty tables_prefix in [database_tests]");
         }
+
         $this->requireFixtureFiles($input);
         $this->setIncludePathAsInTestBootstrap();
 

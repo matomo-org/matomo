@@ -154,7 +154,7 @@ class Mysql implements SchemaInterface
 
             'log_action'          => "CREATE TABLE {$prefixTables}log_action (
                                       idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                      name TEXT,
+                                      name VARCHAR(65000),
                                       hash INTEGER(10) UNSIGNED NOT NULL,
                                       type TINYINT UNSIGNED NULL,
                                       url_prefix TINYINT(2) NULL,
@@ -209,7 +209,7 @@ class Mysql implements SchemaInterface
                                       buster int unsigned NOT NULL,
                                       idorder varchar(100) default NULL,
                                       items SMALLINT UNSIGNED DEFAULT NULL,
-                                      url text NOT NULL,
+                                      url VARCHAR(65000) NOT NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )
@@ -450,7 +450,7 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
-        $statement = sprintf("CREATE TABLE `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
+        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine());

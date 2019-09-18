@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -41,7 +42,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchApiLatestVersion()
     {
-        $destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/LATEST';
         Http::fetchRemoteFile(Fixture::getRootUrl(), $destinationPath, 3);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
@@ -49,7 +50,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchLatestZip()
     {
-        $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
+        $destinationPath = PIWIK_DOCUMENT_ROOT . '/tmp/latest/latest.zip';
         Http::fetchRemoteFile(Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/fixture.zip', $destinationPath, 3, 30);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
@@ -317,4 +318,99 @@ class HttpTest extends \PHPUnit_Framework_TestCase
          */
         $this->assertEquals(51, strlen($result));
     }
+
+	public function test_http_postsEvent()
+	{
+		$params = null;
+		$params2 = null;
+		Piwik::addAction('Http.sendHttpRequest', function () use (&$params) {
+			$params = func_get_args();
+		});
+		Piwik::addAction('Http.sendHttpRequest.end', function () use (&$params2) {
+			$params2 = func_get_args();
+		});
+		$destinationPath = PIWIK_USER_PATH . '/tmp/latest/LATEST';
+		$url = Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php';
+		Http::sendHttpRequestBy(
+			Http::getTransportMethod(),
+			$url,
+			30,
+			$userAgent = null,
+			$destinationPath,
+			$file = null,
+			$followDepth = 0,
+			$acceptLanguage = false,
+			$acceptInvalidSslCertificate = false,
+			$byteRange = array(10, 20),
+			$getExtendedInfo = false,
+			$httpMethod = 'POST',
+			$httpUsername = '',
+			$httpPassword = '',
+			array('adf2' => '44', 'afc23' => 'ab12')
+		);
+
+		$this->assertEquals(array($url, array(
+			'httpMethod' => 'POST',
+			'body' => array('adf2' => '44','afc23' => 'ab12'),
+			'userAgent' => 'Piwik/3.12.0-b3',
+			'timeout' => 30,
+			'headers' => array(
+				'Range: bytes=10-20',
+				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
+				'X-Forwarded-For: 127.0.0.1',
+			),
+			'verifySsl' => true,
+			'destinationPath' => $destinationPath
+		), null, null, array()), $params);
+
+		$this->assertNotEmpty($params2[4]);// headers
+		unset($params2[4]);
+		$this->assertEquals(array($url, array(
+			'httpMethod' => 'POST',
+			'body' => array('adf2' => '44','afc23' => 'ab12'),
+			'userAgent' => 'Piwik/3.12.0-b3',
+			'timeout' => 30,
+			'headers' => array(
+				'Range: bytes=10-20',
+				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
+				'X-Forwarded-For: 127.0.0.1',
+			),
+			'verifySsl' => true,
+			'destinationPath' => $destinationPath
+		), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
+	}
+
+	public function test_http_returnsResultOfPostedEvent()
+	{
+		Piwik::addAction('Http.sendHttpRequest', function ($url, $args, &$response, &$status, &$headers) {
+			$response = '{test: true}';
+			$status = 204;
+			$headers = array('content-length' => 948);
+		});
+
+		$result = Http::sendHttpRequestBy(
+			Http::getTransportMethod(),
+			Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/Post.php',
+			30,
+			$userAgent = null,
+			$destinationPath = null,
+			$file = null,
+			$followDepth = 0,
+			$acceptLanguage = false,
+			$acceptInvalidSslCertificate = false,
+			$byteRange = array(10, 20),
+			$getExtendedInfo = true,
+			$httpMethod = 'POST',
+			$httpUsername = '',
+			$httpPassword = '',
+			array('adf2' => '44', 'afc23' => 'ab12')
+		);
+
+		$this->assertEquals(array(
+			'data' => '{test: true}',
+			'status' => 204,
+			'headers' => array('content-length' => 948)
+		), $result);
+	}
+
 }

@@ -217,6 +217,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link: http://raphaeljs.com/
 	License: MIT (Expat)
 
+	Name: iFrame Resizer 
+	Link: https://github.com/davidjbradshaw/iframe-resizer
+	License: MIT
+
 	Name: lessphp
 	Link: http://leafo.net/lessphp
 	License: GPL3, MIT (Expat)

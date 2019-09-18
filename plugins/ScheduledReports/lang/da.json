@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Vis valgmuligheder",
         "AggregateReportsFormat_GraphsOnly": "Vis kun diagrammer (ingen tabeller)",
         "AggregateReportsFormat_TablesAndGraphs": "Vis tabeller og diagrammer for alle rapporter",
         "AggregateReportsFormat_TablesOnly": "(standard) Vis tabeller (diagrammer kun for nøglemålinger)",
@@ -22,10 +23,13 @@
         "NoRecipients": "Denne rapport har ingen modtagere",
         "Pagination": "Side %1$s af %2$s",
         "PiwikReports": "Matomo rapporter",
+        "PleaseFindAttachedFile": "Se venligst %1$s rapport for %2$s i den vedhæftede fil.",
         "SentFromX": "Sendt fra %s.",
-        "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
+        "PleaseFindBelow": "Se venligst %1$s rapport for %2$s i den vedhæftede fil.",
+        "PluginDescription": "Opret tilpassede rapporter og planlæg den udsendt pr. e-mail dagligt, ugentligt eller månedsvis til en eller flere modtagere. Adskillige rapport-formater understøttes (html, pdf, csv, billeder).",
         "ReportFormat": "Rapportformat",
         "ReportHour": "Send rapport kl. %s",
+        "ReportHourWithUTC": "Klokken %s UTC",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",
         "ReportSent": "Rapport afsent",
         "ReportsIncluded": "Statikker inkluderet",
@@ -47,6 +51,13 @@
         "ReportUnsubscribe": "Afmeld en rapport",
         "UnsubscribeReportConfirmation": "Er du sikker på, at du vil afmelde rapporten %1$s?",
         "SuccessfullyUnsubscribed": "Du er blevet afmeldt rapporten %1$s.",
-        "UnsubscribeFooter": "Klik her for at afmelde denne rapport: %1$s"
+        "UnsubscribeFooter": "Klik her for at afmelde denne rapport: %1$s",
+        "NoTokenProvided": "Der blev ikke leveret nogen token til URLen",
+        "NoSubscriptionFound": "Ingen tilmelding fundet. Måske var rapporten allerede afmeldt eller fjernet.",
+        "EvolutionGraphsShowForEachInPeriod": "Graf der viser udviklingen for %1$s hver dag %2$s de sidste %3$s",
+        "EvolutionGraphsShowForPreviousN": "Graf der viser udviklingen over den sidste N %s",
+        "ReportPeriod": "Rapport-periode",
+        "ReportPeriodHelp": "Perioden over data som er dækket i denne rapport. Som standard er det samme periode som i e-mail planen, så hvis rapporten er sendt ugentligt, vil den indeholde information for den sidste uge.",
+        "ReportPeriodHelp2": "Du kan imidlertid ændre dette, hvis du ønsker at se anden information og fortsat vil modtage den planlagte e-mail udsendelse. Hvis for eksempel e-mailen er planlagt udsendt ugentlig, og rapport-perioden er 'dag', vil du modtage information om den sidste dag, hver uge."
     }
 }

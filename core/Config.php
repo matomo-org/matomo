@@ -11,6 +11,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
+use Piwik\Config\Cache;
+use Piwik\Config\IniFileChain;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\ProfessionalServices\Advertising;
@@ -106,7 +108,7 @@ class Config
      */
     public static function getGlobalConfigPath()
     {
-        return PIWIK_USER_PATH . self::DEFAULT_GLOBAL_CONFIG_PATH;
+        return PIWIK_DOCUMENT_ROOT . self::DEFAULT_GLOBAL_CONFIG_PATH;
     }
 
     /**
@@ -136,6 +138,10 @@ class Config
      */
     public static function getLocalConfigPath()
     {
+        if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
+            return call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
+        }
+        
         $path = self::getByDomainConfigPath();
         if ($path) {
             return $path;
@@ -430,6 +436,8 @@ class Config
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
+
+            $this->settings->getIniFileChain()->deleteConfigCache();
 
             /**
              * Triggered when a INI config file is changed on disk.

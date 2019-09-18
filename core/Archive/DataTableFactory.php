@@ -271,7 +271,7 @@ class DataTableFactory
         }
 
         // set table metadata
-        $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
+        $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
 
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -297,7 +297,7 @@ class DataTableFactory
 
         foreach ($blobRow as $name => $blob) {
             $newTable = DataTable::fromSerializedArray($blob);
-            $newTable->setAllTableMetadata($tableMetadata);
+            $newTable->setAllTableMetadata(array_merge($newTable->getAllTableMetadata(), $tableMetadata));
 
             $table->addTable($newTable, $name);
         }
@@ -452,7 +452,7 @@ class DataTableFactory
         $table = new DataTable\Simple();
 
         if (!empty($data)) {
-            $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($data), $keyMetadata));
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($data), $keyMetadata));
 
             DataCollection::removeMetadataFromDataRow($data);
 
@@ -470,7 +470,7 @@ class DataTableFactory
                 $table->addRow(new Row(array(Row::COLUMNS => array($name => 0))));
             }
 
-            $table->setAllTableMetadata($keyMetadata);
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $keyMetadata));
         }
 
         $result = $table;
@@ -496,7 +496,7 @@ class DataTableFactory
                 $table = new DataTable();
             }
 
-            $table->setAllTableMetadata($metadata);
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $metadata));
             $map->addTable($table, $this->prettifyIndexLabel(self::TABLE_METADATA_PERIOD_INDEX, $range));
 
             $tables[$range] = $table;

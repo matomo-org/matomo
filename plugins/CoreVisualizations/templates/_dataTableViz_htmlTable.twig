@@ -6,6 +6,7 @@
     {{ error.message }}
 {% else %}
     {%- if not showingEmbeddedSubtable -%}
+    <div class="dataTableScroller">
     <table cellspacing="0" class="dataTable">
         {% include "@CoreHome/_dataTableHead.twig" %}
 
@@ -67,5 +68,6 @@
     {%- if not showingEmbeddedSubtable -%}
         </tbody>
     </table>
+    </div>
     {%- endif -%}
 {% endif %}

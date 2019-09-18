@@ -8,6 +8,6 @@
  */
 namespace Piwik\Exception;
 
-class NoWebsiteFoundException extends Exception
+class NoWebsiteFoundException extends InvalidRequestParameterException
 {
 }

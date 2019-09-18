@@ -39,7 +39,7 @@
         <p>
             {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
             <br/><br/>
-            {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}
+            {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}
             <br/><br/>
             {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
             <br/><br/>
@@ -243,14 +243,22 @@
         </div>
 
         <div id="javascript-output-section">
-            <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+            <div class="valign-wrapper trackingHelpHeader matchWidth">
+                <div>
+                    <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
 
-            <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                    <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                </div>
 
+                <button class="btn" id="emailJsBtn" ng-click="jsTrackingCode.sendEmail()">
+                    {{ 'SitesManager_EmailInstructionsButton'|translate }}
+                </button>
+            </div>
             <div id="javascript-text">
                 <pre piwik-select-on-focus class="codeblock"
                      ng-bind="jsTrackingCode.trackingCode"> </pre>
             </div>
+
         </div>
     </div>
 </div>

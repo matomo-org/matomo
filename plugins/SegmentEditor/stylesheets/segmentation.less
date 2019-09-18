@@ -206,9 +206,16 @@ div.scrollable {
     cursor: pointer;
 }
 
-.segmentationContainer .submenu ul li:hover {
+.segmentationContainer .submenu ul li:hover,
+.segmentationContainer .submenu ul li:focus,
+.segmentationContainer .submenu ul li:focus-within {
     color: #255792;
     background: @color-silver-l95;
+    outline: none;
+
+    > * {
+        outline: none;
+    }
 }
 
 .segmentationContainer ul.submenu {
@@ -384,7 +391,11 @@ a.metric_category {
     margin: 8px;
 }
 
-.segmentSelected, .segmentSelected:hover, .segmentEditorPanel .segmentationContainer .submenu li .segmentSelected {
+.segmentSelected,
+.segmentSelected:hover,
+.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected,
+.segmentEditorPanel .segmentationContainer .submenu li:focus,
+.segmentEditorPanel .segmentationContainer .submenu li:focus-within {
     font-weight: bold;
 }
 

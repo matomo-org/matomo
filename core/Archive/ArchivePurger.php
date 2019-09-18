@@ -158,21 +158,23 @@ class ArchivePurger
 
     public function purgeDeletedSiteArchives(Date $dateStart)
     {
-        $idArchivesToDelete = $this->getDeletedSiteArchiveIds($dateStart);
+        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $idArchivesToDelete = $this->model->getArchiveIdsForDeletedSites($archiveTable);
 
         return $this->purge($idArchivesToDelete, $dateStart, 'deleted sites');
     }
 
     /**
      * @param Date $dateStart
-     * @param array $segmentHashesByIdSite  List of valid segment hashes, indexed by site ID
+     * @param array $deletedSegments List of segments whose archives should be purged
      * @return int
      */
-    public function purgeDeletedSegmentArchives(Date $dateStart, array $segmentHashesByIdSite)
+    public function purgeDeletedSegmentArchives(Date $dateStart, array $deletedSegments)
     {
-        $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $segmentHashesByIdSite);
-
-        return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+        if (count($deletedSegments)) {
+            $idArchivesToDelete = $this->getDeletedSegmentArchiveIds($dateStart, $deletedSegments);
+            return $this->purge($idArchivesToDelete, $dateStart, 'deleted segments');
+        }
     }
 
     /**
@@ -210,20 +212,11 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
-    protected function getDeletedSiteArchiveIds(Date $date)
+    protected function getDeletedSegmentArchiveIds(Date $date, array $deletedSegments)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
-        return $this->model->getArchiveIdsForDeletedSites(
-            $archiveTable, 
-            $this->getOldestTemporaryArchiveToKeepThreshold()
-        );
-    }
-
-    protected function getDeletedSegmentArchiveIds(Date $date, array $segmentHashesByIdSite)
-    {
-        $archiveTable = ArchiveTableCreator::getNumericTable($date);
-        return $this->model->getArchiveIdsForDeletedSegments(
-            $archiveTable, $segmentHashesByIdSite, $this->getOldestTemporaryArchiveToKeepThreshold()
+        return $this->model->getArchiveIdsForSegments(
+            $archiveTable, $deletedSegments, $this->getOldestTemporaryArchiveToKeepThreshold()
         );
     }
 

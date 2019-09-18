@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
         "IfThisWasYouIgnoreIfNot": "Bu değişikliği siz yaptıysanız bu bildirimi yok sayabilirsiniz. Değişikliği siz yapmadıysanız lütfen oturum açarak e-posta adresinizi düzeltin, parolanızı değiştirin ve Matomo yöneticiniz ile görüşün.",
         "PasswordChangeNotificationSubject": "Matomo hesabınızın parolası değiştirildi",
-        "PasswordChangedEmail": "Parolanız değiştirildi. Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s)."
+        "PasswordChangedEmail": "Parolanız değiştirildi. Bu değişiklik şu aygıt üzerinden yapıldı: %1$s (IP adresi: %2$s).",
+        "NewsletterSignupTitle": "Bülten Aboneliği",
+        "NewsletterSignupMessage": "Matomo hakkında düzenli bilgi almak için haber bültenimize abone olabilirsiniz. Bülten aboneliğinden istediğiniz zaman çıkabilirsiniz. Bu hizmet için MadMimi kullanılır. Ayrıntılı bilgi almak için %1$sKişisel Gizlilik%2$s bölümüne bakabilirsiniz.",
+        "NewsletterSignupFailureMessage": "Maalesef bir şeyler ters gitti. Bülten aboneliğiniz yapılamadı.",
+        "NewsletterSignupSuccessMessage": "Harika, abone oldunuz! Yakında görüşürüz."
     }
 }

@@ -19,16 +19,12 @@
         "ViewUserGuides": "Saiba como configurar o Matomo e como analisar eficazmente os seus dados com os nossos %1$sguias do utilizador%2$s",
         "CommunityHelp": "Ajuda da comunidade",
         "ProfessionalHelp": "Ajuda profissional",
-        "ProfessionalServicesIntro": "A nossa rede mundial de consultores profissionais do Matomo apoia clientes que alojam o Matomo nas suas próprias infraestruturas.",
         "ProfessionalServicesOfferIntro": "Quais os serviços que pode beneficiar?",
-        "ProfessionalServicesReviewPiwikSetup": "Uma análise da sua configuração do Matomo",
-        "ProfessionalServicesOptimizationMaintenance": "Serviços de otimização e manutenção do Matomo",
-        "ProfessionalServicesPhoneEmailSupport": "Apoio por telefone ou e-mail",
-        "ProfessionalServicesTraining": "Formação de utilizadores, de técnicos e de programadores",
-        "ProfessionalServicesPremiumFeatures": "Funcionalidades exclusivas",
-        "ProfessionalServicesCustomDevelopment": "Serviços de programação à medida",
-        "ProfessionalServicesAnalystConsulting": "Serviços de consultoria de analistas",
+        "ProfessionalServicesDedicatedSupport": "Acompanhamento por um membro dedicado da equipa do Matomo a cada passo do percurso",
+        "ProfessionalServicesTraining": "Acesso exclusivo a vídeos de formação do Matomo",
         "ContactUs": "Contacte-nos",
-        "VisitTheForums": "Visite os %1$s fóruns%2$s e obtenha ajuda da comunidade de utilizadores do Matomo"
+        "VisitTheForums": "Visite os %1$s fóruns%2$s e obtenha ajuda da comunidade de utilizadores do Matomo",
+        "RemindMeLater": "Lembrar-me mais tarde",
+        "NeverAskMeAgain": "Não voltar a perguntar"
     }
 }

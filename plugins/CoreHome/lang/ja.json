@@ -106,6 +106,7 @@
         "StandardReport": "標準レポート",
         "FlattenReport": "レポートのフラット化",
         "ReportWithMetadata": "メタデータを使用したレポート",
-        "SeeAvailableVersions": "使用可能なバージョンを表示する"
+        "SeeAvailableVersions": "使用可能なバージョンを表示する",
+        "QuickLinks": "クイックリンク"
     }
 }

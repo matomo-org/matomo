@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "Ce changement a été initié depuis le périphérique suivant : %1$s (Adresse IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Si c'était vous, vous pouvez ignorer ce courriel. Si ce n'était pas vous, veuillez vous identifier, corrigez votre adresse de courriel, modifiez votre mot de passe et contactez votre administrateur Matomo.",
         "PasswordChangeNotificationSubject": "Le mot de passe de votre compte Matomo vient d'être modifié",
-        "PasswordChangedEmail": "Votre mot de passe vient d'être modifié. Le changement a été initié depuis le périphérique suivant : %1$s (Adresse IP = %2$s)."
+        "PasswordChangedEmail": "Votre mot de passe vient d'être modifié. Le changement a été initié depuis le périphérique suivant : %1$s (Adresse IP = %2$s).",
+        "NewsletterSignupTitle": "Enregistrement à l'infolettre",
+        "NewsletterSignupMessage": "Abonnez vous à notre infolettre afin de recevoir des informations régulières à propos de Matomo. Vous pouvez vous désinscrire à tout moment. Ce service utilise MadMimi. Apprenez en plus sur notre page de %1$spolitique de respect de la vie privée%2$s.",
+        "NewsletterSignupFailureMessage": "Oops, il y a eu un problème. Nous ne somme pas parvenus à vous enregistrer à l'infolettre.",
+        "NewsletterSignupSuccessMessage": "Super, vous êtes enregistré(e) ! Nous aurez bientôt de nos nouvelles."
     }
 }

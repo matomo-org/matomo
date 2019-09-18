@@ -1,10 +1,10 @@
 {
     "Feedback": {
-        "DoYouHaveBugReportOrFeatureRequest": "Tienes un error que reportar o una nueva característica?",
-        "IWantTo": "Yo quiero:",
-        "LearnWaysToParticipate": "Aprende sobre todas las formas de %1$sparticipar%2$s",
-        "ManuallySendEmailTo": "Por favor envíe su mensaje manualmente a",
+        "DoYouHaveBugReportOrFeatureRequest": "¿Tenés un error para informar o una solicitud de nueva función?",
+        "IWantTo": "Quiero:",
+        "LearnWaysToParticipate": "Conocé todas las formas en las que podés %1$sparticipar%2$s",
+        "ManuallySendEmailTo": "Por favor, enviá tu mensaje manualmente a",
         "SendFeedback": "Enviar comentario",
-        "TopLinkTooltip": "Danos tu opinión o solicita Soporte Profesional"
+        "TopLinkTooltip": "Decinos qué pensás, o solicitá soporte profesional."
     }
 }
