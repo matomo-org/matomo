@@ -23,7 +23,7 @@
                 ng-click="quickAccess.selectMenuItem(submenuEntry.index)"
                 ng-repeat="submenuEntry in subcategory.items"><a>{{ submenuEntry.name | trim }}</a></li>
         </ul>
-        <ul>
+        <ul class="quickAccessMatomoSearch">
             <li class="quick-access-category websiteCategory"
                 ng-show="hasSitesSelector && ((quickAccess.sitesModel.sites | length) || quickAccess.sitesModel.isLoading)"
             >{{ 'SitesManager_Sites' | translate }}</li>
@@ -35,6 +35,14 @@
                 ng-class="{selected: (quickAccess.numMenuItems + $index) == search.index}"
                 ng-click="quickAccess.selectSite(site.idsite)"
                 ng-repeat="site in quickAccess.sitesModel.sites"><a ng-bind="site.name"></a></li>
+        </ul>
+        <ul>
+            <li class="quick-access-category helpCategory">{{ 'General_HelpResources' | translate }}</li>
+            <li ng-class="{selected: search.index == 'help'}"
+                class="quick-access-help"
+                ng-mouseenter="search.index='help'">
+                    <a ng-href="https://matomo.org?s={{ urlEncode(search.term) }}" target="_blank">{{'Feedback_SearchOnMatomo' | translate:(search.term)}}</a>
+            </li>
         </ul>
     </div>
 </div>

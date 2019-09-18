@@ -16,7 +16,9 @@
         "ThankYou": "Thank you for helping us to make Matomo better!",
         "TopLinkTooltip": "Tell us what you think, or request Professional Support.",
         "ViewAnswersToFAQ": "View answers to %1$sFrequently Asked Questions%2$s",
+        "FAQs": "FAQs",
         "ViewUserGuides": "Learn how to configure Matomo and how to effectively analyze your data with our %1$suser guides%2$s",
+        "UserGuides": "User guides",
         "CommunityHelp": "Community Help",
         "ProfessionalHelp": "Professional Help",
         "ProfessionalServicesIntro": "With a Matomo On-Premise Support Subscription, let our experienced team assist you online in utilising Matomo Analytics to grow your business.",
@@ -28,9 +30,18 @@
         "ProfessionalServicesEmailAlerts": "Email alerts for security releases for Matomo",
         "ContactUs": "Contact us",
         "VisitTheForums": "Visit the %1$s Forums%2$s and get help from the community of Matomo users",
+        "Forums": "Forums",
         "ReviewMatomoTitle": "Believe in Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Share your thoughts on one of these sites and inspire others to join our data revolution.",
         "RemindMeLater": "Remind me later",
-        "NeverAskMeAgain": "Never ask me again"
+        "NeverAskMeAgain": "Never ask me again",
+        "HowCanWeHelp": "How can we help?",
+        "NotTrackingVisits": "Matomo isn't tracking any visits",
+        "TrackMultipleSites": "I need to track multiple sites or subdomains",
+        "RemoveOtherLabel": "I want to see my 'Others' data",
+        "PurgeOldData": "I want to remove some old data",
+        "SearchHelpResources": "Search matomo.org help resources",
+        "PopularHelpTopics": "Popular help topics",
+        "SearchOnMatomo": "Search '%1$s' on Matomo.org"
     }
 }
