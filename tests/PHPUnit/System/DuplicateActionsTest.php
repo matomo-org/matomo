@@ -84,4 +84,3 @@ class DuplicateActionsTest extends SystemTestCase
 }
 
 DuplicateActionsTest::$fixture = new OneVisitorTwoVisits();
-DuplicateActionsTest::$fixture->excludeMozilla = true;
