@@ -25,6 +25,8 @@ class ModelTest extends IntegrationTestCase
 
     private $idSegment3;
 
+    private $idSegment4;
+
     public function setUp()
     {
         parent::setUp();
@@ -55,7 +57,11 @@ class ModelTest extends IntegrationTestCase
     {
         parent::tearDown();
         // Force a hard delete of segment
-        $idsToDelete = $this->idSegment1 . ', ' . $this->idSegment2 . ', ' . $this->idSegment3;
+        $idsToDelete = array($this->idSegment1, $this->idSegment2, $this->idSegment3);
+        if ($this->idSegment4) {
+            $idsToDelete[] = $this->idSegment4;
+        }
+        $idsToDelete = implode(',', $idsToDelete);
         Db::query(
             "DELETE FROM " . Common::prefixTable('segment') . " WHERE idsegment IN ($idsToDelete)"
         );
@@ -144,6 +150,184 @@ class ModelTest extends IntegrationTestCase
         $segment = $this->model->getSegmentByDefinition('Country==Genovia');
 
         $this->assertEmpty($segment);
+    }
+
+    public function test_getSegmentsDeletedSince_noDeletedSegments()
+    {
+        $date = Date::factory('now');
+        $segments = $this->model->getSegmentsDeletedSince($date);
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_oneDeletedSegment()
+    {
+        $this->model->deleteSegment($this->idSegment3);
+
+        $date = Date::factory('now')->subDay(1);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertCount(1, $segments);
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+    }
+
+    public function test_getSegmentsDeletedSince_segmentDeletedTooLongAgo()
+    {
+        // Manually delete it to set timestamp 9 days in past
+        $deletedAt = Date::factory('now')->subDay(9)->toString('Y-m-d H:i:s');
+        $this->model->updateSegment($this->idSegment1, array(
+            'deleted' => 1,
+            'ts_last_edit' => $deletedAt
+        ));
+
+        // The segment deleted above should not be included as it was more than 8 days ago
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegment()
+    {
+        // Turn segment1 into a duplicate of segment2, except it's also deleted
+        $this->model->updateSegment($this->idSegment1, array(
+            'definition' => 'country==Genovia',
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegmentDifferentIdSite()
+    {
+        // Turn segment2 into a duplicate of segment3, except for a different idsite and also deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country==Hobbiton',
+            'enable_only_idsite' => 2,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertCount(1, $segments);
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+        $this->assertEquals(2, $segments[0]['enable_only_idsite']);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegmentAllSitesAndSingleSite()
+    {
+        // Turn segment2 into a duplicate of segment3, except for all sites and also deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country==Hobbiton',
+            'enable_only_idsite' => 0,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertCount(1, $segments);
+        $this->assertEquals('country==Hobbiton', $segments[0]['definition']);
+        $this->assertEquals(0, $segments[0]['enable_only_idsite']);
+        $this->assertEquals(array(1), $segments[0]['idsites_to_preserve']);
+    }
+
+    public function test_getSegmentsDeletedSince_duplicateSegmentSingleSiteAndAllSites()
+    {
+        // Turn segment3 into a duplicate of segment1, except for a single site and deleted
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'country==Narnia',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // There is still a live segment for all sites, so the deleted site-specific one is ignored
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_ExistingSiteSpecificAndAllSitesMatch()
+    {
+        // A deleted all-sites segment, with both an all-sites and a site-specific segment still present
+        $this->model->updateSegment($this->idSegment1, array(
+            'definition' => 'actions >= 1',
+            'enable_only_idsite' => 0,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'actions >= 1',
+            'enable_only_idsite' => 0,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+        $this->model->updateSegment($this->idSegment3, array(
+            'definition' => 'actions >= 1',
+            'enable_only_idsite' => 3,
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+        $this->idSegment4 = $this->model->createSegment(array(
+            'definition' => 'actions >= 1',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_urlDecodedVersionOfSegment()
+    {
+        // Turn segment2 into a duplicate of segment3, except a urlencoded version
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country%3D%3DHobbiton',
+            'enable_only_idsite' => 1,
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The two encoded and decoded version of the segments should be treated as duplicates
+        // This means there segment has a non-deleted version so it's not returned
+        $this->assertEmpty($segments);
+    }
+
+    public function test_getSegmentsDeletedSince_urlEncodedVersionOfSegment()
+    {
+        // segment1 => url decoded version, deleted
+        $this->model->updateSegment($this->idSegment1, array(
+            'definition' => 'country==Narnia',
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+        // segment2 => url encoded version, not deleted
+        $this->model->updateSegment($this->idSegment2, array(
+            'definition' => 'country%3D%3DNarnia',
+            'deleted' => 0,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        ));
+
+        $date = Date::factory('now')->subDay(8);
+        $segments = $this->model->getSegmentsDeletedSince($date);
+
+        // The two encoded and decoded version of the segments should be treated as duplicates
+        // This means there segment has a non-deleted version so it's not returned
+        $this->assertEmpty($segments);
     }
 
     private function assertReturnedIdsMatch(array $expectedIds, array $resultSet)

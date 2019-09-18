@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
+use Piwik\Piwik;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -510,6 +511,22 @@ class IniFileChain
 
     private function dumpSettings($values, $header)
     {
+        /**
+         * Triggered before a config is being written / saved on the local file system.
+         *
+         * A plugin can listen to it and modify which settings will be saved on the file system. This allows you
+         * to prevent saving config values that a plugin sets on demand. Say you configure the database password in the
+         * config on demand in your plugin, then you could prevent that the password is saved in the actual config file
+         * by listening to this event like this:
+         *
+         * **Example**
+         *     function doNotSaveDbPassword (&$values) {
+         *         unset($values['database']['password']);
+         *     }
+         *
+         * @param array &$values Config values that will be saved
+         */
+        Piwik::postEvent('Config.beforeSave', array(&$values));
         $values = $this->encodeValues($values);
 
         $writer = new IniWriter();

@@ -72,7 +72,7 @@ class ContainerFactory
         $builder->addDefinitions(new IniConfigDefinitionSource($this->settings));
 
         // Global config
-        $builder->addDefinitions(PIWIK_USER_PATH . '/config/global.php');
+        $builder->addDefinitions(PIWIK_DOCUMENT_ROOT . '/config/global.php');
 
         // Plugin configs
         $this->addPluginConfigs($builder);

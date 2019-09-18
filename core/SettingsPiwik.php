@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Cache as PiwikCache;
+use Piwik\Container\StaticContainer;
 
 /**
  * Contains helper methods that can be used to get common Piwik settings.
@@ -354,7 +355,7 @@ class SettingsPiwik
      */
     public static function rewriteMiscUserPathWithInstanceId($path)
     {
-        $tmp = 'misc/user/';
+        $tmp = StaticContainer::get('path.misc.user');
         $path = self::rewritePathAppendPiwikInstanceId($path, $tmp);
         return $path;
     }

@@ -651,6 +651,7 @@ class API extends \Piwik\Plugin\API
     public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false, $initialIdSite = null)
     {
         Piwik::checkUserHasSomeAdminAccess();
+        UsersManager::dieIfUsersAdminIsDisabled();
 
         if (!Piwik::hasUserSuperUserAccess()) {
             if (empty($initialIdSite)) {
@@ -709,6 +710,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
+        UsersManager::dieIfUsersAdminIsDisabled();
 
         $requirePasswordConfirmation = self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION;
         self::$SET_SUPERUSER_ACCESS_REQUIRE_PASSWORD_CONFIRMATION = true;
@@ -874,6 +876,7 @@ class API extends \Piwik\Plugin\API
         $isEmailNotificationOnInConfig = Config::getInstance()->General['enable_update_users_email'];
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
+        UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
 
@@ -957,6 +960,7 @@ class API extends \Piwik\Plugin\API
     public function deleteUser($userLogin)
     {
         Piwik::checkUserHasSuperUserAccess();
+        UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
 
         $this->checkUserExist($userLogin);
@@ -1049,6 +1053,8 @@ class API extends \Piwik\Plugin\API
      */
     public function setUserAccess($userLogin, $access, $idSites)
     {
+        UsersManager::dieIfUsersAdminIsDisabled();
+
         if ($access != 'noaccess') {
             $this->checkAccessType($access);
         }
