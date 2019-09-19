@@ -56,7 +56,7 @@ class Sparkline implements ViewInterface
         $seconds = Piwik::translate('Intl_NSecondsShort');
         $percent = Piwik::translate('Intl_NumberSymbolPercent');
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
-        $decimalSeparator = Piwik::translate('Intl_NumberSymbolGroup');
+        $decimalSeparator = Piwik::translate('Intl_NumberSymbolDecimal');
         $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
         $values = [];
         foreach ($this->values as $value) {
@@ -65,6 +65,8 @@ class Sparkline implements ViewInterface
             // replace localized decimal separator
             $value = str_replace($thousandSeparator, '', $value);
             $value = str_replace($decimalSeparator, '.', $value);
+            // remove spaces and tabs 
+            $value = trim($value);
             if ($value == '') {
                 $value = 0;
             }
