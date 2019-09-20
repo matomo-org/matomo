@@ -81,7 +81,6 @@
             var mapContainer = $$('.UserCountryMap_map').get(0),
                 map = self.map = $K.map(mapContainer),
                 main = $$('.UserCountryMap_container'),
-                worldTotalVisits = 0,
                 width = main.width(),
                 _ = config._;
 
@@ -1225,9 +1224,7 @@
                         });
                         countryData.push(country);
                         countriesByIso[country.iso] = country;
-                        worldTotalVisits += country['nb_visits'];
                     });
-                    _worldTotal = worldTotalVisits;
                     // sort countries by name
                     countryData.sort(function (a, b) { return a.name > b.name ? 1 : -1; });
 
