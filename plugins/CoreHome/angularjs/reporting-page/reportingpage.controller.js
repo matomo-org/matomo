@@ -66,7 +66,6 @@
             }
 
             pageModel.fetchPage(category, subcategory).then(function () {
-
                 if (!pageModel.page) {
                     var page = pagesModel.findPageInCategory(category);
                     if (page && page.subcategory) {

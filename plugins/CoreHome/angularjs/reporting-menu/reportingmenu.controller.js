@@ -7,18 +7,18 @@
 (function () {
     angular.module('piwikApp').controller('ReportingMenuController', ReportingMenuController);
 
-    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope'];
+    ReportingMenuController.$inject = ['$scope', 'piwik', '$location', '$timeout', 'reportingMenuModel', '$rootScope', 'piwikUrl'];
 
-    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope) {
+    function ReportingMenuController($scope, piwik, $location, $timeout, menuModel, $rootScope, piwikUrl) {
 
-        var idSite = getUrlParam('idSite');
-        var period = getUrlParam('period');
-        var date   = getUrlParam('date');
-        var segment = getUrlParam('segment');
+        var idSite = piwikUrl.getSearchParam('idSite');
+        var period = piwikUrl.getSearchParam('period');
+        var date   = piwikUrl.getSearchParam('date');
+        var segment = piwikUrl.getSearchParam('segment');
 
-        var comparePeriods = getUrlParam('comparePeriods');
-        var compareDates   = getUrlParam('compareDates');
-        var compareSegments = getUrlParam('compareSegments');
+        var comparePeriods = piwikUrl.getSearchParam('comparePeriods');
+        var compareDates   = piwikUrl.getSearchParam('compareDates');
+        var compareSegments = piwikUrl.getSearchParam('compareSegments');
 
         function markAllCategoriesAsInactive()
         {
@@ -44,15 +44,6 @@
             });
         }
 
-        function getUrlParam(param)
-        {
-            var value = piwik.broadcast.getValueFromHash(param);
-            if (!value) {
-                value = piwik.broadcast.getValueFromUrl(param);
-            }
-            return value;
-        }
-
         $scope.menuModel = menuModel;
 
         // highlight the currently hovered subcategory (and category)
@@ -73,16 +64,27 @@
         };
 
         $scope.makeUrl = function (category, subcategory) {
-            return $.param({
+            var params = {
                 idSite: idSite,
                 period: period,
                 date: date,
                 category: category.id,
                 subcategory: subcategory.id,
-                compareDates: compareDates,
-                comparePeriods: comparePeriods,
-                compareSegments: compareSegments
-            });
+            };
+
+            if (compareDates) {
+                params.compareDates = compareDates;
+            }
+
+            if (comparePeriods) {
+                params.comparePeriods = comparePeriods;
+            }
+
+            if (compareSegments) {
+                params.compareSegments = compareSegments;
+            }
+
+            return $.param(params);
         };
 
         $scope.loadCategory = function (category) {
@@ -149,13 +151,13 @@
             var category    = $search.category;
             var subcategory = $search.subcategory;
 
-            period = getUrlParam('period');
-            date   = getUrlParam('date');
-            segment = getUrlParam('segment');
+            period = piwikUrl.getSearchParam('period');
+            date   = piwikUrl.getSearchParam('date');
+            segment = piwikUrl.getSearchParam('segment');
 
-            comparePeriods = getUrlParam('comparePeriods');
-            compareDates = getUrlParam('compareDates');
-            compareSegments = getUrlParam('compareSegments');
+            comparePeriods = piwikUrl.getSearchParam('comparePeriods');
+            compareDates = piwikUrl.getSearchParam('compareDates');
+            compareSegments = piwikUrl.getSearchParam('compareSegments');
 
             if (!category || !subcategory) {
                 return;
