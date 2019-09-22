@@ -174,11 +174,6 @@ abstract class ViewDataTable implements ViewInterface
     private $isComparing = null;
 
     /**
-     * @var array
-     */
-    private $cachedRequestArray;
-
-    /**
      * Constructor. Initializes display and request properties to their default values.
      * Posts the {@hook ViewDataTable.configure} event which plugins can use to configure the
      * way reports are displayed.
@@ -648,11 +643,7 @@ abstract class ViewDataTable implements ViewInterface
 
     public function getRequestArray()
     {
-        if (empty($this->cachedRequestArray)) {
-            $requestArray = $this->request->getRequestArray();
-            $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
-            $this->cachedRequestArray = $requestArray;
-        }
-        return $this->cachedRequestArray;
+        $requestArray = $this->request->getRequestArray();
+        return ApiRequest::getRequestArrayFromString($requestArray);
     }
 }
