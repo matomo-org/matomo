@@ -24,7 +24,7 @@
                     var urlParts = config.url.split('/');
                     if (urlParts && urlParts.length > 2 && urlParts[1]) {
                         var pluginName = urlParts[1];
-                        if (pluginName && pluginName in piwik.relativePluginWebDirs) {
+                        if (pluginName && pluginName in piwik.relativePluginWebDirs && piwik.relativePluginWebDirs[pluginName]) {
                             urlParts[0] = piwik.relativePluginWebDirs[pluginName];
                             config.url = urlParts.join('/');
                         }
