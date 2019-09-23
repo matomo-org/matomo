@@ -698,7 +698,18 @@ class Access
      */
     private static function throwNoAccessException($message)
     {
-        Piwik::checkUserIsNotAnonymous();
+        try {
+            // Will throw Exception if user is anonymous, i.e. not currently logged in
+            Piwik::checkUserIsNotAnonymous();
+        } catch (NoAccessException $ex) {
+            // Try to detect whether user was previously logged in so that we can display a different message
+            if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], SettingsPiwik::getPiwikUrl()) === 0) {
+                throw new NoAccessException(Piwik::translate('General_YourSessionHasExpired'));
+            } else {
+                throw $ex;
+            }
+        }
+
         throw new NoAccessException($message);
     }
 }
