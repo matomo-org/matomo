@@ -45,7 +45,7 @@ class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function test_isMinifiedJs($scriptFileName, $isMinified)
     {
-        $scriptFile = new OnDiskUIAsset(PIWIK_USER_PATH, $scriptFileName);
+        $scriptFile = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, $scriptFileName);
 
         $this->assertEquals(
             $isMinified,
