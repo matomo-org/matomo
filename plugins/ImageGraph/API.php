@@ -28,8 +28,6 @@ use Piwik\Translate;
  * - $colors accepts a comma delimited list of colors that will overwrite the default Matomo colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  *
- * See also <a href='http://matomo.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
- *
  * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
 class API extends \Piwik\Plugin\API
