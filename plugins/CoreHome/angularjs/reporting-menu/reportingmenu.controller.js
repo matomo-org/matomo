@@ -68,6 +68,7 @@
                 idSite: idSite,
                 period: period,
                 date: date,
+                segment: decodeURIComponent(segment),
                 category: category.id,
                 subcategory: subcategory.id,
             };
