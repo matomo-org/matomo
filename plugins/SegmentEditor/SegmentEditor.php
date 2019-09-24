@@ -279,5 +279,6 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationDoesNotContain';
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
+        $translationKeys[] = 'Live_VisitsLog';
     }
 }

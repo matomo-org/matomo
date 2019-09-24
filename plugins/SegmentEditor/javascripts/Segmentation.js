@@ -637,7 +637,7 @@ Segmentation = (function($) {
         };
 
         function getSegmentGeneratorController()
-        { 
+        {
             return angular.element(self.form.find('.segment-generator')).scope().segmentGenerator;
         }
 
@@ -711,14 +711,16 @@ Segmentation = (function($) {
             var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
 
             var url = window.location.href;
-            url = broadcast.updateParamValue('addSegmentAsNew=' + segmentStr, url);
-            url = broadcast.updateParamValue('popover=', url);
+            //  URL might have format index.php?aparam=avalue#?anotherparam=anothervalue
+            // Need to strip off stuff before second ? as it mucks with updateParamValue
+            url = url.replace(/\?[\S]*\?/, '?');
             // Show user the Visits Log so that they can easily refine their new segment if needed
-            url = broadcast.updateParamValue('category=General_Visitors', url);
-            url = broadcast.updateParamValue('subcategory=Live_VisitorLog', url);
+            url = broadcast.updateParamValue('viewDataTable=VisitorLog', url);
+            url = broadcast.updateParamValue('module=Live', url);
+            url = broadcast.updateParamValue('action=getLastVisitsDetails', url);
             url = broadcast.updateParamValue('segment=' + encSegment, url);
 
-            window.open(url, "_self");
+            Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitsLog'));
         };
 
         var makeDropList = function(spanId, selectId){
@@ -851,7 +853,7 @@ $(document).ready(function() {
         var self = this;
 
         this.uriEncodeSegmentDefinition = function (segmentDefinition) {
-            segmentDefinition = self.cleanupSegmentDefinition(segmentDefinition);
+            segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
             segmentDefinition = encodeURIComponent(segmentDefinition);
             return segmentDefinition;
         };
@@ -880,7 +882,7 @@ $(document).ready(function() {
         };
 
         this.forceSegmentReload = function (segmentDefinition) {
-            segmentDefinition = uriEncodeSegmentDefinition(segmentDefinition);
+            segmentDefinition = this.uriEncodeSegmentDefinition(segmentDefinition);
 
             if (piwikHelper.isAngularRenderingThePage()) {
                 return broadcast.propagateNewPage('', true, 'addSegmentAsNew=&segment=' + segmentDefinition);
@@ -892,7 +894,7 @@ $(document).ready(function() {
 
         this.changeSegmentList = function () {};
 
-        this.cleanupSegmentDefinition = function(definition) {
+        var cleanupSegmentDefinition = function(definition) {
             definition = definition.replace(/'/g, "%27");
             definition = definition.replace(/&/g, "%26");
             return definition;
@@ -1048,6 +1050,8 @@ $(document).ready(function() {
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
                 && $(e.target).hasClass("ddmetric") == false
+                && $(e.target).hasClass("ui-icon-closethick") == false
+                && $(e.target).hasClass("ui-button-text") == false
                 && $(".segment-element:visible", self.$element).length == 1
             ) {
                 $(".segment-element:visible a.close", self.$element).click();
