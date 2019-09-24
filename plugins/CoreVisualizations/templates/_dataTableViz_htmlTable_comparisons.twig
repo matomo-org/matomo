@@ -41,8 +41,15 @@
             {% endif %}
             <span class="label">{{ comparisonLabel }}</span>
         </td>
+        {% for dimension in dimensions %}
+        {% if loop.index0 != 0 %}
+        <td class="label">
+            &nbsp;
+        </td>
+        {% endif %}
+        {% endfor %}
         {% for column in properties.columns_to_display %}
-        {% if column != 'label' %}
+        {% if column != 'label' and column not in dimensions %}
         {% set columnValue = row.getColumn(column) %}
         <td class="column">
             {% set rowComparisonTotals = comparisonTotals[seriesIndex].totals|default(null) %}

@@ -58,7 +58,8 @@
                 {% include "@CoreVisualizations/_dataTableViz_htmlTable_comparisons.twig" with {
                     'comparedRow': row,
                     'dataTable': row.getComparisons(),
-                    'rootDataTable': dataTable
+                    'rootDataTable': dataTable,
+                    'dimensions': dimensions,
                 } %}
                 {% endif %}
                 {% endif %}
