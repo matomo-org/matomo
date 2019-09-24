@@ -117,7 +117,7 @@
 
                         httpCanceler = $q.defer();
 
-                        $http.get(url, {timeout: httpCanceler.promise}).then(function(response) {
+                        $http.get(url, {timeout: httpCanceler.promise, headers: {'X-Requested-With': 'XMLHttpRequest'}}).then(function(response) {
                             if (thisChangeId !== changeCounter || !response.data) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -155,7 +155,7 @@
                                     element: currentElement,
                                 });
                             });
-                        })['catch'](function (response) {
+                        })['catch'](function () {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
@@ -165,13 +165,8 @@
 
                             cleanupLastWidgetContent();
 
-                            if (response.status === 403) {
-                                // An auth error, refreshing the page will trigger the login page
-                                location.reload();
-                            } else {
-                                scope.loading = false;
-                                scope.loadingFailed = true;
-                            }
+                            scope.loading = false;
+                            scope.loadingFailed = true;
                         });
                     }
 
