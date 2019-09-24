@@ -96,8 +96,8 @@ DataTable_RowActions_Registry.register({
     isAvailableOnReport: function (dataTableParams) {
         return (
             typeof dataTableParams.disable_row_evolution == 'undefined'
-                || dataTableParams.disable_row_evolution == "0"
-            );
+            || dataTableParams.disable_row_evolution == "0"
+        );
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
@@ -269,6 +269,7 @@ function DataTable_RowActions_RowEvolution(dataTable) {
 
     /** The rows to be compared in multi row evolution */
     this.multiEvolutionRows = [];
+    this.multiEvolutionRowsSeries = [];
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -282,11 +283,11 @@ DataTable_RowActions_RowEvolution.prototype = new DataTable_RowAction;
 DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr, e, originalRow) {
     if (e.shiftKey) {
         // only mark for multi row evolution if shift key is pressed
-        this.addMultiEvolutionRow(label);
+        this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'));
         return;
     }
 
-    this.addMultiEvolutionRow(label);
+    this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'));
 
     // check whether we have rows marked for multi row evolution
     var extraParams = $(originalRow || tr).data('param-override');
@@ -297,6 +298,20 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     if (this.multiEvolutionRows.length > 1) {
         extraParams.action = 'getMultiRowEvolutionPopover';
         label = this.multiEvolutionRows.join(',');
+
+        if (this.multiEvolutionRowsSeries.length > 1) { // when comparison is active
+            var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
+            extraParams.compareDates = piwikUrl.getSearchParam('compareDates');
+            extraParams.comparePeriods = piwikUrl.getSearchParam('comparePeriods');
+            extraParams.compareSegments = piwikUrl.getSearchParam('compareSegments');
+            extraParams.labelSeries = this.multiEvolutionRowsSeries.join(',');
+
+            // remove override period/date/segment since we are sending compare params so we can have the whole set of comparison
+            // serieses for LabelFilter
+            delete extraParams.period;
+            delete extraParams.date;
+            delete extraParams.segment;
+        }
     }
 
     $.each(this.dataTable.param, function (index, value) {
@@ -319,8 +334,24 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.openPopover(apiMethod, extraParams, label);
 };
 
-DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (label) {
-    if ($.inArray(label, this.multiEvolutionRows) == -1) {
+DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (label, seriesIndex) {
+    if (typeof seriesIndex !== 'undefined') {
+        var self = this;
+
+        var found = false;
+        this.multiEvolutionRows.forEach(function (rowLabel, index) {
+            var rowSeriesIndex = self.multiEvolutionRowsSeries[index];
+            if (label === rowLabel && seriesIndex === rowSeriesIndex) {
+                found = true;
+                return false;
+            }
+        });
+
+        if (!found) {
+            this.multiEvolutionRows.push(label);
+            this.multiEvolutionRowsSeries.push(seriesIndex);
+        }
+    } else if ($.inArray(label, this.multiEvolutionRows) === -1) {
         this.multiEvolutionRows.push(label);
     }
 };
@@ -383,6 +414,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         Piwik_Popover.onClose(function () {
             // reset rows marked for multi row evolution on close
             self.multiEvolutionRows = [];
+            self.multiEvolutionRowsSeries = [];
         });
 
         if (self.dataTable !== null) {

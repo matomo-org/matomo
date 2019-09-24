@@ -14,6 +14,8 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
@@ -616,18 +618,8 @@ abstract class ViewDataTable implements ViewInterface
         $request = $this->request->getRequestArray();
         $request = ApiRequest::getRequestArrayFromString($request);
 
-        if ($this->isComparing === null) {
-            $this->isComparing = $this->isCompareParamsPresent($request);
-        }
-
-        return $this->isComparing;
-    }
-
-    public function isCompareParamsPresent($request = null)
-    {
-        return !empty(Common::getRequestVar('compareSegments', [], $type = 'array', $request))
-            || !empty(Common::getRequestVar('comparePeriods', [], $type = 'array', $request))
-            || !empty(Common::getRequestVar('compareDates', [], $type = 'array', $request));
+        $result = DataComparisonFilter::isCompareParamsPresent($request);
+        return $result;
     }
 
     /**

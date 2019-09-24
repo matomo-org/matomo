@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
 use Piwik\Common;
+use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 
 /**
  * MULTI ROW EVOLUTION
@@ -67,5 +69,29 @@ class MultiRowEvolution extends RowEvolution
             . Piwik::translate('RowEvolution_ComparingRecords', array(count($this->availableMetrics)));
 
         return parent::renderPopover($controller, $view);
+    }
+
+    protected function getRowEvolutionGraphFromController(\Piwik\Plugins\CoreHome\Controller $controller)
+    {
+        // the row evolution graphs should not compare serieses
+        return Context::executeWithQueryParameters(['compareSegments' => [], 'comparePeriods' => [], 'compareDates' => []], function () use ($controller) {
+            return parent::getRowEvolutionGraphFromController($controller);
+        });
+    }
+
+    public function getRowEvolutionGraph($graphType = false, $metrics = false)
+    {
+        // the row evolution graphs should not compare serieses
+        return Context::executeWithQueryParameters(['compareSegments' => [], 'comparePeriods' => [], 'compareDates' => []], function () use ($graphType, $metrics) {
+            return parent::getRowEvolutionGraph($graphType, $metrics);
+        });
+    }
+
+    protected function getSparkline($metric)
+    {
+        // the row evolution graphs should not compare serieses
+        return Context::executeWithQueryParameters(['compareSegments' => [], 'comparePeriods' => [], 'compareDates' => []], function () use ($metric) {
+            return parent::getSparkline($metric);
+        });
     }
 }

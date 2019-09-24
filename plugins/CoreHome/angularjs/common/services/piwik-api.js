@@ -33,7 +33,15 @@ var hasBlockedContent = false;
                 params = piwik.broadcast.getValuesFromUrl(params);
             }
 
+            var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
             for (var key in params) {
+                if (arrayParams.indexOf(key) !== -1
+                    && !params[key]
+                ) {
+                    continue;
+                }
+
                 getParams[key] = params[key];
             }
         }

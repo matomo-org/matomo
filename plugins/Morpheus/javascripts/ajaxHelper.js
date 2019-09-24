@@ -166,7 +166,15 @@ function ajaxHelper() {
             params = broadcast.getValuesFromUrl(params);
         }
 
+        var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
         for (var key in params) {
+            if (arrayParams.indexOf(key) !== -1
+                && !params[key]
+            ) {
+                continue;
+            }
+
             if(type.toLowerCase() == 'get') {
                 this.getParams[key] = params[key];
             } else if(type.toLowerCase() == 'post') {

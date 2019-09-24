@@ -18,6 +18,7 @@ use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugin\Report;
+use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
@@ -131,38 +132,29 @@ class DataComparisonFilter
 
         $this->segmentName = $this->getSegmentNameFromReport($report);
 
-        $this->compareSegments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $this->request);
-        $this->compareSegments = Common::unsanitizeInputValues($this->compareSegments);
-        if (count($this->compareSegments) > $this->segmentCompareLimit) {
+        $this->compareSegments = self::getCompareSegments();
+        if (count($this->compareSegments) > $this->segmentCompareLimit + 1) {
             throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
         }
 
-        $this->compareDates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $this->request);
-        $this->compareDates = array_values($this->compareDates);
-
-        $this->comparePeriods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $this->request);
-        $this->comparePeriods = array_values($this->comparePeriods);
+        $this->compareDates = self::getCompareDates($request);
+        $this->comparePeriods = self::getComparePeriods($request);
 
         if (count($this->compareDates) !== count($this->comparePeriods)) {
             throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
         }
 
-        if (count($this->compareDates) > $this->periodCompareLimit) {
+        if (count($this->compareDates) > $this->periodCompareLimit + 1) {
             throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
         }
 
-        if (empty($this->compareSegments)
-            && empty($this->comparePeriods)
+        if (count($this->compareSegments) == 1
+            && count($this->comparePeriods) == 1
         ) {
             return;
         }
 
         $this->checkMultiplePeriodCompare();
-
-        // add base compare against segment and date
-        array_unshift($this->compareSegments, isset($this->request['segment']) ? $this->request['segment'] : '');
-        array_unshift($this->compareDates, isset($this->request['date']) ? $this->request['date'] : '');
-        array_unshift($this->comparePeriods, isset($this->request['period']) ? $this->request['period'] : '');
 
         // map segments/periods to their indexes in the query parameter arrays for comparisonIdSubtable matching
         $this->compareSegmentIndices = array_flip($this->compareSegments);
@@ -170,6 +162,13 @@ class DataComparisonFilter
             $date = $this->compareDates[$index];
             $this->comparePeriodIndices[$period][$date] = $index;
         }
+    }
+
+    public static function isCompareParamsPresent($request = null)
+    {
+        return !empty(Common::getRequestVar('compareSegments', [], $type = 'array', $request))
+            || !empty(Common::getRequestVar('comparePeriods', [], $type = 'array', $request))
+            || !empty(Common::getRequestVar('compareDates', [], $type = 'array', $request));
     }
 
     /**
@@ -279,6 +278,8 @@ class DataComparisonFilter
                 'totals' => 1,
                 'disable_queued_filters' => 1,
                 'format_metrics' => 0,
+                'label' => '',
+                'flat' => Common::getRequestVar('flat', 0, 'int', $this->request),
             ],
             $paramsToModify
         );
@@ -567,18 +568,13 @@ class DataComparisonFilter
         $prettyPeriod = Factory::build($period, $date)->getLocalizedLongString();
         $metadata['comparePeriodPretty'] = ucfirst($prettyPeriod);
 
-        // set compareSeriesPretty
-        $segmentPretty = isset($metadata['compareSegmentPretty']) ? $metadata['compareSegmentPretty'] : '';
-
-        $periodPretty = Factory::build($period, $date)->getLocalizedLongString();
-        $periodPretty = ucfirst($periodPretty);
-
-        $metadata['compareSeriesPretty'] = $this->getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty);
+        $metadata['compareSeriesPretty'] = self::getComparisonSeriesLabelSuffixFromParts(
+            $metadata['comparePeriodPretty'], $metadata['compareSegmentPretty']);
 
         return $metadata;
     }
 
-    private function getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty)
+    private static function getComparisonSeriesLabelSuffixFromParts($periodPretty, $segmentPretty)
     {
         $comparisonLabels = [
             $periodPretty,
@@ -695,12 +691,12 @@ class DataComparisonFilter
     /**
      * Returns the period and segment indices for a given comparison index.
      *
-     * @param DataTable $table
+     * @param DataTable|null $table
      * @param $comparisonRowIndex
      * @param null $segmentCount
      * @return array
      */
-    public static function getIndividualComparisonRowIndices(DataTable $table, $comparisonRowIndex, $segmentCount = null)
+    public static function getIndividualComparisonRowIndices($table, $comparisonRowIndex, $segmentCount = null)
     {
         $segmentCount = $segmentCount ?: count($table->getMetadata('compareSegments'));
         $segmentIndex = $comparisonRowIndex % $segmentCount;
@@ -721,5 +717,49 @@ class DataComparisonFilter
     {
         $segmentCount = $segmentCount ?: count($table->getMetadata('compareSegments'));
         return $periodIndex * $segmentCount + $segmentIndex;
+    }
+
+    private static function getCompareSegments($request = null)
+    {
+        $segments = Common::getRequestVar('compareSegments', $default = [], $type = 'array', $request);
+        array_unshift($segments, Common::getRequestVar('segment', '', 'string', $request));
+        $segments = Common::unsanitizeInputValues($segments);
+        return $segments;
+    }
+
+    private static function getComparePeriods($request = null)
+    {
+        $periods = Common::getRequestVar('comparePeriods', $default = [], $type = 'array', $request);
+        array_unshift($periods, Common::getRequestVar('period', '', 'string', $request));
+        return array_values($periods);
+    }
+
+    private static function getCompareDates($request = null)
+    {
+        $dates = Common::getRequestVar('compareDates', $default = [], $type = 'array', $request);
+        array_unshift($dates, Common::getRequestVar('date', '', 'string', $request));
+        return array_values($dates);
+    }
+
+    /**
+     * Returns the pretty series label for a specific comparison based on the currently set comparison query parameters.
+     *
+     * @param int $labelSeriesIndex The index of the comparison. Comparison series order is determined by {@see self::getReportsToCompare()}.
+     */
+    public static function getPrettyComparisonLabelFromSeriesIndex($labelSeriesIndex)
+    {
+        $compareSegments = self::getCompareSegments();
+        $comparePeriods = self::getComparePeriods();
+        $compareDates = self::getCompareDates();
+
+        list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
+
+        $segmentObj = new Segment($compareSegments[$segmentIndex], []);
+        $prettySegment = $segmentObj->getPrettySegmentName(false);
+
+        $prettyPeriod = Factory::build($comparePeriods[$periodIndex], $compareDates[$periodIndex])->getLocalizedLongString();
+        $prettyPeriod = ucfirst($prettyPeriod);
+
+        return self::getComparisonSeriesLabelSuffixFromParts($prettyPeriod, $prettySegment);
     }
 }

@@ -252,7 +252,7 @@ class Visualization extends ViewDataTable
         $view->isComparing = $this->isComparing();
 
         if (!$this->supportsComparison()
-            && $this->isCompareParamsPresent()
+            && DataComparisonFilter::isCompareParamsPresent()
         ) {
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }

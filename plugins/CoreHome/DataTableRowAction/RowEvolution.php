@@ -12,12 +12,15 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
+use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Url;
 use Piwik\ViewDataTable\Factory;
 
@@ -126,7 +129,7 @@ class RowEvolution
         // render main evolution graph
         $this->graphType = 'graphEvolution';
         $this->graphMetrics = $this->availableMetrics;
-        $view->graph = $controller->getRowEvolutionGraph($fetch = true, $rowEvolution = $this);
+        $view->graph = $this->getRowEvolutionGraphFromController($controller);
 
         // render metrics overview
         $view->metrics = $this->getMetricsToggles();
@@ -160,8 +163,9 @@ class RowEvolution
             'period'    => $this->period,
             'date'      => $this->date,
             'format'    => 'original',
-            'serialize' => '0'
+            'serialize' => '0',
         );
+
         if (!empty($this->segment)) {
             $parameters['segment'] = $this->segment;
         }
@@ -170,10 +174,53 @@ class RowEvolution
             $parameters['column'] = $column;
         }
 
+        $isComparing = DataComparisonFilter::isCompareParamsPresent();
+        if ($isComparing) {
+            $compareDates = Common::getRequestVar('compareDates', [], 'array');
+            $comparePeriods = Common::getRequestVar('comparePeriods', [], 'array');
+            $compareSegments = Common::getRequestVar('compareSegments', [], 'array');
+
+            $totalSeriesCount = (count($compareSegments) + 1) * (count($comparePeriods) + 1);
+
+            $unmodifiedSeriesLabels = [];
+            for ($i = 0; $i < $totalSeriesCount; ++$i) {
+                $unmodifiedSeriesLabels[] = DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex($i);
+            }
+
+            $parameters['compare'] = 1;
+
+            foreach ($comparePeriods as $index => $period) {
+                $date = $compareDates[$index];
+
+                if ($period == 'range') {
+                    $comparePeriods[$index] = 'day';
+                } else {
+                    list($newDate, $lastN) = EvolutionViz::getDateRangeAndLastN($period, $date);
+                    $compareDates[$index] = $newDate;
+                }
+            }
+
+            $parameters['compareDates'] = $compareDates;
+            $parameters['comparePeriods'] = $comparePeriods;
+        }
+
         $url = Url::getQueryStringFromParameters($parameters);
 
         $request = new Request($url);
         $report = $request->process();
+
+        // at this point the report data will reference the comparison series labels for the changed compare periods/dates. We don't
+        // want to show this to users because they will not recognize the changed periods, so we have to replace them.
+        if ($isComparing) {
+            $modifiedSeriesLabels = reset($report['reportData']->getDataTables())->getMetadata('comparisonSeries');
+            $seriesMap = array_combine($modifiedSeriesLabels, $unmodifiedSeriesLabels);
+
+            foreach ($report['metadata']['metrics'] as $key => $metricInfo) {
+                foreach ($seriesMap as $modified => $unmodified) {
+                    $report['metadata']['metrics'][$key]['name'] = str_replace($modified, $unmodified, $report['metadata']['metrics'][$key]['name']);
+                }
+            }
+        }
 
         $this->extractEvolutionReport($report);
     }
@@ -373,5 +420,10 @@ class RowEvolution
         $value = (string) $value;
         $fraction = substr(strrchr($value, "."), 1);
         return strlen($fraction);
+    }
+
+    protected function getRowEvolutionGraphFromController(\Piwik\Plugins\CoreHome\Controller $controller)
+    {
+        return $controller->getRowEvolutionGraph($fetch = true, $rowEvolution = $this);
     }
 }
