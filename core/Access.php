@@ -560,6 +560,16 @@ class Access
         }
     }
 
+    public function checkUserIsNotAnonymous()
+    {
+        if ($this->hasSuperUserAccess()) {
+            return;
+        }
+        if (Piwik::isUserIsAnonymous()) {
+            self::throwNoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
+        }
+    }
+
     private function getSitesIdWithCapability($capability)
     {
         if (!empty($this->idsitesByAccess[$capability])) {
@@ -698,16 +708,9 @@ class Access
      */
     private static function throwNoAccessException($message)
     {
-        try {
-            // Will throw Exception if user is anonymous, i.e. not currently logged in
-            Piwik::checkUserIsNotAnonymous();
-        } catch (NoAccessException $ex) {
-            // Try to detect whether user was previously logged in so that we can display a different message
-            if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], SettingsPiwik::getPiwikUrl()) === 0) {
-                throw new NoAccessException(Piwik::translate('General_YourSessionHasExpired'));
-            } else {
-                throw $ex;
-            }
+        // Try to detect whether user was previously logged in so that we can display a different message
+        if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], SettingsPiwik::getPiwikUrl()) === 0) {
+            $message = Piwik::translate('General_YourSessionHasExpired');
         }
 
         throw new NoAccessException($message);
