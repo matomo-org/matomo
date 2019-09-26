@@ -59,6 +59,7 @@ class LabelFilter extends DataTableManipulator
 
         $labelSeries = Common::getRequestVar('labelSeries', '', 'string', $this->request);
         $labelSeries = explode(',', $labelSeries);
+        $labelSeries = array_filter($labelSeries, 'strlen');
         $this->labelSeries = $labelSeries;
 
         $result = $this->manipulate($dataTable);
@@ -196,7 +197,10 @@ class LabelFilter extends DataTableManipulator
                             $originalLabel = $row->getColumn('label');
 
                             $row = $comparisons->getRowFromId($labelSeriesIndex);
-                            $row->setColumn('label', $originalLabel . ' ' . $row->getMetadata('compareSeriesPretty'));
+
+                            // add label and make sure it is the first column
+                            $columns = array_merge(['label' => $originalLabel . ' ' . $row->getMetadata('compareSeriesPretty')], $row->getColumns());
+                            $row->setColumns($columns);
                         }
                     }
 

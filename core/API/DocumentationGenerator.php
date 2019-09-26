@@ -262,6 +262,7 @@ class DocumentationGenerator
         $aParameters['language'] = false;
         $aParameters['translateColumnNames'] = false;
         $aParameters['label'] = false;
+        $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false; 

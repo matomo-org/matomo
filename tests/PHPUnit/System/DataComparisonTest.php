@@ -98,12 +98,16 @@ class DataComparisonTest extends SystemTestCase
         $segment1 = urlencode('browserCode==ff');
         $segment2 = urlencode('browserCode==ie');
         $segment3 = urlencode('browserName==icedragon');
+        $segment4 = urlencode('operatingSystemCode==WIN');
 
         $date1 = '2012-08-10';
         $period1 = 'day';
 
         $date2 = '2012-08-16';
         $period2 = 'week';
+
+        $date3 = '2012-08-16';
+        $period3 = 'month';
 
         $multiPeriodDate1 = '2012-08-09,2012-08-16';
         $multiPeriodPeriod1 = 'day';
@@ -312,8 +316,83 @@ class DataComparisonTest extends SystemTestCase
                     'compare' => '1',
                 ],
             ]],
+
+            // label filter tests
+            ['Actions.getPageUrls', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date3,
+                'period' => $period3,
+                'testSuffix' => '_labelFilter',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date2],
+                    'comparePeriods' => [$period2],
+                    'compare' => '1',
+                    'label' => ['blog', 'faq'],
+                ],
+            ]],
+            ['Actions.getPageUrls', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date3,
+                'period' => $period3,
+                'testSuffix' => '_labelFilterWithSeries',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date2],
+                    'comparePeriods' => [$period2],
+                    'compareSegments' => [$segment4],
+                    'compare' => '1',
+                    'label' => ['blog', 'faq'],
+                    'labelSeries' => '1,2',
+                ],
+            ]],
+
+            // flat tests
+            [['Actions.getPageUrls', 'Referrers.getWebsites'], [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date3,
+                'period' => $period3,
+                'testSuffix' => '_flat',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date2],
+                    'comparePeriods' => [$period2],
+                    'compareSegments' => [$segment4],
+                    'compare' => '1',
+                    'flat' => '1',
+                    'expanded' => '0',
+                ],
+            ]],
+
+            // single row evolution
+            ['API.getRowEvolution', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date3,
+                'testSuffix' => '_singleRowEvolution',
+                'otherRequestParameters' => [
+                    'date' => '2012-08-01,2012-08-31',
+                    'period' => 'day',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getPageUrls',
+                    'label' => 'blog',
+                    'expanded' => '0',
+                ],
+            ]],
+
+            // multi row evolution
+            ['API.getRowEvolution', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date3,
+                'testSuffix' => '_multiRowEvolution',
+                'otherRequestParameters' => [
+                    'date' => '2012-08-01,2012-08-31',
+                    'period' => 'day',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getPageUrls',
+                    'label' => ['blog', 'faq'],
+                    'expanded' => '0',
+                ],
+            ]],
         ];
     }
 }
 
 DataComparisonTest::$fixture = new ManySitesImportedLogs();
+DataComparisonTest::$fixture->includeCloudfront = true;

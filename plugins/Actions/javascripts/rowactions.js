@@ -37,7 +37,7 @@ $(function () {
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
             trigger: function (tr, e, subTableLabel, originalRow) {
-                var overrideParams = $(originalRow || tr).data('param-override');
+                var overrideParams = $.extend({}, $(originalRow || tr).data('param-override'));
                 if (typeof overrideParams !== 'object') {
                     overrideParams = {};
                 }

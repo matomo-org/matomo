@@ -290,7 +290,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'));
 
     // check whether we have rows marked for multi row evolution
-    var extraParams = $(originalRow || tr).data('param-override');
+    var extraParams = $.extend({}, $(originalRow || tr).data('param-override'));
     if (typeof extraParams !== 'object') {
         extraParams = {};
     }
@@ -353,7 +353,11 @@ DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (lab
         }
     } else if ($.inArray(label, this.multiEvolutionRows) === -1) {
         this.multiEvolutionRows.push(label);
+
+        this.multiEvolutionRowsSeries = []; // for safety, make sure state is consistent
     }
+
+    console.log(this.multiEvolutionRows, this.multiEvolutionRowsSeries);
 };
 
 DataTable_RowActions_RowEvolution.prototype.openPopover = function (apiMethod, extraParams, label) {

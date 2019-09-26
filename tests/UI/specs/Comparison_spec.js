@@ -123,7 +123,7 @@ describe("Comparison", function () {
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_no_compare');
     });
-return;
+
     it('should show the bar graph correctly when comparing segments and period', async () => {
         await page.goto(barGraphUrl);
         await page.waitForNetworkIdle();
@@ -140,6 +140,13 @@ return;
         await page.goto(htmlTableUrl);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('normal_table');
+    });
+
+    it('should show the correct percentages and tooltip during comparison', async () => {
+        const element = await page.jQuery('span.ratio:visible:eq(0)');
+        await element.hover();
+        await page.waitFor('.ui-tooltip');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_tooltip');
     });
 
     it('should show the normal html table correctly when comparing segments but not periods', async () => {
@@ -177,10 +184,10 @@ return;
     });
 
     it('should show the row evolution popup for the compared row/segment/period when clicked', async () => {
-        const row = await page.jQuery('tbody tr.comparisonRow:eq(1)');
+        const row = await page.jQuery('tbody tr.comparisonRow:visible:eq(1)');
         await row.hover();
 
-        const icon = await page.jQuery('tbody tr.comparisonRow:eq(1) a.actionRowEvolution');
+        const icon = await page.jQuery('tbody tr.comparisonRow:visible:eq(1) a.actionRowEvolution');
         await icon.click();
 
         await page.waitForSelector('.ui-dialog');
@@ -190,6 +197,25 @@ return;
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution');
+    });
+
+    it('should show the multirow evolution popup for another comparison series', async () => {
+        await page.click('.rowevolution-startmulti');
+        await page.waitFor(250);
+
+        const row = await page.jQuery('tbody tr.comparisonRow:visible:eq(0)');
+        await row.hover();
+
+        const icon = await page.jQuery('tbody tr.comparisonRow:visible:eq(0) a.actionRowEvolution');
+        await icon.click();
+
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+
+        await page.mouse.move(-10, -10);
+
+        const dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('multi_row_evolution');
     });
 
     it('should show the segmented visitor log popup for the compared row/segment/period when clicked', async () => {
