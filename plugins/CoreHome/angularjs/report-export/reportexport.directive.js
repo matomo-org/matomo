@@ -217,11 +217,13 @@
                         }
                     }, true);
 
-                    scope.$watch('reportLimit', function (newVal, oldVal) {
-                        if (parseInt(newVal) > parseInt(scope.maxFilterLimit)) {
-                            scope.reportLimit = oldVal;
-                        }
-                    }, true);
+                    if (scope.maxFilterLimit > 0) {
+                        scope.$watch('reportLimit', function (newVal, oldVal) {
+                            if (parseInt(newVal, 10) > parseInt(scope.maxFilterLimit, 10)) {
+                                scope.reportLimit = oldVal;
+                            }
+                        }, true);
+                    }
 
                     var elem = $document.find('#reportExport').eq(0);
 
