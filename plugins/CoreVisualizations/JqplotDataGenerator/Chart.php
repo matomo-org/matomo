@@ -25,7 +25,7 @@ class Chart
     // temporary
     public $properties;
 
-    public function setAxisXLabels($xLabels, $index = 0)
+    public function setAxisXLabels($xLabels, $xTicks = null, $index = 0)
     {
         $axisName = $this->getXAxis($index);
 
@@ -34,7 +34,7 @@ class Chart
 
         $this->axes[$axisName]['labels'] = array_values($xLabels);
 
-        $ticks = array_values($xLabels);
+        $ticks = array_values($xTicks ?: $xLabels);
 
         if (!$showAllTicks) {
             // unset labels so there are $xSteps number of blank ticks between labels
@@ -125,10 +125,10 @@ class Chart
         return $data;
     }
 
-    public function setAxisXLabelsMultiple($xLabels, $seriesToXAxis)
+    public function setAxisXLabelsMultiple($xLabels, $seriesToXAxis, $ticks = null)
     {
         foreach ($xLabels as $index => $labels) {
-            $this->setAxisXLabels($labels, $index);
+            $this->setAxisXLabels($labels, $ticks === null ? null : $ticks[$index], $index);
         }
 
         foreach ($seriesToXAxis as $seriesIndex => $xAxisIndex) {

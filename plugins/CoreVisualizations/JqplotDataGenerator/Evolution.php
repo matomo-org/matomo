@@ -15,6 +15,7 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Period;
 use Piwik\Period\Factory;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -54,6 +55,7 @@ class Evolution extends JqplotDataGenerator
         $dataTables = $dataTable->getDataTables();
 
         // determine x labels based on both the displayed date range and the compared periods
+        /** @var Period[][] $xLabels */
         $xLabels = [
             [], // placeholder for first series
         ];
@@ -92,7 +94,14 @@ class Evolution extends JqplotDataGenerator
         $visualization->setAxisYValues($allSeriesData, $seriesMetadata);
         $visualization->setAxisYUnits($seriesUnits);
 
-        $visualization->setAxisXLabelsMultiple($xLabels, $seriesToXAxis);
+        $xLabelStrs = [];
+        $xAxisTicks = [];
+        foreach ($xLabels as $index => $seriesXLabels) {
+            $xLabelStrs[$index] = array_map(function (Period $p) { return $p->getLocalizedLongString(); }, $seriesXLabels);
+            $xAxisTicks[$index] = array_map(function (Period $p) { return $p->getLocalizedShortString(); }, $seriesXLabels);
+        }
+
+        $visualization->setAxisXLabelsMultiple($xLabelStrs, $seriesToXAxis, $xAxisTicks);
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -189,7 +198,7 @@ class Evolution extends JqplotDataGenerator
 
             $range = Factory::build($period, $date);
             foreach ($range->getSubperiods() as $subperiod) {
-                $xLabels[$index + 1][] = $subperiod->getLocalizedShortString();
+                $xLabels[$index + 1][] = $subperiod;
             }
         }
     }
@@ -212,7 +221,7 @@ class Evolution extends JqplotDataGenerator
 
         for ($i = 0; $i < $xTicksCount; ++$i) {
             $period = Factory::build($periodType, $startDate->addPeriod($i, $periodType));
-            $xLabels[0][] = $period->getLocalizedShortString(); // eg. "Aug 2009"
+            $xLabels[0][] = $period;
         }
     }
 
