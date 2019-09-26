@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<name>KPI Metric</name>
+		<category>
+			<id>General_KpiMetric</id>
+			<name>KPI Metric</name>
+			<order>1</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreVisualizations</module>
+		<action>singleMetricView</action>
+		<order>99</order>
+		<parameters>
+			<module>CoreVisualizations</module>
+			<action>singleMetricView</action>
+			<column />
+		</parameters>
+		<uniqueId>widgetCoreVisualizationssingleMetricViewcolumn</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Real Time Visitor Count</name>
 		<category>
 			<id>General_Visitors</id>
@@ -3062,26 +3082,6 @@
 				<isReport>1</isReport>
 			</row>
 		</widgets>
-	</row>
-	<row>
-		<name>Metric</name>
-		<category>
-			<id>General_Generic</id>
-			<name>Generic</name>
-			<order>70</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>CoreVisualizations</module>
-		<action>singleMetricView</action>
-		<order>99</order>
-		<parameters>
-			<module>CoreVisualizations</module>
-			<action>singleMetricView</action>
-			<column />
-		</parameters>
-		<uniqueId>widgetCoreVisualizationssingleMetricViewcolumn</uniqueId>
-		<isWide>0</isWide>
 	</row>
 	<row>
 		<name>Pie graph</name>
