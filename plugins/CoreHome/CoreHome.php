@@ -462,5 +462,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
+        $translationKeys[] = 'General_ComputedMetricMax';
     }
 }
