@@ -12,7 +12,6 @@ use Piwik\API\DataTableManipulator;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 
 /**
  * This class is responsible for handling the label parameter that can be
