@@ -640,6 +640,7 @@ class API extends \Piwik\Plugin\API
          * public function getPagesComparisonsDisabledFor(&$pages)
          * {
          *     $pages[] = "General_Visitors.MyPlugin_MySubcategory";
+         *     $pages[] = "MyPlugin.myControllerAction"; // if your plugin defines a whole page you want comparison disabled for
          * }
          * ```
          *
