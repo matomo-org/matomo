@@ -16,7 +16,9 @@
         "ThankYou": "Matomo uygulamasını geliştirmemize yardımcı olduğunuz için teşekkür ederiz!",
         "TopLinkTooltip": "Bize düşüncelerinizi iletin ya da Profesyonel Destek isteyin.",
         "ViewAnswersToFAQ": "%1$sSık Sorulan Soruların%2$s yanıtlarına bakın",
+        "FAQs": "SSS",
         "ViewUserGuides": "%1$sKullanıcı kitaplarını%2$s okuyarak Matomo yapılandırmasını nasıl yapacağınızı ve verilerinizi nasıl inceleyeceğinizi öğrenin",
+        "UserGuides": "Kullanıcı kılavuzları",
         "CommunityHelp": "Topluluk Desteği",
         "ProfessionalHelp": "Profesyonel Destek",
         "ProfessionalServicesIntro": "Matomo Yerinde Destek Aboneliği ile işinizi büyütmek için Matomo Analytics kurarken ve kullanırken deneyimli ekibimizden çevrimiçi yardım alabilirsiniz.",
@@ -28,9 +30,18 @@
         "ProfessionalServicesEmailAlerts": "Matomo güvenlik güncellemeleri hakkında e-posta bildirimleri",
         "ContactUs": "Bizimle görüşün",
         "VisitTheForums": "%1$sForumları%2$s ziyaret ederek Matomo kullanıcı topluluğundan destek alabilirsiniz",
+        "Forums": "Forum",
         "ReviewMatomoTitle": "Matomo uygulamasına güveniyor musunuz?",
         "PleaseLeaveExternalReviewForMatomo": "Düşüncelerinizi bu sitelerden birinde paylaşın ve başkalarına da veri devrimimize katılmaları için ilham verin.",
         "RemindMeLater": "Daha sonra anımsat",
-        "NeverAskMeAgain": "Bir daha sorma"
+        "NeverAskMeAgain": "Bir daha sorma",
+        "HowCanWeHelp": "Nasıl yardımcı olabiliriz?",
+        "NotTrackingVisits": "Matomo herhangi bir ziyareti kaydetmiyor",
+        "TrackMultipleSites": "Birden çok site ya da alt etki alanını izlemek istiyorum",
+        "RemoveOtherLabel": "'Diğerleri' ile ilgili bilgilerimi görmek istiyorum",
+        "PurgeOldData": "Bazı eski verileri silmek istiyorum",
+        "SearchHelpResources": "Matomo.org yardım kaynaklarında arayın",
+        "PopularHelpTopics": "Sık başvurulan yardım konuları",
+        "SearchOnMatomo": "Matomo.org üzerinde '%1$s' arayın"
     }
 }

@@ -1,6 +1,7 @@
 {
     "TwoFactorAuth": {
         "TwoFactorAuthentication": "Tofaktorgodkendelse",
+        "TwoFAShort": "2FA",
         "TwoFactorAuthenticationIntro": "%1$sTofaktorgodkendelse%2$s øger sikkerheden for din konto ved at tilføje et ekstra niveau af godkendelse, når du logger ind. Hver gang du logger ind, vil du ikke kun blive spurgt om dit brugernavn og din adgangskode men tillige en godkendelseskode, der skifter løbende og er dannet eksempelvis på din mobiltelefon. Det betyder, at selvom nogen kender din brugernavn og din adgangskode, kan de stadig ikke logge ind, medmindre de også har adgang til din mobiltelefon.",
         "TwoFactorAuthenticationIsEnabled": "Tofaktorgodkendelse er nu aktiveret.",
         "TwoFactorAuthenticationIsDisabled": "Tofaktorgodkendelse er pt. deaktiveret.",

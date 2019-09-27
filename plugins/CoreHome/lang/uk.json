@@ -15,6 +15,7 @@
         "DataTableIncludeAggregateRows": "Вибрані рядки приховані %s Показати їх",
         "DataTableHowToSearch": "Натисніть enter або клацніть значок пошуку для пошуку",
         "DataTableShowDimensions": "Обє'кти об'єднані %s Показувати об'єкти окремо",
+        "DataTableCombineDimensions": "Аспекти вказано окремо для %s Показати аспекти в поєднанні",
         "Default": "за замовчуванням",
         "DonateCall1": "Matomo завжди буде безкоштовним для використання, але це не означає, що нам це нічого не коштує.",
         "DonateCall2": "Matomo потребує вашої постійної підтримки, щоб рости і процвітати.",
@@ -68,6 +69,8 @@
         "TableNoData": "Немає даних для цієї таблиці.",
         "ThereIsNoDataForThisReport": "Не існує даних для складання звіту.",
         "UnFlattenDataTable": "Конкретніший звіт %s Побудувати його по ієрархії",
+        "RemoveTotalsRowDataTable": "Звіт показує підсумковий рядок %s Видалити підсумкові рядки",
+        "AddTotalsRowDataTable": "Звіт не показує підсумковий рядок %s Показати підсумкові рядки",
         "ViewAllPiwikVideoTutorials": "Переглянути всі навчальні ролики про Matomo",
         "WebAnalyticsReports": "Звіти веб аналітики",
         "YouAreUsingTheLatestVersion": "У вас остання версія Matomo!",
@@ -103,6 +106,7 @@
         "StandardReport": "Стандартний звіт",
         "FlattenReport": "Згладити звіт",
         "ReportWithMetadata": "Звіт з метаданими",
-        "SeeAvailableVersions": "Див. Доступні версії"
+        "SeeAvailableVersions": "Див. Доступні версії",
+        "QuickLinks": "Швидкі посилання"
     }
 }
