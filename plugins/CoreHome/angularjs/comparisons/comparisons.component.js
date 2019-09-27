@@ -109,7 +109,12 @@
         }
 
         function generateComparisonTooltip(visitsSummary, periodComp, segmentComp) {
+            if (!visitsSummary.reportData.comparisons) { // sanity check
+                return '';
+            }
+
             var firstRowIndex = comparisonsService.getComparisonSeriesIndex(periodComp.index, 0);
+
             var firstRow = visitsSummary.reportData.comparisons[firstRowIndex];
 
             var comparisonRowIndex = comparisonsService.getComparisonSeriesIndex(periodComp.index, segmentComp.index);

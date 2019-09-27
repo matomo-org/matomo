@@ -66,7 +66,7 @@ class DataComparisonTest extends SystemTestCase
 
             $comparisonIdSubtables = [];
             foreach (array_values($rowWithSubtable->getComparisons()->getRows()) as $seriesIndex => $compareRow) {
-                $comparisonIdSubtables[$seriesIndex] = $compareRow->getMetadata('idsubdatatable_in_db');
+                $comparisonIdSubtables[$seriesIndex] = $compareRow->getMetadata('idsubdatatable');
             }
 
             $this->runApiTests($subtableApiMethod, [
@@ -313,6 +313,20 @@ class DataComparisonTest extends SystemTestCase
                 'otherRequestParameters' => [
                     'compareDates' => [$multiPeriodDate2],
                     'comparePeriods' => [$multiPeriodPeriod2],
+                    'compare' => '1',
+                ],
+            ]],
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => $date1,
+                'period' => $period1,
+                'testSuffix' => '_processedReportSingle',
+                'apiModule' => 'UserCountry',
+                'apiAction' => 'getContinent',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date2],
+                    'comparePeriods' => [$period2],
+                    'compareSegments' => [$segment2],
                     'compare' => '1',
                 ],
             ]],

@@ -30,7 +30,7 @@
 			<compareDate>2012-08-10</compareDate>
 			<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 			<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_visits_returning>1</nb_visits_returning>
@@ -57,7 +57,7 @@
 			<compareDate>2012-08-09,2012-08-16</compareDate>
 			<comparePeriodPretty>August 9 – 16, 2012</comparePeriodPretty>
 			<compareSeriesPretty>(August 9 – 16, 2012) (All visits)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 	</comparisons>
 </result>

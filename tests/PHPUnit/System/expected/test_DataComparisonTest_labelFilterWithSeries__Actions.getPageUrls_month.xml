@@ -24,7 +24,7 @@
 		<compareDate>2012-08-16</compareDate>
 		<comparePeriodPretty>August 2012</comparePeriodPretty>
 		<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
-		
+		<idsubdatatable>1</idsubdatatable>
 		<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 	</row>
 	<row>
@@ -67,7 +67,7 @@
 		<compareDate>2012-08-16</compareDate>
 		<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 		<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-		
+		<idsubdatatable>-1</idsubdatatable>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 	</row>
 </result>

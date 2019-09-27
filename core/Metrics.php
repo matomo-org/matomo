@@ -180,7 +180,7 @@ class Metrics
     public static function getMappingFromIdToName()
     {
         $cache = StaticContainer::get(PiwikCache\Transient::class);
-        $cacheKey = CacheId::pluginAware('Metrics.mappingFromIdToName');
+        $cacheKey = CacheId::siteAware(CacheId::pluginAware('Metrics.mappingFromIdToName'));
 
         $value = $cache->fetch($cacheKey);
         if (empty($value)) {

@@ -586,7 +586,7 @@ class DataTableFactory
         $site = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX);
         $idSite = $site ? $site->getId() : false;
 
-        $segmentPretty = $this->segment->getPrettySegmentName($idSite);
+        $segmentPretty = $this->segment->getStoredSegmentName($idSite);
 
         $table->setMetadata('segment', $this->segment->getString());
         $table->setMetadata('segmentPretty', $segmentPretty);

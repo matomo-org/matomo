@@ -262,7 +262,7 @@
                 });
 
                 var segmentTitle = storedSegment ? storedSegment.name : _pk_translate('General_Unknown');
-                if (segment.replace('/^\s+|\s+$/g', '') === '') {
+                if (segment.trim() === '') {
                     segmentTitle = _pk_translate('SegmentEditor_DefaultAllVisits');
                 }
 
@@ -315,8 +315,8 @@
         }
 
         function checkEnabledForCurrentPage() {
-            var category = piwikUrl.getSearchParam('category');
-            var subcategory = piwikUrl.getSearchParam('subcategory');
+            var category = piwikUrl.getSearchParam('category') || piwikUrl.getSearchParam('module');
+            var subcategory = piwikUrl.getSearchParam('subcategory') || piwikUrl.getSearchParam('action');
 
             var id = category + "." + subcategory;
             isEnabled = comparisonsDisabledFor.indexOf(id) === -1 && comparisonsDisabledFor.indexOf(category + ".*") === -1;

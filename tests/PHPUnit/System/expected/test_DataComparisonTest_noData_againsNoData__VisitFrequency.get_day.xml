@@ -30,7 +30,7 @@
 			<compareDate>2013-05-06</compareDate>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
 			<compareSeriesPretty>(Monday, May 6, 2013) (All visits)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
@@ -50,7 +50,7 @@
 			<compareDate>2013-05-06</compareDate>
 			<comparePeriodPretty>Monday, May 6, 2013</comparePeriodPretty>
 			<compareSeriesPretty>(Monday, May 6, 2013) (browserName==icedragon)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
@@ -81,7 +81,7 @@
 			<compareDate>2013-05-16</compareDate>
 			<comparePeriodPretty>Thursday, May 16, 2013</comparePeriodPretty>
 			<compareSeriesPretty>(Thursday, May 16, 2013) (All visits)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
@@ -112,7 +112,7 @@
 			<compareDate>2013-05-16</compareDate>
 			<comparePeriodPretty>Thursday, May 16, 2013</comparePeriodPretty>
 			<compareSeriesPretty>(Thursday, May 16, 2013) (browserName==icedragon)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 	</comparisons>
 </result>

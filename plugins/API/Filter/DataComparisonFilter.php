@@ -14,9 +14,11 @@ use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Simple;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Factory;
+use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Segment;
@@ -134,18 +136,18 @@ class DataComparisonFilter
 
         $this->compareSegments = self::getCompareSegments();
         if (count($this->compareSegments) > $this->segmentCompareLimit + 1) {
-            throw new \Exception("The maximum number of segments that can be compared simultaneously is {$this->segmentCompareLimit}.");
+            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfSegmentsComparedIs', [$this->segmentCompareLimit]));
         }
 
         $this->compareDates = self::getCompareDates($request);
         $this->comparePeriods = self::getComparePeriods($request);
 
         if (count($this->compareDates) !== count($this->comparePeriods)) {
-            throw new \InvalidArgumentException("compareDates query parameter length must match comparePeriods query parameter length.");
+            throw new BadRequestException(Piwik::translate('General_CompareDatesParamMustMatchComparePeriods', ['compareDates', 'comparePeriods']));
         }
 
         if (count($this->compareDates) > $this->periodCompareLimit + 1) {
-            throw new \Exception("The maximum number of periods that can be compared simultaneously is {$this->periodCompareLimit}.");
+            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfPeriodsComparedIs', [$this->periodCompareLimit]));
         }
 
         if (count($this->compareSegments) == 1
@@ -329,7 +331,14 @@ class DataComparisonFilter
     private function formatComparisonTables(DataTableInterface $tableOrMap)
     {
         $tableOrMap->filter(function (DataTable $table) {
-            foreach ($table->getRowsWithTotalsRow() as $row) {
+            $rows = $table->getRows();
+
+            $totalRow = $table->getTotalsRow();
+            if ($totalRow) {
+                $rows[] = $totalRow;
+            }
+
+            foreach ($rows as $row) {
                 /** @var DataTable $comparisonTable */
                 $comparisonTable = $row->getComparisons();
                 if (!empty($comparisonTable)) { // sanity check
@@ -386,11 +395,11 @@ class DataComparisonFilter
         ]);
 
         // set subtable
-        $newRow->setMetadata('idsubdatatable_in_db', -1);
+        $newRow->setMetadata('idsubdatatable', -1);
         if ($compareRow) {
             $subtableId = $compareRow->getMetadata('idsubdatatable_in_db') ?: $compareRow->getIdSubDataTable();
             if ($subtableId) {
-                $newRow->setMetadata('idsubdatatable_in_db', $subtableId);
+                $newRow->setMetadata('idsubdatatable', $subtableId);
             }
         }
 
@@ -560,7 +569,7 @@ class DataComparisonFilter
         $metadata['compareSegment'] = $segment;
 
         $segmentObj = new Segment($segment, []);
-        $metadata['compareSegmentPretty'] = $segmentObj->getPrettySegmentName(false);
+        $metadata['compareSegmentPretty'] = $segmentObj->getStoredSegmentName(false);
 
         $metadata['comparePeriod'] = $period;
         $metadata['compareDate'] = $date;
@@ -652,7 +661,14 @@ class DataComparisonFilter
         $segmentCount = count($this->compareSegments);
 
         $result->filter(function (DataTable $table) use ($segmentCount) {
-            foreach ($table->getRowsWithTotalsRow() as $row) {
+            $rows = $table->getRows();
+
+            $totalRow = $table->getTotalsRow();
+            if ($totalRow) {
+                $rows[] = $totalRow;
+            }
+
+            foreach ($rows as $row) {
                 $comparisons = $row->getComparisons();
                 if (empty($comparisons)) {
                     continue;
@@ -755,7 +771,7 @@ class DataComparisonFilter
         list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices(null, $labelSeriesIndex, count($compareSegments));
 
         $segmentObj = new Segment($compareSegments[$segmentIndex], []);
-        $prettySegment = $segmentObj->getPrettySegmentName(false);
+        $prettySegment = $segmentObj->getStoredSegmentName(false);
 
         $prettyPeriod = Factory::build($comparePeriods[$periodIndex], $compareDates[$periodIndex])->getLocalizedLongString();
         $prettyPeriod = ucfirst($prettyPeriod);

@@ -690,6 +690,8 @@ class ProcessedReport
                 $rowMetadata = $row->getMetadata();
                 $idSubDataTable = $row->getIdSubDataTable();
 
+                unset($rowMetadata[Row::COMPARISONS_METADATA_NAME]);
+
                 // always add a metadata row - even if empty, so the number of rows and metadata are equal and can be matched directly
                 $metadataRow = new Row();
                 $rowsMetadata->addRow($metadataRow);

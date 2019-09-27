@@ -43,7 +43,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -69,7 +69,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -95,7 +95,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -137,7 +137,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -179,7 +179,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -221,7 +221,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -263,7 +263,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -305,7 +305,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 			<row>
@@ -347,7 +347,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog</segment>
 			</row>
 		</comparisons>
@@ -389,7 +389,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 					</row>
 					<row>
@@ -410,7 +410,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 					</row>
 					<row>
@@ -431,7 +431,7 @@
 						<compareDate>2012-08-16</compareDate>
 						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory</segment>
 					</row>
 				</comparisons>
@@ -473,7 +473,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>3</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 							</row>
 							<row>
@@ -494,7 +494,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>3</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 							</row>
 							<row>
@@ -515,7 +515,7 @@
 								<compareDate>2012-08-16</compareDate>
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>3</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 							</row>
 						</comparisons>
@@ -563,7 +563,7 @@
 										<compareDate>2012-08-09</compareDate>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>-1</idsubdatatable>
 										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 									</row>
 									<row>
@@ -587,7 +587,7 @@
 										<compareDate>2012-08-10</compareDate>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>-1</idsubdatatable>
 										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 									</row>
 									<row>
@@ -611,7 +611,7 @@
 										<compareDate>2012-08-16</compareDate>
 										<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>-1</idsubdatatable>
 										<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
 									</row>
 								</comparisons>
@@ -656,7 +656,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>4</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 							</row>
 							<row>
@@ -681,7 +681,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 							</row>
 							<row>
@@ -706,7 +706,7 @@
 								<compareDate>2012-08-16</compareDate>
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 							</row>
 						</comparisons>
@@ -754,7 +754,7 @@
 										<compareDate>2012-08-09</compareDate>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>-1</idsubdatatable>
 										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
 									</row>
 								</comparisons>
@@ -801,7 +801,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>5</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 					</row>
 					<row>
@@ -822,7 +822,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>4</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 					</row>
 					<row>
@@ -847,7 +847,7 @@
 						<compareDate>2012-08-16</compareDate>
 						<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012</segment>
 					</row>
 				</comparisons>
@@ -889,7 +889,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>6</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 							</row>
 							<row>
@@ -910,7 +910,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>5</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08</segment>
 							</row>
 						</comparisons>
@@ -952,7 +952,7 @@
 										<compareDate>2012-08-09</compareDate>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>7</idsubdatatable>
 										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 									</row>
 									<row>
@@ -973,7 +973,7 @@
 										<compareDate>2012-08-10</compareDate>
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>6</idsubdatatable>
 										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 									</row>
 								</comparisons>
@@ -1021,7 +1021,7 @@
 												<compareDate>2012-08-09</compareDate>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-												
+												<idsubdatatable>-1</idsubdatatable>
 												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 											</row>
 											<row>
@@ -1045,7 +1045,7 @@
 												<compareDate>2012-08-10</compareDate>
 												<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 												<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-												
+												<idsubdatatable>-1</idsubdatatable>
 												<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
 											</row>
 										</comparisons>
@@ -1102,7 +1102,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>8</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1128,7 +1128,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1154,7 +1154,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1196,7 +1196,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>7</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1238,7 +1238,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1280,7 +1280,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1322,7 +1322,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1364,7 +1364,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 			<row>
@@ -1406,7 +1406,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 			</row>
 		</comparisons>
@@ -1448,7 +1448,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>10</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 					<row>
@@ -1469,7 +1469,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 					<row>
@@ -1490,7 +1490,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 					<row>
@@ -1511,7 +1511,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>8</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 					<row>
@@ -1532,7 +1532,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>2</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 					</row>
 				</comparisons>
@@ -1580,7 +1580,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 							<row>
@@ -1604,7 +1604,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 							<row>
@@ -1628,7 +1628,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 							<row>
@@ -1652,7 +1652,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 							<row>
@@ -1676,7 +1676,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-websites%2F</segment>
 							</row>
 						</comparisons>
@@ -1727,7 +1727,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 					</row>
 					<row>
@@ -1751,7 +1751,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 					</row>
 					<row>
@@ -1779,7 +1779,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 					</row>
 					<row>
@@ -1807,7 +1807,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 					</row>
 					<row>
@@ -1835,7 +1835,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2F</segment>
 					</row>
 				</comparisons>
@@ -1878,7 +1878,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>9</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
 					<row>
@@ -1903,7 +1903,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
 					<row>
@@ -1928,7 +1928,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
 					<row>
@@ -1953,7 +1953,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
 					<row>
@@ -1978,7 +1978,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 					</row>
 				</comparisons>
@@ -2026,7 +2026,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdocs%2Fmanage-users%2F</segment>
 							</row>
 						</comparisons>
@@ -2079,7 +2079,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>13</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2105,7 +2105,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2131,7 +2131,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>3</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2173,7 +2173,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>9</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2215,7 +2215,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2257,7 +2257,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>3</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2299,7 +2299,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2341,7 +2341,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 			<row>
@@ -2383,7 +2383,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 			</row>
 		</comparisons>
@@ -2431,7 +2431,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 					<row>
@@ -2459,7 +2459,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 					<row>
@@ -2483,7 +2483,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 					<row>
@@ -2511,7 +2511,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2F</segment>
 					</row>
 				</comparisons>
@@ -2554,7 +2554,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>14</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
 					<row>
@@ -2575,7 +2575,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>4</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
 					<row>
@@ -2596,7 +2596,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>10</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
 					<row>
@@ -2617,7 +2617,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>4</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 					</row>
 				</comparisons>
@@ -2665,7 +2665,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 							<row>
@@ -2689,7 +2689,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 							<row>
@@ -2713,7 +2713,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 							<row>
@@ -2737,7 +2737,7 @@
 								<compareDate>2012-08-10</compareDate>
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to%2F</segment>
 							</row>
 						</comparisons>
@@ -2782,7 +2782,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>15</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
 					<row>
@@ -2807,7 +2807,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
 					<row>
@@ -2832,7 +2832,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
 					<row>
@@ -2857,7 +2857,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 					</row>
 				</comparisons>
@@ -2905,7 +2905,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ffaq%2Fhow-to-install%2F</segment>
 							</row>
 						</comparisons>
@@ -2964,7 +2964,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -2993,7 +2993,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3022,7 +3022,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3070,7 +3070,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3118,7 +3118,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3166,7 +3166,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3214,7 +3214,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3262,7 +3262,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 			<row>
@@ -3310,7 +3310,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
 			</row>
 		</comparisons>
@@ -3365,7 +3365,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3394,7 +3394,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3423,7 +3423,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3471,7 +3471,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3519,7 +3519,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3567,7 +3567,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3615,7 +3615,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3663,7 +3663,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 			<row>
@@ -3711,7 +3711,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 			</row>
 		</comparisons>
@@ -3762,7 +3762,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3789,7 +3789,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3816,7 +3816,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3860,7 +3860,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3904,7 +3904,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3948,7 +3948,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -3992,7 +3992,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -4036,7 +4036,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 			<row>
@@ -4080,7 +4080,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
 			</row>
 		</comparisons>
@@ -4135,7 +4135,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4164,7 +4164,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4193,7 +4193,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4241,7 +4241,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4289,7 +4289,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4337,7 +4337,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4385,7 +4385,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4433,7 +4433,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 			<row>
@@ -4481,7 +4481,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
 			</row>
 		</comparisons>
@@ -4526,7 +4526,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4550,7 +4550,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4574,7 +4574,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4612,7 +4612,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4650,7 +4650,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4688,7 +4688,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4726,7 +4726,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4764,7 +4764,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 			<row>
@@ -4802,7 +4802,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
 			</row>
 		</comparisons>
@@ -4857,7 +4857,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -4886,7 +4886,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -4915,7 +4915,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -4963,7 +4963,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -5011,7 +5011,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -5059,7 +5059,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -5107,7 +5107,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -5155,7 +5155,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 			<row>
@@ -5203,7 +5203,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
 			</row>
 		</comparisons>
@@ -5252,7 +5252,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>11</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5278,7 +5278,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5304,7 +5304,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5346,7 +5346,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5388,7 +5388,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5430,7 +5430,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5472,7 +5472,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5514,7 +5514,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 			<row>
@@ -5556,7 +5556,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload</segment>
 			</row>
 		</comparisons>
@@ -5598,7 +5598,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>12</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 					</row>
 				</comparisons>
@@ -5646,7 +5646,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>-1</idsubdatatable>
 								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fdownload%2Fcounter%2F</segment>
 							</row>
 						</comparisons>
@@ -5699,7 +5699,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>19</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5725,7 +5725,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5751,7 +5751,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5793,7 +5793,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5835,7 +5835,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5877,7 +5877,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5919,7 +5919,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -5961,7 +5961,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 			<row>
@@ -6003,7 +6003,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 			</row>
 		</comparisons>
@@ -6051,7 +6051,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fhosting%2F</segment>
 					</row>
 				</comparisons>
@@ -6102,7 +6102,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>17</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6128,7 +6128,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6154,7 +6154,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6196,7 +6196,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>11</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6238,7 +6238,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6280,7 +6280,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6322,7 +6322,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6364,7 +6364,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 			<row>
@@ -6406,7 +6406,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 			</row>
 		</comparisons>
@@ -6454,7 +6454,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 					</row>
 					<row>
@@ -6478,7 +6478,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fintranet-analytics%2F</segment>
 					</row>
 				</comparisons>
@@ -6529,7 +6529,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>18</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6555,7 +6555,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6581,7 +6581,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>5</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6623,7 +6623,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>12</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6665,7 +6665,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6707,7 +6707,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>5</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6749,7 +6749,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6791,7 +6791,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 			<row>
@@ -6833,7 +6833,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 			</row>
 		</comparisons>
@@ -6881,7 +6881,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 					<row>
@@ -6905,7 +6905,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 					<row>
@@ -6929,7 +6929,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 					<row>
@@ -6953,7 +6953,7 @@
 						<compareDate>2012-08-10</compareDate>
 						<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 						<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fnewsletter%2F</segment>
 					</row>
 				</comparisons>
@@ -7004,7 +7004,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>20</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7030,7 +7030,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7056,7 +7056,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7098,7 +7098,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7140,7 +7140,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7182,7 +7182,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7224,7 +7224,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7266,7 +7266,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 			<row>
@@ -7308,7 +7308,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis</segment>
 			</row>
 		</comparisons>
@@ -7350,7 +7350,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>21</idsubdatatable>
 						<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis</segment>
 					</row>
 				</comparisons>
@@ -7392,7 +7392,7 @@
 								<compareDate>2012-08-09</compareDate>
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-								
+								<idsubdatatable>22</idsubdatatable>
 								<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot</segment>
 							</row>
 						</comparisons>
@@ -7434,7 +7434,7 @@
 										<compareDate>2012-08-09</compareDate>
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-										
+										<idsubdatatable>23</idsubdatatable>
 										<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe</segment>
 									</row>
 								</comparisons>
@@ -7476,7 +7476,7 @@
 												<compareDate>2012-08-09</compareDate>
 												<comparePeriodPretty>August 2012</comparePeriodPretty>
 												<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-												
+												<idsubdatatable>24</idsubdatatable>
 												<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage</segment>
 											</row>
 										</comparisons>
@@ -7518,7 +7518,7 @@
 														<compareDate>2012-08-09</compareDate>
 														<comparePeriodPretty>August 2012</comparePeriodPretty>
 														<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-														
+														<idsubdatatable>25</idsubdatatable>
 														<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi</segment>
 													</row>
 												</comparisons>
@@ -7560,7 +7560,7 @@
 																<compareDate>2012-08-09</compareDate>
 																<comparePeriodPretty>August 2012</comparePeriodPretty>
 																<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-																
+																<idsubdatatable>26</idsubdatatable>
 																<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam</segment>
 															</row>
 														</comparisons>
@@ -7602,7 +7602,7 @@
 																		<compareDate>2012-08-09</compareDate>
 																		<comparePeriodPretty>August 2012</comparePeriodPretty>
 																		<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-																		
+																		<idsubdatatable>27</idsubdatatable>
 																		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking</segment>
 																	</row>
 																</comparisons>
@@ -7644,7 +7644,7 @@
 																				<compareDate>2012-08-09</compareDate>
 																				<comparePeriodPretty>August 2012</comparePeriodPretty>
 																				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-																				
+																				<idsubdatatable>28</idsubdatatable>
 																				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 																			</row>
 																		</comparisons>
@@ -7692,7 +7692,7 @@
 																						<compareDate>2012-08-09</compareDate>
 																						<comparePeriodPretty>August 2012</comparePeriodPretty>
 																						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-																						
+																						<idsubdatatable>-1</idsubdatatable>
 																						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</segment>
 																					</row>
 																				</comparisons>
@@ -7759,7 +7759,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>16</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7785,7 +7785,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7811,7 +7811,7 @@
 				<compareDate>2012-08-09</compareDate>
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7853,7 +7853,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7895,7 +7895,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7937,7 +7937,7 @@
 				<compareDate>2012-08-10</compareDate>
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -7979,7 +7979,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -8021,7 +8021,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Dff;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 			<row>
@@ -8063,7 +8063,7 @@
 				<compareDate>2012-08-16</compareDate>
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
-				
+				<idsubdatatable>-1</idsubdatatable>
 				<segment>browserCode%3D%3Die;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 			</row>
 		</comparisons>
@@ -8111,7 +8111,7 @@
 						<compareDate>2012-08-09</compareDate>
 						<comparePeriodPretty>August 2012</comparePeriodPretty>
 						<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-						
+						<idsubdatatable>-1</idsubdatatable>
 						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftranslations%2F</segment>
 					</row>
 				</comparisons>

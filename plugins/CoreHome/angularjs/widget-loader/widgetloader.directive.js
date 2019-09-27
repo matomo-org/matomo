@@ -99,7 +99,7 @@
 
                         if (piwikComparisonsService.isComparisonEnabled()) {
                             ['comparePeriods', 'compareDates', 'compareSegments'].forEach(function (paramName) {
-                                var value = getQueryParamValue(paramName);
+                                var value = piwikUrl.getSearchParam(paramName);
                                 if (value) {
                                     var map = {};
                                     map[paramName] = value;
@@ -183,14 +183,6 @@
                             scope.loading = false;
                             scope.loadingFailed = true;
                         });
-                    }
-
-                    function getQueryParamValue(name) {
-                        var result = broadcast.getValueFromHash(name);
-                        if (!result) {
-                            result = broadcast.getValueFromUrl(name);
-                        }
-                        return result;
                     }
 
                     scope.$watch('piwikWidgetLoader', function (parameters, oldUrl) {

@@ -501,7 +501,10 @@
         "VisualizationDoesNotSupportComparison": "This visualization does not support segment/period comparison.",
         "ChangeInX": "Change in %1$s",
         "Comparisons": "Comparisons",
-        "ClickToRemoveComp": "Click to remove this comparison."
+        "ClickToRemoveComp": "Click to remove this comparison.",
+        "MaximumNumberOfSegmentsComparedIs": "The maximum number of segments that can be compared simultaneously is %s.",
+        "CompareDatesParamMustMatchComparePeriods": "%1$s query parameter length must match %2$s query parameter length.",
+        "MaximumNumberOfPeriodsComparedIs": "The maximum number of periods that can be compared simultaneously is %s."
     },
     "Mobile": {
         "AboutPiwikMobile": "About Matomo Mobile",

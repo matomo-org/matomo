@@ -1976,18 +1976,4 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     {
         $this->deleteRow($offset);
     }
-
-    /**
-     * Returns all rows plus the totals row if it exists. Note: row IDs are not retained since the totals row has no associated ID.
-     *
-     * @return Row[]
-     */
-    public function getRowsWithTotalsRow()
-    {
-        $rows = array_values($this->getRows());
-        if (!empty($this->totalsRow)) {
-            $rows[] = $this->totalsRow;
-        }
-        return $rows;
-    }
 }

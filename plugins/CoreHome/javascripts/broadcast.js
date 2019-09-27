@@ -334,7 +334,8 @@ var broadcast = {
 
         var oldUrl = currentSearchStr + currentHashStr;
 
-        // remove any array query params being set
+        // remove all array query params that are currently set. if we don't do this the array parameters we add
+        // just get added to the existing parameters.
         params_vals.forEach(function (param) {
             if (/\[]=/.test(decodeURIComponent(param))) {
                 var paramName = decodeURIComponent(param).split('[]=')[0];
@@ -342,10 +343,12 @@ var broadcast = {
             }
         });
 
+        // remove parameters if needed
         paramsToRemove.forEach(function (paramName) {
             removeParam(paramName);
         });
 
+        // update/add parameters based on whether the parameter is an array param or not
         params_vals.forEach(function (param) {
             if(!param.length) {
                 return; // updating with empty string would destroy some values

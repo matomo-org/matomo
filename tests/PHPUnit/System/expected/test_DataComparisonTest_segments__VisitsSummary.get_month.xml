@@ -30,7 +30,7 @@
 			<compareDate>2012-08-09</compareDate>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
 			<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_uniq_visitors>2</nb_uniq_visitors>
@@ -50,7 +50,7 @@
 			<compareDate>2012-08-09</compareDate>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
 			<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 		<row>
 			<nb_uniq_visitors>6</nb_uniq_visitors>
@@ -70,7 +70,7 @@
 			<compareDate>2012-08-09</compareDate>
 			<comparePeriodPretty>August 2012</comparePeriodPretty>
 			<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
-			
+			<idsubdatatable>-1</idsubdatatable>
 		</row>
 	</comparisons>
 </result>

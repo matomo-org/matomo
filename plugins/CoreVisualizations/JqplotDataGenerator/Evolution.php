@@ -256,9 +256,15 @@ class Evolution extends JqplotDataGenerator
 
             /** @var DataTable $comparisonTable */
             $comparisonTable = $row->getComparisons();
-            foreach ($comparisonTable->getRowsWithTotalsRow() as $compareRow) {
+            foreach ($comparisonTable->getRows() as $compareRow) {
                 $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName, $rowLabel);
                 $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
+            }
+
+            $totalsRow = $comparisonTable->getTotalsRow();
+            if ($totalsRow) {
+                $seriesLabel = $this->getComparisonSeriesLabel($totalsRow, $columnName, $rowLabel);
+                $allSeriesData[$seriesLabel][] = $totalsRow->getColumn($columnName);
             }
         }
     }

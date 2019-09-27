@@ -253,7 +253,11 @@ class Visualization extends ViewDataTable
 
         if (!$this->supportsComparison()
             && DataComparisonFilter::isCompareParamsPresent()
+            && !empty($view->dataTableHasNoData)
         ) {
+            if (empty($view->properties['show_footer_message'])) {
+                $view->properties['show_footer_message'] = '';
+            }
             $view->properties['show_footer_message'] .= '<br/>' . Piwik::translate('General_VisualizationDoesNotSupportComparison');
         }
 

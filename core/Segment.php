@@ -417,7 +417,7 @@ class Segment
             || $segment === urldecode($segmentCondition);
     }
 
-    public function getPrettySegmentName($idSite)
+    public function getStoredSegmentName($idSite)
     {
         $segment = $this->getString();
         if (empty($segment)) {
