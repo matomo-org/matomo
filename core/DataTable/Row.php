@@ -602,6 +602,10 @@ class Row extends \ArrayObject
      */
     protected function sumRowArray($thisColumnValue, $columnToSumValue, $columnName = null)
     {
+        if (is_array($thisColumnValue) && !is_array($columnToSumValue)) {
+            $columnToSumValue = array($columnToSumValue);
+        }
+
         if (is_numeric($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 $thisColumnValue = 0;
@@ -623,7 +627,13 @@ class Row extends \ArrayObject
         }
 
         if (is_array($columnToSumValue)) {
-            $newValue = $thisColumnValue;
+            
+            if (is_array($thisColumnValue)) {
+                $newValue = $thisColumnValue;
+            } else {
+                $newValue = array($thisColumnValue);
+            }
+
             foreach ($columnToSumValue as $arrayIndex => $arrayValue) {
                 if (!isset($newValue[$arrayIndex])) {
                     $newValue[$arrayIndex] = false;
