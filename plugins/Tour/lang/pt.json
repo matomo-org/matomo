@@ -1,8 +1,34 @@
 {
     "Tour": {
         "Engagement": "Interesse",
+        "UploadLogo": "Carregar o seu logótipo",
+        "AddUser": "Adicionar outro utilizador",
+        "AddWebsite": "Adicionar outro site",
+        "AddSegment": "Adicionar um segmento",
+        "AddAnnotation": "Adicionar uma anotação",
         "BrowseMarketplace": "Explorar a loja",
+        "PreviousChallenges": "Desafios prévios",
+        "NextChallenges": "Próximos desafios",
+        "RowEvolution": "Evolução da linha",
         "ViewX": "Ver %s",
-        "CompletionTitle": "Excelente!"
+        "SetupX": "Configurar %s",
+        "SelectDateRange": "Escolher um intervalo de datas",
+        "SelectDateRangeDescription": "Escolher um intervalo de datas no calendário.",
+        "ChangeVisualisation": "Alterar uma visualização",
+        "ViewVisitsLogDescription": "O registo de visitas apresenta-lhe todas as visitas individuais e as ações realizadas por cada visitante no seu site.",
+        "ViewVisitorProfileDescription": "O registo de visitantes ajuda-o a melhor compreender o comportamento individual dos seus visitantes através do resumo e listagem das visitas dos mesmos.",
+        "ChallengeCompleted": "Parabéns, conseguiu completar este desafio.",
+        "StatusLevel": "Atualmente é %1$s. Complete mais %2$sdesafios para se tornar num %3$s.",
+        "SkipThisChallenge": "Saltar este desafio",
+        "ConfigureGeolocation": "Configurar a geolocalização",
+        "CustomiseDashboard": "Personalizar o painel",
+        "DefineGoal": "Adicionar um objetivo",
+        "EmbedTrackingCode": "Incorporar código de acompanhamento",
+        "CompletionTitle": "Excelente!",
+        "CompletionMessage": "Conseguiu completar todos os desafios. Merece uma palmadinha nas costas.",
+        "Part1Title": "Bem-vindo ao Matomo %1$s. Este widget vai ajudá-lo a tornar-se num especialista do Matomo num instante.",
+        "Part2Title": "Continue assim %1$s! Está no bom caminho para se tornar num especialista do Matomo.",
+        "Part3Title": "Que ótimo progresso %1$s! Se continuar assim, será um especialista do Matomo num instante!",
+        "Part4Title": "Ótimo progresso %1$s! Restam apenas alguns desafios a completar."
     }
 }
