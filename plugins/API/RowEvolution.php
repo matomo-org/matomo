@@ -20,7 +20,6 @@ use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Site;
 use Piwik\Url;
 

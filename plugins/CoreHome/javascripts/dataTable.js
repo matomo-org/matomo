@@ -269,7 +269,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
 
         ajaxRequest.addParams(params, 'get');
-        ajaxRequest.addParams(extraParams, 'post');
+        if (extraParams) {
+            ajaxRequest.addParams(extraParams, 'post');
+        }
         ajaxRequest.withTokenInUrl();
 
         ajaxRequest.setCallback(

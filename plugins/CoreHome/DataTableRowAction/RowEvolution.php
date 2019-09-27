@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
@@ -20,7 +19,6 @@ use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Url;
 use Piwik\ViewDataTable\Factory;
 

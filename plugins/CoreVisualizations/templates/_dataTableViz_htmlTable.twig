@@ -43,7 +43,7 @@
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
-                        <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {{ cellAttributes.class|default }}"
+                        <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {{ cellAttributes.class|default|e('html_attr') }}"
                             {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
                         >
                             {% if isComparing and column == 'label' %}

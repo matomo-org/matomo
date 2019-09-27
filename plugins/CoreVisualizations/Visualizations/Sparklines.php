@@ -148,7 +148,7 @@ class Sparklines extends ViewDataTable
             }
 
             if (empty($column)) {
-                $this->config->addPlaceholder($order, $column);
+                $this->config->addPlaceholder($order);
                 continue;
             }
 
