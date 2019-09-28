@@ -165,7 +165,8 @@ class DataComparisonFilter
             $this->comparePeriodIndices[$period][$date] = $index;
         }
 
-        $this->comparisonRowGenerator = new ComparisonRowGenerator($this->segmentName, $this->isRequestMultiplePeriod());
+        $columnMappings = $this->getColumnMappings();
+        $this->comparisonRowGenerator = new ComparisonRowGenerator($this->segmentName, $this->isRequestMultiplePeriod(), $columnMappings);
     }
 
     public static function isCompareParamsPresent($request = null)
@@ -568,5 +569,17 @@ class DataComparisonFilter
         $prettyPeriod = ucfirst($prettyPeriod);
 
         return self::getComparisonSeriesLabelSuffixFromParts($prettyPeriod, $prettySegment);
+    }
+
+    private function getColumnMappings()
+    {
+        $allMappings = Metrics::getMappingFromIdToName();
+
+        $mappings = [];
+        foreach ($allMappings as $index => $name) {
+            $mappings[$index] = $name;
+            $mappings[$index . '_change'] = $name . '_change';
+        }
+        return $mappings;
     }
 }

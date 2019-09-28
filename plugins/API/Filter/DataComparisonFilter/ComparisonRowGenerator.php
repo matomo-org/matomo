@@ -33,11 +33,11 @@ class ComparisonRowGenerator
      */
     private $columnMappings;
 
-    public function __construct($segmentNameForReport, $isRequestMultiplePeriod)
+    public function __construct($segmentNameForReport, $isRequestMultiplePeriod, $columnMappings)
     {
         $this->segmentNameForReport = $segmentNameForReport;
         $this->isRequestMultiplePeriod = $isRequestMultiplePeriod;
-        $this->columnMappings = $this->getColumnMappings();
+        $this->columnMappings = $columnMappings;
     }
 
     public function compareTables($compareMetadata, DataTableInterface $tables, DataTableInterface $compareTables = null)
@@ -235,17 +235,5 @@ class ComparisonRowGenerator
             }
         }
         return $totals;
-    }
-
-    private function getColumnMappings()
-    {
-        $allMappings = Metrics::getMappingFromIdToName();
-
-        $mappings = [];
-        foreach ($allMappings as $index => $name) {
-            $mappings[$index] = $name;
-            $mappings[$index . '_change'] = $name . '_change';
-        }
-        return $mappings;
     }
 }
