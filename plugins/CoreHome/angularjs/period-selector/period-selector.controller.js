@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
-    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope', 'piwikUrl'];
+    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope', 'piwikUrl', '$element', '$timeout'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope, piwikUrl) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope, piwikUrl, $element, $timeout) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -51,6 +51,18 @@
             vm.updateSelectedValuesFromHash();
             setIsComparing();
             initTopControls(); // must be called when a top control changes width
+
+            handleZIndexPositionRelativeCompareDropdownIssue();
+        }
+
+        function handleZIndexPositionRelativeCompareDropdownIssue() {
+            $element.on('focus', '#comparePeriodToDropdown .select-dropdown', function () {
+                console.log('here?');
+                $element.addClass('compare-dropdown-open');
+            }).on('blur', '#comparePeriodToDropdown .select-dropdown', function () {
+                console.log('there?');
+                $element.removeClass('compare-dropdown-open');
+            });
         }
 
         function setIsComparing() {

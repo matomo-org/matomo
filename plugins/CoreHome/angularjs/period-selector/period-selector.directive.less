@@ -1,6 +1,16 @@
 [piwik-period-selector] {
   display: inline-block;
 
+  &.compare-dropdown-open {
+    label[for=comparePeriodEndDate] {
+      visibility: hidden;
+    }
+
+    #comparePeriodEndDate .input-field {
+      position: static; // needed when dropdown is open, since dropdown content is position: absolute, and this is position: relative, which causes it to show up in the background of the dropdown
+    }
+  }
+
   // overrides theme CSS that always hides .loadingPiwik. since we use an ng-if to make
   // sure it's only shown when we're actually loading a new page, it's not necessary to
   // forcefully hide it.
@@ -66,8 +76,8 @@
     background-color: @color-silver-l14;
     width: 16px;
     display: inline-block;
-    position: relative;
-    top: -30px;
+    vertical-align: top;
+    margin-top: 30px;
   }
 
   label[for=comparePeriodTo] {
