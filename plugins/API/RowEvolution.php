@@ -426,6 +426,7 @@ class RowEvolution
                                           $labelSeries = '')
     {
         $labelSeries = explode(',', $labelSeries);
+        $labelSeries = array_filter($labelSeries, 'strlen');
         $labelSeries = array_map('intval', $labelSeries);
 
         if (!isset($metadata['metrics'][$column])) {

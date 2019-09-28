@@ -46,7 +46,7 @@ class ComparisonRowGeneratorTest extends IntegrationTestCase
             'compareDate' => '2012-03-04',
         ];
 
-        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false);
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
         $comparisonRowGenerator->compareTables($compareMetadata, $table1, $table2);
 
         $xmlContent = $this->toXml($table1);
@@ -135,7 +135,7 @@ END;
             'compareDate' => '2012-03-04',
         ];
 
-        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false);
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
         $comparisonRowGenerator->compareTables($compareMetadata, $table1, $table2);
 
         $xmlContent = $this->toXml($table1);
@@ -214,7 +214,7 @@ END;
             'compareDate' => '2012-01-01,2012-03-01',
         ];
 
-        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false);
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
         $comparisonRowGenerator->compareTables($compareMetadata, $tableSet1, $tableSet2);
 
         $xmlContent = $this->toXml($tableSet1);
@@ -355,7 +355,7 @@ END;
             'compareDate' => '2012-01-01,2012-03-01',
         ];
 
-        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false);
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
         $comparisonRowGenerator->compareTables($compareMetadata, $tableSet1, $tableSet2);
 
         $xmlContent = $this->toXml($tableSet1);
@@ -498,7 +498,7 @@ END;
             'compareDate' => '2012-01-01,2012-03-01',
         ];
 
-        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false);
+        $comparisonRowGenerator = new ComparisonRowGenerator('reportSegment', false, []);
         $comparisonRowGenerator->compareTables($compareMetadata, $tableSet1, $tableSet2);
 
         $xmlContent = $this->toXml($tableSet1);
