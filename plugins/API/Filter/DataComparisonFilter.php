@@ -121,6 +121,11 @@ class DataComparisonFilter
      */
     private $comparisonRowGenerator;
 
+    /**
+     * @var array
+     */
+    private $columnMappings;
+
     public function __construct($request, Report $report = null)
     {
         $this->request = $request;
@@ -165,8 +170,8 @@ class DataComparisonFilter
             $this->comparePeriodIndices[$period][$date] = $index;
         }
 
-        $columnMappings = $this->getColumnMappings();
-        $this->comparisonRowGenerator = new ComparisonRowGenerator($this->segmentName, $this->isRequestMultiplePeriod(), $columnMappings);
+        $this->columnMappings = $this->getColumnMappings();
+        $this->comparisonRowGenerator = new ComparisonRowGenerator($this->segmentName, $this->isRequestMultiplePeriod(), $this->columnMappings);
     }
 
     public static function isCompareParamsPresent($request = null)

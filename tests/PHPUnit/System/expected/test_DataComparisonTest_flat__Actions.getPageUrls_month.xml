@@ -5,6 +5,9 @@
 		<nb_visits>9</nb_visits>
 		<nb_hits>9</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation>0</max_time_generation>
 		<sum_bandwidth>32166</sum_bandwidth>
 		<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
 		<min_bandwidth>14296</min_bandwidth>
@@ -21,6 +24,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://www.notdatefiltered.com/blog/category/meta/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 		<Actions_PageUrl>/blog/category/meta/</Actions_PageUrl>
@@ -29,6 +33,7 @@
 				<nb_visits>9</nb_visits>
 				<nb_hits>9</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>32166</sum_bandwidth>
 				<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
 				<min_bandwidth>14296</min_bandwidth>
@@ -45,6 +50,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -58,6 +64,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -74,6 +82,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -135,6 +144,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -151,9 +162,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -170,6 +184,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -186,6 +201,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation>0</max_time_generation>
 		<sum_bandwidth>7148</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>7148</min_bandwidth>
@@ -202,6 +220,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/</url>
 		<Actions_PageUrl>/</Actions_PageUrl>
 		<comparisons>
@@ -209,6 +228,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>7148</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>7148</min_bandwidth>
@@ -225,6 +245,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -267,6 +288,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -283,9 +306,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -302,6 +328,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -315,6 +342,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -331,9 +360,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -350,6 +382,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -367,6 +400,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation>0</max_time_generation>
 		<sum_bandwidth>7148</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>7148</min_bandwidth>
@@ -383,6 +419,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/manage-websites/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 		<Actions_PageUrl>/docs/manage-websites/</Actions_PageUrl>
@@ -391,6 +428,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>7148</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>7148</min_bandwidth>
@@ -407,6 +445,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -449,6 +488,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -465,9 +506,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -484,6 +528,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -497,6 +542,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -513,9 +560,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -532,6 +582,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -548,6 +599,9 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation>0</max_time_generation>
 		<sum_bandwidth>7148</sum_bandwidth>
 		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 		<min_bandwidth>7148</min_bandwidth>
@@ -564,6 +618,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 		<Actions_PageUrl>/faq/</Actions_PageUrl>
@@ -572,6 +627,7 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>7148</sum_bandwidth>
 				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>7148</min_bandwidth>
@@ -588,6 +644,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -601,6 +658,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -617,6 +676,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -630,6 +690,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -646,9 +708,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -665,6 +730,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -678,6 +744,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -694,9 +762,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -713,6 +784,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -729,6 +801,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -745,6 +820,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 		<Actions_PageUrl>/blog/2012/08/survey-your-opinion-matters/</Actions_PageUrl>
@@ -753,6 +829,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -769,6 +846,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -811,6 +889,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -827,9 +907,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -846,6 +929,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -859,6 +943,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -875,9 +961,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -894,6 +983,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -910,6 +1000,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -926,6 +1019,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/blog/category/community/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 		<Actions_PageUrl>/blog/category/community/</Actions_PageUrl>
@@ -934,6 +1028,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -950,6 +1045,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -963,6 +1059,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -979,6 +1077,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -992,6 +1091,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1008,9 +1109,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1027,6 +1131,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1040,6 +1145,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1056,9 +1163,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -1075,6 +1185,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1091,6 +1202,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -1107,6 +1221,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 		<Actions_PageUrl>/docs/</Actions_PageUrl>
@@ -1115,6 +1230,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1131,6 +1247,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1144,6 +1261,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1160,6 +1279,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1173,6 +1293,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1189,9 +1311,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1208,6 +1333,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1221,6 +1347,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1237,9 +1365,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -1256,6 +1387,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1272,6 +1404,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -1288,6 +1423,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/manage-users/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 		<Actions_PageUrl>/docs/manage-users/</Actions_PageUrl>
@@ -1296,6 +1432,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1312,6 +1449,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1325,6 +1463,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1341,6 +1481,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1354,6 +1495,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1370,9 +1513,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1389,6 +1535,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1402,6 +1549,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1418,9 +1567,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -1437,6 +1589,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1453,6 +1606,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -1469,6 +1625,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/download/counter/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 		<Actions_PageUrl>/download/counter/</Actions_PageUrl>
@@ -1477,6 +1634,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1493,6 +1651,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1506,6 +1665,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1522,6 +1683,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1535,6 +1697,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1551,9 +1715,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1570,6 +1737,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1583,6 +1751,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1599,9 +1769,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -1618,6 +1791,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1634,6 +1808,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -1650,6 +1827,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/how-to-install/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 		<Actions_PageUrl>/faq/how-to-install/</Actions_PageUrl>
@@ -1658,6 +1836,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1674,6 +1853,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1687,6 +1867,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1703,6 +1885,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1716,6 +1899,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1732,9 +1917,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1751,6 +1939,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1764,6 +1953,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1780,9 +1971,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -1799,6 +1993,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1815,6 +2010,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -1831,6 +2029,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/how-to/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 		<Actions_PageUrl>/faq/how-to/</Actions_PageUrl>
@@ -1839,6 +2038,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -1855,6 +2055,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -1897,6 +2098,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1913,9 +2116,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1932,6 +2138,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1945,6 +2152,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -1961,9 +2170,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -1980,6 +2192,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -1996,6 +2209,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -2012,6 +2228,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/hosting/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 		<Actions_PageUrl>/hosting/</Actions_PageUrl>
@@ -2020,6 +2237,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -2036,6 +2254,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2078,6 +2297,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2094,9 +2315,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2113,6 +2337,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2126,6 +2351,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2142,9 +2369,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2161,6 +2391,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2177,6 +2408,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -2193,6 +2427,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://example.org/index.htm</url>
 		<Actions_PageUrl>/index.htm</Actions_PageUrl>
 		<comparisons>
@@ -2200,6 +2435,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -2216,6 +2452,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2358,6 +2595,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -2374,6 +2614,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/intranet-analytics/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 		<Actions_PageUrl>/intranet-analytics/</Actions_PageUrl>
@@ -2382,6 +2623,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -2398,6 +2640,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2411,6 +2654,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2427,6 +2672,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2440,6 +2686,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2456,9 +2704,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2475,6 +2726,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2488,6 +2740,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2504,9 +2758,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -2523,6 +2780,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2539,6 +2797,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>180</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -2553,6 +2814,7 @@
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/moved-permanently</url>
 		<Actions_PageUrl>/moved-permanently</Actions_PageUrl>
 		<comparisons>
@@ -2560,6 +2822,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>180</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -2574,6 +2837,7 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2587,6 +2851,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2601,6 +2867,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2614,6 +2881,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2628,9 +2897,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>-100%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2645,6 +2917,7 @@
 				<avg_time_on_page_change>-100%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2658,6 +2931,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2672,9 +2947,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -2689,6 +2967,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2706,6 +2985,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -2722,6 +3004,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/newsletter/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 		<Actions_PageUrl>/newsletter/</Actions_PageUrl>
@@ -2730,6 +3013,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -2746,6 +3030,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -2788,6 +3073,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2804,9 +3091,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2823,6 +3113,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2836,6 +3127,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -2852,9 +3145,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -2871,6 +3167,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -2887,6 +3184,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>43</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>43</min_bandwidth>
@@ -2903,6 +3203,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://forum.piwik.org/register.php?0,approve=9a94a02145599</url>
 		<Actions_PageUrl>/register.php?0,approve=9a94a02145599</Actions_PageUrl>
 		<comparisons>
@@ -2910,6 +3211,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>43</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>43</min_bandwidth>
@@ -2926,6 +3228,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3068,6 +3371,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -3079,6 +3385,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/temp-redirect</url>
 		<Actions_PageUrl>/temp-redirect</Actions_PageUrl>
 		<comparisons>
@@ -3086,6 +3393,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -3097,6 +3405,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3110,6 +3419,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3121,6 +3432,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3134,6 +3446,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3145,9 +3459,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -3159,6 +3476,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3172,6 +3490,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3183,9 +3503,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -3197,6 +3520,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3214,6 +3538,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -3230,6 +3557,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 		<Actions_PageUrl>/this/is/not/the/page/i/am/looking/for/</Actions_PageUrl>
@@ -3238,6 +3566,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -3254,6 +3583,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3267,6 +3597,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3283,6 +3615,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3296,6 +3629,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3312,9 +3647,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -3331,6 +3669,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3344,6 +3683,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3360,9 +3701,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -3379,6 +3723,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3395,6 +3740,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -3411,6 +3759,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/to-an-error</url>
 		<Actions_PageUrl>/to-an-error</Actions_PageUrl>
 		<comparisons>
@@ -3418,6 +3767,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -3434,6 +3784,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3476,6 +3827,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3492,9 +3845,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -3511,6 +3867,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3524,6 +3881,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3540,9 +3899,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -3559,6 +3921,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3576,6 +3939,9 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
 		<sum_bandwidth>3574</sum_bandwidth>
 		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 		<min_bandwidth>3574</min_bandwidth>
@@ -3592,6 +3958,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/translations/</url>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 		<Actions_PageUrl>/translations/</Actions_PageUrl>
@@ -3600,6 +3967,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>3574</sum_bandwidth>
 				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
@@ -3616,6 +3984,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3629,6 +3998,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3645,6 +4016,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>month</comparePeriod>
@@ -3658,6 +4030,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3674,9 +4048,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>-100%</nb_visits_change>
 				<nb_hits_change>-100%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>-100%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>-100%</min_bandwidth_change>
@@ -3693,6 +4070,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>-100%</bounce_rate_change>
 				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment />
 				<compareSegmentPretty>All visits</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3706,6 +4084,8 @@
 				<nb_visits>0</nb_visits>
 				<nb_hits>0</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
@@ -3722,9 +4102,12 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
 				<nb_visits_change>+0%</nb_visits_change>
 				<nb_hits_change>+0%</nb_hits_change>
 				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
 				<sum_bandwidth_change>+0%</sum_bandwidth_change>
 				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
 				<min_bandwidth_change>+0%</min_bandwidth_change>
@@ -3741,6 +4124,7 @@
 				<avg_time_on_page_change>+0%</avg_time_on_page_change>
 				<bounce_rate_change>+0%</bounce_rate_change>
 				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
 				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
 				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
 				<comparePeriod>week</comparePeriod>
@@ -3749,6 +4133,220 @@
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
 				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
+			</row>
+		</comparisons>
+	</row>
+	<row>
+		<label>/view/my/file.html</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+		<min_time_generation>0.001</min_time_generation>
+		<max_time_generation>0.001</max_time_generation>
+		<sum_bandwidth>182</sum_bandwidth>
+		<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
+		<min_bandwidth>182</min_bandwidth>
+		<max_bandwidth>182</max_bandwidth>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>1</entry_nb_actions>
+		<entry_sum_visit_length>0</entry_sum_visit_length>
+		<entry_bounce_count>1</entry_bounce_count>
+		<exit_nb_visits>1</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>182</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>100%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0.001</avg_time_generation>
+		<url>http://piwik.net/view/my/file.html</url>
+		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+		<Actions_PageUrl>/view/my/file.html</Actions_PageUrl>
+		<comparisons>
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<nb_hits_with_time_generation>1</nb_hits_with_time_generation>
+				<min_time_generation>0.001</min_time_generation>
+				<max_time_generation>0.001</max_time_generation>
+				<sum_bandwidth>182</sum_bandwidth>
+				<nb_hits_with_bandwidth>1</nb_hits_with_bandwidth>
+				<min_bandwidth>182</min_bandwidth>
+				<max_bandwidth>182</max_bandwidth>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>1</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>1</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+				<avg_bandwidth>182</avg_bandwidth>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.001</avg_time_generation>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+			</row>
+			<row>
+				<nb_visits>0</nb_visits>
+				<nb_hits>0</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+				<min_time_generation>0</min_time_generation>
+				<max_time_generation>0</max_time_generation>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<entry_nb_visits>0</entry_nb_visits>
+				<entry_nb_actions>0</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>0</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
+				<avg_bandwidth>0</avg_bandwidth>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>month</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>August 2012</comparePeriodPretty>
+				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+			</row>
+			<row>
+				<nb_visits>0</nb_visits>
+				<nb_hits>0</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+				<min_time_generation>0</min_time_generation>
+				<max_time_generation>0</max_time_generation>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<entry_nb_visits>0</entry_nb_visits>
+				<entry_nb_actions>0</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>0</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
+				<avg_bandwidth>0</avg_bandwidth>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
+				<nb_visits_change>-100%</nb_visits_change>
+				<nb_hits_change>-100%</nb_hits_change>
+				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>-100%</nb_hits_with_time_generation_change>
+				<min_time_generation_change>-100%</min_time_generation_change>
+				<max_time_generation_change>-100%</max_time_generation_change>
+				<sum_bandwidth_change>-100%</sum_bandwidth_change>
+				<nb_hits_with_bandwidth_change>-100%</nb_hits_with_bandwidth_change>
+				<min_bandwidth_change>-100%</min_bandwidth_change>
+				<max_bandwidth_change>-100%</max_bandwidth_change>
+				<entry_nb_visits_change>-100%</entry_nb_visits_change>
+				<entry_nb_actions_change>-100%</entry_nb_actions_change>
+				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
+				<entry_bounce_count_change>-100%</entry_bounce_count_change>
+				<exit_nb_visits_change>-100%</exit_nb_visits_change>
+				<sum_daily_nb_uniq_visitors_change>-100%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_entry_nb_uniq_visitors_change>-100%</sum_daily_entry_nb_uniq_visitors_change>
+				<sum_daily_exit_nb_uniq_visitors_change>-100%</sum_daily_exit_nb_uniq_visitors_change>
+				<avg_bandwidth_change>-100%</avg_bandwidth_change>
+				<avg_time_on_page_change>+0%</avg_time_on_page_change>
+				<bounce_rate_change>-100%</bounce_rate_change>
+				<exit_rate_change>-100%</exit_rate_change>
+				<avg_time_generation_change>-100%</avg_time_generation_change>
+				<compareSegment />
+				<compareSegmentPretty>All visits</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+			</row>
+			<row>
+				<nb_visits>0</nb_visits>
+				<nb_hits>0</nb_hits>
+				<sum_time_spent>0</sum_time_spent>
+				<sum_time_generation>0</sum_time_generation>
+				<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+				<min_time_generation>0</min_time_generation>
+				<max_time_generation>0</max_time_generation>
+				<sum_bandwidth>0</sum_bandwidth>
+				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+				<min_bandwidth>0</min_bandwidth>
+				<max_bandwidth>0</max_bandwidth>
+				<entry_nb_visits>0</entry_nb_visits>
+				<entry_nb_actions>0</entry_nb_actions>
+				<entry_sum_visit_length>0</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>0</exit_nb_visits>
+				<sum_daily_nb_uniq_visitors>0</sum_daily_nb_uniq_visitors>
+				<sum_daily_entry_nb_uniq_visitors>0</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>0</sum_daily_exit_nb_uniq_visitors>
+				<avg_bandwidth>0</avg_bandwidth>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0</avg_time_generation>
+				<nb_visits_change>+0%</nb_visits_change>
+				<nb_hits_change>+0%</nb_hits_change>
+				<sum_time_spent_change>+0%</sum_time_spent_change>
+				<sum_time_generation_change>+0%</sum_time_generation_change>
+				<nb_hits_with_time_generation_change>+0%</nb_hits_with_time_generation_change>
+				<min_time_generation_change>+0%</min_time_generation_change>
+				<max_time_generation_change>+0%</max_time_generation_change>
+				<sum_bandwidth_change>+0%</sum_bandwidth_change>
+				<nb_hits_with_bandwidth_change>+0%</nb_hits_with_bandwidth_change>
+				<min_bandwidth_change>+0%</min_bandwidth_change>
+				<max_bandwidth_change>+0%</max_bandwidth_change>
+				<entry_nb_visits_change>+0%</entry_nb_visits_change>
+				<entry_nb_actions_change>+0%</entry_nb_actions_change>
+				<entry_sum_visit_length_change>+0%</entry_sum_visit_length_change>
+				<entry_bounce_count_change>+0%</entry_bounce_count_change>
+				<exit_nb_visits_change>+0%</exit_nb_visits_change>
+				<sum_daily_nb_uniq_visitors_change>+0%</sum_daily_nb_uniq_visitors_change>
+				<sum_daily_entry_nb_uniq_visitors_change>+0%</sum_daily_entry_nb_uniq_visitors_change>
+				<sum_daily_exit_nb_uniq_visitors_change>+0%</sum_daily_exit_nb_uniq_visitors_change>
+				<avg_bandwidth_change>+0%</avg_bandwidth_change>
+				<avg_time_on_page_change>+0%</avg_time_on_page_change>
+				<bounce_rate_change>+0%</bounce_rate_change>
+				<exit_rate_change>+0%</exit_rate_change>
+				<avg_time_generation_change>+0%</avg_time_generation_change>
+				<compareSegment>operatingSystemCode%3D%3DWIN</compareSegment>
+				<compareSegmentPretty>operatingSystemCode==WIN</compareSegmentPretty>
+				<comparePeriod>week</comparePeriod>
+				<compareDate>2012-08-16</compareDate>
+				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
+				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
+				<idsubdatatable>-1</idsubdatatable>
+				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
 			</row>
 		</comparisons>
 	</row>
