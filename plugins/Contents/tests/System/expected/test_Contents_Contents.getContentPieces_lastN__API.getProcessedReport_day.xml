@@ -87,36 +87,29 @@
 	<reportMetadata>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
-				<contentTarget>http://piwik.org/download</contentTarget>
 				<segment>contentPiece==Click+to+download+Piwik+now</segment>
 				<idsubdatatable>1</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget>http://www.example.com</contentTarget>
 				<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
 				<idsubdatatable>6</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget>http://www.example.com</contentTarget>
 				<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
 				<idsubdatatable>7</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget>http://piwik.org/</contentTarget>
 				<segment>contentPiece==Click+NOW</segment>
 				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget />
 				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget />
 				<segment>contentPiece==movie.mov</segment>
 				<idsubdatatable>5</idsubdatatable>
 			</row>
 			<row>
-				<contentTarget />
 				<segment>contentPiece==Unknown</segment>
 				<idsubdatatable>4</idsubdatatable>
 			</row>
