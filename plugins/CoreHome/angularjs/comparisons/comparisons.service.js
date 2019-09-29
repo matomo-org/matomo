@@ -308,7 +308,7 @@
             Object.freeze(periodComparisons);
 
             if (JSON.stringify(oldPeriodComparisons) !== JSON.stringify(periodComparisons)
-                && JSON.stringify(oldSegmentComparisons) !== JSON.stringify(segmentComparisons)
+                || JSON.stringify(oldSegmentComparisons) !== JSON.stringify(segmentComparisons)
             ) {
                 $rootScope.$emit('piwikComparisonsChanged');
             }

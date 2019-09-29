@@ -57,10 +57,8 @@
 
         function handleZIndexPositionRelativeCompareDropdownIssue() {
             $element.on('focus', '#comparePeriodToDropdown .select-dropdown', function () {
-                console.log('here?');
                 $element.addClass('compare-dropdown-open');
             }).on('blur', '#comparePeriodToDropdown .select-dropdown', function () {
-                console.log('there?');
                 $element.removeClass('compare-dropdown-open');
             });
         }
