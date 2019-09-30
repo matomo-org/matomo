@@ -713,7 +713,7 @@ class Access
         }
         // Try to detect whether user was previously logged in so that we can display a different message
         $referrer = Url::getReferrer();
-        if (Url::isValidHost(Url::getHostFromUrl($referrer)) &&
+        if ($referrer && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
             strpos($_SERVER['HTTP_REFERER'], SettingsPiwik::getPiwikUrl()) === 0
         ) {
             $message = Piwik::translate('General_YourSessionHasExpired');
