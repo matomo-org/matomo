@@ -42,7 +42,7 @@
             <span class="label">{{ comparisonLabel }}</span>
         </td>
         {% for dimension in dimensions %}
-        {% if loop.index0 != 0 %}
+        {% if loop.index0 != 0 and dimension in properties.columns_to_display %}
         <td class="label">
             &nbsp;
         </td>
