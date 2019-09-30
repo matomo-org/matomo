@@ -62,6 +62,8 @@ class Evolution extends JqplotGraph
         $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
 
         if ($this->isComparing()) {
+            $this->config->show_limit_control = false; // since we always show the days over the period, there's no point in changing the limit
+
             $requestArray = $this->request->getRequestArray();
             $requestArray = ApiRequest::getRequestArrayFromString($requestArray);
 
