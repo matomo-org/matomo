@@ -1690,6 +1690,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 			hide: false,
 			tooltipClass: 'small'
 		});
+        domElem.find('span.ratio').tooltip({
+            track: true,
+            content: function() {
+                var title = $(this).attr('title');
+                return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+            },
+            show: {delay: 700, duration: 200},
+            hide: false
+        })
 	},
 
     handleRelatedReports: function (domElem) {
