@@ -245,6 +245,7 @@
         "InvalidResponse": "The received data is invalid.",
         "IP": "IP",
         "JsTrackingTag": "JavaScript Tracking Code",
+        "KpiMetric": "KPI Metric",
         "Language": "Language",
         "Languages": "Languages",
         "LastDays": "Last %s days (including today)",

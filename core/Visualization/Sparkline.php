@@ -53,33 +53,29 @@ class Sparkline implements ViewInterface
 
         $sparkline = new \Davaxi\Sparkline();
 
-        $seconds = Piwik::translate('Intl_NSecondsShort');
-        $percent = Piwik::translate('Intl_NumberSymbolPercent');
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $decimalSeparator = Piwik::translate('Intl_NumberSymbolDecimal');
-        $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
+
         $values = [];
+        $hasFloat = false;
         foreach ($this->values as $value) {
-            // 50% and 50s should be plotted as 50
-            $value = str_replace($toRemove, '', $value);
+
             // replace localized decimal separator
             $value = str_replace($thousandSeparator, '', $value);
             $value = str_replace($decimalSeparator, '.', $value);
-            // remove spaces and tabs 
-            $value = trim($value);
-            if ($value == '') {
+
+            // sanitize value
+            $value = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_SCIENTIFIC);
+
+            if (empty($value) || !is_numeric($value)) {
                 $value = 0;
             }
-            $values[] = $value;
-        }
 
-        $hasFloat = false;
-        foreach ($values as $value) {
-            if (is_numeric($value)
-                && is_float($value + 0) // coerce to int/float type before checking
+            $values[] = $value;
+
+            if (is_float($value + 0) // coerce to int/float type before checking
             ) {
                 $hasFloat = true;
-                break;
             }
         }
 

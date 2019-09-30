@@ -161,6 +161,8 @@
         "EmailChangedEmail2": "Esta alteração deu-se a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Caso tenha sido iniciada por si, ignore este e-mail. Caso contrário, por favor, inicie sessão, corrija o seu endereço de e-mail, altere a sua palavra-passe e entre em contacto com o seu administrador do Matomo.",
         "PasswordChangeNotificationSubject": "A palavra-passe da sua conta do Matomo foi alterada",
-        "PasswordChangedEmail": "A sua palavra-passe foi alterada. Esta alteração deu-se a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s)."
+        "PasswordChangedEmail": "A sua palavra-passe foi alterada. Esta alteração deu-se a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
+        "NewsletterSignupTitle": "Assinatura à Newsletter",
+        "NewsletterSignupMessage": "Subscreva à nossa newsletter para se manter regularmente informado sobre o Matomo. Pode cancelar a sua assinatura a qualquer momento. Este serviço utiliza MadMimi. Para mais informações, consulte a nossa %1$spágina de Política de Privacidade %2$s."
     }
 }
