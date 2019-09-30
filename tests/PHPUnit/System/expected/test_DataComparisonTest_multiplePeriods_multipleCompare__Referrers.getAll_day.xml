@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="Referrers.getAll with multiple sites or dates is not supported (yet).
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
+</result>

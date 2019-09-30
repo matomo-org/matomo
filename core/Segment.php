@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 
 /**
@@ -76,6 +77,11 @@ class Segment
     private $segmentQueryBuilder;
 
     /**
+     * @var bool
+     */
+    private $isSegmentEncoded;
+
+    /**
      * Truncate the Segments to 8k
      */
     const SEGMENT_TRUNCATE_LIMIT = 8192;
@@ -103,8 +109,10 @@ class Segment
         // If that also fails, it will throw the exception
         try {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
+            $this->isSegmentEncoded = true;
         } catch (Exception $e) {
             $this->initializeSegment($segmentCondition, $idSites);
+            $this->isSegmentEncoded = false;
         }
     }
 
@@ -407,5 +415,31 @@ class Segment
             || $segment === $segmentCondition
             || $segment === urlencode($segmentCondition)
             || $segment === urldecode($segmentCondition);
+    }
+
+    public function getStoredSegmentName($idSite)
+    {
+        $segment = $this->getString();
+        if (empty($segment)) {
+            return Piwik::translate('SegmentEditor_DefaultAllVisits');
+        }
+
+        $availableSegments = SegmentEditor::getAllSegmentsForSite($idSite);
+
+        $foundStoredSegment = null;
+        foreach ($availableSegments as $storedSegment) {
+            if ($storedSegment['definition'] == $segment
+                || $storedSegment['definition'] == urldecode($segment)
+                || $storedSegment['definition'] == urlencode($segment)
+            ) {
+                $foundStoredSegment = $storedSegment;
+            }
+        }
+
+        if (isset($foundStoredSegment)) {
+            return $foundStoredSegment['name'];
+        }
+
+        return $this->isSegmentEncoded ? urldecode($segment) : $segment;
     }
 }
