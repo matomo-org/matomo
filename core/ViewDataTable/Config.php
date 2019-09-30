@@ -533,6 +533,13 @@ class   Config
     public $segmented_visitor_log_segment_suffix = '';
 
     /**
+     * Disable comparison support for this specific usage of a ViewDataTable.
+     *
+     * @var bool
+     */
+    public $disable_comparison = false;
+
+    /**
      * @ignore
      */
     public $report_id = '';

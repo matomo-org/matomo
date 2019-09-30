@@ -23,6 +23,8 @@ use Piwik\Metrics;
  */
 class Row extends \ArrayObject
 {
+    const COMPARISONS_METADATA_NAME = 'comparisons';
+
     /**
      * List of columns that cannot be summed. An associative array for speed.
      *
@@ -87,9 +89,11 @@ class Row extends \ArrayObject
      */
     public function export()
     {
+        $metadataToPersist = $this->metadata;
+        unset($metadataToPersist[self::COMPARISONS_METADATA_NAME]);
         return array(
             self::COLUMNS => $this->getArrayCopy(),
-            self::METADATA => $this->metadata,
+            self::METADATA => $metadataToPersist,
             self::DATATABLE_ASSOCIATED => $this->subtableId,
         );
     }
@@ -588,6 +592,30 @@ class Row extends \ArrayObject
     public function isSummaryRow()
     {
         return $this->getColumn('label') === DataTable::LABEL_SUMMARY_ROW;
+    }
+
+    /**
+     * Returns the associated comparisons DataTable, if any.
+     *
+     * @return DataTable|null
+     */
+    public function getComparisons()
+    {
+        $dataTableId = $this->getMetadata(self::COMPARISONS_METADATA_NAME);
+        if (empty($dataTableId)) {
+            return null;
+        }
+        return Manager::getInstance()->getTable($dataTableId);
+    }
+
+    /**
+     * Associates the supplied table with this row as the comparisons table.
+     *
+     * @param DataTable $table
+     */
+    public function setComparisons(DataTable $table)
+    {
+        $this->setMetadata(self::COMPARISONS_METADATA_NAME, $table->getId());
     }
 
     /**

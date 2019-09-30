@@ -95,6 +95,27 @@
                     exportUrlParams.period = period;
                     exportUrlParams.date = param_date;
 
+                    if (dataTable.param.compareDates
+                        && dataTable.param.compareDates.length
+                    ) {
+                        exportUrlParams.compareDates = dataTable.param.compareDates;
+                        exportUrlParams.compare = '1';
+                    }
+
+                    if (dataTable.param.comparePeriods
+                        && dataTable.param.comparePeriods.length
+                    ) {
+                        exportUrlParams.comparePeriods = dataTable.param.comparePeriods;
+                        exportUrlParams.compare = '1';
+                    }
+
+                    if (dataTable.param.compareSegments
+                        && dataTable.param.compareSegments.length
+                    ) {
+                        exportUrlParams.compareSegments = dataTable.param.compareSegments;
+                        exportUrlParams.compare = '1';
+                    }
+
                     if (typeof dataTable.param.filter_pattern != "undefined") {
                         exportUrlParams.filter_pattern = dataTable.param.filter_pattern;
                     }

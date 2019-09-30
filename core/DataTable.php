@@ -672,6 +672,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         ) {
             return $this->summaryRow;
         }
+        if (empty($rowId)
+            && !empty($this->totalsRow)
+            && $label == $this->totalsRow->getColumn('label')
+        ) {
+            return $this->totalsRow;
+        }
         if ($rowId instanceof Row) {
             return $rowId;
         }

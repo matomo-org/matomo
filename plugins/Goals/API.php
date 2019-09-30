@@ -440,7 +440,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
      * @return DataTable
      */
-    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false)
+    public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -477,6 +477,19 @@ class API extends \Piwik\Plugin\API
                 $merger = new MergeDataTables();
                 $merger->mergeDataTables($table, $tableSegmented);
             }
+        }
+
+        // if we are comparing, this will be queried with format_metrics=0, but we will eventually need to format the metrics.
+        // unfortunately, we can't do that since the processed metric information is in the GetMetrics report. in this case,
+        // we queue the filter so it will eventually be formatted.
+        if (!empty($compare)) {
+            $getMetricsReport = ReportsProvider::factory('Goals', 'getMetrics');
+            $table->queueFilter(function (DataTable $t) use ($getMetricsReport) {
+                $t->setMetadata(Metrics\Formatter::PROCESSED_METRICS_FORMATTED_FLAG, false);
+
+                $formatter = new Metrics\Formatter();
+                $formatter->formatMetrics($t, $getMetricsReport, $metricsToFormat = null, $formatAll = true);
+            });
         }
 
         return $table;

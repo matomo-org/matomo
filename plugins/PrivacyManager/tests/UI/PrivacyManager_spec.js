@@ -63,7 +63,7 @@ describe("PrivacyManager", function () {
 
     async function deleteDataSubjects()
     {
-        await page.click('.deleteDataSubjects input');
+        await page.evaluate(() => $('.deleteDataSubjects input').click());
         await page.waitFor(500); // wait for animation
     }
 
@@ -267,7 +267,7 @@ describe("PrivacyManager", function () {
 
     it('should ask for confirmation before deleting any visit', async function() {
         await deleteDataSubjects();
-        const modal = await page.$('.modal.open');
+        const modal = await page.waitFor('.modal.open', { visible: true });
         expect(await modal.screenshot()).to.matchImage('gdpr_tools_delete_visit_unconfirmed');
     });
 

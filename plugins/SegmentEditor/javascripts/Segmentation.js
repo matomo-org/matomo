@@ -80,6 +80,20 @@ Segmentation = (function($) {
             $(this.content).attr('title', title);
         };
 
+        segmentation.prototype.markComparedSegments = function() {
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
+                return comparison.params.segment;
+            });
+
+            $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
+                var definition = $(this).attr('data-definition');
+                return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
+            }).each(function () {
+                $(this).addClass('comparedSegment');
+            });
+        };
+
         segmentation.prototype.markCurrentSegment = function(){
             var current = this.getSegment();
 
@@ -150,7 +164,14 @@ Segmentation = (function($) {
                 (self.currentSegmentStr == "" ? " class='segmentSelected'" : "")
                 + ' data-definition=""><span class="segname" tabindex="4">' + self.translations['SegmentEditor_DefaultAllVisits']
                 + ' ' + self.translations['General_DefaultAppended']
-                + '</span></li> ';
+                + '</span>';
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            if (comparisonService.isComparisonEnabled()
+                || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+            ) {
+                listHtml += '<span class="compareSegment allVisitsCompareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
+            }
+            listHtml += '</li>';
 
             var isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
             var isVisibleToSuperUserNoticeShouldBeClosed = false;
@@ -195,6 +216,11 @@ Segmentation = (function($) {
                         +injClass+' title="'+ getSegmentTooltipEnrichedWithUsername(segment) +'"><span class="segname" tabindex="4">'+getSegmentName(segment)+'</span>';
                     if(self.segmentAccess == "write") {
                         listHtml += '<span class="editSegment" title="'+ self.translations['General_Edit'].toLocaleLowerCase() +'"></span>';
+                    }
+                    if (comparisonService.isComparisonEnabled()
+                        || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of angular
+                    ) {
+                        listHtml += '<span class="compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
                     }
                     listHtml += '</li>';
                 }
@@ -390,6 +416,20 @@ Segmentation = (function($) {
                 openEditFormGivenSegment(target);
                 e.stopPropagation();
                 e.preventDefault();
+            });
+
+            self.target.on('click', '.compareSegment', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+                comparisonService.addSegmentComparison({
+                    segment: $(e.target).closest('li').data('definition'),
+                });
+
+                self.markComparedSegments();
+
+                closeAllOpenLists();
             });
 
             self.target.on("click", ".segmentList li", function (e) {
@@ -764,6 +804,8 @@ Segmentation = (function($) {
         }
 
         this.initHtml = function() {
+            var self = this;
+
             var html = getListHtml();
 
             if(typeof self.content !== "undefined"){
@@ -775,6 +817,9 @@ Segmentation = (function($) {
 
             // assign content to object attribute to make it easil accesible through all widget methods
             this.markCurrentSegment();
+            setTimeout(function () {
+                self.markComparedSegments();
+            });
 
             // Loading message
             var segmentIsSet = this.getSegment().length;
@@ -794,6 +839,10 @@ Segmentation = (function($) {
                     if (self.getSegment() != segment) {
                         self.setSegment(segment);
                         self.initHtml();
+                    } else {
+                        setTimeout(function () {
+                            self.markComparedSegments();
+                        });
                     }
                 });
             });
@@ -1044,6 +1093,8 @@ $(document).ready(function() {
         $('body').on('mouseup', this.onMouseUp);
 
         initTopControls();
+
+        piwikHelper.getAngularDependency('$rootScope').$emit('piwikSegmentationInited');
     };
 
     /**

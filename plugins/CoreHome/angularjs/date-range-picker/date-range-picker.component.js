@@ -32,9 +32,9 @@
         controller: DateRangePickerController
     });
 
-    DateRangePickerController.$inject = [];
+    DateRangePickerController.$inject = ['piwikPeriods'];
 
-    function DateRangePickerController() {
+    function DateRangePickerController(piwikPeriods) {
         var vm = this;
 
         vm.fromPickerSelectedDates = null;
@@ -118,7 +118,7 @@
 
         function setStartRangeDate(date) {
             vm.startDateInvalid = false;
-            vm.startDate = $.datepicker.formatDate('yy-mm-dd', date);
+            vm.startDate = piwikPeriods.format(date);
 
             vm.fromPickerSelectedDates = [date, date];
 
@@ -127,7 +127,7 @@
 
         function setEndRangeDate(date) {
             vm.endDateInvalid = false;
-            vm.endDate = $.datepicker.formatDate('yy-mm-dd', date);
+            vm.endDate = piwikPeriods.format(date);
 
             vm.toPickerSelectedDates = [date, date];
 

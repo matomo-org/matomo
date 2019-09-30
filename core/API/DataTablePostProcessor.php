@@ -21,6 +21,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -119,6 +120,7 @@ class DataTablePostProcessor
 
         $dataTable = $this->applyGenericFilters($dataTable);
         $this->applyComputeProcessedMetrics($dataTable);
+        $dataTable = $this->applyComparison($dataTable);
 
         if ($this->callbackAfterGenericFilters) {
             call_user_func($this->callbackAfterGenericFilters, $dataTable);
@@ -126,6 +128,7 @@ class DataTablePostProcessor
 
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
+
         $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
@@ -472,6 +475,28 @@ class DataTablePostProcessor
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
+    }
+
+    public function applyComparison(DataTableInterface $dataTable)
+    {
+        $compare = Common::getRequestVar('compare', '0', 'int', $this->request);
+        if ($compare != 1) {
+            return $dataTable;
+        }
+
+        $filter = new DataComparisonFilter($this->request, $this->report);
+        $filter->compare($dataTable);
+
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
+                $comparisons = $row->getComparisons();
+                if (!empty($comparisons)) {
+                    $this->computeProcessedMetrics($comparisons);
+                }
+            }
+        });
+
+        return $dataTable;
     }
 }
 
