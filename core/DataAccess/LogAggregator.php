@@ -838,7 +838,7 @@ class LogAggregator
         }
 
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC';
+            $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC, `name`';
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
