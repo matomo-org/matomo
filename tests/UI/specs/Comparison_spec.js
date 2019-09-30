@@ -145,12 +145,13 @@ describe("Comparison", function () {
     it('should show the correct percentages and tooltip during comparison', async () => {
         const element = await page.jQuery('span.ratio:visible:eq(3)');
         await element.hover();
-        await page.waitFor('.ui-tooltip');
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_tooltip');
+        const tooltip = await page.waitFor('.ui-tooltip', { visible: true });
+        expect(await tooltip.screenshot()).to.matchImage('totals_tooltip');
     });
 
     it('should show the normal html table correctly when comparing segments but not periods', async () => {
         await page.goto(htmlTableUrlNoPeriods);
+        await page.mouse.move(-10, -10); // mae sure no row is highlighted
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('normal_table_no_periods');
     });
