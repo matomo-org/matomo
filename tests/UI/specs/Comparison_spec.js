@@ -120,6 +120,8 @@ describe("Comparison", function () {
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();
 
+        await page.mouse.move(-10, -10);
+
         const pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_no_compare');
     });
