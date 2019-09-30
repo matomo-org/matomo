@@ -356,8 +356,6 @@ DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (lab
 
         this.multiEvolutionRowsSeries = []; // for safety, make sure state is consistent
     }
-
-    console.log(this.multiEvolutionRows, this.multiEvolutionRowsSeries);
 };
 
 DataTable_RowActions_RowEvolution.prototype.openPopover = function (apiMethod, extraParams, label) {

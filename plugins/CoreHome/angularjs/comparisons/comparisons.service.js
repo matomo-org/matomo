@@ -315,6 +315,7 @@
         }
 
         function checkEnabledForCurrentPage() {
+            // category/subcategory is not included on top bar pages, so in that case we use module/action
             var category = piwikUrl.getSearchParam('category') || piwikUrl.getSearchParam('module');
             var subcategory = piwikUrl.getSearchParam('subcategory') || piwikUrl.getSearchParam('action');
 
