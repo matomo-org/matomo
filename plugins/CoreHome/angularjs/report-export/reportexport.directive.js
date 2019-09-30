@@ -21,7 +21,8 @@
                 'reportTitle': '@',
                 'requestParams': '@',
                 'reportFormats': '@',
-                'apiMethod': '@'
+                'apiMethod': '@',
+                'maxFilterLimit': '@',
             },
             link: function(scope, element, attr) {
 
@@ -204,8 +205,12 @@
                     var formats   = JSON.parse(scope.reportFormats);
 
                     scope.reportType          = 'default';
-                    scope.reportLimit         = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
-                    scope.reportLimitAll      = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
+                    var reportLimit = dataTable.param.filter_limit;
+                    if (scope.maxFilterLimit > 0) {
+                        reportLimit = Math.min(reportLimit, scope.maxFilterLimit);
+                    }
+                    scope.reportLimit         = reportLimit > 0 ? reportLimit : 100;
+                    scope.reportLimitAll      = reportLimit == -1 ? 'yes' : 'no';
                     scope.optionFlat          = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === "1";
                     scope.optionExpanded      = 1;
                     scope.optionFormatMetrics = 0;
@@ -232,6 +237,14 @@
                             scope.reportFormat = 'XML';
                         }
                     }, true);
+
+                    if (scope.maxFilterLimit > 0) {
+                        scope.$watch('reportLimit', function (newVal, oldVal) {
+                            if (parseInt(newVal, 10) > parseInt(scope.maxFilterLimit, 10)) {
+                                scope.reportLimit = oldVal;
+                            }
+                        }, true);
+                    }
 
                     var elem = $document.find('#reportExport').eq(0);
 

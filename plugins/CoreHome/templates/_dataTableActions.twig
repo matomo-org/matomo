@@ -76,6 +76,7 @@
                report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
                api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
                href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
+               max-filter-limit="{{ properties.max_export_filter_limit|e('html_attr') }}"
                ><span class="icon-export"></span></a>
         {% endif %}
 
