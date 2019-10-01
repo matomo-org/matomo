@@ -63,9 +63,11 @@ class SitesManager extends \Piwik\Plugin
 
     public function addSystemSummaryItems(&$systemSummary)
     {
-        $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
-        $numWebsites = count($websites);
-        $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        if (self::isSitesAdminEnabled()) {
+            $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+            $numWebsites = count($websites);
+            $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        }
     }
 
     public function redirectDashboardToWelcomePage(&$module, &$action)

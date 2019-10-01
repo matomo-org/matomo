@@ -62,6 +62,8 @@ class Controller extends ControllerAdmin
         $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
         $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
         $hasTrackingFailures = $widgetsList->isDefined('CoreAdminHome', 'getTrackingFailures');
+        $hasQuickLinks = $widgetsList->isDefined('CoreHome', 'quickLinks');
+        $hasSystemSummary = $widgetsList->isDefined('CoreHome', 'getSystemSummary');
 
         return $this->renderTemplate('home', array(
             'isInternetEnabled' => $isInternetEnabled,
@@ -73,6 +75,8 @@ class Controller extends ControllerAdmin
             'hasPiwikBlog' => $hasPiwikBlog,
             'hasDiagnostics' => $hasDiagnostics,
             'hasTrackingFailures' => $hasTrackingFailures,
+            'hasQuickLinks' => $hasQuickLinks,
+            'hasSystemSummary' => $hasSystemSummary,
         ));
     }
 
