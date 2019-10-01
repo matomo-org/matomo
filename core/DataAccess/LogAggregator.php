@@ -797,13 +797,21 @@ class LogAggregator
      *
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
+     * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */
-    public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
-    {
+    public function queryActionsByDimension(
+        $dimensions,
+        $where = '',
+        $additionalSelects = array(),
+        $metrics = false,
+        $rankingQuery = null,
+        $joinLogActionOnColumn = false,
+        $secondaryOrderBy = null
+    ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
 
@@ -811,7 +819,6 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::ACTION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
 
         if ($joinLogActionOnColumn !== false) {
             $multiJoin = is_array($joinLogActionOnColumn);
@@ -837,8 +844,12 @@ class LogAggregator
             }
         }
 
+        $orderBy = false;
         if ($rankingQuery) {
-            $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC, `name`';
+            $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC';
+            if ($secondaryOrderBy) {
+                $orderBy .= ', ' . $secondaryOrderBy;
+            }
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
