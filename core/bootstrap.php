@@ -29,7 +29,9 @@ if (!defined('PIWIK_VENDOR_PATH')) {
 // NOTE: the code above must be PHP 4 compatible
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
-session_cache_limiter('nocache');
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_cache_limiter('nocache');
+}
 
 define('PIWIK_DEFAULT_TIMEZONE', @date_default_timezone_get());
 @date_default_timezone_set('UTC');

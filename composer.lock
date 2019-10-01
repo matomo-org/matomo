@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac7bafda9a656a01d9db4d485997bd04",
+    "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -157,17 +157,11 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "1.1.2",
+            "version": "dev-multiple-series",
             "source": {
                 "type": "git",
-                "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "shasum": ""
+                "url": "https://github.com/matomo-org/Sparkline.git",
+                "reference": "d5840d8bd753eab9cadf7589af76b51dfd92e098"
             },
             "require": {
                 "ext-gd": "*",
@@ -192,7 +186,6 @@
                     "Davaxi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -210,7 +203,11 @@
                 "picture",
                 "sparkline"
             ],
-            "time": "2017-12-15T15:45:18+00:00"
+            "support": {
+                "issues": "https://github.com/davaxi/Sparkline/issues",
+                "source": "https://github.com/davaxi/Sparkline/releases"
+            },
+            "time": "2019-08-26T06:43:23+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -781,18 +778,18 @@
             "authors": [
                 {
                     "name": "Greg Beaver",
-                    "email": "cellog@php.net",
-                    "role": "Helper"
+                    "role": "Helper",
+                    "email": "cellog@php.net"
                 },
                 {
                     "name": "Andrei Zmievski",
-                    "email": "andrei@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "andrei@php.net"
                 },
                 {
                     "name": "Stig Bakken",
-                    "email": "stig@php.net",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "stig@php.net"
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
@@ -835,8 +832,8 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
-                    "email": "cweiske@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "cweiske@php.net"
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
@@ -1603,7 +1600,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -2737,6 +2734,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -3276,6 +3274,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

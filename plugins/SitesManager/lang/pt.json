@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Alterar o seu fuso horário apenas afeta os dados futuros e não será aplicado retroativamente.",
         "Currency": "Moeda",
         "CurrencySymbolWillBeUsedForGoals": "O símbolo da Moeda será mostrado ao lado dos rendimentos dos Objetivos.",
+        "CustomizeJavaScriptTracker": "Personalizar o acompanhamento por JavaScript",
         "DefaultCurrencyForNewWebsites": "Moeda predefinida para novos sites",
         "DefaultTimezoneForNewWebsites": "Fuso horário predefinido para novos sites",
         "DeleteConfirm": "Tem a certeza que pretende eliminar o site %s?",
@@ -90,6 +91,10 @@
         "ChooseMeasurableTypeHeadline": "O que quer medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Atualmente tem acesso a %s sites.",
         "YourCurrentIpAddressIs": "O seu endereço IP atual é %s",
-        "DeleteSiteExplanation": "A eliminação de um site irá remover todos os registos de dados que foram recolhidos para o mesmo. Esta ação é permanente e não pode ser anulada."
+        "DeleteSiteExplanation": "A eliminação de um site irá remover todos os registos de dados que foram recolhidos para o mesmo. Esta ação é permanente e não pode ser anulada.",
+        "EmailInstructionsButton": "Enviar estas instruções por e-mail",
+        "EmailInstructionsGenerateTrackingCode": "Pode também gerar um código de acompanhamento específico em %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Detalhes sobre o seu site",
+        "EmailInstructionsYourTrackingUrl": "O seu endereço de acompanhamento: %1$s"
     }
 }

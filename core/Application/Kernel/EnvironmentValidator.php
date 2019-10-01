@@ -82,7 +82,7 @@ class EnvironmentValidator
         if (isset($general['enable_installer'])
             && !$general['enable_installer']
         ) {
-            throw new InvalidRequestParameterException('Matomo is not set up yet');
+            throw new NotYetInstalledException('Matomo is not set up yet');
         }
 
         $message = $this->getSpecificMessageWhetherFileExistsOrNot($path);

@@ -21,6 +21,7 @@
         "ProfessionalHelp": "專業協助",
         "ProfessionalServicesOfferIntro": "你可以獲得哪些服務？",
         "ContactUs": "聯絡我們",
-        "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。"
+        "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。",
+        "Forums": "論壇"
     }
 }

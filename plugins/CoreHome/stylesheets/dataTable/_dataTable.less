@@ -49,6 +49,11 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
+table.dataTable tr:not(.parentComparisonRow) img.link {
+  position: relative;
+  top: 5px;
+}
+
 table.subDataTable img.link {
   transform: translateY(-50%);
 }
@@ -83,7 +88,7 @@ body>.widget table.dataTable {
 }
 
 // for dataTables in report pages (not for widgets in the dashboard)
-.theWidgetContent .card .card-content table.dataTable {
+.theWidgetContent .card .card-content table.dataTable, table.dataTable, table.subDataTable {
 
   th {
     background: @theme-color-background-base !important;
@@ -163,11 +168,17 @@ table.dataTable span.label.highlighted {
   font-style: italic;
 }
 
+.widget div.dataTable:not(.isComparing) table.dataTable tbody > tr > td:not(.cellSubDataTable):first-child {
+  padding-left: 12px;
+}
+
 /* the cell containing the subdatatable */
-table.dataTable .cellSubDataTable {
-  margin: 0;
-  border-left: 0;
-  padding: 6px 12px 6px;
+table.dataTable tr td.cellSubDataTable {
+  &, .widget & {
+    margin: 0;
+    border-left: 0;
+    padding: 6px 20px 6px;
+  }
 }
 
 .cellSubDataTable > .dataTable {
@@ -445,13 +456,18 @@ tr.level0 td.label {
 }
 
 .widget {
-  tr.level0 td.label {
+  div.dataTable:not(.isComparing) table.dataTable tr.level0 td.label,
+  div.dataTable:not(.isComparing) table.dataTable th {
     padding-left: 12px !important;
   }
 }
 
 tr.level1 td.label {
   padding-left: 2.5em !important;
+
+  .widget & {
+    padding-left: 28px !important;
+  }
 }
 
 tr.level2 td.label {
@@ -493,7 +509,7 @@ tr.level12 td.label {
 /* less right margins for the link image in the Pa*/
 .dataTableActions table.dataTable img.link {
   margin-right: 0.5em;
-  margin-left: 0;
+  margin-left: 1px;
   margin-bottom: 4px;
   vertical-align: text-bottom;
 }
@@ -505,7 +521,7 @@ table.dataTable td.label img {
 
 tr td.label img.plusMinus {
   margin-left: -3px;
-  margin-right: 3px;
+  margin-right: 6px;
   margin-top: 0;
 }
 
@@ -615,9 +631,11 @@ div.dataTableScroller {
   overflow-x: scroll;
 }
 
-.theWidgetContent .card .card-content div.dataTableScroller {
-  margin-left: -20px;
-  width: ~"calc(100% + 40px)";
+.theWidgetContent .card .card-content, table.dataTable {
+  div.dataTableScroller {
+    margin-left: -20px;
+    width: ~"calc(100% + 40px)";
+  }
 }
 
 @media only screen and (min-width: 993px) {
