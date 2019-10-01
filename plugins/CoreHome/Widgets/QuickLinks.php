@@ -5,6 +5,8 @@ namespace Piwik\Plugins\CoreHome\Widgets;
 
 
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 
@@ -20,7 +22,13 @@ class QuickLinks extends Widget
 
     public function render()
     {
-        return $this->renderTemplate('quickLinks');
+        $hasUsersAdmin = UsersManager::isUsersAdminEnabled();
+        $hasSitesAdmin = SitesManager::isSitesAdminEnabled();
+
+        return $this->renderTemplate('quickLinks', array(
+            'hasUsersAdmin' => $hasUsersAdmin,
+            'hasSitesAdmin' => $hasSitesAdmin,
+        ));
     }
 
 }
