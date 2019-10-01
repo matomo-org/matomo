@@ -40,7 +40,16 @@ class TransactionLevel
 
     public function setUncommitted()
     {
-        $backup = $this->db->fetchOne('SELECT @@TX_ISOLATION');
+        try {
+            $backup = $this->db->fetchOne('SELECT @@TX_ISOLATION');
+        } catch (\Exception $e) {
+            try {
+                $backup = $this->db->fetchOne('SELECT @@transaction_isolation');
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+
         try {
             $this->db->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
             $this->statusBackup = $backup;
