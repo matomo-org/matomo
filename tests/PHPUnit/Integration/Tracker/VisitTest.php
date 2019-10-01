@@ -395,7 +395,7 @@ class VisitTest extends IntegrationTestCase
         $currentActionTime = Date::today()->getDatetime();
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
-        $expectedRemembered = array();
+        $expectedRemembered = array(Date::today()->toString() => [1]);
 
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
     }
@@ -417,6 +417,7 @@ class VisitTest extends IntegrationTestCase
         // The double-handling below is needed to work around weird behaviour when UTC and UTC+5 are different dates
         // Example: 4:32am on 1 April in UTC+5 is 11:32pm on 31 March in UTC
         $midnight = Date::factoryInTimezone('today', 'UTC+5')->setTimezone('UTC+5');
+        $today = Date::factoryInTimezone('today', 'UTC+5');
 
         $oneHourAfterMidnight = $midnight->addHour(1)->getDatetime();
         $oneHourBeforeMidnight = $midnight->subHour(1)->getDatetime();
@@ -429,11 +430,12 @@ class VisitTest extends IntegrationTestCase
             $timezone = 'UTC+5');
 
         $expectedRemembered = array(
-            substr($oneHourAfterMidnight, 0, 10) => array($idsite)
+            substr($oneHourAfterMidnight, 0, 10) => array($idsite),
+            $today->toString() => [$idsite],
         );
 
         // if website timezone was von considered both would be today (expected = array())
-        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourAfterMidnight, array());
+        $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourAfterMidnight, array($today->toString() => [$idsite]));
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $oneHourBeforeMidnight, $expectedRemembered);
     }
 

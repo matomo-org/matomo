@@ -103,18 +103,41 @@ class RawLogDao
      *                            ```
      * @param int $iterationStep The number of rows to query at a time.
      * @param callable $callback The callback that processes each chunk of rows.
+     * @param string $willDelete Set to true if you will make sure to delete all rows that were fetched. If you are in
+     *                           doubt and not sure if to set true or false, use "false". Setting it to true will
+     *                           enable an internal performance improvement but it can result in an endless loop if not
+     *                           used properly.
      */
-    public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback)
+    public function forAllLogs($logTable, $fields, $conditions, $iterationStep, $callback, $willDelete)
     {
-        $idField = $this->getIdFieldForLogTable($logTable);
+        $lastId = 0;
+
+        if ($willDelete) {
+            // we don't want to look at eg idvisit so the query will be mostly index covered as the
+            // "where idvisit > 0 ... ORDER BY idvisit ASC" will be gone... meaning we don't need to look at a huge range
+            // of visits...
+            $idField = null;
+            $bindFunction = function ($bind, $lastId) {
+                return $bind;
+            };
+        } else {
+            // when we are not deleting, we need to ensure to iterate over each visitor step by step... meaning we
+            // need to remember which visit we have already looked at and which one not. Therefore we need to apply
+            // "where idvisit > $lastId" in the query and "order by idvisit ASC"
+            $idField = $this->getIdFieldForLogTable($logTable);
+            $bindFunction = function ($bind, $lastId) {
+                return array_merge(array($lastId), $bind);
+            };
+        }
+
         list($query, $bind) = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
 
-        $lastId = 0;
         do {
-            $rows = Db::fetchAll($query, array_merge(array($lastId), $bind));
+            $rows = Db::fetchAll($query, call_user_func($bindFunction, $bind, $lastId));
             if (!empty($rows)) {
-                $lastId = $rows[count($rows) - 1][$idField];
-
+                if ($idField) {
+                    $lastId = $rows[count($rows) - 1][$idField];
+                }
                 $callback($rows);
             }
         } while (count($rows) == $iterationStep);
@@ -250,23 +273,34 @@ class RawLogDao
     {
         $bind = array();
 
-        $sql = "SELECT " . implode(', ', $fields) . " FROM `" . Common::prefixTable($logTable) . "` WHERE $idField > ?";
+        $sql = "SELECT " . implode(', ', $fields) . " FROM `" . Common::prefixTable($logTable) . "` WHERE ";
+
+        $parts = array();
+
+        if ($idField) {
+            $parts[] = "$idField > ?";
+        }
 
         foreach ($conditions as $condition) {
             list($column, $operator, $value) = $condition;
 
             if (is_array($value)) {
-                $sql .= " AND $column IN (" . Common::getSqlStringFieldsArray($value) . ")";
+                $parts[] = "$column IN (" . Common::getSqlStringFieldsArray($value) . ")";
 
                 $bind = array_merge($bind, $value);
             } else {
-                $sql .= " AND $column $operator ?";
+                $parts[]= "$column $operator ?";
 
                 $bind[] = $value;
             }
         }
+        $sql .= implode(' AND ', $parts);
 
-        $sql .= " ORDER BY $idField ASC LIMIT " . (int)$iterationStep;
+        if ($idField) {
+            $sql .= " ORDER BY $idField ASC";
+        }
+
+        $sql .= " LIMIT " . (int)$iterationStep;
 
         return array($sql, $bind);
     }

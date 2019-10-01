@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93fb13394d1cb02f14d3e74ab475702b",
+    "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -157,17 +157,11 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "1.1.2",
+            "version": "dev-multiple-series",
             "source": {
                 "type": "git",
-                "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "shasum": ""
+                "url": "https://github.com/matomo-org/Sparkline.git",
+                "reference": "d5840d8bd753eab9cadf7589af76b51dfd92e098"
             },
             "require": {
                 "ext-gd": "*",
@@ -192,7 +186,6 @@
                     "Davaxi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -210,7 +203,11 @@
                 "picture",
                 "sparkline"
             ],
-            "time": "2017-12-15T15:45:18+00:00"
+            "support": {
+                "issues": "https://github.com/davaxi/Sparkline/issues",
+                "source": "https://github.com/davaxi/Sparkline/releases"
+            },
+            "time": "2019-08-26T06:43:23+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -781,18 +778,18 @@
             "authors": [
                 {
                     "name": "Greg Beaver",
-                    "email": "cellog@php.net",
-                    "role": "Helper"
+                    "role": "Helper",
+                    "email": "cellog@php.net"
                 },
                 {
                     "name": "Andrei Zmievski",
-                    "email": "andrei@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "andrei@php.net"
                 },
                 {
                     "name": "Stig Bakken",
-                    "email": "stig@php.net",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "stig@php.net"
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
@@ -835,8 +832,8 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
-                    "email": "cweiske@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "cweiske@php.net"
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
@@ -1042,16 +1039,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578"
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/0dcaaba79735bc2d60b72f020f6371eca633b578",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b000c45ce257b6949e2de4df7c094046986d85bc",
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc",
                 "shasum": ""
             },
             "require": {
@@ -1086,7 +1083,7 @@
                 "redis"
             ],
             "abandoned": "matomo/cache",
-            "time": "2018-03-05T02:55:54+00:00"
+            "time": "2019-07-14T20:55:33+00:00"
         },
         {
             "name": "piwik/decompress",
@@ -1127,21 +1124,21 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.11.8",
+            "version": "3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "8bfdbafc07ef6ba1c3cfff3bbb0554a860828a39"
+                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/8bfdbafc07ef6ba1c3cfff3bbb0554a860828a39",
-                "reference": "8bfdbafc07ef6ba1c3cfff3bbb0554a860828a39",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/a698de2c57d8e106b8f8e54671b4bf794dc9698e",
+                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e",
                 "shasum": ""
             },
             "require": {
                 "mustangostang/spyc": "*",
-                "php": ">=5.3.2"
+                "php": ">=5.5"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.7",
@@ -1178,7 +1175,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-06-20T21:32:44+00:00"
+            "time": "2019-07-22T14:35:14+00:00"
         },
         {
             "name": "piwik/ini",
@@ -1603,7 +1600,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -1744,31 +1741,31 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.38.4",
+            "version": "v1.42.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35"
+                "reference": "201baee843e0ffe8b0b956f336dd42b2a92fae4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7732e9e7017d751313811bd118de61302e9c8b35",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/201baee843e0ffe8b0b956f336dd42b2a92fae4e",
+                "reference": "201baee843e0ffe8b0b956f336dd42b2a92fae4e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
+                "php": ">=5.5.0",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/debug": "^3.4|^4.2",
+                "symfony/phpunit-bridge": "^4.4@dev|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.38-dev"
+                    "dev-master": "1.42-dev"
                 }
             },
             "autoload": {
@@ -1791,14 +1788,14 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
                     "name": "Twig Team",
                     "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -1806,7 +1803,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-23T14:27:19+00:00"
+            "time": "2019-08-24T12:51:03+00:00"
         }
     ],
     "packages-dev": [
@@ -3277,6 +3274,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

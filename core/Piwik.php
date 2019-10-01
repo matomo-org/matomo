@@ -606,7 +606,7 @@ class Piwik
      * @param array|string $columns
      * @return array
      */
-    public static function getArrayFromApiParameter($columns)
+    public static function getArrayFromApiParameter($columns, $unique = true)
     {
         if (empty($columns)) {
             return array();
@@ -615,7 +615,9 @@ class Piwik
             return $columns;
         }
         $array = explode(',', $columns);
-        $array = array_unique($array);
+        if ($unique) {
+            $array = array_unique($array);
+        }
         return $array;
     }
 

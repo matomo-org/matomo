@@ -267,4 +267,17 @@ class TrackerCodeGenerator
         }
         return $options;
     }
+
+    /**
+     * When including the JS tracking code in a mailto link, we need to strip the surrounding HTML tags off. This
+     * ensures consistent behaviour between mail clients that render the mailto body as plain text (as in the
+     * spec), and those which try to render it as HTML and therefore hide the tags.
+     * @param string $jsTrackingCode JS tracking code as returned from the generate() function.
+     * @return string
+     */
+    public static function stripTags($jsTrackingCode)
+    {
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        return trim(strip_tags(html_entity_decode($jsTrackingCode)));
+    }
 }

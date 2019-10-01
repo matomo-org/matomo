@@ -29,10 +29,16 @@ class Original extends ApiRenderer
     public function renderException($message, $exception)
     {
         if ($this->shouldSerialize()) {
-            return serialize([
+            $data = [
                 'result' => 'error',
                 'message' => $message,
-            ]);
+            ];
+
+            if ($this->shouldSendBacktrace()) {
+                $data['backtrace'] = $exception->getTraceAsString();
+            }
+
+            return serialize($data);
         }
 
         throw $exception;

@@ -35,7 +35,7 @@ class Sparkline implements ViewInterface
      * @var int
      */
     protected $_height = self::DEFAULT_HEIGHT;
-    private $values = array();
+    private $serieses = array();
     /**
      * @var \Davaxi\Sparkline
      */
@@ -43,58 +43,65 @@ class Sparkline implements ViewInterface
 
     /**
      * Array with format: array( x, y, z, ... )
-     * @param array $data
+     * @param array $data,...
      */
-    public function setValues($data) {
-        $this->values = $data;
+    public function setValues()
+    {
+        $this->serieses = func_get_args();
     }
 
-    public function main() {
+    public function addSeries(array $values)
+    {
+        $this->serieses[] = $values;
+    }
 
+    public function main()
+    {
         $sparkline = new \Davaxi\Sparkline();
 
-        $seconds = Piwik::translate('Intl_NSecondsShort');
-        $percent = Piwik::translate('Intl_NumberSymbolPercent');
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
-        $decimalSeparator = Piwik::translate('Intl_NumberSymbolGroup');
-        $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
-        $values = [];
-        foreach ($this->values as $value) {
-            // 50% and 50s should be plotted as 50
-            $value = str_replace($toRemove, '', $value);
-            // replace localized decimal separator
-            $value = str_replace($thousandSeparator, '', $value);
-            $value = str_replace($decimalSeparator, '.', $value);
-            if ($value == '') {
-                $value = 0;
+        $decimalSeparator = Piwik::translate('Intl_NumberSymbolDecimal');
+
+        $sparkline->setData(); // remove default series
+        foreach ($this->serieses as $seriesIndex => $series) {
+            $values = [];
+            $hasFloat = false;
+
+            foreach ($series as $value) {
+                // replace localized decimal separator
+                $value = str_replace($thousandSeparator, '', $value);
+                $value = str_replace($decimalSeparator, '.', $value);
+
+                // sanitize value
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_SCIENTIFIC);
+
+                if (empty($value) || !is_numeric($value)) {
+                    $value = 0;
+                }
+
+                $values[] = $value;
+
+                if (is_float($value + 0)) { // coerce to int/float type before checking
+                    $hasFloat = true;
+                }
             }
-            $values[] = $value;
-        }
 
-        $hasFloat = false;
-        foreach ($values as $value) {
-            if (is_numeric($value)
-                && is_float($value + 0) // coerce to int/float type before checking
-            ) {
-                $hasFloat = true;
-                break;
+            // the sparkline lib used converts everything to integers (see the FormatTrait.php file) which means float
+            // numbers that are close to 1.0 or 0.0 will get floored. this can happen in the average page generation time
+            // report, and cause some values which are, eg, around ~.9 to appear as 0 in the sparkline. to workaround this, we
+            // scale the values.
+            if ($hasFloat) {
+                $values = array_map(function ($x) {
+                    return $x * 1000.0;
+                }, $values);
             }
+
+            $sparkline->addSeries($values);
+            $this->setSparklineColors($sparkline, $seriesIndex);
         }
 
-        // the sparkline lib used converts everything to integers (see the FormatTrait.php file) which means float
-        // numbers that are close to 1.0 or 0.0 will get floored. this can happen in the average page generation time
-        // report, and cause some values which are, eg, around ~.9 to appear as 0 in the sparkline. to workaround this, we
-        // scale the values.
-        if ($hasFloat) {
-            $values = array_map(function ($x) {
-                return $x * 1000.0;
-            }, $values);
-        }
-
-        $sparkline->setData($values);
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
-        $this->setSparklineColors($sparkline);
         $sparkline->setLineThickness(1);
         $sparkline->setPadding('5');
 
@@ -152,7 +159,7 @@ class Sparkline implements ViewInterface
      *
      * @param \Davaxi\Sparkline $sparkline
      */
-    private function setSparklineColors($sparkline) {
+    private function setSparklineColors($sparkline, $seriesIndex) {
         $colors = Common::getRequestVar('colors', false, 'json');
 
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
@@ -171,20 +178,29 @@ class Sparkline implements ViewInterface
         } else {
             $sparkline->deactivateBackgroundColor();
         }
-        $sparkline->setLineColorHex($colors['lineColor']);
+
+        if (is_array($colors['lineColor'])) {
+            $sparkline->setLineColorHex($colors['lineColor'][$seriesIndex], $seriesIndex);
+
+            // set point colors to same as line colors so they can be better differentiated
+            $colors['minPointColor'] = $colors['maxPointColor'] = $colors['lastPointColor'] = $colors['lineColor'][$seriesIndex];
+        } else {
+            $sparkline->setLineColorHex($colors['lineColor']);
+        }
+
         if (strtolower($colors['fillColor'] !== "#ffffff")) {
             $sparkline->setFillColorHex($colors['fillColor']);
         } else {
             $sparkline->deactivateFillColor();
         }
         if (strtolower($colors['minPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("minimum", 5, $colors['minPointColor']);
+            $sparkline->addPoint("minimum", 5, $colors['minPointColor'], $seriesIndex);
         }
         if (strtolower($colors['maxPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("maximum", 5, $colors['maxPointColor']);
+            $sparkline->addPoint("maximum", 5, $colors['maxPointColor'], $seriesIndex);
         }
         if (strtolower($colors['lastPointColor'] !== "#ffffff")) {
-            $sparkline->addPoint("last", 5, $colors['lastPointColor']);
+            $sparkline->addPoint("last", 5, $colors['lastPointColor'], $seriesIndex);
         }
     }
 

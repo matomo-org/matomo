@@ -233,6 +233,7 @@
         "GraphHelp": "Më tepër të dhëna rreth shfaqjes së grafikëve në Matomo.",
         "HelloUser": "Tungjatjeta, %s!",
         "Help": "Ndihmë",
+        "HelpResources": "Burime ndihme",
         "HelpTranslatePiwik": "Ndoshta do të donit të %1$sna ndihmonit të përmirësojmë përkthimet e Matomo-s%2$s?",
         "Hide": "fshihe",
         "HoursMinutes": "%1$s orë %2$s minuta",
@@ -493,7 +494,8 @@
         "YouMustBeLoggedIn": "Që të përdorni këtë funksion, duhet të keni bërë hyrjen.",
         "YourChangesHaveBeenSaved": "Ndryshimet tuaja u ruajtën.",
         "ThankYouForUsingMatomo": "Faleminderit që përdorni Matomo-n",
-        "TheMatomoTeam": "Ekipi i Matomo-s"
+        "TheMatomoTeam": "Ekipi i Matomo-s",
+        "PleaseTryAgain": "Ju lutemi, riprovoni"
     },
     "Mobile": {
         "AboutPiwikMobile": "Rreth Matomo-s për Celular",

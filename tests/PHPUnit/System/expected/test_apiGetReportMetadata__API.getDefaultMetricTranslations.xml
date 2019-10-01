@@ -55,6 +55,21 @@
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
+		<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+		<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+		<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+		<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+		<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+		<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+		<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+		<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+		<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+		<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+		<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+		<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+		<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+		<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+		<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 		<orders>Ecommerce Orders</orders>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		<revenue_per_visit>Revenue per Visit</revenue_per_visit>

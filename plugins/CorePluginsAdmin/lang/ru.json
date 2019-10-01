@@ -82,6 +82,7 @@
         "Version": "Версия",
         "ViewAllMarketplacePlugins": "Посмотреть все плагины в Marketplace",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Плагин %1$s не может быть загружен, потому что у него есть недостающие зависимости: %2$s",
-        "Websites": "Сайты"
+        "Websites": "Сайты",
+        "UpdateSelected": "Обновить выбранное"
     }
 }

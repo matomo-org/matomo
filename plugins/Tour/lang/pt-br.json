@@ -1,0 +1,16 @@
+{
+    "Tour": {
+        "Engagement": "Compromisso",
+        "AddWebsite": "Adicionar outro site",
+        "AddReport": "Adicionar um relatório agendado",
+        "AddSegment": "Adicionar um segmento",
+        "AddAnnotation": "Adicionar uma anotação",
+        "BrowseMarketplace": "Navegue no Marketplace",
+        "SelectDateRange": "Selecione um intervalo de datas",
+        "SelectDateRangeDescription": "Selecione um intervalo de datas no calendário.",
+        "ChangeVisualisation": "Mudar uma visualização",
+        "ConfigureGeolocation": "Configurar geolocalização",
+        "CustomiseDashboard": "Customizar painel",
+        "CompletionTitle": "Bom trabalho!"
+    }
+}

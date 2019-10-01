@@ -55,6 +55,9 @@
         "NoTokenProvided": "URL にトークンが指定されていません",
         "NoSubscriptionFound": "サブスクリプションが見つかりませんでした。レポートはすでに解除されていたか、削除された可能性があります。",
         "EvolutionGraphsShowForEachInPeriod": "進化グラフは、最新の%3$s中の%1$s各日%2$sの進化を示しています",
-        "EvolutionGraphsShowForPreviousN": "進化のグラフは、以前の N %s"
+        "EvolutionGraphsShowForPreviousN": "進化のグラフは、以前の N %s",
+        "ReportPeriod": "レポート期間",
+        "ReportPeriodHelp": "このレポートの対象となるデータの期間。 デフォルトでは、これは電子メールのスケジュールと同じです。そのため、レポートが毎週送信される場合は、先週に関する情報が含まれます。",
+        "ReportPeriodHelp2": "ただし、別の情報を表示しても電子メールのスケジュールを保持したい場合は、これを変更できます。 たとえば、電子メールのスケジュールが毎週で、レポート期間が 'day' の場合、毎週最終日の情報が表示されます。"
     }
 }

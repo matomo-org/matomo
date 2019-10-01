@@ -116,6 +116,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
+            header('Cache-Control: private, no-cache, no-store');
 
             $isInternalServerError = preg_match('/(sql|database|mysql)/i', $message);
             if ($isInternalServerError) {
@@ -149,10 +150,10 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         if ($optionalLinks) {
             $optionalLinks = '<ul>
                             <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Matomo Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">Matomo Documentation</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/">Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/">User Guides</a></li>
                             <li><a rel="noreferrer noopener" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Matomo_App&pk_medium=ProfessionalServicesLink">Professional Support for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {

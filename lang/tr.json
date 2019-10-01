@@ -110,7 +110,7 @@
         "ComputedMetricCountWithValueDocumentation": "%s için bir değer atanmış kayıt sayısı",
         "ConfigFileIsNotWritable": "%1$s Matomo yapılandırma dosyası yazılabilir değil. Yaptığınız bazı değişiklikler kaydedilemeyebilir. %2$s Lütfen yapılandırma dosyasının izinlerini yazılabilir olarak değiştirin.",
         "Continue": "Devam",
-        "ContinueToPiwik": "Matomo Kullanmaya Başlayın",
+        "ContinueToPiwik": "Matomo Uygulamasını Kullanmaya Başlayın",
         "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum riskli olabilir. Matomo uygulamasını güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
         "CreatedByUser": "%s tarafından eklendi",
         "CurrentMonth": "Bu Ay",
@@ -210,7 +210,7 @@
         "ExportAsImage": "Görsel Olarak Dışa Aktar",
         "ExportThisReport": "Bu veri kümesini diğer biçimlerde dışa aktar",
         "Faq": "SSS",
-        "FileIntegrityWarning": "Dosya bütünlüğü sağlanamadı ve bazı sorunlar bildirildi. Sorunu çözüp başka bir sorun görüntülenmeyene kadar bu sayfayı yenilemelisiniz.",
+        "FileIntegrityWarning": "Dosya bütünlüğü sağlanamadı ve bazı sorunlar bildirildi. Bu sorunları çözdükten sonra hatanın giderildiğinden emin olmak için bu sayfayı yenileyin.",
         "FileIntegrityWarningReupload": "Aşağıdaki sorunlar, Matomo dosyalarının kısmen ya da tamamen yüklenememiş olmasından kaynaklanıyor olabilir.",
         "FileIntegrityWarningReuploadBis": "Matomo dosyalarını BINARY kipinde yeniden yüklemeyi deneyin.",
         "First": "İlk",
@@ -233,6 +233,7 @@
         "GraphHelp": "Matomo çizelgelerinin görüntülenmesi hakkında ayrıntılı bilgi.",
         "HelloUser": "Merhaba, %s!",
         "Help": "Yardım",
+        "HelpResources": "Yardım kaynakları",
         "HelpTranslatePiwik": "%1$sMatomo çevirilerini geliştirmemiz için%2$s bize yardımcı olmak ister misiniz?",
         "Hide": "gizle",
         "HoursMinutes": "%1$s saat %2$s dakika",
@@ -493,7 +494,8 @@
         "YouMustBeLoggedIn": "Bu özelliği kullanabilmek için oturumu açmalısınız.",
         "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi.",
         "ThankYouForUsingMatomo": "Matomo kullandığınız için teşekkürler",
-        "TheMatomoTeam": "Matomo Ekibi"
+        "TheMatomoTeam": "Matomo Ekibi",
+        "PleaseTryAgain": "Lütfen yeniden deneyin"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

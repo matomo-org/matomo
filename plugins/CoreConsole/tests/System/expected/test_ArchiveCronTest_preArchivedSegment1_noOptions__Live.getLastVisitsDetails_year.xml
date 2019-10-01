@@ -490,8 +490,8 @@
 		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Singapore</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

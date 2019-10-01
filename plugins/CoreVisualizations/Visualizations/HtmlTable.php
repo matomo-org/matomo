@@ -42,6 +42,15 @@ class HtmlTable extends Visualization
     public function beforeLoadDataTable()
     {
         $this->checkRequestIsNotForMultiplePeriods();
+
+        if ($this->isComparing()) {
+            // forward the comparisonIdSubtables var if present so it will be used when next/prev links are clicked
+            $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', false, 'string');
+            if (!empty($comparisonIdSubtables)) {
+                $comparisonIdSubtables = Common::unsanitizeInputValue($comparisonIdSubtables);
+                $this->config->custom_parameters['comparisonIdSubtables'] = $comparisonIdSubtables;
+            }
+        }
     }
 
     public function beforeRender()
@@ -96,6 +105,12 @@ class HtmlTable extends Visualization
             $this->config->columns_to_display = $this->dataTable->getColumns();
         }
 
+        if ($this->isComparing()
+            && !empty($this->dataTable)
+        ) {
+            $this->assignTemplateVar('comparisonTotals', $this->dataTable->getMetadata('comparisonTotals'));
+        }
+
         // Note: This needs to be done right before rendering, as otherwise some plugins might change the columns to display again
         if ($this->isFlattened()) {
             $dimensions = $this->dataTable->getMetadata('dimensions');
@@ -144,6 +159,11 @@ class HtmlTable extends Visualization
                 });
             }
         }
+
+        $this->assignTemplateVar('segmentTitlePretty', $this->dataTable->getMetadata('segmentPretty'));
+
+        $period = $this->dataTable->getMetadata('period');
+        $this->assignTemplateVar('periodTitlePretty', $period ? $period->getLocalizedShortString() : '');
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
@@ -210,6 +230,11 @@ class HtmlTable extends Visualization
     public function getCellHtmlAttributes(Row $row, $column)
     {
         return null;
+    }
+
+    public function supportsComparison()
+    {
+        return true;
     }
 
     protected function isFlattened()

@@ -17,7 +17,7 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 function getBrandLogo($label)
 {
     $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
-    $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
+    $label = preg_replace("/[^a-z0-9_\-äöü]+/i", "_", $label);
     if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
         $label = "unk";
     }

@@ -46,11 +46,11 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Die untenstehenden GET-Parameter werden von allen URLs aller Websites ignoriert.",
         "ListOfQueryParametersToExclude": "Geben Sie die Liste der URL Query Parameter an, einen pro Zeile, um sie von der URL Berichtsseite auszuschließen. Reguläre Ausdrücke so wie %s werden unterstützt.",
         "LogAnalytics": "Log-Analyse",
-        "LogAnalyticsDescription": "Wenn das Tracking per Javascript nicht möglich ist, können Sie %1$sServer Log Anayltics %2$s als Alternative Method einsetzen, um die Besucher Ihrer Webseite zu analysieren.",
+        "LogAnalyticsDescription": "Wenn das Tracking per Javascript nicht möglich ist, können Sie %1$sServer Log Analytics %2$s als alternative Methode einsetzen, um die Besucher Ihrer Webseite zu analysieren.",
         "MainDescription": "Ihre Webanalyse benötigt Websites! Websites können hinzugefügt, aktualisiert und gelöscht werden. Hier wird auch der JavaScript-Code gezeigt, der in Ihre Websites eingefügt werden muss.",
         "MenuManage": "Verwalten",
         "MobileAppsAndSDKs": "Mobile Anwendungen und SDKs",
-        "MobileAppsAndSDKsDescription": "Nicht am tracken einer Webseite? Sie können alternativ eine der %1$sverfügbaren SDKs%2$s nützen, um eine mobile App oder eine andere Art Applikation überwachen.",
+        "MobileAppsAndSDKsDescription": "Nicht am Tracken einer Webseite? Sie können alternativ eine der %1$sverfügbaren SDKs%2$s verwenden, um eine mobile App oder eine andere Art Applikation zu überwachen.",
         "NotAnEcommerceSite": "Dies ist keine Ecommerce Seite",
         "NotFound": "Keine Websites gefunden für",
         "NoWebsites": "Es ist noch keine Website zum administrieren vorhanden.",
@@ -72,7 +72,7 @@
         "ShowTrackingTag": "Tracking-Code anzeigen",
         "Sites": "Websites",
         "SiteSearchUse": "Matomo kann auswerten, wonach Besucher in der internen Suche der Website suchen.",
-        "SiteWithoutDataTitle": "Bisher wurden keine Daten aufgezeichnet",
+        "SiteWithoutDataTitle": "Es wurden bisher noch keine Daten gesammelt, untenstehendes Setup beachten",
         "SiteWithoutDataDescription": "Für diese Website wurden bisher noch keine Analysedaten aufgezeichnet.",
         "SiteWithoutDataSetupTracking": "Bitte fügen Sie den folgenden %1$sTracking Code%2$s auf ihrer Website ein, insofern Sie dies noch nicht getan haben.",
         "SiteWithoutDataMessageDisappears": "Diese Nachricht wird verschwinden, sobald die ersten Daten für diese Website aufgezeichnet wurden.",
@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "Was möchten Sie messen?",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Websites.",
         "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s",
-        "DeleteSiteExplanation": "Eine Website zu löschen führt dazu, dass alle dafür gesammelten Logdaten gelöscht werden. Diese Aktion ist endgültig und kann nicht rückgängig gemacht werden."
+        "DeleteSiteExplanation": "Eine Website zu löschen führt dazu, dass alle dafür gesammelten Logdaten gelöscht werden. Diese Aktion ist endgültig und kann nicht rückgängig gemacht werden.",
+        "EmailInstructionsButton": "Anleitung per E-Mail versenden",
+        "EmailInstructionsSubject": "Matomo Analytics Tracking Code",
+        "EmailInstructionsDocsPlainText": "Wenn Sie mehr möchten als nur Seitenansichten zu verfolgen, sehen Sie sich die Matomo-Dokumentation %1$s an.",
+        "EmailInstructionsGenerateTrackingCode": "Sie können einen benutzerdefinerten Tracking-Code unter %1$s erstellen.",
+        "EmailInstructionsSiteDetailsHeading": "Einzelheiten Ihrer Seite",
+        "EmailInstructionsSiteDetails": "Sie benötigen diese Angaben, um die API oder SDKs zum Verfolgen von Matomo-Besuchen zu verwenden.",
+        "EmailInstructionsYourSiteId": "Ihre Seiten-ID: %1$s",
+        "EmailInstructionsYourTrackingUrl": "Ihre Tracking-URL: %1$s"
     }
 }

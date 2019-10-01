@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -63,6 +64,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
+        $translationKeys[] = 'Feedback_SearchOnMatomo';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
@@ -82,6 +84,11 @@ class Feedback extends \Piwik\Plugin
             return false;
         }
 
+        // Hide Feedback popup in all tests except if forced
+        if ($this->isDisabledInTestMode()) {
+            return false;
+        }
+
         $login = Piwik::getCurrentUserLogin();
         $feedbackReminderKey = 'Feedback.nextFeedbackReminder.' . Piwik::getCurrentUserLogin();
         $nextReminderDate = Option::get($feedbackReminderKey);
@@ -93,6 +100,9 @@ class Feedback extends \Piwik\Plugin
         if ($nextReminderDate === false) {
             $model = new Model();
             $user = $model->getUser($login);
+            if (empty($user['date_registered'])) {
+                return false;
+            }
             $nextReminderDate = Date::factory($user['date_registered'])->addDay(90)->getStartOfDay();
         } else {
             $nextReminderDate = Date::factory($nextReminderDate);
@@ -100,6 +110,12 @@ class Feedback extends \Piwik\Plugin
 
         $now = Date::now()->getTimestamp();
         return $nextReminderDate->getTimestamp() <= $now;
+    }
+
+    // needs to be protected not private for testing purpose
+    protected function isDisabledInTestMode()
+    {
+        return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
 
 }

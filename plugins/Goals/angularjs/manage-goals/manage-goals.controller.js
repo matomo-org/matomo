@@ -207,7 +207,7 @@
         };
 
         this.getPatternFieldLabel = function () {
-            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Patterns');
+            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Pattern');
         };
 
         this.showListOfReports(false);

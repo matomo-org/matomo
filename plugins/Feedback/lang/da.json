@@ -17,17 +17,11 @@
         "TopLinkTooltip": "Fortæl os hvad du mener eller anmod om professionel support",
         "ViewAnswersToFAQ": "Se svarene på %1$sOfte stillede spørgsmål%2$s",
         "ViewUserGuides": "Lær at konfigurere Matomo og hvordan man effektivt analyserer data med vores %1$sbrugervejledninger%2$s",
+        "CommunityHelp": "Community hjælp",
         "ProfessionalHelp": "Professionel hjælp",
-        "ProfessionalServicesIntro": "Vores verdensomspændende netværk af profesionelle Matomo-konsulenter hjælper kunder, der hoster Matomo i egen infrastruktur.",
         "ProfessionalServicesOfferIntro": "Hvilke ydelser kan du gøre brug af?",
-        "ProfessionalServicesReviewPiwikSetup": "En gennemgang af din Matomo-installation",
-        "ProfessionalServicesOptimizationMaintenance": "Optimering og vedligehold",
-        "ProfessionalServicesPhoneEmailSupport": "Telefon- og e-mailsupport",
-        "ProfessionalServicesTraining": "Oplæring af brugere, teknikere og udviklere",
-        "ProfessionalServicesPremiumFeatures": "Betalte funktioner",
-        "ProfessionalServicesCustomDevelopment": "Kundespecifik udvikling",
-        "ProfessionalServicesAnalystConsulting": "Analysekonsulentydelser",
         "ContactUs": "Kontakt os",
-        "VisitTheForums": "Besøg %1$sforummet%2$s og få hjælp fra andre Matomo-brugere"
+        "VisitTheForums": "Besøg %1$sforummet%2$s og få hjælp fra andre Matomo-brugere",
+        "Forums": "Forum"
     }
 }

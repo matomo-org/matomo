@@ -233,6 +233,7 @@
         "GraphHelp": "Περισσότερες πληροφορίες για την προβολή γραφικών στο Matomo.",
         "HelloUser": "Γεια σου, %s!",
         "Help": "Βοήθεια",
+        "HelpResources": "Πόροι βοήθειας",
         "HelpTranslatePiwik": "Ίσως μπορείτε να βοηθήσετε %1$sβελτιώνοντας τις μεταφράσεις του Matomo%2$s;",
         "Hide": "απόκρυψη",
         "HoursMinutes": "%1$s ώρες %2$s λεπτά",
@@ -244,6 +245,7 @@
         "InvalidResponse": "Τα ληφθέντα δεδομένα δεν είναι έγκυρα.",
         "IP": "Διεύθυνση IP",
         "JsTrackingTag": "Κώδικας Παρακολούθησης JavaScript",
+        "KpiMetric": "Μετρική KPI",
         "Language": "Γλώσσα",
         "Languages": "Γλώσσες",
         "LastDays": "Τελευταίες %s ημέρες (με τη σημερινή)",
@@ -493,7 +495,8 @@
         "YouMustBeLoggedIn": "Πρέπει να συνδεθείτε για να έχετε πρόσβαση στη λειτουργία",
         "YourChangesHaveBeenSaved": "Οι αλλαγές σας αποθηκεύτηκαν.",
         "ThankYouForUsingMatomo": "Ευχαριστούμε που χρησιμοποιείτε το Matomo",
-        "TheMatomoTeam": "Η ομάδα του Matomo"
+        "TheMatomoTeam": "Η ομάδα του Matomo",
+        "PleaseTryAgain": "Παρακαλούμε δοκιμάστε αργότερα"
     },
     "Mobile": {
         "AboutPiwikMobile": "Σχετικά με το Matomo για κινητά",

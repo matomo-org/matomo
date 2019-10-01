@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;
@@ -34,6 +35,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Plugin;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
@@ -310,6 +312,10 @@ abstract class Controller
 
         foreach ($variables as $key => $value) {
             $view->$key = $value;
+        }
+
+        if (isset($view->siteName)) {
+            $view->siteNameDecoded = Common::unsanitizeInputValue($view->siteName);
         }
 
         return $view->render();
@@ -743,6 +749,9 @@ abstract class Controller
             $view->setXFrameOptions('sameorigin');
         }
 
+        $pluginManager = Plugin\Manager::getInstance();
+        $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+
         self::setHostValidationVariablesView($view);
     }
 
@@ -1058,3 +1067,4 @@ abstract class Controller
         }
     }
 }
+

@@ -64,8 +64,9 @@ describe("DashboardManager", function () {
     it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         await page.click('.dashboard-manager .title');
         await page.click('li[data-action="createDashboard"]');
+        await page.waitFor('#createDashboardName', { visible: true });
         await page.type('#createDashboardName', 'newdash2');
-        await page.waitFor(50);
+        await page.waitFor(200); // sometimes the text doesn't seem to type fast enough
         button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
 

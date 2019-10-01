@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\DataTable;
+use Piwik\Db;
 
 /**
  * Class VisitorDetailsAbstract
@@ -271,5 +272,14 @@ abstract class VisitorDetailsAbstract
      */
     public function finalizeProfile($visits, &$profile)
     {
+    }
+
+    /**
+     * @since Matomo 3.12
+     * @return Db|Db\AdapterInterface
+     */
+    public function getDb()
+    {
+        return Db::getReader();
     }
 }

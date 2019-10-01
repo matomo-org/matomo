@@ -21,8 +21,14 @@ class MultiSites extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations'
+            'Metrics.getDefaultMetricTranslations'  => 'addMetricTranslations',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'MultiSites.index';
     }
 
     public function addMetricTranslations(&$translations)

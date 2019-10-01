@@ -30,7 +30,8 @@ class FeedbackTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->feedback = new Feedback();
+        $this->feedback = $this->getMock(Feedback::class, ['isDisabledInTestMode']);
+        $this->feedback->method('isDisabledInTestMode')->willReturn(false);
 
         $this->userModel = new Model();
         $this->userModel->addUser(

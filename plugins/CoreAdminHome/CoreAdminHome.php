@@ -115,5 +115,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_TrackingFailuresIntroduction';
         $translationKeys[] = 'CoreAdminHome_TrackingURL';
         $translationKeys[] = 'CoreAdminHome_NoKnownFailures';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead';
+        $translationKeys[] = 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail';
     }
 }

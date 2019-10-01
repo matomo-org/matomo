@@ -246,7 +246,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 20,
             'idsite' => 1,
-            'name' => 'doneabcd1234abcd5678',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -256,7 +256,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 21,
             'idsite' => 1,
-            'name' => 'doneabcd1234abcd5678.MyPlugin',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -266,7 +266,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 22,
             'idsite' => 2,
-            'name' => 'doneabcd1234abcd5678',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -276,7 +276,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 23,
             'idsite' => 2,
-            'name' => 'doneabcd1234abcd5678.MyPlugin',
+            'name' => 'doneeb5d2797aedd15d819b1a20425982850.MyPlugin',   // Raw segment = abcd1234abcd5678
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -286,7 +286,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 24,
             'idsite' => 1,
-            'name' => 'done9876fedc5432abcd',
+            'name' => 'done1e39a89fcc269acc36bd4d7c742763ed',   // Raw segment = 9876fedc5432abcd
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -296,7 +296,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 25,
             'idsite' => 2,
-            'name' => 'donehash1',
+            'name' => 'done00c6ee2e21a7548de6260cf72c4f4b5b',   // Raw segment = hash1
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -306,7 +306,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 26,
             'idsite' => 2,
-            'name' => 'donehash2',
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f',   // Raw segment = hash2
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -316,7 +316,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 27,
             'idsite' => 2,
-            'name' => 'donehash2.MyPlugin',
+            'name' => 'done58833651db311ba4bc11cb26b1900b0f.MyPlugin',  // Raw segment = hash2
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -326,7 +326,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         array(
             'idarchive' => 28,
             'idsite' => 2,
-            'name' => 'donehash3',
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
@@ -334,9 +334,9 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'ts_archived' => '2015-02-03 12:12:12'
         ),
         array(
-            'idarchive' => 29   ,
+            'idarchive' => 29,
             'idsite' => 2,
-            'name' => 'donehash3',
+            'name' => 'done1a4ead8b39d17dfe89418452c9bba770',   // Raw segment = hash3
             'value' => ArchiveWriter::DONE_OK,
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',

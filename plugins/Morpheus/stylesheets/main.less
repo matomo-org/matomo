@@ -382,7 +382,7 @@ table.dataTable {
     }
   }
 
-  tr {
+  tr:not(.subDataTableContainer) {
     td {
       border-bottom: 1px solid @color-silver-l95 !important;
       border-color: @color-silver-l95 !important;
@@ -403,6 +403,12 @@ table.dataTable {
 
       &:first-child {
         border-left: 0;
+      }
+
+      &:hover {
+        td:not(.cellSubDataTable):not(.parentComparisonRow) {
+          background-color: @color-silver-l95;
+        }
       }
 
       &.label + td.column {
@@ -481,23 +487,23 @@ table.dataTable {
 div.dataTableVizHtmlTable:not(.dataTableActions),
  div.dataTableVizAllColumns,
  div.dataTableVizGoals {
-  tr.subDataTable > td:first-child::before {
+  tr.subDataTable > td > span.label::before {
     display: inline-block;
     float: left;
     top: 0;
     width: 12px;
     height: 12px;
-    margin-left: -1px;
+    margin-left: -2px;
     margin-top: 3px;
     margin-right: 8px;
     content: '';
   }
 
-  tr.subDataTable:not(.expanded) > td:first-child::before {
+  tr.subDataTable:not(.expanded) > td > span.label::before {
     background-image: url(plugins/Morpheus/images/plus.png);
   }
 
-  tr.subDataTable.expanded > td:first-child::before {
+  tr.subDataTable.expanded > td > span.label::before {
     background-image: url(plugins/Morpheus/images/minus.png);
   }
 }
@@ -520,8 +526,23 @@ div.dataTableVizHtmlTable:not(.dataTableActions),
   }
 }
 
+
 .UserCountryMap-btn-zoom {
   padding-left: 0;
+}
+
+h6.sparkline-title {
+  margin-left: 2px;
+  text-transform: uppercase;
+  font-size: .8em;
+  font-weight: bold;
+  color: #999;
+  margin-bottom: 4px;
+
+  max-width: 95px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 
 div.sparkline {
@@ -532,10 +553,11 @@ div.sparkline {
   display: -moz-flex;
   display: -ms-flex;
   display: flex;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
-  -ms-justify-content: space-around;
-  justify-content: space-around;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  justify-content: flex-start;
+  align-items: center;
   border-bottom: 0;
   margin-bottom: 10px;
 
@@ -547,7 +569,19 @@ div.sparkline {
       border-bottom: 1px dashed #c3c3c3;
     }
   }
+
+  .metric-group-title {
+    display: block;
+    font-size: .7em;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .sparkline-metrics {
+    margin-bottom: 4px;
+  }
 }
+
 
 div.sparkline img {
   -webkit-flex-shrink: 0;
@@ -560,7 +594,6 @@ div.sparkline script + div {
   -ms-flex: 1 1 auto; // for getting flex to work on IE10's buggy implementation
   margin: 1px 0 0 1px;
 }
-
 
 .widgetpreview-base li.widgetpreview-choosen {
   background: @color-silver-l95;

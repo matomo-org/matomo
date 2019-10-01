@@ -2378,14 +2378,8 @@ function PiwikTest() {
         equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
         equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
-
-        try {
-            // should throw exception when no idSite given
-            asyncTracker.addTracker(tracker.url);
-            ok(false, 'addTracker() without siteId expected exception has not been triggered');
-        } catch (e) {
-            ok(true, 'addTracker() siteId expected exception has been triggered');
-        }
+        var trackerWithoutIdSite = asyncTracker.addTracker(tracker.url);
+        ok(!!trackerWithoutIdSite, 'addTracker() without siteId can be called');
 
         // getting a specific tracker instance
 

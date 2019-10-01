@@ -34,7 +34,14 @@ class Live extends \Piwik\Plugin
             'Live.renderVisitorDetails'              => 'renderVisitorDetails',
             'Live.renderVisitorIcons'                => 'renderVisitorIcons',
             'Template.jsGlobalVariables'             => 'addJsGlobalVariables',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.Live_VisitorLog';
+        $pages[] = 'General_Visitors.General_RealTime';
     }
 
     public function addJsGlobalVariables(&$out)

@@ -180,6 +180,14 @@ class FileTest extends IntegrationTestCase
         $this->assertSame("// Hello world\nvar fooBar = 'test';", $this->makeFile()->getContent());
     }
 
+    public function test_isFileContentSame()
+    {
+        $this->assertTrue($this->makeFile()->isFileContentSame("// Hello world\nvar fooBar = 'test';"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("// Hello world\nvar foBar = 'test';"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("// Hello world\nvar foBar = 'test'"));
+        $this->assertFalse($this->makeFile()->isFileContentSame("Hello world\nvar foBar = 'test'"));
+    }
+
     public function test_getContent_returnsNull_IfFileIsNotReadableOrNotExists()
     {
         $this->assertNull($this->makeNotReadableFile()->getContent());
@@ -191,8 +199,9 @@ class FileTest extends IntegrationTestCase
         $this->assertFalse($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());
 
-        $notExistingFile->save('myTestContent');
+        $updatedFile =  $notExistingFile->save('myTestContent');
 
+        $this->assertEquals([$this->dir . 'notExisTinGFile.js'], $updatedFile);
         $this->assertEquals('myTestContent', $notExistingFile->getContent());
         $this->assertTrue($notExistingFile->hasReadAccess());
         $this->assertTrue($notExistingFile->hasWriteAccess());

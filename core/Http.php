@@ -135,8 +135,8 @@ class Http
      * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
      * @param array $additionalHeaders List of additional headers to set for the request
      *
-     * @throws Exception
-     * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
+     * @return string|array  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
+     *@throws Exception
      */
     public static function sendHttpRequestBy(
         $method = 'socket',
@@ -163,8 +163,10 @@ class Http
         $contentLength = 0;
         $fileLength = 0;
 
-        if (!empty($requestBody) && is_array($requestBody)) {
-            $requestBody = self::buildQuery($requestBody);
+        if ( !empty($requestBody ) && is_array($requestBody )) {
+            $requestBodyQuery = self::buildQuery($requestBody );
+        } else {
+	        $requestBodyQuery = $requestBody;
         }
 
         // Piwik services behave like a proxy, so we should act like one.
@@ -191,14 +193,69 @@ class Http
 
         list($proxyHost, $proxyPort, $proxyUser, $proxyPassword) = self::getProxyConfiguration($aUrl);
 
-
         $aUrl = trim($aUrl);
 
         // other result data
         $status  = null;
         $headers = array();
+        $response = null;
 
         $httpAuthIsUsed = !empty($httpUsername) || !empty($httpPassword);
+
+	    $httpAuth = '';
+	    if ($httpAuthIsUsed) {
+		    $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
+	    }
+
+	    $httpEventParams = array(
+		    'httpMethod' => $httpMethod,
+		    'body' => $requestBody,
+		    'userAgent' => $userAgent,
+		    'timeout' => $timeout,
+		    'headers' => array_map('trim', array_filter(array_merge(array(
+			    $rangeHeader, $via, $xff, $httpAuth, $acceptLanguage
+		    ), $additionalHeaders))),
+		    'verifySsl' => !$acceptInvalidSslCertificate,
+		    'destinationPath' => $destinationPath
+	    );
+
+	    /**
+	     * Triggered to send an HTTP request. Allows plugins to resolve the HTTP request themselves or to find out
+	     * when an HTTP request is triggered to log this information for example to a monitoring tool.
+	     *
+	     * @param string $url The URL that needs to be requested
+	     * @param array $params HTTP params like
+	     *                      - 'httpMethod' (eg GET, POST, ...),
+	     *                      - 'body' the request body if the HTTP method needs to be posted
+	     *                      - 'userAgent'
+	     *                      - 'timeout' After how many seconds a request should time out
+	     *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
+	     *                      - 'verifySsl' A boolean whether SSL certificate should be verified
+	     *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+	     * @param string &$response A plugin listening to this event should assign the HTTP response it received to this variable, for example "{value: true}"
+	     * @param string &$status A plugin listening to this event should assign the HTTP status code it received to this variable, for example "200"
+	     * @param array &$headers A plugin listening to this event should assign the HTTP headers it received to this variable, eg array('Content-Length' => '5')
+	     */
+        Piwik::postEvent('Http.sendHttpRequest', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
+
+	    if ($response !== null || $status !== null || !empty($headers)) {
+	    	// was handled by event above...
+		    /**
+		     * described below
+		     * @ignore
+		     */
+		    Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
+
+		    if ($getExtendedInfo) {
+			    return array(
+				    'status'  => $status,
+				    'headers' => $headers,
+				    'data'    => $response
+			    );
+		    } else {
+			    return trim($response);
+		    }
+	    }
 
         if ($method == 'socket') {
             if (!self::isSocketEnabled()) {
@@ -257,11 +314,6 @@ class Http
                 throw new Exception("Error while connecting to: $host. Please try again later. $errstr");
             }
 
-            $httpAuth = '';
-            if ($httpAuthIsUsed) {
-                $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
-            }
-
             // send HTTP request header
             $requestHeader .=
                 "Host: $host" . ($port != 80 && ('https' == $url['scheme'] && $port != 443) ? ':' . $port : '') . "\r\n"
@@ -276,10 +328,10 @@ class Http
                 . "Connection: close\r\n";
             fwrite($fsock, $requestHeader);
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
-                fwrite($fsock, self::buildHeadersForPost($requestBody));
+            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
+                fwrite($fsock, self::buildHeadersForPost($requestBodyQuery ));
                 fwrite($fsock, "\r\n");
-                fwrite($fsock, $requestBody);
+                fwrite($fsock, $requestBodyQuery );
             } else {
                 fwrite($fsock, "\r\n");
             }
@@ -368,7 +420,7 @@ class Http
                         $httpMethod,
                         $httpUsername,
                         $httpPassword,
-                        $requestBody,
+                        $requestBodyQuery,
                         $additionalHeaders
                     );
                 }
@@ -424,11 +476,6 @@ class Http
             $default_socket_timeout = @ini_get('default_socket_timeout');
             @ini_set('default_socket_timeout', $timeout);
 
-            $httpAuth = '';
-            if ($httpAuthIsUsed) {
-                $httpAuth = 'Authorization: Basic ' . base64_encode($httpUsername.':'.$httpPassword) . "\r\n";
-            }
-
             $ctx = null;
             if (function_exists('stream_context_create')) {
                 $stream_options = array(
@@ -453,12 +500,12 @@ class Http
                     }
                 }
 
-                if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
-                    $postHeader  = self::buildHeadersForPost($requestBody);
+                if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
+                    $postHeader  = self::buildHeadersForPost($requestBodyQuery );
                     $postHeader .= "\r\n";
                     $stream_options['http']['method']  = 'POST';
                     $stream_options['http']['header'] .= $postHeader;
-                    $stream_options['http']['content'] = $requestBody;
+                    $stream_options['http']['content'] = $requestBodyQuery;
                 }
 
                 $ctx = stream_context_create($stream_options);
@@ -543,9 +590,9 @@ class Http
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBody)) {
+            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery )) {
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBody);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery );
             }
 
             if (!empty($httpUsername) && !empty($httpPassword)) {
@@ -633,6 +680,25 @@ class Http
             }
             return true;
         }
+
+	    /**
+	     * Triggered when an HTTP request finished. A plugin can for example listen to this and alter the response,
+	     * status code, or finish a timer in case the plugin is measuring how long it took to execute the request
+	     *
+	     * @param string $url The URL that needs to be requested
+	     * @param array $params HTTP params like
+	     *                      - 'httpMethod' (eg GET, POST, ...),
+	     *                      - 'body' the request body if the HTTP method needs to be posted
+	     *                      - 'userAgent'
+	     *                      - 'timeout' After how many seconds a request should time out
+	     *                      - 'headers' An array of header strings like array('Accept-Language: en', '...')
+	     *                      - 'verifySsl' A boolean whether SSL certificate should be verified
+	     *                      - 'destinationPath' If set, the response of the HTTP request should be saved to this file
+	     * @param string &$response The response of the HTTP request, for example "{value: true}"
+	     * @param string &$status The returned HTTP status code, for example "200"
+	     * @param array &$headers The returned headers, eg array('Content-Length' => '5')
+	     */
+	    Piwik::postEvent('Http.sendHttpRequest.end', array($aUrl, $httpEventParams, &$response, &$status, &$headers));
 
         if (!$getExtendedInfo) {
             return trim($response);
@@ -862,8 +928,8 @@ class Http
         $headers[$name] = trim($value);
 
         /**
-         * With HTTP/2 Cloudflare is passing headers in lowercase (e.g. 'content-type' instead of 'Content-Type') 
-         * which breaks any code which uses the header data. 
+         * With HTTP/2 Cloudflare is passing headers in lowercase (e.g. 'content-type' instead of 'Content-Type')
+         * which breaks any code which uses the header data.
          */
         $camelName = ucwords($name, '-');
         if ($camelName !== $name) {

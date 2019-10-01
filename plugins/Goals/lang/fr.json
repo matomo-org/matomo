@@ -109,6 +109,8 @@
         "VisitPageTitle": "Visitent un titre de page donné.",
         "VisitsUntilConv": "Visites par conversion",
         "VisitUrl": "Visitent une URL donnée (page ou groupe de pages)",
+        "VisitDurationMatchAttr": "Rester pendant un certain temps",
+        "VisitDuration": "durée de visite est",
         "WhenVisitors": "quand les visiteurs",
         "WhereThe": "où le",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La page visité doit contenir un appel à la méthode JavaScript 'trackGoal' (%1$sapprenez-en plus%2$s)",
@@ -116,6 +118,8 @@
         "UseEventValueAsRevenue": "Utilisez la valeur de l'évènement (si elle existe) en tant que revenu lié à la conversion de l'objectif.",
         "GoalRevenue": "Revenu de l'objectif",
         "EventValueAsRevenueHelp": "Si l'évènement correspondant a un revenu, et que ce revenu est suivi en tant que valeur de l'évènement, vous pouvez activer cette option pour enregistrement la valeur de l'évènement en tant que revenu de conversion d'objectif. Si votre revenu objectif ne varie pas par conversion, vous pouvez ignorer cette option et simplement définir un revenu par défaut ci-dessus.",
-        "EventValueAsRevenueHelp2": "Note : si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie)."
+        "EventValueAsRevenueHelp2": "Note : si un objectif de revenu par défaut ainsi qu'une valeur d'évènement sont définis, la valeur de l'évènement sera utilisée. Si cette option est activée et qu'aucune valeur d'évènement est envoyée avec la requête, la valeur par défault sera utilisée (si définie).",
+        "AtLeastMinutes": "au moins %1$s minutes. Utiliser les décimales pour les secondes, par exemple, %2$s pour 30 secondes.",
+        "TimeInMinutes": "Durée en minute"
     }
 }
