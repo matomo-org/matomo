@@ -9,9 +9,17 @@
     line-height: 18px;
   }
 
-  p {
-    line-height: 1.7em;
+  p, h4 {
     font-size: 13px;
+    padding-bottom: 4px;
+  }
+
+  .browse-matomo-help {
+    padding-top: 10px;
+  }
+
+  h4 {
+    font-weight: bold;
   }
 
   .piwik-donate-call {
@@ -33,6 +41,45 @@
     margin: 0 1em 0 0em;
     font-size: 1em;
     font-style: normal;
+  }
+
+  .feedback-help-resources {
+    h4 {
+      padding-top: 20px;
+      padding-bottom: 8px;
+    }
+
+    .search-matomo-form {
+      margin-right: 20px;
+      padding-bottom: 10px;
+      width: 100%;
+      display: table-row;
+
+      div.search-field {
+        display: table-cell;
+        width: 100%;
+        padding-left: 10px;
+      }
+
+      div.search-button {
+        height: 100%;
+        vertical-align: middle;
+        display: table-cell;
+        padding-right: 10px;
+      }
+
+      input[type="text"] {
+        width: 87%;
+        padding-left: 10px;
+        border: none;
+        margin-bottom: 0;
+
+        &:focus {
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
   }
 
   .footer {

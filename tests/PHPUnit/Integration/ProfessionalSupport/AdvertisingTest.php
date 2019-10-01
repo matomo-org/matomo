@@ -82,14 +82,14 @@ class AdvertisingTest extends \PHPUnit_Framework_TestCase
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start');
 
-        $this->assertSame($this->exampleUrl . '?pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Piwik_App', $link);
+        $this->assertSame($this->exampleUrl . '?pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Matomo_App', $link);
     }
 
     public function test_addPromoCampaignParametersToUrl_withContentWithoutQuery()
     {
         $link = $this->advertising->addPromoCampaignParametersToUrl($this->exampleUrl, 'MyName', 'Installation_Start', 'MyContent');
 
-        $this->assertSame($this->exampleUrl . '?pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Piwik_App&pk_content=MyContent', $link);
+        $this->assertSame($this->exampleUrl . '?pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Matomo_App&pk_content=MyContent', $link);
     }
 
     public function test_addPromoCampaignParametersToUrl_withQuery()
@@ -97,7 +97,7 @@ class AdvertisingTest extends \PHPUnit_Framework_TestCase
         $url = $this->exampleUrl . '?foo=bar';
         $link = $this->advertising->addPromoCampaignParametersToUrl($url, 'MyName', 'Installation_Start');
 
-        $this->assertSame($url . '&pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Piwik_App', $link);
+        $this->assertSame($url . '&pk_campaign=MyName&pk_medium=Installation_Start&pk_source=Matomo_App', $link);
     }
 
     private function buildAdvertising($config)

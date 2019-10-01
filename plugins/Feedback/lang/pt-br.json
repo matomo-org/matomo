@@ -1,6 +1,6 @@
 {
     "Feedback": {
-        "DoYouHaveBugReportOrFeatureRequest": "Você tem algum bug para relatar ou alguma função para pedir?",
+        "DoYouHaveBugReportOrFeatureRequest": "Você tem algum bug para relatar ou alguma funcionalidade para solicitar?",
         "HowToCreateTicket": "Por favor, leia as recomendações de como escrever um bom %1$srelatório de bug%2$s ou %3$spedido de funcionalidade%4$s. Então, registre-se ou faça login em %5$snosso gerenciador de tarefas%6$s e crie uma %7$snova tarefa%8$s.",
         "IWantTo": "Eu quero:",
         "LearnWaysToParticipate": "Aprenda sobre todas as maneiras que você pode %1$s participar %2$s",
@@ -12,11 +12,13 @@
         "RateFeatureSendFeedbackInformation": "Sua plataforma Matomo irá enviar-nos (equipe Matomo) um e-mail (incluindo o seu endereço de e-mail) para que possamos entrar em contato com você, caso você tenha alguma dúvida.",
         "RateFeatureThankYouTitle": "Obrigado por avaliar '%s'!",
         "RateFeatureTitle": "Você gosta da funcionalidade '%s'? Por favor, classifique e deixe um comentário",
-        "SendFeedback": "Envie FeedBack",
+        "SendFeedback": "Enviar feedback",
         "ThankYou": "Obrigado por nos ajudar a fazer o Matomo melhor!",
-        "TopLinkTooltip": "Diga-nos o que você pensa, ou suporte.",
+        "TopLinkTooltip": "Diga-nos o que você pensa, ou solicite Suporte Profissional.",
         "ViewAnswersToFAQ": "Ver respostas para %1$sPerguntas Frequentes%2$s",
+        "FAQs": "FAQs",
         "ViewUserGuides": "Saiba como configurar o Matomo e como efetivamente analisar seus dados com o nosso %1$sguias do usuário%2$s",
+        "UserGuides": "Guias de usuário",
         "CommunityHelp": "Ajuda da Comunidade",
         "ProfessionalHelp": "Suporte Profissional",
         "ProfessionalServicesIntro": "Com uma inscrição do Suporte Local Matomo, deixe nossa experiente equipe te ajudar online a utilizar o Matomo Analytics para fazer seu negócio crescer.",
@@ -26,11 +28,20 @@
         "ProfessionalServicesSupport": "Serviço de solicitação online 24\/7",
         "ProfessionalServicesTraining": "Acesso exclusivo a vídeos de treinamento de Matomo",
         "ProfessionalServicesEmailAlerts": "Alertas por email de atualizações de segurança do Matomo",
-        "ContactUs": "Contato",
+        "ContactUs": "Entre em contato",
         "VisitTheForums": "Visite o %1$s Fóruns%2$s e obtenha ajuda da comunidade de usuários Matomo",
-        "ReviewMatomoTitle": "Acredita em Matomo?",
+        "Forums": "Fóruns",
+        "ReviewMatomoTitle": "Acredita no Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Compartilhe seus pensamentos em um desses sites e inspire outras pessoas a participarem da nossa revolução de dados.",
-        "RemindMeLater": "Lembre-me mais tarde",
-        "NeverAskMeAgain": "Nunca pergunte-me novamente"
+        "RemindMeLater": "Lembrar-me mais tarde",
+        "NeverAskMeAgain": "Não me perguntar novamente",
+        "HowCanWeHelp": "Como podemos ajudar?",
+        "NotTrackingVisits": "O Matomo não está rastreando visitas",
+        "TrackMultipleSites": "Preciso rastrear múltiplos sites ou subdomínios",
+        "RemoveOtherLabel": "Quero ver os dados de 'Outros'",
+        "PurgeOldData": "Quero remover alguns dados antigos",
+        "SearchHelpResources": "Procurar recursos de ajuda do matomo.org",
+        "PopularHelpTopics": "Tópicos populares de ajuda",
+        "SearchOnMatomo": "Procurar '%1$s' em Matomo.org"
     }
 }

@@ -149,6 +149,7 @@
         "WelcomeHelp": "<p>Matomo je bezplatný software pro webovou analýzu, který usnadňuje získání informací, které chcete od svých návštěvníků.<\/p><p>Tento proces je rozdělen do %s jednoduchých kroků a trvá přibližně 5 minut.<\/p>",
         "WelcomeToCommunity": "Vítejte v komunitě Matomou!",
         "CannotConnectToDb": "Nelze se připojit k databázi",
-        "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou."
+        "CannotConnectToDbResolvingExplanation": "To může být dočasný problém, zkuste %1$sobnovit stránku%2$s. Pokud problém přetrvá, kontaktujte svého administrátora Matomou.",
+        "EmailPrivacyNotice": "Vaše e-mailová adresa bude použita pouze k zasílání zpravodaje Matomo. Odběr můžete kdykoli zrušit kliknutím na odkaz pro odhlášení. Váš e-mail nebudeme sdílet s nikým jiným, ani jej nebudeme používat k žádnému jinému účelu než k zasílání zpravodaje Matomo. Pro více informací prosím shlédněte naše %1$szásady ochrany osobních údajů%2$s."
     }
 }

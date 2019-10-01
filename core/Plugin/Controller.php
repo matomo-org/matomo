@@ -35,6 +35,7 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Plugin;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
@@ -748,6 +749,9 @@ abstract class Controller
             $view->setXFrameOptions('sameorigin');
         }
 
+        $pluginManager = Plugin\Manager::getInstance();
+        $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+
         self::setHostValidationVariablesView($view);
     }
 
@@ -1063,3 +1067,4 @@ abstract class Controller
         }
     }
 }
+

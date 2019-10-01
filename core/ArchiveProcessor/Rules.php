@@ -57,7 +57,7 @@ class Rules
 
     public static function shouldProcessReportsAllPlugins(array $idSites, Segment $segment, $periodLabel)
     {
-        if ($segment->isEmpty() && $periodLabel != 'range') {
+        if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
 

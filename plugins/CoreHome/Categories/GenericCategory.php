@@ -12,6 +12,6 @@ use Piwik\Category\Category;
 
 class GenericCategory extends Category
 {
-    protected $id = 'General_Generic';
-    protected $order = 70;
+    protected $id = 'General_KpiMetric';
+    protected $order = 1;
 }
