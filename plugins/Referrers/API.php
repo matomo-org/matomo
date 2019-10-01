@@ -400,7 +400,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
-        $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'segment', function($url) {
+            return 'referrerUrl==' . urlencode($url);
+        }));
 
         return $dataTable;
     }
