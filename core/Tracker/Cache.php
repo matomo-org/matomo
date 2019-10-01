@@ -13,9 +13,11 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Tracker;
+use Psr\Log\LoggerInterface;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request
@@ -116,7 +118,9 @@ class Cache
              * @param int $idSite The site ID to get attributes for.
              */
             Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
-            Common::printDebug("Website $idSite tracker cache was re-created.");
+
+            $logger = StaticContainer::get(LoggerInterface::class);
+            $logger->debug("Website $idSite tracker cache was re-created.");
         });
 
         // if nothing is returned from the plugins, we don't save the content
@@ -191,7 +195,9 @@ class Cache
          */
         Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
         self::setCacheGeneral($cacheContent);
-        Common::printDebug("General tracker cache was re-created.");
+
+        $logger = StaticContainer::get(LoggerInterface::class);
+        $logger->debug("General tracker cache was re-created.");
 
         Tracker::restoreTrackerPlugins();
 

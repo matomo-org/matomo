@@ -10,11 +10,13 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tracker;
 use Exception;
 use Piwik\Url;
+use Psr\Log\LoggerInterface;
 
 class Handler
 {
@@ -28,9 +30,15 @@ class Handler
      */
     private $tasksRunner;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct()
     {
         $this->setResponse(new Response());
+        $this->logger = StaticContainer::get(LoggerInterface::class);
     }
 
     public function setResponse($response)
@@ -81,13 +89,22 @@ class Handler
 
     public function onException(Tracker $tracker, RequestSet $requestSet, Exception $e)
     {
-        Common::printDebug("Exception: " . $e->getMessage());
-
         $statusCode = 500;
         if ($e instanceof UnexpectedWebsiteFoundException) {
             $statusCode = 400;
         } elseif ($e instanceof InvalidRequestParameterException) {
             $statusCode = 400;
+        }
+
+        // if an internal server error, log as a real error, otherwise it's just malformed input
+        if ($statusCode == 500) {
+            $this->logger->error('Exception: {exception}', [
+                'exception' => $e,
+            ]);
+        } else {
+            $this->logger->debug('Exception: {exception}', [
+                'exception' => $e,
+            ]);
         }
 
         $this->response->outputException($tracker, $e, $statusCode);
