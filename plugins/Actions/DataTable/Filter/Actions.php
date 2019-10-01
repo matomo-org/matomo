@@ -61,21 +61,21 @@ class Actions extends BaseFilter
                     $folderUrlStart = $row->getMetadata('folder_url_start');
                     $label = $row->getColumn('label');
                     if ($url) {
-                        $row->setMetadata('segmentValue', urldecode($url));
+                        $row->setMetadata('segmentValue', urlencode($url));
                     } else if ($folderUrlStart) {
                         $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
                     } else if ($pageTitlePath) {
                         if ($row->getIdSubDataTable()) {
-                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
+                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($pageTitlePath))));
                         } else {
-                            $row->setMetadata('segmentValue', trim(urldecode($pageTitlePath)));
+                            $row->setMetadata('segmentValue', urlencode(trim($pageTitlePath)));
                         }
                     } else if ($isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
                         // for older data w/o page_title_path metadata
                         if ($row->getIdSubDataTable()) {
-                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($label)))));
+                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($label))));
                         } else {
-                            $row->setMetadata('segmentValue', trim(urldecode($label)));
+                            $row->setMetadata('segmentValue', urlencode(trim($label)));
                         }
                     } else if ($this->actionType == Action::TYPE_PAGE_URL && $urlPrefix) { // folder for older data w/ no folder URL metadata
                         $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
@@ -98,13 +98,6 @@ class Actions extends BaseFilter
                 $row->deleteMetadata('page_title_path');
             }
         });
-
-        if (!$isFlattening) { // SafeDecodeLabel is not called when subtables are requested during flattening
-            $table->queueFilter('GroupBy', array('label', function ($label) {
-                return DataTable\Filter\SafeDecodeLabel::decodeLabelSafe($label); // to make up for SafeDecodeLabel later
-            }));
-            $table->setMetadata(DataTable\Filter\SafeDecodeLabel::APPLIED_METADATA_NAME, 1);
-        }
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();

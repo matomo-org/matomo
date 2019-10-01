@@ -76,7 +76,11 @@ class SegmentExpression
 
     public function getSubExpressionCount()
     {
-        return count($this->parsedSubExpressions);
+        $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
+            $isExpressionColumnPresent = !empty($part[1][0]);
+            return $isExpressionColumnPresent;
+        });
+        return count($cleaned);
     }
 
     /**

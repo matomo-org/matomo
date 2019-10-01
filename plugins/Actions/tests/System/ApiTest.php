@@ -1,8 +1,12 @@
 <?php
-
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 namespace Piwik\Plugins\Actions\tests\System;
-
 
 use Piwik\API\Request;
 use Piwik\DataTable;
@@ -63,7 +67,7 @@ class ApiTest extends IntegrationTestCase
             'idSite' => $idSite,
             'period' => 'day',
             'date' => '2015-03-04',
-            'segment' => urlencode($pageSegment),
+            'segment' => $pageSegment,
             'flat' => '1',
         ]);
 
