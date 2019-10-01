@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Version;
 
 /**
  * @group Core
@@ -352,11 +353,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array($url, array(
 			'httpMethod' => 'POST',
 			'body' => array('adf2' => '44','afc23' => 'ab12'),
-			'userAgent' => 'Piwik/3.12.0-b3',
+			'userAgent' => 'Piwik/' . Version::VERSION,
 			'timeout' => 30,
 			'headers' => array(
 				'Range: bytes=10-20',
-				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
+                'Via: ' . Version::VERSION . '  (Piwik/' . Version::VERSION . ')',
 				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,
@@ -368,11 +369,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array($url, array(
 			'httpMethod' => 'POST',
 			'body' => array('adf2' => '44','afc23' => 'ab12'),
-			'userAgent' => 'Piwik/3.12.0-b3',
+            'userAgent' => 'Piwik/' . Version::VERSION,
 			'timeout' => 30,
 			'headers' => array(
 				'Range: bytes=10-20',
-				'Via: 3.12.0-b3  (Piwik/3.12.0-b3)',
+                'Via: ' . Version::VERSION . '  (Piwik/' . Version::VERSION . ')',
 				'X-Forwarded-For: 127.0.0.1',
 			),
 			'verifySsl' => true,

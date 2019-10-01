@@ -634,9 +634,7 @@ function rowEvolutionGetMetricNameFromRow(tr)
          * Sets the colors used to render this graph.
          */
         _setColors: function () {
-            var colorManager = piwik.ColorManager,
-                seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
-                    'series6', 'series7', 'series8', 'series9', 'series10'];
+            var colorManager = piwik.ColorManager;
 
             var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
@@ -651,11 +649,31 @@ function rowEvolutionGetMetricNameFromRow(tr)
 
             var namespace = graphType + '-graph-colors';
 
-            this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
+            this._setSeriesColors(namespace);
+
             this.jqplotParams.grid.background = colorManager.getColor(namespace, 'grid-background');
             this.jqplotParams.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
             this.tickColor = colorManager.getColor(namespace, 'ticks');
             this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label')
+        },
+
+        _setSeriesColors: function (namespace) {
+            var colorManager = piwik.ColorManager,
+                seriesColorNames = ['series0', 'series1', 'series2', 'series3', 'series4', 'series5',
+                    'series6', 'series7', 'series8', 'series9', 'series10'];
+
+            var comparisonService = piwikHelper.getAngularDependency('piwikComparisonsService');
+            if (comparisonService.isComparing() && typeof this.jqplotParams.series[0].seriesIndex !== 'undefined') {
+                namespace = 'comparison-series-color';
+
+                seriesColorNames = [];
+                this.jqplotParams.series.forEach(function (s) {
+                    var seriesColorName = comparisonService.getSeriesColorName(s.seriesIndex, s.metricIndex);
+                    seriesColorNames.push(seriesColorName);
+                });
+            }
+
+            this.jqplotParams.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
         }
     });
 
@@ -1040,7 +1058,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             c.markerRenderer.init();
 
             var position = series.gridData[tick];
-            c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            if (typeof position !== 'undefined') {
+                c.markerRenderer.draw(position[0], position[1], c.piwikHighlightCanvas._ctx);
+            }
         }
     }
 

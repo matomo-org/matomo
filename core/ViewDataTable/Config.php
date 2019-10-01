@@ -495,6 +495,12 @@ class   Config
     public $disable_all_rows_filter_limit = false;
 
     /**
+     * Sets a limit for the maximum number of rows that can be exported.
+     * @var int
+     */
+    public $max_export_filter_limit = -1;
+
+    /**
      * Message to show if not data is available for the report
      * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
      *
@@ -525,6 +531,13 @@ class   Config
      * @var string
      */
     public $segmented_visitor_log_segment_suffix = '';
+
+    /**
+     * Disable comparison support for this specific usage of a ViewDataTable.
+     *
+     * @var bool
+     */
+    public $disable_comparison = false;
 
     /**
      * @ignore

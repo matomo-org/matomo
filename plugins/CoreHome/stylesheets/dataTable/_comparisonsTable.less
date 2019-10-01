@@ -1,0 +1,71 @@
+.theWidgetContent .card .card-content table.dataTable, table.dataTable {
+  tr.comparePeriod, tr.comparisonRow {
+    > td:first-child {
+      padding-left: 45px;
+    }
+  }
+
+  tr.parentComparisonRow {
+    .dataTableRowActions {
+      display: none !important;
+    }
+
+    > td:not(.label) > * {
+      visibility: hidden;
+    }
+  }
+
+  tr.comparePeriod {
+    .dataTableRowActions {
+      display: none !important;
+    }
+
+    td.label {
+      font-weight: bold;
+      color: @color-silver-l60;
+    }
+  }
+
+  td.label .prefix-numeral {
+    display: inline-block;
+    width: 20px;
+  }
+
+  .totalsRow,.summaryRow {
+    td.label .prefix-numeral {
+      visibility: hidden;
+    }
+  }
+
+  img {
+    margin-left: 1px;
+  }
+}
+
+tr.comparePeriod, tr.comparisonRow {
+  &.level0 td.label {
+    padding-left: 44px !important;
+  }
+
+  &.level1 td.label {
+    padding-left: 68px !important;
+  }
+
+  &.level2 td.label {
+    padding-left: 90px !important;
+  }
+}
+
+tr.parentComparisonRow {
+  td.label img.plusMinus {
+    margin-right: 8px;
+  }
+
+  &.level1 td.label {
+    padding-left: 44px !important;
+  }
+
+  &.level2 td.label {
+    padding-left: 68px !important;
+  }
+}

@@ -476,7 +476,7 @@ class API extends \Piwik\Plugin\API
      * @param bool|int $idDimension
      * @return array
      */
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false)
     {
         // check if site exists
         $idSite = (int) $idSite;
@@ -504,7 +504,7 @@ class API extends \Piwik\Plugin\API
 
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl, $labelSeries);
     }
 
     /**
@@ -525,6 +525,10 @@ class API extends \Piwik\Plugin\API
         $result = array();
         foreach ($urls as $url) {
             $params = Request::getRequestArrayFromString($url . '&format=php&serialize=0');
+
+            if (!empty($params['method']) && $params['method'] === 'API.getBulkRequest') {
+                continue;
+            }
 
             if (isset($params['urls']) && $params['urls'] == $urls) {
                 // by default 'urls' is added to $params as Request::getRequestArrayFromString adds all $_GET/$_POST
@@ -618,6 +622,37 @@ class API extends \Piwik\Plugin\API
         $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
         return $values;
+    }
+
+    /**
+     * Returns category/subcategory pairs as "CategoryId.SubcategoryId" for whom comparison features should
+     * be disabled.
+     *
+     * @return string[]
+     */
+    public function getPagesComparisonsDisabledFor()
+    {
+        $pages = [];
+
+        /**
+         * If your plugin has pages where you'd like comparison features to be disabled, you can add them
+         * via this event. Add the pages as "CategoryId.SubcategoryId".
+         *
+         * **Example**
+         *
+         * ```
+         * public function getPagesComparisonsDisabledFor(&$pages)
+         * {
+         *     $pages[] = "General_Visitors.MyPlugin_MySubcategory";
+         *     $pages[] = "MyPlugin.myControllerAction"; // if your plugin defines a whole page you want comparison disabled for
+         * }
+         * ```
+         *
+         * @param string[] &$pages
+         */
+        Piwik::postEvent('API.getPagesComparisonsDisabledFor', [&$pages]);
+
+        return $pages;
     }
 
     private function findSegment($segmentName, $idSite)

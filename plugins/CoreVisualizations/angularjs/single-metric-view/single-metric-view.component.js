@@ -164,7 +164,7 @@
         function getLastPeriodDate() {
             var RangePeriod = piwikPeriods.get('range');
             var result = RangePeriod.getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
-            return $.datepicker.formatDate('yy-mm-dd', result);
+            return piwikPeriods.format(result);
         }
 
         function setWidgetTitle() {
@@ -269,7 +269,7 @@
         function getPastPeriodStr() {
             var startDate = piwikPeriods.get('range').getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
             var dateRange = piwikPeriods.get(piwik.period).parse(startDate).getDateRange();
-            return $.datepicker.formatDate('yy-mm-dd', dateRange[0]) + ',' + $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+            return piwikPeriods.format(dateRange[0]) + ',' + piwikPeriods.format(dateRange[1]);
         }
 
         function isIdGoalSet() {

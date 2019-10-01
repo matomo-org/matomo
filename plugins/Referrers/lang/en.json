@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "distinct search engines",
         "DistinctSocialNetworks": "distinct social networks",
         "DistinctWebsites": "distinct websites",
+        "DistinctWebsiteUrls": "distinct website URLs",
         "EvolutionDocumentation": "This is an overview of the referrers that led visitors to your website.",
         "EvolutionDocumentationMoreInfo": "For more information about the different channel types, see the documentation of the %s table.",
         "Keywords": "Keywords",
@@ -68,6 +69,12 @@
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
         "XPercentOfVisits": "%s of visits",
-        "Acquisition": "Acquisition"
+        "Acquisition": "Acquisition",
+        "VisitorsFromSearchEngines": "Visitors from Search Engines",
+        "PercentOfX": "Percent of %s",
+        "VisitorsFromSocialNetworks": "Visitors from Social Networks",
+        "VisitorsFromDirectEntry": "Visitors from Direct Entry",
+        "VisitorsFromWebsites": "Visitors from Websites",
+        "VisitorsFromCampaigns": "Visitors from Campaigns"
     }
 }

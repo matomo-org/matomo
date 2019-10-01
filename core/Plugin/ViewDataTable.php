@@ -9,10 +9,14 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\Request;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
+use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -168,6 +172,8 @@ abstract class ViewDataTable implements ViewInterface
      * @var ViewDataTableRequest
      */
     protected $request;
+
+    private $isComparing = null;
 
     /**
      * Constructor. Initializes display and request properties to their default values.
@@ -356,7 +362,12 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
-        $this->dataTable = $this->request->loadDataTableFromAPI();
+        $extraParams = [];
+        if ($this->isComparing()) {
+            $extraParams['compare'] = '1';
+        }
+
+        $this->dataTable = $this->request->loadDataTableFromAPI($extraParams);
 
         return $this->dataTable;
     }
@@ -590,4 +601,41 @@ abstract class ViewDataTable implements ViewInterface
         return $paramsCannotBeOverridden;
     }
 
+    /**
+     * Returns true if both this current visualization supports comparison, and if comparison query parameters
+     * are present in the URL.
+     *
+     * @return bool
+     */
+    public function isComparing()
+    {
+        if (!$this->supportsComparison()
+            || $this->config->disable_comparison
+        ) {
+            return false;
+        }
+
+        $request = $this->request->getRequestArray();
+        $request = ApiRequest::getRequestArrayFromString($request);
+
+        $result = DataComparisonFilter::isCompareParamsPresent($request);
+        return $result;
+    }
+
+    /**
+     * Implementations should override this method if they support a special comparison view. By
+     * default, it is assumed visualizations do not support comparison.
+     *
+     * @return bool
+     */
+    public function supportsComparison()
+    {
+        return false;
+    }
+
+    public function getRequestArray()
+    {
+        $requestArray = $this->request->getRequestArray();
+        return ApiRequest::getRequestArrayFromString($requestArray);
+    }
 }

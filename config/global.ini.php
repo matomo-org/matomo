@@ -733,6 +733,12 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The maximum number of segments that can be compared simultaneously.
+data_comparison_segment_limit = 5
+
+; The maximum number of periods that can be compared simultaneously.
+data_comparison_period_limit = 5
+
 ; The path to a custom cacert.pem file Matomo should use.
 ; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
 ; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
@@ -743,7 +749,6 @@ custom_cacert_pem=
 ; Whether or not to send weekly emails to superusers about tracking failures.
 ; Default is 1.
 enable_tracking_failures_notification = 1
-
 
 [Tracker]
 

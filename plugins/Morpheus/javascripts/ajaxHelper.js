@@ -166,7 +166,15 @@ function ajaxHelper() {
             params = broadcast.getValuesFromUrl(params);
         }
 
+        var arrayParams = ['compareSegments', 'comparePeriods', 'compareDates'];
+
         for (var key in params) {
+            if (arrayParams.indexOf(key) !== -1
+                && !params[key]
+            ) {
+                continue;
+            }
+
             if(type.toLowerCase() == 'get') {
                 this.getParams[key] = params[key];
             } else if(type.toLowerCase() == 'post') {
@@ -535,12 +543,9 @@ function ajaxHelper() {
      * @private
      */
     this._mixinDefaultGetParams = function (params) {
+        var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
 
-        if (window.location.hash) {
-            var segment = broadcast.getValueFromHash('segment', window.location.href.split('#')[1]);
-        } else {
-            var segment = broadcast.getValueFromUrl('segment');
-        }
+        var segment = piwikUrl.getSearchParam('segment');
 
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
