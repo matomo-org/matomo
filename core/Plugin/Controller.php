@@ -751,6 +751,7 @@ abstract class Controller
 
         $pluginManager = Plugin\Manager::getInstance();
         $view->relativePluginWebDirs = (object) $pluginManager->getWebRootDirectoriesForCustomPluginDirs();
+        $view->isMultiSitesEnabled = Manager::getInstance()->isPluginActivated('MultiSites');
 
         self::setHostValidationVariablesView($view);
     }
