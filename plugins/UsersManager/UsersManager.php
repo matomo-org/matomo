@@ -62,6 +62,10 @@ class UsersManager extends \Piwik\Plugin
 
     public function addSystemSummaryItems(&$systemSummary)
     {
+        if (!self::isUsersAdminEnabled()) {
+            return;
+        }
+
         $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
 
         $numUsers = count($userLogins);
