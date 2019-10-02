@@ -87,9 +87,9 @@
                 <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
                 <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 
-                <h3>{{ 'CoreAdminHome_ImportFromGoogleAnalytics'|translate }}</h3>
-                <p>{{ 'CoreAdminHome_ImportFromGoogleAnalyticsDescription'|translate('<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">','</a>')|raw }}</p>
-                <p></p>
+                {% if googleAnalyticsImporterMessage is defined %}
+                {{ googleAnalyticsImporterMessage|raw }}
+                {% endif %}
 
                 {{ postEvent('Template.endTrackingHelpPage') }}
 
