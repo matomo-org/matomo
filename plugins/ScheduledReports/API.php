@@ -194,6 +194,36 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Updates an existing report.
+     *
+     * @see addReport()
+     */
+    public function unsubscribe($idReport, $idSite, $parameters)
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $scheduledReports = $this->getReports($idSite, $periodSearch = false, $idReport);
+        $report   = reset($scheduledReports);
+        $idReport = $report['idreport'];
+
+        $currentUser = Piwik::getCurrentUserLogin();
+        self::ensureLanguageSetForUser($currentUser);
+
+        // We'll only accept changes to two keys related to email subscriptions
+        $paramsToSave = $report['parameters'];
+        $paramsToSave['emailMe'] = $parameters['emailMe'];
+        $paramsToSave['additionalEmails'] = $parameters['additionalEmails'];
+        self::validateReportParameters($report['type'], $paramsToSave);
+
+        $this->getModel()->updateReport($idReport, array(
+            'parameters'  => $paramsToSave
+        ));
+
+        self::$cache = array();
+    }
+
+    /**
      * Deletes a specific report
      *
      * @param int $idReport

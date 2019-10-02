@@ -81,17 +81,10 @@ class SubscriptionModel
 
         if ($emailFound) {
             Access::doAsSuperUser(function() use ($report) {
-                Request::processRequest('ScheduledReports.updateReport', [
+                Request::processRequest('ScheduledReports.unsubscribe', [
                     'idReport'     => $report['idreport'],
                     'idSite'       => $report['idsite'],
-                    'description'  => $report['description'],
-                    'period'       => $report['period'],
-                    'hour'         => $report['hour'],
-                    'reportType'   => $report['type'],
-                    'reportFormat' => $report['format'],
-                    'reports'      => $report['reports'],
                     'parameters'   => $report['parameters'],
-                    'idSegment'    => $report['idsegment'],
                 ]);
             });
 
