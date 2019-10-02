@@ -233,6 +233,7 @@
         "GraphHelp": "Matomo çizelgelerinin görüntülenmesi hakkında ayrıntılı bilgi.",
         "HelloUser": "Merhaba, %s!",
         "Help": "Yardım",
+        "HelpResources": "Yardım kaynakları",
         "HelpTranslatePiwik": "%1$sMatomo çevirilerini geliştirmemiz için%2$s bize yardımcı olmak ister misiniz?",
         "Hide": "gizle",
         "HoursMinutes": "%1$s saat %2$s dakika",
@@ -493,7 +494,8 @@
         "YouMustBeLoggedIn": "Bu özelliği kullanabilmek için oturumu açmalısınız.",
         "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi.",
         "ThankYouForUsingMatomo": "Matomo kullandığınız için teşekkürler",
-        "TheMatomoTeam": "Matomo Ekibi"
+        "TheMatomoTeam": "Matomo Ekibi",
+        "PleaseTryAgain": "Lütfen yeniden deneyin"
     },
     "Mobile": {
         "AboutPiwikMobile": "Matomo Mobil Hakkında",

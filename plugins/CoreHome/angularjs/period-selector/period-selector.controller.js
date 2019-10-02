@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('PeriodSelectorController', PeriodSelectorController);
 
-    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods'];
+    PeriodSelectorController.$inject = ['piwik', '$location', 'piwikPeriods', 'piwikComparisonsService', '$rootScope', 'piwikUrl', '$element', '$timeout'];
 
-    function PeriodSelectorController(piwik, $location, piwikPeriods) {
+    function PeriodSelectorController(piwik, $location, piwikPeriods, piwikComparisonsService, $rootScope, piwikUrl, $element, $timeout) {
         var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay),
             piwikMaxDate = new Date(piwik.maxDateYear, piwik.maxDateMonth - 1, piwik.maxDateDay);
 
@@ -28,6 +28,11 @@
 
         vm.isLoadingNewPage = false;
 
+        vm.isComparing = false;
+        vm.comparePeriodType = 'previousPeriod';
+        vm.compareStartDate = '';
+        vm.compareEndDate = '';
+
         vm.getCurrentlyViewingText = getCurrentlyViewingText;
         vm.changeViewedPeriod = changeViewedPeriod;
         vm.setPiwikPeriodAndDate = setPiwikPeriodAndDate;
@@ -38,10 +43,28 @@
         vm.onRangeChange = onRangeChange;
         vm.isApplyEnabled = isApplyEnabled;
         vm.$onInit = init;
+        vm.isComparisonEnabled = isComparisonEnabled;
+
+        $rootScope.$on('$locationChangeSuccess', setIsComparing);
 
         function init() {
             vm.updateSelectedValuesFromHash();
+            setIsComparing();
             initTopControls(); // must be called when a top control changes width
+
+            handleZIndexPositionRelativeCompareDropdownIssue();
+        }
+
+        function handleZIndexPositionRelativeCompareDropdownIssue() {
+            $element.on('focus', '#comparePeriodToDropdown .select-dropdown', function () {
+                $element.addClass('compare-dropdown-open');
+            }).on('blur', '#comparePeriodToDropdown .select-dropdown', function () {
+                $element.removeClass('compare-dropdown-open');
+            });
+        }
+
+        function setIsComparing() {
+            vm.isComparing = piwikComparisonsService.isComparingPeriods();
         }
 
         function $onChanges(changesObj) {
@@ -68,6 +91,29 @@
                 return false;
             }
 
+            if (vm.isComparing
+                && vm.comparePeriodType === 'custom'
+                && !isCompareRangeValid()
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function isCompareRangeValid() {
+            try {
+                piwikPeriods.parseDate(vm.compareStartDate);
+            } catch (e) {
+                return false;
+            }
+
+            try {
+                piwikPeriods.parseDate(vm.compareEndDate);
+            } catch (e) {
+                return false;
+            }
+
             return true;
         }
 
@@ -78,8 +124,8 @@
         }
 
         function updateSelectedValuesFromHash() {
-            var strDate = getQueryParamValue('date');
-            var strPeriod = getQueryParamValue('period');
+            var strDate = piwikUrl.getSearchParam('date');
+            var strPeriod = piwikUrl.getSearchParam('period');
 
             vm.periodValue = strPeriod;
             vm.selectedPeriod = strPeriod;
@@ -95,16 +141,6 @@
                 vm.dateValue = piwikPeriods.parseDate(strDate);
                 setRangeStartEndFromPeriod(strPeriod, strDate);
             }
-        }
-
-        function getQueryParamValue(name) {
-            // $location doesn't parse the URL before the hashbang, but it can hold the query param
-            // values, if the page doesn't have the hashbang.
-            var result = $location.search()[name];
-            if (!result) {
-                result = broadcast.getValueFromUrl(name);
-            }
-            return result;
         }
 
         function getPeriodDisplayText(periodLabel) {
@@ -142,6 +178,22 @@
 
         function onApplyClicked() {
             if (vm.selectedPeriod === 'range') {
+                var dateString = getSelectedDateString();
+                if (!dateString) {
+                    return;
+                }
+
+                vm.periodValue = 'range';
+
+                propagateNewUrlParams(dateString, 'range');
+                return;
+            }
+
+            setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
+        }
+
+        function getSelectedDateString() {
+            if (vm.selectedPeriod === 'range') {
                 var dateFrom = vm.startRangeDate,
                     dateTo = vm.endRangeDate,
                     oDateFrom = piwikPeriods.parseDate(dateFrom),
@@ -154,16 +206,13 @@
                     // TODO: use a notification instead?
                     $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
                     piwik.helper.modalConfirm('#alert', {});
-                    return;
+                    return null;
                 }
 
-                vm.periodValue = 'range';
-
-                propagateNewUrlParams(dateFrom + ',' + dateTo, 'range');
-                return;
+                return dateFrom + ',' + dateTo;
+            } else {
+                return formatDate(vm.dateValue);
             }
-
-            setPiwikPeriodAndDate(vm.selectedPeriod, vm.dateValue);
         }
 
         function setPiwikPeriodAndDate(period, date) {
@@ -184,17 +233,77 @@
             vm.endRangeDate = formatDate(dateRange[1] > piwikMaxDate ? piwikMaxDate : dateRange[1]);
         }
 
+        function getSelectedComparisonParams() {
+            var previousDate;
+
+            if (!vm.isComparing) {
+                return {};
+            }
+
+            if (vm.comparePeriodType === 'custom') {
+                return {
+                    comparePeriods: ['range'],
+                    compareDates: [vm.compareStartDate + ',' + vm.compareEndDate],
+                };
+            } else if (vm.comparePeriodType === 'previousPeriod') {
+                previousDate = getPreviousPeriodDateToSelectedPeriod();
+                return {
+                    comparePeriods: [vm.selectedPeriod],
+                    compareDates: [previousDate],
+                };
+            } else if (vm.comparePeriodType === 'previousYear') {
+                var dateStr = vm.selectedPeriod === 'range' ? (vm.startRangeDate + ',' + vm.endRangeDate) : vm.dateValue;
+                var currentDateRange = piwikPeriods.parse(vm.selectedPeriod, dateStr).getDateRange();
+                currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
+                currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
+
+                return {
+                    comparePeriods: ['range'],
+                    compareDates: [piwikPeriods.format(currentDateRange[0]) + ',' + piwikPeriods.format(currentDateRange[1])],
+                };
+            } else {
+                console.warn("Unknown compare period type: " + vm.comparePeriodType);
+                return {};
+            }
+        }
+
+        function getPreviousPeriodDateToSelectedPeriod() {
+            if (vm.selectedPeriod === 'range') {
+                var currentStartRange = piwikPeriods.parseDate(vm.startRangeDate);
+                var currentEndRange = piwikPeriods.parseDate(vm.endRangeDate);
+                var newEndDate = piwikPeriods.RangePeriod.getLastNRange('day', 2, currentStartRange).startDate;
+
+                var rangeSize = Math.floor((currentEndRange - currentStartRange) / 86400000);
+                var newRange = piwikPeriods.RangePeriod.getLastNRange('day', 1 + rangeSize, newEndDate);
+
+                return piwikPeriods.format(newRange.startDate) + ',' + piwikPeriods.format(newRange.endDate);
+            }
+
+            var newStartDate = piwikPeriods.RangePeriod.getLastNRange(vm.selectedPeriod, 2, vm.dateValue).startDate;
+            return piwikPeriods.format(newStartDate);
+        }
+
         function propagateNewUrlParams(date, period) {
+            var compareParams = getSelectedComparisonParams();
+
             if (piwik.helper.isAngularRenderingThePage()) {
                 vm.closePeriodSelector(); // defined in directive
 
                 var $search = $location.search();
-                if (date !== $search.date || period !== $search.period) {
+                var isCurrentlyComparing = piwikUrl.getSearchParam('compareSegments') || piwikUrl.getSearchParam('comparePeriods');
+                if (date !== $search.date || period !== $search.period || vm.isComparing || isCurrentlyComparing) {
                     // eg when using back button the date might be actually already changed in the URL and we do not
                     // want to change the URL again
                     $search.date = date;
                     $search.period = period;
-                    $location.search($search);
+                    $search.compareSegments = piwikUrl.getSearchParam('compareSegments') || [];
+                    $.extend($search, compareParams);
+
+                    delete $search['compareSegments[]'];
+                    delete $search['comparePeriods[]'];
+                    delete $search['compareDates[]'];
+
+                    $location.search($.param($search));
                 }
 
                 return;
@@ -204,7 +313,8 @@
 
             // not in an angular context (eg, embedded dashboard), so must actually
             // change the URL
-            broadcast.propagateNewPage('date=' + date + '&period=' + period);
+            var url = $.param($.extend({ date: date, period: period }, compareParams));
+            broadcast.propagateNewPage(url);
         }
 
         function isValidDate(d) {
@@ -216,7 +326,11 @@
         }
 
         function formatDate(date) {
-            return $.datepicker.formatDate('yy-mm-dd', date);
+            return piwikPeriods.format(date);
+        }
+
+        function isComparisonEnabled() {
+            return piwikComparisonsService.isComparisonEnabled();
         }
     }
 })();

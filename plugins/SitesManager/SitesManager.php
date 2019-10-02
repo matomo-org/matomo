@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
@@ -45,6 +46,19 @@ class SitesManager extends \Piwik\Plugin
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Request.dispatch'                       => 'redirectDashboardToWelcomePage',
         );
+    }
+
+    public static function isSitesAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_sites_admin'];
+    }
+
+    public static function dieIfSitesAdminIsDisabled()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        if (!self::isSitesAdminEnabled()) {
+            throw new \Exception('Creating, updating, and deleting sites has been disabled.');
+        }
     }
 
     public function addSystemSummaryItems(&$systemSummary)
@@ -409,5 +423,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
+        $translationKeys[] = "SitesManager_EmailInstructionsButton";
+        $translationKeys[] = "SitesManager_EmailInstructionsSubject";
+        $translationKeys[] = "SitesManager_JsTrackingTagHelp";
     }
 }

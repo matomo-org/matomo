@@ -79,7 +79,11 @@ class CustomVariables extends \Piwik\Plugin
         $cache    = Cache::getCacheGeneral();
         $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
-        return $cache[$cacheKey];
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+
+        return 0;
     }
 
     public function getCacheGeneral(&$cacheContent)

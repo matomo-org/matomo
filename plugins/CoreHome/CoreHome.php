@@ -106,7 +106,6 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
-        $stylesheets[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
@@ -130,6 +129,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -279,6 +279,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.service.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/comparisons/comparisons.component.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -303,6 +306,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-management.directive.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/angularjs/plugins/plugin-upload.directive.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.min.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/iframeResizer.contentWindow.min.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
@@ -461,5 +465,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
+        $translationKeys[] = 'General_ComputedMetricMax';
+        $translationKeys[] = 'General_XComparedToY';
+        $translationKeys[] = 'General_ComparisonCardTooltip1';
+        $translationKeys[] = 'General_ComparisonCardTooltip2';
+        $translationKeys[] = 'General_Comparisons';
+        $translationKeys[] = 'General_ClickToRemoveComp';
     }
 }

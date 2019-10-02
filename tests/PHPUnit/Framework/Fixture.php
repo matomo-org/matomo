@@ -200,7 +200,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->dbName = $this->getDbName();
 
         if ($this->persistFixtureData) {
-            $this->dropDatabaseInSetUp = false;
+            $this->dropDatabaseInSetUp = getenv('DROP') == 1;
             $this->dropDatabaseInTearDown = false;
             $this->overwriteExisting = false;
             $this->removeExistingSuperUser = false;

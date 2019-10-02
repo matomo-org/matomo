@@ -137,7 +137,8 @@
             var imagePlusMinusHeight = 12;
             $('td:first-child', rowsWithSubtables)
                 .each(function () {
-                    $(this).prepend('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />');
+                    $('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />').insertBefore($(this).children('.label'));
+
                     if (self.param.filter_pattern_recursive) {
                         setImageMinus(this);
                     }
@@ -171,10 +172,7 @@
         },
 
         addOddAndEvenClasses: function(domElem) {
-            // Add some styles on the cells
-            // label (first column of a data row) or not
-            $("tr:not(.hidden) td:first-child", domElem).addClass('label');
-            $("tr:not(.hidden) td", domElem).slice(1).addClass('column');
+            // empty
         },
 
         handleRowActions: function (domElem, rows) {
@@ -190,7 +188,12 @@
 
             var divIdToReplaceWithSubTable = 'subDataTable_' + idSubTable;
 
-            var NextStyle = $(domElem).next().attr('class');
+            var $insertAfter = $(domElem).nextUntil(':not(.comparePeriod):not(.comparisonRow)').last();
+            if (!$insertAfter.length) {
+                $insertAfter = $(domElem);
+            }
+
+            var NextStyle = $insertAfter.next().attr('class');
             var CurrentStyle = $(domElem).attr('class');
 
             var currentRowLevel = getLevelFromClass(CurrentStyle);
@@ -205,7 +208,7 @@
                 self.disabledRowDom = $(domElem);
 
                 var numberOfColumns = $(domElem).children().length;
-                $(domElem).after('\
+                $insertAfter.after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
                             <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\
@@ -225,10 +228,13 @@
                 self.param.idSubtable = idSubTable;
                 self.param.action = self.props.subtable_controller_action;
 
+                var extraParams = {};
+                extraParams.comparisonIdSubtables = self.getComparisonIdSubtables($(domElem));
+
                 self.reloadAjaxDataTable(false, function (resp) {
                     self.actionsSubDataTableLoaded(resp, idSubTable);
                     self.repositionRowActions($(domElem));
-                });
+                }, extraParams);
                 self.param.action = savedActionVariable;
 
                 self.restoreAllFilters(filtersToRestore);

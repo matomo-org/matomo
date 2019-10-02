@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<label>piwik.net/blog/</label>
+	<reportData>
+		<result date="2012-08-01" />
+		<result date="2012-08-02" />
+		<result date="2012-08-03" />
+		<result date="2012-08-04" />
+		<result date="2012-08-05" />
+		<result date="2012-08-06" />
+		<result date="2012-08-07" />
+		<result date="2012-08-08" />
+		<result date="2012-08-09">
+			<row>
+				<nb_visits>4</nb_visits>
+				<nb_hits>4</nb_hits>
+				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="2012-08-10">
+			<row>
+				<nb_visits>3</nb_visits>
+				<nb_hits>3</nb_hits>
+				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="2012-08-11">
+			<row>
+				<nb_visits>3</nb_visits>
+				<nb_hits>3</nb_hits>
+				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="2012-08-12" />
+		<result date="2012-08-13" />
+		<result date="2012-08-14" />
+		<result date="2012-08-15" />
+		<result date="2012-08-16" />
+		<result date="2012-08-17" />
+		<result date="2012-08-18" />
+		<result date="2012-08-19">
+			<row>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="2012-08-20" />
+		<result date="2012-08-21" />
+		<result date="2012-08-22" />
+		<result date="2012-08-23" />
+		<result date="2012-08-24" />
+		<result date="2012-08-25" />
+		<result date="2012-08-26" />
+		<result date="2012-08-27" />
+		<result date="2012-08-28" />
+		<result date="2012-08-29" />
+		<result date="2012-08-30" />
+		<result date="2012-08-31" />
+	</reportData>
+	<metadata>
+		<metrics>
+			<nb_hits>
+				<name>Pageviews</name>
+				<min>0</min>
+				<max>4</max>
+			</nb_hits>
+			<nb_visits>
+				<name>Unique Pageviews</name>
+				<min>0</min>
+				<max>4</max>
+			</nb_visits>
+			<avg_time_on_page>
+				<name>Avg. time on page</name>
+			</avg_time_on_page>
+			<bounce_rate>
+				<name>Bounce Rate</name>
+				<min>0</min>
+				<max>100</max>
+			</bounce_rate>
+			<exit_rate>
+				<name>Exit rate</name>
+				<min>0</min>
+				<max>100</max>
+			</exit_rate>
+			<avg_time_generation>
+				<name>Avg. generation time</name>
+			</avg_time_generation>
+		</metrics>
+		<dimension>Page URL</dimension>
+	</metadata>
+</result>

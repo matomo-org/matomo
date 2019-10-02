@@ -55,6 +55,7 @@ class Manager
     protected $doLoadPlugins = true;
 
     protected static $pluginsToPathCache = array();
+    protected static $pluginsToWebRootDirCache = array();
 
     private $pluginsLoadedAndActivated;
 
@@ -409,6 +410,11 @@ class Manager
         return $dirs;
     }
 
+    public function getWebRootDirectoriesForCustomPluginDirs()
+    {
+        return array_intersect_key(self::$pluginsToWebRootDirCache, array_flip($this->pluginsToLoad));
+    }
+
     /**
      * Returns the path to all plugins directories. Each plugins directory may contain several plugins.
      * All paths have a trailing slash '/'.
@@ -465,10 +471,11 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
-        foreach (self::getPluginsDirectories() as $dir) {
+        foreach (self::getAlternativeWebRootDirectories() as $dir => $relative) {
             $path = $dir . $pluginName;
             if (is_dir($path)) {
                 self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($path);
+                self::$pluginsToWebRootDirCache[$pluginName] = $relative;
                 return $path;
             }
         }
@@ -1640,3 +1647,4 @@ class Manager
         }
     }
 }
+

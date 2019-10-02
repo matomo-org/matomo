@@ -143,7 +143,7 @@
 
         <div piwik-field uicontrol="radio" name="allow_multiple"
              ng-model="manageGoals.goal.allowMultiple"
-             ng-if="manageGoals.goal.matchAttribute !== 'visit_duration"
+             ng-if="manageGoals.goal.matchAttribute !== 'visit_duration'"
              options="{{ allowMultipleOptions|json_encode }}"
              introduction="{{ 'Goals_AllowMultipleConversionsPerVisit'|translate|e('html_attr') }}"
              inline-help="{{ 'Goals_HelpOneConversionPerVisit'|translate|e('html_attr') }}">

@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Este agente-de-usuario es detectado como %1$s. Los visitantes con este tipo de agente de usuario no será monitoreado de manera predeterminado por Matomo.",
         "BrowserEngine": "Motor del navegador",
         "BrowserEngineDocumentation": "Este informe muestra los navegadores de sus visitantes desglosados en los motores de los navegadores. %s La información más importante para los desarrolladores de internet es que clase de motor de renderizado sus visitantes están utilizando. Las etiquetas contienen los nombres de los motores seguido por el navegador más común utilizando dicho motor entre paréntesis.",
         "BrowserEngines": "Motores de navegador",

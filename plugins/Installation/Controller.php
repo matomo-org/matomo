@@ -18,7 +18,6 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
-use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -26,7 +25,9 @@ use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\NewsletterSignup;
 use Piwik\Plugins\UsersManager\UserUpdater;
+
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\TrackerCodeGenerator;
@@ -275,14 +276,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form->validate()) {
 
             try {
-                $this->createSuperUser($form->getSubmitValue('login'),
-                                       $form->getSubmitValue('password'),
-                                       $form->getSubmitValue('email'));
-
+                $loginName = $form->getSubmitValue('login');
                 $email = $form->getSubmitValue('email');
+
+                $this->createSuperUser($loginName,
+                                       $form->getSubmitValue('password'),
+                                       $email);
+
                 $newsletterPiwikORG = $form->getSubmitValue('subscribe_newsletter_piwikorg');
                 $newsletterProfessionalServices = $form->getSubmitValue('subscribe_newsletter_professionalservices');
-                $this->registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices);
+                NewsletterSignup::signupForNewsletter(
+                    $loginName,
+                    $email,
+                    $newsletterPiwikORG,
+                    $newsletterProfessionalServices
+                );
                 $this->redirectToNextStep(__FUNCTION__);
 
             } catch (Exception $e) {
@@ -368,11 +376,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $siteName = Common::unsanitizeInputValue($this->getParam('site_name'));
         $idSite = $this->getParam('site_idSite');
 
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $javascriptGenerator->getPhpTrackerEndpoint();
+
+        $emailBody = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $idSite
+        ), $viewType = 'basic');
+
         // Load the Tracking code and help text from the SitesManager
         $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
-        $javascriptGenerator = new TrackerCodeGenerator();
-        $viewTrackingHelp->jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
+        $viewTrackingHelp->jsTag = $jsTag;
+        $viewTrackingHelp->emailBody = $emailBody;
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
         $viewTrackingHelp->isInstall = true;
@@ -713,40 +737,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // deleting the config file removes the salt, which in turns invalidates existing cookies (including the
             // one for selected language), so we re-save that cookie now
             $this->resetLanguageCookie();
-        }
-    }
-
-    /**
-     * @param $email
-     * @param $newsletterPiwikORG
-     * @param $newsletterProfessionalServices
-     */
-    protected function registerNewsletter($email, $newsletterPiwikORG, $newsletterProfessionalServices)
-    {
-        $url = Config::getInstance()->General['api_service_url'];
-        $url .= '/1.0/subscribeNewsletter/';
-        $params = array(
-            'email'     => $email,
-            'piwikorg'  => $newsletterPiwikORG,
-            'piwikpro'  => $newsletterProfessionalServices,
-            'url'       => Url::getCurrentUrlWithoutQueryString(),
-            'language'  => StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage(),
-        );
-        if ($params['piwikorg'] == '1'
-            || $params['piwikpro'] == '1'
-        ) {
-            if (!isset($params['piwikorg'])) {
-                $params['piwikorg'] = '0';
-            }
-            if (!isset($params['piwikpro'])) {
-                $params['piwikpro'] = '0';
-            }
-            $url .= '?' . Http::buildQuery($params);
-            try {
-                Http::sendHttpRequest($url, $timeout = 2);
-            } catch (Exception $e) {
-                // e.g., disable_functions = fsockopen; allow_url_open = Off
-            }
         }
     }
 

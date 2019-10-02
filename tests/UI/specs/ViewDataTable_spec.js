@@ -26,12 +26,14 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should sort a column in descending order when column clicked initially", async function () {
         await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('2_column_sorted_desc');
     });
 
     it("should sort a column in ascending order when column clicked second time", async function () {
         await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('3_column_sorted_asc');
     });

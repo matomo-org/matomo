@@ -186,13 +186,15 @@ class Model
     public function deleteArchiveIds($numericTable, $blobTable, $idsToDelete)
     {
         $idsToDelete = array_values($idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . Common::getSqlStringFieldsArray($idsToDelete) . ")";
 
-        $queryObj = Db::query(sprintf($query, $numericTable), $idsToDelete);
+        $idsToDelete = array_map('intval', $idsToDelete);
+        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+
+        $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
 
         try {
-            $queryObj = Db::query(sprintf($query, $blobTable), $idsToDelete);
+            $queryObj = Db::query(sprintf($query, $blobTable), array());
             $deletedRows += $queryObj->rowCount();
         } catch (Exception $e) {
             // Individual blob tables could be missing
@@ -205,19 +207,13 @@ class Model
         return $deletedRows;
     }
 
-    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues)
+    public function getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues)
     {
         $bindSQL = array($idSite,
             $dateStartIso,
             $dateEndIso,
             $period,
         );
-
-        $timeStampWhere = '';
-        if ($minDatetimeIsoArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
-            $bindSQL[]      = $minDatetimeIsoArchiveProcessedUTC;
-        }
 
         $sqlWhereArchiveName = self::getNameCondition($doneFlags, $doneFlagValues);
 
@@ -229,7 +225,6 @@ class Model
                          AND ( ($sqlWhereArchiveName)
                                OR name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "'
                                OR name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
-                         $timeStampWhere
                      ORDER BY idarchive DESC";
         $results = Db::fetchAll($sqlQuery, $bindSQL);
 
@@ -279,25 +274,11 @@ class Model
         return $idarchive;
     }
 
-    public function deletePreviousArchiveStatus($numericTable, $archiveId, $doneFlag)
+    public function updateArchiveStatus($numericTable, $archiveId, $doneFlag, $value)
     {
-        $tableWithoutLeadingPrefix = $numericTable;
-        $lenNumericTableWithoutPrefix = strlen('archive_numeric_MM_YYYY');
-
-        if (strlen($numericTable) >= $lenNumericTableWithoutPrefix) {
-            $tableWithoutLeadingPrefix = substr($numericTable, strlen($numericTable) - $lenNumericTableWithoutPrefix);
-            // we need to make sure lock name is less than 64 characters see https://github.com/piwik/piwik/issues/9131
-        }
-        $dbLockName = "rmPrevArchiveStatus.$tableWithoutLeadingPrefix.$archiveId";
-
-        // without advisory lock here, the DELETE would acquire Exclusive Lock
-        $this->acquireArchiveTableLock($dbLockName);
-
-        Db::query("DELETE FROM $numericTable WHERE idarchive = ? AND (name = '" . $doneFlag . "')",
-            array($archiveId)
+        Db::query("UPDATE $numericTable SET `value` = ? WHERE idarchive = ? and `name` = ?",
+            array($value, $archiveId, $doneFlag)
         );
-
-        $this->releaseArchiveTableLock($dbLockName);
     }
 
     public function insertRecord($tableName, $fields, $record, $name, $value)
@@ -340,14 +321,31 @@ class Model
      * @param string $oldestToKeep Datetime string
      * @return array of IDs
      */
-    public function getArchiveIdsForDeletedSites($archiveTableName, $oldestToKeep)
+    public function getArchiveIdsForDeletedSites($archiveTableName)
     {
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " a "
-            . " LEFT JOIN " . Common::prefixTable('site') . " s USING (idsite)"
-            . " WHERE s.idsite IS NULL"
-            . " AND ts_archived < ?";
+        $sql = "SELECT DISTINCT idsite FROM " . $archiveTableName;
+        $rows = Db::getReader()->fetchAll($sql, array());
 
-        $rows = Db::fetchAll($sql, array($oldestToKeep));
+        if (empty($rows)) {
+            return array(); // nothing to delete
+        }
+
+        $idSitesUsed = array_column($rows, 'idsite');
+
+        $model = new \Piwik\Plugins\SitesManager\Model();
+        $idSitesExisting = $model->getSitesId();
+
+        $deletedSites = array_diff($idSitesUsed, $idSitesExisting);
+
+        if (empty($deletedSites)) {
+            return array();
+        }
+        $deletedSites = array_values($deletedSites);
+        $deletedSites = array_map('intval', $deletedSites);
+
+        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (".implode(',',$deletedSites).")";
+
+        $rows = Db::getReader()->fetchAll($sql, array());
 
         return array_column($rows, 'idarchive');
     }
@@ -356,50 +354,54 @@ class Model
      * Get a list of IDs of archives with segments that no longer exist in the DB. Excludes temporary archives that 
      * may still be in use, as specified by the $oldestToKeep passed in.
      * @param string $archiveTableName
-     * @param array $segmentHashesById  Whitelist of existing segments, indexed by site ID
+     * @param array $segments  List of segments to match against
      * @param string $oldestToKeep Datetime string
      * @return array With keys idarchive, name, idsite
      */
-    public function getArchiveIdsForDeletedSegments($archiveTableName, array $segmentHashesById, $oldestToKeep)
+    public function getArchiveIdsForSegments($archiveTableName, array $segments, $oldestToKeep)
     {
-        $validSegmentClauses = [];
-
-        foreach ($segmentHashesById as $idSite => $segments) {
-            // segments are md5 hashes and such not a problem re sql injection. for performance etc we don't want to use
-            // bound parameters for the query
-            foreach ($segments as $segment) {
-                if (!preg_match('/^[a-z0-9A-Z]+$/', $segment)) {
-                    throw new Exception($segment . ' expected to be an md5 hash');
-                }
+        $segmentClauses = [];
+        foreach ($segments as $segment) {
+            if (!empty($segment['definition'])) {
+                $segmentClauses[] = $this->getDeletedSegmentWhereClause($segment);
             }
-
-            // Special case as idsite=0 means the segments are not site-specific
-            if ($idSite === 0) {
-                foreach ($segments as $segmentHash) {
-                    $validSegmentClauses[] = '(name LIKE "done' . $segmentHash . '%")';
-                }
-                continue;
-            }
-
-            $idSite = (int)$idSite;
-
-            // Vanilla case - segments that are valid for a single site only
-            $sql = '(idsite = ' . $idSite . ' AND (';
-            $sql .= 'name LIKE "done' . implode('%" OR name LIKE "done', $segments) . '%"';
-            $sql .= '))';
-            $validSegmentClauses[] = $sql;
         }
 
-        $isValidSegmentSql = implode(' OR ', $validSegmentClauses);
+        if (empty($segmentClauses)) {
+            return array();
+        }
+
+        $segmentClauses = implode(' OR ', $segmentClauses);
 
         $sql = 'SELECT idarchive FROM ' . $archiveTableName
-            . ' WHERE name LIKE "done%" AND name != "done"'
-            . ' AND ts_archived < ?'
-            . ' AND NOT (' . $isValidSegmentSql . ')';
+            . ' WHERE ts_archived < ?'
+            . ' AND (' . $segmentClauses . ')';
 
         $rows = Db::fetchAll($sql, array($oldestToKeep));
 
-        return array_map(function($row) { return $row['idarchive']; }, $rows);
+        return array_column($rows, 'idarchive');
+    }
+
+    private function getDeletedSegmentWhereClause(array $segment)
+    {
+        $idSite = (int)$segment['enable_only_idsite'];
+        $segmentHash = Segment::getSegmentHash($segment['definition']);
+        // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
+        if (!ctype_xdigit($segmentHash)) {
+            throw new Exception($segment . ' expected to be an md5 hash');
+        }
+
+        $nameClause = 'name LIKE "done' . $segmentHash . '%"';
+        $idSiteClause = '';
+        if ($idSite > 0) {
+            $idSiteClause = ' AND idsite = ' . $idSite;
+        } elseif (! empty($segment['idsites_to_preserve'])) {
+            // A segment for all sites was deleted, but there are segments for a single site with the same definition
+            $idSitesToPreserve = array_map('intval', $segment['idsites_to_preserve']);
+            $idSiteClause = ' AND idsite NOT IN (' . implode(',', $idSitesToPreserve) . ')';
+        }
+
+        return "($nameClause $idSiteClause)";
     }
 
     /**
@@ -414,15 +416,4 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
-    protected function acquireArchiveTableLock($dbLockName)
-    {
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("Cannot get named lock $dbLockName.");
-        }
-    }
-
-    protected function releaseArchiveTableLock($dbLockName)
-    {
-        Db::releaseDbLock($dbLockName);
-    }
 }

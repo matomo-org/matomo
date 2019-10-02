@@ -19,16 +19,9 @@
         "ViewUserGuides": "Naučite kako da podesite Matomo i kako da efikasno analizirate vaše podatke prateći %1$skorisničko uputstvo%2$s",
         "CommunityHelp": "Pomoć zajednice",
         "ProfessionalHelp": "Profesionalna pomoć",
-        "ProfessionalServicesIntro": "Svetska mreža profesionalnih konsultanata za podršku klijentima koji hostuju Matomo na sopstvenim platformama.",
         "ProfessionalServicesOfferIntro": "Od kojih usluga možete imati koristi?",
-        "ProfessionalServicesReviewPiwikSetup": "Provera vaše Matomo instalacije",
-        "ProfessionalServicesOptimizationMaintenance": "Usluge optimizacije i održavanja Matomo-a",
-        "ProfessionalServicesPhoneEmailSupport": "Telefonska i podrška putem mejla",
-        "ProfessionalServicesTraining": "Korisnički, tehnički i razvojni trening",
-        "ProfessionalServicesPremiumFeatures": "Premium sadržaji",
-        "ProfessionalServicesCustomDevelopment": "Razvoj usluga po vašoj želji",
-        "ProfessionalServicesAnalystConsulting": "Usluge analitičkog konsaltinga",
         "ContactUs": "Kontaktirajte nas",
-        "VisitTheForums": "Posetite %1$s Forum%2$s kako biste dobili pomoć zajednice Matomo korisnika"
+        "VisitTheForums": "Posetite %1$s Forum%2$s kako biste dobili pomoć zajednice Matomo korisnika",
+        "Forums": "Forumi"
     }
 }

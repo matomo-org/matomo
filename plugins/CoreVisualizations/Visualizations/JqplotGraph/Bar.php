@@ -50,6 +50,11 @@ class Bar extends JqplotGraph
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('bar', $properties);
+        return JqplotDataGenerator::factory('bar', $properties, $this);
+    }
+
+    public function supportsComparison()
+    {
+        return true;
     }
 }

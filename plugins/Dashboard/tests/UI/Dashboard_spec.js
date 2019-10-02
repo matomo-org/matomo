@@ -262,7 +262,7 @@ describe("Dashboard", function () {
         await page.click('li[data-action="createDashboard"]');
         await page.waitFor('#createDashboardName', { visible: true });
         await page.type('#createDashboardName', 'newdash2');
-        await page.waitFor(200); // sometimes the text doesn't seem to type fast enough
+        await page.waitFor(500); // sometimes the text doesn't seem to type fast enough
         var button = await page.jQuery('.modal.open .modal-footer a:contains(Ok)');
         await button.click();
         await page.mouse.move(-10, -10);

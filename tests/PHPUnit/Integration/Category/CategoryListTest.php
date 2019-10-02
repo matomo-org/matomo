@@ -35,7 +35,7 @@ class CategoryListTest extends IntegrationTestCase
 
         $this->assertSame(array(
             'General_Actions',
-            'General_Generic',
+            'General_KpiMetric',
             'General_Visitors',
             'Dashboard_Dashboard',
             'General_MultiSitesSummary',
@@ -46,6 +46,7 @@ class CategoryListTest extends IntegrationTestCase
             'UserCountry_VisitLocation',
             'Live!',
             'CustomVariables_CustomVariables',
+            'Marketplace_Marketplace',
             'ExampleUI_UiFramework'
         ), array_keys($list->getCategories()));
     }

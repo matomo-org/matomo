@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Common;
+use Piwik\Exception\NotYetInstalledException;
 use Piwik\Piwik;
 use Piwik\Session\SessionFingerprint;
 use Exception;
@@ -45,7 +46,7 @@ class Validator
         Piwik::checkUserIsNotAnonymous();
 
         if (!SettingsPiwik::isPiwikInstalled()) {
-            throw new \Exception('Matomo is not set up yet');
+            throw new NotYetInstalledException('Matomo is not set up yet');
         }
     }
 

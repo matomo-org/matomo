@@ -14,6 +14,7 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\SettingsServer;
 
 /**
  * API renderer
@@ -30,6 +31,11 @@ abstract class ApiRenderer
 
     protected function init()
     {
+    }
+
+    protected function shouldSendBacktrace()
+    {
+        return Common::isPhpCliMode() && SettingsServer::isArchivePhpTriggered();
     }
 
     abstract public function sendHeader();

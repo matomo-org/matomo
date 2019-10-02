@@ -64,6 +64,7 @@ class Feedback extends \Piwik\Plugin
         $translationKeys[] = 'Feedback_PleaseLeaveExternalReviewForMatomo';
         $translationKeys[] = 'Feedback_RemindMeLater';
         $translationKeys[] = 'Feedback_NeverAskMeAgain';
+        $translationKeys[] = 'Feedback_SearchOnMatomo';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_Cancel';
     }
@@ -114,7 +115,7 @@ class Feedback extends \Piwik\Plugin
     // needs to be protected not private for testing purpose
     protected function isDisabledInTestMode()
     {
-        return PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
+        return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE && !Common::getRequestVar('forceFeedbackTest', false);
     }
 
 }

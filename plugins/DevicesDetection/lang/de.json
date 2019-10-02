@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Dieser User-Agent wird als %1$s erkannt. Besuche mit diesem Benutzer-Agenten werden in Matomo standardmäßig nicht protokolliert.",
         "BrowserEngine": "Browser-Engine",
         "BrowserEngineDocumentation": "Dieser Bericht zeigt Ihnen die Browser Ihrer Besucher aufgeteilt nach Browserfamilien. %s Die wichtigste Information für Webentwickler ist, welche Rendering-Engine ihre Besucher verwenden. Die Beschriftungen enthalten den Namen der Engine und in Klammern den Namen des bekanntesten Browsers, der diese verwendet.",
         "BrowserEngines": "Browser-Engines",

@@ -10,7 +10,9 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
+use Psr\Log\LoggerInterface;
 
 class Model
 {
@@ -76,7 +78,9 @@ class Model
         try {
             $this->getDb()->query($sql, $sqlBind);
         } catch (Exception $e) {
-            Common::printDebug("There was an error while updating the Conversion: " . $e->getMessage());
+            StaticContainer::get(LoggerInterface::class)->error("There was an error while updating the Conversion: {exception}", [
+                'exception' => $e,
+            ]);
 
             return false;
         }
@@ -313,7 +317,7 @@ class Model
     {
         list($updateParts, $sqlBind) = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode($updateParts, ', ');
+        $parts = implode(', ',$updateParts);
         $table = Common::prefixTable('log_visit');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idsite = ? AND idvisit = ?";

@@ -143,6 +143,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
             }
         }
+        
+        if ($messageNoAccess) {
+            http_response_code(403);
+        }
 
         $view = new View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
