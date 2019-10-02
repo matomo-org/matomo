@@ -22,7 +22,7 @@
 				<min_bandwidth />
 				<max_bandwidth />
 				<url>http://othersite10.com/</url>
-				<segment>outlinkUrl==http%3A%2F%2Fothersite10.com%2F</segment>
+				<segment>outlinkUrl==http%253A%252F%252Fothersite10.com%252F</segment>
 			</row>
 			<row>
 				<label>Others</label>

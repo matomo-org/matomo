@@ -35,7 +35,8 @@ class Actions extends BaseFilter
      */
     public function filter($table)
     {
-        $table->filter(function (DataTable $dataTable) {
+        $isFlattening = Common::getRequestVar('flat', 0);
+        $table->filter(function (DataTable $dataTable) use ($isFlattening) {
             $site = $dataTable->getMetadata('site');
             $urlPrefix = $site ? $site->getMainUrl() : null;
 
@@ -60,21 +61,21 @@ class Actions extends BaseFilter
                     $folderUrlStart = $row->getMetadata('folder_url_start');
                     $label = $row->getColumn('label');
                     if ($url) {
-                        $row->setMetadata('segmentValue', urldecode($url));
+                        $row->setMetadata('segmentValue', urlencode($url));
                     } else if ($folderUrlStart) {
                         $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($folderUrlStart)));
                     } else if ($pageTitlePath) {
                         if ($row->getIdSubDataTable()) {
-                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($pageTitlePath)))));
+                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($pageTitlePath))));
                         } else {
-                            $row->setMetadata('segmentValue', trim(urldecode($pageTitlePath)));
+                            $row->setMetadata('segmentValue', urlencode(trim($pageTitlePath)));
                         }
                     } else if ($isPageTitleType && !in_array($label, [DataTable::LABEL_SUMMARY_ROW])) {
                         // for older data w/o page_title_path metadata
                         if ($row->getIdSubDataTable()) {
-                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim(urldecode($label)))));
+                            $row->setMetadata('segment', 'pageTitle=^' . urlencode(urlencode(trim($label))));
                         } else {
-                            $row->setMetadata('segmentValue', trim(urldecode($label)));
+                            $row->setMetadata('segmentValue', urlencode(trim($label)));
                         }
                     } else if ($this->actionType == Action::TYPE_PAGE_URL && $urlPrefix) { // folder for older data w/ no folder URL metadata
                         $row->setMetadata('segment', 'pageUrl=^' . urlencode(urlencode($urlPrefix . '/' . $label)));
@@ -82,7 +83,7 @@ class Actions extends BaseFilter
                 }
 
                 // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
-                if (Common::getRequestVar('flat', 0)) {
+                if ($isFlattening) {
                     $label = $row->getColumn('label');
                     $stringToSearch = $actionDelimiter.$defaultActionName;
                     if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
@@ -97,11 +98,6 @@ class Actions extends BaseFilter
                 $row->deleteMetadata('page_title_path');
             }
         });
-
-        // TODO can we remove this one again?
-        $table->queueFilter('GroupBy', array('label', function ($label) {
-            return urldecode($label);
-        }));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();

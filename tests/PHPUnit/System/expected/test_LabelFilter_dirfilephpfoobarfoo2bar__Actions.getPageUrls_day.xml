@@ -19,6 +19,6 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.123</avg_time_generation>
 		<url>http://example.org/dir/file.php?foo=bar&amp;foo2=bar</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir%2Ffile.php%3Ffoo%3Dbar%26foo2%3Dbar</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fdir%252Ffile.php%253Ffoo%253Dbar%2526foo2%253Dbar</segment>
 	</row>
 </result>

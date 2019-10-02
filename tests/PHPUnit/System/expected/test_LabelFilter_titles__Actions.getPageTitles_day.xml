@@ -23,6 +23,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.626</avg_time_generation>
-		<segment>pageTitle==incredible+title%21+%26lt%3B%26gt%3B%2C%3B</segment>
+		<segment>pageTitle==incredible%2Btitle%2521%2B%2526lt%253B%2526gt%253B%252C%253B</segment>
 	</row>
 </result>

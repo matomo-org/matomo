@@ -26,7 +26,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://www.notdatefiltered.com/blog/category/meta/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
 		<Actions_PageUrl>/blog/category/meta/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -58,7 +57,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -90,7 +89,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -138,7 +137,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -192,9 +191,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fmeta</segment>
+				<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 	</row>
 	<row>
 		<label>/</label>
@@ -253,7 +253,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -282,7 +282,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -336,7 +336,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -390,10 +390,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F</segment>
 	</row>
 	<row>
 		<label>/docs/manage-websites/</label>
@@ -421,7 +421,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/manage-websites/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
 		<Actions_PageUrl>/docs/manage-websites/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -453,7 +452,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -482,7 +481,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -536,7 +535,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -590,9 +589,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-websites%252F</segment>
 	</row>
 	<row>
 		<label>/faq/</label>
@@ -620,7 +620,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
 		<Actions_PageUrl>/faq/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -652,7 +651,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -684,7 +683,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -738,7 +737,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -792,9 +791,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252F</segment>
 	</row>
 	<row>
 		<label>/blog/2012/08/survey-your-opinion-matters/</label>
@@ -822,7 +822,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/blog/2012/08/survey-your-opinion-matters/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
 		<Actions_PageUrl>/blog/2012/08/survey-your-opinion-matters/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -854,7 +853,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -883,7 +882,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -937,7 +936,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -991,9 +990,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 	</row>
 	<row>
 		<label>/blog/category/community/</label>
@@ -1021,7 +1021,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/blog/category/community/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
 		<Actions_PageUrl>/blog/category/community/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -1053,7 +1052,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1085,7 +1084,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1139,7 +1138,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1193,9 +1192,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 	</row>
 	<row>
 		<label>/docs/</label>
@@ -1223,7 +1223,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
 		<Actions_PageUrl>/docs/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -1255,7 +1254,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1287,7 +1286,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1341,7 +1340,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1395,9 +1394,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252F</segment>
 	</row>
 	<row>
 		<label>/docs/manage-users/</label>
@@ -1425,7 +1425,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/docs/manage-users/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
 		<Actions_PageUrl>/docs/manage-users/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -1457,7 +1456,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1489,7 +1488,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1543,7 +1542,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1597,9 +1596,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdocs%252Fmanage-users%252F</segment>
 	</row>
 	<row>
 		<label>/download/counter/</label>
@@ -1627,7 +1627,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/download/counter/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
 		<Actions_PageUrl>/download/counter/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -1659,7 +1658,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1691,7 +1690,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1745,7 +1744,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1799,9 +1798,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fdownload%252Fcounter%252F</segment>
 	</row>
 	<row>
 		<label>/faq/how-to-install/</label>
@@ -1829,7 +1829,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/how-to-install/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
 		<Actions_PageUrl>/faq/how-to-install/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -1861,7 +1860,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1893,7 +1892,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -1947,7 +1946,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2001,9 +2000,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to-install%252F</segment>
 	</row>
 	<row>
 		<label>/faq/how-to/</label>
@@ -2031,7 +2031,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/faq/how-to/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
 		<Actions_PageUrl>/faq/how-to/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -2063,7 +2062,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2092,7 +2091,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2146,7 +2145,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2200,9 +2199,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ffaq%252Fhow-to%252F</segment>
 	</row>
 	<row>
 		<label>/hosting/</label>
@@ -2230,7 +2230,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/hosting/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
 		<Actions_PageUrl>/hosting/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -2262,7 +2261,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2291,7 +2290,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2345,7 +2344,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2399,9 +2398,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fhosting</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fhosting%252F</segment>
 	</row>
 	<row>
 		<label>/index.htm</label>
@@ -2460,7 +2460,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2489,7 +2489,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2537,7 +2537,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -2585,10 +2585,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>/intranet-analytics/</label>
@@ -2616,7 +2616,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/intranet-analytics/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
 		<Actions_PageUrl>/intranet-analytics/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -2648,7 +2647,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2680,7 +2679,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2734,7 +2733,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2788,9 +2787,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fintranet-analytics</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fintranet-analytics%252F</segment>
 	</row>
 	<row>
 		<label>/moved-permanently</label>
@@ -2845,7 +2845,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2875,7 +2875,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2925,7 +2925,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -2975,10 +2975,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fmoved-permanently</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fmoved-permanently</segment>
 	</row>
 	<row>
 		<label>/newsletter/</label>
@@ -3006,7 +3006,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/newsletter/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
 		<Actions_PageUrl>/newsletter/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -3038,7 +3037,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -3067,7 +3066,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3121,7 +3120,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3175,9 +3174,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fnewsletter</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fnewsletter%252F</segment>
 	</row>
 	<row>
 		<label>/register.php?0,approve=9a94a02145599</label>
@@ -3236,7 +3236,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -3265,7 +3265,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -3313,7 +3313,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -3361,10 +3361,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+				<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fforum.piwik.org%2Fregister.php%3F0%2Capprove%3D9a94a02145599</segment>
+		<segment>pageUrl==http%253A%252F%252Fforum.piwik.org%252Fregister.php%253F0%252Capprove%253D9a94a02145599</segment>
 	</row>
 	<row>
 		<label>/temp-redirect</label>
@@ -3413,7 +3413,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3440,7 +3440,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3484,7 +3484,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3528,10 +3528,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Ftemp-redirect</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftemp-redirect</segment>
 	</row>
 	<row>
 		<label>/this/is/not/the/page/i/am/looking/for/</label>
@@ -3559,7 +3559,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
 		<Actions_PageUrl>/this/is/not/the/page/i/am/looking/for/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -3591,7 +3590,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3623,7 +3622,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3677,7 +3676,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3731,9 +3730,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fthis%252Fis%252Fnot%252Fthe%252Fpage%252Fi%252Fam%252Flooking%252Ffor%252F</segment>
 	</row>
 	<row>
 		<label>/to-an-error</label>
@@ -3792,7 +3792,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -3821,7 +3821,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3875,7 +3875,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -3929,10 +3929,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 			</row>
 		</comparisons>
-		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fto-an-error</segment>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fto-an-error</segment>
 	</row>
 	<row>
 		<label>/translations/</label>
@@ -3960,7 +3960,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<url>http://piwik.net/translations/</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
 		<Actions_PageUrl>/translations/</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -3992,7 +3991,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4024,7 +4023,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4078,7 +4077,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4132,9 +4131,10 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Ftranslations</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Ftranslations%252F</segment>
 	</row>
 	<row>
 		<label>/view/my/file.html</label>
@@ -4162,7 +4162,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.001</avg_time_generation>
 		<url>http://piwik.net/view/my/file.html</url>
-		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
 		<Actions_PageUrl>/view/my/file.html</Actions_PageUrl>
 		<comparisons>
 			<row>
@@ -4196,7 +4195,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4230,7 +4229,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4288,7 +4287,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -4346,8 +4345,9 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (operatingSystemCode==WIN)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>operatingSystemCode%3D%3DWIN;pageUrl=^http%253A%252F%252Fpiwik.net%252Fview%252Fmy</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
 			</row>
 		</comparisons>
+		<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fview%252Fmy%252Ffile.html</segment>
 	</row>
 </result>

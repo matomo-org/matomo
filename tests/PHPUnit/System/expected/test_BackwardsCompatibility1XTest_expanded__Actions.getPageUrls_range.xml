@@ -15,7 +15,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.224</avg_time_generation>
 		<url>http://example.org/</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2F</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252F</segment>
 	</row>
 	<row>
 		<label>/index.htm</label>
@@ -34,7 +34,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.023</avg_time_generation>
 		<url>http://example.org/index.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>/index.htm?parameter=Should display</label>
@@ -56,7 +56,7 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
 		<url>http://example.org/index.htm?parameter=Should display</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fparameter%3DShould+display</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Findex.htm%253Fparameter%253DShould%2Bdisplay</segment>
 	</row>
 	<row>
 		<label>store</label>
@@ -99,7 +99,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
 				<url>http://example.org/store/purchase.htm</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fstore%252Fpurchase.htm</segment>
 			</row>
 		</subtable>
 	</row>

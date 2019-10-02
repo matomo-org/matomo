@@ -22,7 +22,7 @@
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>50%</exit_rate>
 		<url>http://example.org/homepage</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fhomepage</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fhomepage</segment>
 	</row>
 	<row>
 		<label>user</label>
@@ -56,7 +56,7 @@
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://example.org/user/profile</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fuser%2Fprofile</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fuser%252Fprofile</segment>
 			</row>
 		</subtable>
 	</row>

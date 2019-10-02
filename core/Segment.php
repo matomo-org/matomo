@@ -13,7 +13,6 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\LogQueryBuilder;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Segment\SegmentExpression;
 
@@ -105,14 +104,31 @@ class Segment
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
 
-        // First try with url decoded value. If that fails, try with raw value.
-        // If that also fails, it will throw the exception
+        // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
+        // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
+        // successfully parsed subexpressions.
+        $subexpressionsDecoded = 0;
         try {
             $this->initializeSegment(urldecode($segmentCondition), $idSites);
-            $this->isSegmentEncoded = true;
+            $subexpressionsDecoded = $this->segmentExpression->getSubExpressionCount();
         } catch (Exception $e) {
+            // ignore
+        }
+
+        $subexpressionsRaw = 0;
+        try {
+            $this->initializeSegment($segmentCondition, $idSites);
+            $subexpressionsRaw = $this->segmentExpression->getSubExpressionCount();
+        } catch (Exception $e) {
+            // ignore
+        }
+
+        if ($subexpressionsRaw > $subexpressionsDecoded) {
             $this->initializeSegment($segmentCondition, $idSites);
             $this->isSegmentEncoded = false;
+        } else {
+            $this->initializeSegment(urldecode($segmentCondition), $idSites);
+            $this->isSegmentEncoded = true;
         }
     }
 
