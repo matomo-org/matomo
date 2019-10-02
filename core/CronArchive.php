@@ -1772,12 +1772,16 @@ class CronArchive
         return $url;
     }
 
-    protected function wasSegmentCreatedRecently($definition, $allSegments)
+    protected function wasSegmentChangedRecently($definition, $allSegments)
     {
         foreach ($allSegments as $segment) {
             if ($segment['definition'] === $definition) {
                 $twentyFourHoursAgo = Date::now()->subHour(24);
-                return Date::factory($segment['ts_created'])->isLater($twentyFourHoursAgo);
+                $segmentDate = $segment['ts_created'];
+                if (!empty($segment['ts_last_edit'])) {
+                    $segmentDate = $segment['ts_last_edit'];
+                }
+                return Date::factory($segmentDate)->isLater($twentyFourHoursAgo);
             }
         }
 
@@ -1817,7 +1821,7 @@ class CronArchive
         }
 
         foreach ($segments as $segment) {
-            $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentCreatedRecently($segment, $allSegmentsFullInfo);
+            $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentChangedRecently($segment, $allSegmentsFullInfo);
 
             if ($this->skipSegmentsToday && !$shouldSkipToday) {
                 $this->logger->info(sprintf('Segment "%s" was created recently and will therefore archive today', $segment));

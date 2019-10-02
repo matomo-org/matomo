@@ -75,13 +75,13 @@ class CronArchiveTest extends IntegrationTestCase
         $allSegments = $segments->getSegmentsToAutoArchive(1);
 
         $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
-        $this->assertTrue($cronarchive->wasSegmentCreatedRecently('actions>=1', $allSegments));
+        $this->assertTrue($cronarchive->wasSegmentChangedRecently('actions>=1', $allSegments));
 
         // created 30 hours ago...
-        $this->assertFalse($cronarchive->wasSegmentCreatedRecently('actions>=2', $allSegments));
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=2', $allSegments));
 
         // not configured segment
-        $this->assertFalse($cronarchive->wasSegmentCreatedRecently('actions>=999', $allSegments));
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
     }
 
     public function test_skipSegmentsToday()
@@ -232,8 +232,8 @@ class TestCronArchive extends CronArchive
     {
     }
 
-    public function wasSegmentCreatedRecently($definition, $allSegments)
+    public function wasSegmentChangedRecently($definition, $allSegments)
     {
-        return parent::wasSegmentCreatedRecently($definition, $allSegments);
+        return parent::wasSegmentChangedRecently($definition, $allSegments);
     }
 }
