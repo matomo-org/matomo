@@ -57,20 +57,10 @@ class RssRenderer
             try {
                 $content = Http::fetchRemoteFile($this->url);
 
-                $promoteWarningToException = function ($errno, $errstr, $errfile, $errline, $errcontext) {
-                    // if the error has been suppressed by the @ we don't handle the error
-                    if (error_reporting() == 0) {
-                        return false;
-                    }
-                    if ($errno !== E_WARNING) {
-                        return false;
-                    }
-                    throw new \Exception($errstr, $errno);
-                };
-                set_error_handler($promoteWarningToException, E_WARNING);
-                $rss = simplexml_load_string($content);
-                restore_error_handler();
-
+                $rss = @simplexml_load_string($content);
+                if ($rss === false) {
+                    throw new \Exception("Failed to parse XML.");
+                }
             } catch (\Exception $e) {
                 throw new \Exception("Error while importing feed: {$e->getMessage()}\n");
             }
