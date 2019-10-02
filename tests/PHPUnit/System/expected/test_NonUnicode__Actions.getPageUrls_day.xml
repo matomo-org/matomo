@@ -37,7 +37,7 @@
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage</segment>
 		<subtable>
 			<row>
-				<label>/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5</label>
+				<label>/index.htm?whatever=</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>

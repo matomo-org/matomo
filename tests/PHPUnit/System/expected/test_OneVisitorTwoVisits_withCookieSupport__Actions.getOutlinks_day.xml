@@ -25,7 +25,7 @@
 				<segment>outlinkUrl==https%253A%252F%252Foutlinks.org%252F%2523%2521outlink-with-fragment-%2526lt%253Bscript%2526gt%253B</segment>
 			</row>
 			<row>
-				<label>/other_outlink#fragment&amp;pk_campaign=Open%20partnership</label>
+				<label>/other_outlink#fragment&amp;pk_campaign=Open partnership</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>

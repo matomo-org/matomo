@@ -480,7 +480,7 @@
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>2</nb_visits>
@@ -504,7 +504,7 @@
 								<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 							<row>
 								<nb_visits>1</nb_visits>
@@ -528,10 +528,10 @@
 								<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 								<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fwww.notdatefiltered.com%2Fblog%2Fcategory%2Fmeta%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fwww.notdatefiltered.com%252Fblog%252Fcategory%252Fmeta%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -671,10 +671,10 @@
 								<comparePeriodPretty>August 2012</comparePeriodPretty>
 								<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 								<idsubdatatable>-1</idsubdatatable>
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 							</row>
 						</comparisons>
-						<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2Fcategory%2Fcommunity%2F</segment>
+						<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252Fcategory%252Fcommunity%252F</segment>
 					</row>
 				</subtable>
 			</row>
@@ -1202,7 +1202,7 @@
 										<comparePeriodPretty>August 2012</comparePeriodPretty>
 										<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 										<idsubdatatable>-1</idsubdatatable>
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>
 									<row>
 										<nb_visits>1</nb_visits>
@@ -1226,10 +1226,10 @@
 										<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 										<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 										<idsubdatatable>-1</idsubdatatable>
-										<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+										<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 									</row>
 								</comparisons>
-								<segment>pageUrl==http%3A%2F%2Fpiwik.net%2Fblog%2F2012%2F08%2Fsurvey-your-opinion-matters%2F</segment>
+								<segment>pageUrl==http%253A%252F%252Fpiwik.net%252Fblog%252F2012%252F08%252Fsurvey-your-opinion-matters%252F</segment>
 							</row>
 						</subtable>
 					</row>

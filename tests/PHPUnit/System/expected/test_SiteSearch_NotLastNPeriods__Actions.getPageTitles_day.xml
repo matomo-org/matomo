@@ -15,7 +15,7 @@
 		<avg_time_on_page>36</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Im+just+a+page</segment>
+		<segment>pageTitle==Im%2Bjust%2Ba%2Bpage</segment>
 	</row>
 	<row>
 		<label> Pageview, not search</label>
@@ -33,7 +33,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==Pageview%2C+not+search</segment>
+		<segment>pageTitle==Pageview%252C%2Bnot%2Bsearch</segment>
 	</row>
 	<row>
 		<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
@@ -50,6 +50,6 @@
 		<avg_time_on_page>108</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==This+is+a+pageview%2C+not+a+Search+-+IS_FOLLOWING_SEARCH+ONCE</segment>
+		<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch%2B-%2BIS_FOLLOWING_SEARCH%2BONCE</segment>
 	</row>
 </result>

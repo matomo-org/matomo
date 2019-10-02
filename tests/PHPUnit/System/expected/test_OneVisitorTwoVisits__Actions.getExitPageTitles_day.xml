@@ -42,7 +42,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
-				<segment>exitPageTitle==Checkout%2FPurchasing...</segment>
+				<segment>exitPageTitle==Checkout%252FPurchasing...</segment>
 			</row>
 		</subtable>
 	</row>
@@ -63,6 +63,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.023</avg_time_generation>
-		<segment>exitPageTitle==Looking+at+homepage+%28again%29...</segment>
+		<segment>exitPageTitle==Looking%2Bat%2Bhomepage%2B%2528again%2529...</segment>
 	</row>
 </result>
