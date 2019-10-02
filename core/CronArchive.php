@@ -877,59 +877,61 @@ class CronArchive
             return false;
         }
 
-        if (!$this->isThereAValidArchiveForPeriod($idSite, 'day', $date)) {
+        $visitsLastDays = 0;
+
+        list($visitsToday, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, 'day', $segment = '');
+        if ($isThereArchive) {
             $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, 'day', $date);
             ++$this->skipped;
-            return false;
-        }
+        } else {
+            $content = $this->request($url);
+            $daysResponse = Common::safe_unserialize($content);
 
-        $content = $this->request($url);
-        $daysResponse = Common::safe_unserialize($content);
+            if (empty($content)
+                || !is_array($daysResponse)
+                || count($daysResponse) == 0
+            ) {
+                // cancel marking the site as reprocessed
+                if ($websiteInvalidatedShouldReprocess) {
+                    $store = new SitesToReprocessDistributedList();
+                    $store->add($idSite);
+                }
 
-        if (empty($content)
-            || !is_array($daysResponse)
-            || count($daysResponse) == 0
-        ) {
-            // cancel marking the site as reprocessed
-            if ($websiteInvalidatedShouldReprocess) {
-                $store = new SitesToReprocessDistributedList();
-                $store->add($idSite);
+                $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                $this->skippedDayOnApiError++;
+                $this->skipped++;
+                return false;
             }
 
-            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
-            $this->skippedDayOnApiError++;
-            $this->skipped++;
-            return false;
-        }
+            $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
+            $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
 
-        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
-        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
+            $this->requests++;
+            $this->processed++;
 
-        $this->requests++;
-        $this->processed++;
+            $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
 
-        $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
+            // If there is no visit today and we don't need to process this website, we can skip remaining archives
+            if (
+                0 == $visitsToday && !$shouldArchiveWithoutVisits
+                && !$shouldArchivePeriods
+            ) {
+                $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
+                $this->skippedDayNoRecentData++;
+                $this->skipped++;
+                return false;
+            }
 
-        // If there is no visit today and we don't need to process this website, we can skip remaining archives
-        if (
-            0 == $visitsToday && !$shouldArchiveWithoutVisits
-            && !$shouldArchivePeriods
-        ) {
-            $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
-            $this->skippedDayNoRecentData++;
-            $this->skipped++;
-            return false;
-        }
-
-        if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
-            && !$shouldArchivePeriods
-            && $this->shouldArchiveAllSites
-        ) {
-            $humanReadableDate = $this->formatReadableDateRange($date);
-            $this->logger->info("Skipped website id $idSite, no visits in the $humanReadableDate days, " . $timerWebsite->__toString());
-            $this->skippedPeriodsNoDataInPeriod++;
-            $this->skipped++;
-            return false;
+            if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
+                && !$shouldArchivePeriods
+                && $this->shouldArchiveAllSites
+            ) {
+                $humanReadableDate = $this->formatReadableDateRange($date);
+                $this->logger->info("Skipped website id $idSite, no visits in the $humanReadableDate days, " . $timerWebsite->__toString());
+                $this->skippedPeriodsNoDataInPeriod++;
+                $this->skipped++;
+                return false;
+            }
         }
 
         $this->visitsToday += $visitsToday;
@@ -943,14 +945,17 @@ class CronArchive
         return $dayArchiveWasSuccessful;
     }
 
-    private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
+    private function isThereAValidArchiveForPeriod($idSite, $period, $segment = '')
     {
-        $params = new Parameters(new Site($idSite), Factory::build($period, $date), new Segment($segment, [$idSite]));
+        $dateTodayInTimezone = Date::factoryInTimezone('now', Site::getTimezoneFor($idSite));
+
+        $params = new Parameters(new Site($idSite), Factory::build($period, $dateTodayInTimezone), new Segment($segment, [$idSite]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params);
         if (empty($result)) {
             return false;
         }
-        return $result[0] !== false && is_numeric($result[0]);
+        $isThereArchive = $result[0] !== false && is_numeric($result[0]);
+        return [$result[1], $isThereArchive];
     }
 
     /**
@@ -1015,7 +1020,8 @@ class CronArchive
                 return $success;
             }
 
-            if (!$this->isThereAValidArchiveForPeriod($idSite, $period, $date)) {
+            list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+            if ($isThereArchive) {
                 $self = $this;
                 $request = new Request($url);
                 $request->before(function () use ($self, $url, $idSite, $period, $date) {
@@ -1824,7 +1830,8 @@ class CronArchive
                 continue;
             }
 
-            if (!$this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment)) {
+            list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+            if ($isThereArchive) {
                 $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
                 continue;
             }
