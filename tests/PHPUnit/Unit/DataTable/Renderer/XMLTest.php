@@ -608,6 +608,88 @@ class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $render->render());
     }
 
+    public function test_render_withRowsWithDataTableMetadata()
+    {
+        $dataTable = new DataTable();
+
+        $row = new DataTable\Row();
+        $row->addColumn('nb_visits', 5);
+        $row->addColumn('nb_random', 10);
+
+        $otherDataTable = new DataTable();
+        $otherDataTable->addRowsFromSimpleArray([
+            ['nb_visits' => 6, 'nb_random' => 7],
+            ['nb_visits' => 8, 'nb_random' => 9],
+        ]);
+        $row->setComparisons($otherDataTable);
+
+        $dataTable->addRow($row);
+
+        $render = new Xml();
+        $render->setTable($dataTable);
+        $actual = $render->render();
+
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<nb_visits>5</nb_visits>
+		<nb_random>10</nb_random>
+		<comparisons>
+			<row>
+				<nb_visits>6</nb_visits>
+				<nb_random>7</nb_random>
+			</row>
+			<row>
+				<nb_visits>8</nb_visits>
+				<nb_random>9</nb_random>
+			</row>
+		</comparisons>
+	</row>
+</result>';
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_render_withRowsWithDataTableMetadataInSimpleTable()
+    {
+        $dataTable = new Simple();
+
+        $row = new DataTable\Row();
+        $row->addColumn('nb_visits', 5);
+        $row->addColumn('nb_random', 10);
+
+        $otherDataTable = new DataTable();
+        $otherDataTable->addRowsFromSimpleArray([
+            ['nb_visits' => 6, 'nb_random' => 7],
+            ['nb_visits' => 8, 'nb_random' => 9],
+        ]);
+        $row->setComparisons($otherDataTable);
+
+        $dataTable->addRow($row);
+
+        $render = new Xml();
+        $render->setTable($dataTable);
+        $actual = $render->render();
+
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits>5</nb_visits>
+	<nb_random>10</nb_random>
+	<comparisons>
+		<row>
+			<nb_visits>6</nb_visits>
+			<nb_random>7</nb_random>
+		</row>
+		<row>
+			<nb_visits>8</nb_visits>
+			<nb_random>9</nb_random>
+		</row>
+	</comparisons>
+</result>';
+
+        $this->assertEquals($expected, $actual);
+    }
+
     private function _getDataTableSimpleWithInvalidChars()
     {
         $table = new DataTable\Simple();

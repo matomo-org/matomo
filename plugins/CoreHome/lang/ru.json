@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Выбранные строки отображены %s Скрыть их",
         "DataTableIncludeAggregateRows": "Выбранные строки скрыты %s Показать их",
         "DataTableHowToSearch": "Нажмите ввод или щелкните значок поиска для поиска",
+        "DataTableShowDimensions": "Размеры объединены %s Показать размеры отдельно",
+        "DataTableCombineDimensions": "Размеры указаны отдельно %s Показать размеры вместе",
         "Default": "по умолчанию",
         "DonateCall1": "Matomo всегда будет бесплатным для использования, но это не значит, что нам это ничего не стоит.",
         "DonateCall2": "Matomo нуждается в вашей постоянной поддержке, чтобы расти и процветать.",
@@ -104,6 +106,7 @@
         "StandardReport": "Стандартный отчёт",
         "FlattenReport": "Сокращённый отчёт",
         "ReportWithMetadata": "Отчёт с метаданными",
-        "SeeAvailableVersions": "Посмотреть доступные версии"
+        "SeeAvailableVersions": "Посмотреть доступные версии",
+        "QuickLinks": "Быстрые ссылки"
     }
 }

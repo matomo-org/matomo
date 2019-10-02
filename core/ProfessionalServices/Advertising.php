@@ -55,7 +55,7 @@ class Advertising
      */
     public function getPromoUrlForProfessionalServices($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://matomo.org/support/?';
+        $url = 'https://matomo.org/support-plans/?';
 
         $campaign = $this->getCampaignParametersForPromoUrl(
             $name = self::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,
@@ -102,7 +102,7 @@ class Advertising
      */
     private function getCampaignParametersForPromoUrl($campaignName, $campaignMedium, $campaignContent = '')
     {
-        $campaignName = sprintf('pk_campaign=%s&pk_medium=%s&pk_source=Piwik_App', $campaignName, $campaignMedium);
+        $campaignName = sprintf('pk_campaign=%s&pk_medium=%s&pk_source=Matomo_App', $campaignName, $campaignMedium);
 
         if (!empty($campaignContent)) {
             $campaignName .= '&pk_content=' . $campaignContent;

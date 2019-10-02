@@ -235,6 +235,7 @@
         "Hide": "скрыть",
         "HoursMinutes": "%1$s час %2$s мин",
         "Id": "Id",
+        "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Предполагая, что архивирование выполняется быстро, вы можете настроить crontab для более частой работы.",
         "InfoFor": "Информация для %s",
         "Installed": "Установлено",
         "InvalidDateRange": "Неверный период, пожалуйста, попробуйте снова",
@@ -444,6 +445,7 @@
         "VisitorIPs": "IPы посетителя",
         "Visitors": "Посетители",
         "VisitsWith": "Посещения с %s",
+        "VisitorFingerprint": "Отпечаток пальца",
         "VisitorSettings": "Настройки посетителей",
         "VisitType": "Тип посещения",
         "VisitTypes": "Типы посещений",
@@ -489,7 +491,8 @@
         "YouMustBeLoggedIn": "Вы должны зайти на сайт, чтобы получить доступ к этому функционалу.",
         "YourChangesHaveBeenSaved": "Изменения сохранены.",
         "ThankYouForUsingMatomo": "Спасибо за использование Matomo",
-        "TheMatomoTeam": "Команда Matomo"
+        "TheMatomoTeam": "Команда Matomo",
+        "PleaseTryAgain": "Пожалуйста, попробуйте еще раз"
     },
     "Mobile": {
         "AboutPiwikMobile": "О Matomo Mobile",
@@ -563,7 +566,12 @@
         "ValidateSslCertificate": "Проверить SSL-сертификат",
         "VerifyLoginData": "Убедитесь, что Вы ввели имя пользователя и пароль правильно.",
         "YouAreOffline": "Извините, но Вы сейчас офлайн",
-        "ExceptionNoViewAccess": "Пожалуйста, проверьте свои имя и пароль и убедитесь, что у вас есть доступ %s, по крайней мере, к одному сайту."
+        "ExceptionNoViewAccess": "Пожалуйста, проверьте свои имя и пароль и убедитесь, что у вас есть доступ %s, по крайней мере, к одному сайту.",
+        "Mobile_HowtoExitAndroid": "Пожалуйста, нажмите НАЗАД еще раз, чтобы выйти",
+        "MatomoMarketplace": "Matomo Marketplace",
+        "EnterAuthCode": "Введите код аутентификации",
+        "EnterCorrectAuthCode": "Введите правильный код аутентификации",
+        "EnterAuthCodeExplanation": "Похоже, вы используете двухфакторную аутентификацию. Пожалуйста, введите шестизначный код для входа в свою учетную запись."
     },
     "RowEvolution": {
         "AvailableMetrics": "Доступные показатели",

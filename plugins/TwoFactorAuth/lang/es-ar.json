@@ -1,0 +1,6 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "Autenticación de 2 factores",
+        "TwoFAShort": "2FA"
+    }
+}

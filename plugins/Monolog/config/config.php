@@ -40,7 +40,10 @@ return array(
 
         $writers = [];
         foreach ($writerNames as $writerName) {
-            if ($writerName === 'screen' && \Piwik\Common::isPhpCliMode()) {
+            if ($writerName === 'screen'
+                && \Piwik\Common::isPhpCliMode()
+                && !defined('PIWIK_TEST_MODE')
+            ) {
                 continue; // screen writer is only valid for web requests
             }
 
@@ -112,6 +115,7 @@ return array(
                 return Log::getMonologLevel(constant('Piwik\Log::'.strtoupper($level)));
             }
         }
+
         return Logger::WARNING;
     }),
 

@@ -100,10 +100,10 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 <div class="ui-confirm pleaseChangeBrowserAchivingDisabledSetting">
-    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|raw }}</h2>
+    <h2>{{ 'SegmentEditor_SegmentNotApplied'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}</h2>
     {% set segmentSetting %}{{ 'SegmentEditor_AutoArchivePreProcessed'|translate }}{% endset %}
     <p class="description">
-        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|raw }}
+        {{ 'SegmentEditor_SegmentNotAppliedMessage'|translate(nameOfCurrentSegment)|rawSafeDecoded|raw }}
         <br/>
         {{ 'SegmentEditor_DataAvailableAtLaterDate'|translate }}
         {% if isSuperUser %}

@@ -16,6 +16,8 @@
         symbolDecimal: "{{ 'Intl_NumberSymbolDecimal'|translate }}"
     };
 
+    piwik.relativePluginWebDirs = {{ relativePluginWebDirs|json_encode|raw }}
+
     {% if userLogin %}piwik.userLogin = "{{ userLogin|e('js')}}";{% endif %}
 
     {% if idSite is defined %}piwik.idSite = "{{ idSite }}";{% endif %}
@@ -57,3 +59,4 @@
     piwik.shouldPropagateTokenAuth = {{ shouldPropagateTokenAuth|json_encode|raw }};
     {{ postEvent("Template.jsGlobalVariables") }}
 </script>
+

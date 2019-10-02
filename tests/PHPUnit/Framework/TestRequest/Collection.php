@@ -51,6 +51,7 @@ class Collection
         'LogViewer',
         'Referrers.getKeywordNotDefinedString',
         'CorePluginsAdmin.getSystemSettings',
+        'API.getPagesComparisonsDisabledFor',
     );
 
     /**
@@ -344,6 +345,7 @@ class Collection
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
                                             'API.getPhpVersion',
+                                            'API.getPagesComparisonsDisabledFor',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {

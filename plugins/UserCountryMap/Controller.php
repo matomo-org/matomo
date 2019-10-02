@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -286,10 +287,7 @@ class Controller extends \Piwik\Plugin\Controller
         $metrics = array();
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {
             foreach ($metaData[0]['metrics'] as $id => $val) {
-                // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
-                if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
-                    $metrics[] = array($id, $val);
-                }
+                $metrics[] = array($id, $val);
             }
         }
         if (!empty($metaData[0]['processedMetrics']) && is_array($metaData[0]['processedMetrics'])) {

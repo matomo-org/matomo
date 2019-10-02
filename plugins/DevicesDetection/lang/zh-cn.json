@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "此User-Agent被检测为%1$s。 默认情况下，Matomo中不会跟踪此用户代理的默认访问。",
         "BrowserEngine": "浏览器引擎",
         "BrowserEngineDocumentation": "此报表展示访客使用的浏览器核心。%s对网站开发者来说最重要的就是访客使用何种渲染引擎。标签包括引擎名称以及在括号中标注的此引擎最常见浏览器。",
         "BrowserEngines": "浏览器引擎",
@@ -11,6 +12,7 @@
         "CarBrowser": "车用浏览器",
         "Software": "软件",
         "ColumnBrowser": "浏览器",
+        "BrowserCode": "浏览器代码",
         "ColumnOperatingSystem": "操作系统",
         "ColumnOperatingSystemVersion": "操作系统版本",
         "Console": "控制台",
@@ -30,6 +32,7 @@
         "FeaturePhone": "功能手机",
         "OperatingSystemFamilies": "操作系统家族",
         "OperatingSystemFamily": "操作系统家族",
+        "OperatingSystemCode": "操作系统代码",
         "OperatingSystems": "操作系统",
         "OperatingSystemVersions": "操作系统版本",
         "PluginDescription": "提供使用者设备的品牌（制造商）、型号（版本）、类型（电视、手机或电脑等）以及更多扩展信息。",
@@ -37,10 +40,13 @@
         "Smartphone": "智能手机",
         "PortableMediaPlayer": "便携媒体播放器",
         "Devices": "设备",
+        "GenericDevice": "通用%s",
+        "MobileDevice": "移动设备",
         "Tablet": "平板电脑",
         "Phablet": "平板手机",
         "TV": "TV",
         "UserAgent": "用户代理（User-Agent）",
+        "XVisitsFromDevices": "来自%2$s设备的%1$s次访问",
         "WidgetBrowsers": "访客浏览器",
         "WidgetBrowsersDocumentation": "此报表包含访客所用的浏览器信息，每个浏览器版本单独列出。"
     }

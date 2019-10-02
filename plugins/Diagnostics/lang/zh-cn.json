@@ -1,7 +1,18 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "配置文件",
+        "MysqlMaxPacketSize": "最大包大小",
+        "MysqlMaxPacketSizeWarning": "建议在您的MySQL数据库中配置至少%1$s的'max_allowed_packet'大小。 配置目前为%2$s。",
+        "ConfigFileIntroduction": "在这里，您可以查看Matomo配置。 如果您在负载平衡环境中运行Matomo，则页面可能会有所不同，具体取决于加载此页面的服务器。 具有不同背景颜色的行是更改的配置值，例如在%1$s文件中指定。",
         "HideUnchanged": "如果只想看改变的值可以%1$s，隐藏所有为改变的值%2$s。",
-        "Sections": "部分"
+        "Sections": "部分",
+        "DatabaseReaderConnection": "数据库读取器连接",
+        "CronArchivingLastRunCheck": "上次成功完成归档",
+        "CronArchivingHasNotRun": "存档尚未成功运行。",
+        "CronArchivingHasNotRunInAWhile": "归档最后一次在%1$s上成功运行，这是%2$s之前。",
+        "CronArchivingRunDetails": "请检查您是否设置了调用%1$s控制台命令的crontab，并且如果存档失败，您已配置%2$s以通过电子邮件接收错误。 您还可以尝试运行console命令手动存档报告：%3$s。 %4$s了解更多。%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "归档过程已成功完成%1$s之前。",
+        "BrowserTriggeredArchivingEnabled": "为了获得最佳性能和快速的Matomo，强烈建议您设置crontab以自动存档报告，并在Matomo设置中禁用浏览器触发。 %1$s了解更多。%2$s",
+        "NoDataForReportArchivingNotRun": "最近没有执行您的报告存档，%1$s更多关于如何生成报告。%2$s"
     }
 }

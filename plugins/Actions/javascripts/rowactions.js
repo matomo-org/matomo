@@ -20,6 +20,8 @@ $(function () {
 
     function getLinkForTransitionAndOverlayPopover(tr)
     {
+        tr = getRealRowIfComparisonRow(tr);
+
         var link = tr.find('> td:first > a').attr('href');
         link = $('<textarea>').html(link).val(); // remove html entities
         return link;
@@ -31,11 +33,29 @@ $(function () {
                 return isPageUrlReport(dataTableParams);
             },
             isAvailableOnRow: function (dataTableParams, tr) {
+                tr = getRealRowIfComparisonRow(tr);
                 return isPageUrlReport(dataTableParams) && tr.find('> td:first span.label').parent().is('a')
             },
-            trigger: function (tr, e, subTableLabel) {
+            trigger: function (tr, e, subTableLabel, originalRow) {
+                var overrideParams = $.extend({}, $(originalRow || tr).data('param-override'));
+                if (typeof overrideParams !== 'object') {
+                    overrideParams = {};
+                }
+
+                tr = getRealRowIfComparisonRow(tr);
+
                 var link = getLinkForTransitionAndOverlayPopover(tr);
-                this.openPopover('url:' + link);
+                var popoverUrl = 'url:' + link;
+
+                Object.keys(overrideParams).forEach(function (paramName) {
+                    if (!overrideParams[paramName]) {
+                        return;
+                    }
+
+                    popoverUrl += ':' + encodeURIComponent(paramName) + ':' + encodeURIComponent(overrideParams[paramName]);
+                });
+
+                this.openPopover(popoverUrl);
             }
         });
 
@@ -66,4 +86,11 @@ $(function () {
         });
     }
 
+    function getRealRowIfComparisonRow(tr) {
+        if (tr.is('.comparisonRow')) {
+            var prevUntil = tr.prevUntil('.parentComparisonRow').prev();
+            return prevUntil.length ? prevUntil : tr.prev();
+        }
+        return tr;
+    }
 });

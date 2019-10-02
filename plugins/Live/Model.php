@@ -12,14 +12,17 @@ namespace Piwik\Plugins\Live;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Updater\Migration\Db as DbMigration;
 
 class Model
 {
@@ -73,14 +76,14 @@ class Model
 
             list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
-            $visits = Db::getReader()->fetchAll($sql, $bind);
+            $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
 
             if (!empty($offset) && empty($visits)) {
                 // find out if there are any matches
                 $updatedOffset = 0;
                 list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
 
-                $visits = Db::getReader()->fetchAll($sql, $bind);
+                $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
                 if (!empty($visits)) {
                     // found out the number of visits that we skipped in this query
                     $offset = $offset - count($visits);
@@ -110,6 +113,102 @@ class Model
         }
 
         return $foundVisits;
+    }
+
+    private function executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
+    {
+        $readerDb = Db::getReader();
+        try {
+            $visits = $readerDb->fetchAll($sql, $bind);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+	        throw $e;
+        }
+        return $visits;
+    }
+
+	/**
+	 * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
+	 * @param Exception $e
+	 * @param $sql
+	 * @param array $bind
+	 * @param $segment
+	 * @param $dateStart
+	 * @param $dateEnd
+	 * @param $minTimestamp
+	 * @param $limit
+	 *
+	 * @throws MaxExecutionTimeExceededException
+	 */
+    public function handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
+    {
+	    // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
+	    // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
+	    $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
+	                               || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
+	                               || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+
+	    if ($isMaxExecutionTimeError) {
+		    $message = '';
+
+		    if ($this->isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonDateRange');
+		    }
+
+		    if (!empty($segment)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonSegment');
+		    }
+
+		    $limitThatCannotBeSelectedInUiButOnlyApi = 550;
+		    if ($limit > $limitThatCannotBeSelectedInUiButOnlyApi) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededLimit');
+		    }
+
+		    if (empty($message)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonUnknown');
+		    }
+
+		    $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
+
+		    $params = array(
+			    'sql' => $sql, 'bind' => $bind, 'segment' => $segment, 'limit' => $limit
+		    );
+
+		    /**
+		     * @ignore
+		     * @internal
+		     */
+		    Piwik::postEvent('Live.queryMaxExecutionTimeExceeded', array($params));
+		    throw new MaxExecutionTimeExceededException($message);
+	    }
+    }
+
+    /**
+     * @param Date|null $dateStart
+     * @param Date|null $dateEnd
+     * @param int|null $minTimestamp
+     * @return bool
+     * @throws Exception
+     */
+    public function isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)
+    {
+        if (!$dateStart) {
+            if (!$minTimestamp) {
+                return true;
+            } else {
+                $dateStart = Date::factory($minTimestamp);
+            }
+        }
+
+        if (!$dateEnd) {
+            $dateEnd = Date::now();
+        }
+
+        if ($dateEnd->subHour(36)->isEarlier($dateStart)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset)
@@ -391,11 +490,18 @@ class Model
         $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset);
 
         $bind = $innerQuery['bind'];
+
+        $maxExecutionTimeHint = $this->getMaxExecutionTimeMySQLHint();
+        if ($visitorId) {
+            // for now let's not apply when looking for a specific visitor
+            $maxExecutionTimeHint = '';
+        }
+
         // Group by idvisit so that a given visit appears only once, useful when for example:
         // 1) when a visitor converts 2 goals
         // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
         $sql = "
-			SELECT sub.* FROM (
+			SELECT $maxExecutionTimeHint sub.* FROM (
 				" . $innerQuery['sql'] . "
 			) AS sub
 			GROUP BY sub.idvisit
@@ -405,6 +511,19 @@ class Model
             $sql .= sprintf("LIMIT %d \n", $limit);
         }
         return array($sql, $bind);
+    }
+
+    private function getMaxExecutionTimeMySQLHint()
+    {
+        $general = Config::getInstance()->General;
+        $maxExecutionTime = $general['live_query_max_execution_time'];
+        $maxExecutionTimeHint = '';
+        if (is_numeric($maxExecutionTime) && $maxExecutionTime > 0) {
+            $timeInMs = $maxExecutionTime * 1000;
+            $timeInMs = (int) $timeInMs;
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+        }
+        return $maxExecutionTimeHint;
     }
 
     /**

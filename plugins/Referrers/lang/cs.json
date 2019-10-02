@@ -43,6 +43,7 @@
         "WidgetExternalWebsites": "Odkazující weby",
         "WidgetSocials": "Seznam sociálních sítí",
         "WidgetTopKeywordsForPages": "Nejčastější klíčová slova pro URL stránky",
-        "XPercentOfVisits": "%s návštěv"
+        "XPercentOfVisits": "%s návštěv",
+        "Acquisition": "Akvizice"
     }
 }
