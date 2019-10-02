@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
@@ -18,9 +19,11 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
@@ -462,7 +465,7 @@ class CronArchive
                     try {
                         if ($this->isWebsiteUsingTheTracker($idSite)) {
 
-                            if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
+                            if (!$this->hadWebsiteTrafficSinceLatestArchive($idSite)) {
                                 $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
                                 $this->skippedDayNoRecentData++;
@@ -874,6 +877,12 @@ class CronArchive
             return false;
         }
 
+        if (!$this->isThereAValidArchiveForPeriod($idSite, 'day', $date)) {
+            $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, 'day', $date);
+            ++$this->skipped;
+            return false;
+        }
+
         $content = $this->request($url);
         $daysResponse = Common::safe_unserialize($content);
 
@@ -932,6 +941,16 @@ class CronArchive
             Option::set($this->lastRunKey($idSite, "day"), time());
         }
         return $dayArchiveWasSuccessful;
+    }
+
+    private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
+    {
+        $params = new Parameters(new Site($idSite), Factory::build($period, $date), new Segment($segment, [$idSite]));
+        $result = ArchiveSelector::getArchiveIdAndVisits($params);
+        if (empty($result)) {
+            return false;
+        }
+        return $result[0] !== false && is_numeric($result[0]);
     }
 
     /**
@@ -996,15 +1015,21 @@ class CronArchive
                 return $success;
             }
 
-            $self = $this;
-            $request = new Request($url);
-            $request->before(function () use ($self, $url, $idSite, $period, $date) {
-                if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
-                     return Request::ABORT;
-                }
-            });
-            $urls[] = $request;
-            $this->logArchiveWebsite($idSite, $period, $date);
+            if (!$this->isThereAValidArchiveForPeriod($idSite, $period, $date)) {
+                $self = $this;
+                $request = new Request($url);
+                $request->before(function () use ($self, $url, $idSite, $period, $date) {
+                    if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
+                        return Request::ABORT;
+                    }
+                });
+                $urls[] = $request;
+                $this->logArchiveWebsite($idSite, $period, $date);
+            } else {
+                $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
+                $success = false;
+                return $success;
+            }
         }
 
         $segmentRequestsCount = 0;
@@ -1047,6 +1072,18 @@ class CronArchive
         $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsInLastPeriod, $periodTimer);
 
         return $success;
+    }
+
+    // TODO: need test to make sure segment archives are invalidated as well
+    private function logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment = '')
+    {
+        $this->logger->info("Skipping archiving for website id = {idSite}, period = {period}, date = {date}, segment = {segment}, "
+            . "since there is already a valid archive (tracking a visit automatically invalidates archives).", [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+        ]);
     }
 
     /**
@@ -1269,11 +1306,11 @@ class CronArchive
      * @param $idSite
      * @return bool
      */
-    private function hadWebsiteTrafficSinceMidnightInTimezone($idSite)
+    private function hadWebsiteTrafficSinceLatestArchive($idSite)
     {
         $timezone = Site::getTimezoneFor($idSite);
 
-        $nowInTimezone      = Date::factory('now', $timezone);
+        $nowInTimezone      = Date::factoryInTimezone('now', $timezone);
         $midnightInTimezone = $nowInTimezone->setTime('00:00:00');
 
         $secondsSinceMidnight = $nowInTimezone->getTimestamp() - $midnightInTimezone->getTimestamp();
@@ -1784,6 +1821,11 @@ class CronArchive
             if ($this->shouldSkipSegmentArchiving($segment)) {
                 $this->logger->info("- skipping segment archiving for '{segment}'.", array('segment' => $segment));
 
+                continue;
+            }
+
+            if (!$this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment)) {
+                $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
                 continue;
             }
 

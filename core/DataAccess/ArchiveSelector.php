@@ -51,7 +51,7 @@ class ArchiveSelector
      * @return array|bool
      * @throws Exception
      */
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false)
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false, $includeInvalidated = true)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -67,6 +67,9 @@ class ArchiveSelector
 
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
+        if (!$includeInvalidated) {
+            $doneFlagValues = array_diff($doneFlagValues, [ArchiveWriter::DONE_INVALIDATED]);
+        }
 
         $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues);
 

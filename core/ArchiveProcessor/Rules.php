@@ -291,7 +291,7 @@ class Rules
     /**
      * Returns done flag values allowed to be selected
      *
-     * @return string
+     * @return string[]
      */
     public static function getSelectableDoneFlagValues()
     {
