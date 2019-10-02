@@ -1824,7 +1824,7 @@ class CronArchive
             $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentChangedRecently($segment, $allSegmentsFullInfo);
 
             if ($this->skipSegmentsToday && !$shouldSkipToday) {
-                $this->logger->info(sprintf('Segment "%s" was created recently and will therefore archive today', $segment));
+                $this->logger->info(sprintf('Segment "%s" was created or changed recently and will therefore archive today', $segment));
             }
 
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
