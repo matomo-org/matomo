@@ -47,7 +47,6 @@
             }
         }
 
-        newMetric.value = decodeURIComponent(newMetric.value);
         return newMetric;
     };
 
