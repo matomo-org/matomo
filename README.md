@@ -11,7 +11,7 @@
 
 ## Description
 
-Matomo is the leading Free/Libre open analytics platform.
+<a href="https://matomo.org/" >Matomo</a> is the leading Free/Libre open analytics platform.
 
 Matomo is a full featured PHP MySQL software program that you download and install on your own webserver.
 At the end of the five minute installation process, you will be given a JavaScript code.
