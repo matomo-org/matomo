@@ -80,13 +80,10 @@ class SubscriptionModel
         }
 
         if ($emailFound) {
-            Access::doAsSuperUser(function() use ($report) {
-                Request::processRequest('ScheduledReports.unsubscribe', [
-                    'idReport'     => $report['idreport'],
-                    'idSite'       => $report['idsite'],
-                    'parameters'   => $report['parameters'],
-                ]);
-            });
+            $reportModel = new Model();
+            $reportModel->updateReport($report['idreport'], array(
+                'parameters' => json_encode($report['parameters'])
+            ));
 
             Piwik::postEvent('Report.unsubscribe', [$report['idreport'], $email]);
 
