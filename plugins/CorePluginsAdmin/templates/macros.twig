@@ -10,7 +10,7 @@
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select-plugin-all" onclick="boxes_selected()"/>
+                    <input type="checkbox" id="select-plugin-all"/>
                     <label for="select-plugin-all"></label>
                 </span>
             </th>
@@ -74,6 +74,11 @@
 
     <script>
         $(function () {
+            $('span.checkbox-container input').on('click', function() {
+                var isAtLeastOneChecked = $('span.checkbox-container > input[checked]').length >= 1;
+                $('#update-selected-plugins').prop('disabled', !isAtLeastOneChecked);
+            });
+
             $('#update-selected-plugins').on('click', function () {
                 var pluginsToUpdate = [];
                 $('tbody#plugins td.select-cell input').each(function () {
@@ -101,21 +106,6 @@
                 });
             });
         });
-        
-        function boxes_selected(){
-            var checked_boxes = 0;
-            var boxes = document.querySelectorAll('span.checkbox-container > input');
-            
-            for (var i = 0; i < boxes.length; i++){
-                if (boxes[i].checked)
-                    checked_boxes += 1
-            }
-            if (checked_boxes >= 1) {
-                document.getElementById('update-selected-plugins').classList.remove('disabled');
-            } else if (checked_boxes === 0) {
-                document.getElementById('update-selected-plugins').classList.add('disabled');
-            }
-        }
     </script>
 
 {% endmacro %}
