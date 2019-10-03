@@ -563,6 +563,9 @@ Segmentation = (function($) {
                     if (self.target.find('[uicontrol="expandable-select"] .expandableList:visible').length) {
                         return;
                     }
+                    if (Piwik_Popover.isOpen()) {
+                        return;
+                    }
                     $(".segmentListContainer", self.target).show();
                     closeForm();
                 }
@@ -759,6 +762,7 @@ Segmentation = (function($) {
             url = broadcast.updateParamValue('module=Live', url);
             url = broadcast.updateParamValue('action=getLastVisitsDetails', url);
             url = broadcast.updateParamValue('segment=' + encSegment, url);
+            url = broadcast.updateParamValue('inPopover=1', url);
 
             Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitsLog'));
         };
