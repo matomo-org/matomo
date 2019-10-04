@@ -30,9 +30,20 @@ class LogQueryBuilder
      */
     private $forcedInnerGroupBy = '';
 
+    private $forceInnerGroupByIfSubselect = false;
+
     public function __construct(LogTablesProvider $logTablesProvider)
     {
         $this->logTableProvider = $logTablesProvider;
+    }
+
+    /**
+     * Forces to use a subselect when generating the query.
+     * @param bool $force
+     */
+    public function forceInnerGroupIfSubselect($force)
+    {
+        $this->forceInnerGroupByIfSubselect = $force;
     }
 
     /**
@@ -178,11 +189,10 @@ class LogQueryBuilder
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
             $innerOrderBy = $orderBy;
         }
-        if ($innerLimitAndOffset) {
-            if (!$this->forcedInnerGroupBy || $innerGroupBy === null) {
-                // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
-                $innerGroupBy = false;
-            }
+
+        if ($innerLimitAndOffset && !$this->forceInnerGroupByIfSubselect) {
+            // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
+            $innerGroupBy = false;
         }
 
         if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
