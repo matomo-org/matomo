@@ -26,7 +26,7 @@
             <tr {% if plugin.isActivated|default(false) %}class="active-plugin"{% else %}class="inactive-plugin"{% endif %}>
                 <td class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" onclick="boxes_selected()" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                        <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
                         <label for="select-plugin-{{ plugin.name|e('html_attr') }}"></label>
                     </span>
                 </td>
@@ -74,7 +74,7 @@
 
     <script>
         $(function () {
-            $('span.checkbox-container input').on('click', function() {
+            $('span.checkbox-container').on('click', function() {
                 var isAtLeastOneChecked = $('span.checkbox-container > input[checked]').length >= 1;
                 $('#update-selected-plugins').prop('disabled', !isAtLeastOneChecked);
             });
