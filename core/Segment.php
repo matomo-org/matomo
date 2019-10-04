@@ -355,11 +355,12 @@ class Segment
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
+     * @param bool $forceGroupBy Force the group by even if subqueries are used
      * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
      *              Use only when you're not aggregating or it will sample the data.
      * @return string The entire select query.
      */
-    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0)
+    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
     {
         $segmentExpression = $this->segmentExpression;
 
@@ -368,8 +369,23 @@ class Segment
             $limitAndOffset = (int) $offset . ', ' . (int) $limit;
         }
 
-        return $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
-            $groupBy, $orderBy, $limitAndOffset);
+        try {
+            if ($forceGroupBy && $groupBy) {
+                $this->segmentQueryBuilder->forceInnerGroupBySubselect($groupBy);
+            }
+            $result = $this->segmentQueryBuilder->getSelectQueryString($segmentExpression, $select, $from, $where, $bind,
+                $groupBy, $orderBy, $limitAndOffset);
+        } catch (Exception $e) {
+            if ($forceGroupBy && $groupBy) {
+                $this->segmentQueryBuilder->forceInnerGroupBySubselect('');
+            }
+            throw $e;
+        }
+
+        if ($forceGroupBy && $groupBy) {
+            $this->segmentQueryBuilder->forceInnerGroupBySubselect('');
+        }
+        return $result;
     }
 
     /**

@@ -469,7 +469,7 @@ class Model
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";
         $from = "log_visit";
-        $groupBy = false;
+
         $limit = $limit >= 1 ? (int)$limit : 0;
         $offset = $offset >= 1 ? (int)$offset : 0;
 
@@ -481,13 +481,16 @@ class Model
         $orderBy .= "visit_last_action_time " . $filterSortOrder;
         $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
 
-        // this $innerLimit is a workaround (see https://github.com/piwik/piwik/issues/9200#issuecomment-183641293)
-        $innerLimit = $limit;
-        if (!$segment->isEmpty()) {
-            $innerLimit = $limit * 10;
+        if ($segment->isEmpty()) {
+            $groupBy = false;
+        } else {
+            // see https://github.com/matomo-org/matomo/issues/13861
+            $groupBy = 'log_visit.idvisit';
         }
 
-        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset);
+        $innerLimit = $limit;
+
+        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset, $forceGroupBy = true);
 
         $bind = $innerQuery['bind'];
 
