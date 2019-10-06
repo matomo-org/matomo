@@ -47,6 +47,13 @@
             }
         }
 
+        try {
+            // Decode again to deal with double-encoded segments in database
+            newMetric.value = decodeURIComponent(newMetric.value);
+        } catch (e) {
+            // Expected if the segment was not double-encoded
+        }
+
         return newMetric;
     };
 
