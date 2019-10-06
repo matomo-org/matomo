@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugins\ScheduledReports\API as ScheduledReports;
 
 class SubscriptionModel
 {
@@ -84,6 +85,8 @@ class SubscriptionModel
             $reportModel->updateReport($report['idreport'], array(
                 'parameters' => json_encode($report['parameters'])
             ));
+            // Reset the cache manually since we didn't call the API method which would do it for us
+            ScheduledReports::$cache = array();
 
             Piwik::postEvent('Report.unsubscribe', [$report['idreport'], $email]);
 
