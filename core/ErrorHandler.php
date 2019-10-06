@@ -161,10 +161,22 @@ class ErrorHandler
             case E_DEPRECATED:
             case E_USER_DEPRECATED:
             default:
+                // Need to create and throw an Exception so that we can get the stack trace
+                $e = new \Exception();
+                $message = self::getHtmlMessage($errno, $errstr, $errfile, $errline, $e->getTraceAsString());
                 try {
-                    StaticContainer::get(LoggerInterface::class)->warning(self::createLogMessage($errno, $errstr, $errfile, $errline));
-                } catch (\Exception $ex) {
-                    // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
+                    throw new ErrorException($message, 0, $errno, $errfile, $errline);
+                } catch (ErrorException $outerEx) {
+                    // But we'll catch it and put it straight into the logs rather than propagating up
+                    try {
+                        $context = array('trace' => $outerEx->getTraceAsString());
+                        StaticContainer::get(LoggerInterface::class)->warning(
+                            self::createLogMessage($errno, $errstr, $errfile, $errline),
+                            $context
+                        );
+                    } catch (\Exception $ex) {
+                        // ignore (it's possible for this to happen if the StaticContainer hasn't been created yet)
+                    }
                 }
 
                 break;

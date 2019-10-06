@@ -61,9 +61,10 @@ class LineMessageFormatter implements FormatterInterface
 
     private function formatMessage($class, $message, $date, $record)
     {
+        $trace = $record['context']['trace'] ?: '';
         $message = str_replace(
-            array('%tag%', '%message%', '%datetime%', '%level%'),
-            array($class, $message, $date, $record['level_name']),
+            array('%tag%', '%message%', '%datetime%', '%level%', '%trace%'),
+            array($class, $message, $date, $record['level_name'], $trace),
             $this->logMessageFormat
         );
 
