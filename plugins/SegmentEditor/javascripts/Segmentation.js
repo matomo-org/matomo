@@ -564,6 +564,7 @@ Segmentation = (function($) {
                         return;
                     }
                     if (Piwik_Popover.isOpen()) {
+                        Piwik_Popover.close();
                         return;
                     }
                     $(".segmentListContainer", self.target).show();
