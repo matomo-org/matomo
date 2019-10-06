@@ -1108,7 +1108,11 @@ $(document).ready(function() {
                 && $(e.target).hasClass("ui-button-text") == false
                 && $(".segment-element:visible", self.$element).length == 1
             ) {
-                $(".segment-element:visible a.close", self.$element).click();
+                if (Piwik_Popover.isOpen()) {
+                    Piwik_Popover.close();
+                } else {
+                    $(".segment-element:visible a.close", self.$element).click();
+                }
             }
 
             if ($(e.target).closest('.segmentListContainer').length === 0
