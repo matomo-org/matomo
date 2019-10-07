@@ -563,6 +563,10 @@ Segmentation = (function($) {
                     if (self.target.find('[uicontrol="expandable-select"] .expandableList:visible').length) {
                         return;
                     }
+                    if (Piwik_Popover.isOpen()) {
+                        Piwik_Popover.close();
+                        return;
+                    }
                     $(".segmentListContainer", self.target).show();
                     closeForm();
                 }
@@ -655,6 +659,10 @@ Segmentation = (function($) {
                 e.preventDefault();
                 parseFormAndSave();
             });
+            $(self.form).find(".testSegment").bind("click", function (e) {
+                e.preventDefault();
+                testSegment();
+            });
 
             if(typeof mode !== "undefined" && mode == "new")
             {
@@ -740,6 +748,24 @@ Segmentation = (function($) {
                     self.updateMethod(params);
                 }
             }
+        };
+
+        var testSegment = function() {
+            var segmentStr = getSegmentGeneratorController().getSegmentString();
+            var encSegment = jQuery(jQuery('.segmentEditorPanel').get(0)).data('uiControlObject').uriEncodeSegmentDefinition(segmentStr);
+
+            var url = window.location.href;
+            //  URL might have format index.php?aparam=avalue#?anotherparam=anothervalue
+            // Need to strip off stuff before second ? as it mucks with updateParamValue
+            url = url.replace(/\?[\S]*\?/, '?');
+            // Show user the Visits Log so that they can easily refine their new segment if needed
+            url = broadcast.updateParamValue('viewDataTable=VisitorLog', url);
+            url = broadcast.updateParamValue('module=Live', url);
+            url = broadcast.updateParamValue('action=getLastVisitsDetails', url);
+            url = broadcast.updateParamValue('segment=' + encSegment, url);
+            url = broadcast.updateParamValue('inPopover=1', url);
+
+            Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitsLog'));
         };
 
         var makeDropList = function(spanId, selectId){
@@ -1078,9 +1104,15 @@ $(document).ready(function() {
                 && !$(e.target).is('.segment-element')
                 && $(e.target).hasClass("ui-corner-all") == false
                 && $(e.target).hasClass("ddmetric") == false
+                && $(e.target).hasClass("ui-icon-closethick") == false
+                && $(e.target).hasClass("ui-button-text") == false
                 && $(".segment-element:visible", self.$element).length == 1
             ) {
-                $(".segment-element:visible a.close", self.$element).click();
+                if (Piwik_Popover.isOpen()) {
+                    Piwik_Popover.close();
+                } else {
+                    $(".segment-element:visible a.close", self.$element).click();
+                }
             }
 
             if ($(e.target).closest('.segmentListContainer').length === 0
