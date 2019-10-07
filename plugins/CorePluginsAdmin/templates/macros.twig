@@ -74,9 +74,9 @@
 
     <script>
         $(function () {
-            $('span.checkbox-container').on('click', function() {
-                var isAtLeastOneChecked = $('span.checkbox-container > input[checked]').length >= 1;
-                $('#update-selected-plugins').prop('disabled', !isAtLeastOneChecked);
+            $('span.checkbox-container').on('change', function() {
+                var isAtLeastOneChecked = $('span.checkbox-container > input:checked').length >= 1;
+                isAtLeastOneChecked ? $('#update-selected-plugins').removeClass('disabled') : $('#update-selected-plugins').addClass('disabled');
             });
 
             $('#update-selected-plugins').on('click', function () {
