@@ -475,11 +475,10 @@ class Model
 
         $orderBy = '';
         if (count($bindIdSites) <= 1) {
-            $orderBy = 'idsite ' . $filterSortOrder . ', ';
+            $orderBy = 'log_visit.idsite ' . $filterSortOrder . ', ';
         }
 
-        $orderBy .= "visit_last_action_time " . $filterSortOrder;
-        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+        $orderBy .= "log_visit.visit_last_action_time " . $filterSortOrder;
 
         if ($segment->isEmpty()) {
             $groupBy = false;
@@ -499,21 +498,15 @@ class Model
             // for now let's not apply when looking for a specific visitor
             $maxExecutionTimeHint = '';
         }
-
-        // Group by idvisit so that a given visit appears only once, useful when for example:
-        // 1) when a visitor converts 2 goals
-        // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
-        $sql = "
-			SELECT $maxExecutionTimeHint sub.* FROM (
-				" . $innerQuery['sql'] . "
-			) AS sub
-			GROUP BY sub.idvisit
-			ORDER BY $orderByParent
-		";
-        if($limit) {
-            $sql .= sprintf("LIMIT %d \n", $limit);
+        if ($maxExecutionTimeHint) {
+            $innerQuery['sql'] = trim($innerQuery['sql']);
+            $pos = stripos($innerQuery['sql'], 'SELECT');
+            if ($pos !== false) {
+                $innerQuery['sql'] = substr_replace($innerQuery['sql'], 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+            }
         }
-        return array($sql, $bind);
+
+        return array($innerQuery['sql'], $bind);
     }
 
     private function getMaxExecutionTimeMySQLHint()
