@@ -30,6 +30,7 @@
         "CustomSegment": "Kustomoidut segmentit",
         "SegmentOperatorIsNullOrEmpty": "on tyhjä",
         "SegmentOperatorIsNotNullNorEmpty": "ei ole tyhjä",
-        "AddThisToMatomo": "Lisää tämä segmentti Matomoon"
+        "AddThisToMatomo": "Lisää tämä segmentti Matomoon",
+        "Test": "Testi"
     }
 }
