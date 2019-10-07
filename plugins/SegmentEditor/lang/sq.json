@@ -52,6 +52,10 @@
         "CustomUnprocessedSegmentApiError5": "Ju lutemi, mbani parasysh që mund të testoni nëse segmenti juaj do të funksionojë apo jo, pa u dashur të pritni që ai të përpunohet, duke përdorur API-n Live.getLastVisitsDetails.",
         "CustomUnprocessedSegmentApiError6": "Kur përdoret kjo metodë API, do të shihni se cilët përdorues dhe veprime patën përputhje me &segment= parameter tuaj.",
         "CustomUnprocessedSegmentNoData": "Që të shihni të dhëna për këtë segment, duhet ta krijoni këtë segment dorazi te Përpunues Segmentesh, dhe mandej të pritni dy-tre orë që të plotësohet parapërpunimi.",
-        "AddThisToMatomo": "Shtoje këtë segment te Matomo"
+        "AddThisToMatomo": "Shtoje këtë segment te Matomo",
+        "ThisSegmentIsCompared": "Ky segment po krahasohet tani.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Ky segment është aktualisht i përzgjedhur, ndaj s’mund të përzgjidhet për krahasim.",
+        "CompareThisSegment": "Krahasojeni këtë segment me segmentin dhe periudhën e përzgjedhur.",
+        "Test": "Provë"
     }
 }

@@ -133,6 +133,8 @@
         "ConfirmDeleteThisTrackingFailure": "Bu izleme sorununu silmek istediğinize emin misiniz?",
         "TrackingFailuresEmailSubject": "Matomo İstatistiklerindeki izleme sorunları",
         "TrackingFailuresEmail1": "Bu ileti, son günlerde %s farklı izleme sorunu oluştuğunu bildirir.",
-        "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s."
+        "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s.",
+        "ImportFromGoogleAnalytics": "Google Analytics Üzerinden İçe Aktar",
+        "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s uygulama ekini kullanarak var olan verilerinizi içe aktarabilirsiniz."
     }
 }

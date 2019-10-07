@@ -34,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s є об'єднанням цих сегментів:",
         "CustomSegment": "Користувальницький Сегмент",
         "SegmentOperatorIsNullOrEmpty": "є нульовим або порожнім",
-        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній"
+        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній",
+        "Test": "Тест"
     }
 }

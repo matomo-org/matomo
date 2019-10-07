@@ -133,6 +133,8 @@
         "ConfirmDeleteThisTrackingFailure": "Sind Sie sicher, dass Sie diesen Tracking Fehlschlag löschen wollen?",
         "TrackingFailuresEmailSubject": "Fehlschläge in Ihrem Matomo Analytics tracken",
         "TrackingFailuresEmail1": "Dies ist nur um Sie wissen zu lassen, dass in den letzten Tagen %s verschiedene Arten von Tracking Fehlschlägen aufgetreten sind.",
-        "TrackingFailuresEmail2": "%1$sHier klicken%2$s, um alle Tracking Fehlschläge anzuzeigen."
+        "TrackingFailuresEmail2": "%1$sHier klicken%2$s, um alle Tracking Fehlschläge anzuzeigen.",
+        "ImportFromGoogleAnalytics": "Von Google Analytics importieren",
+        "ImportFromGoogleAnalyticsDescription": "Wenn Sie über ein Google Analytics-Konto verfügen und zu Matomo wechseln, können Sie Ihre vorhandenen Daten mithilfe des %1$sGoogleAnalyticsImporter-Plugins%2$s importieren."
     }
 }

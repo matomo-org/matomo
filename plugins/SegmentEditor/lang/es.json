@@ -52,6 +52,7 @@
         "CustomUnprocessedSegmentApiError5": "Tenga en cuenta que puede comprobar si su segmento funcionará sin tener que esperar a que se procese, simplemente utilizando la API Live.getLastVisitsDetails.",
         "CustomUnprocessedSegmentApiError6": "Cuando utilice este método API, verá qué usuarios y acciones coincidieron con su parámetro &segment=.",
         "CustomUnprocessedSegmentNoData": "Para ver los datos de este segmento, debe crear este segmento manualmente en el Editor de segmentos y luego esperar un par de horas para que se complete el preprocesamiento.",
-        "AddThisToMatomo": "Agregar este segmento a Matomo"
+        "AddThisToMatomo": "Agregar este segmento a Matomo",
+        "Test": "Prueba"
     }
 }
