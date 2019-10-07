@@ -160,6 +160,11 @@ class Controller extends ControllerAdmin
 
             Config::getInstance()->mail = $mail;
 
+            Config::getInstance()->General['noreply_email_address'] = 
+                Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
+            Config::getInstance()->General['noreply_email_name'] = 
+                Common::unsanitizeInputValue(Common::getRequestVar('mailFromName', ''));
+
             Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
@@ -269,7 +274,13 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $view->mail = Config::getInstance()->mail;
+        $mail = Config::getInstance()->mail;
+        $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
+        $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
+        $exposeNoReplyEmail = true;
+        Piwik::postEvent('CoreAdminHome.shouldExposeNoReplyEmail', array(&$exposeNoReplyEmail));
+        $mail['exposeNoReplyEmail'] = $exposeNoReplyEmail;
+        $view->mail = $mail;
     }
 
 }
