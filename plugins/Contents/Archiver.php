@@ -110,7 +110,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                     log_link_visit_action.idaction_content_target,
                     log_link_visit_action.idaction_content_name";
 
-        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC";
+        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC, `contentName`";
 
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         $rankingQuery = null;
