@@ -107,7 +107,7 @@ What makes Matomo unique from the competition:
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
   * Matomo features are built inside plugins: you can add new features and remove the ones you don’t need.
-    You can build your own web analytics plugins or hire a consultant to have your custom feature built-in Matomo
+    You can build your own web analytics plugins or hire a consultant to have your custom feature built-in Matomo.
 
   * A vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 
