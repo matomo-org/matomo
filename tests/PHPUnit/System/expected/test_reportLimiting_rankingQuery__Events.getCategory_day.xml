@@ -26,7 +26,7 @@
 		</subtable>
 	</row>
 	<row>
-		<label>event category 1</label>
+		<label>event category 3</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>5</nb_visits>
 		<nb_events>5</nb_events>
@@ -35,10 +35,10 @@
 		<min_event_value>0</min_event_value>
 		<max_event_value>0</max_event_value>
 		<avg_event_value>0</avg_event_value>
-		<segment>eventCategory==event+category+1</segment>
+		<segment>eventCategory==event+category+3</segment>
 		<subtable>
 			<row>
-				<label>event action 5</label>
+				<label>event action 1</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>5</nb_visits>
 				<nb_events>5</nb_events>
