@@ -160,10 +160,15 @@ class Controller extends ControllerAdmin
 
             Config::getInstance()->mail = $mail;
 
-            Config::getInstance()->General['noreply_email_address'] = 
-                Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
             Config::getInstance()->General['noreply_email_name'] = 
                 Common::unsanitizeInputValue(Common::getRequestVar('mailFromName', ''));
+
+            $exposeNoReplyEmail = true;
+            Piwik::postEvent('CoreAdminHome.shouldExposeNoReplyEmail', array(&$exposeNoReplyEmail));
+            if ($exposeNoReplyEmail) {
+                Config::getInstance()->General['noreply_email_address'] =
+                    Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
+            }
 
             Config::getInstance()->forceSave();
 
