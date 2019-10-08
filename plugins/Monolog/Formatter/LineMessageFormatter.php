@@ -61,14 +61,14 @@ class LineMessageFormatter implements FormatterInterface
 
     private function formatMessage($class, $message, $date, $record)
     {
-        $trace = $record['context']['trace'] ? self::formatTrace($record['context']['trace']) : '';
+        $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $message = str_replace(
             array('%tag%', '%message%', '%datetime%', '%level%', '%trace%'),
             array($class, $message, $date, $record['level_name'], $trace),
             $this->logMessageFormat
         );
 
-        $message .= "\n";
+        $message = trim($message) . "\n";
         return $message;
     }
 
@@ -82,9 +82,9 @@ class LineMessageFormatter implements FormatterInterface
             } else {
                 $levelTrace = '[internal function]: ' . $level['class'] . $level['type'] . $level['function'] . '()';
             }
-            $strTrace .= $levelTrace . "\n";
+            $strTrace .= $levelTrace . ",";
         }
-        return trim($strTrace);
+        return trim($strTrace, ",");
     }
 
     public function formatBatch(array $records)
