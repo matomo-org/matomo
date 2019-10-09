@@ -28,6 +28,7 @@ class CustomEventsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        $params['xmlFieldsToRemove'] = array('idsubdatatable');
         $this->runApiTests($api, $params);
     }
 
