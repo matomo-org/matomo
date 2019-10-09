@@ -132,7 +132,7 @@
                 <div piwik-field uicontrol="text" name="mailFromAddress"
                      ng-model="mailSettings.mailFromAddress"
                      title="{{ 'General_SmtpFromAddress'|translate|e('html_attr') }}"
-                     value="{{ mail.noreply_email_address|e('html_attr') }}" inline-help="{{ 'General_UsuallyYourEmailAddress'|translate|e('html_attr') }}"
+                     value="{{ mail.noreply_email_address|e('html_attr') }}" inline-help="{{ 'General_SmtpFromEmailHelp'|translate(mailHost)|e('html_attr') }}"
                      autocomplete="off">
                 </div>
 

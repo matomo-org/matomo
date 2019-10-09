@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -123,6 +124,8 @@ class Controller extends ControllerAdmin
             'ssl' => 'SSL',
             'tls' => 'TLS'
         );
+        $mail = new Mail();
+        $view->mailHost = $mail->getMailHost();
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);

@@ -304,7 +304,7 @@
         "OneVisit": "1 visit",
         "OnlyEnterIfRequired": "Only enter a username if your SMTP server requires it.",
         "OnlyEnterIfRequiredPassword": "Only enter a password if your SMTP server requires it.",
-        "UsuallyYourEmailAddress": "Usually your email address",
+        "SmtpFromEmailHelp": "The default value is noreply@%1$s.<br>If sending mails doesn't work for you, you might need to set this address to match your SMTP username.",
         "NameShownInTheSenderColumn": "The name shown in the sender column",
         "OnlyUsedIfUserPwdIsSet": "Only used if a username\/password is set, ask your provider if you are unsure which method to use.",
         "OpenSourceWebAnalytics": "free\/libre analytics platform",
