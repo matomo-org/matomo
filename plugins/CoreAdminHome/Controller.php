@@ -163,12 +163,8 @@ class Controller extends ControllerAdmin
             Config::getInstance()->General['noreply_email_name'] = 
                 Common::unsanitizeInputValue(Common::getRequestVar('mailFromName', ''));
 
-            $exposeNoReplyEmail = true;
-            Piwik::postEvent('CoreAdminHome.shouldExposeNoReplyEmail', array(&$exposeNoReplyEmail));
-            if ($exposeNoReplyEmail) {
-                Config::getInstance()->General['noreply_email_address'] =
-                    Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
-            }
+            Config::getInstance()->General['noreply_email_address'] =
+                Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
 
             Config::getInstance()->forceSave();
 
@@ -282,9 +278,6 @@ class Controller extends ControllerAdmin
         $mail = Config::getInstance()->mail;
         $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
         $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
-        $exposeNoReplyEmail = true;
-        Piwik::postEvent('CoreAdminHome.shouldExposeNoReplyEmail', array(&$exposeNoReplyEmail));
-        $mail['exposeNoReplyEmail'] = $exposeNoReplyEmail;
         $view->mail = $mail;
     }
 
