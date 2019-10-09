@@ -29,7 +29,7 @@ if (!defined('PIWIK_VENDOR_PATH')) {
 // NOTE: the code above must be PHP 4 compatible
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
+if (session_status() !== PHP_SESSION_ACTIVE || headers_sent()) {
     session_cache_limiter('nocache');
 }
 
