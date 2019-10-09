@@ -85,7 +85,7 @@ class CustomLogo
         return ini_get('file_uploads') == 1;
     }
 
-    public function isCustomLogoEnabled()
+    public function isCustomLogoFeatureEnabled()
     {
         return Config::getInstance()->General['enable_custom_logo'] != 0;
     }
