@@ -78,7 +78,7 @@ class LineMessageFormatter implements FormatterInterface
         for ($i = 0; $i < $numLevels; $i++) {
             $level = $trace[$i];
             if (isset($level['file'], $level['line'])) {
-                $levelTrace = '#' . $i . $level['file'] . '(' . $level['line'] . ')';
+                $levelTrace = '#' . $i . (str_replace(PIWIK_DOCUMENT_ROOT, '', $level['file'])) . '(' . $level['line'] . ')';
             } else {
                 $levelTrace = '[internal function]: ' . $level['class'] . $level['type'] . $level['function'] . '()';
             }
