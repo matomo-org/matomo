@@ -236,7 +236,7 @@ class Controller extends ControllerAdmin
         $logo = new CustomLogo();
 
         if (! $logo->isCustomLogoFeatureEnabled()) {
-            return' 0';
+            return '0';
         }
 
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
