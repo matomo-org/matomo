@@ -653,6 +653,9 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
+; Controls whether the user is able to upload a custom logo for their Matomo install
+enable_custom_logo = 1
+
 ; By default we check whether the Custom logo is writable or not, before we display the Custom logo file uploader
 enable_custom_logo_check = 1
 

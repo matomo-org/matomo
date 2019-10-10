@@ -141,6 +141,8 @@
         </div>
     </div>
 {% endif %}
+
+{% if customLogoEnabled %}
 <div piwik-content-block content-title="{{ 'CoreAdminHome_BrandingSettings'|translate|e('html_attr') }}">
 
     <div piwik-form ng-controller="BrandingController as brandingSettings">
@@ -215,6 +217,7 @@
         <div onconfirm="brandingSettings.save()" saving="brandingSettings.isLoading" piwik-save-button></div>
     </div>
 </div>
+{% endif %}
 
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
