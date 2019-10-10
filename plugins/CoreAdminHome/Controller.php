@@ -163,11 +163,12 @@ class Controller extends ControllerAdmin
 
             Config::getInstance()->mail = $mail;
 
-            Config::getInstance()->General['noreply_email_name'] = 
+            $general = Config::getInstance()->General;
+            $general['noreply_email_name'] = 
                 Common::unsanitizeInputValue(Common::getRequestVar('mailFromName', ''));
-
-            Config::getInstance()->General['noreply_email_address'] =
+            $general['noreply_email_address'] = 
                 Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
+            Config::getInstance()->General = $general;
 
             Config::getInstance()->forceSave();
 
