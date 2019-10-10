@@ -164,10 +164,19 @@ class Controller extends ControllerAdmin
             Config::getInstance()->mail = $mail;
 
             $general = Config::getInstance()->General;
-            $general['noreply_email_name'] = 
-                Common::unsanitizeInputValue(Common::getRequestVar('mailFromName', ''));
-            $general['noreply_email_address'] = 
-                Common::unsanitizeInputValue(Common::getRequestVar('mailFromAddress', ''));
+            $fromName = Common::getRequestVar('mailFromName', '');
+            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+
+            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            if (empty($mailFrom)) {
+                $mailFrom = 'noreply@{DOMAIN}';
+            } else {
+                $mailFrom = Common::unsanitizeInputValue($mailFrom);
+            }
+            if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
+                throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));
+            }
+            $general['noreply_email_address'] = $mailFrom;
             Config::getInstance()->General = $general;
 
             Config::getInstance()->forceSave();
