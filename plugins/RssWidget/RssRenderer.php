@@ -55,7 +55,7 @@ class RssRenderer
 
         if (!$output) {
             try {
-                $content = Http::fetchRemoteFile($this->url);
+                $content = Http::fetchRemoteFile($this->url, null, 0, 15);
 
                 $rss = @simplexml_load_string($content);
                 if ($rss === false) {
