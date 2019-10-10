@@ -17,7 +17,8 @@ class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        if(SettingsPiwik::isInternetEnabled() === true){
+        if(SettingsPiwik::isInternetEnabled()
+            && SettingsPiwik::isAutoUpdateEnabled()){
             $this->weekly('updateSearchEngines');
             $this->weekly('updateSocials');
         }
