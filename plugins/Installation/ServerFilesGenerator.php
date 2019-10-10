@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
