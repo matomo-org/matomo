@@ -31,12 +31,12 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(65000)');
-        $migration2 = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(65000) NOT NULL');
+        $migration1 = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
+        $migration2 = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
 
         return array(
             $migration1,
-            $migration2,
+            $migration2
         );
     }
 
