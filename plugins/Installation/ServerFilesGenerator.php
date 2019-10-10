@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
 
@@ -72,13 +73,19 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
 
         // deny access to these folders
         $directoriesToProtect = array(
-            '/config' => $denyAll,
-            '/core' => $denyAll,
-            '/lang' => $denyAll,
-            '/tmp' => $denyAll,
+            PIWIK_USER_PATH . '/config' => $denyAll,
+            PIWIK_INCLUDE_PATH. '/core' => $denyAll,
+            PIWIK_INCLUDE_PATH . '/lang' => $denyAll,
+            StaticContainer::get('path.tmp') => $denyAll,
         );
+	    
+        if (!empty($GLOBALS['CONFIG_INI_PATH_RESOLVER']) && is_callable($GLOBALS['CONFIG_INI_PATH_RESOLVER'])) {
+            $file = call_user_func($GLOBALS['CONFIG_INI_PATH_RESOLVER']);
+            $directoriesToProtect[dirname($file)] = $denyAll;
+        }
+
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
-            self::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+            self::createHtAccess($directoryToProtect, $overwrite = true, $content);
         }
     }
 
