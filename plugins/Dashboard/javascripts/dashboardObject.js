@@ -447,8 +447,8 @@
      * @param {String|jQuery} $widget
      */
     function reloadWidget($widget) {
-        if (typeof widget === 'string') {
-            $widget = $('[widgetId="' + uniqueId + '"]', dashboardElement);
+        if (typeof $widget === 'string') {
+            $widget = $('[widgetid="' + $widget + '"]', dashboardElement);
         }
 
         $widget.dashboardWidget('reload', false, true);
