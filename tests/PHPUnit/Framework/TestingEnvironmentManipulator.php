@@ -212,6 +212,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
         $plugins[] = 'TagManager';
+        $plugins[] = 'ExamplePlugin';
+        $plugins[] = 'ExampleAPI';
 
         $fixturePluginsToLoad = [];
 
