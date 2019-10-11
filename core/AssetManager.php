@@ -35,8 +35,6 @@ use Piwik\Plugin\Manager;
  * Whether assets are included individually or as merged files is defined by
  * the global option 'disable_merged_assets'. See the documentation in the global
  * config for more information.
- *
- * @method static AssetManager getInstance()
  */
 class AssetManager extends Singleton
 {
@@ -75,6 +73,29 @@ class AssetManager extends Singleton
         if (!empty($theme)) {
             $this->theme = new Theme();
         }
+    }
+
+    /**
+     * @inheritDoc
+     * @return AssetManager
+     */
+    public static function getInstance()
+    {
+        $assetManager = parent::getInstance();
+
+        /**
+         * Triggered when creating an instance of the asset manager. Lets you overwite the
+         * asset manager behavior.
+         *
+         * @param AssetManager &$assetManager
+         *
+         * @ignore
+         * This event is not a public event since we don't want to make the asset manager itself public
+         * API
+         */
+        Piwik::postEvent('AssetManager.makeNewAssetManagerObject', array(&$assetManager));
+
+        return $assetManager;
     }
 
     /**
