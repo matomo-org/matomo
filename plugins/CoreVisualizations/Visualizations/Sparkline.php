@@ -188,7 +188,8 @@ class Sparkline extends ViewDataTable
     private function getComparisonSeries(DataTable\DataTableInterface $dataTable)
     {
         if ($dataTable instanceof DataTable\Map) {
-            return reset($dataTable->getDataTables())->getMetadata('comparisonSeries') ?: [];
+            $tables = $dataTable->getDataTables();
+            return reset($tables)->getMetadata('comparisonSeries') ?: [];
         } else {
             return $dataTable->getMetadata('comparisonSeries') ?: [];
         }
