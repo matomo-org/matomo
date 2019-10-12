@@ -104,6 +104,9 @@
 		"ConsentStep3Note1": "Once a user gives consent, you can either A) let Matomo remember the consent, or B) use your own consent tool to remember the consent. We present the two solutions below:",
 		"ConsentStep3Note2": "A) if you want to let Matomo remember the consent",
 		"ConsentStep3Note3": "Once a user gives their consent, you can let Matomo remember that the user has given consent by simply calling the following method once the user has given her or his consent:",
+		"ConsentStep3Note4": "Matomo will then remember on subsequent requests that the user has given her or his consent by setting a cookie named "consent". As long as this cookie exists, Matomo will know that consent has been given and will automatically process the data. This means that you only need to call",
+		"ConsentStep3Note5": "once, and it is not needed to call",
+		"ConsentStep3Note6": " on any page view.",
 		
 		
 		
