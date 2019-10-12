@@ -4,33 +4,34 @@
 
 {% block content %}
     <div piwik-content-intro>
-        <h2>Asking for consent</h2>
-        <p>Consent means offering individuals choice and control about how their personal data is processed.</p>
+        <h2>{{ 'PrivacyManager_AskingForConsent'|translate|e('html_attr') }}</h2>
+        <p>{{ 'PrivacyManager_ConsentMeans'|translate|e('html_attr') }}</p>
     </div>
 
-    <div piwik-content-block content-title="When do I need to ask for user consent?" class="privacyAskingForConsent">
+    <div piwik-content-block content-title="{{ 'PrivacyManager_WhenINeedConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
         <p>
-            In the context of the GDPR privacy regulations, when you are processing personal data, in some cases you will need to ask for your users' consent. To identify whether you need to ask for consent, you need to determine whether your lawful basis for processing personal data is "Consent" or "Legitimate interest", or whether you can avoid collecting personal data altogether. We recommend to learn more about the lawful basis under the GDPR for Matomo.
+            {{ 'PrivacyManager_WhenINeedConsentNote1'|translate|e('html_attr') }}
             <br /><br />
-            Note that when you require to have your users' consents and if you cannot prove that you got the "Consent" of your users in the past, then we recommend to <a href="{{ linkTo({module: 'PrivacyManager', action: 'privacySettings'}) }}">anonymise your previously tracked users' raw data</a>.
+            {{ 'PrivacyManager_WhenINeedConsentNote2'|translate|e('html_attr') }} <a href="{{ linkTo({module: 'PrivacyManager', action: 'privacySettings'}) }}">anonymise your previously tracked users' raw data</a>.
         </p>
     </div>
 
-    <div piwik-content-block content-title="How do I ask users for consent?" class="privacyAskingForConsent">
+    <div piwik-content-block content-title="{{ 'PrivacyManager_HowToAskConsent'|translate|e('html_attr') }}" class="privacyAskingForConsent">
         <p>
-            Follow the steps below to ask your user for their consents before their data is processed within Matomo.
+            {{ 'PrivacyManager_HowToAskConsentNote1'|translate|e('html_attr') }}
         </p>
 
-        <h3>Step 1: require consent</h3>
+        <h3>{{ 'PrivacyManager_ConsentStep1Title'|translate|e('html_attr') }}</h3>
         <p>
-            To require consent, insert the following line at top of your existing Matomo Tracking code on all your pages:
+            {{ 'PrivacyManager_ConsentStep1Note1'|translate|e('html_attr') }}
         </p>
         <pre piwik-select-on-focus><code>// require user consent before processing data
 _paq.push(['requireConsent']);
 _paq.push(['trackPageview']);
 [...]</code></pre>
         <p>
-            Once this function ‘requireConsent' is executed then no tracking request will be sent to Matomo. Note that some <a href="https://matomo.org/faq/general/faq_146/" target="_blank" rel="noreferrer noopener">tracking cookies</a> will be set during this page view but will be deleted as soon as the user navigates to a different page or closes the browser.
+             {{ 'PrivacyManager_ConsentStep1Note2'|translate|e('html_attr') }}
+			 {{ 'PrivacyManager_ConsentStep1Link'|translate('<a href="https://matomo.org/faq/general/faq_146/" target="_blank" rel="noreferrer noopener">','</a>')|raw }} {{ 'PrivacyManager_ConsentStep1Note3'|translate|e('html_attr') }}
         </p>
         <h3>Step 2: asking for consent through your privacy notice</h3>
         <p>Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about privacy notices and asking for user consent. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.
