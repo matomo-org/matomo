@@ -98,6 +98,12 @@
 		"ConsentStep1Note2": "Once this function ‘requireConsent' is executed then no tracking request will be sent to Matomo. Note that some",
 		"ConsentStep1Link": "tracking cookies",
 		"ConsentStep1Note3": "will be set during this page view but will be deleted as soon as the user navigates to a different page or closes the browser.",
+		"ConsentStep2Title": "Step 2: asking for consent through your privacy notice",
+		"ConsentStep2Note1": "Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about privacy notices and asking for user consent. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.",
+		"ConsentStep3Title": "Step 3: user gives consent",
+		"ConsentStep3Note1": "Once a user gives consent, you can either A) let Matomo remember the consent, or B) use your own consent tool to remember the consent. We present the two solutions below:",
+		"ConsentStep3Note2": "A) if you want to let Matomo remember the consent",
+		"ConsentStep3Note3": "Once a user gives their consent, you can let Matomo remember that the user has given consent by simply calling the following method once the user has given her or his consent:",
 		
 		
 		

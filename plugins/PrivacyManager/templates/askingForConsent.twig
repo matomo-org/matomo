@@ -33,16 +33,16 @@ _paq.push(['trackPageview']);
              {{ 'PrivacyManager_ConsentStep1Note2'|translate|e('html_attr') }}
 			 {{ 'PrivacyManager_ConsentStep1Link'|translate('<a href="https://matomo.org/faq/general/faq_146/" target="_blank" rel="noreferrer noopener">','</a>')|raw }} {{ 'PrivacyManager_ConsentStep1Note3'|translate|e('html_attr') }}
         </p>
-        <h3>Step 2: asking for consent through your privacy notice</h3>
-        <p>Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about privacy notices and asking for user consent. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.
+        <h3>{{ 'PrivacyManager_ConsentStep2Title'|translate|e('html_attr') }}</h3>
+        <p>{{ 'PrivacyManager_ConsentStep2Note1'|translate|e('html_attr') }}
         </p>
-        <h3>Step 3: user gives consent</h3>
+        <h3>{{ 'PrivacyManager_ConsentStep3Title'|translate|e('html_attr') }}</h3>
         <p>
-            Once a user gives consent, you can either A) let Matomo remember the consent, or B) use your own consent tool to remember the consent. We present the two solutions below:
+            {{ 'PrivacyManager_ConsentStep3Note1'|translate|e('html_attr') }}
             <br /><br />
-            <strong>A) if you want to let Matomo remember the consent</strong>
+            <strong>{{ 'PrivacyManager_ConsentStep3Note2'|translate|e('html_attr') }}</strong>
             <br />
-            Once a user gives their consent, you can let Matomo remember that the user has given consent by simply calling the following method once the user has given her or his consent:
+            {{ 'PrivacyManager_ConsentStep3Note3'|translate|e('html_attr') }}
         </p>
         <pre piwik-select-on-focus><code>_paq.push(['rememberConsentGiven'])</code></pre>
         <p>
