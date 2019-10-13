@@ -242,6 +242,10 @@ class IniFileChain
         // on PHP 7+ as they would be always equal
         $this->mergedSettings = $this->copy($merged);
 
+        if (!empty($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS']) && !empty($this->mergedSettings)) {
+            $this->mergedSettings = call_user_func($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS'], $this->mergedSettings);
+        }
+        
         if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
             && !empty($userSettingsFile)
             && !empty($this->mergedSettings)
