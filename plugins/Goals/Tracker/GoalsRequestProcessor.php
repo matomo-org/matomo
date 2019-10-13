@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -89,7 +89,7 @@ class GoalsRequestProcessor extends RequestProcessor
         if (empty($goalsConverted)
             && $action
         ) {
-            $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action);
+            $goalsConverted = $this->goalManager->detectGoalsMatchingUrl($request->getIdSite(), $action, $visitProperties, $request);
 
             $existingGoalsConverted = $request->getMetadata('Goals', 'goalsConverted') ?: array();
             $request->setMetadata('Goals', 'goalsConverted', array_merge($existingGoalsConverted, $goalsConverted));

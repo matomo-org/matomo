@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Cree y reutilize Segmentos de visitante personalizados con el Editor de Segmento.",
+        "PluginDescription": "Un segmento es un conjunto de criterios utilizados para seleccionar solo una parte del conjunto completo de visitas. Al usar segmentos, puede volver a insertar un contexto arbitrario en sus informes.",
         "AddANDorORCondition": "Agregar condición %s",
         "AddNewSegment": "Agregar nuevo segmento",
         "AreYouSureDeleteSegment": "¿Está seguro que desea eliminar este segmento?",
@@ -52,6 +52,7 @@
         "CustomUnprocessedSegmentApiError5": "Tenga en cuenta que puede comprobar si su segmento funcionará sin tener que esperar a que se procese, simplemente utilizando la API Live.getLastVisitsDetails.",
         "CustomUnprocessedSegmentApiError6": "Cuando utilice este método API, verá qué usuarios y acciones coincidieron con su parámetro &segment=.",
         "CustomUnprocessedSegmentNoData": "Para ver los datos de este segmento, debe crear este segmento manualmente en el Editor de segmentos y luego esperar un par de horas para que se complete el preprocesamiento.",
-        "AddThisToMatomo": "Agregar este segmento a Matomo"
+        "AddThisToMatomo": "Agregar este segmento a Matomo",
+        "Test": "Prueba"
     }
 }

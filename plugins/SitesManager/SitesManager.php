@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SitesManager;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Option;
@@ -47,11 +48,26 @@ class SitesManager extends \Piwik\Plugin
         );
     }
 
+    public static function isSitesAdminEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_sites_admin'];
+    }
+
+    public static function dieIfSitesAdminIsDisabled()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        if (!self::isSitesAdminEnabled()) {
+            throw new \Exception('Creating, updating, and deleting sites has been disabled.');
+        }
+    }
+
     public function addSystemSummaryItems(&$systemSummary)
     {
-        $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
-        $numWebsites = count($websites);
-        $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        if (self::isSitesAdminEnabled()) {
+            $websites = Request::processRequest('SitesManager.getAllSites', array('filter_limit' => '-1'));
+            $numWebsites = count($websites);
+            $systemSummary[] = new SystemSummary\Item($key = 'websites', Piwik::translate('CoreHome_SystemSummaryNWebsites', $numWebsites), $value = null, $url = array('module' => 'SitesManager', 'action' => 'index'), $icon = '', $order = 10);
+        }
     }
 
     public function redirectDashboardToWelcomePage(&$module, &$action)
@@ -62,6 +78,11 @@ class SitesManager extends \Piwik\Plugin
 
         $siteId = Common::getRequestVar('idSite', false, 'int');
         if (!$siteId) {
+            return;
+        }
+
+        $shouldPerformEmptySiteCheck = self::shouldPerormEmptySiteCheck($siteId);
+        if (!$shouldPerformEmptySiteCheck) {
             return;
         }
 
@@ -89,6 +110,12 @@ class SitesManager extends \Piwik\Plugin
 
     public static function hasTrackedAnyTraffic($siteId)
     {
+        $trackerModel = new TrackerModel();
+        return !$trackerModel->isSiteEmpty($siteId);
+    }
+
+    public static function shouldPerormEmptySiteCheck($siteId)
+    {
         $shouldPerformEmptySiteCheck = true;
 
         /**
@@ -102,8 +129,7 @@ class SitesManager extends \Piwik\Plugin
          */
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
-        $trackerModel = new TrackerModel();
-        return $shouldPerformEmptySiteCheck && !$trackerModel->isSiteEmpty($siteId);
+        return $shouldPerformEmptySiteCheck;
     }
 
     public function onSiteDeleted($idSite)
@@ -399,5 +425,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
+        $translationKeys[] = "SitesManager_EmailInstructionsButton";
+        $translationKeys[] = "SitesManager_EmailInstructionsSubject";
+        $translationKeys[] = "SitesManager_JsTrackingTagHelp";
     }
 }

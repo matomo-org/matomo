@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Twórz i korzystaj ze skonfigurowanych przez siebie grup odwiedzających w Edytorze Grup",
         "AddANDorORCondition": "Dodaj warunek %s",
         "AddNewSegment": "Dodaj nową grupę",
         "AreYouSureDeleteSegment": "Czy jesteś pewny, że chcesz usunąć tą grupę?",
@@ -35,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s jest złączeniem tych grup:",
         "CustomSegment": "Grupa użytkownika",
         "SegmentOperatorIsNullOrEmpty": "nie istnieje lub puste",
-        "SegmentOperatorIsNotNullNorEmpty": "istnieje lub nie jest puste"
+        "SegmentOperatorIsNotNullNorEmpty": "istnieje lub nie jest puste",
+        "Test": "Test"
     }
 }

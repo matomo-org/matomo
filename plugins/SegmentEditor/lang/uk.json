@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Створення та повторне використання користувальницьких сегментів відвідувачів з редактором сегменту.",
         "AddANDorORCondition": "Добавить условие %s",
         "AddNewSegment": "Додати новий сегмент",
         "AreYouSureDeleteSegment": "Ви впевнені, що хочете видалити цей сегмент?",
@@ -35,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s є об'єднанням цих сегментів:",
         "CustomSegment": "Користувальницький Сегмент",
         "SegmentOperatorIsNullOrEmpty": "є нульовим або порожнім",
-        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній"
+        "SegmentOperatorIsNotNullNorEmpty": "не нульовий або порожній",
+        "Test": "Тест"
     }
 }

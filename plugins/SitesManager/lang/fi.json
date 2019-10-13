@@ -68,7 +68,6 @@
         "ShowTrackingTag": "näytä seurantakoodi",
         "Sites": "Sivustot",
         "SiteSearchUse": "Voit käyttää Matomoa seurataksesi ja raportoidaksesi, mitä kävijät etsivät sivustosi sisäisellä hakukoneella.",
-        "SiteWithoutDataTitle": "Tietoja ei ole vielä kerätty",
         "SiteWithoutDataDescription": "Tämän sivuston analytiikkatietoja ei ole vielä kerätty.",
         "SiteWithoutDataSetupTracking": "Aseta alapuolella oleva %1$sseurantakoodi%2$s sivustollesi tai mobiilisovellukseen, jos et ole sitä vielä tehnyt.",
         "SiteWithoutDataMessageDisappears": "Tämä viesti poistuu näkyvistä, kun tämän sivuston kävijöistä voidaan näyttää kerättyjä tietoja.",

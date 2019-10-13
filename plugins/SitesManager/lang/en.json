@@ -72,7 +72,7 @@
         "ShowTrackingTag": "View Tracking code",
         "Sites": "Websites",
         "SiteSearchUse": "You can use Matomo to track and report what visitors are searching in your website's internal search engine.",
-        "SiteWithoutDataTitle": "No data has been recorded yet",
+        "SiteWithoutDataTitle": "No data has been recorded yet, get set up below",
         "SiteWithoutDataDescription": "No analytics data has been tracked for this website yet.",
         "SiteWithoutDataSetupTracking": "Please set up the %1$stracking code%2$s below into your website or mobile app if you haven't done already.",
         "SiteWithoutDataMessageDisappears": "This message will disappear as soon as some data was tracked for this website.",
@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "What would you like to measure?",
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
         "YourCurrentIpAddressIs": "Your current IP address is %s",
-        "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone."
+        "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone.",
+        "EmailInstructionsButton": "Email these instructions",
+        "EmailInstructionsSubject": "Matomo Analytics Tracking Code",
+        "EmailInstructionsDocsPlainText": "If you want to do more than track page views, please check out the Matomo documentation at %1$s.",
+        "EmailInstructionsGenerateTrackingCode": "You can also generate a customized tracking code at %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Your Site Details",
+        "EmailInstructionsSiteDetails": "You will need these details to use the API or SDKs to track Matomo visits.",
+        "EmailInstructionsYourSiteId": "Your site ID: %1$s",
+        "EmailInstructionsYourTrackingUrl": "Your tracking URL: %1$s"
     }
 }

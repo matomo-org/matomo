@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration;
@@ -287,6 +287,7 @@ class ArchiveTest extends IntegrationTestCase
         // directly trigger specific archiver for existing archive
         $archiver = new UserLanguage\Archiver($archiveProcessor);
         $archiver->aggregateDayReport();
+        $archiveWriter->finalizeArchive();
 
         // report should be updated
         $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -1424,13 +1424,13 @@ log_visit.visit_total_actions
         $this->assertCacheWasHit($hits = 0);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 0);
+        $this->assertCacheWasHit($hits = 8);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 4);
+        $this->assertCacheWasHit($hits = 20);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 4 + 4);
+        $this->assertCacheWasHit($hits = 32);
 
     }
 
@@ -1494,11 +1494,11 @@ log_visit.visit_total_actions
 
         // this will create the caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 0);
+        $this->assertCacheWasHit($hits = 4);
 
         // this will hit caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 2);
+        $this->assertCacheWasHit($hits = 10);
     }
 
     // se https://github.com/piwik/piwik/issues/9194

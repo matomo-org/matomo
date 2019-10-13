@@ -233,6 +233,7 @@
         "GraphHelp": "Meer informatie over het tonen van grafieken in Matomo.",
         "HelloUser": "Hallo, %s!",
         "Help": "Help",
+        "HelpResources": "Hulpbronnen",
         "HelpTranslatePiwik": "Misschien wilt u ons %1$shelpen met het verbeteren van de Matomo-vertalingen%2$s?",
         "Hide": "verbergen",
         "HoursMinutes": "%1$s uren %2$s minuten",
@@ -244,6 +245,7 @@
         "InvalidResponse": "De ontvangen gegevens zijn ongeldig.",
         "IP": "IP",
         "JsTrackingTag": "Javascript Tracking Code",
+        "KpiMetric": "KPI Waarde",
         "Language": "Taal",
         "Languages": "Talen",
         "LastDays": "Laatste %s dagen (inclusief vandaag)",
@@ -366,7 +368,6 @@
         "Remove": "Verwijderen",
         "Report": "Rapport",
         "ReportGeneratedFrom": "Dit rapport was gegenereerd met gegevens van %s.",
-        "ReportRatioTooltip": "'%1$s' representeert %2$s van %3$s %4$s met %5$s.",
         "Reports": "Rapporten",
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "Archiveer rapporten maximaal elke x seconden",
         "RearchiveTimeIntervalOnlyForTodayReports": "Dit beïnvloedt enkel rapporten voor vandaag (of elk ander datumbereik die vandaag bevat)",
@@ -414,7 +415,6 @@
         "ToDeleteAllFilesRunThisCommand": "Om al deze bestanden in een keer te verwijderen, kunt u dit commando uitvoeren:",
         "Total": "Totaal",
         "Totals": "Totalen",
-        "TotalRatioTooltip": "Dit is %1$s van alle %2$s %3$s.",
         "TotalRevenue": "Totale inkomsten",
         "TotalVisitsPageviewsActionsRevenue": "(Totaal: %1$s bezoeken, %2$s paginaweergaven, %3$s acties, %4$s inkomsten)",
         "TrackingScopeAction": "Actie",
@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "U moet ingelogd zijn om deze functionaliteit te gebruiken.",
         "YourChangesHaveBeenSaved": "Uw wijzigingen zijn opgeslagen.",
         "ThankYouForUsingMatomo": "Bedankt voor het gebruiken van Matomo",
-        "TheMatomoTeam": "Het Matomo team"
+        "TheMatomoTeam": "Het Matomo team",
+        "PleaseTryAgain": "Probeer nogmaals"
     },
     "Mobile": {
         "AboutPiwikMobile": "Over Matomo Mobile",
@@ -566,7 +567,13 @@
         "VerifyAccount": "Verifiëren account",
         "ValidateSslCertificate": "SSL-certificaat valideren",
         "VerifyLoginData": "Zorg ervoor dat uw gebruikersnaam- en wachtwoordcombinatie juist zijn.",
-        "YouAreOffline": "Sorry, u bent momenteel offline."
+        "YouAreOffline": "Sorry, u bent momenteel offline.",
+        "ExceptionNoViewAccess": "Controleer gebruikersnaam en wachtwoord. Wees er zeker van dat je op ten minste één website de volgende rechten hebt: %s",
+        "Mobile_HowtoExitAndroid": "Klik nogmaals op de terugtoets om het programma te beëindigen",
+        "MatomoMarketplace": "Matomo Markplaats",
+        "EnterAuthCode": "Voer authenticatiecode in",
+        "EnterCorrectAuthCode": "Voer correcte authenticatiecode in",
+        "EnterAuthCodeExplanation": "Het lijkt erop dat je 2 factor authenticatie gebruikt. Voer de 6 cijferige code in om op je account in te loggen."
     },
     "RowEvolution": {
         "AvailableMetrics": "Beschikbare statistieken",

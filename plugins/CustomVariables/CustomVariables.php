@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,7 +24,8 @@ class CustomVariables extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Dimension.addDimensions' => 'addDimensions',
-            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
+            'Tracker.setTrackerCacheGeneral' => 'getCacheGeneral'
         );
     }
 
@@ -78,32 +79,40 @@ class CustomVariables extends \Piwik\Plugin
         $cache    = Cache::getCacheGeneral();
         $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
-        if (!array_key_exists($cacheKey, $cache)) {
-
-            $minCustomVar = null;
-
-            foreach (Model::getScopes() as $scope) {
-                $model = new Model($scope);
-                $highestIndex = $model->getHighestCustomVarIndex();
-
-                if (!isset($minCustomVar)) {
-                    $minCustomVar = $highestIndex;
-                }
-
-                if ($highestIndex < $minCustomVar) {
-                    $minCustomVar = $highestIndex;
-                }
-            }
-
-            if (!isset($minCustomVar)) {
-                $minCustomVar = 0;
-            }
-
-            $cache[$cacheKey] = $minCustomVar;
-            Cache::setCacheGeneral($cache);
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
         }
 
-        return $cache[$cacheKey];
+        return 0;
+    }
+
+    public function getCacheGeneral(&$cacheContent)
+    {
+        $cacheContent[self::MAX_NUM_CUSTOMVARS_CACHEKEY] = self::fetchNumMaxCustomVariables();
+    }
+
+    private static function fetchNumMaxCustomVariables()
+    {
+        $minCustomVar = null;
+
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            $highestIndex = $model->getHighestCustomVarIndex();
+
+            if (!isset($minCustomVar)) {
+                $minCustomVar = $highestIndex;
+            }
+
+            if ($highestIndex < $minCustomVar) {
+                $minCustomVar = $highestIndex;
+            }
+        }
+
+        if (!isset($minCustomVar)) {
+            $minCustomVar = 0;
+        }
+
+        return $minCustomVar;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -19,11 +19,8 @@
         "ViewUserGuides": "Leer hoe je Matomo moet configureren en hoe je data te analyseren met onze %1$sgebruikers handleidingen%2$s",
         "CommunityHelp": "Hulp van de gemeenschap",
         "ProfessionalHelp": "Professionele hulp",
-        "ProfessionalServicesReviewPiwikSetup": "Een overzicht van je Matomo omgeving",
-        "ProfessionalServicesPhoneEmailSupport": "Telefoon en Email ondersteuning",
-        "ProfessionalServicesPremiumFeatures": "Premium functies",
-        "ProfessionalServicesAnalystConsulting": "Analytisch consulting services",
         "ContactUs": "Neem contact met ons op",
-        "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users"
+        "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users",
+        "Forums": "Forums"
     }
 }

@@ -7,6 +7,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>8107</sum_visit_length>
 		<bounce_count>5</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>10</nb_conversions>
@@ -35,6 +36,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>3243</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -63,6 +65,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -91,6 +94,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -119,6 +123,7 @@
 		<max_actions>4</max_actions>
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>

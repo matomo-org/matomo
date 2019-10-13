@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -62,6 +62,14 @@ abstract class Graph extends Visualization
         }
 
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
+
+        // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
+        // different metrics
+        if ($this->config->add_total_row) {
+            $this->requestConfig->request_parameters_to_modify['totals'] = 1;
+            $this->requestConfig->request_parameters_to_modify['keep_totals_row'] = 1;
+            $this->requestConfig->request_parameters_to_modify['keep_totals_row_label'] = Piwik::translate('General_Total');
+        }
 
         $this->metricsFormatter = new Numeric();
     }

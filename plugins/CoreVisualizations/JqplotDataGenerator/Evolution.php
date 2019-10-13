@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,13 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
+use Piwik\DataTable\Row;
+use Piwik\Date;
+use Piwik\Metrics;
+use Piwik\Period;
+use Piwik\Period\Factory;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
 
@@ -19,6 +26,18 @@ use Piwik\Url;
  */
 class Evolution extends JqplotDataGenerator
 {
+    protected function getUnitsForColumnsToDisplay()
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+
+        $units = [];
+        foreach ($this->properties['columns_to_display'] as $columnName) {
+            $derivedUnit = Metrics::getUnit($columnName, $idSite);
+            $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
+        }
+        return $units;
+    }
+
     /**
      * @param DataTable|DataTable\Map $dataTable
      * @param Chart $visualization
@@ -33,11 +52,16 @@ class Evolution extends JqplotDataGenerator
             return;
         }
 
-        // the X label is extracted from the 'period' object in the table's metadata
-        $xLabels = array();
-        foreach ($dataTable->getDataTables() as $metadataDataTable) {
-            $xLabels[] = $metadataDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString(); // eg. "Aug 2009"
-        }
+        $dataTables = $dataTable->getDataTables();
+
+        // determine x labels based on both the displayed date range and the compared periods
+        /** @var Period[][] $xLabels */
+        $xLabels = [
+            [], // placeholder for first series
+        ];
+
+        $this->addComparisonXLabels($xLabels, reset($dataTables));
+        $this->addSelectedSeriesXLabels($xLabels, $dataTables);
 
         $units = $this->getUnitsForColumnsToDisplay();
 
@@ -47,27 +71,37 @@ class Evolution extends JqplotDataGenerator
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;
 
+        $columnsToDisplay = array_values($this->properties['columns_to_display']);
+
+        list($seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis) =
+            $this->getSeriesMetadata($rowsToDisplay, $columnsToDisplay, $units, $dataTables);
+
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
-        $seriesUnits = array();
         foreach ($rowsToDisplay as $rowLabel) {
-            foreach ($this->properties['columns_to_display'] as $columnName) {
-                $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
-                $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
-
-                $allSeriesData[$seriesLabel] = $seriesData;
-                $seriesUnits[$seriesLabel] = $units[$columnName];
+            foreach ($columnsToDisplay as $columnName) {
+                if (!$this->isComparing) {
+                    $this->setNonComparisonSeriesData($allSeriesData, $rowLabel, $columnName, $dataTable);
+                } else {
+                    $this->setComparisonSeriesData($allSeriesData, $seriesLabels, $rowLabel, $columnName, $dataTable);
+                }
             }
         }
 
         $visualization->dataTable = $dataTable;
         $visualization->properties = $this->properties;
 
-        $visualization->setAxisXLabels($xLabels);
-        $visualization->setAxisYValues($allSeriesData);
+        $visualization->setAxisYValues($allSeriesData, $seriesMetadata);
         $visualization->setAxisYUnits($seriesUnits);
 
-        $dataTables = $dataTable->getDataTables();
+        $xLabelStrs = [];
+        $xAxisTicks = [];
+        foreach ($xLabels as $index => $seriesXLabels) {
+            $xLabelStrs[$index] = array_map(function (Period $p) { return $p->getLocalizedLongString(); }, $seriesXLabels);
+            $xAxisTicks[$index] = array_map(function (Period $p) { return $p->getLocalizedShortString(); }, $seriesXLabels);
+        }
+
+        $visualization->setAxisXLabelsMultiple($xLabelStrs, $seriesToXAxis, $xAxisTicks);
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -143,5 +177,132 @@ class Evolution extends JqplotDataGenerator
                 && Common::getRequestVar('period', 'day') != 'range';
         }
         return $linkEnabled;
+    }
+
+    /**
+     * Each period comparison shows data over different data points than the main series (eg, 2014-02-03,1014-02-06 compared w/ 2015-03-04,2015-03-15).
+     * Though we only display the selected period's x labels, we need to both have the labels for all these data points for tooltips and to stretch
+     * out the selected period x axis, in case it is shorter than one of the compared periods (as in the example above).
+     */
+    private function addComparisonXLabels(array &$xLabels, DataTable $table)
+    {
+        $comparePeriods = $table->getMetadata('comparePeriods') ?: [];
+        $compareDates = $table->getMetadata('compareDates') ?: [];
+
+        // get rid of selected period
+        array_shift($comparePeriods);
+        array_shift($compareDates);
+
+        foreach (array_values($comparePeriods) as $index => $period) {
+            $date = $compareDates[$index];
+
+            $range = Factory::build($period, $date);
+            foreach ($range->getSubperiods() as $subperiod) {
+                $xLabels[$index + 1][] = $subperiod;
+            }
+        }
+    }
+
+    /**
+     * @param array $xLabels
+     * @param DataTable[] $dataTables
+     * @throws \Exception
+     */
+    private function addSelectedSeriesXLabels(array &$xLabels, array $dataTables)
+    {
+        $xTicksCount = count($dataTables);
+        foreach ($xLabels as $labelSeries) {
+            $xTicksCount = max(count($labelSeries), $xTicksCount);
+        }
+
+        /** @var Date $startDate */
+        $startDate = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getDateStart();
+        $periodType = reset($dataTables)->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLabel();
+
+        for ($i = 0; $i < $xTicksCount; ++$i) {
+            $period = Factory::build($periodType, $startDate->addPeriod($i, $periodType));
+            $xLabels[0][] = $period;
+        }
+    }
+
+    private function setNonComparisonSeriesData(array &$allSeriesData, $rowLabel, $columnName, DataTable\Map $dataTable)
+    {
+        $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+
+        $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
+        $allSeriesData[$seriesLabel] = $seriesData;
+    }
+
+    private function setComparisonSeriesData(array &$allSeriesData, array $seriesLabels, $rowLabel, $columnName, DataTable\Map $dataTable)
+    {
+        foreach ($dataTable->getDataTables() as $label => $childTable) {
+            // get the row for this label (use the first if $rowLabel is false)
+            if ($rowLabel === false) {
+                $row = $childTable->getFirstRow();
+            } else {
+                $row = $childTable->getRowFromLabel($rowLabel);
+            }
+
+            if (empty($row)
+                || empty($row->getComparisons())
+            ) {
+                foreach ($seriesLabels as $seriesIndex => $seriesLabelPrefix) {
+                    $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabelPrefix, $columnName, $rowLabel);
+                    $allSeriesData[$wholeSeriesLabel][] = 0;
+                }
+
+                continue;
+            }
+
+            /** @var DataTable $comparisonTable */
+            $comparisonTable = $row->getComparisons();
+            foreach ($comparisonTable->getRows() as $compareRow) {
+                $seriesLabel = $this->getComparisonSeriesLabel($compareRow, $columnName, $rowLabel);
+                $allSeriesData[$seriesLabel][] = $compareRow->getColumn($columnName);
+            }
+
+            $totalsRow = $comparisonTable->getTotalsRow();
+            if ($totalsRow) {
+                $seriesLabel = $this->getComparisonSeriesLabel($totalsRow, $columnName, $rowLabel);
+                $allSeriesData[$seriesLabel][] = $totalsRow->getColumn($columnName);
+            }
+        }
+    }
+
+    private function getSeriesMetadata(array $rowsToDisplay, array $columnsToDisplay, array $units, array $dataTables)
+    {
+        $seriesMetadata = null; // maps series labels to any metadata of the series
+        $seriesUnits = array(); // maps series labels to unit labels
+        $seriesToXAxis = []; // maps series index to x-axis index (groups of metrics for a single comparison will use the same x-axis)
+
+        $table = reset($dataTables);
+        $seriesLabels = $table->getMetadata('comparisonSeries') ?: [];
+        foreach ($rowsToDisplay as $rowIndex => $rowLabel) {
+            foreach ($columnsToDisplay as $columnIndex => $columnName) {
+                if ($this->isComparing) {
+                    foreach ($seriesLabels as $seriesIndex => $seriesLabel) {
+                        $wholeSeriesLabel = $this->getComparisonSeriesLabelFromCompareSeries($seriesLabel, $columnName, $rowLabel);
+
+                        $allSeriesData[$wholeSeriesLabel] = [];
+
+                        $metricIndex = $rowIndex * count($columnsToDisplay) + $columnIndex;
+                        $seriesMetadata[$wholeSeriesLabel] = [
+                            'metricIndex' => $metricIndex,
+                            'seriesIndex' => $seriesIndex,
+                        ];
+
+                        $seriesUnits[$wholeSeriesLabel] = $units[$columnName];
+
+                        list($periodIndex, $segmentIndex) = DataComparisonFilter::getIndividualComparisonRowIndices($table, $seriesIndex);
+                        $seriesToXAxis[] = $periodIndex;
+                    }
+                } else {
+                    $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+                    $seriesUnits[$seriesLabel] = $units[$columnName];
+                }
+            }
+        }
+
+        return [$seriesMetadata, $seriesUnits, $seriesLabels, $seriesToXAxis];
     }
 }

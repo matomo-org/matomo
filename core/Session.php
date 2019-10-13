@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -50,6 +50,7 @@ class Session extends Zend_Session
         if (headers_sent()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
+            || session_status() == PHP_SESSION_ACTIVE
         ) {
             return;
         }
@@ -173,7 +174,11 @@ class Session extends Zend_Session
 
     public static function close()
     {
-        parent::writeClose();
+        if (self::isSessionStarted()) {
+            // only write/close session if the session was actually started by us
+            // otherwise we will set the session values to base64 encoded and whoever the session started might not expect the values in that way
+            parent::writeClose();
+        }
     }
 
     public static function isSessionStarted()

@@ -14,9 +14,9 @@
     ],
     "support": {
         "forum": "https://forum.matomo.org/",
-        "issues": "https://github.com/matomo-org/piwik/issues",
-        "wiki": "https://github.com/matomo-org/piwik/wiki",
-        "source": "https://github.com/matomo-org/piwik"
+        "issues": "https://github.com/matomo-org/matomo/issues",
+        "wiki": "https://github.com/matomo-org/matomo/wiki",
+        "source": "https://github.com/matomo-org/matomo"
     },
     "config":{
         "platform": {
@@ -47,7 +47,7 @@
         "composer/semver": "~1.3.0",
         "szymach/c-pchart": "^2.0",
         "geoip2/geoip2": "^2.8",
-        "davaxi/sparkline": "^1.1",
+        "davaxi/sparkline": "dev-multiple-series",
         "matomo-org/jshrink": "1.3.1"
     },
     "require-dev": {
@@ -113,6 +113,10 @@
                     "reference": "v1.3.1"
                 }
             }
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/matomo-org/Sparkline.git"
         }
     ],
     "scripts": {

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
@@ -33,7 +34,38 @@ class Referrers extends \Piwik\Plugin
             'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral',
             'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
             'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
+            'API.getPagesComparisonsDisabledFor'     => 'getPagesComparisonsDisabledFor',
+            'Metrics.getDefaultMetricTranslations' => 'getDefaultMetricTranslations',
         );
+    }
+
+    public function getDefaultMetricTranslations(&$translations)
+    {
+        $translations['Referrers_visitorsFromSearchEngines'] = Piwik::translate('Referrers_VisitorsFromSearchEngines');
+        $translations['Referrers_visitorsFromSearchEngines_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromSearchEngines']);
+
+        $translations['Referrers_visitorsFromSocialNetworks'] = Piwik::translate('Referrers_VisitorsFromSocialNetworks');
+        $translations['Referrers_visitorsFromSocialNetworks_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromSocialNetworks']);
+
+        $translations['Referrers_visitorsFromDirectEntry'] = Piwik::translate('Referrers_VisitorsFromDirectEntry');
+        $translations['Referrers_visitorsFromDirectEntry_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromDirectEntry']);
+
+        $translations['Referrers_visitorsFromWebsites'] = Piwik::translate('Referrers_VisitorsFromWebsites');
+        $translations['Referrers_visitorsFromWebsites_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromWebsites']);
+
+        $translations['Referrers_visitorsFromCampaigns'] = Piwik::translate('Referrers_VisitorsFromCampaigns');
+        $translations['Referrers_visitorsFromCampaigns_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromCampaigns']);
+
+        $translations[Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
+        $translations[Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctSocialNetworks'));
+        $translations[Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
+        $translations[Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
+        $translations[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'Referrers_Referrers.Referrers_URLCampaignBuilder';
     }
 
     public function getStylesheetFiles(&$stylesheets)

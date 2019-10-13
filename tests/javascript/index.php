@@ -17,7 +17,7 @@ $root = dirname(__FILE__) . '/../..';
 try {
     $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
 } catch (Exception $e) {
-    echo 'alert("' . $e->getMessage() .  '")';
+    echo 'alert("ERROR, not all tests are running! --> ' . $e->getMessage() .  '")';
     $mysql = false;
 }
 
@@ -2378,14 +2378,8 @@ function PiwikTest() {
         equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
         equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
-
-        try {
-            // should throw exception when no idSite given
-            asyncTracker.addTracker(tracker.url);
-            ok(false, 'addTracker() without siteId expected exception has not been triggered');
-        } catch (e) {
-            ok(true, 'addTracker() siteId expected exception has been triggered');
-        }
+        var trackerWithoutIdSite = asyncTracker.addTracker(tracker.url);
+        ok(!!trackerWithoutIdSite, 'addTracker() without siteId can be called');
 
         // getting a specific tracker instance
 
@@ -3293,6 +3287,30 @@ function PiwikTest() {
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
     });
 
+    test("POST requests are sent with cookies", function() {
+        expect(3);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token": '---' });
+        tracker.setRequestMethod('POST');
+
+        var callbackCalled = false;
+        tracker.trackPageView('withCredentialsTest', null, function (event) {
+            callbackCalled = true;
+            ok(event.success, 'succeeded');
+            ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
+        });
+
+        stop();
+        setTimeout(function() {
+            ok(callbackCalled, 'called the callback');
+
+            start();
+        }, 2000);
+    });
+
     // support for setCustomRequestProcessing( customRequestContentProcessingLogic )
     test("Tracker setCustomRequestProcessing() and getRequest()", function() {
         expect(4);
@@ -3611,7 +3629,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(164);
+        expect(165);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3698,8 +3716,8 @@ if ($mysql) {
         equal(tracker.getCustomDimension('not valid'), null, "if custom dimension index is invalid should return null");
         tracker.setCustomDimension(1, 5);
         equal(tracker.getCustomDimension(1), "5", "set custom dimension should convert any value to a string" );
-        tracker.setCustomDimension(1, "my custom value");
-        equal(tracker.getCustomDimension(1), "my custom value", "should get stored custom dimension value" );
+        tracker.setCustomDimension(1, "my custom value with éàç&*() EOL");
+        equal(tracker.getCustomDimension(1), "my custom value with éàç&*() EOL", "should get stored custom dimension value" );
         tracker.setCustomDimension(2, undefined);
         equal(tracker.getCustomDimension(2), "", "setCustomDimension should convert undefined to an empty string" );
 
@@ -3756,7 +3774,7 @@ if ($mysql) {
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
-        equal(tracker.getCustomDimension(1), "my custom value", "custom dimensions should not be cleared after a tracked pageview");
+        equal(tracker.getCustomDimension(1), "my custom value with éàç&*() EOL", "custom dimensions should not be cleared after a tracked pageview");
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
@@ -4077,7 +4095,11 @@ if ($mysql) {
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "41", "count tracking events" );
+            var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
+            ok (countTrackingEvents, "countTrackingEvents is set");
+            if(countTrackingEvents) {
+                equal( countTrackingEvents[1], "41", "count tracking events" );
+            }
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -4124,10 +4146,10 @@ if ($mysql) {
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
 
             // Test CustomDimension (persistent ones across requests)
-            ok( /dimension1=my%20custom%20value&dimension2=&/.test(results), "test custom dimensions are set");
+            ok( /dimension1=my%20custom%20value%20with%20%C3%A9%C3%A0%C3%A7%26\*\(\)%20EOL&dimension2=&/.test(results), "test custom dimensions are set");
 
             // send along a page view and ony valid for this pageview (dimension 2 overwrites another one)
-            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%20custom%20value&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
+            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%.*&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
 
             // Test campaign parameters set
             ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found");

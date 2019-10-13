@@ -104,6 +104,7 @@
         "StandardReport": "Standardiraportti",
         "FlattenReport": "Litistä raportti",
         "ReportWithMetadata": "Raportti metadatan kera",
-        "SeeAvailableVersions": "Näytä saatavilla olevat versiot"
+        "SeeAvailableVersions": "Näytä saatavilla olevat versiot",
+        "QuickLinks": "Pikalinkit"
     }
 }

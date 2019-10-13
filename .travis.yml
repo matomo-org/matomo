@@ -43,7 +43,10 @@ matrix:
       env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
     - php: 5.6
-      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=IntegrationTestsCore MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=IntegrationTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
     - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL

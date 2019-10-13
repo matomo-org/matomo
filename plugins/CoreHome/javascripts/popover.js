@@ -296,6 +296,10 @@ var Piwik_Popover = (function () {
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send();
+        },
+
+        isOpen: function() {
+            return isOpen;
         }
     };
 })();

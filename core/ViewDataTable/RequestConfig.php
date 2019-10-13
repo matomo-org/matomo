@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -95,7 +95,10 @@ class RequestConfig
         'expanded',
         'pivotBy',
         'pivotByColumn',
-        'pivotByColumnLimit'
+        'pivotByColumnLimit',
+        'compareSegments',
+        'comparePeriods',
+        'compareDates',
     );
 
     /**
@@ -117,7 +120,10 @@ class RequestConfig
         'expanded',
         'pivotBy',
         'pivotByColumn',
-        'pivotByColumnLimit'
+        'pivotByColumnLimit',
+        'compareSegments',
+        'comparePeriods',
+        'compareDates',
     );
 
     /**
@@ -271,6 +277,27 @@ class RequestConfig
      * @var int
      */
     public $pivotByColumnLimit = false;
+
+    /**
+     * List of segments to compare with. Defaults to segments used in `compareSegments[]` query parameter.
+     *
+     * @var array
+     */
+    public $compareSegments = [];
+
+    /**
+     * List of period labels to compare with. Defaults to values used in `comparePeriods[]` query parameter.
+     *
+     * @var array
+     */
+    public $comparePeriods = [];
+
+    /**
+     * List of period dates to compare with. Defaults to values used in `compareDates[]` query parameter.
+     *
+     * @var array
+     */
+    public $compareDates = [];
 
     public function getProperties()
     {

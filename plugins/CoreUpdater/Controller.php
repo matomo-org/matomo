@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -99,9 +99,9 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/CoreHome/javascripts/donate.js',
             'plugins/CoreUpdater/javascripts/updateLayout.js',
             'libs/bower_components/angular/angular.min.js',
-            'libs/bower_components/angular-sanitize/angular-sanitize.js',
-            'libs/bower_components/angular-animate/angular-animate.js',
-            'libs/bower_components/angular-cookies/angular-cookies.js',
+            'libs/bower_components/angular-sanitize/angular-sanitize.min.js',
+            'libs/bower_components/angular-animate/angular-animate.min.js',
+            'libs/bower_components/angular-cookies/angular-cookies.min.js',
             'libs/bower_components/ngDialog/js/ngDialog.min.js',
             'plugins/CoreHome/angularjs/common/services/service.module.js',
             'plugins/CoreHome/angularjs/common/filters/filter.module.js',

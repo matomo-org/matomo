@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "使用區隔編輯器建立並重新使用自定訪客區隔。",
         "AddANDorORCondition": "增加【%s】條件",
         "AddNewSegment": "新增區隔",
         "AreYouSureDeleteSegment": "你確定要刪除這個區隔？",
@@ -35,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s 是這些區隔的聯合：",
         "CustomSegment": "自訂區隔",
         "SegmentOperatorIsNullOrEmpty": "是無效或空值",
-        "SegmentOperatorIsNotNullNorEmpty": "不是無效或空值"
+        "SegmentOperatorIsNotNullNorEmpty": "不是無效或空值",
+        "Test": "測試"
     }
 }

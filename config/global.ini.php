@@ -45,6 +45,18 @@ ssl_no_verify =
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
+; If configured, the following queries will be executed on the reader instead of the writer.
+; * archiving queries that hit a log table
+; * live queries that hit a log table
+; You only want to enable a reader if you can ensure there is minimal replication lag / delay on the reader.
+; Otherwise you might get corrupt data in the reports.
+[database_reader]
+host =
+username =
+password =
+dbname =
+port = 3306
+
 [database_tests]
 host = localhost
 username = "@USERNAME@"
@@ -196,6 +208,12 @@ enable_processing_unique_visitors_multiple_sites = 0
 enabled_periods_UI = "day,week,month,year,range"
 enabled_periods_API = "day,week,month,year,range"
 
+; whether to enable segment archiving cache
+; Note: if you use any plugins, this need to be compliant with Matomo and
+; * depending on the segment you create you may need a newer MySQL version (eg 5.7 or newer)
+; * use a reader database for archiving in case you have configured a database reader
+enable_segments_cache = 1
+
 ; whether to enable subquery cache for Custom Segment archiving queries
 enable_segments_subquery_cache = 0
 ; Any segment subquery that matches more than segments_subquery_cache_limit IDs will not be cached,
@@ -343,6 +361,11 @@ enable_browser_archiving_triggering = 1
 ; archiver does not archive any custom date ranges, you must either disable range (using enabled_periods_API and enabled_periods_UI)
 ; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
+
+; By default Matomo will automatically archive all date ranges any user has chosen in his account settings.
+; This is limited to the available options last7, previous7, last30 and previous30.
+; If you need any other period, or want to ensure one of those is always archived, you can define them here
+archiving_custom_ranges[] =
 
 ; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
@@ -525,6 +548,12 @@ live_widget_visitor_count_last_minutes = 3
 ; this limit can be adjusted by changing this value
 live_visitor_profile_max_visits_to_aggregate = 100
 
+; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
+; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
+; limited. Note: This feature requires a recent MySQL version (5.7 or newer). Some MySQL forks like MariaDB might not
+; support this feature which uses the MAX_EXECUTION_TIME hint.
+live_query_max_execution_time = -1
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
@@ -624,6 +653,9 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
+; Controls whether the user is able to upload a custom logo for their Matomo install
+enable_custom_logo = 1
+
 ; By default we check whether the Custom logo is writable or not, before we display the Custom logo file uploader
 enable_custom_logo_check = 1
 
@@ -644,6 +676,12 @@ enable_load_data_infile = 1
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
+
+; By setting this option to 0 the users management will be disabled
+enable_users_admin = 1
+
+; By setting this option to 0 the websites management will be disabled
+enable_sites_admin = 1
 
 ; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
 ; Enabling this opens a remote code execution vulnerability where
@@ -698,12 +736,22 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The maximum number of segments that can be compared simultaneously.
+data_comparison_segment_limit = 5
+
+; The maximum number of periods that can be compared simultaneously.
+data_comparison_period_limit = 5
+
 ; The path to a custom cacert.pem file Matomo should use.
 ; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
 ; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
 ; Most users will not have to use a custom file here, but if you run your Matomo instance behind a proxy server/firewall that
 ; breaks and reencrypts SSL connections you can set your custom file here. 
 custom_cacert_pem=
+
+; Whether or not to send weekly emails to superusers about tracking failures.
+; Default is 1.
+enable_tracking_failures_notification = 1
 
 [Tracker]
 
@@ -773,7 +821,7 @@ default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
 ; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
 ; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.

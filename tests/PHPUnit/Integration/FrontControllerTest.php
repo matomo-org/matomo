@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -13,6 +13,7 @@ use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Session;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -47,12 +48,12 @@ FORMAT;
         $this->assertEquals('error', $response['result']);
 
         $expectedFormat = <<<FORMAT
-test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(780): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, NULL) #3 {includePath}/core/FrontController.php(569): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(165): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', NULL) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(775): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, NULL) #3 {includePath}/core/FrontController.php(569): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(165): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', NULL) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
 FORMAT;
 
         if (PHP_MAJOR_VERSION >= 7) {
             $expectedFormat = <<<FORMAT
-test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(780): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, Array) #3 {includePath}/core/FrontController.php(569): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(165): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23) #0 [internal function]: {closure}('CoreHome', 'index', Array) #1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array) #2 {includePath}/core/Piwik.php(775): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, Array) #3 {includePath}/core/FrontController.php(569): Piwik\Piwik::postEvent('Request.dispatc...', Array) #4 {includePath}/core/FrontController.php(165): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', Array) #5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index') #6 {main}
 FORMAT;
         }
 
@@ -64,6 +65,8 @@ FORMAT;
      */
     public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
     {
+        Session::start();
+
         Access::getInstance()->setSuperUserAccess(false);
 
         $sessionFingerprint = new SessionFingerprint();

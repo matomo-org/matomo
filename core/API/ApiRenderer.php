@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\SettingsServer;
 
 /**
  * API renderer
@@ -30,6 +31,11 @@ abstract class ApiRenderer
 
     protected function init()
     {
+    }
+
+    protected function shouldSendBacktrace()
+    {
+        return Common::isPhpCliMode() && SettingsServer::isArchivePhpTriggered();
     }
 
     abstract public function sendHeader();

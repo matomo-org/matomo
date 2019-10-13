@@ -21,11 +21,11 @@
 	</previousPages>
 	<previousSiteSearches>
 		<row>
-			<label>mykwd</label>
+			<label>anotherkwd</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>anotherkwd</label>
+			<label>mykwd</label>
 			<referrals>1</referrals>
 		</row>
 	</previousSiteSearches>
@@ -49,11 +49,11 @@
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>page title - the/third_page.html?foo=baz#anchor2</label>
+			<label>page title - page3.html</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>page title - page3.html</label>
+			<label>page title - the/third_page.html?foo=baz#anchor2</label>
 			<referrals>1</referrals>
 		</row>
 	</followingPages>
@@ -65,11 +65,11 @@
 	</followingSiteSearches>
 	<outlinks>
 		<row>
-			<label>http://www.anothersite.com/to/outlink/page.html</label>
+			<label>http://anothersite.com/to/outlink/page2.html</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>http://anothersite.com/to/outlink/page2.html</label>
+			<label>http://www.anothersite.com/to/outlink/page.html</label>
 			<referrals>1</referrals>
 		</row>
 	</outlinks>

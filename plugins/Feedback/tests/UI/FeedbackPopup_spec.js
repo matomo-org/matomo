@@ -9,9 +9,9 @@
 
 describe("FeedbackPopup", function () {
     this.timeout(0);
-    this.fixture = "Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackPopupFixture ";
+    this.fixture = "Piwik\\Plugins\\Feedback\\tests\\Fixtures\\FeedbackPopupFixture";
 
-    var url = "?module=CoreHome&action=index&idSite=1&period=day&date=yesterday";
+    var url = "?module=CoreHome&action=index&idSite=1&period=day&date=2019-07-11&forceFeedbackTest=1";
 
     before(async function() {
         await page.webpage.setViewport({
@@ -30,6 +30,7 @@ describe("FeedbackPopup", function () {
         // Click on the "Remind me in 90 days" button = the popup shouldn't appear for the next test
         var remindLaterBtn = await modal.$$('.modal-footer .btn-flat');
         await remindLaterBtn[0].click();
+        await page.waitForNetworkIdle();
     });
 
     it('should not display popup when next reminder date is in future', async function () {

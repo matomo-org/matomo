@@ -37,6 +37,7 @@
             <div piwik-field uicontrol="radio" name="filter_limit_all"
                  data-title="{{ 'CoreHome_RowLimit'|translate }}"
                  ng-model="$parent.reportLimitAll"
+                 ng-hide="maxFilterLimit > 0"
                  full-width="false"
                  options="limitAllOptions">
             </div>
@@ -44,7 +45,17 @@
                  min="1"
                  ng-model="$parent.reportLimit"
                  full-width="false"
-                 ng-show="$parent.reportLimitAll == 'no'">
+                 ng-show="$parent.reportLimitAll == 'no' && maxFilterLimit <= 0">
+            </div>
+
+            <div piwik-field uicontrol="number" name="filter_limit"
+                 min="1"
+                 max="{{ scope.reportLimit }}"
+                 ng-model="$parent.reportLimit"
+                 ng-keypress="scope.checkNumberForLimit"
+                 full-width="false"
+                 data-title="{{ 'CoreHome_RowLimit'|translate }} ({{ 'General_ComputedMetricMax'|translate:maxFilterLimit }})"
+                 ng-show="$parent.reportLimitAll == 'no' && maxFilterLimit > 0">
             </div>
         </div>
     </div>

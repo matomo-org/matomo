@@ -22,7 +22,7 @@
 		<description>You can customize the Matomo logo which will be displayed in the user interface and email reports.</description>
 		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
-		<url>index.php?module=CoreAdminHome&amp;action=generalSettings#useCustomLogo</url>
+		<url>index.php?module=CoreAdminHome&amp;action=generalSettings#/#useCustomLogo</url>
 	</row>
 	<row>
 		<id>add_user</id>

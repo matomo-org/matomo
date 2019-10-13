@@ -52,11 +52,20 @@
                 <h3>Integrations</h3>
                 <p>{{ 'Installation_JSTracking_Intro'|translate }}</p>
 
-                <p>{{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
+                <p>{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer noopener" target="_blank">','</a>')|raw }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate|raw }}</p>
 
-                <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+                <div class="valign-wrapper trackingHelpHeader">
+                    <div>
 
-                <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                        <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+
+                        <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+                    </div>
+                    <a class="btn" id="emailTrackingCodeBtn"
+                       href="mailto:?subject={{ 'SitesManager_EmailInstructionsSubject'|translate|url_encode|e('html_attr') }}&body={{ emailBody|url_encode|e('html_attr') }}">
+                        {{ 'SitesManager_EmailInstructionsButton'|translate }}
+                    </a>
+                </div>
 
                 <pre piwik-select-on-focus>{{ jsTag|raw }}</pre>
 
@@ -77,7 +86,10 @@
 
                 <h3>{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</h3>
                 <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
-                <p></p>
+
+                {% if googleAnalyticsImporterMessage is defined %}
+                {{ googleAnalyticsImporterMessage|raw }}
+                {% endif %}
 
                 {{ postEvent('Template.endTrackingHelpPage') }}
 

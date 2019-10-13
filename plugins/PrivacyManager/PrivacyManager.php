@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,6 +25,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
 
@@ -202,6 +203,11 @@ class PrivacyManager extends Plugin
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
+
+        $purgeSettings = PrivacyManager::getPurgeDataSettings();
+        $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
+        $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
+        $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
     }
 
     public function getJsFiles(&$jsFiles)
@@ -318,6 +324,8 @@ class PrivacyManager extends Plugin
                 Option::set($configName, $settings[$configName]);
             }
         }
+
+        Cache::deleteTrackerCache();
     }
 
     /**

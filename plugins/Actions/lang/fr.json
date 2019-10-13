@@ -57,7 +57,7 @@
         "SiteSearchCategory": "Catégories (recherche du site)",
         "SiteSearchCategories": "Catégories (recherche du site)",
         "SiteSearchKeyword": "Mot-clé (recherche du site)",
-        "SiteSearchKeywords": "Mots clefs (recherche du site)",
+        "SiteSearchKeywords": "Mots-clés (recherche du site)",
         "SiteSearchKeywordsDocumentation": "Ce rapport liste les mots-clés recherchés dans votre moteur de recherche interne.",
         "SiteSearchKeywordsNoResultDocumentation": "Ce rapport liste les mots-clés de recherche qui n'ont retourné aucun résultat: peut-être est-il possible d'améliorer l'algorithme de recherche, ou peut-être que vos visiteurs cherchent du contenu qui n'est pas (encore) sur votre site web ?",
         "SubmenuPagesEntry": "Pages d'entrée",

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -55,6 +55,7 @@ class Manager
     protected $doLoadPlugins = true;
 
     protected static $pluginsToPathCache = array();
+    protected static $pluginsToWebRootDirCache = array();
 
     private $pluginsLoadedAndActivated;
 
@@ -381,6 +382,17 @@ class Manager
                 });
             }
         }
+
+        $envCopyDir =  getenv('MATOMO_PLUGIN_COPY_DIR');
+        if (!empty($envCopyDir)) {
+            $GLOBALS['MATOMO_PLUGIN_COPY_DIR'] = $envCopyDir;
+        }
+        
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])
+            && !in_array($GLOBALS['MATOMO_PLUGIN_COPY_DIR'], self::getPluginsDirectories())
+        ) {
+            throw new \Exception('"MATOMO_PLUGIN_COPY_DIR" dir must be one of "MATOMO_PLUGIN_DIRS" directories');
+        }
     }
 
     public static function getAlternativeWebRootDirectories()
@@ -396,6 +408,11 @@ class Manager
         }
 
         return $dirs;
+    }
+
+    public function getWebRootDirectoriesForCustomPluginDirs()
+    {
+        return array_intersect_key(self::$pluginsToWebRootDirCache, array_flip($this->pluginsToLoad));
     }
 
     /**
@@ -454,10 +471,11 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
-        foreach (self::getPluginsDirectories() as $dir) {
+        foreach (self::getAlternativeWebRootDirectories() as $dir => $relative) {
             $path = $dir . $pluginName;
             if (is_dir($path)) {
                 self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($path);
+                self::$pluginsToWebRootDirCache[$pluginName] = $relative;
                 return $path;
             }
         }
@@ -1629,3 +1647,4 @@ class Manager
         }
     }
 }
+

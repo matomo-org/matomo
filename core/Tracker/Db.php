@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -261,18 +261,13 @@ abstract class Db
          */
         Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
-        switch ($configDb['adapter']) {
-            case 'PDO\MYSQL':
-            case 'PDO_MYSQL': // old format pre Piwik 2
-                require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Pdo/Mysql.php';
-                return new Mysql($configDb);
+        $className = 'Piwik\Tracker\Db\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($configDb['adapter']))));
 
-            case 'MYSQLI':
-                require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Mysqli.php';
-                return new Mysqli($configDb);
+        if (!class_exists($className)) {
+           throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
         }
 
-        throw new Exception('Unsupported database adapter ' . $configDb['adapter']);
+        return new $className($configDb);
     }
 
     public static function connectPiwikTrackerDb()

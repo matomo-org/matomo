@@ -14,7 +14,7 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>72</sum_time_spent>
 				<url>http://piwik.org/path/again/latest.zip</url>
-				<segment>downloadUrl==http%3A%2F%2Fpiwik.org%2Fpath%2Fagain%2Flatest.zip</segment>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.org%252Fpath%252Fagain%252Flatest.zip</segment>
 			</row>
 		</subtable>
 	</row>

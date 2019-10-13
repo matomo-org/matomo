@@ -206,9 +206,16 @@ div.scrollable {
     cursor: pointer;
 }
 
-.segmentationContainer .submenu ul li:hover {
+.segmentationContainer .submenu ul li:hover,
+.segmentationContainer .submenu ul li:focus,
+.segmentationContainer .submenu ul li:focus-within {
     color: #255792;
     background: @color-silver-l95;
+    outline: none;
+
+    > * {
+        outline: none;
+    }
 }
 
 .segmentationContainer ul.submenu {
@@ -217,19 +224,46 @@ div.scrollable {
     margin-bottom: 5px;
 }
 
-.segmentationContainer ul.submenu > li span.editSegment {
-    display: block;
-    float: right;
-    text-align: center;
-    margin-right: 4px;
-    font-weight: normal;
-    background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
-    width: 16px;
-    height: 16px;
-    .opacity(0.5);
+.segmentationContainer ul.submenu > li {
+    span.editSegment, span.compareSegment {
+        display: block;
+        float: right;
+        text-align: center;
+        margin-right: 4px;
+        font-weight: normal;
+        width: 16px;
+        height: 16px;
+        .opacity(0.5);
 
-    &:hover {
-        .opacity(1);
+        &:hover {
+            .opacity(1);
+        }
+    }
+
+    span.editSegment {
+        background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+    }
+
+    span.compareSegment {
+        background: url(plugins/Morpheus/images/compare.svg) no-repeat;
+        background-size: cover;
+
+        &.allVisitsCompareSegment {
+            margin-right: 24px;
+        }
+    }
+    
+    li.segmentSelected, li.comparedSegment {
+        span.compareSegment {
+            pointer-events: none;
+            opacity: 0.2;
+        }
+    }
+}
+
+html.comparisonsDisabled .segmentationContainer ul.submenu {
+    span.compareSegment {
+        display: none;
     }
 }
 
@@ -384,7 +418,11 @@ a.metric_category {
     margin: 8px;
 }
 
-.segmentSelected, .segmentSelected:hover, .segmentEditorPanel .segmentationContainer .submenu li .segmentSelected {
+.segmentSelected,
+.segmentSelected:hover,
+.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected,
+.segmentEditorPanel .segmentationContainer .submenu li:focus,
+.segmentEditorPanel .segmentationContainer .submenu li:focus-within {
     font-weight: bold;
 }
 

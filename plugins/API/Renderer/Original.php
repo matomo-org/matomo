@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -29,10 +29,16 @@ class Original extends ApiRenderer
     public function renderException($message, $exception)
     {
         if ($this->shouldSerialize()) {
-            return serialize([
+            $data = [
                 'result' => 'error',
                 'message' => $message,
-            ]);
+            ];
+
+            if ($this->shouldSendBacktrace()) {
+                $data['backtrace'] = $exception->getTraceAsString();
+            }
+
+            return serialize($data);
         }
 
         throw $exception;

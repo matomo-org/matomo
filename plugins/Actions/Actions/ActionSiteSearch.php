@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -123,7 +123,7 @@ class ActionSiteSearch extends Action
         return $customVariables;
     }
 
-    protected function detectSiteSearchFromUrl($website, $parsedUrl)
+    public static function detectSiteSearchFromUrl($website, $parsedUrl, $pageEncoding = null)
     {
         $doRemoveSearchParametersFromUrl = true;
         $separator = '&';
@@ -154,7 +154,6 @@ class ActionSiteSearch extends Action
             $parameters[Common::mb_strtolower($k)] = $v;
         }
         // decode values if they were sent from a client using another charset
-        $pageEncoding = $this->request->getParam('cs');
         PageUrl::reencodeParameters($parameters, $pageEncoding);
 
         // Detect Site Search keyword
@@ -183,7 +182,7 @@ class ActionSiteSearch extends Action
         }
 
         if (isset($parameters['search_count'])
-            && $this->isValidSearchCount($parameters['search_count'])
+            && self::isValidSearchCount($parameters['search_count'])
         ) {
             $count = $parameters['search_count'];
         }
@@ -226,7 +225,7 @@ class ActionSiteSearch extends Action
         return array($url, $actionName, $categoryName, $count);
     }
 
-    protected function isValidSearchCount($count)
+    protected static function isValidSearchCount($count)
     {
         return is_numeric($count) && $count >= 0;
     }
@@ -263,7 +262,7 @@ class ActionSiteSearch extends Action
             // Detect Site Search from URL query parameters
             if (!empty($parsedUrl['query']) || !empty($parsedUrl['fragment'])) {
                 // array($url, $actionName, $categoryName, $count);
-                $searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl);
+                $searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl, $this->request->getParam('cs'));
                 if (!empty($searchInfo)) {
                     list ($url, $actionName, $categoryName, $count) = $searchInfo;
                 }

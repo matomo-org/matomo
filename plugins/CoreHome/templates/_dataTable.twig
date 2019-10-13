@@ -29,7 +29,7 @@
 
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
-<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
+<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %} {% if isComparing|default(false) %}isComparing{% endif %}"
      data-table-type="{{ properties.datatable_js_type }}"
      data-report="{{ properties.report_id }}"
      data-report-metadata="{{ reportMetdadata|json_encode|e('html_attr') }}"
@@ -47,7 +47,7 @@
 
     <div class="dataTableWrapper">
         {% if error is defined %}
-            {{ error.message }}
+            <div piwik-alert="danger">{{ error.message }}</div>
         {% else %}
             {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
                 <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>

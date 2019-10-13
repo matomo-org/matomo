@@ -39,7 +39,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page1</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage1</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage1</segment>
 				</row>
 				<row>
 					<label>/Page2</label>
@@ -55,7 +55,7 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page2</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage2</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage2</segment>
 				</row>
 				<row>
 					<label>/Page3</label>
@@ -71,7 +71,77 @@
 					<bounce_rate>0%</bounce_rate>
 					<exit_rate>0%</exit_rate>
 					<url>http://example.org/category/Page3</url>
-					<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage3</segment>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage3</segment>
+				</row>
+			</subtable>
+		</row>
+		<row>
+			<label>/Contact</label>
+			<nb_visits>1</nb_visits>
+			<nb_hits>1</nb_hits>
+			<sum_time_spent>0</sum_time_spent>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<avg_bandwidth>0</avg_bandwidth>
+			<avg_time_on_page>0</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>0%</exit_rate>
+			<url>http://example.org/Contact</url>
+			<segment>pageUrl==http%253A%252F%252Fexample.org%252FContact</segment>
+		</row>
+		<row>
+			<label>/Home</label>
+			<nb_visits>1</nb_visits>
+			<nb_hits>1</nb_hits>
+			<sum_time_spent>0</sum_time_spent>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<avg_bandwidth>0</avg_bandwidth>
+			<avg_time_on_page>0</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>0%</exit_rate>
+			<url>http://example.org/Home</url>
+			<segment>pageUrl==http%253A%252F%252Fexample.org%252FHome</segment>
+		</row>
+		<row>
+			<label>Contact</label>
+			<nb_visits>1</nb_visits>
+			<nb_hits>1</nb_hits>
+			<sum_time_spent>0</sum_time_spent>
+			<sum_bandwidth>0</sum_bandwidth>
+			<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+			<min_bandwidth />
+			<max_bandwidth />
+			<exit_nb_visits>1</exit_nb_visits>
+			<avg_bandwidth>0</avg_bandwidth>
+			<avg_time_on_page>0</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>100%</exit_rate>
+			<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252FContact</segment>
+			<subtable>
+				<row>
+					<label>/ThankYou</label>
+					<nb_visits>1</nb_visits>
+					<nb_hits>1</nb_hits>
+					<sum_time_spent>0</sum_time_spent>
+					<sum_bandwidth>0</sum_bandwidth>
+					<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+					<min_bandwidth />
+					<max_bandwidth />
+					<exit_nb_visits>1</exit_nb_visits>
+					<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+					<avg_time_on_page>0</avg_time_on_page>
+					<bounce_rate>0%</bounce_rate>
+					<exit_rate>100%</exit_rate>
+					<url>http://example.org/Contact/ThankYou</url>
+					<segment>pageUrl==http%253A%252F%252Fexample.org%252FContact%252FThankYou</segment>
 				</row>
 			</subtable>
 		</row>

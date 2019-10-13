@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -43,4 +43,10 @@ class RowEvolutionTest extends IntegrationTestCase
         $this->assertNotEmpty($table);
     }
 
+    public function test_getRowEvolution_shouldReturnEmptyArray_IfNoData()
+    {
+        $rowEvolution = new RowEvolution();
+        $table = $rowEvolution->getRowEvolution(1, 'day', 'last7', 'Actions', 'getSiteSearchCategories');
+        $this->assertEquals(array(), $table);
+    }
 }

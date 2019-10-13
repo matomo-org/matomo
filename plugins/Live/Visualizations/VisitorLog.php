@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -112,19 +112,27 @@ class VisitorLog extends Visualization
         $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        $this->config->footer_icons = array(
-            array(
-                'class'   => 'tableAllColumnsSwitch',
-                'buttons' => array(
-                    array(
-                        'id'    => static::ID,
-                        'title' => Piwik::translate('Live_LinkVisitorLog'),
-                        'icon'  => 'plugins/Morpheus/images/table.png'
+        if (Common::getRequestVar('inPopover', '0') === '0') {
+            $this->config->footer_icons = array(
+                array(
+                    'class'   => 'tableAllColumnsSwitch',
+                    'buttons' => array(
+                        array(
+                            'id'    => static::ID,
+                            'title' => Piwik::translate('Live_LinkVisitorLog'),
+                            'icon'  => 'plugins/Morpheus/images/table.png'
+                        )
                     )
                 )
-            )
-        );
-
+            );
+        } else {
+            // It's opening in a popover, just show a few records and don't give the user any actions to play with
+            $this->config->footer_icons = array();
+            $this->config->show_export = false;
+            $this->config->show_pagination_control = false;
+            $this->config->show_limit_control = false;
+            $this->requestConfig->filter_limit = 10;
+        }
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -208,6 +208,7 @@ class TestTracker extends Tracker
 {
     public function __construct()
     {
+        parent::__construct();
         $this->record = true;
     }
 

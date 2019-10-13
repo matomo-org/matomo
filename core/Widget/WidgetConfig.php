@@ -2,12 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Widget;
 
+use Piwik\Access;
 use Piwik\Piwik;
 use Exception;
 
@@ -258,6 +259,10 @@ class WidgetConfig
     public function checkIsEnabled()
     {
         if (!$this->isEnabled()) {
+            // Some widgets are disabled when the user is not superuser. If the user is not logged in, we should
+            // prompt them to do this first rather than showing them the "widget not enabled" error
+            Access::getInstance()->checkUserIsNotAnonymous();
+
             throw new Exception(Piwik::translate('General_ExceptionWidgetNotEnabled'));
         }
     }

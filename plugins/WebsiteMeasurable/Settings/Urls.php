@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -115,7 +115,11 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
             if (empty($scheme)
                 && strpos($url, '://') === false
             ) {
-                $url = 'http://' . $url;
+                if (strpos($url, '//') === 0) {
+                    $url = 'http:' . $url;
+                } else {
+                    $url = 'http://' . $url;
+                }
             }
             $url = trim($url);
             $url = Common::sanitizeInputValue($url);

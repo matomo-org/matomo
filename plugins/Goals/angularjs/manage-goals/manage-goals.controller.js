@@ -194,6 +194,22 @@
             }});
         };
 
+        this.isMatchAttributeNumeric = function () {
+            return ['visit_duration'].indexOf(this.goal.matchAttribute) > -1;
+        };
+
+        this.initPatternType = function () {
+            if (this.isMatchAttributeNumeric()) {
+                this.goal.patternType = 'greater_than';
+            } else {
+                this.goal.patternType = 'contains';
+            }
+        };
+
+        this.getPatternFieldLabel = function () {
+            return this.goal.matchAttribute === 'visit_duration' ? _pk_translate('Goals_TimeInMinutes') : _pk_translate('Goals_Pattern');
+        };
+
         this.showListOfReports(false);
     }
 })();

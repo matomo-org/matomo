@@ -39,6 +39,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         if (testEnvironment.configOverride.General) {
             delete testEnvironment.configOverride.General;
         }
+        if (testEnvironment.idSitesViewAccess) {
+            delete testEnvironment.idSitesViewAccess;
+        }
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -222,8 +225,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await (await page.jQuery('circle:eq(0)')).hover();
         await page.waitFor('.ui-tooltip', { visible: true }); // wait for tooltip
         await page.evaluate(function(){
-            $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
+            $('.ui-tooltip:visible .rel-time').data('actiontime', (Date.now() - (4 * 24 * 60 * 60 * 1000)) / 1000);
         });
+
+        // updating the time might take up to one second
+        await page.waitFor(1000);
 
         expect(await page.screenshotSelector('.pageWrap,.ui-tooltip')).to.matchImage('visitors_realtime_map');
     });
@@ -474,6 +480,11 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // one page w/ segment
     it('should load the visitors > overview page correctly when a segment is specified', async function () {
+        testEnvironment.overrideConfig('General', {
+            enable_segments_cache: 0
+        });
+        testEnvironment.save();
+
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
 
         expect(await page.screenshotSelector('.pageWrap,.top_controls')).to.matchImage('visitors_overview_segment');
@@ -623,34 +634,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await pageWrap.screenshot()).to.matchImage('admin_manage_websites');
     });
 
-    it('should load the user settings admin page correctly', async function () {
-        await page.goto("?" + generalParams + "&module=UsersManager&action=userSettings");
-
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings');
-    });
-
-    it('should ask for password confirmation when changing email', async function () {
-        await page.evaluate(function () {
-            $('#userSettingsTable input#email').val('testlogin123@example.com').change();
-        });
-        await page.click('#userSettingsTable [piwik-save-button] .btn');
-        await page.waitFor(500); // wait for animation
-
-        pageWrap = await page.$('.modal.open');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings_asks_confirmation');
-    });
-
-    it('should load error when wrong password specified', async function () {
-        await page.type('.modal.open #currentPassword', 'foobartest123');
-        btnNo = await page.jQuery('.modal.open .modal-action:not(.modal-no)');
-        await btnNo.click();
-        await page.waitForNetworkIdle();
-
-        pageWrap = await page.$('#notificationContainer');
-        expect(await pageWrap.screenshot()).to.matchImage('admin_user_settings_wrong_password_confirmed');
-    });
-
     it('should load the Manage > Tracking Code admin page correctly', async function () {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
 
@@ -770,9 +753,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect(await page.screenshot({ fullPage: true })).to.matchImage('fatal_error_safemode');
     });
 
-    // invalid site parameter
+    // not logged in
     it('should show login form for non super user if invalid idsite given', async function() {
         testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04");
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('not_logged_in');
+    });
+
+    // invalid site parameter
+    it('should show login form for non super user if invalid idsite given', async function() {
+        testEnvironment.idSitesViewAccess = [1, 2];
         testEnvironment.save();
 
         await page.goto("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
@@ -984,7 +977,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.goto(adminUrl);
         await page.waitFor('#notificationContainer');
 
-        const pageWrap = await page.$('.pageWrap');
+        const pageWrap = await page.$('.pageWrap, #notificationContainer');
         expect(await pageWrap.screenshot()).to.matchImage('api_error');
     });
 

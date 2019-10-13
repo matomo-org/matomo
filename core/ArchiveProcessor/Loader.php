@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,13 +24,6 @@ use Piwik\Piwik;
  */
 class Loader
 {
-    /**
-     * Is the current archive temporary. ie.
-     * - today
-     * - current week / month / year
-     */
-    protected $temporaryArchive;
-
     /**
      * Idarchive in the DB for the requested archive
      *
@@ -105,7 +98,7 @@ class Loader
 
             $this->params->setRequestedPlugin('VisitsSummary');
 
-            $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+            $pluginsArchiver = new PluginsArchiver($this->params);
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $pluginsArchiver->finalizeArchive();
 
@@ -120,7 +113,7 @@ class Loader
 
     protected function prepareAllPluginsArchive($visits, $visitsConverted)
     {
-        $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+        $pluginsArchiver = new PluginsArchiver($this->params);
 
         if ($this->mustProcessVisitCount($visits)
             || $this->doesRequestedPluginIncludeVisitsSummary()
@@ -171,45 +164,17 @@ class Loader
     {
         $noArchiveFound = array(false, false, false);
 
-        // see isArchiveTemporary()
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-
         if ($this->isArchivingForcedToTrigger()) {
             return $noArchiveFound;
         }
 
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
+        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params);
 
         if (!$idAndVisits) {
             return $noArchiveFound;
         }
 
         return $idAndVisits;
-    }
-
-    /**
-     * Returns the minimum archive processed datetime to look at. Only public for tests.
-     *
-     * @return int|bool  Datetime timestamp, or false if must look at any archive available
-     */
-    protected function getMinTimeArchiveProcessed()
-    {
-        $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
-        $isArchiveTemporary = ($endDateTimestamp === false);
-        $this->temporaryArchive = $isArchiveTemporary;
-
-        if ($endDateTimestamp) {
-            // Permanent archive
-            return $endDateTimestamp;
-        }
-
-        $dateStart = $this->params->getDateStart();
-        $period    = $this->params->getPeriod();
-        $segment   = $this->params->getSegment();
-        $site      = $this->params->getSite();
-
-        // Temporary archive
-        return Rules::getMinTimeProcessedForTemporaryArchive($dateStart, $period, $segment, $site);
     }
 
     protected static function determineIfArchivePermanent(Date $dateEnd)
@@ -224,15 +189,6 @@ class Loader
         }
 
         return false;
-    }
-
-    protected function isArchiveTemporary()
-    {
-        if (is_null($this->temporaryArchive)) {
-            throw new \Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
-        }
-
-        return $this->temporaryArchive;
     }
 
     private function shouldArchiveForSiteEvenWhenNoVisits()

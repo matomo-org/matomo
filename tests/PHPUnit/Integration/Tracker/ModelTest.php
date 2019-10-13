@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Integration\Tracker;
@@ -65,13 +65,18 @@ class ModelTest extends IntegrationTestCase
 
         $expectedResult = array(
             array(
+                'idaction' => '2',
+                'type' => '1',
+                'name' => 'action1'
+            ),
+            array(
                 'idaction' => '3',
                 'type' => '1',
                 'name' => 'ACTION1'
             ),
             array(
-                'idaction' => '2',
-                'type' => '1',
+                'idaction' => '4',
+                'type' => '2',
                 'name' => 'action1'
             ),
             array(
@@ -79,11 +84,6 @@ class ModelTest extends IntegrationTestCase
                 'type' => '2',
                 'name' => 'action2'
             ),
-            array(
-                'idaction' => '4',
-                'type' => '2',
-                'name' => 'action1'
-            )
         );
         $this->assertEquals($expectedResult, $result);
     }

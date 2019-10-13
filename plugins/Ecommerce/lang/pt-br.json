@@ -1,7 +1,9 @@
 {
     "Ecommerce": {
+        "PluginDescription": "Comércio eletrônico permite rastrear quando os usuários adicionar produtos aos carrinhos e quando eles convertem em uma venda de comércio eletrônico. Rastreie também as visualizações de produtos e categorias de produtos e carrinhos abandonados.",
         "Sales": "Vendas",
         "Order": "Pedido",
+        "OrderId": "ID do pedido",
         "Orders": "Pedidos",
         "SalesBy": "Vendas por %s",
         "SalesAdjective": "Vendas %s",

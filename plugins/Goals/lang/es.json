@@ -109,6 +109,8 @@
         "VisitPageTitle": "Visitar un título de página suministrado",
         "VisitsUntilConv": "Visitas a conversión",
         "VisitUrl": "Visita a una URL dada (página o grupo de páginas)",
+        "VisitDurationMatchAttr": "Se mantuvo por una cierta cantidad de tiempo",
+        "VisitDuration": "la duración de la visita es",
         "WhenVisitors": "cuando los visitantes",
         "WhereThe": "donde el",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La página visitada necesita contener una llamada al método Javascript 'trackGoal' (%1$ssaber más%2$s)",
@@ -116,6 +118,7 @@
         "UseEventValueAsRevenue": "Use el valor del evento (si existiera) como la meta de ingreso de conversión",
         "GoalRevenue": "Meta de ingresos",
         "EventValueAsRevenueHelp": "Si el evento que está haciendo coincidir tiene un ingreso y ese ingreso se registra como el valor del evento, puede habilitar esta opción para registrar el valor del evento como el ingreso de la conversión del objetivo. Si la meta del ingreso no varía según la conversión, puede ignorar esta opción y simplemente establecer un ingreso predeterminado.",
-        "EventValueAsRevenueHelp2": "Nota: Si se definen tanto una meta de ingreso predeterminado tanto como un valor del evento, se utilizará el valor del evento. Si esta opción está habilitada y no se envía ningún valor del evento en una solicitud, se utilizarán los ingresos predeterminados (si están definidos)."
+        "EventValueAsRevenueHelp2": "Nota: Si se definen tanto una meta de ingreso predeterminado tanto como un valor del evento, se utilizará el valor del evento. Si esta opción está habilitada y no se envía ningún valor del evento en una solicitud, se utilizarán los ingresos predeterminados (si están definidos).",
+        "TimeInMinutes": "Tiempo en minutos"
     }
 }

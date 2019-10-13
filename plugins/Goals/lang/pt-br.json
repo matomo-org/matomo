@@ -43,6 +43,7 @@
         "DaysToConv": "Dias para Conversão",
         "Details": "Detalhes da Meta",
         "DefaultGoalConvertedOncePerVisit": "(padrão) A meta só pode ser convertida uma vez por visita",
+        "DefaultRevenueLabel": "Receita padrão da meta",
         "DefaultRevenueHelp": "Por exemplo, um Form Contato submetido por um visitante pode valer $10 em média. Matomo ajudará a entender quão bem o segmento de seus visitantes está funcionando.",
         "DeleteGoalConfirm": "Tem certeza que deseja deletar a meta %s?",
         "DocumentationRevenueGeneratedByProductSales": "As vendas de produtos. Exclui o de impostos transporte, e desconto.",
@@ -64,6 +65,8 @@
         "GoalName": "Nome da meta",
         "Goals": "Metas",
         "NGoals": "%s metas",
+        "NRevenue": "%s receita",
+        "NItems": "%s itens",
         "ManageGoals": "Gerenciar meta",
         "GoalsOverview": "Visão geral de metas",
         "GoalsOverviewDocumentation": "Esta é uma visão geral de suas conversões de metas. Inicialmente, o gráfico mostra a soma de todas as conversões. %s abaixo do gráfico, você pode ver relatórios de conversão para cada uma de suas metas. Os minigráficos podem ser ampliados clicando sobre eles.",
@@ -77,6 +80,7 @@
         "MatchesExpression": "corresponde com a expressão %s",
         "NewGoalIntro": "O acompanhamento de conversões de metas é uma das maneiras mais eficientes para medir e melhorar seus objetivos de negócios.",
         "NewVisitorsConversionRateIs": "Taxa de conversão de novos usuários é %s",
+        "NoGoalsNeedAccess2": "Somente um usuário de escrita, um administrador ou um super usuário pode gerenciar Metas de um site web. Favor pedir ao administrador do Matomo que defina uma Meta para seu site web.<br> Metas de Acompanhamento é uma ótima maneira de entender e maximizar a performance do seu site web!",
         "NoConversionsNoReportsMessage": "Os relatórios não são exibidos porque não há dados de conversão para a meta e o período selecionados.",
         "NeedAccess": "Apenas um Administrador ou um usuário com acesso Super Usuário pode gerenciar Metas para um determinado website.",
         "Optional": "(opcional)",
@@ -105,9 +109,17 @@
         "VisitPageTitle": "Visitas por um título de página",
         "VisitsUntilConv": "Visitas para conversão",
         "VisitUrl": "Visitar a URL dada(página ou grupo de páginas)",
+        "VisitDurationMatchAttr": "Permanecer por um certo período de tempo",
+        "VisitDuration": "duração da visita é",
         "WhenVisitors": "quando visitantes",
         "WhereThe": "onde o(a)",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "A página visitada precisa conter uma chamada para o método JavaScript 'trackGoal' (%1$saprenda mais%2$s)",
-        "YouCanEnableEcommerceReports": "Você pode habilitar %1$s para este site na página %2$s."
+        "YouCanEnableEcommerceReports": "Você pode habilitar %1$s para este site na página %2$s.",
+        "UseEventValueAsRevenue": "Usar o valor do evento (se existir) como a receita de conversão da meta.",
+        "GoalRevenue": "Receita da meta",
+        "EventValueAsRevenueHelp": "Se o evento correspondente tem uma receita, e essa receita é monitorada como o valor do evento, você pode habilitar esta opção para registrar o valor do evento como a receita de conversão da meta. Se a receita da meta não irá variar por conversão, você pode ignorar esta opção e apenas definir acima uma receita padrão.",
+        "EventValueAsRevenueHelp2": "Observação: Se uma receita padrão de meta e um valor de evento ambos estiverem definidos, o valor do evento será usado. Se esta opção estiver habilitada e nenhum valor de evento for enviado em uma solicitação, a receita padrão será usada (se definida).",
+        "AtLeastMinutes": "pelo menos %1$s minutos. Use decimais para corresponder com segundos, por exemplo, %2$s para corresponder a 30 segundos.",
+        "TimeInMinutes": "Tempo em minutos"
     }
 }

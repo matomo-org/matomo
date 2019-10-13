@@ -18,7 +18,6 @@ class CustomPiwikJs extends Plugin
     {
         return array(
             'CoreUpdater.update.end' => 'updateTracker',
-            'CronArchive.end' => 'updateTracker',
             'PluginManager.pluginActivated' => 'updateTracker',
             'PluginManager.pluginDeactivated' => 'updateTracker',
             'PluginManager.pluginInstalled' => 'updateTracker',

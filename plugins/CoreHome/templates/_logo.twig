@@ -1,7 +1,7 @@
 <span id="logo" class="logo brand-logo {% if centeredLogo is defined and centeredLogo %}center{% endif %}">
     {% if logoLink is not defined or logoLink is not empty %}
     <a href="{{ logoLink|default('index.php') }}" tabindex="-1"
-       title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo # {{ 'General_OpenSourceWebAnalytics'|translate }}"
+       title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo{% if not isCustomLogo %} # {{ 'General_OpenSourceWebAnalytics'|translate }}{% endif %}"
     >
     {% endif %}
     {% if hasSVGLogo %}

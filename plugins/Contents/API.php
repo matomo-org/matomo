@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -63,11 +63,6 @@ class API extends \Piwik\Plugin\API
             $row = $table->getRowFromLabel(Archiver::CONTENT_PIECE_NOT_SET);
             if ($row) {
                 $row->setColumn('label', Piwik::translate('General_NotDefined', Piwik::translate('Contents_ContentPiece')));
-            }
-            foreach ($table->getRows() as $row) {
-                if ($row->getMetadata('contentTarget') === Archiver::CONTENT_TARGET_NOT_SET) {
-                    $row->setMetadata('contentTarget', '');
-                }
             }
         });
     }

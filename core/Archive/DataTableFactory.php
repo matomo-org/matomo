@@ -2,16 +2,22 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Archive;
 
+use Piwik\API\Request;
+use Piwik\Cache;
+use Piwik\Cache\Transient;
+use Piwik\CacheId;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period\Week;
+use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -22,6 +28,9 @@ use Piwik\Site;
  */
 class DataTableFactory
 {
+    const TABLE_METADATA_SEGMENT_INDEX = 'segment';
+    const TABLE_METADATA_SEGMENT_PRETTY_INDEX = 'segmentPretty';
+
     /**
      * @see DataCollection::$dataNames.
      */
@@ -68,6 +77,11 @@ class DataTableFactory
     private $periods;
 
     /**
+     * @var Segment
+     */
+    private $segment;
+
+    /**
      * The ID of the subtable to create a DataTable for. Only relevant for blob data.
      *
      * @var int|null
@@ -85,7 +99,7 @@ class DataTableFactory
     /**
      * Constructor.
      */
-    public function __construct($dataNames, $dataType, $sitesId, $periods, $defaultRow)
+    public function __construct($dataNames, $dataType, $sitesId, $periods, Segment $segment, $defaultRow)
     {
         $this->dataNames = $dataNames;
         $this->dataType = $dataType;
@@ -93,6 +107,7 @@ class DataTableFactory
 
         //here index period by string only
         $this->periods = $periods;
+        $this->segment = $segment;
         $this->defaultRow = $defaultRow;
     }
 
@@ -239,7 +254,10 @@ class DataTableFactory
     private function makeFromBlobRow($blobRow, $keyMetadata)
     {
         if ($blobRow === false) {
-            return new DataTable();
+            $table = new DataTable();
+            $table->setAllTableMetadata($keyMetadata);
+            $this->setPrettySegmentMetadata($table);
+            return $table;
         }
 
         if (count($this->dataNames) === 1) {
@@ -271,7 +289,8 @@ class DataTableFactory
         }
 
         // set table metadata
-        $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
+        $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($blobRow), $keyMetadata));
+        $this->setPrettySegmentMetadata($table);
 
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -297,7 +316,8 @@ class DataTableFactory
 
         foreach ($blobRow as $name => $blob) {
             $newTable = DataTable::fromSerializedArray($blob);
-            $newTable->setAllTableMetadata($tableMetadata);
+            $newTable->setAllTableMetadata(array_merge($newTable->getAllTableMetadata(), $tableMetadata));
+            $this->setPrettySegmentMetadata($newTable);
 
             $table->addTable($newTable, $name);
         }
@@ -397,8 +417,13 @@ class DataTableFactory
             }
 
             $blobName = $dataName . "_" . $sid;
-            if (isset($blobRow[$blobName])) {
+            if (!empty($blobRow[$blobName])) {
                 $subtable = DataTable::fromSerializedArray($blobRow[$blobName]);
+                $subtable->setMetadata(self::TABLE_METADATA_PERIOD_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_PERIOD_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SITE_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SITE_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_INDEX));
+                $subtable->setMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX, $dataTable->getMetadata(self::TABLE_METADATA_SEGMENT_PRETTY_INDEX));
+
                 $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
                 // we edit the subtable ID so that it matches the newly table created in memory
@@ -419,6 +444,8 @@ class DataTableFactory
         return array(
             DataTableFactory::TABLE_METADATA_SITE_INDEX => new Site(reset($this->sitesId)),
             DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods),
+            DataTableFactory::TABLE_METADATA_SEGMENT_INDEX => $this->segment->getString(),
+            DataTableFactory::TABLE_METADATA_SEGMENT_PRETTY_INDEX => $this->segment->getString(),
         );
     }
 
@@ -452,7 +479,8 @@ class DataTableFactory
         $table = new DataTable\Simple();
 
         if (!empty($data)) {
-            $table->setAllTableMetadata(array_merge(DataCollection::getDataRowMetadata($data), $keyMetadata));
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), DataCollection::getDataRowMetadata($data), $keyMetadata));
+            $this->setPrettySegmentMetadata($table);
 
             DataCollection::removeMetadataFromDataRow($data);
 
@@ -470,7 +498,8 @@ class DataTableFactory
                 $table->addRow(new Row(array(Row::COLUMNS => array($name => 0))));
             }
 
-            $table->setAllTableMetadata($keyMetadata);
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $keyMetadata));
+            $this->setPrettySegmentMetadata($table);
         }
 
         $result = $table;
@@ -496,7 +525,8 @@ class DataTableFactory
                 $table = new DataTable();
             }
 
-            $table->setAllTableMetadata($metadata);
+            $table->setAllTableMetadata(array_merge($table->getAllTableMetadata(), $metadata));
+            $this->setPrettySegmentMetadata($table);
             $map->addTable($table, $this->prettifyIndexLabel(self::TABLE_METADATA_PERIOD_INDEX, $range));
 
             $tables[$range] = $table;
@@ -532,6 +562,7 @@ class DataTableFactory
         }
 
         $table->setAllTableMetadata(array(DataTableFactory::TABLE_METADATA_PERIOD_INDEX => reset($this->periods)));
+        $this->setPrettySegmentMetadata($table);
 
         foreach ($index as $idsite => $row) {
             if (!empty($row)) {
@@ -548,5 +579,16 @@ class DataTableFactory
         }
 
         return $table;
+    }
+
+    private function setPrettySegmentMetadata(DataTable $table)
+    {
+        $site = $table->getMetadata(self::TABLE_METADATA_SITE_INDEX);
+        $idSite = $site ? $site->getId() : false;
+
+        $segmentPretty = $this->segment->getStoredSegmentName($idSite);
+
+        $table->setMetadata('segment', $this->segment->getString());
+        $table->setMetadata('segmentPretty', $segmentPretty);
     }
 }

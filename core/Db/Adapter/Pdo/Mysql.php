@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -208,6 +208,19 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @return bool
      */
     public function isErrNo($e, $errno)
+    {
+        return self::isPdoErrorNumber($e, $errno);
+    }
+
+
+    /**
+     * Test error number
+     *
+     * @param Exception $e
+     * @param string $errno
+     * @return bool
+     */
+    public static function isPdoErrorNumber($e, $errno)
     {
         if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
             return $match[1] == $errno;

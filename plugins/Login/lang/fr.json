@@ -36,6 +36,7 @@
         "PasswordChanged": "Votre mot de passe a été modifié",
         "PasswordRepeat": "Mot de passe (répétez)",
         "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+        "PasswordResetAlreadySent": "Vous avez demandé trop de changements de mot de passe récemment. Une nouvelle demande pourra être faite dans une heure. Si vous rencontrez des problèmes pour changer votre mot de passe, merci de contacter votre administrateur pour obtenir de l'aide.",
         "WrongPasswordEntered": "Veuillez entrer votre mot de passe correctement.",
         "ConfirmPasswordToContinue": "Confirmez votre mot de passe pour continuer",
         "PluginDescription": "Fournit une authentification via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation. La méthode d'authentification peut être changée en utilisant un autre composant d'identification comme LoginLdap disponible depuis le Marché.",

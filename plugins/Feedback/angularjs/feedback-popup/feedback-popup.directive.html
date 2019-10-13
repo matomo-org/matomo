@@ -3,6 +3,7 @@
          piwik-dialog="feedbackPopup.dialog.show" 
          yes="feedbackPopup.remindMeLater()" 
          no="feedbackPopup.dontShowAgain()"
+         close="feedbackPopup.remindMeLater()"
     >
 
         <div class="intro">
@@ -12,8 +13,8 @@
         <div ng-include="'plugins/Feedback/angularjs/feedback-popup/review-links.directive.html'"></div>
 
         <div class="footer">
-            <input type="button" value="{{ 'Feedback_RemindMeLater'|translate|e('html_attr') }}" role="yes"/>
-            <input type="button" value="{{ 'Feedback_NeverAskMeAgain'|translate|e('html_attr') }}" role="no"/>
+            <input type="button" value="{{ 'Feedback_RemindMeLater'|translate }}" role="yes"/>
+            <input type="button" value="{{ 'Feedback_NeverAskMeAgain'|translate }}" role="no"/>
         </div>
     </div>
 </div>

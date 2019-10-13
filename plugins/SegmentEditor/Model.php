@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 
@@ -121,17 +122,103 @@ class Model
 
     public function getSegmentByDefinition($definition)
     {
-        $sql = $this->buildQuerySortedByName("definition = ?");
+        $sql = $this->buildQuerySortedByName("definition = ? AND deleted = 0");
         $bind = [$definition];
 
         $segment = $this->getDb()->fetchRow($sql, $bind);
         return $segment;
     }
 
+    /**
+     * Gets a list of segments that have been deleted in the last week and therefore may have orphaned archives.
+     * @param Date $date Segments deleted on or after this date will be returned.
+     * @return array of segments. The segments are only populated with the fields needed for archive invalidation
+     * (e.g. definition, enable_only_idsite).
+     * @throws \Exception
+     */
+    public function getSegmentsDeletedSince(Date $date)
+    {
+        $dateStr = $date->getDatetime();
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+            . " WHERE deleted = 1 AND ts_last_edit >= ?";
+        $deletedSegments = Db::fetchAll($sql, array($dateStr));
+
+        if (empty($deletedSegments)) {
+            return array();
+        }
+
+        $existingSegments = $this->getExistingSegmentsLike($deletedSegments);
+
+        foreach ($deletedSegments as $i => $deleted) {
+            $deletedSegments[$i]['idsites_to_preserve'] = array();
+            foreach ($existingSegments as $existing) {
+                if ($existing['definition'] != $deleted['definition'] &&
+                    $existing['definition'] != urlencode($deleted['definition']) &&
+                    $existing['definition'] != urldecode($deleted['definition'])
+                ) {
+                    continue;
+                }
+
+                if (
+                    $existing['enable_only_idsite'] == $deleted['enable_only_idsite']
+                    || $existing['enable_only_idsite'] == 0
+                ) {
+                    // There is an identical segment (for either the specific site or for all sites) that is active
+                    // The archives for this segment will therefore still be needed
+                    unset($deletedSegments[$i]);
+                    break;
+                } elseif ($deleted['enable_only_idsite'] == 0) {
+                    // It is an all-sites segment that got deleted, but there is a single-site segment that is active
+                    // Need to make sure we don't erase the segment's archives for that particular site
+                    $deletedSegments[$i]['idsites_to_preserve'][] = $existing['enable_only_idsite'];
+                }
+            }
+        }
+
+        return $deletedSegments;
+    }
+
+    private function getExistingSegmentsLike(array $segments)
+    {
+        if (empty($segments)) {
+            return array();
+        }
+
+        $whereClauses = array();
+        $bind = array();
+        $definitionWhereClauseTemplate = '(definition = ? OR definition = ? OR definition = ?)';
+        foreach ($segments as $segment) {
+            // Sometimes they are stored encoded and sometimes they aren't
+            $bind[] = $segment['definition'];
+            $bind[] = urlencode($segment['definition']);
+            $bind[] = urldecode($segment['definition']);
+
+            if ($segment['enable_only_idsite'] == 0) {
+                // They deleted an all-sites segment, but there is a single-site segment with same definition?
+                // Need to handle this carefully so that the archives for the single-site segment are preserved
+                $whereClauses[] = "$definitionWhereClauseTemplate";
+            } else {
+                $whereClauses[] = "($definitionWhereClauseTemplate AND (enable_only_idsite = ? OR enable_only_idsite = 0))";
+                $bind[] = $segment['enable_only_idsite'];
+            }
+        }
+        $whereClauses = implode(' OR ', $whereClauses);
+
+        // Check for any non-deleted segments with the same definition
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+            . " WHERE deleted = 0 AND (" . $whereClauses . ")";
+        return Db::fetchAll($sql, $bind);
+    }
+
     public function deleteSegment($idSegment)
     {
+        $fieldsToSet = array(
+            'deleted' => 1,
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+        );
+
         $db = $this->getDb();
-        $db->delete($this->getTable(), 'idsegment = ' . (int) $idSegment);
+        $db->update($this->getTable(), $fieldsToSet, 'idsegment = ' . (int) $idSegment);
     }
 
     public function updateSegment($idSegment, $segment)

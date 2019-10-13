@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -24,6 +24,7 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\API\API;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Monolog\Handler\WebNotificationHandler;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
@@ -316,6 +317,7 @@ class UITestFixture extends SqlDump
             if ($widget['uniqueId'] == 'widgetSEOgetRank'
                 || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                 || $widget['uniqueId'] == 'widgetActionsgetPageTitles'
+                || $widget['uniqueId'] == 'widgetCoreHomequickLinks'
                 || strpos($widget['uniqueId'], 'widgetExample') === 0
             ) {
                 continue;
@@ -419,6 +421,9 @@ class UITestFixture extends SqlDump
 
     public function provideContainerConfig()
     {
+        // make sure there's data for the auto suggest test
+        API::$_autoSuggestLookBack = floor(Date::today()->getTimestamp() - Date::factory('2012-01-01')->getTimestamp()) / (24 * 60 * 60);
+
         return [
             'observers.global' => \DI\add([
                 ['Report.addReports', function (&$reports) {

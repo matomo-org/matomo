@@ -1,6 +1,5 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Skapa och återanvänd anpassade Besökssegment med Segmenteditorn.",
         "AddANDorORCondition": "Lägg till %s villkor",
         "AddNewSegment": "Lägg till nytt segment",
         "AreYouSureDeleteSegment": "Vill du verkligen radera detta segment?",
@@ -51,6 +50,7 @@
         "CustomUnprocessedSegmentApiError4": "När du skapat segmentet i redigeraren (eller via API), kommer detta felmeddelande att försvinna och inom några timmar ser du din segmenterade rapportdata efter segmentdata har bearbetats. (Om det inte gör det kan ett fel ha uppstått.)",
         "CustomUnprocessedSegmentApiError5": "Observera att du kan testa om ditt segment kommer fungera utan att behöva vänta på att det ska behandlas med hjälp av Live.getLastVisitsDetails API.",
         "CustomUnprocessedSegmentApiError6": "När du använder den här API-metoden ser du vilka användare och åtgärder som matchades av din &segment=parameter.",
-        "CustomUnprocessedSegmentNoData": "Om du vill se data för det här segmentet måste du skapa det här segmentet manuellt i Segmentredigeraren och därefter vänta ett par timmar innan bearbetningen har slutförts."
+        "CustomUnprocessedSegmentNoData": "Om du vill se data för det här segmentet måste du skapa det här segmentet manuellt i Segmentredigeraren och därefter vänta ett par timmar innan bearbetningen har slutförts.",
+        "Test": "Test"
     }
 }

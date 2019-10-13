@@ -1,10 +1,16 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
         "UsesTwoFactorAuthentication": "Benytter tofaktorgodkendelse",
         "TwoFactorAuthentication": "Tofaktorgodkendelse",
         "ResetTwoFactorAuthentication": "Nulstil tofaktorgodkendelse",
+        "ResetTwoFactorAuthenticationInfo": "Hvis en bruger ikke længere kan logge ind pga. mistede genskabelseskoder eller mistet tofaktorgodkendelsesenhed, kan du nulstille tofaktorgodkendelse for brugeren, så de kan logge ind igen.",
         "AddUser": "Opret ny bruger",
+        "AddExistingUser": "Tilføj en eksisterende bruger",
+        "AddNewUser": "Tilføj ny bruger",
         "EditUser": "Rediger bruger",
+        "CreateUser": "Opret bruger",
+        "SaveBasicInfo": "Gem basisoplysninger",
         "Alias": "Alias",
         "AllWebsites": "Alle hjemmesider",
         "AnonymousUser": "Anonym bruger",

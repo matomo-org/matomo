@@ -19,16 +19,14 @@
         "ViewUserGuides": "Aprenda a configurar Matomo y analizar sus datos de modo eficaz con nuestras %1$sguías de usuario%2$s",
         "CommunityHelp": "Ayuda comunitaria",
         "ProfessionalHelp": "Ayuda profesional",
-        "ProfessionalServicesIntro": "Nuestra red mundial de consultores profesionales que brindan asistencia a todos los clientes que hospedan Matomo en su propia infraestructura.",
         "ProfessionalServicesOfferIntro": "¿De qué servicios puedes beneficiarte?",
-        "ProfessionalServicesReviewPiwikSetup": "Una reseña de su instalación Matomo",
-        "ProfessionalServicesOptimizationMaintenance": "Servicios de mantenimiento & optimización Matomo",
-        "ProfessionalServicesPhoneEmailSupport": "Asistencia por teléfono y correo electrónico",
-        "ProfessionalServicesTraining": "Cursos de usuario, técnico y desarrollador",
-        "ProfessionalServicesPremiumFeatures": "Funciones premium",
-        "ProfessionalServicesCustomDevelopment": "Servicios de desarrollo personalizado",
-        "ProfessionalServicesAnalystConsulting": "Servicios de consultoría de análisis",
+        "ProfessionalServicesEmailAlerts": "Alertas por correo electrónico de comunicados de seguridad de Matomo",
         "ContactUs": "Contáctanos",
-        "VisitTheForums": "Visite el %1$sForo%2$s y obtenga ayuda de la comunidad de usuarios Matomo"
+        "VisitTheForums": "Visite el %1$sForo%2$s y obtenga ayuda de la comunidad de usuarios Matomo",
+        "Forums": "Foros",
+        "ReviewMatomoTitle": "¿Crées en Matomo?",
+        "PleaseLeaveExternalReviewForMatomo": "Comparte sus pensamientos en uno de estos sitios e inspira a otros a unirse en nuestra revolución de datos.",
+        "RemindMeLater": "Recordármelo nuevamente",
+        "NeverAskMeAgain": "No volver a preguntármelo"
     }
 }

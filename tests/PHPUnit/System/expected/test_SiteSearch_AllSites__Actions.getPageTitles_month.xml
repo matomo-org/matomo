@@ -17,7 +17,7 @@
 				<avg_time_on_page>36</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<segment>pageTitle==Im+just+a+page</segment>
+				<segment>pageTitle==Im%2Bjust%2Ba%2Bpage</segment>
 			</row>
 			<row>
 				<label> Pageview, not search</label>
@@ -35,7 +35,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<segment>pageTitle==Pageview%2C+not+search</segment>
+				<segment>pageTitle==Pageview%252C%2Bnot%2Bsearch</segment>
 			</row>
 			<row>
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
@@ -52,7 +52,7 @@
 				<avg_time_on_page>108</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<segment>pageTitle==This+is+a+pageview%2C+not+a+Search+-+IS_FOLLOWING_SEARCH+ONCE</segment>
+				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch%2B-%2BIS_FOLLOWING_SEARCH%2BONCE</segment>
 			</row>
 		</result>
 		<result date="2010-02" />
@@ -99,7 +99,7 @@
 				<avg_time_on_page>180</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<segment>pageTitle==This+is+a+pageview%2C+not+a+Search</segment>
+				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch</segment>
 			</row>
 		</result>
 		<result date="2010-02" />
@@ -148,7 +148,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<segment>pageTitle==Pageview%3A+%2C+%C3%8Dslenska%2C+Italiano%2C+%E6%97%A5%E6%9C%AC%E8%AA%9E%2C+%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%A3%E1%83%9A%E1%83%98%2C+%ED%95%9C%EA%B5%AD%EC%96%B4%2C+Lietuvi%C5%B3%2C+Latvie%C5%A1u%2C+Norsk+%28bokm%C3%A5l%29%2C+Nederlands%2C+Norsk+%28nynorsk%29%2C+Polski%2C+Portugu%C3%AAs+brasileiro%2C+Portugu%C3%AAs%2C+Rom%C3%A2n%C4%83%2C+%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%2C+Slovensky%2C+Sloven%C5%A1%C4%8Dina%2C+Shqip%2C+Srpski%2C+Svenska%2C+%E0%B0%A4%E0%B1%86%E0%B0%B2%E0%B1%81%E0%B0%97%E0%B1%81%2C+%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%2C+T%C3%BCrk%C3%A7e%2C+%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%B0%2C+%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%2C+%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87.</segment>
+				<segment>pageTitle==Pageview%253A%2B%25252C%252520%2525C3%25258Dslenska%25252C%252520Italiano%25252C%252520%2525E6%252597%2525A5%2525E6%25259C%2525AC%2525E8%2525AA%25259E%25252C%252520%2525E1%252583%2525A5%2525E1%252583%252590%2525E1%252583%2525A0%2525E1%252583%252597%2525E1%252583%2525A3%2525E1%252583%25259A%2525E1%252583%252598%25252C%252520%2525ED%252595%25259C%2525EA%2525B5%2525AD%2525EC%252596%2525B4%25252C%252520Lietuvi%2525C5%2525B3%25252C%252520Latvie%2525C5%2525A1u%25252C%252520Norsk%252520%2528bokm%2525C3%2525A5l%2529%25252C%252520Nederlands%25252C%252520Norsk%252520%2528nynorsk%2529%25252C%252520Polski%25252C%252520Portugu%2525C3%2525AAs%252520brasileiro%25252C%252520Portugu%2525C3%2525AAs%25252C%252520Rom%2525C3%2525A2n%2525C4%252583%25252C%252520%2525D0%2525A0%2525D1%252583%2525D1%252581%2525D1%252581%2525D0%2525BA%2525D0%2525B8%2525D0%2525B9%25252C%252520Slovensky%25252C%252520Sloven%2525C5%2525A1%2525C4%25258Dina%25252C%252520Shqip%25252C%252520Srpski%25252C%252520Svenska%25252C%252520%2525E0%2525B0%2525A4%2525E0%2525B1%252586%2525E0%2525B0%2525B2%2525E0%2525B1%252581%2525E0%2525B0%252597%2525E0%2525B1%252581%25252C%252520%2525E0%2525B8%2525A0%2525E0%2525B8%2525B2%2525E0%2525B8%2525A9%2525E0%2525B8%2525B2%2525E0%2525B9%252584%2525E0%2525B8%252597%2525E0%2525B8%2525A2%25252C%252520T%2525C3%2525BCrk%2525C3%2525A7e%25252C%252520%2525D0%2525A3%2525D0%2525BA%2525D1%252580%2525D0%2525B0%2525D1%252597%2525D0%2525BD%2525D1%252581%2525D1%25258C%2525D0%2525BA%2525D0%2525B0%25252C%252520%2525E7%2525AE%252580%2525E4%2525BD%252593%2525E4%2525B8%2525AD%2525E6%252596%252587%25252C%252520%2525E7%2525B9%252581%2525E9%2525AB%252594%2525E4%2525B8%2525AD%2525E6%252596%252587.</segment>
 			</row>
 			<row>
 				<label> This is a pageview, not a Search</label>
@@ -164,7 +164,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<segment>pageTitle==This+is+a+pageview%2C+not+a+Search</segment>
+				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch</segment>
 			</row>
 		</result>
 		<result date="2010-02" />

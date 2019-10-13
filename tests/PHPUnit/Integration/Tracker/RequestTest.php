@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -32,6 +32,8 @@ class RequestTest extends IntegrationTestCase
      */
     private $request;
 
+    private $time;
+
     public function setUp()
     {
         parent::setUp();
@@ -45,6 +47,50 @@ class RequestTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
 
         $this->request = $this->buildRequest(array('idsite' => '1'));
+        $this->time = 1416795617;
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
+     */
+    public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
+        $request->setCurrentTimestamp($this->time);
+        $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
+        $request->setCurrentTimestamp($this->time);
+
+        $this->assertSame('' . ($this->time - 5), $request->getCurrentTimestamp());
+    }
+
+    public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
+        $request->setCurrentTimestamp($this->time);
+        $request->setIsAuthenticated();
+        $this->assertSame('' . ($this->time - 86500), $request->getCurrentTimestamp());
+    }
+
+    public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
+    {
+        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
+        $request->setCurrentTimestamp($this->time);
+        $this->assertSame($this->time, $request->getCurrentTimestamp());
+    }
+
+    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
+    {
+        $request = $this->buildRequest(array('cdt' => '5 years ago'));
+        $request->setCurrentTimestamp($this->time);
+        $request->setIsAuthenticated();
+        $this->assertNotSame($this->time, $request->getCurrentTimestamp());
+        $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
     public function test_getIdSite()
@@ -225,6 +271,16 @@ class RequestTest extends IntegrationTestCase
         );
         $customVars = $this->buildCustomVars($input);
         $expected   = $this->buildExpectedCustomVars($input);
+
+        $this->assertCustomVariablesInPageScope($expected, $customVars);
+    }
+
+    public function test_getCustomVariables_nonStringInput()
+    {
+        $input = array('mykey' => array('myarraykey' => 'myvalue'), 'myotherkey' => 2);
+        $customVars = $this->buildCustomVars($input);
+        // Int value should come through; array value is invalid so should be discarded
+        $expected = array('custom_var_k2' => 'myotherkey', 'custom_var_v2' => 2);
 
         $this->assertCustomVariablesInPageScope($expected, $customVars);
     }
