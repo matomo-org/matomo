@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Metric;
@@ -15,6 +16,7 @@ use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
+use Piwik\SettingsPiwik;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.
@@ -236,7 +238,7 @@ abstract class Graph extends Visualization
             $allColumns = $this->getDefaultColumnsToDisplay();
         }
 
-        $this->config->columns_to_display = array_intersect($columnsToDisplay, $allColumns);
+        $this->config->columns_to_display = $this->removeUnavailableMetrics(array_intersect($columnsToDisplay, $allColumns));
     }
 
     private function getDefaultColumnsToDisplay()
@@ -247,5 +249,16 @@ abstract class Graph extends Visualization
             'nb_uniq_visitors',
             'nb_users'
         );
+    }
+
+    private function removeUnavailableMetrics($metrics)
+    {
+        $currentPeriod = Common::getRequestVar('period', false);
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+            $metrics = array_diff($metrics, ['nb_uniq_visitors', 'nb_users']);
+        }
+
+        return $metrics;
     }
 }
