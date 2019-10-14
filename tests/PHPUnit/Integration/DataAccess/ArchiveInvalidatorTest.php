@@ -325,9 +325,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
         /** @var ArchiveInvalidator $archiveInvalidator */
         $archiveInvalidator = self::$fixture->piwikEnvironment->getContainer()->get('Piwik\Archive\ArchiveInvalidator');
-        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, $dates, $segment);
+        $result = $archiveInvalidator->markArchivesOverlappingRangeAsInvalidated($idSites, array($dates), $segment);
 
-        $this->assertEquals($dates, $result->processedDates);
+        $this->assertEquals(array($dates[0]), $result->processedDates);
 
         $idArchives = $this->getInvalidatedArchives();
 

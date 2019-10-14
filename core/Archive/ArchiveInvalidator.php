@@ -220,7 +220,7 @@ class ArchiveInvalidator
 
         $periods = array();
         foreach ($dates as $dateRange) {
-            $periods[] = $this->getPeriodsToInvalidate($dateRange, 'range', false);
+            $periods = array_merge($periods, $this->getPeriodsToInvalidate($dateRange, 'range', false));
         }
         $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
