@@ -18,14 +18,8 @@ class SEO extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'Widget.filterWidgets' => 'filterWidgets',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Widget.filterWidgets' => 'filterWidgets'
         ];
-    }
-
-    public function getJsFiles(&$jsFiles)
-    {
-        $jsFiles[] = "plugins/SEO/javascripts/rank.js";
     }
 
     /**
