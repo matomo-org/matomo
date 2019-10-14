@@ -4,7 +4,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-var SEOWidget = {
+window.SEOWidget = {
     getRank: function () {
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement('#ajaxLoadingSEO');
@@ -21,4 +21,4 @@ var SEOWidget = {
         ajaxRequest.setFormat('html');
         ajaxRequest.send();
     }
-}
+};
