@@ -178,7 +178,6 @@ class LogQueryBuilder
             // only When LIMITing we can apply to the inner query the same ORDER BY as the parent query
             $innerOrderBy = $orderBy;
         }
-
         if ($innerLimitAndOffset) {
             // When LIMITing, no need to GROUP BY (GROUPing by is done before the LIMIT which is super slow when large amount of rows is matched)
             $innerGroupBy = false;
