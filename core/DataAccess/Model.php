@@ -117,7 +117,11 @@ class Model
 
             if ($periodType == Period\Range::PERIOD_ID) {
                 foreach ($dates as $date) {
-                    $dateConditions[] = "(date1 = ? AND date2 = ?)";
+                    // Ranges in the DB match if their date2 is after the start of the search range and date1 is before the end
+                    // e.g. search range is 2019-01-01 to 2019-01-31
+                    // date2 >= startdate -> Ranges with date2 < 2019-01-01 (ended before 1 January) and are excluded
+                    // date1 <= endate -> Ranges with date1 > 2019-01-31 (started after 31 January) and are excluded
+                    $dateConditions[] = "(date2 >= ? AND date1 <= ?)";
                     $bind = array_merge($bind, explode(',', $date));
                 }
             } else {
@@ -152,46 +156,6 @@ class Model
              . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
-
-        return Db::query($sql, $bind);
-    }
-
-    /**
-     * @param string $archiveTable Prefixed table name
-     * @param int[] $idSites
-     * @param Segment $segment
-     * @param array $datesByPeriodType
-     * @return \Zend_Db_Statement
-     * @throws Exception
-     */
-    public function updateAllRangeArchivesAsInvalidated($archiveTable, $idSites, $ranges, Segment $segment = null)
-    {
-        $idSites = array_map('intval', $idSites);
-
-        $bind = array();
-
-        $dateConditions = array();
-
-        foreach ($ranges as $range) {
-            // Ranges in the DB match if their date2 is after the start of the search range and date2 is before the end
-            $dateConditions[] = "(date2 >= ? AND date1 <= ?)";
-            $bind[] = $range->getDateStart()->toString();
-            $bind[] = $range->getDateEnd()->toString();
-        }
-
-        $dateConditionsSql = implode(" OR ", $dateConditions);
-        $periodCondition = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
-
-        if ($segment) {
-            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
-        } else {
-            $nameCondition = "name LIKE 'done%'";
-        }
-
-        $sql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
-            . " WHERE $nameCondition
-                   AND idsite IN (" . implode(", ", $idSites) . ")
-                   AND " . $periodCondition;
 
         return Db::query($sql, $bind);
     }
