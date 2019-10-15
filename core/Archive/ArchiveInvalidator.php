@@ -218,16 +218,18 @@ class ArchiveInvalidator
     {
         $invalidationInfo = new InvalidationResult();
 
-        $periods = array();
+        $ranges = array();
         foreach ($dates as $dateRange) {
-            $periods = array_merge($periods, $this->getPeriodsToInvalidate($dateRange, 'range', false));
+            $ranges[] = $dateRange[0] . ',' . $dateRange[1];
         }
+        $periodsByType = array(Period\Range::PERIOD_ID => $ranges);
+
         $invalidatedMonths = array();
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $result = $this->model->updateAllRangeArchivesAsInvalidated($table, $idSites, $periods, $segment);
+            $result = $this->model->updateArchiveAsInvalidated($table, $idSites, $periodsByType, $segment);
             $rowsAffected = $result->rowCount();
             if ($rowsAffected > 0) {
                 $invalidatedMonths[] = $tableDate;

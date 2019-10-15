@@ -504,7 +504,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 ),
             ),
 
-            // range period, overlapping a range in the DB = not a match so not invalidated
+            // range period, overlapping a range in the DB
             array(
                 array(1),
                 array('2015-01-02', '2015-03-05'),
@@ -512,6 +512,9 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 null,
                 true,
                 array(
+                    '2015_01' => array(
+                        '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
+                    )
                 ),
             ),
 
