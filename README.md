@@ -28,7 +28,7 @@ Or in short:
 
 ## License
 
-Matomo is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
+Matomo is released under the GPL v3 (or later) license, see [LICENSE](LICENSE)
 
 ## Requirements
 
