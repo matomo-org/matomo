@@ -71,6 +71,9 @@ class InvalidateReportData extends ConsoleCommand
         $segments = $this->getSegmentsToInvalidateFor($input, $sites);
 
         foreach ($periodTypes as $periodType) {
+            if ($periodType === 'range') {
+                continue; // special handling for range below
+            }
             foreach ($dateRanges as $dateRange) {
                 foreach ($segments as $segment) {
                     $segmentStr = $segment ? $segment->getString() : '';
@@ -95,7 +98,7 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         $periods = trim($input->getOption('periods'));
-        if ($periods === self::ALL_OPTION_VALUE || strpos($periods, 'range') !== false) {
+        if ($periods === self::ALL_OPTION_VALUE || in_array('range', $periodTypes)) {
             $rangeDates = array();
             foreach ($dateRanges as $dateRange) {
                 $rangeDates[] = $this->getPeriodDates('range', $dateRange);
@@ -140,7 +143,6 @@ class InvalidateReportData extends ConsoleCommand
 
         if ($periods == self::ALL_OPTION_VALUE) {
             $result = array_keys(Piwik::$idPeriods);
-            unset($result[4]);
             return $result;
         }
 
