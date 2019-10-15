@@ -101,15 +101,20 @@ class InvalidateReportData extends ConsoleCommand
         if ($periods === self::ALL_OPTION_VALUE || in_array('range', $periodTypes)) {
             $rangeDates = array();
             foreach ($dateRanges as $dateRange) {
-                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
+                $rangeDate = $this->getPeriodDates('range', $dateRange);
+                if (!empty($rangeDate)) {
+                    $rangeDates[] = $rangeDate;
+                }
             }
-            foreach ($segments as $segment) {
-                $segmentStr = $segment ? $segment->getString() : '';
-                if ($dryRun) {
-                    $dateRangeStr = implode($dateRanges, ';');
-                    $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
-                } else {
-                    $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
+            if (!empty($rangeDates)) {
+                foreach ($segments as $segment) {
+                    $segmentStr = $segment ? $segment->getString() : '';
+                    if ($dryRun) {
+                        $dateRangeStr = implode($dateRanges, ';');
+                        $output->writeln("Invalidating range periods overlapping $dateRangeStr [segment = $segmentStr]...");
+                    } else {
+                        $invalidator->markArchivesOverlappingRangeAsInvalidated($sites, $rangeDates, $segment);
+                    }
                 }
             }
         }
@@ -178,7 +183,13 @@ class InvalidateReportData extends ConsoleCommand
             throw new \InvalidArgumentException("Invalid period type '$periodType'.");
         }
 
+        if ($periodType === 'range'
+            && !Period::isMultiplePeriod($dateRange, 'day')) {
+            return array(); // not a range, nothing to do
+        }
+
         try {
+
             $period = PeriodFactory::build($periodType, $dateRange);
         } catch (\Exception $ex) {
             throw new \InvalidArgumentException("Invalid date or date range specifier '$dateRange'", $code = 0, $ex);
