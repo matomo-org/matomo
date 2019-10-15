@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Archivierungseinstellungen",
         "BrandingSettings": "Branding Einstellungen",
+        "ErrorEmailFromAddressNotValid": "Die SMTP Von-Adresse ist ungültig",
         "ReleaseChannel": "Release Kanal",
         "ClickHereToOptIn": "Klicken Sie hier, um Ihren Besuch wieder erfassen zu lassen.",
         "ClickHereToOptOut": "Klicken Sie hier, damit Ihr Besuch nicht mehr erfasst wird.",
