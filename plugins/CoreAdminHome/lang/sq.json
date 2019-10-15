@@ -4,6 +4,7 @@
         "Administration": "Administrim",
         "ArchivingSettings": "Rregullime arkivimi",
         "BrandingSettings": "Rregullime marke",
+        "ErrorEmailFromAddressNotValid": "Adresa SMTP për fushën Nga s’është e vlefshme",
         "ReleaseChannel": "Kanal hedhjesh në qarkullim",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
         "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\".",

@@ -4,6 +4,7 @@
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración de marcas y logos",
+        "ErrorEmailFromAddressNotValid": "La dirección SMTP no es válida",
         "ReleaseChannel": "Canal de lanzamiento",
         "ClickHereToOptIn": "Hacé clic acá para adherirte.",
         "ClickHereToOptOut": "Hacé clic acá para quitar adhesión.",

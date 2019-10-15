@@ -4,6 +4,7 @@
         "Administration": "Yönetim",
         "ArchivingSettings": "Arşivleme ayarları",
         "BrandingSettings": "Markalama ayarları",
+        "ErrorEmailFromAddressNotValid": "SMTP kimden adresi geçersiz",
         "ReleaseChannel": "Dağıtım kanalı",
         "ClickHereToOptIn": "İzin vermek için tıklayın.",
         "ClickHereToOptOut": "İzni iptal etmek için tıklayın.",
