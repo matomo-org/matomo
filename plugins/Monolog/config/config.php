@@ -172,6 +172,8 @@ return array(
         return $logPath;
     }),
 
+    'Piwik\Plugins\Monolog\Formatter\LineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
+                                                                ->constructor(DI\get('log.short.format')),
     'log.lineMessageFormatter' => DI\object('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter')
         ->constructor(DI\get('log.short.format')),
 
