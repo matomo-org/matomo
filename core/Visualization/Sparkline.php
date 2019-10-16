@@ -62,7 +62,7 @@ class Sparkline implements ViewInterface
         $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
         $decimalSeparator = Piwik::translate('Intl_NumberSymbolDecimal');
 
-        $sparkline->setData(); // remove default series
+        $sparkline->setData(array()); // remove default series
         foreach ($this->serieses as $seriesIndex => $series) {
             $values = [];
             $hasFloat = false;
