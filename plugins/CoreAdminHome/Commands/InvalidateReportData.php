@@ -98,13 +98,16 @@ class InvalidateReportData extends ConsoleCommand
         }
 
         $periods = trim($input->getOption('periods'));
-        if ($periods === self::ALL_OPTION_VALUE || in_array('range', $periodTypes)) {
+        $isUsingAllOption = $periods === self::ALL_OPTION_VALUE;
+        if ($isUsingAllOption || in_array('range', $periodTypes)) {
             $rangeDates = array();
             foreach ($dateRanges as $dateRange) {
-                $rangeDate = $this->getPeriodDates('range', $dateRange);
-                if (!empty($rangeDate)) {
-                    $rangeDates[] = $rangeDate;
+                if ($isUsingAllOption
+                    && !Period::isMultiplePeriod($dateRange, 'day')) {
+                    continue; // not a range, nothing to do... only when "all" option is used
                 }
+
+                $rangeDates[] = $this->getPeriodDates('range', $dateRange);
             }
             if (!empty($rangeDates)) {
                 foreach ($segments as $segment) {
@@ -181,11 +184,6 @@ class InvalidateReportData extends ConsoleCommand
     {
         if (!isset(Piwik::$idPeriods[$periodType])) {
             throw new \InvalidArgumentException("Invalid period type '$periodType'.");
-        }
-
-        if ($periodType === 'range'
-            && !Period::isMultiplePeriod($dateRange, 'day')) {
-            return array(); // not a range, nothing to do
         }
 
         try {

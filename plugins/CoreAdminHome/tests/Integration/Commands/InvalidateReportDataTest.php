@@ -155,7 +155,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating range periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_invalidDate()
@@ -215,8 +215,23 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
         ));
 
         $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
-        $this->assertContains("Invalidating range periods in 2019-01-01,2019-01-09 [segment = ]", $this->applicationTester->getDisplay());
-        $this->assertContains("Invalidating range periods in 2019-01-12,2019-01-15 [segment = ]", $this->applicationTester->getDisplay());
+        $this->assertContains("Invalidating range periods overlapping 2019-01-01,2019-01-09;2019-01-12,2019-01-15", $this->applicationTester->getDisplay());
+    }
+
+    public function test_Command_InvalidateDateRange_invalidateAllPeriodTypesSkipsRangeWhenNotRangeDAte()
+    {
+        $code = $this->applicationTester->run(array(
+            'command' => 'core:invalidate-report-data',
+            '--dates' => array('2019-01-01'),
+            '--periods' => 'all',
+            '--sites' => '1',
+            '--dry-run' => true,
+            '-vvv' => true,
+        ));
+
+        $this->assertEquals(0, $code, $this->getCommandDisplayOutputErrorMessage());
+        $this->assertNotContains("range", $this->applicationTester->getDisplay());
+        $this->assertNotContains("Range", $this->applicationTester->getDisplay());
     }
 
     public function test_Command_InvalidateDateRange_invalidateAllPeriodTypes()
