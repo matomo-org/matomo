@@ -21,7 +21,8 @@
     "config":{
         "platform": {
             "php": "5.5.9"
-        }
+        },
+        "prepend-autoloader": false
     },
     "require": {
         "php": ">=5.5.9",
