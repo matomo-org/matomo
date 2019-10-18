@@ -100,8 +100,20 @@ class Original extends ApiRenderer
                 });
             }
 
-            return serialize($response);
+            $response = serialize($response);
+            if ($this->hideIdSubDataTable) {
+                $response = $this->removeIdSubDataTables($response);
+            }
+            return $response;
         }
+        return $response;
+    }
+
+    public function removeIdSubDataTables($response)
+    {
+        $response = preg_replace('/"subtableId";i:[\d]+;/', '', $response);
+        // This depends on the number of digits in the subtable ID, so we need to   standardise it
+        $response = preg_replace('/"Piwik\\\\DataTable\\\\Row":[\d]+:/', '"Piwik\DataTable\Row":436:', $response);
         return $response;
     }
 }

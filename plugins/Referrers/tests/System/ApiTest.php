@@ -63,7 +63,7 @@ class ApiTest extends SystemTestCase
                 'date' => '2010-01-01',
                 'periods' => 'year',
                 'testSuffix' => 'phpSerialized',
-                'format' => 'php',
+                'format' => 'original',
             ],
         ];
 
