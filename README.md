@@ -100,6 +100,8 @@ Contact us: [matomo.org/contact/](https://matomo.org/contact/)
 
 What makes Matomo unique from the competition:
 
+* Looking for alternatives to Matomo (Formerly Piwik)? Tons of people want Digital Analytics software to help with custom reports and dashboards, mobile reporting, and real-time reporting. What's difficult is finding out whether or not the software you choose is right for you. We have compiled a list of Digital Analytics software that reviewers voted best overall compared to Matomo (Formerly Piwik). Based on reviewer data you can see how Matomo (Formerly Piwik) stacks up to the competition, check reviews from current & previous users, and find the best fit for your business.
+
   * You own your web analytics data: since Matomo is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Matomo Analytics API.
 
   * Matomo is a Free Software which can easily be configured to respect your visitors' privacy.
