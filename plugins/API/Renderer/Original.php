@@ -97,23 +97,17 @@ class Original extends ApiRenderer
                     $allMetadata = $table->getAllTableMetadata();
                     unset($allMetadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
                     $table->setAllTableMetadata($allMetadata);
+
+                    if ($this->hideIdSubDataTable) {
+                        foreach ($table->getRows() as $row) {
+                            $row->removeSubtable();
+                        }
+                    }
                 });
             }
 
-            $response = serialize($response);
-            if ($this->hideIdSubDataTable) {
-                $response = $this->removeIdSubDataTables($response);
-            }
-            return $response;
+            return serialize($response);
         }
-        return $response;
-    }
-
-    public function removeIdSubDataTables($response)
-    {
-        $response = preg_replace('/"subtableId";i:[\d]+;/', '', $response);
-        // This depends on the number of digits in the subtable ID, so we need to   standardise it
-        $response = preg_replace('/"Piwik\\\\DataTable\\\\Row":[\d]+:/', '"Piwik\DataTable\Row":436:', $response);
         return $response;
     }
 }
