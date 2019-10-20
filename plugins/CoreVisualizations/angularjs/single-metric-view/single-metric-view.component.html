@@ -6,7 +6,7 @@
     </piwik-sparkline>
     <div class="metric-value">
         <span title="{{ $ctrl.metricDocumentation }}">
-            <strong>{{ $ctrl.metricValue }}</strong> {{ ($ctrl.metricTranslation || '').toLowerCase() }}
+            <strong>{{ $ctrl.metricValue.toLocaleString() }}</strong> {{ ($ctrl.metricTranslation || '').toLowerCase() }}
         </span>
         <span class="metricEvolution"
               ng-if="$ctrl.pastValue !== null"
