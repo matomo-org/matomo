@@ -42,7 +42,8 @@
 
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p ng-bind-html="{{ properties.documentation|json_encode|e('html_attr') }}"></p>{% endif %}
-        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
+        {% if properties.onlineGuideUrl|default is not empty %}<a href="?module=Proxy&action=redirect&url={{ properties.onlineGuideUrl|e('html_attr') }}" target="_blank" class="onlineGuide">{{ 'CoreHome_ReadMoreOnlineGuide'|translate }}</a>{% endif %}
+        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class="helpDate">{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
 
     <div class="dataTableWrapper">
