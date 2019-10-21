@@ -103,6 +103,14 @@ class Original extends ApiRenderer
                             $row->removeSubtable();
                         }
                     }
+
+                    // Force boolean values for empty segment to string (ensures consistency between PDO and mysqli)
+                    foreach ($table->getRows() as $row) {
+                        $rowMetadata = $row->getMetadata();
+                        if (isset($rowMetadata['segment']) && $rowMetadata['segment'] === false) {
+                            $row->setMetadata('segment', '');
+                        }
+                    }
                 });
             }
 
