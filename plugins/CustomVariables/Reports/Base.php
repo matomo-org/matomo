@@ -15,6 +15,7 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->categoryId = 'General_Visitors';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/custom-variables/';
     }
 
 }
