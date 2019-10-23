@@ -32,6 +32,7 @@ class Row extends \ArrayObject
      */
     private static $unsummableColumns = array(
         'label'    => true,
+        'url'      => true,
         'full_url' => true // column used w/ old Piwik versions,
     );
 
