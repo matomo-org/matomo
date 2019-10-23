@@ -247,7 +247,7 @@ class TrackerCodeGenerator
         foreach ($websiteUrls as $site_url) {
             $referrerParsed = parse_url($site_url);
 
-            if (!isset($firstHost)) {
+            if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
             }
 
