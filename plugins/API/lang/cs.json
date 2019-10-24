@@ -10,6 +10,8 @@
         "TopLinkTooltip": "Zpřístupněte svoje Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
         "UserAuthentication": "Autentifikace uživatele",
         "UsingTokenAuth": "Pokud chcete %1$s načíst data ze skriptu, cronu, atd. %2$s Potřebujete přidat parametr %3$s k voláním API, které vyžadují přihlášení",
-        "Glossary": "Glosář"
+        "Glossary": "Glosář",
+        "LearnAboutCommonlyUsedTerms2": "Přečtěte si o běžně používaných výrazech, abyste mohli co nejlépe využít Matomo Analytics.",
+        "EvolutionMetricName": "%s Vývoj"
     }
 }

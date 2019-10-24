@@ -4,6 +4,7 @@
         "Administration": "Ylläpito",
         "ArchivingSettings": "Arkistointiasetukset",
         "BrandingSettings": "Käyttöliittymän muokkaaminen",
+        "ErrorEmailFromAddressNotValid": "SMTP:n From-osoite ei ole kelvollinen",
         "ReleaseChannel": "Julkaisukanava",
         "ClickHereToOptIn": "Klikkaa tästä, jos haluat mukaan seurantaan.",
         "ClickHereToOptOut": "Klikkaa tästä poistuaksesi seurannasta.",
@@ -126,6 +127,7 @@
         "ConfirmDeleteThisTrackingFailure": "Haluat varmasti poistaa tämän virhetiedon?",
         "TrackingFailuresEmailSubject": "Seurantavirheet Matomo-analytiikassasi",
         "TrackingFailuresEmail1": "Ilmoitamme, että Matomassasi on havaittu %s erityyppistä seurantavirhettä viime päivien aikana.",
-        "TrackingFailuresEmail2": "Nähdäksesi kaikki seurantavirheet, voit seurata %1$stätä linkkiä%2$s."
+        "TrackingFailuresEmail2": "Nähdäksesi kaikki seurantavirheet, voit seurata %1$stätä linkkiä%2$s.",
+        "ImportFromGoogleAnalytics": "Tuo Google Analyticsista"
     }
 }
