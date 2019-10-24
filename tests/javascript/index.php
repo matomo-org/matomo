@@ -2149,7 +2149,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(107);
+        expect(108);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2228,6 +2228,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
+        equal( typeof tracker.setVisitStandardLength, 'function', 'setVisitStandardLength' );
         equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.disableHeartBeatTimer, 'function', 'disableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
@@ -4212,7 +4213,7 @@ if ($mysql) {
 
     // heartbeat tests
     test("trackingHeartBeat", function () {
-        expect(14);
+        expect(12);
 
         var tokenBase = getHeartbeatToken();
 
@@ -4234,7 +4235,7 @@ if ($mysql) {
         }).then(function () {
             triggerEvent(window, 'focus');
 
-            return Q.delay(4000); // ping request sent after this (afterwards 2 secs to next heartbeat)
+            return Q.delay(4000); // ping request not sent after this 
         }).then(function () {
             // test ping not sent after N secs, if tracking request sent in the mean time
             tracker.setCustomData('token', 3 + tokenBase);
@@ -4243,28 +4244,28 @@ if ($mysql) {
             // heart beat will trigger in 2 secs, then reset to 1 sec later, since tracker request
             // was sent 2 secs ago
         }).then(function () {
-            return Q.delay(2100); // ping request NOT sent here (heart beat triggered. after, .9s to next heartbeat)
+            return Q.delay(2100); // ping request NOT sent here
         }).then(function () {
-            // test ping sent N secs after second tracking request if inactive.
+            // test ping not sent N secs after second tracking request if inactive.
             tracker.setCustomData('token', 4 + tokenBase);
 
-            return Q.delay(2100); // ping request sent here (heart beat triggered after 1s; 2s to next heart beat)
+            return Q.delay(2100); // ping request not sent here
         }).then(function () {
-            // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+            // test ping sent once after window blur event triggered (ie tab switch).
             tracker.setCustomData('token', 5 + tokenBase);
 
             triggerEvent(window, 'blur');
 
-            return Q.delay(3000); // ping request not sent here (heart beat triggered after 2s; 1s to next heart beat)
+            return Q.delay(4000); // ping request sent here because of blur
         }).then(function () {
-            // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+            // test ping not sent on focus
             tracker.setCustomData('token', 6 + tokenBase);
 
-            triggerEvent(window, 'focus'); // ping request sent here
+            triggerEvent(window, 'focus'); // no ping request sent here
 
             tracker.disableHeartBeatTimer(); // flatline
 
-            return Q.delay(1000); // for the ping request to get sent
+            return Q.delay(1000); // for a ping request to get sent if there was one
         }).then(function () {
             var token;
 
@@ -4273,23 +4274,21 @@ if ($mysql) {
 
             requests = fetchTrackedRequests(token = 2 + tokenBase, true);
             ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
-            ok(/ping=1/.test(requests[1]), "[token = 2] second request is ping request");
-            equal(requests.length, 2, "[token = 2] only 2 requests sent for normal ping");
+            equal(requests.length, 1, "[token = 2] only 1 requests sent for normal ping");
 
             requests = fetchTrackedRequests(token = 3 + tokenBase, true);
             ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 3] first request is page view not ping");
             equal(requests.length, 1, "[token = 3] no ping request sent if other request sent in meantime");
 
             requests = fetchTrackedRequests(token = 4 + tokenBase, true);
-            ok(/ping=1/.test(requests[0]), "[token = 4] ping request sent if no other activity and after heart beat");
-            equal(requests.length, 1, "[token = 4] only ping request sent if no other activity");
+            equal(requests.length, 0, "[token = 4] no ping request sent if no other activity");
 
             requests = fetchTrackedRequests(token = 5 + tokenBase, true);
-            equal(requests.length, 0, "[token = 5] no requests sent if window not in focus");
+            ok(/ping=1/.test(requests[0]), "[token = 5] ping request sent on blur");
+            equal(requests.length, 1, "[token = 5] one request is sent if window is blurred");
 
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
-            ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
-            equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+            equal(requests.length, 0, "[token = 6] no ping request is sent after window regains focus");
 
             start();
         });
