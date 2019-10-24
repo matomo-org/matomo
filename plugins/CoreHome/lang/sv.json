@@ -104,6 +104,7 @@
         "StandardReport": "Standardrapport",
         "FlattenReport": "Platta till rapport",
         "ReportWithMetadata": "Rapport med metadata",
-        "SeeAvailableVersions": "Se tillgängliga versioner"
+        "SeeAvailableVersions": "Se tillgängliga versioner",
+        "QuickLinks": "Snabblänkar"
     }
 }

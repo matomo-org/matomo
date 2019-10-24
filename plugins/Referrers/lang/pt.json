@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "motores de pesquisa distintos",
         "DistinctSocialNetworks": "redes sociais distintas",
         "DistinctWebsites": "sites distintos",
+        "DistinctWebsiteUrls": "endereços distintos do site",
         "EvolutionDocumentation": "Isto é uma visão global dos referenciadores que trouxeram visitantes ao seu site.",
         "EvolutionDocumentationMoreInfo": "Para mais informações sobre os diferentes tipos de canais, consulte a documentação da tabela %s.",
         "Keywords": "Palavras-chave",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Lista de redes sociais",
         "WidgetTopKeywordsForPages": "Principais palavras-chave por endereço de página",
         "XPercentOfVisits": "%s de visitas",
-        "Acquisition": "Aquisição"
+        "Acquisition": "Aquisição",
+        "VisitorsFromSearchEngines": "Visitantes de motores de pesquisa",
+        "PercentOfX": "Percentagem de %s",
+        "VisitorsFromSocialNetworks": "Visitantes de redes sociais",
+        "VisitorsFromDirectEntry": "Visitantes de entrada direta",
+        "VisitorsFromWebsites": "Visitantes de sites",
+        "VisitorsFromCampaigns": "Visitantes de campanhas"
     }
 }

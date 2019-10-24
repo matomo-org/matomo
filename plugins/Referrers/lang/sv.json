@@ -5,6 +5,8 @@
         "CampaignsDocumentation": "Besökare som kom till din webbplats som resulterades av en kampanj. %1$s Se rapporten %2$s för mer information.",
         "CampaignsReportDocumentation": "Rapporten visar vilka kampanjer som har lett besökare till din webbplats. %1$s För mer information om hur du spårar kampanjer, läs %2$skampanjernas dokumentation på matomo.org%3$s",
         "ColumnCampaign": "Kampanj",
+        "CampaignSource": "Kampanjkälla",
+        "CampaignContent": "Kampanjinnehåll",
         "ColumnSearchEngine": "Sökmotor",
         "ColumnSocial": "Sociala nätverk",
         "ColumnWebsite": "Webbplats",
@@ -40,6 +42,7 @@
         "TypeSocialNetworks": "%s från sociala nätverk",
         "TypeWebsites": "%s från webbplatser",
         "UsingNDistinctUrls": "(använder %s distinkta urler)",
+        "GenerateUrl": "Skapa URL",
         "URLCampaignBuilderResult": "Genererad URL som du kan kopiera och klistra in i dina kampanjer, nyhetsbrev, Facebook annonser eller tweets:",
         "ViewAllReferrers": "Visa alla hänvisningar",
         "ViewReferrersBy": "Visa hänvisningar efter %s",
@@ -50,6 +53,9 @@
         "WidgetSocials": "Lista över sociala nätverk",
         "WidgetTopKeywordsForPages": "Toppnyckelord för sid-URL",
         "XPercentOfVisits": "%s av besökare",
-        "Acquisition": "Förvärv"
+        "Acquisition": "Förvärv",
+        "VisitorsFromSocialNetworks": "Besökare från sociala nätverk",
+        "VisitorsFromWebsites": "Besökare från webbplatser",
+        "VisitorsFromCampaigns": "Besökare från kampanjer"
     }
 }
