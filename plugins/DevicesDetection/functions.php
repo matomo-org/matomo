@@ -134,6 +134,7 @@ function getDeviceTypeLabel($label)
         'smart display' => 'DevicesDetection_SmartDisplay',
         'camera'        => 'DevicesDetection_Camera',
         'portable media player' => 'DevicesDetection_PortableMediaPlayer',
+        'smart speaker' => 'DevicesDetection_SmartSpeaker',
     );
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
