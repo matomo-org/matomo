@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.13.0
+
+### New API
+* New tracker method `setVisitStandardLength` which lets you configure a custom visit standard length in case a custom "visit_standard_length" is configured in the config. Setting only applies when heart beat is enabled.
+
 ## Matomo 3.12.0
 
 ### New API
