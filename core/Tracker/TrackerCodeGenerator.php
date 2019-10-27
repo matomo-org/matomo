@@ -267,8 +267,6 @@ class TrackerCodeGenerator
             if (!empty($url)) {
                 $websiteHosts[] = $url;
             }
-            
-            $websiteHosts[] = $url;
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {
