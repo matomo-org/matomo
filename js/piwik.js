@@ -1098,6 +1098,7 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+            coreHeartBeatCounter = 0,
 
             trackerIdCounter = 0,
 
@@ -3748,7 +3749,10 @@ if (typeof window.Piwik !== 'object') {
 
                 addEventListener(windowAlias, 'focus', heartBeatOnFocus);
                 addEventListener(windowAlias, 'blur', heartBeatOnBlur);
-                Piwik.addPlugin('HeartBeat', {
+
+                // when using multiple trackers then we need to add this event for each tracker
+                coreHeartBeatCounter++;
+                Piwik.addPlugin('HeartBeat' + coreHeartBeatCounter, {
                     unload: function () {
                         // we can't remove the unload plugin event when disabling heart beat timer but we at least
                         // check if it is still enabled... note: when enabling heart beat, then disabling, then
