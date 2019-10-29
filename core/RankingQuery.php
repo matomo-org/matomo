@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -41,6 +41,9 @@ use Exception;
  */
 class RankingQuery
 {
+    // a special label used to mark the 'Others' row in a ranking query result set. this is mapped to the
+    // datatable summary row during archiving.
+    const LABEL_SUMMARY_ROW = '__mtm_ranking_query_others__';
 
     /**
      * Contains the labels of the inner query.
@@ -84,7 +87,7 @@ class RankingQuery
      * The value to use in the label of the 'Others' row.
      * @var string
      */
-    private $othersLabelValue = 'Others';
+    private $othersLabelValue = self::LABEL_SUMMARY_ROW;
 
     /**
      * Constructor.
@@ -223,7 +226,7 @@ class RankingQuery
     public function execute($innerQuery, $bind = array())
     {
         $query = $this->generateRankingQuery($innerQuery);
-        $data  = Db::fetchAll($query, $bind);
+        $data  = Db::getReader()->fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
             // split the result into the regular result and the rows with special treatment

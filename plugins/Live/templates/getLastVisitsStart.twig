@@ -1,6 +1,9 @@
 {# some users view thousands of pages which can crash the browser viewing Live! #}
 {% set maxPagesDisplayedByVisitor=100 %}
 
+{% if error is not empty %}
+<div piwik-alert="danger">{{ error }}</div>
+{% else %}
 <ul id="visitsLive">
     {% for visitor in visitors.getRows() %}
         <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
@@ -128,3 +131,4 @@ $(function () {
     });
 });
 </script>
+{% endif %}

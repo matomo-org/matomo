@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -18,10 +18,84 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class DbTest extends IntegrationTestCase
 {
+    private $dbReaderConfigBackup;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->dbReaderConfigBackup = Config::getInstance()->database_reader;
+    }
+
+    public function tearDown()
+    {
+        Db::destroyDatabaseObject();
+        Config::getInstance()->database_reader = $this->dbReaderConfigBackup;
+        parent::tearDown();
+    }
+
     public function test_getColumnNamesFromTable()
     {
         $this->assertColumnNames('access', array('idaccess', 'login', 'idsite', 'access'));
         $this->assertColumnNames('option', array('option_name', 'option_value', 'autoload'));
+    }
+
+    public function test_getDb()
+    {
+        $db = Db::get();
+        $this->assertNotEmpty($db);
+        $this->assertTrue($db instanceof Db\AdapterInterface);
+    }
+
+    public function test_hasReaderDatabaseObject_byDefaultNotInUse()
+    {
+        $this->assertFalse(Db::hasReaderDatabaseObject());
+    }
+
+    public function test_hasReaderConfigured_byDefaultNotConfigured()
+    {
+        $this->assertFalse(Db::hasReaderConfigured());
+    }
+
+    public function test_getReader_whenNotConfigured_StillReturnsRegularDbConnection()
+    {
+        $this->assertFalse(Db::hasReaderConfigured());// ensure no reader is configured
+        $db = Db::getReader();
+        $this->assertNotEmpty($db);
+        $this->assertTrue($db instanceof Db\AdapterInterface);
+    }
+
+    public function test_withReader()
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $this->assertFalse(Db::hasReaderDatabaseObject());
+        $this->assertTrue(Db::hasReaderConfigured());
+
+        $db = Db::getReader();
+        $this->assertNotEmpty($db);
+        $this->assertTrue($db instanceof Db\AdapterInterface);
+
+        $this->assertTrue(Db::hasReaderDatabaseObject());
+        Db::destroyDatabaseObject();
+        $this->assertFalse(Db::hasReaderDatabaseObject());
+    }
+
+    public function test_withReader_createsDifferentConnectionForDb()
+    {
+        Config::getInstance()->database_reader = Config::getInstance()->database;
+
+        $db = Db::getReader();
+        $this->assertNotSame($db->getConnection(), Db::get()->getConnection());
+    }
+
+    public function test_withoutReader_usesSameDbConnection()
+    {
+        $this->assertFalse(Db::hasReaderConfigured());
+        $this->assertFalse(Db::hasReaderDatabaseObject());
+
+        $db = Db::getReader();
+        $this->assertSame($db->getConnection(), Db::get()->getConnection());
     }
 
     private function assertColumnNames($tableName, $expectedColumnNames)

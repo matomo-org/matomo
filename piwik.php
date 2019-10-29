@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @package Piwik
@@ -24,6 +24,8 @@ if (!defined('PIWIK_DOCUMENT_ROOT')) {
 }
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
+} elseif (file_exists(PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php')) {
+    require_once PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php';
 }
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);

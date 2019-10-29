@@ -271,7 +271,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
 				ORDER BY log_link_visit_action.idvisit, server_time ASC
 				 ";
-        $actionDetails = Db::fetchAll($sql);
+        $actionDetails = $this->getDb()->fetchAll($sql);
         return $actionDetails;
     }
 

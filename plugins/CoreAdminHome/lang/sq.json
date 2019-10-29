@@ -4,6 +4,7 @@
         "Administration": "Administrim",
         "ArchivingSettings": "Rregullime arkivimi",
         "BrandingSettings": "Rregullime marke",
+        "ErrorEmailFromAddressNotValid": "Adresa SMTP për fushën Nga s’është e vlefshme",
         "ReleaseChannel": "Kanal hedhjesh në qarkullim",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
         "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\".",
@@ -29,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "Parametër Fjalëkyçesh Fushatash",
         "JSTracking_CampaignNameParam": "Parametër Emrash Fushatash",
         "JSTracking_CodeNoteBeforeClosingHead": "Bëni të mundur që ky kod të gjendet në çdo faqe të sajtit tuaj. Këshillojmë ta ngjitni mu para etiketës mbyllëse %1$s.",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "Bëni të mundur që ky kod të jetë i trupëzuar brenda një elementi programthi në çdo faqe të sajtit tuaj. Këshillojmë ta ngjitni mu para etiketës mbyllëse të kreut.",
         "JSTracking_CustomCampaignQueryParam": "Përdorni emra vetjakë parametrash kërkese për emra & fjalëkyçe të fushatës",
         "JSTracking_CrossDomain": "Si parazgjedhje, ID-ja e vizitorit që identifikon një vizitor unik depozitohet në cookies shfletuesi nga pala e interesuar, të cilat mund të lexohen vetëm nga faqe të së njëjtës përkatësi. Aktivizimi i lidhjes nga përkatësia në përkatësi ju lejon të ndiqni krejt veprimet dhe parjet e faqeve të një vizitori të dhënë për të njëjtën vizitë edhe kur ai sheh faqe në disa përkatësi. Kurdo që një përdorues klikon mbi një lidhje te një nga URL-të alias të sajtit tuaj, do të shtohet një parametër URL-je pk_vid që jep ID-në e Vizitorit.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Që të mund të përdorni lidhje ndërpërkatësore, duhet të përcaktoni më shumë se një emër përkatësie (URL-ra) për sajtin tuaj.",
@@ -53,7 +55,8 @@
         "JSTracking_EndNote": "Shënim: Te ndarja %1$sKod Ndjekjeje%2$s e përgjegjësit mund të prodhoni kod vetjak ndjekjesh.",
         "JSTrackingIntro1": "Vizitorët në sajtin tuaj mund t’i ndiqni në mjaft rrugë të ndryshme. Rruga e këshilluar për ta bërë është përmes JavaScript-it. Që të përdoret kjo metodë, duhet të garantoni që çdo faqe e sajtit tuaj të përmbajë një copëz kodi JavaScript, të cilin mund ta prodhoni nga këtu.",
         "JSTrackingIntro2": "Pasi të keni kodin JavaScript të ndjekjeve për sajtin tuaj, kopjojeni dhe hidheni te krejt faqet që dëshironi të ndiqet me Matomo.",
-        "JSTrackingIntro3b": "Në shumicën e sajteve, blogjeve, CMS-ve, etj. mund të përdorni shtojca të parapërgatitura që do të bënin për ju punën teknike. (Shihni %1$slistën tonë të shtojcave të përdorura për të integruar Matomo-n%2$s.) Nëse s’ka shtojcë të tillë, mund të përpunoni gjedhet e sajtit tuaj dhe të shtoni kodin e gjurmimit JavaScript te etiketa &lt;\/head&gt;, e cila shpesh përkufizohet brenda një kartele gjedhe 'header.php', 'header.tpl' ose të ngjashme.",
+        "JSTrackingIntro3a": "Në shumicën e sajteve, blogjeve, CMS-ve, etj. mund të përdorni një shtojcë të gatshme, për të bërë punën teknike në vendin tuaj. (Shihni %1$slistën tonë të shtojcave të përdorura për integrim të Matomo-s%2$s).",
+        "JSTrackingIntro3b": "Nëse s’ka shtojcë të tillë, mund të përpunoni gjedhet e sajtit tuaj dhe të shtoni kodin e gjurmimit JavaScript te etiketa &lt;\/head&gt;, e cila shpesh përkufizohet brenda një kartele gjedhe 'header.php', 'header.tpl' ose të ngjashme.",
         "JSTrackingIntro4": "Nëse s’doni të përdorni JavaScript-in për ndjekje vizitorësh, %1$sprodhoni më poshtë një lidhje ndjekjeje figurash%2$s.",
         "JSTrackingIntro5": "Nëse dëshironi të bëni më shumë se sa thjesht ndjekje parjesh të faqeve, ju lutemi, hidhini një sy %1$sdokumentimit të Ndjekjeve Matomo me Javascript%2$s për listën e plotë të funksioneve të mundshëm. Duke përdorur këto funksione mund të ndiqni objektiva, ndryshore vetjake, porosi e-tregtie, shporta të braktisura, etj.",
         "LogoNotWriteableInstruction": "Që të përdorni logon tuaj vetjake në vend të asaj parazgjedhje të Matomo-s, jepni të drejta shkrimi mbi këtë drejtori: %1$s Matomo lyp hyrje shkrimi për logot tuaja të depozituara në kartelat %2$s.",
@@ -131,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Jeni i sigurt se doni të fshihet ky dështim ndjekje?",
         "TrackingFailuresEmailSubject": "Dështime ndjekjeje te Matomo Analytics juaj",
         "TrackingFailuresEmail1": "Kjo bëhet vetëm për t’ju bërë të ditur se ditët e fundit kanë ndodhur %s lloje të ndryshme dështimesh ndjekjeje.",
-        "TrackingFailuresEmail2": "Që të shihni krejt kërkesat me ndjekje të dështuar %1$sklikoni këtu%2$s."
+        "TrackingFailuresEmail2": "Që të shihni krejt kërkesat me ndjekje të dështuar %1$sklikoni këtu%2$s.",
+        "ImportFromGoogleAnalytics": "Importim prej Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Nëse keni një zotërim Google Analytics dhe po kaloni në Matomo, mund të importoni të dhënat tuaja ekzistuese duke përdorur shtojcën %1$sGoogleAnalyticsImporter%2$s."
     }
 }

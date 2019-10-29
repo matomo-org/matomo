@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -74,7 +74,7 @@ class APITest extends IntegrationTestCase
     private function assertResponseIsPermissionError($response)
     {
         $this->assertSame('error', $response['result']);
-        $this->assertStringStartsWith('General_ExceptionPrivilegeAccessWebsite', $response['message']);
+        $this->assertStringStartsWith('General_YouMustBeLoggedIn', $response['message']);
     }
 
     private function assertResponseIsSuccess($response)

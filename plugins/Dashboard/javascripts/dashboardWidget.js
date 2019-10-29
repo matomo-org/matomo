@@ -146,10 +146,21 @@
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
-            var segment = broadcast.getValueFromHash('segment') || broadcast.getValueFromUrl('segment');
-            if (segment.length) {
-                this.widgetParameters.segment = segment;
-            }
+            ['segment'].forEach(function (paramName) {
+                var value = broadcast.getValueFromHash(paramName) || broadcast.getValueFromUrl(paramName);
+                if (value.length) {
+                    self.widgetParameters[paramName] = value;
+                }
+            });
+
+            ['compareSegments', 'comparePeriods', 'compareDates'].forEach(function (paramName) {
+                var value = broadcast.getValueFromHash(paramName) || broadcast.getValueFromUrl(paramName);
+                if (value.length) {
+                    self.widgetParameters[paramName] = value;
+                } else {
+                    delete self.widgetParameters[paramName];
+                }
+            });
 
             if (!hideLoading) {
                 $('.widgetContent', currentWidget).addClass('loading');

@@ -2,13 +2,14 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Db as TrackerDb;
@@ -19,6 +20,7 @@ use Piwik\Tracker\RequestSet;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Tracker\Visit;
 use Piwik\Plugin\Manager as PluginManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -43,6 +45,16 @@ class Tracker
     private $countOfLoggedRequests = 0;
     protected $isInstalled = null;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = StaticContainer::get(LoggerInterface::class);
+    }
+
     public function isDebugModeEnabled()
     {
         return array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS) && $GLOBALS['PIWIK_TRACKER_DEBUG'] === true;
@@ -53,7 +65,7 @@ class Tracker
         $record = TrackerConfig::getConfigValue('record_statistics') != 0;
 
         if (!$record) {
-            Common::printDebug('Tracking is disabled in the config.ini.php via record_statistics=0');
+            $this->logger->debug('Tracking is disabled in the config.ini.php via record_statistics=0');
         }
 
         return $record && $this->isInstalled();
@@ -74,8 +86,9 @@ class Tracker
             ErrorHandler::registerErrorHandler();
             ExceptionHandler::setUp();
 
-            Common::printDebug("Debug enabled - Input parameters: ");
-            Common::printDebug(var_export($_GET + $_POST, true));
+            $this->logger->debug("Debug enabled - Input parameters: {params}", [
+                'params' => var_export($_GET + $_POST, true),
+            ]);
         }
     }
 
@@ -129,9 +142,11 @@ class Tracker
     public function trackRequest(Request $request)
     {
         if ($request->isEmptyRequest()) {
-            Common::printDebug("The request is empty");
+            $this->logger->debug('The request is empty');
         } else {
-            Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
+            $this->logger->debug('Current datetime: {date}', [
+                'date' => date("Y-m-d H:i:s", $request->getCurrentTimestamp()),
+            ]);
 
             $visit = Visit\Factory::make();
             $visit->setRequest($request);
@@ -306,15 +321,20 @@ class Tracker
         try {
             $pluginManager  = PluginManager::getInstance();
             $pluginsTracker = $pluginManager->loadTrackerPlugins();
-            Common::printDebug("Loading plugins: { " . implode(", ", $pluginsTracker) . " }");
+
+            $this->logger->debug("Loading plugins: { {plugins} }", [
+                'plugins' => implode(", ", $pluginsTracker),
+            ]);
         } catch (Exception $e) {
-            Common::printDebug("ERROR: " . $e->getMessage());
+            $this->logger->error('Error loading tracker plugins: {exception}', [
+                'exception' => $e,
+            ]);
         }
     }
 
     private function handleFatalErrors()
     {
-        register_shutdown_function(function () {
+        register_shutdown_function(function () { // TODO: add a log here
             $lastError = error_get_last();
             if (!empty($lastError) && $lastError['type'] == E_ERROR) {
                 Common::sendResponseCode(500);

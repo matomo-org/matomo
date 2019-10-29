@@ -16,73 +16,72 @@ describe("Tour", function () {
     var widgetUrl = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Tour&actionToWidgetize=getEngagement";
 
 
-    function setCompleteAllChallenges()
+    async function setCompleteAllChallenges()
     {
         testEnvironment.completeAllChallenges = 1;
         testEnvironment.save();
     }
 
-    function setCompleteNoChallenges()
+    async function setCompleteNoChallenges()
     {
         testEnvironment.completeNoChallenge = 1;
         testEnvironment.save();
     }
 
-    before(function () {
+    before(async function () {
         testEnvironment.pluginsToLoad = ['Tour'];
         testEnvironment.save();
     });
 
-    afterEach(function () {
+    afterEach(async function () {
         delete testEnvironment.completeAllChallenges;
         delete testEnvironment.completeNoChallenge;
         testEnvironment.save();
     });
 
-    it('should load widget', function (done) {
-        expect.screenshot('widget_initial').to.be.capture(function (page) {
-            page.load(widgetUrl);
-        }, done);
+    it('should load widget', async function () {
+        await page.goto(widgetUrl);
+        expect(await page.screenshot()).to.matchImage('widget_initial');
     });
 
-    it('should skip goal step', function (done) {
-        expect.screenshot('widget_skipped_goal').to.be.capture(function (page) {
-            page.click('.tourChallenge.define_goal .icon-hide');
-        }, done);
+    it('should skip goal step', async function () {
+        await page.click('.tourChallenge.define_goal .icon-hide');
+        expect(await page.screenshot()).to.matchImage('widget_skipped_goal');
     });
 
-    it('should mark some challanges as completed', function (done) {
-        expect.screenshot('widget_complete_some_challenges').to.be.capture(function (page) {
-            page.load('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&viewDataTable=table&flat=1&actionToWidgetize=getPageUrls&idSite=1&period=range&date=2018-01-02,2018-01-03&disableLink=1&widget=1&');
-            page.load('?module=Widgetize&action=iframe&forceView=1&viewDataTable=VisitorLog&small=1&disableLink=0&widget=1&moduleToWidgetize=Live&actionToWidgetize=getLastVisitsDetails&idSite=1&period=day&date=yesterday&disableLink=1&widget=1');
-            page.load('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup&idSite=1&period=day&date=yesterday&disableLink=1&widget=1');
-            page.load(widgetUrl);
-        }, done);
+    it('should mark some challanges as completed', async function () {
+        await page.goto('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Actions&viewDataTable=table&flat=1&actionToWidgetize=getPageUrls&idSite=1&period=range&date=2018-01-02,2018-01-03&disableLink=1&widget=1&');
+        await page.goto('?module=Widgetize&action=iframe&forceView=1&viewDataTable=VisitorLog&small=1&disableLink=0&widget=1&moduleToWidgetize=Live&actionToWidgetize=getLastVisitsDetails&idSite=1&period=day&date=yesterday&disableLink=1&widget=1');
+        await page.goto('?module=Widgetize&action=iframe&disableLink=0&widget=1&moduleToWidgetize=Live&actionToWidgetize=getVisitorProfilePopup&idSite=1&period=day&date=yesterday&disableLink=1&widget=1');
+        await page.goto(widgetUrl);
+        expect(await page.screenshot()).to.matchImage('widget_complete_some_challenges');
     });
 
-    it('go to page 2', function (done) {
-        expect.screenshot('widget_complete_some_challenges_page_2').to.be.capture(function (page) {
-            page.click('.nextChallenges');
-        }, done);
+    it('go to page 2', async function () {
+        await page.evaluate(function () {
+            $('.nextChallenges').click();
+        });
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot()).to.matchImage('widget_complete_some_challenges_page_2');
     });
 
-    it('go to page 3', function (done) {
-        expect.screenshot('widget_complete_some_challenges_page_3').to.be.capture(function (page) {
-            page.click('.nextChallenges');
-        }, done);
+    it('go to page 3', async function () {
+        await page.evaluate(function () {
+            $('.nextChallenges').click();
+        });
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot()).to.matchImage('widget_complete_some_challenges_page_3');
     });
 
-    it('should load widget when all completed', function (done) {
-        expect.screenshot('widget_all_completed').to.be.capture(function (page) {
-            setCompleteAllChallenges();
-            page.load(widgetUrl);
-        }, done);
+    it('should load widget when all completed', async function () {
+        await setCompleteAllChallenges();
+        await page.goto(widgetUrl);
+        expect(await page.screenshot()).to.matchImage('widget_all_completed');
     });
 
-    it('should load widget when none completed', function (done) {
-        expect.screenshot('widget_none_completed').to.be.capture(function (page) {
-            setCompleteNoChallenges();
-            page.load(widgetUrl);
-        }, done);
+    it('should load widget when none completed', async function () {
+        await setCompleteNoChallenges();
+        await page.goto(widgetUrl);
+        expect(await page.screenshot()).to.matchImage('widget_none_completed');
     });
 });

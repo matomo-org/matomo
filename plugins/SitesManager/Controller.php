@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Session;
 use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
@@ -33,6 +34,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         return $this->renderTemplate('index');
     }
@@ -138,11 +140,46 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             Piwik::checkUserHasViewAccess($this->idSite);
         }
 
+        $jsTag = Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl));
+
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        $rawJsTag = TrackerCodeGenerator::stripTags($jsTag);
+
+        $showMatomoLinks = true;
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('SitesManager.showMatomoLinksInTrackingCodeEmail', array(&$showMatomoLinks));
+
+        $trackerCodeGenerator = new TrackerCodeGenerator();
+        $trackingUrl = trim(SettingsPiwik::getPiwikUrl(), '/') . '/' . $trackerCodeGenerator->getPhpTrackerEndpoint();
+
+        $emailContent = $this->renderTemplateAs('@SitesManager/_trackingCodeEmail', array(
+            'jsTag' => $rawJsTag,
+            'showMatomoLinks' => $showMatomoLinks,
+            'trackingUrl' => $trackingUrl,
+            'idSite' => $this->idSite
+        ), $viewType = 'basic');
+
+        $googleAnalyticsImporterMessage = '';
+        if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
+            $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
+                . '<p>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']) . '</p>'
+                . '<p></p>';
+
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
+        }
+
         return $this->renderTemplateAs('siteWithoutData', array(
-            'siteName'     => $this->site->getName(),
-            'idSite' => $this->idSite,
-            'jsTag'           => Request::processRequest('SitesManager.getJavascriptTag', array('idSite' => $this->idSite, 'piwikUrl' => $piwikUrl)),
-            'piwikUrl'        => $piwikUrl,
+            'siteName'      => $this->site->getName(),
+            'idSite'        => $this->idSite,
+            'jsTag'         => $jsTag,
+            'piwikUrl'      => $piwikUrl,
+            'emailBody'     => $emailContent,
+            'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
 }

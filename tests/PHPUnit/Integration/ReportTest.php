@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -375,7 +375,8 @@ class ReportTest extends IntegrationTestCase
                 'module' => 'API',
                 'method' => 'ExampleReport.getExampleReport',
                 'format_metrics' => 'bc',
-                'serialize' => '0'
+                'serialize' => '0',
+                'compare' => '0',
             )
         )->willReturn("result");
         StaticContainer::getContainer()->set(Proxy::class, $proxyMock);
@@ -399,7 +400,8 @@ class ReportTest extends IntegrationTestCase
                 'module' => 'API',
                 'method' => 'Referrers.getSearchEnginesFromKeywordId',
                 'format_metrics' => 'bc',
-                'serialize' => '0'
+                'serialize' => '0',
+                'compare' => '0',
             )
         )->willReturn("result");
         StaticContainer::getContainer()->set(Proxy::class, $proxyMock);

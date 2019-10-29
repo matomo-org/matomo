@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Updater\Migration;
@@ -66,5 +66,15 @@ abstract class Db extends Migration
      * Table '%s.%s' doesn't exist
      */
     const ERROR_CODE_TABLE_NOT_EXISTS = 1146;
+
+    /**
+     * Query execution was interrupted, maximum statement execution time exceeded
+     */
+    const ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED = 3024;
+
+    /**
+     * Sort aborted: Query execution was interrupted, maximum statement execution time exceeded
+     */
+    const ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED = 1028;
 
 }

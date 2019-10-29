@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,14 +12,17 @@ namespace Piwik\Plugins\Live;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Exception\MaxExecutionTimeExceededException;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Updater\Migration\Db as DbMigration;
 
 class Model
 {
@@ -43,20 +46,220 @@ class Model
             $limit++;
         }
 
-        list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
-
-        $visits = Db::fetchAll($sql, $bind);
-
-        if ($checkforMoreEntries) {
-            if (count($visits) == $limit) {
-                array_pop($visits);
-                return [$visits, true];
-            }
-
-            return [$visits, false];
+        // If no other filter, only look at the last 24 hours of stats
+        if (empty($visitorId)
+            && empty($limit)
+            && empty($offset)
+            && empty($period)
+            && empty($date)
+        ) {
+            $period = 'day';
+            $date = 'yesterdaySameTime';
         }
 
+        list($dateStart, $dateEnd) = $this->getStartAndEndDate($idSite, $period, $date);
+
+        $queries = $this->splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset);
+
+        $foundVisits = array();
+
+        foreach ($queries as $queryRange) {
+            $updatedLimit = $limit;
+            if (!empty($limit)) {
+                $updatedLimit = $limit - count($foundVisits);
+            }
+
+            $updatedOffset = $offset;
+            if (!empty($offset) && !empty($foundVisits)) {
+                $updatedOffset = 0; // we've already skipped enough rows
+            }
+
+            list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+
+            $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+
+            if (!empty($offset) && empty($visits)) {
+                // find out if there are any matches
+                $updatedOffset = 0;
+                list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $updatedOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
+
+                $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+                if (!empty($visits)) {
+                    // found out the number of visits that we skipped in this query
+                    $offset = $offset - count($visits);
+                }
+                continue;
+            }
+
+            if (!empty($visits)) {
+                $foundVisits = array_merge($foundVisits, $visits);
+            }
+
+            if ($limit && count($foundVisits) >= $limit) {
+                if (count($foundVisits) > $limit) {
+                    $foundVisits = array_slice($foundVisits, 0, $limit);
+                }
+                break;
+            }
+        }
+
+        if ($checkforMoreEntries) {
+            if (count($foundVisits) == $limit) {
+                array_pop($foundVisits);
+                return [$foundVisits, true];
+            }
+
+            return [$foundVisits, false];
+        }
+
+        return $foundVisits;
+    }
+
+    private function executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
+    {
+        $readerDb = Db::getReader();
+        try {
+            $visits = $readerDb->fetchAll($sql, $bind);
+        } catch (Exception $e) {
+            $this->handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
+	        throw $e;
+        }
         return $visits;
+    }
+
+	/**
+	 * @param \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db $readerDb
+	 * @param Exception $e
+	 * @param $sql
+	 * @param array $bind
+	 * @param $segment
+	 * @param $dateStart
+	 * @param $dateEnd
+	 * @param $minTimestamp
+	 * @param $limit
+	 *
+	 * @throws MaxExecutionTimeExceededException
+	 */
+    public function handleMaxExecutionTimeError($readerDb, $e, $sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit)
+    {
+	    // we also need to check for the 'maximum statement execution time exceeded' text as the query might be
+	    // aborted at different stages and we can't really know all the possible codes at which it may be aborted etc
+	    $isMaxExecutionTimeError = $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_QUERY_INTERRUPTED)
+	                               || $readerDb->isErrNo($e, DbMigration::ERROR_CODE_MAX_EXECUTION_TIME_EXCEEDED_SORT_ABORTED)
+	                               || strpos($e->getMessage(), 'maximum statement execution time exceeded') !== false;
+
+	    if ($isMaxExecutionTimeError) {
+		    $message = '';
+
+		    if ($this->isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonDateRange');
+		    }
+
+		    if (!empty($segment)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonSegment');
+		    }
+
+		    $limitThatCannotBeSelectedInUiButOnlyApi = 550;
+		    if ($limit > $limitThatCannotBeSelectedInUiButOnlyApi) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededLimit');
+		    }
+
+		    if (empty($message)) {
+			    $message .= ' ' . Piwik::translate('Live_QueryMaxExecutionTimeExceededReasonUnknown');
+		    }
+
+		    $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
+
+		    $params = array(
+			    'sql' => $sql, 'bind' => $bind, 'segment' => $segment, 'limit' => $limit
+		    );
+
+		    /**
+		     * @ignore
+		     * @internal
+		     */
+		    Piwik::postEvent('Live.queryMaxExecutionTimeExceeded', array($params));
+		    throw new MaxExecutionTimeExceededException($message);
+	    }
+    }
+
+    /**
+     * @param Date|null $dateStart
+     * @param Date|null $dateEnd
+     * @param int|null $minTimestamp
+     * @return bool
+     * @throws Exception
+     */
+    public function isLookingAtMoreThanOneDay($dateStart, $dateEnd, $minTimestamp)
+    {
+        if (!$dateStart) {
+            if (!$minTimestamp) {
+                return true;
+            } else {
+                $dateStart = Date::factory($minTimestamp);
+            }
+        }
+
+        if (!$dateEnd) {
+            $dateEnd = Date::now();
+        }
+
+        if ($dateEnd->subHour(36)->isEarlier($dateStart)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function splitDatesIntoMultipleQueries($dateStart, $dateEnd, $limit, $offset)
+    {
+        $virtualDateEnd = $dateEnd;
+        if (empty($dateEnd)) {
+            $virtualDateEnd = Date::now()->addDay(1); // matomo always adds one day for some reason
+        }
+
+        $virtualDateStart = $dateStart;
+        if (empty($virtualDateStart)) {
+            $virtualDateStart = Date::factory(Date::FIRST_WEBSITE_TIMESTAMP);
+        }
+
+        $queries = [];
+        $hasStartEndDateMoreThanOneDayInBetween = $virtualDateStart && $virtualDateStart->addDay(1)->isEarlier($virtualDateEnd);
+        if ($limit
+            && $hasStartEndDateMoreThanOneDayInBetween
+        ) {
+            $virtualDateEnd = $virtualDateEnd->subDay(1);
+            $queries[] = array($virtualDateEnd, $dateEnd); // need to use ",endDate" in case endDate is not set
+
+            if ($virtualDateStart->addDay(7)->isEarlier($virtualDateEnd)) {
+                $queries[] = array($virtualDateEnd->subDay(7), $virtualDateEnd->subSeconds(1));
+                $virtualDateEnd = $virtualDateEnd->subDay(7);
+            }
+
+            if (!$offset) {
+                // only when no offset
+                // we would in worst case - if not enough visits are found to bypass the offset - execute below queries too often.
+                // like we would need to execute each of the queries twice just to find out if there are some visits that
+                // need to be skipped...
+
+                if ($virtualDateStart->addDay(30)->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subDay(30), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subDay(30);
+                }
+                if ($virtualDateStart->addPeriod(1, 'year')->isEarlier($virtualDateEnd)) {
+                    $queries[] = array($virtualDateEnd->subYear(1), $virtualDateEnd->subSeconds(1));
+                    $virtualDateEnd = $virtualDateEnd->subYear(1);
+                }
+            }
+
+            if ($virtualDateStart->isEarlier($virtualDateEnd)) {
+                // need to use ",endDate" in case startDate is not set in which case we do not want to have any limit
+                $queries[] = array($dateStart, $virtualDateEnd->subSeconds(1));
+            }
+        } else {
+            $queries[] = array($dateStart, $dateEnd);
+        }
+        return $queries;
     }
 
     /**
@@ -161,7 +364,7 @@ class Model
         $segment = new Segment($segment, $idSite);
         $query   = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $numVisitors = Db::fetchOne($query['sql'], $query['bind']);
+        $numVisitors = Db::getReader()->fetchOne($query['sql'], $query['bind']);
 
         return $numVisitors;
     }
@@ -231,7 +434,7 @@ class Model
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
 
-        $visitorId = Db::fetchOne($sql, $bind);
+        $visitorId = Db::getReader()->fetchOne($sql, $bind);
         if (!empty($visitorId)) {
             $visitorId = bin2hex($visitorId);
         }
@@ -240,8 +443,8 @@ class Model
 
     /**
      * @param $idSite
-     * @param $period
-     * @param $date
+     * @param Date $startDate
+     * @param Date $endDate
      * @param $segment
      * @param int $offset
      * @param int $limit
@@ -251,23 +454,11 @@ class Model
      * @return array
      * @throws Exception
      */
-    public function makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
+    public function makeLogVisitsQueryString($idSite, $startDate, $endDate, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
     {
-        // If no other filter, only look at the last 24 hours of stats
-        if (empty($visitorId)
-            && empty($limit)
-            && empty($offset)
-            && empty($period)
-            && empty($date)
-        ) {
-            $period = 'day';
-            $date = 'yesterdaySameTime';
-        }
-
-
         list($whereClause, $bindIdSites) = $this->getIdSitesWhereClause($idSite);
 
-        list($whereBind, $where) = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp);
+        list($whereBind, $where) = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp);
 
         if (strtolower($filterSortOrder) !== 'asc') {
             $filterSortOrder = 'DESC';
@@ -278,41 +469,57 @@ class Model
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";
         $from = "log_visit";
-        $groupBy = false;
+
         $limit = $limit >= 1 ? (int)$limit : 0;
         $offset = $offset >= 1 ? (int)$offset : 0;
 
         $orderBy = '';
         if (count($bindIdSites) <= 1) {
-            $orderBy = 'idsite ' . $filterSortOrder . ', ';
+            $orderBy = 'log_visit.idsite ' . $filterSortOrder . ', ';
         }
 
-        $orderBy .= "visit_last_action_time " . $filterSortOrder;
-        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+        $orderBy .= "log_visit.visit_last_action_time " . $filterSortOrder;
 
-        // this $innerLimit is a workaround (see https://github.com/piwik/piwik/issues/9200#issuecomment-183641293)
+        if ($segment->isEmpty()) {
+            $groupBy = false;
+        } else {
+            // see https://github.com/matomo-org/matomo/issues/13861
+            $groupBy = 'log_visit.idvisit';
+        }
+
         $innerLimit = $limit;
-        if (!$segment->isEmpty()) {
-            $innerLimit = $limit * 10;
-        }
 
-        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset);
+        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset, $forceGroupBy = true);
 
         $bind = $innerQuery['bind'];
-        // Group by idvisit so that a given visit appears only once, useful when for example:
-        // 1) when a visitor converts 2 goals
-        // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
-        $sql = "
-			SELECT sub.* FROM (
-				" . $innerQuery['sql'] . "
-			) AS sub
-			GROUP BY sub.idvisit
-			ORDER BY $orderByParent
-		";
-        if($limit) {
-            $sql .= sprintf("LIMIT %d \n", $limit);
+
+        $maxExecutionTimeHint = $this->getMaxExecutionTimeMySQLHint();
+        if ($visitorId) {
+            // for now let's not apply when looking for a specific visitor
+            $maxExecutionTimeHint = '';
         }
-        return array($sql, $bind);
+        if ($maxExecutionTimeHint) {
+            $innerQuery['sql'] = trim($innerQuery['sql']);
+            $pos = stripos($innerQuery['sql'], 'SELECT');
+            if ($pos !== false) {
+                $innerQuery['sql'] = substr_replace($innerQuery['sql'], 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+            }
+        }
+
+        return array($innerQuery['sql'], $bind);
+    }
+
+    private function getMaxExecutionTimeMySQLHint()
+    {
+        $general = Config::getInstance()->General;
+        $maxExecutionTime = $general['live_query_max_execution_time'];
+        $maxExecutionTimeHint = '';
+        if (is_numeric($maxExecutionTime) && $maxExecutionTime > 0) {
+            $timeInMs = $maxExecutionTime * 1000;
+            $timeInMs = (int) $timeInMs;
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+        }
+        return $maxExecutionTimeHint;
     }
 
     /**
@@ -325,35 +532,19 @@ class Model
     }
 
     /**
-     * @param string $whereClause
-     * @param array $bindIdSites
+     * for tests only
      * @param $idSite
      * @param $period
      * @param $date
-     * @param $visitorId
-     * @param $minTimestamp
-     * @return array
+     * @return Date[]
      * @throws Exception
+     * @internal
      */
-    private function getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp)
+    public function getStartAndEndDate($idSite, $period, $date)
     {
-        $where = array();
-        if (!empty($whereClause)) {
-            $where[] = $whereClause;
-        }
-        $whereBind = $bindIdSites;
+        $dateStart = null;
+        $dateEnd = null;
 
-        if (!empty($visitorId)) {
-            $where[] = "log_visit.idvisitor = ? ";
-            $whereBind[] = @Common::hex2bin($visitorId);
-        }
-
-        if (!empty($minTimestamp)) {
-            $where[] = "log_visit.visit_last_action_time > ? ";
-            $whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
-        }
-
-        // SQL Filter with provided period
         if (!empty($period) && !empty($date)) {
             if ($idSite === 'all' || is_array($idSite)) {
                 $currentTimezone = Request::processRequest('SitesManager.getDefaultTimezone');
@@ -378,9 +569,13 @@ class Model
                 }
                 $processedPeriod = Period\Factory::build($period, $processedDate);
             }
+
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
-            $where[] = "log_visit.visit_last_action_time >= ?";
-            $whereBind[] = $dateStart->toString('Y-m-d H:i:s');
+
+            $now = Date::now();
+            if ($dateStart->isLater($now)) {
+                $dateStart = $now;
+            }
 
             if (!in_array($date, array('now', 'today', 'yesterdaySameTime'))
                 && strpos($date, 'last') === false
@@ -388,10 +583,56 @@ class Model
                 && Date::factory($dateString)->toString('Y-m-d') != Date::factory('now', $currentTimezone)->toString()
             ) {
                 $dateEnd = $processedPeriod->getDateEnd()->setTimezone($currentTimezone);
-                $where[] = " log_visit.visit_last_action_time <= ?";
-                $dateEndString = $dateEnd->addDay(1)->toString('Y-m-d H:i:s');
-                $whereBind[] = $dateEndString;
+                $dateEnd = $dateEnd->addDay(1);
+
+                if ($dateEnd->isLater(Date::now())) {
+                    // making sure dateEnd is bit higher than start date plus in case a second past by now ...
+                    $dateEnd = $now->addPeriod(1, 'second');
+                }
             }
+        }
+
+        return [$dateStart, $dateEnd];
+    }
+
+    /**
+     * @param string $whereClause
+     * @param array $bindIdSites
+     * @param Date $startDate
+     * @param Date $endDate
+     * @param $visitorId
+     * @param $minTimestamp
+     * @return array
+     * @throws Exception
+     */
+    private function getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp)
+    {
+        $where = array();
+        if (!empty($whereClause)) {
+            $where[] = $whereClause;
+        }
+        $whereBind = $bindIdSites;
+
+        if (!empty($visitorId)) {
+            $where[] = "log_visit.idvisitor = ? ";
+            $whereBind[] = @Common::hex2bin($visitorId);
+        }
+
+        if (!empty($minTimestamp)) {
+            $where[] = "log_visit.visit_last_action_time > ? ";
+            $whereBind[] = date("Y-m-d H:i:s", $minTimestamp);
+        }
+
+        // SQL Filter with provided period
+        if (!empty($startDate)) {
+            $where[] = "log_visit.visit_last_action_time >= ?";
+            $whereBind[] = $startDate->toString('Y-m-d H:i:s');
+
+        }
+
+        if (!empty($endDate)) {
+            $where[] = " log_visit.visit_last_action_time <= ?";
+            $whereBind[] = $endDate->toString('Y-m-d H:i:s');
         }
 
         if (count($where) > 0) {

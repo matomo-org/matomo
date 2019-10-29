@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -500,6 +500,7 @@ class Request
         $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
+        $params['compare'] = '0';
         $params = $paramOverride + $params;
 
         // process request
@@ -555,6 +556,10 @@ class Request
                 }
             }
         }
+
+        $params['compareDates'] = null;
+        $params['comparePeriods'] = null;
+        $params['compareSegments'] = null;
 
         return Url::getCurrentQueryStringWithParametersModified($params);
     }

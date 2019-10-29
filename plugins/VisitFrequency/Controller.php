@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
@@ -69,7 +70,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $period = Common::getRequestVar('period', false);
 
-        if ($period == 'day') {
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             // add number of unique (returning) visitors for period=day
             $selectableColumns = array_merge(
                 array($selectableColumns[0]),

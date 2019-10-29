@@ -233,6 +233,7 @@
         "GraphHelp": "Maggiori informazioni su come mostrare i grafici in Matomo.",
         "HelloUser": "Ciao, %s!",
         "Help": "Aiuto",
+        "HelpResources": "Risorse per aiuto",
         "HelpTranslatePiwik": "Forse vorresti %1$saiutarci a migliorare le traduzioni di Matomo%2$s?",
         "Hide": "nascondi",
         "HoursMinutes": "%1$s ore %2$s minuti",
@@ -244,6 +245,7 @@
         "InvalidResponse": "I dati ricevuti non sono validi.",
         "IP": "IP",
         "JsTrackingTag": "Codice JavaScript",
+        "KpiMetric": "Metrica KPI",
         "Language": "Lingua",
         "Languages": "Lingue",
         "LastDays": "Ultimi %s giorni (incluso oggi)",
@@ -366,7 +368,6 @@
         "Remove": "Rimuovi",
         "Report": "Report",
         "ReportGeneratedFrom": "Questo report è stato generato utilizzando dati da %s.",
-        "ReportRatioTooltip": "'%1$s' rappresenta %2$s di %3$s %4$s con %5$s.",
         "Reports": "Report",
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "Archivia i report al massimo ogni X secondi",
         "RearchiveTimeIntervalOnlyForTodayReports": "Questo influisce solo sui report per oggi (o per ogni intervallo di date che comprenda oggi)",
@@ -414,7 +415,6 @@
         "ToDeleteAllFilesRunThisCommand": "Per eliminare tutti questi file in una volta, puoi eseguire questo comando:",
         "Total": "Totale",
         "Totals": "Totali",
-        "TotalRatioTooltip": "Questo è %1$s di tuttti i %2$s %3$s.",
         "TotalRevenue": "Totale guadagni",
         "TotalVisitsPageviewsActionsRevenue": "(Totale: %1$s visite, %2$s pagine viste, %3$s azioni, %4$s entrate)",
         "TrackingScopeAction": "Azione",
@@ -493,7 +493,8 @@
         "YouMustBeLoggedIn": "Devi essere loggato per accedere a questa funzionalità.",
         "YourChangesHaveBeenSaved": "Le impostazioni sono state salvate.",
         "ThankYouForUsingMatomo": "Grazie per l'utilizzo di Matomo",
-        "TheMatomoTeam": "Il Team di Matomo"
+        "TheMatomoTeam": "Il Team di Matomo",
+        "PleaseTryAgain": "Prova di nuovo"
     },
     "Mobile": {
         "AboutPiwikMobile": "Informazioni su Matomo Mobile",
@@ -568,7 +569,11 @@
         "VerifyLoginData": "Verifica username e password.",
         "YouAreOffline": "Spiacente, sei al momento offline",
         "ExceptionNoViewAccess": "Si prega di controllare user name e password e di assicurarsi di avere accesso %s almeno a un sito.",
-        "Mobile_HowtoExitAndroid": "Clicca ancora su INDIETRO per uscire"
+        "Mobile_HowtoExitAndroid": "Clicca ancora su INDIETRO per uscire",
+        "MatomoMarketplace": "Marketplace di Matomo",
+        "EnterAuthCode": "Inserisci codice di autenticazione",
+        "EnterCorrectAuthCode": "Inserisci il codice di autenticazione corretto",
+        "EnterAuthCodeExplanation": "Sembra che tu stia utilizzando l'autenticazione a due fattori. Inserisci il codice a sei cifre per accedere al tuo account."
     },
     "RowEvolution": {
         "AvailableMetrics": "Metriche disponibili",

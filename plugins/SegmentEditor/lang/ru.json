@@ -15,6 +15,7 @@
         "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
         "VisibleToAllUsers": "все пользователи",
         "VisibleToMe": "меня",
-        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено."
+        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено.",
+        "Test": "Тест"
     }
 }

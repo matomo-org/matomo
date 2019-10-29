@@ -53,7 +53,7 @@
 			<nb_visits>1</nb_visits>
 			<nb_actions>4</nb_actions>
 			<nb_users>0</nb_users>
-			<conversion_rate>0%</conversion_rate>
+			<conversion_rate>100%</conversion_rate>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:06:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
@@ -64,7 +64,7 @@
 			<nb_visits>2</nb_visits>
 			<nb_actions>2</nb_actions>
 			<nb_users>0</nb_users>
-			<conversion_rate>0%</conversion_rate>
+			<conversion_rate>50%</conversion_rate>
 			<nb_actions_per_visit>1</nb_actions_per_visit>
 			<avg_time_on_site>00:03:01</avg_time_on_site>
 			<bounce_rate>100%</bounce_rate>
@@ -79,6 +79,7 @@
 		<max_actions>13</max_actions>
 		<sum_visit_length>1805</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>5</nb_visits_converted>
 		<goals>
 			<row idgoal="1">
 				<nb_conversions>5</nb_conversions>

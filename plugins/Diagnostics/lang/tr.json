@@ -6,6 +6,7 @@
         "ConfigFileIntroduction": "Matomo ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
         "HideUnchanged": "Yalnız değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "Sections": "Bölümler",
+        "DatabaseReaderConnection": "Veritabanı Okuyucu Bağlantısı",
         "CronArchivingLastRunCheck": "Son Tamamlanmış Arşivleme İşlemi",
         "CronArchivingHasNotRun": "Henüz tamamlanmış bir arşivleme işlemi yapılmamış.",
         "CronArchivingHasNotRunInAWhile": "Son tamamlanmış arşivleme işlemi %1$s tarihinde %2$s önce yapılmış.",

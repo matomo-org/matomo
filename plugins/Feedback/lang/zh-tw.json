@@ -19,16 +19,9 @@
         "ViewUserGuides": "查看我們的%1$s使用者指南%2$s以了解如何設定 Matomo 及如何有效分你的資料。",
         "CommunityHelp": "社區協助",
         "ProfessionalHelp": "專業協助",
-        "ProfessionalServicesIntro": "我們的 Matomo 全球性網路專業顧問支援那些自己架設 Matomo 的客戶。",
         "ProfessionalServicesOfferIntro": "你可以獲得哪些服務？",
-        "ProfessionalServicesReviewPiwikSetup": "Matomo 安裝的評價",
-        "ProfessionalServicesOptimizationMaintenance": "Matomo 優化及維護服務",
-        "ProfessionalServicesPhoneEmailSupport": "電話及 Email 支援",
-        "ProfessionalServicesTraining": "使用者、技術和開發人員訓練",
-        "ProfessionalServicesPremiumFeatures": "高級功能",
-        "ProfessionalServicesCustomDevelopment": "自訂服務開發",
-        "ProfessionalServicesAnalystConsulting": "分析諮詢服務",
         "ContactUs": "聯絡我們",
-        "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。"
+        "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。",
+        "Forums": "論壇"
     }
 }

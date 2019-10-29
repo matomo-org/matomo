@@ -1031,7 +1031,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials
  */
 /*global _paq:true */
 /*members push */
@@ -3635,6 +3635,8 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.setRequestHeader('Content-Type', configRequestContentType);
 
+                        xhr.withCredentials = true;
+
                         xhr.send(request);
                     } catch (e) {
                         sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request, callback);
@@ -3878,14 +3880,10 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-                if (!isDefined(navigatorAlias.cookieEnabled)) {
-                    var testCookieName = getCookieName('testcookie');
-                    setCookie(testCookieName, '1');
+				var testCookieName = getCookieName('testcookie');
+				setCookie(testCookieName, '1');
 
-                    return getCookie(testCookieName) === '1' ? '1' : '0';
-                }
-
-                return navigatorAlias.cookieEnabled ? '1' : '0';
+                return getCookie(testCookieName) === '1' ? '1' : '0';
             }
 
             /*
@@ -5914,10 +5912,6 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             this.addTracker = function (piwikUrl, siteId) {
-                if (!siteId) {
-                    throw new Error('A siteId must be given to add a new tracker');
-                }
-
                 if (!isDefined(piwikUrl) || null === piwikUrl) {
                     piwikUrl = this.getTrackerUrl();
                 }
@@ -6851,8 +6845,8 @@ if (typeof window.Piwik !== 'object') {
 
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
-                        windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
-                        windowAlias.removeEventListener('blur', heartBeatOnBlur, true);
+                        windowAlias.removeEventListener('focus', heartBeatOnFocus);
+                        windowAlias.removeEventListener('blur', heartBeatOnBlur);
                     } else if  (windowAlias.detachEvent) {
                         windowAlias.detachEvent('onfocus', heartBeatOnFocus);
                         windowAlias.detachEvent('onblur', heartBeatOnBlur);
@@ -7521,8 +7515,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
+
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), thirtyYears, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
 
@@ -7598,7 +7594,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {

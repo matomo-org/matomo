@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
@@ -390,6 +391,11 @@ class Model
          * @param string $userLogins The login handle of the deleted user.
          */
         Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+    }
+
+    public function deleteUserOptions($userLogin)
+    {
+        Option::deleteLike('UsersManager.%.' . $userLogin);
     }
 
     /**

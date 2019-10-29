@@ -106,6 +106,7 @@
         "StandardReport": "Standard Bericht",
         "FlattenReport": "Flacher Bericht",
         "ReportWithMetadata": "Bericht mit Metadaten",
-        "SeeAvailableVersions": "Zeige verfügbare Versionen"
+        "SeeAvailableVersions": "Zeige verfügbare Versionen",
+        "QuickLinks": "Schnelllinks"
     }
 }

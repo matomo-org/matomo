@@ -106,7 +106,7 @@ if (isset($_GET['requests'])) {
 
         $input    = file_get_contents("php://input");
         $requests = @json_decode($input, true);
-        $data     = json_decode(get_magic_quotes_gpc() ? stripslashes($_REQUEST['data']) : $_REQUEST['data'], true);
+        $data     = json_decode($_REQUEST['data'], true);
 
         if (!empty($requests) && isPost()) {
             $query = true;

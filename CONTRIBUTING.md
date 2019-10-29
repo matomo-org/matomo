@@ -9,7 +9,7 @@ Please read the recommendations on writing a good [bug report](https://developer
 
 ## How to suggest improvements to translations?
 
-You can help improve translations in Matomo, please read [contribute to translations](https://github.com/matomo-org/piwik/blob/master/lang/README.md).
+You can help improve translations in Matomo, please read [contribute to translations](https://github.com/matomo-org/matomo/blob/master/lang/README.md).
 
 ## How to submit code improvements via pull requests?
 

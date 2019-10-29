@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Renderer;
 
 use Exception;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Renderer;
 
 /**
@@ -51,7 +52,7 @@ class Html extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable $table
+     * @param DataTableInterface $table
      * @return string
      */
     protected function renderTable($table)
@@ -119,6 +120,8 @@ class Html extends Renderer
                     $value = "'$value'";
                 } else if (is_array($value)) {
                     $value = var_export($value, true);
+                } else if ($value instanceof DataTable\DataTableInterface) {
+                    $value = $this->renderTable($value);
                 }
                 $metadata[] = "'$name' => $value";
             }

@@ -22,7 +22,7 @@
 				<max_bandwidth>43</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<url>http://builds.piwik.org/latest.zip</url>
-				<segment>downloadUrl==http%3A%2F%2Fbuilds.piwik.org%2Flatest.zip</segment>
+				<segment>downloadUrl==http%253A%252F%252Fbuilds.piwik.org%252Flatest.zip</segment>
 			</row>
 		</subtable>
 	</row>

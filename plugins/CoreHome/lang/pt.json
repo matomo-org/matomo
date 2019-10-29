@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "As linhas agregadas encontram-se visíveis %s Oculte-as",
         "DataTableIncludeAggregateRows": "As linhas agregadas encontram-se escondidas %s Mostre-as",
         "DataTableHowToSearch": "Pressione enter ou clique no ícone de pesquisa para pesquisar",
+        "DataTableShowDimensions": "As dimensões estão combinadas %s Mostrar dimensões em separado",
+        "DataTableCombineDimensions": "As dimensões estão separadas %s Mostrar dimensões combinadas",
         "Default": "predefinido",
         "DonateCall1": "O Matomo nunca lhe custará nada para usar, mas isso não quer dizer que não nos custe nada para o criar.",
         "DonateCall2": "O Matomo precisa do seu apoio contínuo para crescer e prosperar.",
@@ -104,6 +106,7 @@
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Nivelar relatório",
         "ReportWithMetadata": "Relatório com meta-dados",
-        "SeeAvailableVersions": "Ver versões disponíveis"
+        "SeeAvailableVersions": "Ver versões disponíveis",
+        "QuickLinks": "Ligações rápidas"
     }
 }

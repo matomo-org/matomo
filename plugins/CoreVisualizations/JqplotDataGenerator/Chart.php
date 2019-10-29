@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -25,14 +25,16 @@ class Chart
     // temporary
     public $properties;
 
-    public function setAxisXLabels($xLabels)
+    public function setAxisXLabels($xLabels, $xTicks = null, $index = 0)
     {
+        $axisName = $this->getXAxis($index);
+
         $xSteps = $this->properties['x_axis_step_size'];
         $showAllTicks = $this->properties['show_all_ticks'];
 
-        $this->axes['xaxis']['labels'] = array_values($xLabels);
+        $this->axes[$axisName]['labels'] = array_values($xLabels);
 
-        $ticks = array_values($xLabels);
+        $ticks = array_values($xTicks ?: $xLabels);
 
         if (!$showAllTicks) {
             // unset labels so there are $xSteps number of blank ticks between labels
@@ -42,7 +44,7 @@ class Chart
                 }
             }
         }
-        $this->axes['xaxis']['ticks'] = $ticks;
+        $this->axes[$axisName]['ticks'] = $ticks;
     }
 
     public function setAxisXOnClick(&$onClick)
@@ -50,13 +52,19 @@ class Chart
         $this->axes['xaxis']['onclick'] = & $onClick;
     }
 
-    public function setAxisYValues(&$values)
+    public function setAxisYValues(&$values, $seriesMetadata = null)
     {
         foreach ($values as $label => &$data) {
-            $this->series[] = array(
+            $seriesInfo = array(
                 'label'         => $label,
-                'internalLabel' => $label
+                'internalLabel' => $label,
             );
+
+            if (isset($seriesMetadata[$label])) {
+                $seriesInfo = array_merge($seriesInfo, $seriesMetadata[$label]);
+            }
+
+            $this->series[] = $seriesInfo;
 
             array_walk($data, function (&$v) {
                 $v = (float) Common::forceDotAsSeparatorForDecimalPoint($v);
@@ -115,5 +123,29 @@ class Chart
         );
 
         return $data;
+    }
+
+    public function setAxisXLabelsMultiple($xLabels, $seriesToXAxis, $ticks = null)
+    {
+        foreach ($xLabels as $index => $labels) {
+            $this->setAxisXLabels($labels, $ticks === null ? null : $ticks[$index], $index);
+        }
+
+        foreach ($seriesToXAxis as $seriesIndex => $xAxisIndex) {
+            $axisName = $this->getXAxis($xAxisIndex);
+
+            // don't actually set xaxis otherwise jqplot will show too many axes. however, we need the xaxis labels, so we add them
+            // to the jqplot config
+            $this->series[$seriesIndex]['_xaxis'] = $axisName;
+        }
+    }
+
+    private function getXAxis($index)
+    {
+        $axisName = 'xaxis';
+        if ($index != 0) {
+            $axisName = 'x' . ($index + 1) . 'axis';
+        }
+        return $axisName;
     }
 }

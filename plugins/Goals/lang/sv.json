@@ -113,6 +113,7 @@
         "WhereThe": "där",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Den besökta sidan behöver inkludera ett anrop till 'trackGoal'-metoden i javaskript (%1$slär dig mer%2$s)",
         "YouCanEnableEcommerceReports": "Du kan aktivera %1$s för denna webbplats på sidan %2$s.",
-        "GoalRevenue": "Målsatt intäkt"
+        "GoalRevenue": "Målsatt intäkt",
+        "TimeInMinutes": "Tid i minuter"
     }
 }

@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Archiving settings",
         "BrandingSettings": "Branding settings",
+        "ErrorEmailFromAddressNotValid": "The SMTP from address is not valid",
         "ReleaseChannel": "Release channel",
         "ClickHereToOptIn": "Click here to opt in.",
         "ClickHereToOptOut": "Click here to opt out.",
@@ -29,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "Campaign Keyword parameter",
         "JSTracking_CampaignNameParam": "Campaign Name parameter",
         "JSTracking_CodeNoteBeforeClosingHead": "Make sure this code is on every page of your website. We recommend pasting it immediately before the closing %1$s tag.",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "Make sure this code is embedded within a script element on every page of your website. We recommend pasting it immediately before the closing head tag.",
         "JSTracking_CustomCampaignQueryParam": "Use custom query parameter names for the campaign name & keyword",
         "JSTracking_CrossDomain": "By default, the visitor ID that identifies a unique visitor is stored in the browser's first party cookies which can only be accessed by pages on the same domain. Enabling cross domain linking lets you track all the actions and pageviews of a specific visitor into the same visit even when they view pages on several domains. Whenever a user clicks on a link to one of your website's alias URLs, it will append a URL parameter pk_vid forwarding the Visitor ID.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Note: To use cross domain linking, you must specify more than one domain name (URLs) for your website.",
@@ -53,7 +55,8 @@
         "JSTracking_EndNote": "Note: You can generate a customized tracking code in the %1$sTracking Code%2$s admin section.",
         "JSTrackingIntro1": "You can track visitors to your website in many different ways. The recommended way to do it is through JavaScript. To use this method you must make sure every webpage of your website has some JavaScript code, which you can generate here.",
         "JSTrackingIntro2": "Once you have the JavaScript tracking code for your website, copy and paste it to all the pages you want to track with Matomo.",
-        "JSTrackingIntro3b": "In most websites, blogs, CMS, etc. you can use a pre-made plugin to do the technical work for you. (See our %1$slist of plugins used to integrate Matomo%2$s.) If no plugin exists you can edit your website templates and add the JavaScript tracking code to the &lt;/head&gt; tag   which is often defined in a 'header.php', 'header.tpl' or similar template file.",
+        "JSTrackingIntro3a": "In most websites, blogs, CMS, etc. you can use a pre-made plugin to do the technical work for you. (See our %1$slist of plugins used to integrate Matomo%2$s.)",
+        "JSTrackingIntro3b": "If no plugin exists you can edit your website templates and add the JavaScript tracking code to the &lt;/head&gt; tag   which is often defined in a 'header.php', 'header.tpl' or similar template file.",
         "JSTrackingIntro4": "If you don't want to use JavaScript to track visitors, %1$sgenerate an image tracking link below%2$s.",
         "JSTrackingIntro5": "If you want to do more than track page views, please check out the %1$sMatomo Javascript Tracking documentation%2$s for the list of available functions. Using these functions you can track goals, custom variables, ecommerce orders, abandoned carts and more.",
         "LogoNotWriteableInstruction": "To use your custom logo instead of the default Matomo logo, give write permission to this directory: %1$s Matomo needs write access for your logos stored in the files %2$s.",
@@ -131,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Are you sure you want to delete this tracking failure?",
         "TrackingFailuresEmailSubject": "Tracking failures in your Matomo Analytics",
         "TrackingFailuresEmail1": "This is just to let you know that %s different kinds of tracking failures have occurred in the last days.",
-        "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s."
+        "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s.",
+        "ImportFromGoogleAnalytics": "Import from Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin."
     }
 }

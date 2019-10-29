@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -257,6 +257,7 @@ class LogTest extends IntegrationTestCase
             'ini.log.log_writers' => array($backend),
             'ini.log.log_level' => $level,
             'ini.log.string_message_format' => self::STRING_MESSAGE_FORMAT,
+            'ini.log.string_message_format_trace' => self::STRING_MESSAGE_FORMAT,
             'ini.log.logger_file_path' => self::getLogFileLocation(),
             'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
             'Tests.log.allowAllHandlers' => true,

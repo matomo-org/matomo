@@ -14,7 +14,7 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<url>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</url>
-				<segment>outlinkUrl==https%3A%2F%2Foutlinks.org%2F%23%21outlink-with-fragment-%26lt%3Bscript%26gt%3B</segment>
+				<segment>outlinkUrl==https%253A%252F%252Foutlinks.org%252F%2523%2521outlink-with-fragment-%2526lt%253Bscript%2526gt%253B</segment>
 			</row>
 			<row>
 				<label>/other_outlink#fragment&amp;pk_campaign=Open partnership</label>
@@ -23,7 +23,7 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<url>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</url>
-				<segment>outlinkUrl==http%3A%2F%2Foutlinks.org%2Fother_outlink%23fragment%26amp%3Bpk_campaign%3DOpen+partnership</segment>
+				<segment>outlinkUrl==http%253A%252F%252Foutlinks.org%252Fother_outlink%2523fragment%2526amp%253Bpk_campaign%253DOpen%252520partnership</segment>
 			</row>
 		</subtable>
 	</row>
@@ -41,7 +41,7 @@
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<url>http://dev.piwik.org/svn</url>
-				<segment>outlinkUrl==http%3A%2F%2Fdev.piwik.org%2Fsvn</segment>
+				<segment>outlinkUrl==http%253A%252F%252Fdev.piwik.org%252Fsvn</segment>
 			</row>
 		</subtable>
 	</row>

@@ -20,6 +20,7 @@
              inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
         </div>
 
+        {% if isUsersAdminEnabled %}
         <div piwik-field uicontrol="text" name="email"
              ng-model="personalSettings.email"
              ng-change="personalSettings.requirePasswordConfirmation()"
@@ -27,6 +28,7 @@
              data-title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
         </div>
+        {% endif %}
 
         <div id="languageHelp" class="inline-help-node">
             <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/translations/">
@@ -72,7 +74,7 @@
              value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
         </div>
 
-        {% if isValidHost is defined and isValidHost %}
+        {% if isValidHost is defined and isValidHost and isUsersAdminEnabled %}
 
             <div piwik-field uicontrol="password" name="password" autocomplete="off"
                  ng-model="personalSettings.password"
@@ -119,6 +121,29 @@
 
     </form>
 </div>
+
+{% if showNewsletterSignup %}
+<div ng-controller="PersonalSettingsController as personalSettings">
+    <div piwik-content-block id="newsletterSignup"
+         ng-show="personalSettings.showNewsletterSignup"
+         content-title="{{ 'UsersManager_NewsletterSignupTitle'|translate|e('html_attr') }}">
+
+        <div piwik-field uicontrol="checkbox" name="newsletterSignupCheckbox"
+             ng-model="personalSettings.newsletterSignupCheckbox"
+             full-width="true"
+             data-title="{{ 'UsersManager_NewsletterSignupMessage'|translate('<a href="https://matomo.org/privacy-policy/" target="_blank">', '</a>')|e('html_attr') }}"
+             >
+        </div>
+
+        <div piwik-save-button id="newsletterSignupBtn"
+             onconfirm="personalSettings.signupForNewsletter()"
+             data-disabled="!personalSettings.newsletterSignupCheckbox"
+             value="{{ '{{ personalSettings.newsletterSignupButtonTitle }}'|raw }}"
+             saving="personalSettings.isProcessingNewsletterSignup">
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div piwik-content-block
      content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">

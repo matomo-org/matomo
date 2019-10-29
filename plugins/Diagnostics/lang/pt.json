@@ -3,7 +3,16 @@
         "ConfigFileTitle": "Ficheiro de configuração",
         "MysqlMaxPacketSize": "Tamanho máximo do pacote",
         "MysqlMaxPacketSizeWarning": "É recomendável a configuração de um tamanho de pacote 'max_allowed_packet' na sua base de dados MySQL de, pelo menos, %1$s. Atualmente está configurado como %2$s.",
+        "ConfigFileIntroduction": "Aqui, pode consultar a configuração do Matomo. Se estiver a executar o Matomo num ambiente distribuído, a página pode ser diferente mediante o servidor a partir do qual foi carregada. As linhas com uma cor de fundo diferente são valores alterados de configuração especificados, por exemplo, no ficheiro %1$s.",
         "HideUnchanged": "Se quiser ver apenas os valores alterados, pode %1$socultar todos os valores inalterados%2$s.",
-        "Sections": "Secções"
+        "Sections": "Secções",
+        "DatabaseReaderConnection": "Ligação do leitor da base de dados",
+        "CronArchivingLastRunCheck": "Última conclusão do processo de arquivamento",
+        "CronArchivingHasNotRun": "O arquivamento ainda não foi executado com sucesso.",
+        "CronArchivingHasNotRunInAWhile": "O arquivamento foi executado com sucesso pela última a %1$s há %2$s.",
+        "CronArchivingRunDetails": "Por favor confirme que configurou um crontab a invocar o comando da consola %1$s e que configurou um %2$s para receber erros por e-mail se o arquivamento falhar. Pode também tentar executar o comando na consola para arquivar os seus relatórios manualmente: %3$s. %4$sSaber mais.%5$s",
+        "CronArchivingRanSuccessfullyXAgo": "O processo de arquivamento concluído com sucesso há %1$s.",
+        "BrowserTriggeredArchivingEnabled": "Para um Matomo rápido e com uma boa performance, é altamente recomendado que configure um crontab para arquivar automaticamente os seus relatórios e desativar a execução do arquivamento através do navegador nas definições do Matomo. %1$sSaber mais.%2$s",
+        "NoDataForReportArchivingNotRun": "O arquivamento dos seus relatórios não foi executado recentemente. %1$sSaber mais sobre como gerar os seus relatórios.%2$s"
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -200,9 +200,17 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /** The ID of the Summary Row. */
     const ID_SUMMARY_ROW = -1;
 
+    /**
+     * The ID of the special metadata row. This row only exists in the serialized row data and stores the datatable metadata.
+     *
+     * This allows us to save datatable metadata in archive data.
+     */
+    const ID_ARCHIVED_METADATA_ROW = -3;
+
     /** The original label of the Summary Row. */
     const LABEL_SUMMARY_ROW = -1;
     const LABEL_TOTALS_ROW = -2;
+    const LABEL_ARCHIVED_METADATA_ROW = '__datatable_metadata__';
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.
@@ -663,6 +671,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             && !empty($this->summaryRow)
         ) {
             return $this->summaryRow;
+        }
+        if (empty($rowId)
+            && !empty($this->totalsRow)
+            && $label == $this->totalsRow->getColumn('label')
+        ) {
+            return $this->totalsRow;
         }
         if ($rowId instanceof Row) {
             return $rowId;
@@ -1291,6 +1305,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $subtableId = 0;
             throw new Exception("Maximum recursion level of " . self::$maximumDepthLevelAllowed . " reached. Maybe you have set a DataTable\Row with an associated DataTable belonging already to one of its parent tables?");
         }
+
+        // gather metadata before filters are called, so their metadata is not stored in serialized form
+        $metadata = $this->getAllTableMetadata();
+        foreach ($metadata as $key => $value) {
+            if (!is_scalar($value) && !is_string($value)) {
+                unset($metadata[$key]);
+            }
+        }
+
         if (!is_null($maximumRowsInDataTable)) {
             $this->filter('Truncate',
                 array($maximumRowsInDataTable - 1,
@@ -1339,6 +1362,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
         if (isset($this->summaryRow)) {
             $rows[self::ID_SUMMARY_ROW] = $this->summaryRow->export();
+        }
+
+        if (!empty($metadata)) {
+            $metadataRow = new Row();
+            $metadataRow->setColumns($metadata);
+
+            // set the label so the row will be indexed correctly internally
+            $metadataRow->setColumn('label', self::LABEL_ARCHIVED_METADATA_ROW);
+
+            $rows[self::ID_ARCHIVED_METADATA_ROW] = $metadataRow->export();
         }
 
         $aSerializedDataTable[$forcedId] = serialize($rows);
@@ -1400,6 +1433,13 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 $this->summaryRow = new Row($rows[self::ID_SUMMARY_ROW]->c); // Pre Piwik 2.13
             }
             unset($rows[self::ID_SUMMARY_ROW]);
+        }
+
+        if (array_key_exists(self::ID_ARCHIVED_METADATA_ROW, $rows)) {
+            $metadata = $rows[self::ID_ARCHIVED_METADATA_ROW][Row::COLUMNS];
+            unset($metadata['label']);
+            $this->setAllTableMetadata($metadata);
+            unset($rows[self::ID_ARCHIVED_METADATA_ROW]);
         }
 
         foreach ($rows as $id => $row) {
@@ -1573,7 +1613,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if (isset($subtablePerLabel[$label])) {
                 $cleanRow[Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
             }
-            $table->addRow(new Row($cleanRow));
+
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                $table->addSummaryRow(new Row($cleanRow));
+            } else {
+                $table->addRow(new Row($cleanRow));
+            }
         }
         return $table;
     }

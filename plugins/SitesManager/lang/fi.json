@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Aikavyöhykkeen vaihtaminen vaikuttaa vain uusiin tietoihin, eikä vanhoja muutetaan.",
         "Currency": "Valuutta",
         "CurrencySymbolWillBeUsedForGoals": "Valuutan symboli näytetään tavoitteiden tuloissa.",
+        "CustomizeJavaScriptTracker": "Mukauta JavaScript-seurantaa",
         "DefaultCurrencyForNewWebsites": "Oletusvaluutta uusille sivustoille",
         "DefaultTimezoneForNewWebsites": "Oletusaikavyöhyke uusille sivustoille",
         "DeleteConfirm": "Haluatko varmasti poistaa sivun %s?",
@@ -68,7 +69,6 @@
         "ShowTrackingTag": "näytä seurantakoodi",
         "Sites": "Sivustot",
         "SiteSearchUse": "Voit käyttää Matomoa seurataksesi ja raportoidaksesi, mitä kävijät etsivät sivustosi sisäisellä hakukoneella.",
-        "SiteWithoutDataTitle": "Tietoja ei ole vielä kerätty",
         "SiteWithoutDataDescription": "Tämän sivuston analytiikkatietoja ei ole vielä kerätty.",
         "SiteWithoutDataSetupTracking": "Aseta alapuolella oleva %1$sseurantakoodi%2$s sivustollesi tai mobiilisovellukseen, jos et ole sitä vielä tehnyt.",
         "SiteWithoutDataMessageDisappears": "Tämä viesti poistuu näkyvistä, kun tämän sivuston kävijöistä voidaan näyttää kerättyjä tietoja.",
@@ -86,6 +86,11 @@
         "ChooseMeasurableTypeHeadline": "Mitä haluat mitata?",
         "YouCurrentlyHaveAccessToNWebsites": "Sinulla on pääsy %s sivuston tietoihin",
         "YourCurrentIpAddressIs": "Nykyinen IP-osoitteesi on %s",
-        "DeleteSiteExplanation": "Verkkosivuston poistaminen poistaa kaiken sivustolta kerätyn lokitiedon. Tätä toimenpidettä ei voi perua."
+        "DeleteSiteExplanation": "Verkkosivuston poistaminen poistaa kaiken sivustolta kerätyn lokitiedon. Tätä toimenpidettä ei voi perua.",
+        "EmailInstructionsButton": "Lähetä nämä ohjeet sähköpostitse",
+        "EmailInstructionsSubject": "Matomo-analytiikan seurantakoodi",
+        "EmailInstructionsSiteDetailsHeading": "Sivustosi tiedot",
+        "EmailInstructionsYourSiteId": "Sivustosi ID-tunniste: %1$s",
+        "EmailInstructionsYourTrackingUrl": "Seurantaosoite: %1$s"
     }
 }

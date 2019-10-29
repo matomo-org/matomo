@@ -52,6 +52,10 @@
         "CustomUnprocessedSegmentApiError5": "Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API.",
         "CustomUnprocessedSegmentApiError6": "When using this API method, you will see which users and actions were matched by your &segment= parameter.",
         "CustomUnprocessedSegmentNoData": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete.",
-        "AddThisToMatomo": "Add this segment to Matomo"
+        "AddThisToMatomo": "Add this segment to Matomo",
+        "ThisSegmentIsCompared": "This segment is currently compared.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
+        "CompareThisSegment": "Compare this segment with the selected segment and period.",
+        "Test": "Test"
     }
 }

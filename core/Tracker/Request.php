@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -502,6 +502,18 @@ class Request
             }
         }
 
+        $cache = Tracker\Cache::getCacheGeneral();
+        if (!empty($cache['delete_logs_enable']) && !empty($cache['delete_logs_older_than'])) {
+            $scheduleInterval = $cache['delete_logs_schedule_lowest_interval'];
+            $maxLogAge = $cache['delete_logs_older_than'];
+            $logEntryCutoff = time() - (($maxLogAge + $scheduleInterval) * 60*60*24);
+            if ($cdt < $logEntryCutoff) {
+                $message = "Custom timestamp is older than the configured 'deleted old raw data' value of $maxLogAge days";
+                Common::printDebug($message);
+                throw new InvalidRequestParameterException($message);
+            }
+        }
+
         return $cdt;
     }
 
@@ -620,7 +632,8 @@ class Request
             if ($id < 1
                 || $id > $maxCustomVars
                 || count($keyValue) != 2
-                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
+                || (!is_string($keyValue[0]) && !is_numeric($keyValue[0])
+                || (!is_string($keyValue[1]) && !is_numeric($keyValue[1])))
             ) {
                 Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;

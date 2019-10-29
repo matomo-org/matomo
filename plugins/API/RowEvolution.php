@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -19,6 +19,7 @@ use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Site;
 use Piwik\Url;
 
@@ -36,7 +37,7 @@ class RowEvolution
         'getPageUrl'
     );
 
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '')
     {
         // validation of requested $period & $date
         if ($period == 'range') {
@@ -49,11 +50,15 @@ class RowEvolution
         }
 
         $label = DataTablePostProcessor::unsanitizeLabelParameter($label);
-        $labels = Piwik::getArrayFromApiParameter($label);
+        $labels = Piwik::getArrayFromApiParameter($label, $onlyUnique = empty($labelSeries));
 
         $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters);
 
         $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
+
+        if (empty($dataTable->getDataTables())) {
+            return array();
+        }
 
         if (empty($labels)) {
             $labels = $this->getLabelsFromDataTable($dataTable, $labels);
@@ -68,7 +73,8 @@ class RowEvolution
                 $labels,
                 $column,
                 $legendAppendMetric,
-                $labelUseAbsoluteUrl
+                $labelUseAbsoluteUrl,
+                $labelSeries
             );
         } else {
             $data = $this->getSingleRowEvolution(
@@ -416,8 +422,13 @@ class RowEvolution
     /** Get row evolution for a multiple labels */
     private function getMultiRowEvolution(DataTable\Map $dataTable, $metadata, $apiModule, $apiAction, $labels, $column,
                                           $legendAppendMetric = true,
-                                          $labelUseAbsoluteUrl = true)
+                                          $labelUseAbsoluteUrl = true,
+                                          $labelSeries = '')
     {
+        $labelSeries = explode(',', $labelSeries);
+        $labelSeries = array_filter($labelSeries, 'strlen');
+        $labelSeries = array_map('intval', $labelSeries);
+
         if (!isset($metadata['metrics'][$column])) {
             // invalid column => use the first one that's available
             $metrics = array_keys($metadata['metrics']);
@@ -450,6 +461,11 @@ class RowEvolution
             if (empty($actualLabels[$labelIdx])) {
                 $cleanLabel = $this->cleanOriginalLabel($label);
                 $actualLabels[$labelIdx] = $cleanLabel;
+            }
+
+            if (isset($labelSeries[$labelIdx])) {
+                $labelSeriesIndex = $labelSeries[$labelIdx];
+                $actualLabels[$labelIdx] .= ' ' . DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex($labelSeriesIndex);
             }
         }
 

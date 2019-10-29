@@ -72,7 +72,7 @@
         "ShowTrackingTag": "Shihni kodin e Ndjekjes",
         "Sites": "Sajte",
         "SiteSearchUse": "Mund ta përdorni Matomo-n për të ndjekur dhe raportuar se çfarë kërkojnë vizitorët me motorin e kërkimeve të brendshme në sajtin tuaj .",
-        "SiteWithoutDataTitle": "Ende s’ka të dhëna të regjistruara",
+        "SiteWithoutDataTitle": "Ende s’ka të dhëna të regjistruara, sistemohuni më poshtë",
         "SiteWithoutDataDescription": "Për këtë sajt s’janë ndjekur ende të dhëna analitike.",
         "SiteWithoutDataSetupTracking": "Ju lutemi, rregulloni më poshtë %1$skodin e ndjekjes%2$s për sajtin apo aplikacionin tuaj për celular, po qe se s’e keni bërë ende.",
         "SiteWithoutDataMessageDisappears": "Ky mesazh do të zhduket sapo të ketë ndoca të dhëna të ndjekura për këtë sajt.",
@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "Ç’do të donit të matnit?",
         "YouCurrentlyHaveAccessToNWebsites": "Deri tani keni hyrje te %s sajte.",
         "YourCurrentIpAddressIs": "Adresa juaj IP e tanishme është %s",
-        "DeleteSiteExplanation": "Fshirja e një sajti do të shkaktojë fshirjen e krejt të dhënave regjistër që janë grumbulluar për të. Ky veprim është pakthyeshëm dhe s’mund të zhbëhet."
+        "DeleteSiteExplanation": "Fshirja e një sajti do të shkaktojë fshirjen e krejt të dhënave regjistër që janë grumbulluar për të. Ky veprim është pakthyeshëm dhe s’mund të zhbëhet.",
+        "EmailInstructionsButton": "Dërgoni me email këto udhëzime",
+        "EmailInstructionsSubject": "Kod Gjurmimi Analizash Matomo",
+        "EmailInstructionsDocsPlainText": "Nëse doni të bëni më tepër se ndjekja e parjes së faqeve, ju lutemi, shihni te dokumentimi i Matomo-s në %1$s.",
+        "EmailInstructionsGenerateTrackingCode": "Mund të prodhoni edhe një kod vetjak gjurmimi, te %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Hollësitë e Sajtit Tuaj",
+        "EmailInstructionsSiteDetails": "Këto hollësi do t’ju duhen për të përdorur API-n ose SDK-ra për ndjekje vizitash nga Matomo.",
+        "EmailInstructionsYourSiteId": "ID-ja e sajtit tuaj: %1$s",
+        "EmailInstructionsYourTrackingUrl": "URL-ja juaj e gjurmimit: %1$s"
     }
 }

@@ -17,6 +17,6 @@
 		<avg_time_on_page>180</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==Page+title+is+always+UTF-8</segment>
+		<segment>pageTitle==Page%2Btitle%2Bis%2Balways%2BUTF-8</segment>
 	</row>
 </result>

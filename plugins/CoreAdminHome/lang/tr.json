@@ -4,6 +4,7 @@
         "Administration": "Yönetim",
         "ArchivingSettings": "Arşivleme ayarları",
         "BrandingSettings": "Markalama ayarları",
+        "ErrorEmailFromAddressNotValid": "SMTP kimden adresi geçersiz",
         "ReleaseChannel": "Dağıtım kanalı",
         "ClickHereToOptIn": "İzin vermek için tıklayın.",
         "ClickHereToOptOut": "İzni iptal etmek için tıklayın.",
@@ -29,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "Kampanya Anahtar Sözcük Parametreleri",
         "JSTracking_CampaignNameParam": "Kampanya Adı Parametresi",
         "JSTracking_CodeNoteBeforeClosingHead": "Bu kodun web sitenizin her sayfasında bulunduğundan emin olun. Kodu %1$s kapanış kod iminin hemen öncesine yapıştırmanız önerilir.",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "Bu kodun web sitenizin her sayfasında bulunduğundan emin olun. Kodu head kod iminin kapanışının hemen öncesine yapıştırmanız önerilir.",
         "JSTracking_CustomCampaignQueryParam": "Kampanya adı ve anahtar sözcük için özel sorgu parametresi adları kullanılsın",
         "JSTracking_CrossDomain": "Varsayılan olarak, yalnız aynı etki alanındaki sayfalar tarafından erişilen ve web tarayıcının birinci elden çerezlerinde bulunarak tekil ziyaretçiyi tanımlayan ziyaretçi kodu. Etki alanları arası bağlantılar etkinleştirildiğinde aynı ziyarette farklı etki alanlarındaki sayfaları ziyaret ediyor olsa bile belirli bir kullanıcının tüm işlem ve sayfa görüntülemeleri izlenebilir. Bir kullanıcı web sitelerinizden birinin kısaltma adresinin bağlantısına tıkladığında, adrese ziyaretçi kodunu ileten bir pk_vid parametresi eklenir.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Not: Etki alanları arası bağlantıları kullanırken web siteniz için birden fazla etki alanı (adres) belirtmelisiniz.",
@@ -53,7 +55,8 @@
         "JSTracking_EndNote": "Not: Yönetim bölümündeki %1$sİzleme Kodu%2$s ile özel bir izleme kodu oluşturabilirsiniz.",
         "JSTrackingIntro1": "Web sitenize gelen ziyaretçileri birkaç farklı yolla izleyebilirsiniz. JavaScript yönteminin kullanılması önerilir. Bu yöntemi kullanabilmek için, buradan üretebileceğiniz JavaScript kodunun web sitenizin tüm sayfalarına ekleneceğinden emin olmalısınız.",
         "JSTrackingIntro2": "JavaScript izleme kodunu Matomo ile izlemek istediğiniz web sitesinin tüm sayfalarına ya da içerik yönetimi sistemindeki uygun bölüme yapıştırın.",
-        "JSTrackingIntro3b": "Blog, CMS gibi çoğu web sitesinde teknik işleri sizin için yapacak bir uygulama eki bulunur (%1$sMatomo ile birlikte çalışan uygulama ekleri%2$s listesine bakın). Size uygun bir uygulama eki yoksa web sitenizin sayfa kalıplarını düzenleyerek JavaScript izleme kodunu, genellikle 'header.php', 'header.tpl' gibi bir adı olan dosyada bulunan &lt;\/head&gt; kod imi içine ekleyebilirsiniz.",
+        "JSTrackingIntro3a": "Blog, CMS gibi çoğu web sitesinde teknik işleri sizin için yapacak bir uygulama eki bulunur (%1$sMatomo ile birlikte çalışan uygulama ekleri%2$s listesine bakın).",
+        "JSTrackingIntro3b": "Size uygun bir uygulama eki yoksa web sitenizin sayfa kalıplarını düzenleyerek JavaScript kodunu, genellikle 'header.php', 'header.tpl' gibi bir adı olan dosyada bulunan &lt;\/head&gt; kod imi içine ekleyebilirsiniz.",
         "JSTrackingIntro4": "Ziyaretçileri izlemek için JavaScript kodunu kullanmak istemiyorsanız %1$saşağıdaki bağlantıya tıklayarak bir izleme görseli oluşturabilirsiniz%2$s.",
         "JSTrackingIntro5": "Sayfa görüntülenme sayısından fazlasını izlemek istiyorsanız, lütfen %1$sMatomo JavaScript izleme belgesi%2$s içinden kullanabileceğiniz işlevlere bakın. Bu işlevleri kullanarak hedefleri, özel değişkenleri, e-ticaret siparişlerini, terk edilen sepetleri ve başka bilgileri izleyebilirsiniz.",
         "LogoNotWriteableInstruction": "Varsayılan Matomo logosu yerine özel bir logo görseli kullanmak için şu klasöre yazma izni vermelisiniz: %1$s Matomo uygulamasının %2$s dosyalarındaki logolara yazma izni olmalıdır.",
@@ -131,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Bu izleme sorununu silmek istediğinize emin misiniz?",
         "TrackingFailuresEmailSubject": "Matomo İstatistiklerindeki izleme sorunları",
         "TrackingFailuresEmail1": "Bu ileti, son günlerde %s farklı izleme sorunu oluştuğunu bildirir.",
-        "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s."
+        "TrackingFailuresEmail2": "Tüm izleme sorunlarını görüntülemek için %1$sburaya tıklayın%2$s.",
+        "ImportFromGoogleAnalytics": "Google Analytics Üzerinden İçe Aktar",
+        "ImportFromGoogleAnalyticsDescription": "Bir Google Analytics mülkünüz varsa ve Matomo uygulamasına geçiyorsanız, %1$sGoogleAnalyticsImporter%2$s uygulama ekini kullanarak var olan verilerinizi içe aktarabilirsiniz."
     }
 }

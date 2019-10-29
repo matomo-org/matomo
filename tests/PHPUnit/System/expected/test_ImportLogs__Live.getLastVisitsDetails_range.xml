@@ -2562,8 +2562,8 @@
 		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Singapore</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<latitude>1.367000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
@@ -6864,8 +6864,8 @@
 		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Singapore</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<latitude>1.367000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:38</visitLocalTime>
@@ -8164,8 +8164,8 @@
 		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Singapore</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<latitude>1.367000</latitude>
 		<longitude>103.800000</longitude>
 		<visitLocalTime>08:10:39</visitLocalTime>

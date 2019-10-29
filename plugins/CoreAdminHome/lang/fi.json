@@ -4,6 +4,7 @@
         "Administration": "Ylläpito",
         "ArchivingSettings": "Arkistointiasetukset",
         "BrandingSettings": "Käyttöliittymän muokkaaminen",
+        "ErrorEmailFromAddressNotValid": "SMTP:n From-osoite ei ole kelvollinen",
         "ReleaseChannel": "Julkaisukanava",
         "ClickHereToOptIn": "Klikkaa tästä, jos haluat mukaan seurantaan.",
         "ClickHereToOptOut": "Klikkaa tästä poistuaksesi seurannasta.",
@@ -103,6 +104,10 @@
         "YouMayOptOut": "Jos haluat, voit estää yksilöllisen tunnisteen tallentamisen tietokoneellesi, ja samalla estää tämän sivun analytiikan osaltasi.",
         "YouMayOptOutBis": "Tee valinta klikkaamalla alla olevaa linkkiä.",
         "OptingYouOut": "Seurantasi estetään, hetkinen...",
+        "YouMayOptOut2": "Voit päättää, ettet halua sinua ja tekemiäsi seurattavan tällä sivustolla.",
+        "YouMayOptOut3": "Niin toimimalla suojaat yksityisyyttäsi, mutta samalla estät sivuston omistajaa oppimasta toimistasi ja siten estät paremman käyttökokemuksen kehittämisen sinulle sekä muille sivuston käyttäjille.",
+        "UncheckToOptOut": "Poista valinta tästä estääksesi seurannan.",
+        "CheckToOptIn": "Lisää valinta osallistuaksesi seurantaan.",
         "MissingTrackingCodeEmailSubject": "Sivuston %s osalta ei ole tallennettu liikennettä Matomo-analytiikkaan, aloitetaanpa",
         "JsTrackingCodeMissingEmail1": "Lisäsit sivuston '%s' Matomo-analytikkaasi joitain päiviä sitten. Tarkastimme juuri, ettei Matomo vaikuta tallentaneen lainkaan liikennettä tämän sivuston osalta.",
         "TrackingFailuresIntroduction": "Tällä sivulla näytetään seurantavirheet, jotka ovat sattuneet viimeisen %späivän aikana. Huomaathan, että ainoastaan yleisimmät seurantavirheet tallennetaan, eikä niistäkään kaikkia.",
@@ -122,6 +127,7 @@
         "ConfirmDeleteThisTrackingFailure": "Haluat varmasti poistaa tämän virhetiedon?",
         "TrackingFailuresEmailSubject": "Seurantavirheet Matomo-analytiikassasi",
         "TrackingFailuresEmail1": "Ilmoitamme, että Matomassasi on havaittu %s erityyppistä seurantavirhettä viime päivien aikana.",
-        "TrackingFailuresEmail2": "Nähdäksesi kaikki seurantavirheet, voit seurata %1$stätä linkkiä%2$s."
+        "TrackingFailuresEmail2": "Nähdäksesi kaikki seurantavirheet, voit seurata %1$stätä linkkiä%2$s.",
+        "ImportFromGoogleAnalytics": "Tuo Google Analyticsista"
     }
 }

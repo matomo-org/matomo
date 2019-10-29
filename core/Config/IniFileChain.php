@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Config;
@@ -11,6 +11,7 @@ use Piwik\Common;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniReadingException;
 use Piwik\Ini\IniWriter;
+use Piwik\Piwik;
 
 /**
  * Manages a list of INI files where the settings in each INI file merge with or override the
@@ -34,6 +35,7 @@ use Piwik\Ini\IniWriter;
  */
 class IniFileChain
 {
+    const CONFIG_CACHE_KEY = 'config.ini';
     /**
      * Maps INI file names with their parsed contents. The order of the files signifies the order
      * in the chain. Files with lower index are overwritten/merged with files w/ a higher index.
@@ -208,6 +210,19 @@ class IniFileChain
             $this->resetSettingsChain($defaultSettingsFiles, $userSettingsFile);
         }
 
+        if (!empty($userSettingsFile) && !empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+            $cache = new Cache();
+            $values = $cache->doFetch(self::CONFIG_CACHE_KEY);
+            
+            if (!empty($values)
+                && isset($values['mergedSettings'])
+                && isset($values['settingsChain'])) {
+                $this->mergedSettings = $values['mergedSettings'];
+                $this->settingsChain = $values['settingsChain'];
+                return;
+            }
+        }
+
         $reader = new IniReader();
         foreach ($this->settingsChain as $file => $ignore) {
             if (is_readable($file)) {
@@ -226,6 +241,32 @@ class IniFileChain
         // remove reference to $this->settingsChain... otherwise dump() or compareElements() will never notice a difference
         // on PHP 7+ as they would be always equal
         $this->mergedSettings = $this->copy($merged);
+
+        if (!empty($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS']) && !empty($this->mergedSettings)) {
+            $this->mergedSettings = call_user_func($GLOBALS['MATOMO_MODIFY_CONFIG_SETTINGS'], $this->mergedSettings);
+        }
+        
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])
+            && !empty($userSettingsFile)
+            && !empty($this->mergedSettings)
+            && !empty($this->settingsChain)) {
+
+            $ttlOneHour = 3600;
+            $cache = new Cache();
+            if ($cache->isValidHost($this->mergedSettings)) {
+                // we make sure to save the config only if the host is valid...
+                $data = array('mergedSettings' => $this->mergedSettings, 'settingsChain' => $this->settingsChain);
+                $cache->doSave(self::CONFIG_CACHE_KEY, $data, $ttlOneHour);
+            }
+        }
+    }
+
+    public function deleteConfigCache()
+    {
+        if (!empty($GLOBALS['ENABLE_CONFIG_PHP_CACHE'])) {
+            $cache = new Cache();
+            $cache->doDelete(IniFileChain::CONFIG_CACHE_KEY);
+        }
     }
 
     private function copy($merged)
@@ -474,6 +515,22 @@ class IniFileChain
 
     private function dumpSettings($values, $header)
     {
+        /**
+         * Triggered before a config is being written / saved on the local file system.
+         *
+         * A plugin can listen to it and modify which settings will be saved on the file system. This allows you
+         * to prevent saving config values that a plugin sets on demand. Say you configure the database password in the
+         * config on demand in your plugin, then you could prevent that the password is saved in the actual config file
+         * by listening to this event like this:
+         *
+         * **Example**
+         *     function doNotSaveDbPassword (&$values) {
+         *         unset($values['database']['password']);
+         *     }
+         *
+         * @param array &$values Config values that will be saved
+         */
+        Piwik::postEvent('Config.beforeSave', array(&$values));
         $values = $this->encodeValues($values);
 
         $writer = new IniWriter();

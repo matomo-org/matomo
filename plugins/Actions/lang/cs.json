@@ -2,14 +2,18 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
         "ColumnClickedURL": "URL prokliku",
+        "ColumnClickedURLs": "Kliknuté adresy URL",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
         "ColumnClicksDocumentation": "Počet kliknutí na odkaz v závislosti na čase.",
         "ColumnDownloadURL": "URL stažení",
+        "ColumnDownloadURLs": "Stažené adresy URL",
         "ColumnEntryPageTitle": "Titulek vstupní stránky",
         "ColumnEntryPageURL": "URL vstupní stránky",
+        "ColumnEntryPageURLs": "URL vstupních stránek",
         "ColumnExitPageTitle": "Titulek výstupní stránky",
         "ColumnExitPageURL": "URL výstupní stránky",
+        "ColumnExitPageURLs": "URL odchozích stránek",
         "ColumnNoResultKeyword": "Hledané klíčové slovo nebylo nalezeno",
         "ColumnPageName": "Jméno stránky",
         "ColumnPagesPerSearch": "Stránka hledaných výsledků",
@@ -28,6 +32,7 @@
         "ColumnUniqueOutlinks": "Jedinečné externí odkazy",
         "ColumnIdPageview": "ID zobrazení stránky",
         "ColumnInteractionPosition": "Pozice interakce",
+        "ActionsInVisit": "Akce během návštěvy",
         "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Matomo počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Matomo neumí zjistit.",
         "EntryPagesReportDocumentation": "Toto hlášení obsahuje informace o vstupních stránkách, které byly za dané časové období použity. Vstupní stránka je první stránka, kterou uživatel navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
         "EntryPageTitles": "Titulky vstupních stránek",
@@ -42,6 +47,7 @@
         "PagesReportDocumentation": "Toto hlášení obsahuje informace o URL navštívených. %s Tabulka je organizována hyerarchicky jako strom složek.",
         "PageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích navštívených stránek. %1$s Titulek je HTML tag %2$s, který většina prohlížečů zobrazuje v titulku okna.",
         "PageUrls": "URL stránky",
+        "PageViewsByVisitor": "Počet zobrazení této stránky návštěvníkem během všech návštěv",
         "PluginDescription": "Podává hlášení o zobrazení a titulcích stránek. Umožňuje měřit váš interní vyhledávač. Automaticky sleduje kliky na externí odkazy a soubory ke stažení.",
         "RevisitedPages": "Stránky navštívené více než jednou",
         "SiteSearchCategories1": "Toto hlášení shrnuje kategorie, které návštěvníci vybrali při vyhledávání na stránkách.",
@@ -69,6 +75,7 @@
         "WidgetSearchKeywords": "Klíčová slova hledané stránky",
         "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání",
         "ActionType": "Typ akce",
-        "ActionTypes": "Typy akcí"
+        "ActionTypes": "Typy akcí",
+        "Behaviour": "Chování"
     }
 }

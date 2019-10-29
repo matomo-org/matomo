@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik;
@@ -239,7 +239,23 @@ class CliMulti
      */
     public function supportsAsync()
     {
-        return Process::isSupported() && !Common::isPhpCgiType() && $this->findPhpBinary();
+        $supportsAsync = Process::isSupported() && !Common::isPhpCgiType() && $this->findPhpBinary();
+
+        /**
+         * Triggered to allow plugins to force the usage of async cli multi execution or to disable it.
+         *
+         * **Example**
+         *
+         *     public function supportsAsync(&$supportsAsync)
+         *     {
+         *         $supportsAsync = false; // do not allow async climulti execution
+         *     }
+         *
+         * @param bool &$supportsAsync Whether async is supported or not.
+         */
+        Piwik::postEvent('CliMulti.supportsAsync', array(&$supportsAsync));
+
+        return $supportsAsync;
     }
 
     private function findPhpBinary()

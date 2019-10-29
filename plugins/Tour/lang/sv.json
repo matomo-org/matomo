@@ -1,0 +1,13 @@
+{
+    "Tour": {
+        "Engagement": "Engagemang",
+        "UploadLogo": "Ladda upp logotyp",
+        "AddUser": "Lägg till användare",
+        "AddWebsite": "Lägg till webbplats",
+        "AddSegment": "Lägg till segment",
+        "AddAnnotation": "Lägg till anteckning",
+        "BrowseMarketplace": "Utforska marknadsplatsen",
+        "SelectDateRange": "Välj datumintervall",
+        "CompletionTitle": "Bra gjort!"
+    }
+}

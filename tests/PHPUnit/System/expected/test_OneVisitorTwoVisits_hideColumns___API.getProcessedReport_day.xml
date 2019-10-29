@@ -62,13 +62,13 @@
 			<idsubdatatable>2</idsubdatatable>
 		</row>
 		<row>
-			<segment>pageTitle==incredible+title%21</segment>
+			<segment>pageTitle==incredible%2Btitle%2521</segment>
 		</row>
 		<row>
-			<segment>pageTitle==Looking+at+homepage+%28again%29...</segment>
+			<segment>pageTitle==Looking%2Bat%2Bhomepage%2B%2528again%2529...</segment>
 		</row>
 		<row>
-			<segment>pageTitle==Second+page+view+-+should+be+registered+as+URL</segment>
+			<segment>pageTitle==Second%2Bpage%2Bview%2B-%2Bshould%2Bbe%2Bregistered%2Bas%2BURL</segment>
 		</row>
 	</reportMetadata>
 	<reportTotal>

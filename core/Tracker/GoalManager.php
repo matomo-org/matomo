@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -57,6 +57,10 @@ class GoalManager
     const INTERNAL_ITEM_CATEGORY5 = 6;
     const INTERNAL_ITEM_PRICE = 7;
     const INTERNAL_ITEM_QUANTITY = 8;
+
+    public static $NUMERIC_MATCH_ATTRIBUTES = [
+        'visit_duration',
+    ];
 
     /**
      * TODO: should remove this, but it is used by getGoalColumn which is used by dimensions. should replace w/ value object.
@@ -119,10 +123,12 @@ class GoalManager
      *
      * @param int $idSite
      * @param Action $action
+     * @param VisitProperties $visitor
+     * @param Request $request
      * @throws Exception
      * @return array[] Goals matched
      */
-    public function detectGoalsMatchingUrl($idSite, $action)
+    public function detectGoalsMatchingUrl($idSite, $action, VisitProperties $visitor, Request $request)
     {
         if (!Common::isGoalPluginEnabled()) {
             return array();
@@ -132,7 +138,7 @@ class GoalManager
 
         $convertedGoals = array();
         foreach ($goals as $goal) {
-            $convertedUrl = $this->detectGoalMatch($goal, $action);
+            $convertedUrl = $this->detectGoalMatch($goal, $action, $visitor, $request);
             if (!is_null($convertedUrl)) {
                 $convertedGoals[] = array('url' => $convertedUrl) + $goal;
             }
@@ -146,13 +152,20 @@ class GoalManager
      *
      * @param array $goal
      * @param Action $action
-     * @return if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
+     * @param VisitProperties $visitor
+     * @param Request $request
+     * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
-    public function detectGoalMatch($goal, Action $action)
+    public function detectGoalMatch($goal, Action $action, VisitProperties $visitor, Request $request)
     {
         $actionType = $action->getActionType();
 
         $attribute = $goal['match_attribute'];
+
+        // handle numeric match attributes specifically
+        if (in_array($attribute, self::$NUMERIC_MATCH_ATTRIBUTES)) {
+            return $this->detectNumericGoalMatch($goal, $action, $visitor, $request);
+        }
 
         // if the attribute to match is not the type of the current action
         if ((($attribute == 'url' || $attribute == 'title') && $actionType != Action::TYPE_PAGE_URL)
@@ -163,7 +176,6 @@ class GoalManager
         ) {
             return null;
         }
-
 
         switch ($attribute) {
             case 'title':
@@ -193,6 +205,42 @@ class GoalManager
         }
 
         return $action->getActionUrl();
+    }
+
+    private function detectNumericGoalMatch($goal, Action $action, VisitProperties $visitProperties, Request $request)
+    {
+        switch ($goal['match_attribute']) {
+            case 'visit_duration':
+                $firstActionTime = $visitProperties->getProperty('visit_first_action_time');
+                if (empty($firstActionTime)) {
+                    return null;
+                }
+
+                $visitDurationInSecs = $request->getCurrentTimestamp() - ((int) $firstActionTime);
+                $valueToMatchAgainst = $visitDurationInSecs / 60;
+                break;
+            default:
+                return null;
+        }
+
+        $pattern = (float) $goal['pattern'];
+
+        Common::printDebug("Matching {$goal['match_attribute']} (current value = $valueToMatchAgainst, idGoal = {$goal['idgoal']}) {$goal['pattern_type']} $pattern.");
+
+        switch ($goal['pattern_type']) {
+            case 'greater_than':
+                $matches = $valueToMatchAgainst > $pattern;
+                break;
+            default:
+                return null;
+        }
+
+        if ($matches) {
+            Common::printDebug("Conversion detected for idGoal = , idGoal = {$goal['idgoal']}.");
+            return $action->getActionUrl();
+        } else {
+            return null;
+        }
     }
 
     public function detectGoalId($idSite, Request $request)

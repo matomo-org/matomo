@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -615,6 +615,7 @@ class API extends \Piwik\Plugin\API
                             $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $this->checkName($siteName);
 
@@ -795,6 +796,7 @@ class API extends \Piwik\Plugin\API
     public function deleteSite($idSite)
     {
         Piwik::checkUserHasSuperUserAccess();
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
         if (!in_array($idSite, $idSites)) {
@@ -1255,6 +1257,7 @@ class API extends \Piwik\Plugin\API
                                $excludeUnknownUrls = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
+        SitesManager::dieIfSitesAdminIsDisabled();
 
         $idSites = $this->getSitesId();
 

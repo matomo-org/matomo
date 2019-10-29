@@ -2378,14 +2378,8 @@ function PiwikTest() {
         equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
         equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
-
-        try {
-            // should throw exception when no idSite given
-            asyncTracker.addTracker(tracker.url);
-            ok(false, 'addTracker() without siteId expected exception has not been triggered');
-        } catch (e) {
-            ok(true, 'addTracker() siteId expected exception has been triggered');
-        }
+        var trackerWithoutIdSite = asyncTracker.addTracker(tracker.url);
+        ok(!!trackerWithoutIdSite, 'addTracker() without siteId can be called');
 
         // getting a specific tracker instance
 
@@ -3291,6 +3285,30 @@ function PiwikTest() {
         equal( requestString.indexOf('hello=world&idsite=4&rec=1&r='), 0, "Request string " + requestString);
 
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
+    });
+
+    test("POST requests are sent with cookies", function() {
+        expect(3);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token": '---' });
+        tracker.setRequestMethod('POST');
+
+        var callbackCalled = false;
+        tracker.trackPageView('withCredentialsTest', null, function (event) {
+            callbackCalled = true;
+            ok(event.success, 'succeeded');
+            ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
+        });
+
+        stop();
+        setTimeout(function() {
+            ok(callbackCalled, 'called the callback');
+
+            start();
+        }, 2000);
     });
 
     // support for setCustomRequestProcessing( customRequestContentProcessingLogic )

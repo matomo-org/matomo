@@ -44,7 +44,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==title_0+%2F+title_0</segment>
+		<segment>pageTitle==title_0%2B%252F%2Btitle_0</segment>
 	</row>
 	<row>
 		<label> title_0 / title_1</label>
@@ -67,7 +67,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==title_0+%2F+title_1</segment>
+		<segment>pageTitle==title_0%2B%252F%2Btitle_1</segment>
 	</row>
 	<row>
 		<label>Others</label>

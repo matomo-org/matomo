@@ -35,6 +35,7 @@
         vm.firstSiteAccess = null;
         vm.isUserModified = false;
         vm.passwordConfirmation = '';
+        vm.isPasswordModified = false;
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
@@ -187,7 +188,7 @@
                 method: 'UsersManager.updateUser'
             }, {
                 userLogin: vm.user.login,
-                password: vm.user.password ? vm.user.password : undefined,
+                password: (vm.isPasswordModified && vm.user.password) ? vm.user.password : undefined,
                 passwordConfirmation: vm.passwordConfirmation ? vm.passwordConfirmation : undefined,
                 email: vm.user.email,
                 alias: vm.user.alias
@@ -199,6 +200,7 @@
                 vm.isSavingUserInfo = false;
                 vm.passwordConfirmation = false;
                 vm.isUserModified = true;
+                vm.isPasswordModified = false;
 
                 showUserSavedNotification();
             });

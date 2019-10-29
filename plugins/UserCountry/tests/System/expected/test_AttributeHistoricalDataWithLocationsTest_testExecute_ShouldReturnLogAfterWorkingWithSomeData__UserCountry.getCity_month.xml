@@ -6,6 +6,7 @@
 		<nb_actions>61</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>11</bounce_count>
+		<nb_visits_converted>22</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>22</nb_conversions>
@@ -36,6 +37,7 @@
 		<nb_actions>16</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>3</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -68,6 +70,7 @@
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>3</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>3</nb_conversions>
@@ -95,11 +98,12 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Lhasa, Xizang, China</label>
+		<label>Lhasa, Xizang Zizhiqu, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -123,7 +127,7 @@
 		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Xizang</region_name>
+		<region_name>Xizang Zizhiqu</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
@@ -132,6 +136,7 @@
 		<nb_actions>6</nb_actions>
 		<max_actions>5</max_actions>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>

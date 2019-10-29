@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 
 class SubscriptionModel
 {
@@ -80,20 +81,12 @@ class SubscriptionModel
         }
 
         if ($emailFound) {
-            Access::doAsSuperUser(function() use ($report) {
-                Request::processRequest('ScheduledReports.updateReport', [
-                    'idReport'     => $report['idreport'],
-                    'idSite'       => $report['idsite'],
-                    'description'  => $report['description'],
-                    'period'       => $report['period'],
-                    'hour'         => $report['hour'],
-                    'reportType'   => $report['type'],
-                    'reportFormat' => $report['format'],
-                    'reports'      => $report['reports'],
-                    'parameters'   => $report['parameters'],
-                    'idSegment'    => $report['idsegment'],
-                ]);
-            });
+            $reportModel = new Model();
+            $reportModel->updateReport($report['idreport'], array(
+                'parameters' => json_encode($report['parameters'])
+            ));
+            // Reset the cache manually since we didn't call the API method which would do it for us
+            APIScheduledReports::$cache = array();
 
             Piwik::postEvent('Report.unsubscribe', [$report['idreport'], $email]);
 

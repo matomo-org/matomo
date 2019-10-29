@@ -109,4 +109,20 @@ describe("PeriodSelector", function () {
 
         expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
     });
+
+    it("should enable the comparison dropdown when 'compare' is checked", async function () {
+        await page.click('label[for=comparePeriodTo]');
+        await page.waitFor(250); // wait for animation
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');
+    });
+
+    it('should show range inputs when custom date range compare is selected', async function () {
+        await page.evaluate(function () {
+            $('#comparePeriodToDropdown select').val('string:custom').trigger('change');
+        });
+        await page.waitFor(250); // wait for animation
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('custom_comparison');
+    });
 });

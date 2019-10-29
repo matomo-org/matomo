@@ -1,7 +1,7 @@
 {
     "UserId": {
         "UserId": "UserId",
-        "UserReportTitle": "Usuário IDs",
+        "UserReportTitle": "IDs de usuário",
         "PluginDescription": "Mostra relatórios de usuários"
     }
 }

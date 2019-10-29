@@ -18,6 +18,7 @@
         "ThisSegmentIsVisibleTo": "Този сегмент е видим за:",
         "VisibleToAllUsers": "всички потребители",
         "VisibleToMe": "аз",
-        "YouMustBeLoggedInToCreateSegments": "Трябва да сте вписани, за да създавате и редактирате персонализираните посетителски сегменти."
+        "YouMustBeLoggedInToCreateSegments": "Трябва да сте вписани, за да създавате и редактирате персонализираните посетителски сегменти.",
+        "Test": "Тест"
     }
 }

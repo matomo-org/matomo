@@ -233,6 +233,7 @@
         "GraphHelp": "Lisätietoa Matomon kuvaajista.",
         "HelloUser": "Hei, %s!",
         "Help": "Apua",
+        "HelpResources": "Ohjeresurssit",
         "HelpTranslatePiwik": "Haluatko %1$sauttaa parantamaan Matomon käännöksiä?%2$s?",
         "Hide": "piilota",
         "HoursMinutes": "%1$s tuntia %2$s minuuttia",
@@ -366,7 +367,6 @@
         "Remove": "Poista",
         "Report": "Raportti",
         "ReportGeneratedFrom": "Tämä raportti on luotu %s:n tiedoista.",
-        "ReportRatioTooltip": "'%1$s' kuvaa %2$s :ta %3$s %4$s :ssa %5$s:n kanssa.",
         "Reports": "Raportit",
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "Arkistoi enintään joka X sekunti",
         "RearchiveTimeIntervalOnlyForTodayReports": "Tämä vaikuttaa ainoastaan tämän päivän raportteihin (tai mihin tahansa päiväysväliin johon tämä päivä kuuluu)",
@@ -400,6 +400,8 @@
         "SmtpPort": "SMTP:n portti",
         "SmtpServerAddress": "SMTP-palvelimen osoite",
         "SmtpUsername": "SMTP-käyttäjätunnus",
+        "SmtpFromName": "SMTP:n From-nimi",
+        "SmtpFromAddress": "SMTP:n From-osoite",
         "Source": "Lähde",
         "StatisticsAreNotRecorded": "Matomon Kävijäseuranta ei ole käytössä tällä hetkellä! Aktivoi seuranta asettamalla record_statistics = 1 tiedostossa config\/config.ini.php.",
         "Subtotal": "Yhteensä",
@@ -414,7 +416,6 @@
         "ToDeleteAllFilesRunThisCommand": "Poistaaksesi kaikki nämä tiedostot kerralla, voit ajaa tämän komennon:",
         "Total": "Yhteensä",
         "Totals": "Yhteensä",
-        "TotalRatioTooltip": "Tämä on %1$s kaikista %2$s %3$s.",
         "TotalRevenue": "Tulot yhteensä",
         "TotalVisitsPageviewsActionsRevenue": "(Yhteensä: %1$s käyntiä, %2$s sivulatausta, %3$s toiminnetta, %4$s tuloja)",
         "TrackingScopeAction": "Toiminto",
@@ -492,8 +493,10 @@
         "YouAreViewingDemoMessage": "Katselet %1$sMatomo%2$s -demoa.",
         "YouMustBeLoggedIn": "Sinun täytyy kirjautua sisään ennen tämän toiminnallisuuden käyttämistä.",
         "YourChangesHaveBeenSaved": "Muutokset on tallennettu.",
+        "YourSessionHasExpired": "Istuntosi on vanhentunut toimettomuuden vuoksi. Kirjaudu uudelleen jatkaaksesi.",
         "ThankYouForUsingMatomo": "Kiitos kun päätit käyttää Matomoa",
-        "TheMatomoTeam": "Matomo-tiimi"
+        "TheMatomoTeam": "Matomo-tiimi",
+        "PleaseTryAgain": "Yritä uudelleen"
     },
     "Mobile": {
         "AboutPiwikMobile": "Tietoja Matomo Mobilesta",
@@ -566,7 +569,13 @@
         "VerifyAccount": "Tarkistetaan tiliä",
         "ValidateSslCertificate": "Validoi SSL-varmenne",
         "VerifyLoginData": "Varmista, että käyttäjätunnus ja salasana ovat oikein.",
-        "YouAreOffline": "Sinulla ei ole verkkoyhteyttä juuri nyt"
+        "YouAreOffline": "Sinulla ei ole verkkoyhteyttä juuri nyt",
+        "ExceptionNoViewAccess": "Tarkista käyttäjätunnuksesi ja salasanasi sekä varmista, että sinulla %s-käyttöoikeus vähintään yhdelle sivustolle.",
+        "Mobile_HowtoExitAndroid": "Napsauta uudelleen TAKAISIN poistuaksesi",
+        "MatomoMarketplace": "Matomo-markkinapaikka",
+        "EnterAuthCode": "Anna tunnistuskoodi",
+        "EnterCorrectAuthCode": "Anna oikea tunnistuskoodi",
+        "EnterAuthCodeExplanation": "Vaikuttaa siltä, että käytät kaksivaiheista tunnistautumista. Anna kuusinumeroinen koodi kirjautuaksesi tilillesi."
     },
     "RowEvolution": {
         "AvailableMetrics": "Saatavilla olevat metriikat",

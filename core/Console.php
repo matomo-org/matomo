@@ -2,18 +2,21 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
+use Exception;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Version;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -78,6 +81,8 @@ class Console extends Application
             // Piwik not installed yet, no config file?
             Log::warning($e->getMessage());
         }
+
+        $this->initAuth();
 
         $commands = $this->getAvailableCommands();
 
@@ -259,5 +264,19 @@ class Console extends Application
             $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
         }
         return $commands;
+    }
+
+    private function initAuth()
+    {
+        Piwik::postEvent('Request.initAuthenticationObject');
+        try {
+            StaticContainer::get('Piwik\Auth');
+        } catch (Exception $e) {
+            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
+                        You can activate the plugin by adding:
+                        Plugins[] = Login
+                        under the [Plugins] section in your config/config.ini.php";
+            StaticContainer::get(LoggerInterface::class)->warning($message);
+        }
     }
 }

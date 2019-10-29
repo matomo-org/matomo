@@ -12,9 +12,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikPeriodSelector', piwikPeriodSelector);
 
-    piwikPeriodSelector.$inject = ['piwik'];
+    piwikPeriodSelector.$inject = ['piwik', '$rootScope'];
 
-    function piwikPeriodSelector(piwik) {
+    function piwikPeriodSelector(piwik, $rootScope) {
         return {
             restrict: 'A',
             scope: {
@@ -28,6 +28,15 @@
                 scope.periodSelector.closePeriodSelector = closePeriodSelector;
 
                 scope.$on('$locationChangeSuccess', scope.periodSelector.updateSelectedValuesFromHash);
+
+                $rootScope.$on('hidePeriodSelector', function () {
+                    element.hide();
+                });
+
+                // some widgets might hide the period selector using the event above, so ensure it's shown again when switching the page
+                $rootScope.$on('piwikPageChange', function () {
+                    element.show();
+                });
 
                 function closePeriodSelector() {
                     element.find('.periodSelector').removeClass('expanded');

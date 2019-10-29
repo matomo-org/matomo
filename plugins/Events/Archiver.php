@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -174,13 +174,12 @@ class Archiver extends \Piwik\Plugin\Archiver
                     log_link_visit_action.idaction_event_action,
                     log_link_visit_action.idaction_name";
 
-        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC";
+        $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC, `eventName`";
 
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         $rankingQuery = null;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('eventCategory', 'eventAction', 'eventName'));
             $rankingQuery->addColumn(array(Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_EVENT_NB_HITS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE), 'sum');

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -423,7 +423,9 @@ class Csv extends Renderer
                         $name = 'metadata_' . $name;
                     }
 
-                    if (is_array($value)) {
+                    if (is_array($value)
+                        || is_object($value)
+                    ) {
                         if (!in_array($name, $this->unsupportedColumns)) {
                             $this->unsupportedColumns[] = $name;
                         }

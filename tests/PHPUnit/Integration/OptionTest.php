@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -25,6 +25,8 @@ class OptionTest extends IntegrationTestCase
 
         // populate table, expect '1' (i.e., found)
         Db::query("INSERT INTO `" . Common::prefixTable('option') . "` VALUES ('anonymous_defaultReport', '1', false)");
+        // force cache reload, so value is reloaded
+        Option::clearCache();
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
@@ -43,6 +45,8 @@ class OptionTest extends IntegrationTestCase
 
         // populate table, expect '1' (i.e., found)
         Db::query("INSERT INTO `" . Common::prefixTable('option') . "` VALUES ('anonymous_defaultReport', '1',true)");
+        // force cache reload, so value is reloaded
+        Option::clearCache();
         $this->assertSame('1', Option::get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)

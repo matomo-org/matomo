@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -271,6 +271,7 @@ class API extends \Piwik\Plugin\API
         $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
 
@@ -282,7 +283,15 @@ class API extends \Piwik\Plugin\API
         }
 
         $metrics = array(Metrics::INDEX_NB_ACTIONS);
-        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
+        $data = $logAggregator->queryActionsByDimension(
+            array($dimension),
+            $where,
+            $selects,
+            $metrics,
+            $rankingQuery,
+            $joinLogActionColumn,
+            $secondaryOrderBy = "`name`"
+        );
 
         $dataTables = $this->makeDataTablesFollowingActions($types, $data);
 
@@ -301,6 +310,7 @@ class API extends \Piwik\Plugin\API
     protected function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery->setOthersLabel('Others');
 
         // we generate a single column that contains the interesting data for each referrer.
         // the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
@@ -379,6 +389,7 @@ class API extends \Piwik\Plugin\API
         $keyIsSiteSearchAction = 2;
 
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
         $rankingQuery->partitionResultIntoMultipleGroups('action_partition', array($keyIsOther, $keyIsPageUrlAction, $keyIsSiteSearchAction));
@@ -415,7 +426,15 @@ class API extends \Piwik\Plugin\API
             $joinLogActionOn = $dimension;
         }
         $metrics = array(Metrics::INDEX_NB_ACTIONS);
-        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
+        $data = $logAggregator->queryActionsByDimension(
+            array($dimension),
+            $where,
+            $selects,
+            $metrics,
+            $rankingQuery,
+            $joinLogActionOn,
+            $secondaryOrderBy = "`name`"
+        );
 
         $loops = 0;
         $nbPageviews = 0;

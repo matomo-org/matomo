@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -82,7 +82,7 @@ Total # Invalidated Archives: 0
 Total # Temporary Archives: 0
 Total # Error Archives: 0
 Total # Segment Archives: 162
-Total Size of Blobs: 24.3 K
+Total Size of Blobs: 25.%d K
 
 
 OUTPUT;

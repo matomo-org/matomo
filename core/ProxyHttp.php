@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -70,6 +70,11 @@ class ProxyHttp
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
             Common::sendResponseCode(404);
+            return;
+        }
+
+        if (!is_readable($file)) {
+            Common::sendResponseCode(500);
             return;
         }
 

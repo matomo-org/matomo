@@ -170,6 +170,11 @@
 
             this.currentInterval = this.options.interval;
 
+            if (0 === $(this.element).parents('.widget').length) {
+                var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                $rootScope.$emit('hidePeriodSelector');
+            }
+
             var self = this;
 
             window.setTimeout(function() { self._initTooltips(); }, 250);
@@ -181,7 +186,6 @@
          * Stops requests if widget is destroyed
          */
         _destroy: function () {
-
             this.stop();
         },
 

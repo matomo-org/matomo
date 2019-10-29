@@ -57,18 +57,9 @@
         },
 
         _initStandaloneMap: function () {
-            $('#periodString').hide();
-            initTopControls();
-
             var $rootScope = piwikHelper.getAngularDependency('$rootScope');
-            $rootScope.$on('piwikPageChange', function () {
-                var href = location.href;
-                var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
-                if (clickedMenuIsNotMap) {
-                    $('#periodString').show();
-                    initTopControls();
-                }
-            });
+            $rootScope.$emit('hidePeriodSelector');
+
             $('.realTimeMap_overlay').css('top', '0px');
             $('.realTimeMap_datetime').css('top', '20px');
         },
