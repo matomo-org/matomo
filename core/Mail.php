@@ -147,11 +147,7 @@ class Mail extends Zend_Mail
         return parent::setSubject($subject);
     }
 
-    /**
-     * @param string $email
-     * @return string
-     */
-    protected function parseDomainPlaceholderAsPiwikHostName($email)
+    public function getMailHost()
     {
         $hostname  = Config::getInstance()->mail['defaultHostnameIfEmpty'];
         $piwikHost = Url::getCurrentHost($hostname);
@@ -162,7 +158,16 @@ class Mail extends Zend_Mail
         if ($this->isHostDefinedAndNotLocal($url)) {
             $piwikHost = $url['host'];
         }
+        return $piwikHost;
+    }
 
+    /**
+     * @param string $email
+     * @return string
+     */
+    protected function parseDomainPlaceholderAsPiwikHostName($email)
+    {
+        $piwikHost = $this->getMailHost();
         return str_replace('{DOMAIN}', $piwikHost, $email);
     }
 

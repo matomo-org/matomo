@@ -19,6 +19,7 @@
         "ThisSegmentIsVisibleTo": "इस खंड के लिए दिख रहा है:",
         "VisibleToAllUsers": "सभी उपयोगकर्ताओं",
         "VisibleToMe": "मुझे",
-        "YouMustBeLoggedInToCreateSegments": "आपको कस्टम आगंतुक खंड बनाने और संपादित करने के लिए लॉग इन करना होगा."
+        "YouMustBeLoggedInToCreateSegments": "आपको कस्टम आगंतुक खंड बनाने और संपादित करने के लिए लॉग इन करना होगा.",
+        "Test": "परीक्षण"
     }
 }

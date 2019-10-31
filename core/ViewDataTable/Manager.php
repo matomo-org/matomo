@@ -257,6 +257,7 @@ class Manager
 
         // when setting an invalid parameter, we silently ignore the invalid parameter and proceed
         $params = self::removeNonOverridableParameters($controllerAction, $params);
+        self::unsetComparisonParams($params);
 
         return $params;
     }
@@ -279,6 +280,8 @@ class Manager
     public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride, $containerId = null)
     {
         $params = self::getViewDataTableParameters($login, $controllerAction);
+
+        self::unsetComparisonParams($params);
 
         foreach ($parametersToOverride as $key => $value) {
             if ($key === 'viewDataTable'
@@ -425,4 +428,11 @@ class Manager
         return $graphViewIcons;
     }
 
+    private static function unsetComparisonParams(&$params)
+    {
+        unset($params['compareDates']);
+        unset($params['comparePeriods']);
+        unset($params['compareSegments']);
+        unset($params['compare']);
+    }
 }

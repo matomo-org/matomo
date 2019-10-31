@@ -34,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s jest złączeniem tych grup:",
         "CustomSegment": "Grupa użytkownika",
         "SegmentOperatorIsNullOrEmpty": "nie istnieje lub puste",
-        "SegmentOperatorIsNotNullNorEmpty": "istnieje lub nie jest puste"
+        "SegmentOperatorIsNotNullNorEmpty": "istnieje lub nie jest puste",
+        "Test": "Test"
     }
 }

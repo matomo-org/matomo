@@ -78,6 +78,19 @@ class ApiTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => '1',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array(
+                    'segment' => 'pageTitle=@title',
+                    'filter_limit' => 2,
+                ),
+                'testSuffix' => 'actionSegment'
+            )
+        );
+
         return $apiToTest;
     }
 

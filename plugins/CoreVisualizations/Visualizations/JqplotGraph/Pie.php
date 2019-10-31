@@ -55,6 +55,6 @@ class Pie extends JqplotGraph
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('pie', $properties);
+        return JqplotDataGenerator::factory('pie', $properties, $this);
     }
 }

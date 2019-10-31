@@ -14,9 +14,13 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
+use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
+use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Site;
 
 /**
@@ -30,6 +34,50 @@ use Piwik\Site;
  */
 class API extends \Piwik\Plugin\API
 {
+    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $dataTableReferrersType = $this->getReferrerType($idSite, $period, $date, $segment);
+        $dataTable = $this->createReferrerTypeTable($dataTableReferrersType);
+
+        $archive = Archive::build($idSite, $period, $date, $segment);
+
+        $numericArchives = $archive->getDataTableFromNumeric([
+            Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_URLS_RECORD_NAME,
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME,
+        ]);
+        $this->mergeNumericArchives($dataTable, $numericArchives);
+
+        $totalVisits = array_sum($dataTableReferrersType->getColumn(Metrics::INDEX_NB_VISITS));
+
+        $percentColumns = [
+            'Referrers_visitorsFromDirectEntry',
+            'Referrers_visitorsFromSearchEngines',
+            'Referrers_visitorsFromCampaigns',
+            'Referrers_visitorsFromSocialNetworks',
+            'Referrers_visitorsFromWebsites',
+        ];
+        foreach ($percentColumns as $column) {
+            $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [
+                $column . '_percent',
+                $column,
+                $totalVisits
+            ]);
+        }
+
+        if (!empty($requestedColumns)) {
+            $requestedColumns = Piwik::getArrayFromApiParameter($columns);
+            $dataTable->filter(DataTable\Filter\ColumnDelete::class, [[], $requestedColumns]);
+        }
+
+        return $dataTable;
+    }
+
     /**
      * @param string $name
      * @param int $idSite
@@ -352,7 +400,9 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
-        $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'segment', function($url) {
+            return 'referrerUrl==' . urlencode($url);
+        }));
 
         return $dataTable;
     }
@@ -669,4 +719,72 @@ class API extends \Piwik\Plugin\API
         $urlsTable = null;
     }
 
+    private function createReferrerTypeTable(DataTable\DataTableInterface $table)
+    {
+        if ($table instanceof DataTable) {
+            $nameToColumnId = array(
+                'Referrers_visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
+                'Referrers_visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+                'Referrers_visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
+                'Referrers_visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
+                'Referrers_visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
+            );
+
+            $newRow = array();
+            foreach ($nameToColumnId as $nameVar => $columnId) {
+                $value = 0;
+                $row = $table->getRowFromLabel($columnId);
+                if ($row !== false) {
+                    $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
+                }
+                $newRow[$nameVar] = $value;
+            }
+
+            $result = new DataTable\Simple();
+            $result->addRowFromSimpleArray($newRow);
+            return $result;
+        } else if ($table instanceof DataTable\Map) {
+            $result = new DataTable\Map();
+            $result->setKeyName($table->getKeyName());
+            foreach ($table->getDataTables() as $label => $childTable) {
+                $referrerTypeTable = $this->createReferrerTypeTable($childTable);
+                $result->addTable($referrerTypeTable, $label);
+            }
+        } else {
+            throw new \Exception("Unexpected DataTable type: " . get_class($table)); // sanity check
+        }
+        return $result;
+    }
+
+    private function mergeNumericArchives(DataTable\DataTableInterface $table, DataTable\DataTableInterface $numericArchives = null)
+    {
+        if ($table instanceof DataTable) {
+            /** @var DataTable $numericArchives */
+            if (empty($numericArchives)) {
+                return;
+            }
+
+            $table->setAllTableMetadata($numericArchives->getAllTableMetadata());
+
+            if ($table->getRows() == 0) {
+                $table->addRow(new DataTable\Row());
+            }
+
+            if ($numericArchives->getRowsCount() == 0) {
+                return;
+            }
+
+            $row = $table->getFirstRow();
+            foreach ($numericArchives->getFirstRow() as $name => $value) {
+                $row->setColumn($name, $value);
+            }
+        } else if ($table instanceof DataTable\Map) {
+            foreach ($table->getDataTables() as $label => $childTable) {
+                $numericArchiveChildTable = $numericArchives->getTable($label);
+                $this->mergeNumericArchives($childTable, $numericArchiveChildTable);
+            }
+        } else {
+            throw new \Exception("Unexpected DataTable type: " . get_class($table)); // sanity check
+        }
+    }
 }

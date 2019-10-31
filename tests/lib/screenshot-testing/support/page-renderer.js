@@ -397,8 +397,8 @@ PageRenderer.prototype._setupWebpageEvents = function () {
 
         const response = request.response();
         if (VERBOSE || (response.status() >= 400 && this._isUrlThatWeCareAbout(request.url()))) {
-            const bodySize = (await response.buffer());
-            const message = 'Response (size "' + bodySize.length + '", status "' + response.status() + '"): ' + request.url();
+            const body = await response.buffer();
+            const message = 'Response (size "' + body.length + '", status "' + response.status() + '"): ' + request.url() + "\n" + body.toString();
             this._logMessage(message);
         }
     });

@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "verschiedene Suchmaschinen",
         "DistinctSocialNetworks": "ausgeprägt soziale Netzwerke",
         "DistinctWebsites": "verschiedene Websites",
+        "DistinctWebsiteUrls": "verschiedene Webseiten URLs",
         "EvolutionDocumentation": "Dies ist eine Übersicht der Verweise, die Besucher auf Ihre Website geführt haben.",
         "EvolutionDocumentationMoreInfo": "Für mehr Informationen über die verschiedenen Kanaltypen, lesen Sie die Dokumentation der %s Tabelle.",
         "Keywords": "Suchbegriffe",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Liste Sozialer Netzwerke",
         "WidgetTopKeywordsForPages": "Top-Suchbegriffe für Seiten-URL",
         "XPercentOfVisits": "%s aller Besuche",
-        "Acquisition": "Akquisition"
+        "Acquisition": "Akquisition",
+        "VisitorsFromSearchEngines": "Besucher von Suchmaschinen",
+        "PercentOfX": "Prozent von %s",
+        "VisitorsFromSocialNetworks": "Besucher von sozialen Netzwerken",
+        "VisitorsFromDirectEntry": "Besucher von Direktzugriffen",
+        "VisitorsFromWebsites": "Besucher von Webseiten",
+        "VisitorsFromCampaigns": "Besucher von Kampagnen"
     }
 }

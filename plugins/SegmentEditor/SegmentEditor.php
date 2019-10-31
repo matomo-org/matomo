@@ -11,6 +11,8 @@ namespace Piwik\Plugins\SegmentEditor;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -267,6 +269,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorAND';
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
+        $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';
@@ -279,5 +282,26 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'General_OperationDoesNotContain';
         $translationKeys[] = 'General_OperationStartsWith';
         $translationKeys[] = 'General_OperationEndsWith';
+        $translationKeys[] = 'General_Unknown';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
+        $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
+        $translationKeys[] = 'SegmentEditor_CompareThisSegment';
+        $translationKeys[] = 'Live_VisitsLog';
+    }
+
+    public static function getAllSegmentsForSite($idSite)
+    {
+        $cache = Cache::getTransientCache();
+        $cacheKey = CacheId::siteAware('SegmentEditor_getAll', [$idSite]);
+
+        $segments = $cache->fetch($cacheKey);
+        if (!is_array($segments)) {
+            $segments = Request::processRequest('SegmentEditor.getAll', ['idSite' => $idSite], $default = []);
+            usort($segments, function ($lhs, $rhs) {
+                return strcmp($lhs['name'], $rhs['name']);
+            });
+            $cache->save($cacheKey, $segments);
+        }
+        return $segments;
     }
 }

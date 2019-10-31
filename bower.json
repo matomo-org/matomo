@@ -22,7 +22,6 @@
     "angular-cookies": "~1.6.0",
     "angular-mocks": "~1.6.0",
     "ngDialog": "~1.3.0",
-    "html5shiv": "~3.7.0",
     "mousetrap": "~1.4.0",
     "sprintf": "~1.0.0",
     "jScrollPane": "~2.0.0",

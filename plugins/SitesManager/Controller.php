@@ -14,6 +14,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Session;
 use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
@@ -160,12 +161,25 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'idSite' => $this->idSite
         ), $viewType = 'basic');
 
+        $googleAnalyticsImporterMessage = '';
+        if (Manager::getInstance()->isPluginLoaded('GoogleAnalyticsImporter')) {
+            $googleAnalyticsImporterMessage = '<h3>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalytics') . '</h3>'
+                . '<p>' . Piwik::translate('CoreAdminHome_ImportFromGoogleAnalyticsDescription', ['<a href="https://plugins.matomo.org/GoogleAnalyticsImporter" rel="noopener noreferrer" target="_blank">', '</a>']) . '</p>'
+                . '<p></p>';
+
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('SitesManager.siteWithoutData.customizeImporterMessage', [&$googleAnalyticsImporterMessage]);
+        }
+
         return $this->renderTemplateAs('siteWithoutData', array(
             'siteName'      => $this->site->getName(),
             'idSite'        => $this->idSite,
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
-            'emailBody'     => $emailContent
+            'emailBody'     => $emailContent,
+            'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
 }

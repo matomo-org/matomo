@@ -653,6 +653,9 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
+; Controls whether the user is able to upload a custom logo for their Matomo install
+enable_custom_logo = 1
+
 ; By default we check whether the Custom logo is writable or not, before we display the Custom logo file uploader
 enable_custom_logo_check = 1
 
@@ -733,6 +736,12 @@ piwik_professional_support_ads_enabled = 1
 ; The number of days to wait before sending the JavaScript tracking code email reminder.
 num_days_before_tracking_code_reminder = 5
 
+; The maximum number of segments that can be compared simultaneously.
+data_comparison_segment_limit = 5
+
+; The maximum number of periods that can be compared simultaneously.
+data_comparison_period_limit = 5
+
 ; The path to a custom cacert.pem file Matomo should use.
 ; By default Matomo uses a file extracted from the Firefox browser and provided here: https://curl.haxx.se/docs/caextract.html.
 ; The file contains root CAs and is used to determine if the chain of a SSL certificate is valid and it is safe to connect.
@@ -743,7 +752,6 @@ custom_cacert_pem=
 ; Whether or not to send weekly emails to superusers about tracking failures.
 ; Default is 1.
 enable_tracking_failures_notification = 1
-
 
 [Tracker]
 
@@ -951,7 +959,6 @@ Plugins[] = Diagnostics
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy
 Plugins[] = API
-Plugins[] = ExamplePlugin
 Plugins[] = Widgetize
 Plugins[] = Transitions
 Plugins[] = LanguagesManager
@@ -971,7 +978,6 @@ Plugins[] = VisitsSummary
 Plugins[] = VisitFrequency
 Plugins[] = VisitTime
 Plugins[] = VisitorInterest
-Plugins[] = ExampleAPI
 Plugins[] = RssWidget
 Plugins[] = Feedback
 Plugins[] = Monolog

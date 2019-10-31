@@ -244,7 +244,7 @@ class Url
         $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('$|', $trustedHosts) . '$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;

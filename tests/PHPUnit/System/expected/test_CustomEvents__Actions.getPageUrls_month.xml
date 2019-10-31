@@ -26,7 +26,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.666</avg_time_generation>
 		<url>http://example.org/movies</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fmovies</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fmovies</segment>
 	</row>
 	<row>
 		<label>/webradio</label>
@@ -52,6 +52,6 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.333</avg_time_generation>
 		<url>http://example.org/webradio</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fwebradio</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fwebradio</segment>
 	</row>
 </result>

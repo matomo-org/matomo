@@ -2,10 +2,6 @@
 
 {% block head %}
     {{ parent() }}
-
-    <!--[if lt IE 9]>
-    <script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
-    <![endif]-->
 {% endblock %}
 
 {% set title %}{{ siteName|raw }} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
@@ -54,6 +50,8 @@
             {% endblock %}
 
             <div piwik-popover></div>
+
+            <piwik-comparisons></piwik-comparisons>
 
             {% block content %}
             {% endblock %}

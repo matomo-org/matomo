@@ -203,7 +203,8 @@ class PasswordResetterTest extends IntegrationTestCase
             'observers.global' => [
                 ['Mail.send', function (Mail $mail) {
                     $body = $mail->getBodyHtml(true);
-                    preg_match('/resetToken=3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
+                    $body = preg_replace('/=\n/', '', $body);
+                    preg_match('/resetToken[=\s]*3D([a-zA-Z0-9=\s]+)<\/p>/', $body, $matches);
                     if (!empty($matches[1])) {
                         $capturedToken = $matches[1];
                         $capturedToken = preg_replace('/=\s*/', '', $capturedToken);

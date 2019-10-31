@@ -14,7 +14,7 @@ SOFTWARE LICENSE
 
 	The free software license of Matomo is GNU General Public License v3
 	or later.  A copy of GNU GPL v3 should have been included in this
-	software package in misc/gpl-3.0.txt.
+	software package in LICENSE.
 
 
 TRADEMARK
@@ -36,7 +36,7 @@ TRADEMARK
 CREDITS
 
 	The software consists of contributions made by many individuals.
-	Major contributors are listed in https://matomo.org/the-piwik-team/.
+	Major contributors are listed in https://matomo.org/team/.
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
@@ -279,7 +279,7 @@ THIRD-PARTY CONTENT
 	License: GPL
 	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind", "icon-bug", "icon-upload", "icon-segmented-visits-log") in plugins/Morpheus/fonts, and plugins/Morpheus/images/compare.svg
 	Link: https://design.google.com/icons/
 	License: Apache License Version 2.0
 

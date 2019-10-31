@@ -22,7 +22,7 @@
 				<max_bandwidth>4324023</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<url>http://piwik.net/19.pdf</url>
-				<segment>downloadUrl==http%3A%2F%2Fpiwik.net%2F19.pdf</segment>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252F19.pdf</segment>
 			</row>
 			<row>
 				<label>/other.png</label>
@@ -35,7 +35,7 @@
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<url>http://piwik.net/other.png</url>
-				<segment>downloadUrl==http%3A%2F%2Fpiwik.net%2Fother.png</segment>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fother.png</segment>
 			</row>
 			<row>
 				<label>/thing.css</label>
@@ -48,7 +48,7 @@
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<url>http://piwik.net/thing.css</url>
-				<segment>downloadUrl==http%3A%2F%2Fpiwik.net%2Fthing.css</segment>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.css</segment>
 			</row>
 			<row>
 				<label>/thing.js</label>
@@ -61,7 +61,7 @@
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<url>http://piwik.net/thing.js</url>
-				<segment>downloadUrl==http%3A%2F%2Fpiwik.net%2Fthing.js</segment>
+				<segment>downloadUrl==http%253A%252F%252Fpiwik.net%252Fthing.js</segment>
 			</row>
 		</subtable>
 	</row>

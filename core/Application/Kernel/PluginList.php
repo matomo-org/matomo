@@ -33,6 +33,7 @@ class PluginList
      */
     private $corePluginsDisabledByDefault = array(
         'DBStats',
+        'ExamplePlugin',
         'ExampleCommand',
         'ExampleSettingsPlugin',
         'ExampleUI',
@@ -41,6 +42,7 @@ class PluginList
         'ExampleTracker',
         'ExampleLogTables',
         'ExampleReport',
+        'ExampleAPI',
         'MobileAppMeasurable',
         'Provider',
         'TagManager'

@@ -283,7 +283,15 @@ class API extends \Piwik\Plugin\API
         }
 
         $metrics = array(Metrics::INDEX_NB_ACTIONS);
-        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
+        $data = $logAggregator->queryActionsByDimension(
+            array($dimension),
+            $where,
+            $selects,
+            $metrics,
+            $rankingQuery,
+            $joinLogActionColumn,
+            $secondaryOrderBy = "`name`"
+        );
 
         $dataTables = $this->makeDataTablesFollowingActions($types, $data);
 
@@ -418,7 +426,15 @@ class API extends \Piwik\Plugin\API
             $joinLogActionOn = $dimension;
         }
         $metrics = array(Metrics::INDEX_NB_ACTIONS);
-        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
+        $data = $logAggregator->queryActionsByDimension(
+            array($dimension),
+            $where,
+            $selects,
+            $metrics,
+            $rankingQuery,
+            $joinLogActionOn,
+            $secondaryOrderBy = "`name`"
+        );
 
         $loops = 0;
         $nbPageviews = 0;

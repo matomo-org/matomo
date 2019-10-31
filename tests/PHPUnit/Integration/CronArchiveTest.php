@@ -8,13 +8,11 @@
 
 namespace Piwik\Tests\Integration;
 
-use Piwik\CliMulti;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
-use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\CoreAdminHome\tests\Framework\Mock\API;
+use Piwik\Plugins\SegmentEditor\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeLogger;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -63,6 +61,54 @@ class CronArchiveTest extends IntegrationTestCase
 
         $expectedSegments = array('actions>=2', 'actions>=4');
         $this->assertEquals($expectedSegments, array_values($cronarchive->segmentsToForce));
+    }
+
+    public function test_wasSegmentCreatedRecently()
+    {
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+
+        $segments = new Model();
+        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+
+        $allSegments = $segments->getSegmentsToAutoArchive(1);
+
+        $cronarchive = new TestCronArchive(Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php');
+        $this->assertTrue($cronarchive->wasSegmentChangedRecently('actions>=1', $allSegments));
+
+        // created 30 hours ago...
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=2', $allSegments));
+
+        // not configured segment
+        $this->assertFalse($cronarchive->wasSegmentChangedRecently('actions>=999', $allSegments));
+    }
+
+    public function test_skipSegmentsToday()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
+            '/method=API.get/' => serialize(array(array('nb_visits' => 1)))
+        );
+        
+        Fixture::createWebsite('2014-12-12 00:01:02');
+        SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
+        $id = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
+
+        $segments = new Model();
+        $segments->updateSegment($id, array('ts_created' => Date::now()->subHour(30)->getDatetime()));
+
+        $logger = new FakeLogger();
+
+        $archiver = new CronArchive(null, $logger);
+        $archiver->skipSegmentsToday = true;
+        $archiver->shouldArchiveAllSites = true;
+        $archiver->shouldArchiveAllPeriodsSince = true;
+        $archiver->init();
+        $archiver->run();
+
+        $this->assertContains('Will skip segments archiving for today unless they were created recently', $logger->output);
+        $this->assertContains('Segment "actions>=1" was created or changed recently and will therefore archive today', $logger->output);
+        $this->assertNotContains('Segment "actions>=2" was created recently', $logger->output);
     }
 
     public function test_output()
@@ -184,5 +230,10 @@ class TestCronArchive extends CronArchive
 
     protected function initPiwikHost($piwikUrl = false)
     {
+    }
+
+    public function wasSegmentChangedRecently($definition, $allSegments)
+    {
+        return parent::wasSegmentChangedRecently($definition, $allSegments);
     }
 }

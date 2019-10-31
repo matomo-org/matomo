@@ -25,6 +25,8 @@ class Handler extends Tracker\Handler
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->setResponse(new Response());
     }
 

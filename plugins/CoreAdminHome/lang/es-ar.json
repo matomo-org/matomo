@@ -4,6 +4,7 @@
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración de marcas y logos",
+        "ErrorEmailFromAddressNotValid": "La dirección SMTP no es válida",
         "ReleaseChannel": "Canal de lanzamiento",
         "ClickHereToOptIn": "Hacé clic acá para adherirte.",
         "ClickHereToOptOut": "Hacé clic acá para quitar adhesión.",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "¿Estás seguro que querés eliminar esta falla de rastreo?",
         "TrackingFailuresEmailSubject": "Fallas de rastreo en tu cuenta de Matomo Analytics",
         "TrackingFailuresEmail1": "Esto es sólo para hacerte saber que %s diferentes tipos de fallos de rastreo han ocurrido en los últimos días.",
-        "TrackingFailuresEmail2": "Para ver todas las solicitudes de rastreo que fallaron, %1$shacé clic acá%2$s."
+        "TrackingFailuresEmail2": "Para ver todas las solicitudes de rastreo que fallaron, %1$shacé clic acá%2$s.",
+        "ImportFromGoogleAnalytics": "Importar desde Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Si tenés datos existentes en Google Analytics y te estás cambiando a Matomo, podés exportar esos datos usando el plugin %1$sGoogleAnalyticsImporter%2$s."
     }
 }

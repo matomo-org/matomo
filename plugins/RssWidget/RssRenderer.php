@@ -55,8 +55,12 @@ class RssRenderer
 
         if (!$output) {
             try {
-                $content = Http::fetchRemoteFile($this->url);
-                $rss = simplexml_load_string($content);
+                $content = Http::fetchRemoteFile($this->url, null, 0, 15);
+
+                $rss = @simplexml_load_string($content);
+                if ($rss === false) {
+                    throw new \Exception("Failed to parse XML.");
+                }
             } catch (\Exception $e) {
                 throw new \Exception("Error while importing feed: {$e->getMessage()}\n");
             }

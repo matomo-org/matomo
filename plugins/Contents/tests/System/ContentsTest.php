@@ -27,6 +27,7 @@ class ContentsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        $params['xmlFieldsToRemove'] = array('idsubdatatable');
         if(self::isMysqli()) {
             $this->markTestSkipped('Sometimes fail on MYSQLI (at random)');
         }

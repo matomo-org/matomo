@@ -12,8 +12,10 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Controller;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Tour\Dao\DataFinder;
 use Piwik\Plugins\UserCountry\UserCountry;
+use Piwik\Plugins\UsersManager\UsersManager;
 
 class Challenges
 {
@@ -45,10 +47,10 @@ class Challenges
 
         $challenges[] = StaticContainer::get(ChallengeCustomLogo::class);
 
-        if ($this->isActivePlugin('UsersManager')) {
+        if ($this->isActivePlugin('UsersManager') && UsersManager::isUsersAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeAddedUser::class);
         }
-        if ($this->isActivePlugin('SitesManager')) {
+        if ($this->isActivePlugin('SitesManager') && SitesManager::isSitesAdminEnabled()) {
             $challenges[] = StaticContainer::get(ChallengeAddedWebsite::class);
         }
 

@@ -35,6 +35,7 @@
         "CustomSegment": "Aangepast segment",
         "SegmentOperatorIsNullOrEmpty": "is null of leeg",
         "SegmentOperatorIsNotNullNorEmpty": "is niet null of leeg",
-        "UnprocessedSegmentNoData1": "Deze rapporten hebben geen data omdat het opgevraagde segment %1$s nog niet is verwerkt door het systeem."
+        "UnprocessedSegmentNoData1": "Deze rapporten hebben geen data omdat het opgevraagde segment %1$s nog niet is verwerkt door het systeem.",
+        "Test": "Testen"
     }
 }
