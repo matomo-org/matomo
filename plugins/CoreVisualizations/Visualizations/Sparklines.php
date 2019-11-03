@@ -82,6 +82,14 @@ class Sparklines extends ViewDataTable
         $this->requestConfig->request_parameters_to_modify['columns'] = $columnsList;
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = '1';
 
+        $request = $this->getRequestArray();
+        if ($this->isComparing()
+            && !empty($request['comparePeriods'])
+            && count($request['comparePeriods']) == 1
+        ) {
+            $this->requestConfig->request_parameters_to_modify['invert_compare_change_compute'] = 1;
+        }
+
         if (!empty($this->requestConfig->apiMethodToRequestDataTable)) {
             $this->fetchConfiguredSparklines();
         }
@@ -179,7 +187,8 @@ class Sparklines extends ViewDataTable
                         $periodPretty = $compareRow->getMetadata('comparePeriodPretty');
 
                         $columnToUse = $this->removeUniqueVisitorsIfNotEnabledForPeriod($column, $period);
-                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse);
+
+                        list($compareValues, $compareDescriptions, $evolutions) = $this->getValuesAndDescriptions($compareRow, $columnToUse, '_change');
 
                         foreach ($compareValues as $i => $value) {
                             $metricInfo = [
@@ -188,9 +197,7 @@ class Sparklines extends ViewDataTable
                                 'group' => $periodPretty,
                             ];
 
-                            if ($periodIndex > 0
-                                && isset($evolutions[$i])
-                            ) {
+                            if (isset($evolutions[$i])) {
                                 $metricInfo['evolution'] = $evolutions[$i];
                             }
 
@@ -250,7 +257,7 @@ class Sparklines extends ViewDataTable
         $table->applyQueuedFilters();
     }
 
-    private function getValuesAndDescriptions(DataTable\Row $firstRow, $columns)
+    private function getValuesAndDescriptions(DataTable\Row $firstRow, $columns, $evolutionColumnNameSuffix = null)
     {
         if (!is_array($columns)) {
             $columns = array($columns);
@@ -269,9 +276,11 @@ class Sparklines extends ViewDataTable
                 $value = 0;
             }
 
-            $evolution = $firstRow->getColumn($col . '_change'); // for comparison rows
-            if ($evolution !== false) {
-                $evolutions[] = ['percent' => ltrim($evolution, '+'), 'tooltip' => ''];
+            if ($evolutionColumnNameSuffix !== null) {
+                $evolution = $firstRow->getColumn($col . $evolutionColumnNameSuffix);
+                if ($evolution !== false) {
+                    $evolutions[] = ['percent' => ltrim($evolution, '+'), 'tooltip' => ''];
+                }
             }
 
             $values[] = $value;

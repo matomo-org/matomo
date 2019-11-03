@@ -149,6 +149,9 @@ class Console extends Renderer
                         if (is_object($value) && !method_exists( $value, '__toString' )) {
                             $value = 'Object [' . get_class($value) . ']';
                         }
+                        if (is_array($value)) {
+                            $value = json_encode($value);
+                        }
                         $output .= $prefix . $prefix . "$name => $value";
                     }
                 }
