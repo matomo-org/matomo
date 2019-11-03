@@ -831,7 +831,10 @@ class Archive implements ArchiveQuery
         } // Goal_* metrics are processed by the Goals plugin (HACK)
         elseif (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
-        } elseif (strrpos($report, '_returning') === strlen($report) - strlen('_returning')) { // HACK
+        } elseif (
+            strrpos($report, '_returning') === strlen($report) - strlen('_returning') ||
+            strrpos($report, '_new') === strlen($report) - strlen('_new')
+        ) { // HACK
             $report = 'VisitFrequency_Metrics';
         }
 

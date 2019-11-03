@@ -39,7 +39,12 @@ class Get extends \Piwik\Plugin\Report
             'nb_actions_returning',
             'nb_uniq_visitors_returning',
             'nb_users_returning',
-            'max_actions_returning'
+            'max_actions_returning',
+            'nb_visits_new',
+            'nb_actions_new',
+            'nb_uniq_visitors_new',
+            'nb_users_new',
+            'max_actions_new'
         );
         $this->order = 40;
         $this->subcategoryId = 'VisitorInterest_Engagement';
