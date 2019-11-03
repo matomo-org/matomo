@@ -126,7 +126,7 @@ after_script:
   # output contents of files w/ debugging info to screen
   - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
-  - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
+  - cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log
   - cat $PIWIK_ROOT_DIR/config/config.ini.php
 
   # upload test artifacts (for debugging travis failures)
