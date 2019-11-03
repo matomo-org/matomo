@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",
         "YouCurrentlyHaveAccessToNWebsites": "Vous avez actuellement accès à %s sites web.",
         "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s",
-        "DeleteSiteExplanation": "Supprimer un site web va supprimer tous les journaux et données qui ont été collectés pour ce dernier. Cette action est permanente et ne peut pas être annulée."
+        "DeleteSiteExplanation": "Supprimer un site web va supprimer tous les journaux et données qui ont été collectés pour ce dernier. Cette action est permanente et ne peut pas être annulée.",
+        "EmailInstructionsButton": "Envoyer ces instructions par courriel",
+        "EmailInstructionsSubject": "Code de suivi des statistiques Matomo",
+        "EmailInstructionsDocsPlainText": "Si vous souhaitez aller plus loin que le suivi des pages vues, merci de consulter la documentation Matomo sur %1$s.",
+        "EmailInstructionsGenerateTrackingCode": "Vous pouvez également générer un code de suivi personnalisé sur %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Les détails de votre site",
+        "EmailInstructionsSiteDetails": "Vous aurez besoin de ces informations afin d'utiliser l'API ou les SDK pour suivre les visites Matomo.",
+        "EmailInstructionsYourSiteId": "ID de votre site : %1$s",
+        "EmailInstructionsYourTrackingUrl": "Votre URL de suivi : %1$s"
     }
 }

@@ -32,9 +32,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikEnrichedHeadline', piwikEnrichedHeadline);
 
-    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter'];
+    piwikEnrichedHeadline.$inject = ['$document', 'piwik', '$filter', '$parse'];
 
-    function piwikEnrichedHeadline($document, piwik, $filter){
+    function piwikEnrichedHeadline($document, piwik, $filter, $parse){
         var defaults = {
             helpUrl: '',
             editUrl: ''
@@ -67,6 +67,16 @@
                         }
 
                         if (helpNode && helpNode.length) {
+
+                            // hackish solution to get binded html of p tag within the help node
+                            // at this point the ng-bind-html is not yet converted into html when report is not
+                            // initially loaded. Using $compile doesn't work. So get and set it manually
+                            var helpParagraph = $('p[ng-bind-html]', helpNode);
+
+                            if (helpParagraph.length) {
+                                helpParagraph.html($parse(helpParagraph.attr('ng-bind-html')));
+                            }
+
                             if ($.trim(helpNode.text())) {
                                 scope.inlineHelp = $.trim(helpNode.html());
                             }

@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Adicionar um novo número de telefone",
         "Settings_PhoneNumbers_CountryCode_Help": "Se não sabe o código telefónico do país, procure pelo seu país aqui.",
         "Settings_PhoneNumbers_Help": "Antes de receber relatórios por SMS (mensagens de texto) num telefone, o número de telefone deve ser introduzido abaixo.",
-        "Settings_PhoneNumbers_HelpAdd": "Ao clicar em \"Adicionar\", uma mensagem SMS contendo o código será enviada para o telemóvel. O utilizador que a receba deverá então autenticar-se no Matomo, clicar em \"Definições\" e depois em \"Mensagens Móveis\". Após a introdução do código, o utilizador poderá receber relatórios de texto no telemóvel.",
+        "Settings_PhoneNumbers_HelpAdd": "Ao clicar em \"Adicionar\", uma mensagem SMS contendo um código será enviada para o telemóvel. O utilizador que a receba deverá então autenticar-se no Matomo, clicar em \"Definições\" e depois em \"Mensagens móveis\". Após a introdução do código, o utilizador poderá receber relatórios de texto no respetivo telemóvel.",
         "Settings_PleaseSignUp": "Para criar relatórios SMS e receber pequenas mensagens de texto com as estatísticas dos seus sites no seu telemóvel, por favor, subscreva à API SMS e introduza a sua informação em baixo.",
         "Settings_SMSAPIAccount": "Gerir conta da API SMS",
         "Settings_SMSProvider": "Fornecedor de SMS",

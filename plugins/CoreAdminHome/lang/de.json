@@ -62,7 +62,7 @@
         "LogoNotWriteableInstruction": "Um Ihr eigenes Logo anstelle des Matomo Logos verwenden zu können werden Schreibrechte auf diesen Ordner benötigt: %1$s Matomo benötigt Schreibzugriff auf Ihre Logos die gespeichert sind in %2$s.",
         "FileUploadDisabled": "Das Hochladen von Dateien ist in Ihrer PHP-Konfiguration nicht aktiviert. Um Ihr eigenes Logo hochladen zu können setzen Sie bitte %s in Ihrer php.ini und starten Sie den Webserver neu.",
         "LogoUploadFailed": "Die hochgeladene Datei konnte nicht verarbeitet werden. Bitte überprüfen Sie ob die Datei ein gültiges Format hat.",
-        "LogoUpload": "Wählen Sie ein Logo für den Upload",
+        "LogoUpload": "Wählen Sie ein Logo für den Upload aus",
         "FaviconUpload": "Wählen Sie ein Favicon für den Upload aus",
         "LogoUploadHelp": "Bitte laden Sie eine Datei in den Formaten %1$s mit einer minimalen Höhe von %2$s Pixeln hoch.",
         "MenuDiagnostic": "Diagnose",
