@@ -32,7 +32,10 @@ class Get extends \Piwik\Plugin\Report
         $this->processedMetrics = array(
             new ReturningMetric(new AverageTimeOnSite()),
             new ReturningMetric(new ActionsPerVisit()),
-            new ReturningMetric(new BounceRate())
+            new ReturningMetric(new BounceRate()),
+            new ReturningMetric(new AverageTimeOnSite(), '_new'),
+            new ReturningMetric(new ActionsPerVisit(), '_new'),
+            new ReturningMetric(new BounceRate(), '_new')
         );
         $this->metrics       = array(
             'nb_visits_returning',
@@ -44,7 +47,10 @@ class Get extends \Piwik\Plugin\Report
             'nb_actions_new',
             'nb_uniq_visitors_new',
             'nb_users_new',
-            'max_actions_new'
+            'max_actions_new',
+            'bounce_rate_new',
+            'nb_actions_per_visit_new',
+            'avg_time_on_site_new'
         );
         $this->order = 40;
         $this->subcategoryId = 'VisitorInterest_Engagement';
@@ -111,6 +117,12 @@ class Get extends \Piwik\Plugin\Report
             'nb_actions_per_visit_returning' => 'ReturnAvgActions',
             'avg_time_on_site_returning' => 'ReturnAverageVisitDuration',
             'bounce_rate_returning' => 'ReturnBounceRate',
+            
+            'nb_visits_new' => 'NewVisits',
+            'nb_actions_new' => 'NewActions',
+            'nb_actions_per_visit_new' => 'NewAvgActions',
+            'avg_time_on_site_new' => 'NewAverageVisitDuration',
+            'bounce_rate_new' => 'NewBounceRate',
         );
 
         foreach ($translations as $metric => $key) {
@@ -122,11 +134,19 @@ class Get extends \Piwik\Plugin\Report
 
     private function addSparklineColumns(Sparklines $view)
     {
-        $view->config->addSparklineMetric(array('nb_visits_returning'));
-        $view->config->addSparklineMetric(array('avg_time_on_site_returning'));
-        $view->config->addSparklineMetric(array('nb_actions_per_visit_returning'));
-        $view->config->addSparklineMetric(array('bounce_rate_returning'));
-        $view->config->addSparklineMetric(array('nb_actions_returning'));
-    }
+        $metrics = array(
+            'nb_visits',
+            'avg_time_on_site',
+            'nb_actions_per_visit',
+            'bounce_rate',
+            'nb_actions'
+        );
 
+        foreach ($metrics as $metric) {
+            foreach (array('_returning', '_new') as $suffix) {
+                $view->config->addSparklineMetric(array($metric . $suffix));
+            }
+        }
+
+    }
 }

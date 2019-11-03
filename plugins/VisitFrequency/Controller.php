@@ -54,20 +54,20 @@ class Controller extends \Piwik\Plugin\Controller
 
         $period = Common::getRequestVar('period', false);
 
-        $columns = array('nb_visits');
+        $columnNames = array('nb_visits');
         if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
-            $columns[] = 'nb_uniq_visitors';
+            $columnNames[] = 'nb_uniq_visitors';
         }
-        $columns[] = 'nb_actions';
-        $columns[] = 'nb_actions_per_visit';
-        $columns[] = 'bounce_rate';
-        $columns[] = 'avg_time_on_site';
+        $columnNames[] = 'nb_actions';
+        $columnNames[] = 'nb_actions_per_visit';
+        $columnNames[] = 'bounce_rate';
+        $columnNames[] = 'avg_time_on_site';
 
         $suffixes = array('_returning', '_new', '');
 
         $selectableColumns = array();
         foreach ($suffixes as $suffix) {
-            foreach ($columns as $column) {
+            foreach ($columnNames as $column) {
                 $selectableColumns[] = $column . $suffix;
             }
         }
