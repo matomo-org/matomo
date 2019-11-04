@@ -424,6 +424,13 @@ class Zend_Session extends Zend_Session_Abstract
             return; // already started
         }
 
+        if (session_status() === PHP_SESSION_ACTIVE) {
+	        parent::$_readable = true;
+	        parent::$_writable = true;
+	        self::$_sessionStarted = true;
+	        return;
+        }
+
         // make sure our default options (at the least) have been set
         if (!self::$_defaultOptionsSet) {
             self::setOptions(is_array($options) ? $options : array());

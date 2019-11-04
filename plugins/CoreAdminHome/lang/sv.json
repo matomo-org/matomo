@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Inställningar för arkivering",
         "BrandingSettings": "Varumärkesinställningar",
+        "ErrorEmailFromAddressNotValid": "SMTP-adressen är inte giltig",
         "ReleaseChannel": "Lanseringskanal",
         "ClickHereToOptIn": "Klicka här för att gå med.",
         "ClickHereToOptOut": "Klicka här för att gå ur.",
@@ -29,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "Parameter för nyckelorden i kampanjen",
         "JSTracking_CampaignNameParam": "villkor för kampanjnamn",
         "JSTracking_CodeNoteBeforeClosingHead": "Se till att den här koden finns på varje sida på din webbplats. Vi rekommenderar att den klistras in precis innan den avslutande %1$s-taggen.",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "Försäkra dig om att denna kod läggs till inom ett skriptelement på varje sida av din webbplats. Vi rekommenderar att klistra in den precis före den avslutande head-taggen.",
         "JSTracking_CustomCampaignQueryParam": "Använd den egna förfrågan för parameterns namn för kampanjnamn och nyckelord",
         "JSTracking_CrossDomain": "Som standard lagras besökarens ID i webbläsarens förstapartscookies som bara kan nås från samma domän. Genom att möjliggöra cross domain-länkning kan du spåra alla aktiviteter och sidvisningar av en användare även om de besöker flera olika domäner. När en användare klickar på en länk till en alias-URL kommer den lägga till URL-parametern pk_vid för att vidarebefordra besökarens ID.",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "Notering: Om du vill använda korsdomän måste du ange mer än ett domännamn (webbadresser) för din webbplats.",
@@ -53,6 +55,8 @@
         "JSTracking_EndNote": "OBS: Du kan skapa anpassad spårkningskod under %1$sSpårningskod %2$si administrationsgränssnittet.",
         "JSTrackingIntro1": "Du kan spåra din webbplats besökare på många olika vis. Det rekommenderade sättet att göra det är med hjälp av JavaScript. För att använda den här metoden behöver du se till att varje sida på din webbplats innehåller lite JavaScript-kod, som du kan skapa här.",
         "JSTrackingIntro2": "När du har JavaScripts spårningskod till din webbsida, kopiera och klistra in det på alla sidor du vill spåra med Matomo.",
+        "JSTrackingIntro3a": "På de flesta webbplatser, bloggar, CMS:er osv kan du använda ett förberett insticksprogram som gör det tekniska arbetet åt dig. (Se vår %1$s lista med insticksprogram som används för att integrera Matomo %2$s.)",
+        "JSTrackingIntro3b": "Om det inte finns något insticksprogram kan du redigera din webbplats mallar och lägga till JavaScript spårningskoden till taggen &lt;\/head&gt; vilken ofta definieras i 'header.php', 'header.tpl' eller liknande fil för mallar.",
         "JSTrackingIntro4": "Om du inte vill använda JavaScript för att spåra besökare, %1$sgenerera en bild spårningslänk nedan%2$s.",
         "JSTrackingIntro5": "Om du vill göra mer än att spåra antal sedda sidor, titta på %1$sMatomos lista av dokumentation för Javascripts Spårning%2$s, där hittar du en lista med tillgängliga funktioner. Använd dessa funktioner för att spåra mål, skräddarsy variabler, e-handel, övergivna korgar med mera.",
         "LogoNotWriteableInstruction": "Om du vill använda din egen logotyp istället för Matomos logotyp, se till så att det finns skrivrättigheter till denna katalog: %1$s. Matomo behöver skrivrättighet för dina logotyper som lagras i filerna %2$s.",
@@ -130,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Är du säker på att du vill radera detta misslyckade spårningsförsöket?",
         "TrackingFailuresEmailSubject": "Misslyckade spårningsförsök i ditt Matomo Analytics",
         "TrackingFailuresEmail1": "Bara så du vet, har %s olika sorters misslyckade spårningsförsök inträffat de senaste dagarna.",
-        "TrackingFailuresEmail2": "%1$sKlicka här%2$s för att visa samtliga misslyckade spårningsförsök."
+        "TrackingFailuresEmail2": "%1$sKlicka här%2$s för att visa samtliga misslyckade spårningsförsök.",
+        "ImportFromGoogleAnalytics": "Importera från Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Om du har en Google Analytics egendom och byter till Matomo kan du importera dina befintliga data genom att använda insticksprogram %1$s GoogleAnalyticsImporter%2$s."
     }
 }

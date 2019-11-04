@@ -195,7 +195,7 @@ class Option
 
         if (! $rowsUpdated) {
             try {
-                $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                $sql  = 'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                         'VALUES (?, ?, ?) ';
                 $bind = array($name, $value, $autoLoad);
 

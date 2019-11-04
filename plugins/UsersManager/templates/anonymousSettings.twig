@@ -1,6 +1,6 @@
 {% extends 'admin.twig' %}
 
-{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}{% endset %}
+{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate|raw }}{% endset %}
 
 {% block content %}
 {% if isSuperUser %}

@@ -158,11 +158,13 @@
         "Capability": "Privilégio",
         "EmailChangeNotificationSubject": "O endereço de e-mail da sua conta do Matomo foi alterado",
         "EmailChangedEmail1": "O endereço de e-mail associado à sua conta foi alterado para %1$s",
-        "EmailChangedEmail2": "Esta alteração deu-se a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
+        "EmailChangedEmail2": "Esta alteração foi iniciada a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Caso tenha sido iniciada por si, ignore este e-mail. Caso contrário, por favor, inicie sessão, corrija o seu endereço de e-mail, altere a sua palavra-passe e entre em contacto com o seu administrador do Matomo.",
         "PasswordChangeNotificationSubject": "A palavra-passe da sua conta do Matomo foi alterada",
-        "PasswordChangedEmail": "A sua palavra-passe foi alterada. Esta alteração deu-se a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
-        "NewsletterSignupTitle": "Assinatura à Newsletter",
-        "NewsletterSignupMessage": "Subscreva à nossa newsletter para se manter regularmente informado sobre o Matomo. Pode cancelar a sua assinatura a qualquer momento. Este serviço utiliza MadMimi. Para mais informações, consulte a nossa %1$spágina de Política de Privacidade %2$s."
+        "PasswordChangedEmail": "A sua palavra-passe foi alterada. Esta alteração foi iniciada a partir do seguinte dispositivo: %1$s (endereço de IP = %2$s).",
+        "NewsletterSignupTitle": "Subscrição da Newsletter",
+        "NewsletterSignupMessage": "Subscreva à nossa newsletter para receber regularmente informações sobre o Matomo. Pode cancelar a sua subscrição a qualquer momento. Este serviço utiliza MadMimi. Para mais informações, consulte a nossa %1$spágina da Política de Privacidade %2$s.",
+        "NewsletterSignupFailureMessage": "Parece que algo correu mal. Não conseguimos concluir o seu processo de subscrição à newsletter.",
+        "NewsletterSignupSuccessMessage": "Fantástico, está subscrito. Entraremos em contacto em breve."
     }
 }

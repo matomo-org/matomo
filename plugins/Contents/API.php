@@ -64,11 +64,6 @@ class API extends \Piwik\Plugin\API
             if ($row) {
                 $row->setColumn('label', Piwik::translate('General_NotDefined', Piwik::translate('Contents_ContentPiece')));
             }
-            foreach ($table->getRows() as $row) {
-                if ($row->getMetadata('contentTarget') === Archiver::CONTENT_TARGET_NOT_SET) {
-                    $row->setMetadata('contentTarget', '');
-                }
-            }
         });
     }
 }

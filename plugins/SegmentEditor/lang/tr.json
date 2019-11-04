@@ -52,6 +52,10 @@
         "CustomUnprocessedSegmentApiError5": "Live.getLastVisitsDetails API yöntemini kullanarak verilerin ön hazırlığının tamamlanmasını beklemeden dilimin çalışıp çalışmadığını sınayabileceğinizi unutmayın.",
         "CustomUnprocessedSegmentApiError6": "Bu API yöntemini kullanarak, &segment= parametre ölçütünüze uyan kullanıcı ve işlemleri görebilirsiniz.",
         "CustomUnprocessedSegmentNoData": "Bu dilimin verilerini görüntülemek için, Dilim Düzenleyici üzerinden bu dilimi el ile ekledikten sonra verilerin hazırlanması için bir kaç saat beklemelisiniz.",
-        "AddThisToMatomo": "Bu parçayı Matomo üzerine ekle"
+        "AddThisToMatomo": "Bu parçayı Matomo üzerine ekle",
+        "ThisSegmentIsCompared": "Bu dilim şu anda karşılaştırılıyor.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Bu dilim şu anda seçilmiş olduğundan karşılaştırmak için seçilemez.",
+        "CompareThisSegment": "Bu dilimi seçilmiş dilim ve aralık ile karşılaştır.",
+        "Test": "Sına"
     }
 }

@@ -132,7 +132,7 @@
 
                         httpCanceler = $q.defer();
 
-                        $http.get(url, {timeout: httpCanceler.promise}).then(function(response) {
+                        $http.get(url, {timeout: httpCanceler.promise, headers: {'X-Requested-With': 'XMLHttpRequest'}}).then(function(response) {
                             if (thisChangeId !== changeCounter || !response.data) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;

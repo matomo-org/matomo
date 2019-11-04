@@ -55,6 +55,9 @@
         "NoTokenProvided": "Não foi fornecido nenhum código neste endereço",
         "NoSubscriptionFound": "Não foi encontrada nenhuma subscrição. Talvez a subscrição neste relatório já tenha sido anulada ou removida.",
         "EvolutionGraphsShowForEachInPeriod": "Os gráficos de evolução mostram a evolução para %1$scada dia%2$s nós últimos %3$s",
-        "EvolutionGraphsShowForPreviousN": "Os gráficos de evolução mostram a evolução durante os últimos N %s"
+        "EvolutionGraphsShowForPreviousN": "Os gráficos de evolução mostram a evolução durante os últimos N %s",
+        "ReportPeriod": "Período do relatório",
+        "ReportPeriodHelp": "O período de dados coberto por este relatório. Por predefinição, isto é o mesmo que o agendamento do e-mail, pelo que se o relatório é enviado semanalmente, irá conter informação relativa à última semana.",
+        "ReportPeriodHelp2": "No entanto, pode alterar isto, se quiser ver informação diferente e ainda assim manter o agendamento do e-mail. Por exemplo, se o agendamento do e-mail é semanal, e o relatório do período é diário, irá obter informação para o último dia, cada semana."
     }
 }

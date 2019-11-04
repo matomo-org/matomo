@@ -286,6 +286,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_ThisSegmentIsCompared';
         $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
         $translationKeys[] = 'SegmentEditor_CompareThisSegment';
+        $translationKeys[] = 'Live_VisitsLog';
     }
 
     public static function getAllSegmentsForSite($idSite)

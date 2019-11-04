@@ -275,7 +275,6 @@
         "Remove": "Tanggalin",
         "Report": "Ulat",
         "ReportGeneratedFrom": "Ang ulat na ito ay binuo gamit ang data mula sa %s",
-        "ReportRatioTooltip": "Ang %1$s ay kumakatawan sa %2$s ng %3$s %4$s na may %5$s",
         "Reports": "Mga Ulat",
         "ReportsWillBeProcessedAtMostEveryHour": "Sa gayon ang mga ulat ay mapoproseso sa bawat oras.",
         "RequestTimedOut": "Ang kahilingan ng data sa %s ay nag-time out. Pakisubukang muli.",

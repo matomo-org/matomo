@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
-        "OperatorAND": "IR"
+        "OperatorAND": "IR",
+        "Test": "Testas"
     }
 }

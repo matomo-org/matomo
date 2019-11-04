@@ -61,14 +61,30 @@ class LineMessageFormatter implements FormatterInterface
 
     private function formatMessage($class, $message, $date, $record)
     {
+        $trace = isset($record['context']['trace']) ? self::formatTrace($record['context']['trace']) : '';
         $message = str_replace(
-            array('%tag%', '%message%', '%datetime%', '%level%'),
-            array($class, $message, $date, $record['level_name']),
+            array('%tag%', '%message%', '%datetime%', '%level%', '%trace%'),
+            array($class, $message, $date, $record['level_name'], $trace),
             $this->logMessageFormat
         );
 
-        $message .= "\n";
+        $message = trim($message) . "\n";
         return $message;
+    }
+
+    private static function formatTrace(array $trace, $numLevels = 10)
+    {
+        $strTrace = '';
+        for ($i = 0; $i < $numLevels; $i++) {
+            $level = $trace[$i];
+            if (isset($level['file'], $level['line'])) {
+                $levelTrace = '#' . $i . (str_replace(PIWIK_DOCUMENT_ROOT, '', $level['file'])) . '(' . $level['line'] . ')';
+            } else {
+                $levelTrace = '[internal function]: ' . $level['class'] . $level['type'] . $level['function'] . '()';
+            }
+            $strTrace .= $levelTrace . ",";
+        }
+        return trim($strTrace, ",");
     }
 
     public function formatBatch(array $records)

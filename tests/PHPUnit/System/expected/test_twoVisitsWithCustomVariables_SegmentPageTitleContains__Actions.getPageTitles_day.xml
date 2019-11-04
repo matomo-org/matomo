@@ -35,7 +35,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Profile+page</segment>
+		<segment>pageTitle==Profile%2Bpage</segment>
 	</row>
 	<row>
 		<label> Profile page for user *_)%</label>
@@ -53,6 +53,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==Profile+page+for+user+%2A_%29%25</segment>
+		<segment>pageTitle==Profile%2Bpage%2Bfor%2Buser%2B%252A_%2529%2525</segment>
 	</row>
 </result>

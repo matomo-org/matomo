@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "Den här användaragenten är upptäckt som %1$s. Besök med denna användaragent kommer inte att spåras i Matomo som default.",
         "BrowserEngine": "Webbläsarmotor",
         "BrowserEngineDocumentation": "Detta diagram visar besökarnas webbläsare uppdelat i webbläsarfamiljer. %s Den viktigaste informationen för webbutvecklare är vilken typ av renderingsmotor besökarna använder. Etiketterna innehåller namnen på de renderingsmotorn följt av den vanligaste webbläsaren med den motorn inom parentes.",
         "BrowserEngines": "Webbläsarmotorer",
@@ -11,6 +12,7 @@
         "CarBrowser": "Bilwebbläsare",
         "Software": "Mjukvara",
         "ColumnBrowser": "Webbläsare",
+        "BrowserCode": "Webbläsarkod",
         "ColumnOperatingSystem": "Operativsystem",
         "ColumnOperatingSystemVersion": "Operativsystemversion",
         "Console": "Konsol",
@@ -30,6 +32,7 @@
         "FeaturePhone": "Telefonmodell",
         "OperatingSystemFamilies": "Operativsystemfamiljer",
         "OperatingSystemFamily": "Operativsystemfamilj",
+        "OperatingSystemCode": "Operativsystemskod",
         "OperatingSystems": "Operativsystem",
         "OperatingSystemVersions": "Operativsystemversion",
         "PluginDescription": "Visar utökad information om användarenheter som t.ex. tillverkare, modell, typ av enhet mm.",

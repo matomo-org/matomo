@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "motorë kërkimesh të dallueshëm",
         "DistinctSocialNetworks": "rrjete shoqërorë të dalluar",
         "DistinctWebsites": "sajte të dallueshëm",
+        "DistinctWebsiteUrls": "URL-ra sajtesh të dallueshëm",
         "EvolutionDocumentation": "Kjo është një përmbledhje e sjellësve që prunë vizitorë te sajti juaj.",
         "EvolutionDocumentationMoreInfo": "Për më tepër të dhëna rreth llojeve të ndryshme të kanaleve, shihni dokumentimin për tabelën %s.",
         "Keywords": "Fjalëkyçe",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Listë rrjetesh shoqërore",
         "WidgetTopKeywordsForPages": "Fjalëkyçe Kryesuese për URL Faqesh",
         "XPercentOfVisits": "%s e vizitave",
-        "Acquisition": "Blerje"
+        "Acquisition": "Blerje",
+        "VisitorsFromSearchEngines": "Vizitorë prej Motorë Kërkimesh",
+        "PercentOfX": "Përqindje e %s",
+        "VisitorsFromSocialNetworks": "Vizitorë prej Rrjetesh Shoqërore",
+        "VisitorsFromDirectEntry": "Vizitorë prej Hyrjesh të Drejtpërdrejta",
+        "VisitorsFromWebsites": "Vizitorë prej Sajtesh",
+        "VisitorsFromCampaigns": "Vizitorë prej Fushatash"
     }
 }

@@ -201,6 +201,12 @@ class Flattener extends DataTableManipulator
             if ($origLabel !== false) {
                 foreach ($subTable->getRows() as $subRow) {
                     foreach ($row->getMetadata() as $name => $value) {
+                        // do not set 'segment' parameter if there is a segmentValue on the row, since that will prevent the segmentValue
+                        // from being used in DataTablePostProcessor
+                        if ($name == 'segment' && $subRow->getMetadata('segmentValue') !== false) {
+                            continue;
+                        }
+
                         if ($subRow->getMetadata($name) === false) {
                             $subRow->setMetadata($name, $value);
                         }

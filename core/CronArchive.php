@@ -225,6 +225,13 @@ class CronArchive
      */
     public $disableSegmentsArchiving = false;
 
+    /**
+     * If enabled, segments will be only archived for yesterday, but not today. If the segment was created recently,
+     * then it will still be archived for today and the setting will be ignored for this segment.
+     * @var bool
+     */
+    public $skipSegmentsToday = false;
+
     private $websitesWithVisitsSinceLastRun = 0;
     private $skippedPeriodsArchivesWebsite = 0;
     private $skippedPeriodsNoDataInPeriod = 0;
@@ -291,6 +298,7 @@ class CronArchive
         $this->formatter = new Formatter();
 
         $processNewSegmentsFrom = $processNewSegmentsFrom ?: StaticContainer::get('ini.General.process_new_segments_from');
+
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
@@ -360,6 +368,10 @@ class CronArchive
 
         if ($this->websites->getInitialSiteIds() != $websitesIds) {
             $this->logger->info('Will ignore websites and help finish a previous started queue instead. IDs: ' . implode(', ', $this->websites->getInitialSiteIds()));
+        }
+
+        if ($this->skipSegmentsToday) {
+            $this->logger->info('Will skip segments archiving for today unless they were created recently');
         }
 
         $this->logForcedSegmentInfo();
@@ -1811,6 +1823,22 @@ class CronArchive
         return $url;
     }
 
+    protected function wasSegmentChangedRecently($definition, $allSegments)
+    {
+        foreach ($allSegments as $segment) {
+            if ($segment['definition'] === $definition) {
+                $twentyFourHoursAgo = Date::now()->subHour(24);
+                $segmentDate = $segment['ts_created'];
+                if (!empty($segment['ts_last_edit'])) {
+                    $segmentDate = $segment['ts_last_edit'];
+                }
+                return Date::factory($segmentDate)->isLater($twentyFourHoursAgo);
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param $idSite
      * @param $period
@@ -1842,11 +1870,28 @@ class CronArchive
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
 
+        $allSegmentsFullInfo = array();
+        if ($this->skipSegmentsToday) {
+            // small performance tweak... only needed when skip segments today
+            $segmentEditorModel = StaticContainer::get('Piwik\Plugins\SegmentEditor\Model');
+            $allSegmentsFullInfo = $segmentEditorModel->getSegmentsToAutoArchive($idSite);
+        }
+
         foreach ($segments as $segment) {
+            $shouldSkipToday = $this->skipSegmentsToday && !$this->wasSegmentChangedRecently($segment, $allSegmentsFullInfo);
+
+            if ($this->skipSegmentsToday && !$shouldSkipToday) {
+                $this->logger->info(sprintf('Segment "%s" was created or changed recently and will therefore archive today', $segment));
+            }
+
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            if ($shouldSkipToday) {
+                $urlWithSegment .= '&skipArchiveSegmentToday=1';
+            }
 
             if ($this->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
                 continue;

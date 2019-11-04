@@ -14,7 +14,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Emoji+here%3A+%F0%9F%98%8E</segment>
+		<segment>pageTitle==Emoji%2Bhere%253A%2B%2525F0%25259F%252598%25258E</segment>
 	</row>
 	<row>
 		<label> http://incredible.title/</label>
@@ -35,7 +35,7 @@
 		<avg_time_on_page>720</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==http%3A%2F%2Fincredible.title%2F</segment>
+		<segment>pageTitle==http%253A%252F%252Fincredible.title%252F</segment>
 	</row>
 	<row>
 		<label> http://www.incredible.title/</label>
@@ -51,7 +51,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==http%3A%2F%2Fwww.incredible.title%2F</segment>
+		<segment>pageTitle==http%253A%252F%252Fwww.incredible.title%252F</segment>
 	</row>
 	<row>
 		<label> https://incredible.title/</label>
@@ -67,7 +67,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==https%3A%2F%2Fincredible.title%2F</segment>
+		<segment>pageTitle==https%253A%252F%252Fincredible.title%252F</segment>
 	</row>
 	<row>
 		<label> https://www.incredible.title/</label>
@@ -83,7 +83,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==https%3A%2F%2Fwww.incredible.title%2F</segment>
+		<segment>pageTitle==https%253A%252F%252Fwww.incredible.title%252F</segment>
 	</row>
 	<row>
 		<label> incredible.title/</label>
@@ -101,7 +101,7 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
-		<segment>pageTitle==incredible.title%2F</segment>
+		<segment>pageTitle==incredible.title%252F</segment>
 	</row>
 	<row>
 		<label> Valid URL, although strange looking</label>
@@ -117,6 +117,6 @@
 		<avg_time_on_page>360</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>pageTitle==Valid+URL%2C+although+strange+looking</segment>
+		<segment>pageTitle==Valid%2BURL%252C%2Balthough%2Bstrange%2Blooking</segment>
 	</row>
 </result>

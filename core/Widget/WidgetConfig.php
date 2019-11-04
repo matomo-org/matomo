@@ -8,6 +8,7 @@
  */
 namespace Piwik\Widget;
 
+use Piwik\Access;
 use Piwik\Piwik;
 use Exception;
 
@@ -258,6 +259,10 @@ class WidgetConfig
     public function checkIsEnabled()
     {
         if (!$this->isEnabled()) {
+            // Some widgets are disabled when the user is not superuser. If the user is not logged in, we should
+            // prompt them to do this first rather than showing them the "widget not enabled" error
+            Access::getInstance()->checkUserIsNotAnonymous();
+
             throw new Exception(Piwik::translate('General_ExceptionWidgetNotEnabled'));
         }
     }

@@ -923,7 +923,9 @@ class API extends \Piwik\Plugin\API
             $email = $userInfo['email'];
         }
 
-        if ($email != $userInfo['email']) {
+        $hasEmailChanged = Common::mb_strtolower($email) !== Common::mb_strtolower($userInfo['email']);
+
+        if ($hasEmailChanged) {
             $this->checkEmail($email);
             $changeShouldRequirePasswordConfirmation = true;
         }
@@ -938,7 +940,7 @@ class API extends \Piwik\Plugin\API
 
         Cache::deleteTrackerCache();
 
-        if ($email != $userInfo['email'] && $isEmailNotificationOnInConfig) {
+        if ($hasEmailChanged && $isEmailNotificationOnInConfig) {
             $this->sendEmailChangedEmail($userInfo, $email);
         }
 

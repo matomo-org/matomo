@@ -18,6 +18,7 @@
         "ThisSegmentIsVisibleTo": "这个分段对其可见:",
         "VisibleToAllUsers": "所有用户",
         "VisibleToMe": "我",
-        "YouMustBeLoggedInToCreateSegments": "您必须登录后创建和修改自定义访客分段"
+        "YouMustBeLoggedInToCreateSegments": "您必须登录后创建和修改自定义访客分段",
+        "Test": "测试"
     }
 }

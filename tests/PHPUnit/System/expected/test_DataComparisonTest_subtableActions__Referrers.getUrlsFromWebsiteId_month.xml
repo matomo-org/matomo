@@ -11,7 +11,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://piwik.org/contribute%</url>
-		<segment>referrerUrl==contribute%25</segment>
+		<segment>referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 		<comparisons>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -29,7 +29,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>referrerUrl==contribute%25</segment>
+				<segment>referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -47,7 +47,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ff)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Dff;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -65,7 +65,7 @@
 				<comparePeriodPretty>August 2012</comparePeriodPretty>
 				<compareSeriesPretty>(August 2012) (browserCode==ie)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Die;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -91,7 +91,7 @@
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>referrerUrl==contribute%25</segment>
+				<segment>referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -117,7 +117,7 @@
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ff)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Dff;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -143,7 +143,7 @@
 				<comparePeriodPretty>Friday, August 10, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Friday, August 10, 2012) (browserCode==ie)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Die;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -169,7 +169,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (All visits)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>referrerUrl==contribute%25</segment>
+				<segment>referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>0</nb_visits>
@@ -195,7 +195,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ff)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Dff;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Dff;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -221,7 +221,7 @@
 				<comparePeriodPretty>Week August 13 – 19, 2012</comparePeriodPretty>
 				<compareSeriesPretty>(Week August 13 – 19, 2012) (browserCode==ie)</compareSeriesPretty>
 				<idsubdatatable>-1</idsubdatatable>
-				<segment>browserCode%3D%3Die;referrerUrl==contribute%25</segment>
+				<segment>browserCode%3D%3Die;referrerUrl==http%3A%2F%2Fpiwik.org%2Fcontribute%25</segment>
 			</row>
 		</comparisons>
 	</row>

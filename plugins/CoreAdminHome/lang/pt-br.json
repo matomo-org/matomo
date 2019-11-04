@@ -4,6 +4,7 @@
         "Administration": "Administração",
         "ArchivingSettings": "Configurações de arquivamento",
         "BrandingSettings": "Configurações da identidade visual",
+        "ErrorEmailFromAddressNotValid": "O endereço SMTP`do remetente não é válido",
         "ReleaseChannel": "Canal de liberação",
         "ClickHereToOptIn": "Clique aqui para aceitar",
         "ClickHereToOptOut": "Clique aqui para optar por sair.",
@@ -19,11 +20,11 @@
         "ImageTrackingIntro2": "Gerar o link abaixo e copiar e colar o código HTML gerado na página. Se você está usando isso como uma alternativa para controle de JavaScript, você pode inclui-lo na tag %1$s",
         "ImageTrackingIntro3": "Para a lista completa de opções que você pode usar com um link de monitoramento de imagem, consulte a %1$sDocumentação da API%2$s.",
         "ImageTrackingLink": "Link de rastreamento por imagem",
-        "ImportingServerLogs": "Importando Logs do servidor",
+        "ImportingServerLogs": "Importando logs do servidor",
         "ImportingServerLogsDesc": "Uma alternativa para o monitoramento de visitantes através do browser (via JavaScript ou um link de imagem) é continuamente importar logs do servidor. Saiba mais sobre em %1$sAnalisador de Logs do Servidor%2$s.",
         "InvalidPluginsWarning": "Os seguintes plugins não são compatíveis com %1$s e não pôde ser carregado: %2$s.",
         "InvalidPluginsYouCanUninstall": "Você pode atualizar ou desinstalar estes plugins na página %1$sGerenciar plugins%2$s.",
-        "JavaScriptTracking": "Rastreamento de JavaScript",
+        "JavaScriptTracking": "Rastreamento JavaScript",
         "HttpTrackingApi": "API de Rastreamento HTTP",
         "HttpTrackingApiDescription": "A %1$sAPI de Rastreamento HTTP%2$s permite rastrear qualquer coisa. Isso pode ser útil se você esta usando uma linguagem de programação para a qual ainda não existe SDK. Também pode ser útil quando você deseja rastrear dispositivos ou aplicativos de uma maneira especial.",
         "JSTracking_CampaignKwdParam": "Parâmetro de Palavra-Chave da campanha",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Você tem certeza que deseja remover esta falha de rastreamento?",
         "TrackingFailuresEmailSubject": "Falhas de rastreamento no seu Matomo Analytics",
         "TrackingFailuresEmail1": "Isso é apenas para informá-lo que %s diferentes tipos de falhas de rastreamento ocorreram nos últimos dias.",
-        "TrackingFailuresEmail2": "Para ver todas as solicitações de rastreamento com falhas %1$sclicar aqui%2$s."
+        "TrackingFailuresEmail2": "Para ver todas as solicitações de rastreamento com falhas %1$sclicar aqui%2$s.",
+        "ImportFromGoogleAnalytics": "Importar do Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Se você tem uma propriedade Google Analytics e está trocando para o Matomo, você pode importar seus dados atuais usando o plugin %1$sGoogleAnalyticsImporter%2$s."
     }
 }

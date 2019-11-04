@@ -52,6 +52,7 @@
         "CustomUnprocessedSegmentApiError5": "あなたのセグメントが Live.getLastVisitsDetails API を使用して処理されるのを待たずに動作するかどうかテストできます。",
         "CustomUnprocessedSegmentApiError6": "この API メソッドを使用すると、&segment= parameter で一致したユーザーとアクションが表示されます。",
         "CustomUnprocessedSegmentNoData": "このセグメントのデータを表示するには、セグメントエディタでこのセグメントを手動で作成し、前処理が完了するまで数時間待つ必要があります。",
-        "AddThisToMatomo": "このセグメントを Matomo に追加する"
+        "AddThisToMatomo": "このセグメントを Matomo に追加する",
+        "Test": "テスト"
     }
 }

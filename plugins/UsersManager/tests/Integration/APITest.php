@@ -143,6 +143,8 @@ class APITest extends IntegrationTestCase
 
     private $password = 'password';
 
+    private $email = 'userlogin@password.de';
+
     public function setUp()
     {
         parent::setUp();
@@ -156,7 +158,7 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
+        $this->api->addUser($this->login, $this->password, $this->email);
     }
     
     public function tearDown()
@@ -346,6 +348,22 @@ class APITest extends IntegrationTestCase
 
         $subjects = array_map(function (Mail $mail) { return $mail->getSubject(); }, $capturedMails);
         $this->assertEquals([], $subjects);
+    }
+
+
+    public function test_updateUser_doesNotSendEmailIfNoChangeAndDoesNotRequirePassword()
+    {
+        $capturedMails = [];
+        Piwik::addAction('Mail.send', function (Mail $mail) use (&$capturedMails) {
+            $capturedMails[] = $mail;
+        });
+
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // en
+        $this->api->updateUser($this->login, false, strtoupper($this->email), 'newAlias');
+        FakeAccess::$identity = $identity;
+
+        $this->assertEquals([], $capturedMails);
     }
 
     public function test_updateUser_doesNotChangePasswordIfFalsey()

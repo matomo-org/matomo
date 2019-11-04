@@ -127,6 +127,8 @@ class BlobReportLimitingTest extends SystemTestCase
 
     public function testApiWithRankingQuery()
     {
+        self::setUpConfigOptions();
+
         // custom setup
         self::deleteArchiveTables();
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;

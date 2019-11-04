@@ -74,6 +74,15 @@ class SegmentExpression
     protected $tree = array();
     protected $parsedSubExpressions = array();
 
+    public function getSubExpressionCount()
+    {
+        $cleaned = array_filter($this->parsedSubExpressions, function ($part) {
+            $isExpressionColumnPresent = !empty($part[1][0]);
+            return $isExpressionColumnPresent;
+        });
+        return count($cleaned);
+    }
+
     /**
      * Given the array of parsed filters containing, for each filter,
      * the boolean operator (AND/OR) and the operand,

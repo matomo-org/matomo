@@ -3,7 +3,7 @@
         "PluginDescription": "Um segmento é um conjunto de critérios usados para selecionar apenas uma parte de todo o conjunto de visitas. Ao usar segmentos você pode inserir contexto de volta aos seus relatórios.",
         "AddANDorORCondition": "Adicionar a condição %s",
         "AddNewSegment": "Adicionar novo segmento",
-        "AreYouSureDeleteSegment": "Confirma a exclusão deste segmento?",
+        "AreYouSureDeleteSegment": "Você tem certeza de que deseja excluir este segmento?",
         "AutoArchivePreProcessed": "relatórios segmentados são pré-processados ​​(mais rápido, requer usar cron)",
         "AutoArchiveRealTime": "relatórios segmentados são processados em tempo real",
         "ChangingSegmentDefinitionConfirmationNotProcessedOnRequest": "Você está prestes a mudar a definição do segmento. Os relatórios analíticos para este novo segmento não estarão disponíveis até que os relatórios sejam reprocessados. Pode levar algumas horas para que os dados de relatórios mostrem para esse segmento. Continuar mesmo assim?",
@@ -34,7 +34,7 @@
         "YouDontHaveAccessToCreateSegments": "Você não tem o nível de acesso necessário para criar e editar segmentos.",
         "AddingSegmentForAllWebsitesDisabled": "Adicionar segmentos para todos os sites foi desativado.",
         "SegmentXIsAUnionOf": "%s é uma união destes segmentos:",
-        "CustomSegment": "Segmento Personalizado",
+        "CustomSegment": "Segmento personalizado",
         "SegmentOperatorIsNullOrEmpty": "está nulo ou vazio",
         "SegmentOperatorIsNotNullNorEmpty": "não está nulo nem vazio",
         "UnprocessedSegmentNoData1": "Estes relatórios não possuem dados pois o Segmento que você solicitou %1$s ainda não foi processado pelo sistema.",
@@ -52,6 +52,10 @@
         "CustomUnprocessedSegmentApiError5": "Por favor, note que você pode testar se o seu segmento irá funcionar, sem ter que esperar que ele seja processado, usando o método Live.getLastVisitsDetails da API.",
         "CustomUnprocessedSegmentApiError6": "Ao usar este método da API, você verá quais usuários e ações coincidiram com o seu parâmetro &segment=.",
         "CustomUnprocessedSegmentNoData": "Para ver dados para este segmento, você deve criar este segmento manualmente no Editor de Segmento, então esperar algumas horas para que o pré-processamento finalize.",
-        "AddThisToMatomo": "Adicionar este segmento ao Matomo"
+        "AddThisToMatomo": "Adicionar este segmento ao Matomo",
+        "ThisSegmentIsCompared": "Este segmento está atualmente comparado.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Este segmento está atualmente selecionado e então não pode ser escolhido para comparação.",
+        "CompareThisSegment": "Comparar este segmento com o segmento e período selecionados.",
+        "Test": "Teste"
     }
 }

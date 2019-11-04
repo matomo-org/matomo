@@ -41,7 +41,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/0</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F0</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F0</segment>
 			</row>
 			<row>
 				<label>/1</label>
@@ -64,7 +64,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/1</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F1</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F1</segment>
 			</row>
 			<row>
 				<label>/2</label>
@@ -87,7 +87,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/2</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F2</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F2</segment>
 			</row>
 			<row>
 				<label>/3</label>
@@ -110,7 +110,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/3</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F3</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F3</segment>
 			</row>
 			<row>
 				<label>/index</label>
@@ -133,7 +133,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/0/</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F0%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -178,7 +178,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/1/4</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F4</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F1%252F4</segment>
 			</row>
 			<row>
 				<label>/5</label>
@@ -201,7 +201,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/1/5</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F5</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F1%252F5</segment>
 			</row>
 			<row>
 				<label>/6</label>
@@ -224,7 +224,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/1/6</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F6</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F1%252F6</segment>
 			</row>
 			<row>
 				<label>/7</label>
@@ -247,7 +247,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/1/7</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F7</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F1%252F7</segment>
 			</row>
 			<row>
 				<label>/index</label>
@@ -270,7 +270,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/1/</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F1%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -315,7 +315,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/2/8</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F2%2F8</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F2%252F8</segment>
 			</row>
 			<row>
 				<label>/9</label>
@@ -338,7 +338,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/2/9</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F2%2F9</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F2%252F9</segment>
 			</row>
 			<row>
 				<label>/10</label>
@@ -361,7 +361,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/2/10</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F2%2F10</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F2%252F10</segment>
 			</row>
 			<row>
 				<label>/11</label>
@@ -384,7 +384,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/2/11</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F2%2F11</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F2%252F11</segment>
 			</row>
 			<row>
 				<label>/index</label>
@@ -407,7 +407,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/2/</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F2%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F2%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -452,7 +452,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/3/12</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F3%2F12</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F3%252F12</segment>
 			</row>
 			<row>
 				<label>/13</label>
@@ -475,7 +475,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/3/13</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F3%2F13</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F3%252F13</segment>
 			</row>
 			<row>
 				<label>/14</label>
@@ -498,7 +498,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/3/14</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F3%2F14</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F3%252F14</segment>
 			</row>
 			<row>
 				<label>/15</label>
@@ -521,7 +521,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/3/15</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F3%2F15</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F3%252F15</segment>
 			</row>
 			<row>
 				<label>/index</label>
@@ -544,7 +544,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/3/</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F3%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F3%252F</segment>
 			</row>
 		</subtable>
 	</row>
@@ -589,7 +589,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/4/16</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F4%2F16</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F4%252F16</segment>
 			</row>
 			<row>
 				<label>/17</label>
@@ -612,7 +612,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/4/17</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F4%2F17</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F4%252F17</segment>
 			</row>
 			<row>
 				<label>/18</label>
@@ -635,7 +635,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/4/18</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F4%2F18</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F4%252F18</segment>
 			</row>
 			<row>
 				<label>/19</label>
@@ -658,7 +658,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/4/19</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F4%2F19</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F4%252F19</segment>
 			</row>
 			<row>
 				<label>/index</label>
@@ -681,7 +681,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<url>http://piwik.net/4/</url>
-				<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F4%2F</segment>
+				<segment>pageUrl==http%253A%252F%252Fpiwik.net%252F4%252F</segment>
 			</row>
 		</subtable>
 	</row>
