@@ -126,6 +126,7 @@
         "EmailChangedEmail2": "Tämä muutos toteutettiin seuraavasta laitteesta: %1$s (IP-osoite = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Jos se olit sinä, tämä viesti ei aiheuta toimenpiteitä. Jos se et ollut sinä, kirjaudu Matomoon, vaihda sähköpostiosoitteesi ja salasanasi, ja ole lopuksi yhteydessä käyttämäsi Matomon ylläpitoon.",
         "PasswordChangeNotificationSubject": "Matomo-tilisi salasana on juuri vaihdettu",
-        "PasswordChangedEmail": "Salasanasi on vaihdettu. Vaihto toteutettiin seuraavasta laitteesta: %1$s (IP-osoite = %2$s)."
+        "PasswordChangedEmail": "Salasanasi on vaihdettu. Vaihto toteutettiin seuraavasta laitteesta: %1$s (IP-osoite = %2$s).",
+        "NewsletterSignupTitle": "Uutiskirjeen tilaus"
     }
 }

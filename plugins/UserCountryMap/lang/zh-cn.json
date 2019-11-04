@@ -20,6 +20,8 @@
         "VisitorMap": "访客地图",
         "WorldWide": "全世界",
         "WithUnknownRegion": "%s未知区域",
-        "WithUnknownCity": "%s未知城市"
+        "WithUnknownCity": "%s未知城市",
+        "NoVisitsInfo": "当前没有显示访问，因为此期间没有访问具有正确的地理位置信息（纬度和经度）。",
+        "NoVisitsInfo2": "要解决此问题，请确保将GeoIP地理位置提供程序与GeoIP城市数据库配合使用。 如果这不能解决您的问题，则您的访问很可能（尽管不太可能）具有无法进行地理位置定位的IP地址。"
     }
 }

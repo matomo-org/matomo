@@ -13,11 +13,18 @@
         "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
         "ViewAnswersToFAQ": "Katso vastauksia %1$susein kysyttyihin kysymyksiin%2$s",
         "ViewUserGuides": "Lue kuinka Matomo määritellään ja kuinka analysoida kerättyjä tietoja tehokkaasti %1$skäyttäjäoppaasta%2$s",
+        "UserGuides": "Käyttäjäoppaat",
         "CommunityHelp": "Yhteisön apu",
         "ProfessionalHelp": "Ammattilaisapu",
         "ProfessionalServicesOfferIntro": "Mistä palveluista on hyötyä sinulle?",
         "ContactUs": "Ota yhteyttä",
         "VisitTheForums": "Käy %1$skeskustelupalstalla%2$s ja saa apua Matomo-käyttäjien yhteisöltä",
-        "Forums": "Foorumit"
+        "Forums": "Foorumit",
+        "RemindMeLater": "Muistuta myöhemmin",
+        "NeverAskMeAgain": "Älä kysy uudestaan",
+        "HowCanWeHelp": "Miten voimme auttaa?",
+        "NotTrackingVisits": "Matomo ei seuraa käyntejä",
+        "TrackMultipleSites": "Minun pitää seurata useita sivustoja tai aliverkkotunnuksia",
+        "PurgeOldData": "Haluan poistaa vanhoja tietoja"
     }
 }

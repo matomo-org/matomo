@@ -4,6 +4,7 @@
         "Administration": "Διαχείριση",
         "ArchivingSettings": "Ρυθμίσεις αρχειοθέτησης",
         "BrandingSettings": "Εταιρικές ρυθμίσεις",
+        "ErrorEmailFromAddressNotValid": "Η διεύθυνση από στο SMTP δεν είναι έγκυρη",
         "ReleaseChannel": "Κανάλι εκδόσεων",
         "ClickHereToOptIn": "Πατήστε εδώ για να καταγράφεστε",
         "ClickHereToOptOut": "Πατήστε εδώ για να μην καταγράφεστε",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Είστε σίγουροι για την διαγραφή αυτής της αποτυχίας παρακολούθησης;",
         "TrackingFailuresEmailSubject": "Αποτυχίες παρακολούθησης στο Matomo Analytics",
         "TrackingFailuresEmail1": "Αυτό μόνο και μόνο για να γνωρίζετε ότι %s διαφορετικά είδη αποτυχιών παρακολούθησης έχουν συμβεί τις τελευταίες ημέρες.",
-        "TrackingFailuresEmail2": "Για να δείτε όλες τις αποτυχημένες αιτήσεις παρακολούθησης %1$sκάντε κλικ εδώ%2$s."
+        "TrackingFailuresEmail2": "Για να δείτε όλες τις αποτυχημένες αιτήσεις παρακολούθησης %1$sκάντε κλικ εδώ%2$s.",
+        "ImportFromGoogleAnalytics": "Εισαγωγή από το Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Αν έχετε μια ιδιοκτησία του Google Analytics και αλλάζετε στο Matomo, μπορείτε να εισαγάγετε τα υπάρχοντα δεδομένα σας με χρήση του πρόσθετου %1$sGoogleAnalyticsImporter%2$s."
     }
 }

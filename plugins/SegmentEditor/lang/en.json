@@ -55,6 +55,7 @@
         "AddThisToMatomo": "Add this segment to Matomo",
         "ThisSegmentIsCompared": "This segment is currently compared.",
         "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
-        "CompareThisSegment": "Compare this segment with the selected segment and period."
+        "CompareThisSegment": "Compare this segment with the selected segment and period.",
+        "Test": "Test"
     }
 }

@@ -4,6 +4,7 @@
         "Administration": "Administrim",
         "ArchivingSettings": "Rregullime arkivimi",
         "BrandingSettings": "Rregullime marke",
+        "ErrorEmailFromAddressNotValid": "Adresa SMTP për fushën Nga s’është e vlefshme",
         "ReleaseChannel": "Kanal hedhjesh në qarkullim",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
         "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\".",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Jeni i sigurt se doni të fshihet ky dështim ndjekje?",
         "TrackingFailuresEmailSubject": "Dështime ndjekjeje te Matomo Analytics juaj",
         "TrackingFailuresEmail1": "Kjo bëhet vetëm për t’ju bërë të ditur se ditët e fundit kanë ndodhur %s lloje të ndryshme dështimesh ndjekjeje.",
-        "TrackingFailuresEmail2": "Që të shihni krejt kërkesat me ndjekje të dështuar %1$sklikoni këtu%2$s."
+        "TrackingFailuresEmail2": "Që të shihni krejt kërkesat me ndjekje të dështuar %1$sklikoni këtu%2$s.",
+        "ImportFromGoogleAnalytics": "Importim prej Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Nëse keni një zotërim Google Analytics dhe po kaloni në Matomo, mund të importoni të dhënat tuaja ekzistuese duke përdorur shtojcën %1$sGoogleAnalyticsImporter%2$s."
     }
 }

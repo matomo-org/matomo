@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Archiving settings",
         "BrandingSettings": "Branding settings",
+        "ErrorEmailFromAddressNotValid": "The SMTP from address is not valid",
         "ReleaseChannel": "Release channel",
         "ClickHereToOptIn": "Click here to opt in.",
         "ClickHereToOptOut": "Click here to opt out.",

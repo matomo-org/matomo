@@ -34,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s je propojení těchto segmentů:",
         "CustomSegment": "Vlastní segment",
         "SegmentOperatorIsNullOrEmpty": "je nulový nebo prázdný",
-        "SegmentOperatorIsNotNullNorEmpty": "není nulový nebo prázdný"
+        "SegmentOperatorIsNotNullNorEmpty": "není nulový nebo prázdný",
+        "Test": "Vyzkoušet"
     }
 }

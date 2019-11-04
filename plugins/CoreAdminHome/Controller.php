@@ -13,6 +13,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Mail;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -105,6 +106,7 @@ class Controller extends ControllerAdmin
         $view->branding              = array('use_custom_logo' => $logo->isEnabled());
         $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
         $view->logosWriteable        = $logo->isCustomLogoWritable();
+        $view->customLogoEnabled     = $logo->isCustomLogoFeatureEnabled();
         $view->hasUserLogo           = CustomLogo::hasUserLogo();
         $view->pathUserLogo          = CustomLogo::getPathUserLogo();
         $view->hasUserFavicon        = CustomLogo::hasUserFavicon();
@@ -123,6 +125,8 @@ class Controller extends ControllerAdmin
             'ssl' => 'SSL',
             'tls' => 'TLS'
         );
+        $mail = new Mail();
+        $view->mailHost = $mail->getMailHost();
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -159,6 +163,22 @@ class Controller extends ControllerAdmin
             $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
 
             Config::getInstance()->mail = $mail;
+
+            $general = Config::getInstance()->General;
+            $fromName = Common::getRequestVar('mailFromName', '');
+            $general['noreply_email_name'] = Common::unsanitizeInputValue($fromName);
+
+            $mailFrom = Common::getRequestVar('mailFromAddress', '');
+            if (empty($mailFrom)) {
+                $mailFrom = 'noreply@{DOMAIN}';
+            } else {
+                $mailFrom = Common::unsanitizeInputValue($mailFrom);
+            }
+            if (!Piwik::isValidEmailString($mailFrom) && !Common::stringEndsWith($mailFrom, '@{DOMAIN}')) {
+                throw new Exception(Piwik::translate('CoreAdminHome_ErrorEmailFromAddressNotValid'));
+            }
+            $general['noreply_email_address'] = $mailFrom;
+            Config::getInstance()->General = $general;
 
             Config::getInstance()->forceSave();
 
@@ -233,6 +253,11 @@ class Controller extends ControllerAdmin
         $this->checkTokenInUrl();
 
         $logo = new CustomLogo();
+
+        if (! $logo->isCustomLogoFeatureEnabled()) {
+            return '0';
+        }
+
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
         $successFavicon = $logo->copyUploadedFaviconToFilesystem();
 
@@ -269,7 +294,10 @@ class Controller extends ControllerAdmin
         $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $view->mail = Config::getInstance()->mail;
+        $mail = Config::getInstance()->mail;
+        $mail['noreply_email_address'] = Config::getInstance()->General['noreply_email_address'];
+        $mail['noreply_email_name'] = Config::getInstance()->General['noreply_email_name'];
+        $view->mail = $mail;
     }
 
 }

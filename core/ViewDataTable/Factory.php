@@ -145,7 +145,7 @@ class Factory
                 $type = $defaultType ?: self::DEFAULT_VIEW;
             }
         } else {
-            $type = $defaultViewType;
+            $type = $defaultType ?: $defaultViewType;
         }
 
         $params['viewDataTable'] = $type;
