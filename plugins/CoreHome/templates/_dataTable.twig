@@ -2,7 +2,7 @@
     {% include visualizationTemplate %}
 {%- else -%}
 
-{% set isDataTableEmpty = (dataTable is empty or dataTableHasNoData|default(false)) %}
+{% set isDataTableEmpty = (dataTable is not defined or dataTable is null or dataTableHasNoData|default(false)) %}
 
 {% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
 {% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}

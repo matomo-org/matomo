@@ -23,6 +23,8 @@ abstract class ApiRenderer
 {
     protected $request;
 
+    protected $hideIdSubDataTable;
+
     final public function __construct($request)
     {
         $this->request = $request;
@@ -31,6 +33,7 @@ abstract class ApiRenderer
 
     protected function init()
     {
+        $this->hideIdSubDataTable = Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request);
     }
 
     protected function shouldSendBacktrace()
@@ -107,7 +110,7 @@ abstract class ApiRenderer
         $renderer->setTable($dataTable);
         $renderer->setIdSite($idSite);
         $renderer->setRenderSubTables(Common::getRequestVar('expanded', false, 'int', $this->request));
-        $renderer->setHideIdSubDatableFromResponse(Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
+        $renderer->setHideIdSubDatableFromResponse($this->hideIdSubDataTable);
 
         return $renderer;
     }

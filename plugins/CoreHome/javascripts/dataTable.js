@@ -538,6 +538,8 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return labelWidth;
         }
 
+        setMaxTableWidthIfNeeded(domElem, 1200);
+
         var isTableVisualization = this.jsViewDataTable
             && typeof this.jsViewDataTable === 'string'
             && typeof this.jsViewDataTable.indexOf === 'function'
@@ -567,8 +569,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             self.overflowContentIfNeeded(domElem);
         }
-
-        setMaxTableWidthIfNeeded(domElem, 1200);
 
         if (!self.windowResizeTableAttached) {
             self.windowResizeTableAttached = true;

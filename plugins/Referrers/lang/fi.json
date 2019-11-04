@@ -63,6 +63,11 @@
         "WidgetSocials": "Sosiaalisten verkostojen lista",
         "WidgetTopKeywordsForPages": "Käytetyimmät avainsanat sivun URL:lle",
         "XPercentOfVisits": "%s käynneistä",
-        "Acquisition": "Saapumiset"
+        "Acquisition": "Saapumiset",
+        "VisitorsFromSearchEngines": "Kävijöitä hakukoneista",
+        "VisitorsFromSocialNetworks": "Kävijöitä sosiaalisista verkostoista",
+        "VisitorsFromDirectEntry": "Kävijöitä suoraan",
+        "VisitorsFromWebsites": "Kävijöitä verkkosivustoilta",
+        "VisitorsFromCampaigns": "Kävijöitä kamppanjoista"
     }
 }

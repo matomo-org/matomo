@@ -90,6 +90,7 @@
         "ChooseMeasurableTypeHeadline": "Vad vill du mäta?",
         "YouCurrentlyHaveAccessToNWebsites": "Du har tillgång till %s webbplats(er).",
         "YourCurrentIpAddressIs": "Din aktuella IP-adress är %s",
-        "DeleteSiteExplanation": "Genom att ta bort en webbplats så kommer all data som har sparats för den tas bort. Denna åtgärd är permanent och kan inte ångras."
+        "DeleteSiteExplanation": "Genom att ta bort en webbplats så kommer all data som har sparats för den tas bort. Denna åtgärd är permanent och kan inte ångras.",
+        "EmailInstructionsSubject": "Matomo Analytics spårningskod"
     }
 }

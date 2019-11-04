@@ -57,6 +57,24 @@
         "TeaserExtendPiwikByPlugin": "Utöka Matomo genom att %1$sinstallera plugins från marknadsplatsen%2$s eller %3$sladda upp i zipformat%4$s.",
         "TeaserExtendPiwikByTheme": "Njut av ett nytt utseende genom att%1$sinstallera ett nytt tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Du kan automatiskt installera plugin från Butiken eller %1$sladda upp en plugin%2$s i .zip format.",
+        "TagManagerNowAvailableTitle": "Matomo Tag Manager är nu tillgänglig",
+        "TagManagerNowAvailableSubtitle": "Hantera smidigt alla dina taggar med en plattform för att nå de insikter du önskar, möjligheterna är oändliga!",
+        "ActivateTagManagerNow": "Aktivera Tag Manager nu",
+        "TagManagerEmailSuperUserToActivate": "Mejla superanvändare för att aktivera denna nya funktion",
+        "TagManagerTeaserHideSuperUser": "Visa inte den här sidan för någon användare",
+        "TagManagerTeaserHideNonSuperUser": "Inte intresserad. Visa inte den här sidan igen",
+        "TagManagerTeaserEmailSuperUserBody": "Hej! %1$s Matomo Tag Manager finns nu tillgänglig i Matomo och jag skulle gilla att använda denna nya funktion. Eftersom du har superanvändarbehörighet, skulle du kunna aktivera denna funktion via Tag Manager sidan som finns i topp menyn?%2$s Matomo URL:en är %3$s. %4$s Tack så mycket!",
+        "WhatIsTagManager": "Vad är en Tag Manager?",
+        "WhatIsTagManagerDetails1": "På liknande sätt som ett Content Management System (CMS) ger dig all flexibilitet för att publicera innehåll på din webbplats utan att du behöver ha teknisk kunskap om HTML\/CSS, är ett Tag Managment System (TMS) ditt ställe att gå till för att förenkla processen för att inbädda första- och tredjeparts spårningstaggar för applikationer (också känt som snippets eller pixels) på din webbplats.",
+        "WhatIsTagManagerDetails2": "Säg att du vill se resultatet från dina omvandlingar\/mål, nyhetsbrev, anmälningar, sociala widgetar, utgångar med popups och marknadsföringskampanjer; Det som tidigare var en högst teknisk och tidsödande process görs nu lätt med TMS och tar bara några få klick att införa.",
+        "TagManagerLearnMoreInUserGuide": "Lär dig mer i användarguiden för Tag Manager",
+        "WhyUsingATagManager": "Vaför en Tag Manager?",
+        "WhyUsingATagManagerDetails1": "En Tag Manager gör ditt liv lättare! Du behöver inte längre vänta på att en utvecklare ska ändra första- eller tredjepartssnippets på din webbplats eftersom Tag Manager ger dig en stressfri upplevelse för att göra dessa förändringar och driftsätta din webbplats på egen hand.",
+        "WhyUsingATagManagerDetails2": "Det kan inte bli mer bekvämt och den låter dig inte bara ta förändringarna till marknaden snabbare, utan minskar även kostnaderna.",
+        "WhyUsingATagManagerDetails3": "Detta gör teamen inom marknadsföring, digitala team och IT-personalen glada... Det är en vinst för alla!",
+        "AreThereAnyRisks": "Finns det några risker?",
+        "AreThereAnyRisksDetails1": "När du aktiverar Tag Manager kommer användare med admin behörighet kunna skapa skräddarsydda HTML taggar, utlösare och variabler som kan exekvera JavaScript på din webbplats. Dessa anpassade mallar kan missbrukas för att stjäla t ex känslig information från din webbplats besökare (känt som %1$s XSS %2$s).",
+        "AreThereAnyRisksDetails2": "Du kan avaktivera dessa anpassade mallar under \"Administration => Allmänna inställningar\" så snart du har aktiverat Tag Manager. Alternativt kan du även begränsa användningen av dessa mallar till specifika användare eller bara superanvändare.",
         "Theme": "Tema",
         "Themes": "Teman",
         "ThemesDescription": "Teman kan förändra utseendet på Matomos gränssnitt, och erbjuda en helt ny visuell upplevelse där du kan ta del av dina analysrapporter.",
@@ -65,6 +83,7 @@
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Visa alla plugins på marknadsplatsen",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Insticksprogrammet %1$s kan inte startas eftersom följande viktiga filer saknas: %2$s",
-        "Websites": "Webbsidor"
+        "Websites": "Webbsidor",
+        "UpdateSelected": "Uppdatering är vald"
     }
 }

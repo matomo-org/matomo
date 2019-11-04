@@ -97,6 +97,17 @@ class Original extends ApiRenderer
                     $allMetadata = $table->getAllTableMetadata();
                     unset($allMetadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
                     $table->setAllTableMetadata($allMetadata);
+
+                    if ($this->hideIdSubDataTable) {
+                        foreach ($table->getRows() as $row) {
+                            $row->removeSubtable();
+                        }
+                    }
+
+                    // Force string value for segment metadata field (ensures consistency between PDO and mysqli)
+                    if (isset($allMetadata['segment']) && $allMetadata['segment'] === false) {
+                        $table->setMetadata('segment', '');
+                    }
                 });
             }
 

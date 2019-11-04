@@ -43,7 +43,18 @@ class API extends \Piwik\Plugin\API
         $domain = Url::getHostFromUrl($url);
         $metrics = $metricProvider->getMetrics($domain);
 
-        return $this->toDataTable($metrics);
+        $dataTable = $this->toDataTable($metrics);
+        $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, [
+            'id'           => 'skip',
+            'rank'         => 'skip',
+            'logo'         => 'skip',
+            'logo_link'    => 'skip',
+            'logo_tooltip' => 'skip',
+            'rank_suffix'  => 'skip',
+        ]);
+        $dataTable->disableFilter('Limit');
+
+        return $dataTable;
     }
 
     /**

@@ -9,6 +9,7 @@
         "LocationProviderDesc_ServerModule2": "Se tiver de importar ficheiros de registo ou fazer algo mais que necessite da definição de endereços de IP, utilize a %3$simplementação PHP do GeoIP 2%4$s e instale a %1$sextensão maxminddb%2$s.",
         "ServerBasedVariablesConfiguration": "Configuração para variáveis do servidor utilizadas pelos módulos do servidor GeoIP 2",
         "GeoIPVariablesConfigurationHere": "Pode configurar as variáveis de servidor utilizadas %1$saqui%2$s.",
+        "ShowCustomServerVariablesConfig": "Eu utilizo o módulo do servidor Geoip2 (Nginx, Apache...) e pretendo configurar variáveis do servidor",
         "ServerVariableFor": "Variável do servidor para %s"
     }
 }

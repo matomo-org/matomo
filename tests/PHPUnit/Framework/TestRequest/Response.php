@@ -72,6 +72,9 @@ class Response
         $expectedText = $expected->getResponseText();
         $actualText = $actual->getResponseText();
 
+        $expectedText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $expectedText);
+        $actualText = preg_replace('/[^\x09-\x0d\x1b\x20-\xff]/', '', $actualText);
+
         if ($expected->requestUrl['format'] == 'xml') {
             Asserts::assertXmlStringEqualsXmlString($expectedText, $actualText, $message);
             return;
