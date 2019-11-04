@@ -11,18 +11,20 @@
 
     <div class="insightsDataTable" title="{{ consideredGrowth|e('html_attr') }} {{ consideredChanges|e('html_attr') }}">
         {% if dataTable.getRowsCount %}
-            <table class="dataTable">
+            <div class="dataTableScroller">
+                <table class="dataTable">
 
-                <thead>
-                    {% include "@Insights/table_header.twig" %}
-                </thead>
+                    <thead>
+                        {% include "@Insights/table_header.twig" %}
+                    </thead>
 
-                <tbody>
-                    {% for row in dataTable.getRows %}
-                        {% include "@Insights/table_row.twig" %}
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <tbody>
+                        {% for row in dataTable.getRows %}
+                            {% include "@Insights/table_row.twig" %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
             <div class="pk-emptyDataTable">
                 {{ 'Insights_NoResultMatchesCriteria'|translate }}
