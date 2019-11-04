@@ -477,7 +477,7 @@ class CronArchive
                     try {
                         if ($this->isWebsiteUsingTheTracker($idSite)) {
 
-                            if (!$this->hadWebsiteTrafficSinceLatestArchive($idSite)) {
+                            if (!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
                                 $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
                                 $this->skippedDayNoRecentData++;
@@ -961,6 +961,8 @@ class CronArchive
     {
         $dateTodayInTimezone = Date::factoryInTimezone('now', Site::getTimezoneFor($idSite));
 
+        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
         $params = new Parameters(new Site($idSite), Factory::build($period, $dateTodayInTimezone), new Segment($segment, [$idSite]));
         $result = ArchiveSelector::getArchiveIdAndVisits($params);
         if (empty($result)) {
@@ -1324,7 +1326,7 @@ class CronArchive
      * @param $idSite
      * @return bool
      */
-    private function hadWebsiteTrafficSinceLatestArchive($idSite)
+    private function hadWebsiteTrafficSinceMidnightInTimezone($idSite)
     {
         $timezone = Site::getTimezoneFor($idSite);
 
