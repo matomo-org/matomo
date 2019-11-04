@@ -1035,7 +1035,7 @@ class CronArchive
             }
 
             list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
-            if ($isThereArchive) {
+            if (!$isThereArchive) {
                 $self = $this;
                 $request = new Request($url);
                 $request->before(function () use ($self, $url, $idSite, $period, $date) {
