@@ -3915,6 +3915,71 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
+             * Browser features (plugins, resolution, cookies)
+             */
+            function detectBrowserFeatures() {
+                if (isDefined(browserFeatures.res)) {
+                    return browserFeatures;
+                }
+                var i,
+                    mimeType,
+                    pluginMap = {
+                        // document types
+                        pdf: 'application/pdf',
+
+                        // media players
+                        qt: 'video/quicktime',
+                        realp: 'audio/x-pn-realaudio-plugin',
+                        wma: 'application/x-mplayer2',
+
+                        // interactive multimedia
+                        dir: 'application/x-director',
+                        fla: 'application/x-shockwave-flash',
+
+                        // RIA
+                        java: 'application/x-java-vm',
+                        gears: 'application/x-googlegears',
+                        ag: 'application/x-silverlight'
+                    };
+
+                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
+                if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
+                    // general plugin detection
+                    if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+                        for (i in pluginMap) {
+                            if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
+                                mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+                                browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+                            }
+                        }
+                    }
+
+                    // Safari and Opera
+                    // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
+                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
+                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
+                        typeof navigator.javaEnabled !== 'unknown' &&
+                        isDefined(navigatorAlias.javaEnabled) &&
+                        navigatorAlias.javaEnabled()) {
+                        browserFeatures.java = '1';
+                    }
+
+                    // Firefox
+                    if (isFunction(windowAlias.GearsFactory)) {
+                        browserFeatures.gears = '1';
+                    }
+
+                    // other browser features
+                    browserFeatures.cookie = hasCookies();
+                }
+
+                var width = parseInt(screenAlias.width, 10);
+                var height = parseInt(screenAlias.height, 10);
+                browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
+                return browserFeatures;
+            }
+
+            /*
              * Inits the custom variables object
              */
             function getCustomVariablesFromCookie() {
@@ -3947,6 +4012,7 @@ if (typeof window.Piwik !== 'object') {
              * note: this isn't a RFC4122-compliant UUID
              */
             function generateRandomUuid() {
+                var browserFeatures = detectBrowserFeatures();
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
@@ -3957,6 +4023,8 @@ if (typeof window.Piwik !== 'object') {
             }
 
             function generateBrowserSpecificId() {
+                var browserFeatures = detectBrowserFeatures();
+
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
@@ -4430,6 +4498,7 @@ if (typeof window.Piwik !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
+                var browserFeatures = detectBrowserFeatures();
                 // browser features
                 for (i in browserFeatures) {
                     if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
@@ -5597,67 +5666,6 @@ if (typeof window.Piwik !== 'object') {
                 });
             }
 
-            /*
-             * Browser features (plugins, resolution, cookies)
-             */
-            function detectBrowserFeatures() {
-                var i,
-                    mimeType,
-                    pluginMap = {
-                        // document types
-                        pdf: 'application/pdf',
-
-                        // media players
-                        qt: 'video/quicktime',
-                        realp: 'audio/x-pn-realaudio-plugin',
-                        wma: 'application/x-mplayer2',
-
-                        // interactive multimedia
-                        dir: 'application/x-director',
-                        fla: 'application/x-shockwave-flash',
-
-                        // RIA
-                        java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
-                        ag: 'application/x-silverlight'
-                    };
-
-                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
-                if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
-                    // general plugin detection
-                    if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
-                        for (i in pluginMap) {
-                            if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
-                                mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
-                                browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
-                            }
-                        }
-                    }
-
-                    // Safari and Opera
-                    // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
-                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
-                        typeof navigator.javaEnabled !== 'unknown' &&
-                        isDefined(navigatorAlias.javaEnabled) &&
-                        navigatorAlias.javaEnabled()) {
-                        browserFeatures.java = '1';
-                    }
-
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
-                    }
-
-                    // other browser features
-                    browserFeatures.cookie = hasCookies();
-                }
-
-                var width = parseInt(screenAlias.width, 10);
-                var height = parseInt(screenAlias.height, 10);
-                browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
-            }
-
             /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
@@ -5742,7 +5750,6 @@ if (typeof window.Piwik !== 'object') {
             /*
              * initialize tracker
              */
-            detectBrowserFeatures();
             updateDomainHash();
             setVisitorIdCookie();
 
@@ -7957,6 +7964,7 @@ if (typeof window.Piwik !== 'object') {
     if (window && window.piwikAsyncInit) {
         window.piwikAsyncInit();
     }
+
     if (!window.Piwik.getAsyncTrackers().length) {
         // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
         if (hasPaqConfiguration()) {
