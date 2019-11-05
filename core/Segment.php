@@ -123,7 +123,7 @@ class Segment
             // ignore
         }
 
-        if ($subexpressionsRaw > $subexpressionsDecoded) {
+        if ($subexpressionsRaw >= $subexpressionsDecoded) {
             $this->initializeSegment($segmentCondition, $idSites);
             $this->isSegmentEncoded = false;
         } else {
