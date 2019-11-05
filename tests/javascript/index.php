@@ -4213,7 +4213,7 @@ if ($mysql) {
 
     // heartbeat tests
     test("trackingHeartBeat", function () {
-        expect(12);
+        expect(13);
 
         var tokenBase = getHeartbeatToken();
 
@@ -4249,7 +4249,7 @@ if ($mysql) {
             // test ping not sent N secs after second tracking request if inactive.
             tracker.setCustomData('token', 4 + tokenBase);
 
-            return Q.delay(2100); // ping request not sent here
+            return Q.delay(4100); // ping request not sent here
         }).then(function () {
             // test ping sent once after window blur event triggered (ie tab switch).
             tracker.setCustomData('token', 5 + tokenBase);
@@ -4266,6 +4266,13 @@ if ($mysql) {
             tracker.disableHeartBeatTimer(); // flatline
 
             return Q.delay(1000); // for a ping request to get sent if there was one
+        }).then(function () {
+            // test ping not sent on focus
+            tracker.enableHeartBeatTimer();
+            tracker.setCustomData('token', 7 + tokenBase);
+            tracker.setVisitStandardLength(5);
+
+            return Q.delay(6000); // should not send a tracking request because of visit standard length reached
         }).then(function () {
             var token;
 
@@ -4289,6 +4296,9 @@ if ($mysql) {
 
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
             equal(requests.length, 0, "[token = 6] no ping request is sent after window regains focus");
+
+            requests = fetchTrackedRequests(token = 7 + tokenBase, true);
+            equal(requests.length, 0, "[token = 7] no ping request because of visit standard length");
 
             start();
         });
