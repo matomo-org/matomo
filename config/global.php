@@ -13,7 +13,7 @@ return array(
     'path.misc.user' => 'misc/user/',
 
     'path.tmp' => function (ContainerInterface $c) {
-        $root = $c->get('path.root');
+        $root = PIWIK_USER_PATH;
 
         // TODO remove that special case and instead have plugins override 'path.tmp' to add the instance id
         if ($c->has('ini.General.instance_id')) {
