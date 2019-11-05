@@ -1047,8 +1047,6 @@ class CronArchive
                 $this->logArchiveWebsite($idSite, $period, $date);
             } else {
                 $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
-                $success = false;
-                return $success;
             }
         }
 
@@ -1868,6 +1866,7 @@ class CronArchive
 
             $segments[] = $segment;
         }
+
 
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
