@@ -148,6 +148,8 @@ class Console extends Renderer
                     foreach ($metadataIn as $name => $value) {
                         if (is_object($value) && !method_exists( $value, '__toString' )) {
                             $value = 'Object [' . get_class($value) . ']';
+                        } elseif (is_array($value)) {
+                            $value = 'Array ' . json_encode($value);
                         }
                         $output .= $prefix . $prefix . "$name => $value";
                     }
