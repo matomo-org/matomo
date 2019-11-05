@@ -510,7 +510,7 @@
         "Comparisons": "Comparaciones",
         "ClickToRemoveComp": "Hacé clic para quitar esta comparación.",
         "MaximumNumberOfSegmentsComparedIs": "El número máximo de segmentos que pueden ser comparados simultáneamente es %s.",
-        "CompareDatesParamMustMatchComparePeriods": "%1$s la longitud del parámetro de consulta debe coincidir %2$s longitud de parámetro de consulta.",
+        "CompareDatesParamMustMatchComparePeriods": "La longitud del parámetro de consulta de %1$s debe coincidir la longitud de parámetro de consulta de %2$s.",
         "MaximumNumberOfPeriodsComparedIs": "El número máximo de períodos que pueden ser comparados simultáneamente es %s."
     },
     "Mobile": {

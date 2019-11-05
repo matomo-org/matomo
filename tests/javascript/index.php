@@ -2241,6 +2241,7 @@ function PiwikTest() {
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
         equal( typeof tracker.queueRequest, 'function', 'queueRequest' );
         equal( typeof tracker.disableQueueRequest, 'function', 'disableQueueRequest' );
+        equal( typeof tracker.setRequestQueueInterval, 'function', 'setRequestQueueInterval' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
