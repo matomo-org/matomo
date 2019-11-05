@@ -13,8 +13,6 @@ if (!defined('PIWIK_DOCUMENT_ROOT')) {
 }
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
-} elseif (file_exists(PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php')) {
-    require_once PIWIK_DOCUMENT_ROOT . '/../matomo_bootstrap.php';
 }
 if (!defined('PIWIK_INCLUDE_PATH')) {
     define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
