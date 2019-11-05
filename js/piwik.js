@@ -996,7 +996,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
-    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
+    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
     requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
@@ -1098,6 +1098,7 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+            coreHeartBeatCounter = 0,
 
             trackerIdCounter = 0,
 
@@ -3091,6 +3092,9 @@ if (typeof window.Piwik !== 'object') {
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
 
+                // the standard visit length as configured in Matomo in "visit_standard_length" config setting
+                configVisitStandardLength = 1800,
+
                 // Disallow hash tags in URL
                 configDiscardHashTag,
 
@@ -3205,6 +3209,7 @@ if (typeof window.Piwik !== 'object') {
                 // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
+                timeWindowLastFocussed = null,
 
                 // Timestamp of last tracker request sent to Piwik
                 lastTrackerRequestTime = null,
@@ -3712,17 +3717,21 @@ if (typeof window.Piwik !== 'object') {
 
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
+                timeWindowLastFocussed = new Date().getTime();
+            }
 
-                // since it's possible for a user to come back to a tab after several hours or more, we try to send
-                // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
-                if (heartBeatPingIfActivityAlias()) {
-                    return;
-                }
-
-                heartBeatUp();
+            function hadWindowMinimalFocusToConsiderViewed() {
+                // we ping on blur or unload only if user was active for more than configHeartBeatDelay seconds on
+                // the page otherwise we can assume user was not really on the page and for example only switching
+                // through tabs
+                var now = new Date().getTime();
+                return !timeWindowLastFocussed || (now - timeWindowLastFocussed) > configHeartBeatDelay;
             }
 
             function heartBeatOnBlur() {
+                if (hadWindowMinimalFocusToConsiderViewed()) {
+                    heartBeatPingIfActivityAlias();
+                }
                 heartBeatDown();
             }
 
@@ -3741,7 +3750,21 @@ if (typeof window.Piwik !== 'object') {
                 addEventListener(windowAlias, 'focus', heartBeatOnFocus);
                 addEventListener(windowAlias, 'blur', heartBeatOnBlur);
 
-                heartBeatUp();
+                // when using multiple trackers then we need to add this event for each tracker
+                coreHeartBeatCounter++;
+                Piwik.addPlugin('HeartBeat' + coreHeartBeatCounter, {
+                    unload: function () {
+                        // we can't remove the unload plugin event when disabling heart beat timer but we at least
+                        // check if it is still enabled... note: when enabling heart beat, then disabling, then
+                        // enabling then this could trigger two requests under circumstances maybe. it's edge case though
+
+                        // we only send the heartbeat if onunload the user spent at least 15seconds since last focus
+                        // or the configured heatbeat timer
+                        if (heartBeatSetUp && hadWindowMinimalFocusToConsiderViewed()) {
+                            heartBeatPingIfActivityAlias();
+                        }
+                    }
+                });
             }
 
             function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
@@ -3805,8 +3828,6 @@ if (typeof window.Piwik !== 'object') {
                 }
                 if (!heartBeatSetUp) {
                     setUpHeartBeat(); // setup window events too, but only once
-                } else {
-                    heartBeatUp();
                 }
             }
 
@@ -4523,7 +4544,18 @@ if (typeof window.Piwik !== 'object') {
              */
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
+                now = now.getTime();
+
+                if (!lastTrackerRequestTime) {
+                    return false; // no tracking request was ever sent so lets not send heartbeat now
+                }
+                if ((lastTrackerRequestTime + (1000*configVisitStandardLength)) <= now) {
+                    // heart beat does not extend the visit length and therefore there is pretty much no point
+                    // to send requests after this
+                    return false;
+                }
+
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
                     trackerInstance.ping();
 
                     return true;
@@ -6824,12 +6856,24 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Set visit standard length (in seconds). This should ideally match the visit_standard_length setting
+             * in Matomo in case you customised it. This setting only has an effect if heart beat timer is active
+             * currently.
+             *
+             * @param int visitStandardLengthinSeconds Defaults to 1800s (30 minutes). Cannot be lower than 5.
+             */
+            this.setVisitStandardLength = function (visitStandardLengthinSeconds) {
+                visitStandardLengthinSeconds = Math.max(visitStandardLengthinSeconds, 5);
+                configVisitStandardLength = visitStandardLengthinSeconds;
+            };
+
+            /**
              * Set heartbeat (in seconds)
              *
-             * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
+             * @param int heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
              */
             this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
-                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
+                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 5);
                 configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
 
                 // if a tracking request has already been sent, start the heart beat timeout
