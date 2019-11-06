@@ -825,7 +825,6 @@ class CronArchive
         $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
-            ;
         }
         return $request;
     }
@@ -964,7 +963,7 @@ class CronArchive
         $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
         $params = new Parameters(new Site($idSite), Factory::build($period, $dateTodayInTimezone), new Segment($segment, [$idSite]));
-        $result = ArchiveSelector::getArchiveIdAndVisits($params);
+        $result = ArchiveSelector::getArchiveIdAndVisits($params, false, $includeInvalidated = false);
         if (empty($result)) {
             return false;
         }
@@ -1034,20 +1033,21 @@ class CronArchive
                 return $success;
             }
 
-            list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
-            if (!$isThereArchive) {
-                $self = $this;
-                $request = new Request($url);
-                $request->before(function () use ($self, $url, $idSite, $period, $date) {
-                    if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
-                        return Request::ABORT;
-                    }
-                });
-                $urls[] = $request;
-                $this->logArchiveWebsite($idSite, $period, $date);
-            } else {
-                $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
-            }
+            $self = $this;
+            $request = new Request($url);
+            $request->before(function () use ($self, $url, $idSite, $period, $date, $segment) {
+                if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
+                    return Request::ABORT;
+                }
+
+                list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+                if ($isThereArchive) {
+                    $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
+                    return Request::ABORT;
+                }
+            });
+            $urls[] = $request;
+            $this->logArchiveWebsite($idSite, $period, $date);
         }
 
         $segmentRequestsCount = 0;
@@ -1858,12 +1858,6 @@ class CronArchive
                 continue;
             }
 
-            list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
-            if ($isThereArchive) {
-                $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
-                continue;
-            }
-
             $segments[] = $segment;
         }
 
@@ -1901,9 +1895,15 @@ class CronArchive
             $request = new Request($urlWithSegment);
             $logger = $this->logger;
             $self = $this;
-            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount, $idSite, $period, $urlWithSegment, $self) {
+            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount, $idSite, $period, $date, $urlWithSegment, $self) {
 
                 if ($self->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
+                    return Request::ABORT;
+                }
+
+                list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+                if ($isThereArchive) {
+                    $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
                     return Request::ABORT;
                 }
 

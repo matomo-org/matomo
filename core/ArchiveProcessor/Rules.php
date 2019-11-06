@@ -293,11 +293,13 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues()
+    public static function getSelectableDoneFlagValues($includeInvalidated = true)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive()) {
+        if (!Rules::isRequestAuthorizedToArchive()
+            && $includeInvalidated
+        ) {
             //If request is not authorized to archive then fetch also invalidated archives
             $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
         }
