@@ -268,6 +268,14 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                                             'columns' => 'avg_order_revenue'),
                                          'testSuffix' => '_AvgOrderRevenue')),
 
+                // product category segment
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productCategorySegment',
+                    'segment' => 'productCategory==' . urlencode(urlencode('second category')),
+                ]],
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
         );
