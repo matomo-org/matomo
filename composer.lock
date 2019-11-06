@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
@@ -1213,23 +1213,23 @@
         },
         {
             "name": "piwik/network",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/component-network.git",
-                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20"
+                "url": "https://github.com/matomo-org/component-network.git",
+                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-network/zipball/b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
-                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/fb847317b79fe41d52f5eb5fd92f197df4538b7d",
+                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "^4.8.36"
             },
             "type": "library",
             "autoload": {
@@ -1241,7 +1241,7 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2016-07-18T04:10:33+00:00"
+            "time": "2019-11-06T19:13:42+00:00"
         },
         {
             "name": "piwik/piwik-php-tracker",
@@ -2734,6 +2734,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
