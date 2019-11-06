@@ -469,25 +469,27 @@ class Model
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";
         $from = "log_visit";
-        $groupBy = false;
+
         $limit = $limit >= 1 ? (int)$limit : 0;
         $offset = $offset >= 1 ? (int)$offset : 0;
 
         $orderBy = '';
         if (count($bindIdSites) <= 1) {
-            $orderBy = 'idsite ' . $filterSortOrder . ', ';
+            $orderBy = 'log_visit.idsite ' . $filterSortOrder . ', ';
         }
 
-        $orderBy .= "visit_last_action_time " . $filterSortOrder;
-        $orderByParent = "sub.visit_last_action_time " . $filterSortOrder;
+        $orderBy .= "log_visit.visit_last_action_time " . $filterSortOrder;
 
-        // this $innerLimit is a workaround (see https://github.com/piwik/piwik/issues/9200#issuecomment-183641293)
+        if ($segment->isEmpty()) {
+            $groupBy = false;
+        } else {
+            // see https://github.com/matomo-org/matomo/issues/13861
+            $groupBy = 'log_visit.idvisit';
+        }
+
         $innerLimit = $limit;
-        if (!$segment->isEmpty()) {
-            $innerLimit = $limit * 10;
-        }
 
-        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset);
+        $innerQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy, $innerLimit, $offset, $forceGroupBy = true);
 
         $bind = $innerQuery['bind'];
 
@@ -496,21 +498,15 @@ class Model
             // for now let's not apply when looking for a specific visitor
             $maxExecutionTimeHint = '';
         }
-
-        // Group by idvisit so that a given visit appears only once, useful when for example:
-        // 1) when a visitor converts 2 goals
-        // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
-        $sql = "
-			SELECT $maxExecutionTimeHint sub.* FROM (
-				" . $innerQuery['sql'] . "
-			) AS sub
-			GROUP BY sub.idvisit
-			ORDER BY $orderByParent
-		";
-        if($limit) {
-            $sql .= sprintf("LIMIT %d \n", $limit);
+        if ($maxExecutionTimeHint) {
+            $innerQuery['sql'] = trim($innerQuery['sql']);
+            $pos = stripos($innerQuery['sql'], 'SELECT');
+            if ($pos !== false) {
+                $innerQuery['sql'] = substr_replace($innerQuery['sql'], 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
+            }
         }
-        return array($sql, $bind);
+
+        return array($innerQuery['sql'], $bind);
     }
 
     private function getMaxExecutionTimeMySQLHint()

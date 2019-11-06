@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Metric;
@@ -15,6 +16,7 @@ use Piwik\Plugins\AbTesting\Columns\Metrics\ProcessedMetric;
 use Piwik\Plugins\CoreVisualizations\Metrics\Formatter\Numeric;
 use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
+use Piwik\SettingsPiwik;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.
@@ -62,6 +64,27 @@ abstract class Graph extends Visualization
         }
 
         $this->requestConfig->request_parameters_to_modify['format_metrics'] = 1;
+
+        // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
+        // different metrics
+        if ($this->config->add_total_row) {
+            $this->requestConfig->request_parameters_to_modify['totals'] = 1;
+            $this->requestConfig->request_parameters_to_modify['keep_totals_row'] = 1;
+            $this->requestConfig->request_parameters_to_modify['keep_totals_row_label'] = Piwik::translate('General_Total');
+        }
+
+        if (!empty($this->config->columns_to_display)) {
+            $metrics = $this->removeUnavailableMetrics($this->config->columns_to_display);
+            if (empty($metrics)) {
+                if (!empty($this->config->selectable_columns)) {
+                    $this->config->columns_to_display = array(reset($this->config->selectable_columns));
+                } else {
+                    $this->config->columns_to_display = array('nb_visit');
+                }
+                $this->requestConfig->request_parameters_to_modify['columns'] = 'nb_visits';
+                $this->requestConfig->request_parameters_to_modify['columns_to_display'] = 'nb_visits';
+            }
+        }
 
         $this->metricsFormatter = new Numeric();
     }
@@ -228,7 +251,7 @@ abstract class Graph extends Visualization
             $allColumns = $this->getDefaultColumnsToDisplay();
         }
 
-        $this->config->columns_to_display = array_intersect($columnsToDisplay, $allColumns);
+        $this->config->columns_to_display = $this->removeUnavailableMetrics(array_intersect($columnsToDisplay, $allColumns));
     }
 
     private function getDefaultColumnsToDisplay()
@@ -239,5 +262,16 @@ abstract class Graph extends Visualization
             'nb_uniq_visitors',
             'nb_users'
         );
+    }
+
+    private function removeUnavailableMetrics($metrics)
+    {
+        $currentPeriod = Common::getRequestVar('period', false);
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+            $metrics = array_diff($metrics, ['nb_uniq_visitors', 'nb_users']);
+        }
+
+        return $metrics;
     }
 }

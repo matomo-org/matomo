@@ -500,6 +500,7 @@ class Request
         $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
+        $params['compare'] = '0';
         $params = $paramOverride + $params;
 
         // process request
@@ -555,6 +556,10 @@ class Request
                 }
             }
         }
+
+        $params['compareDates'] = null;
+        $params['comparePeriods'] = null;
+        $params['compareSegments'] = null;
 
         return Url::getCurrentQueryStringWithParametersModified($params);
     }

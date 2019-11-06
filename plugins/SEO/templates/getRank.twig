@@ -1,14 +1,14 @@
 <div id='SeoRanks'>
-    <script type="text/javascript" src="plugins/SEO/javascripts/rank.js"></script>
-
-    <form method="post" style="padding: 8px;">
+    <div style="padding:8px;">
         <div align="left" class="row">
             <div class="col s8 input-field">
                 <label for="seoUrl" class="active">{{ 'Installation_SetupWebSiteURL'|translate|capitalize }}</label>
                 <input type="text" id="seoUrl" size="15" value="{{ urlToRank }}" class="textbox "/>
             </div>
             <div class="col s4">
-                <input type="submit" class="btn btn-small" style='margin-top: 2em' id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
+                <input type="button"
+                       onclick="SEOWidget.getRank()"
+                       class="btn btn-small" style='margin-top: 2em' id="rankbutton" value="{{ 'SEO_Rank'|translate }}"/>
             </div>
         </div>
 
@@ -48,5 +48,5 @@
                 </table>
             {% endif %}
         </div>
-    </form>
+    </div>
 </div>

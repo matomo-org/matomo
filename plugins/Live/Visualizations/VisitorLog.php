@@ -54,6 +54,10 @@ class VisitorLog extends Visualization
             $this->requestConfig->filter_limit = $defaultLimit;
         }
 
+        if ($this->isInPopover()) {
+            $this->requestConfig->filter_limit = 10;
+        }
+
         $this->requestConfig->request_parameters_to_modify['filter_limit'] = $this->requestConfig->filter_limit+1; // request one more record, to check if a next page is available
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
@@ -76,6 +80,11 @@ class VisitorLog extends Visualization
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
         $this->requestConfig->filter_sort_column = false;
+    }
+
+    private function isInPopover()
+    {
+        return Common::getRequestVar('inPopover', '0') !== '0';
     }
 
     /**
@@ -108,23 +117,30 @@ class VisitorLog extends Visualization
             $this->config->custom_parameters['totalRows'] = 10000000;
         }
 
-        $this->config->custom_parameters['smallWidth'] = (1 == Common::getRequestVar('small', 0, 'int'));
-        $this->config->custom_parameters['hideProfileLink'] = (1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
+        $this->config->custom_parameters['smallWidth'] = (int)(1 == Common::getRequestVar('small', 0, 'int'));
+        $this->config->custom_parameters['hideProfileLink'] = (int)(1 == Common::getRequestVar('hideProfileLink', 0, 'int'));
         $this->config->custom_parameters['pageUrlNotDefined'] = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
 
-        $this->config->footer_icons = array(
-            array(
-                'class'   => 'tableAllColumnsSwitch',
-                'buttons' => array(
-                    array(
-                        'id'    => static::ID,
-                        'title' => Piwik::translate('Live_LinkVisitorLog'),
-                        'icon'  => 'plugins/Morpheus/images/table.png'
+        if (!$this->isInPopover()) {
+            $this->config->footer_icons = array(
+                array(
+                    'class'   => 'tableAllColumnsSwitch',
+                    'buttons' => array(
+                        array(
+                            'id'    => static::ID,
+                            'title' => Piwik::translate('Live_LinkVisitorLog'),
+                            'icon'  => 'plugins/Morpheus/images/table.png'
+                        )
                     )
                 )
-            )
-        );
-
+            );
+        } else {
+            // It's opening in a popover, just show a few records and don't give the user any actions to play with
+            $this->config->footer_icons = array();
+            $this->config->show_export = false;
+            $this->config->show_pagination_control = false;
+            $this->config->show_limit_control = false;
+        }
         $this->assignTemplateVar('actionsToDisplayCollapsed', StaticContainer::get('Live.pageViewActionsToDisplayCollapsed'));
 
         $enableAddNewSegment = Common::getRequestVar('enableAddNewSegment', false);

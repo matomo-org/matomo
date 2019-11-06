@@ -24,6 +24,6 @@
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.523</avg_time_generation>
 		<url>http://example.org/%C3%A9%C3%A9%C3%A9%22%27...%20%3Cthis%20is%20cool%3E!</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2F%C3%A9%C3%A9%C3%A9%22%27...+%3Cthis+is+cool%3E%21</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252F%2525C3%2525A9%2525C3%2525A9%2525C3%2525A9%252522%252527...%252520%25253Cthis%252520is%252520cool%25253E%2521</segment>
 	</row>
 </result>

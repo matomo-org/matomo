@@ -277,11 +277,22 @@ class LogAggregator
             throw $e;
         }
 
+        $transactionLevel = new Db\TransactionLevel($readerDb);
+        $canSetTransactionLevel = $transactionLevel->canLikelySetTransactionLevel();
 
-        $db = new Db\Settings();
-        $isInnoDb = strtolower($db->getEngine()) === 'innodb';
+	    if ($canSetTransactionLevel) {
+	        // i know this could be shortened to one if or one line but I want to make sure this line where we
+            // set uncomitted is easily noticable in the code as it could be missed quite easily otherwise
+            // we set uncommitted so we don't make the INSERT INTO... SELECT... locking ... we do not want to lock
+            // eg the visits table
+	        if (!$transactionLevel->setUncommitted()) {
+	        	$canSetTransactionLevel = false;
+	        }
+	    }
 
-        if (!$isInnoDb) {
+        if (!$canSetTransactionLevel) {
+            // transaction level doesn't work... we're instead executing the select individually and then insert the data
+            // this uses more memory but at least is not locking
             $all = $readerDb->fetchAll($segmentSelectSql, $segmentSelectBind);
             if (!empty($all)) {
                 // we're not using batchinsert since this would not support the reader DB.
@@ -290,21 +301,10 @@ class LogAggregator
             return;
         }
 
-        $value = $readerDb->fetchOne('SELECT @@TX_ISOLATION');
-        $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
-
         $insertIntoStatement = 'INSERT INTO ' . $table . ' (idvisit) ' . $segmentSelectSql;
         $readerDb->query($insertIntoStatement, $segmentSelectBind);
 
-        if ($isInnoDb && !empty($value)) {
-            $value = strtoupper($value);
-            $value = str_replace('-', ' ', $value);
-            if (in_array($value, array('REPEATABLE READ', 'READ COMMITTED', 'SERIALIZABLE'))) {
-                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL ' . $value);
-            } elseif ($value !== 'READ UNCOMMITTED') {
-                $readerDb->query('SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-            }
-        }
+        $transactionLevel->restorePreviousStatus();
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
@@ -324,7 +324,7 @@ class LogAggregator
 
             $logQueryBuilder = StaticContainer::get('Piwik\DataAccess\LogQueryBuilder');
             $forceGroupByBackup = $logQueryBuilder->getForcedInnerGroupBySubselect();
-            $logQueryBuilder->forceInnerGroupBySubselect('');
+            $logQueryBuilder->forceInnerGroupBySubselect(LogQueryBuilder::FORCE_INNER_GROUP_BY_NO_SUBSELECT);
             $segmentSql = $this->segment->getSelectQuery('distinct log_visit.idvisit as idvisit', 'log_visit', $segmentWhere, $segmentBind, 'log_visit.idvisit ASC');
             $logQueryBuilder->forceInnerGroupBySubselect($forceGroupByBackup);
 
@@ -868,13 +868,21 @@ class LogAggregator
      *
      *                                           If a string is used for this parameter, the table alias is not
      *                                           suffixed (since there is only one column).
+     * @param string $secondaryOrderBy      A secondary order by clause for the ranking query
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
      *               {@link Piwik\RankingQuery::execute()}. Read [this](#queryEcommerceItems-result-set)
      *               to see what aggregate data is calculated by the query.
      * @api
      */
-    public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
-    {
+    public function queryActionsByDimension(
+        $dimensions,
+        $where = '',
+        $additionalSelects = array(),
+        $metrics = false,
+        $rankingQuery = null,
+        $joinLogActionOnColumn = false,
+        $secondaryOrderBy = null
+    ) {
         $tableName = self::LOG_ACTIONS_TABLE;
         $availableMetrics = $this->getActionsMetricFields();
 
@@ -882,7 +890,6 @@ class LogAggregator
         $from    = array($tableName);
         $where   = $this->getWhereStatement($tableName, self::ACTION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy = false;
 
         if ($joinLogActionOnColumn !== false) {
             $multiJoin = is_array($joinLogActionOnColumn);
@@ -908,8 +915,12 @@ class LogAggregator
             }
         }
 
+        $orderBy = false;
         if ($rankingQuery) {
             $orderBy = '`' . Metrics::INDEX_NB_ACTIONS . '` DESC';
+            if ($secondaryOrderBy) {
+                $orderBy .= ', ' . $secondaryOrderBy;
+            }
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);

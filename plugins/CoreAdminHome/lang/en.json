@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Archiving settings",
         "BrandingSettings": "Branding settings",
+        "ErrorEmailFromAddressNotValid": "The SMTP from address is not valid",
         "ReleaseChannel": "Release channel",
         "ClickHereToOptIn": "Click here to opt in.",
         "ClickHereToOptOut": "Click here to opt out.",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Are you sure you want to delete this tracking failure?",
         "TrackingFailuresEmailSubject": "Tracking failures in your Matomo Analytics",
         "TrackingFailuresEmail1": "This is just to let you know that %s different kinds of tracking failures have occurred in the last days.",
-        "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s."
+        "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s.",
+        "ImportFromGoogleAnalytics": "Import from Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "If you have a Google Analytics property and are switching to Matomo, you can import your existing data using the %1$sGoogleAnalyticsImporter%2$s plugin."
     }
 }

@@ -82,7 +82,7 @@ Total # Invalidated Archives: 0
 Total # Temporary Archives: 0
 Total # Error Archives: 0
 Total # Segment Archives: 162
-Total Size of Blobs: 24.%d K
+Total Size of Blobs: 25.%d K
 
 
 OUTPUT;

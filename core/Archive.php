@@ -544,7 +544,7 @@ class Archive implements ArchiveQuery
         }
 
         $result = new Archive\DataCollection(
-            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
+            $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -648,6 +648,15 @@ class Archive implements ArchiveQuery
 
             foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Site($idSite);
+
+                 if ($period->getLabel() === 'day'
+                    && !$this->params->getSegment()->isEmpty()
+                    && Common::getRequestVar('skipArchiveSegmentToday', 0, 'int')
+                    && $period->getDateStart()->toString() == Date::factory('now', $site->getTimezone())->toString()) {
+
+                    Log::debug("Skipping archive %s for %s as segment today is disabled", $period->getLabel(), $period->getPrettyString());
+                    continue;
+                }
 
                 // if the END of the period is BEFORE the website creation date
                 // we already know there are no stats for this period

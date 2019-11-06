@@ -382,7 +382,7 @@ class PluginsTest extends IntegrationTestCase
             $this->assertFalse($plugin['isTheme']);
             $this->assertNotEmpty($plugin['homepage']);
 
-            $piwikProCampaign = 'pk_campaign=App_ProfessionalServices&pk_medium=Marketplace&pk_source=Piwik_App';
+            $piwikProCampaign = 'pk_campaign=App_ProfessionalServices&pk_medium=Marketplace&pk_source=Matomo_App';
 
             if ($name === 'SecurityInfo') {
                 $this->assertTrue($plugin['isFree']);

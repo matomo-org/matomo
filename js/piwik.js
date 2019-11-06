@@ -998,7 +998,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -5655,6 +5655,7 @@ if (typeof window.Piwik !== 'object') {
                 enabled: true,
                 requests: [],
                 timeout: null,
+                interval: 2500,
                 sendRequests: function () {
                     var requestsToTrack = this.requests;
                     this.requests = [];
@@ -5680,11 +5681,11 @@ if (typeof window.Piwik !== 'object') {
                         clearTimeout(this.timeout);
                         this.timeout = null;
                     }
-                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    // we always extend by another 2.5 seconds after receiving a tracking request
                     this.timeout = setTimeout(function () {
                         requestQueue.timeout = null;
                         requestQueue.sendRequests();
-                    }, 1750);
+                    }, requestQueue.interval);
 
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
@@ -7366,6 +7367,17 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Defines after how many ms a queued requests will be executed after the request was queued initially.
+             * The higher the value the more tracking requests can be send together at once.
+             */
+            this.setRequestQueueInterval = function (interval) {
+                if (interval < 1000) {
+                    throw new Error('Request queue interval needs to be at least 1000ms');
+                }
+                requestQueue.interval = interval;
+            };
+
+            /**
              * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
              * along with other tracking requests in one go. This can reduce the number of requests send to your server.
              * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
@@ -7594,7 +7606,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
@@ -7901,7 +7913,6 @@ if (typeof window.Piwik !== 'object') {
     if (window && window.piwikAsyncInit) {
         window.piwikAsyncInit();
     }
-
     if (!window.Piwik.getAsyncTrackers().length) {
         // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
         if (hasPaqConfiguration()) {

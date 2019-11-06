@@ -21,10 +21,10 @@ describe('SingleMetricView', function () {
         await page.click('.dashboard-manager a.title');
 
         await (await page.jQuery('.widgetpreview-categorylist>li:contains(Goals)')).hover(); // have to mouse move twice... otherwise Live! will just be highlighted
-        await (await page.jQuery('.widgetpreview-categorylist > li:contains(Generic)')).hover();
+        await (await page.jQuery('.widgetpreview-categorylist > li:contains(KPI Metric)')).hover();
 
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(Metric)')).hover();
-        await (await page.jQuery('.widgetpreview-widgetlist li:contains(Metric)')).click();
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).hover();
+        await (await page.jQuery('.widgetpreview-widgetlist li:contains(KPI Metric)')).click();
 
         var elem = await page.waitForSelector('#widgetCoreVisualizationssingleMetricViewcolumn');
         await page.waitForNetworkIdle();

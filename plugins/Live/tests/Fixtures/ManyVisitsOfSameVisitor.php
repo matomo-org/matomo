@@ -55,14 +55,25 @@ class ManyVisitsOfSameVisitor extends Fixture
         $t->setTokenAuth(self::getTokenAuth());
         $t->enableBulkTracking();
 
-        for ($numVisits = 0; $numVisits <= 30; $numVisits++) {
+        // -2 because we want to make sure to have 3 visits for the first day
+        for ($numVisits = -2; $numVisits <= 30; $numVisits++) {
             $t->setForceNewVisit();
             $t->setUrl('http://example.org/my/dir/page' . ($numVisits % 4));
 
-            $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
-            $t->setForceVisitDateTime($visitDateTime);
+            if ($numVisits > 0) {
+                $visitDateTime = Date::factory($this->dateTime)->addDay($numVisits)->getDatetime();
+                $t->setForceVisitDateTime($visitDateTime);
+            }
 
             self::assertTrue($t->doTrackPageView('incredible title ' . ($numVisits % 3)));
+
+            if ($numVisits === -2) {
+                for ($k = 0; $k < 10; $k++) {
+                    // we generate many actions to make sure in the test when we segment by page title that it not just
+                    // returns one visit but multiple visits to ensure the group by is correct
+                    self::assertTrue($t->doTrackPageView('incredible title 1'));
+                }
+            }
         }
 
         self::checkBulkTrackingResponse($t->doBulkTrack());

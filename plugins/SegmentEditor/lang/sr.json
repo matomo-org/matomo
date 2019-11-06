@@ -34,6 +34,7 @@
         "SegmentXIsAUnionOf": "%s je unija ovih segmenata:",
         "CustomSegment": "Korisnički definisan segment",
         "SegmentOperatorIsNullOrEmpty": "je prazan ili nije definisan",
-        "SegmentOperatorIsNotNullNorEmpty": "niti je prazan niti je nedefinisan"
+        "SegmentOperatorIsNotNullNorEmpty": "niti je prazan niti je nedefinisan",
+        "Test": "Test"
     }
 }

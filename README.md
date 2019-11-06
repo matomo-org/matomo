@@ -13,9 +13,9 @@
 
 Matomo is the leading Free/Libre open analytics platform.
 
-Matomo is a full featured PHP MySQL software program that you download and install on your own webserver.
-At the end of the five minute installation process, you will be given a JavaScript code.
-Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
+Matomo is a full-featured PHP MySQL software program that you download and install on your own webserver.
+At the end of the five-minute installation process, you will be given a JavaScript code.
+Simply copy and paste this tag on websites you wish to track and access your analytics reports in real-time.
 
 Matomo aims to be a Free software alternative to Google Analytics and is already used on more than 1,400,000 websites. Privacy is built-in!
 
@@ -28,7 +28,7 @@ Or in short:
 
 ## License
 
-Matomo is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
+Matomo is released under the GPL v3 (or later) license, see [LICENSE](LICENSE)
 
 ## Requirements
 
@@ -107,7 +107,7 @@ What makes Matomo unique from the competition:
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
   * Matomo features are built inside plugins: you can add new features and remove the ones you don’t need.
-    You can build your own web analytics plugins or hire a consultant to have your custom feature built-in Matomo
+    You can build your own web analytics plugins or hire a consultant to have your custom feature built-in Matomo.
 
   * A vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 

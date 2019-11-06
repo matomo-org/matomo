@@ -109,10 +109,13 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $customLogo = new CustomLogo();
-        if ($useCustomLogo) {
-            $customLogo->enable();
-        } else {
-            $customLogo->disable();
+
+        if ($customLogo->isCustomLogoFeatureEnabled()) {
+            if ($useCustomLogo) {
+                $customLogo->enable();
+            } else {
+                $customLogo->disable();
+            }
         }
 
         return true;

@@ -22,7 +22,7 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.024</avg_time_generation>
 		<url>http://example.org/index.htm</url>
-		<segment>exitPageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+		<segment>exitPageUrl==http%253A%252F%252Fexample.org%252Findex.htm</segment>
 	</row>
 	<row>
 		<label>store</label>
@@ -73,7 +73,7 @@
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
 				<url>http://example.org/store/purchase.htm</url>
-				<segment>exitPageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
+				<segment>exitPageUrl==http%253A%252F%252Fexample.org%252Fstore%252Fpurchase.htm</segment>
 			</row>
 		</subtable>
 	</row>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac7bafda9a656a01d9db4d485997bd04",
+    "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -157,17 +157,11 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "1.1.2",
+            "version": "dev-multiple-series",
             "source": {
                 "type": "git",
-                "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "shasum": ""
+                "url": "https://github.com/matomo-org/Sparkline.git",
+                "reference": "d5840d8bd753eab9cadf7589af76b51dfd92e098"
             },
             "require": {
                 "ext-gd": "*",
@@ -192,7 +186,6 @@
                     "Davaxi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -210,7 +203,11 @@
                 "picture",
                 "sparkline"
             ],
-            "time": "2017-12-15T15:45:18+00:00"
+            "support": {
+                "issues": "https://github.com/davaxi/Sparkline/issues",
+                "source": "https://github.com/davaxi/Sparkline/releases"
+            },
+            "time": "2019-08-26T06:43:23+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1127,16 +1124,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.0",
+            "version": "3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e"
+                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/a698de2c57d8e106b8f8e54671b4bf794dc9698e",
-                "reference": "a698de2c57d8e106b8f8e54671b4bf794dc9698e",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/72630c0cc012da96fe9fb842e7af480ffa740b76",
+                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76",
                 "shasum": ""
             },
             "require": {
@@ -1178,7 +1175,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-07-22T14:35:14+00:00"
+            "time": "2019-10-24T15:38:52+00:00"
         },
         {
             "name": "piwik/ini",
@@ -3276,6 +3273,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

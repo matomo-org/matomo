@@ -35,8 +35,6 @@ use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
 
-require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
-
 /**
  * The singleton that manages plugin loading/unloading and installation/uninstallation.
  */
@@ -55,6 +53,7 @@ class Manager
     protected $doLoadPlugins = true;
 
     protected static $pluginsToPathCache = array();
+    protected static $pluginsToWebRootDirCache = array();
 
     private $pluginsLoadedAndActivated;
 
@@ -368,17 +367,7 @@ class Manager
 
             $pluginDirs = self::getPluginsDirectories();
             if (count($pluginDirs) > 1) {
-                spl_autoload_register(function ($className) use ($pluginDirs) {
-                    if (strpos($className, 'Piwik\Plugins\\') === 0) {
-                        $withoutPrefix = str_replace('Piwik\Plugins\\', '', $className);
-                        $path = str_replace('\\', DIRECTORY_SEPARATOR, $withoutPrefix) . '.php';
-                        foreach ($pluginDirs as $pluginsDirectory) {
-                            if (file_exists($pluginsDirectory . $path)) {
-                                require_once $pluginsDirectory . $path;
-                            }
-                        }
-                    }
-                });
+                self::registerPluginDirAutoload($pluginDirs);
             }
         }
 
@@ -394,6 +383,26 @@ class Manager
         }
     }
 
+    /**
+     * Registers a new autoloader to support the loading of Matomo plugin classes when the plugins are installed
+     * outside the Matomo plugins folder.
+     * @param array $pluginDirs
+     */
+    public static function registerPluginDirAutoload($pluginDirs)
+    {
+        spl_autoload_register(function ($className) use ($pluginDirs) {
+            if (strpos($className, 'Piwik\Plugins\\') === 0) {
+                $withoutPrefix = str_replace('Piwik\Plugins\\', '', $className);
+                $path = str_replace('\\', DIRECTORY_SEPARATOR, $withoutPrefix) . '.php';
+                foreach ($pluginDirs as $pluginsDirectory) {
+                    if (file_exists($pluginsDirectory . $path)) {
+                        require_once $pluginsDirectory . $path;
+                    }
+                }
+            }
+        });
+    }
+
     public static function getAlternativeWebRootDirectories()
     {
         $dirs = array();
@@ -407,6 +416,11 @@ class Manager
         }
 
         return $dirs;
+    }
+
+    public function getWebRootDirectoriesForCustomPluginDirs()
+    {
+        return array_intersect_key(self::$pluginsToWebRootDirCache, array_flip($this->pluginsToLoad));
     }
 
     /**
@@ -465,10 +479,11 @@ class Manager
             return self::$pluginsToPathCache[$pluginName];
         }
 
-        foreach (self::getPluginsDirectories() as $dir) {
+        foreach (self::getAlternativeWebRootDirectories() as $dir => $relative) {
             $path = $dir . $pluginName;
             if (is_dir($path)) {
                 self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($path);
+                self::$pluginsToWebRootDirCache[$pluginName] = $relative;
                 return $path;
             }
         }
@@ -1640,3 +1655,4 @@ class Manager
         }
     }
 }
+

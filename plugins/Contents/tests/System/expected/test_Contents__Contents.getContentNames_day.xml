@@ -7,7 +7,6 @@
 		<nb_impressions>8</nb_impressions>
 		<nb_interactions>2</nb_interactions>
 		<interaction_rate>25%</interaction_rate>
-		<contentTarget>http://www.example.com</contentTarget>
 		<segment>contentName==ImageAd</segment>
 	</row>
 	<row>
@@ -17,7 +16,6 @@
 		<nb_impressions>6</nb_impressions>
 		<nb_interactions>4</nb_interactions>
 		<interaction_rate>66.67%</interaction_rate>
-		<contentTarget>http://piwik.org/</contentTarget>
 		<segment>contentName==Text+Ad</segment>
 	</row>
 	<row>
@@ -27,7 +25,6 @@
 		<nb_impressions>4</nb_impressions>
 		<nb_interactions>0</nb_interactions>
 		<interaction_rate>0%</interaction_rate>
-		<contentTarget />
 		<segment>contentName==Video+Ad</segment>
 	</row>
 </result>

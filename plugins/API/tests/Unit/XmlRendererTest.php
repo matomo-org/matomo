@@ -28,6 +28,11 @@ class XmlRendererTest extends \PHPUnit_Framework_TestCase
         DataTable\Manager::getInstance()->deleteAll();
     }
 
+    public function tearDown()
+    {
+        DataTable\Manager::getInstance()->deleteAll();
+    }
+
     public function test_renderSuccess_shouldIncludeMessage()
     {
         $response = $this->builder->renderSuccess('ok');

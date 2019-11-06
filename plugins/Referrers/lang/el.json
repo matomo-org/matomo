@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "διαχωρισμός μηχανών αναζήτησης",
         "DistinctSocialNetworks": "διακριτά κοινωνικά δίκτυα",
         "DistinctWebsites": "διαχωρισμός σελίδων",
+        "DistinctWebsiteUrls": "ξεχωριστές διευθύνσεις URL",
         "EvolutionDocumentation": "Αυτή είναι μια επισκόπηση των αναφορέων που έστειλαν επισκέπτες στην ιστοσελίδα.",
         "EvolutionDocumentationMoreInfo": "Για περισσότερες πληροφορίες σχετικά με τους διαφορετικούς τύπους καναλιών, δείτε την τεκμηρίωση για τον πίνακα %s.",
         "Keywords": "Λέξεις κλειδιά",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Λίστα κοινωνικών δικτύων",
         "WidgetTopKeywordsForPages": "Δημοφιλέστερες Λέξεις-Κλειδιά για τη Διεύθυνση URL της σελίδας",
         "XPercentOfVisits": "%s επισκέψεων",
-        "Acquisition": "Εκμάθηση"
+        "Acquisition": "Εκμάθηση",
+        "VisitorsFromSearchEngines": "Επισκέπτες από Μηχανές Αναζήτησης",
+        "PercentOfX": "Τοις εκατό του %s",
+        "VisitorsFromSocialNetworks": "Επισκέπτες από Κοινωνικά Δίκτυα",
+        "VisitorsFromDirectEntry": "Επισκέπτες από Απευθείας Είσοδο",
+        "VisitorsFromWebsites": "Επισκέπτες από Ιστοσελίδες",
+        "VisitorsFromCampaigns": "Επισκέπτες από Καμπάνιες"
     }
 }

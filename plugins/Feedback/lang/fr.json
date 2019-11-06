@@ -16,7 +16,9 @@
         "ThankYou": "Merci d'avoir aidé à améliorer Matomo !",
         "TopLinkTooltip": "Dites-nous ce que vous en pensez, ou demandez un Support Professionnel.",
         "ViewAnswersToFAQ": "Voir les réponses aux %1$squestions fréquemment posées%2$s",
+        "FAQs": "Questions fréquentes",
         "ViewUserGuides": "Apprenez comment configurer Matomo et comment analyser de manière efficaces vos données avec notre %1$sguide utilisateur%2$s",
+        "UserGuides": "Guides de l'utilisateur",
         "CommunityHelp": "Aide de la communauté",
         "ProfessionalHelp": "Aide professionnelle",
         "ProfessionalServicesIntro": "Avec un abonnement au support Matomo On-Premise, notre équipe d'experts vous assiste en ligne dans l'utilisation des statistiques Matomo pour faire grandir votre entreprise.",
@@ -28,9 +30,18 @@
         "ProfessionalServicesEmailAlerts": "Alertes par courriel des versions de sécurité de Matomo",
         "ContactUs": "Nous contacter",
         "VisitTheForums": "Visitez les %1$sForums%2$s et obtenez de l'aide de la communauté d'utilisateurs Matomo.",
+        "Forums": "Forums",
         "ReviewMatomoTitle": "Vous croyez en Matomo ?",
         "PleaseLeaveExternalReviewForMatomo": "Partagez votre avis sur un de ces sites web et encouragez les autres à se joindre à notre révolution des données.",
         "RemindMeLater": "Me le rappeler plus tard",
-        "NeverAskMeAgain": "Ne plus me demander"
+        "NeverAskMeAgain": "Ne plus me demander",
+        "HowCanWeHelp": "Comment pouvons-nous vous aider?",
+        "NotTrackingVisits": "Matomo ne suit aucune visite.",
+        "TrackMultipleSites": "J'ai besoin de suivre plusieurs sites ou sous-domaines",
+        "RemoveOtherLabel": "Je veux voir mes 'Autres' données",
+        "PurgeOldData": "Je veux supprimer d'anciennes données",
+        "SearchHelpResources": "Rechercher dans les ressources de matomo.org",
+        "PopularHelpTopics": "Rubriques d'aide les plus populaires",
+        "SearchOnMatomo": "Rechercher '%1$s' sur Matomo.org"
     }
 }

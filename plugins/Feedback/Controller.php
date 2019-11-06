@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Feedback;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -24,6 +25,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Feedback/index');
         $this->setGeneralVariablesView($view);
+        $popularHelpTopics = StaticContainer::get('popularHelpTopics');
+        $view->popularHelpTopics = $popularHelpTopics;
         $view->piwikVersion = Version::VERSION;
         return $view->render();
     }

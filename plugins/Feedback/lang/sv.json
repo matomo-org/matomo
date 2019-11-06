@@ -21,6 +21,12 @@
         "ProfessionalHelp": "Professionell hjälp",
         "ProfessionalServicesOfferIntro": "Vilka tjänster kan du dra nytta av?",
         "ContactUs": "Kontakta oss",
-        "VisitTheForums": "Besök %1$s forumet%2$s och få hjälp av Matomo-användare"
+        "VisitTheForums": "Besök %1$s forumet%2$s och få hjälp av Matomo-användare",
+        "Forums": "Forum",
+        "RemindMeLater": "Påminn mig senare",
+        "NeverAskMeAgain": "Fråga mig inte igen",
+        "HowCanWeHelp": "Hur kan vi hjälpa?",
+        "NotTrackingVisits": "Matomo spårar inte några besök",
+        "SearchOnMatomo": "Sök efter '%1$s' på Matomo.org"
     }
 }

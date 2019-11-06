@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -108,6 +109,31 @@ class ArchiveCronTest extends SystemTestCase
                 var_dump($output);
             }
         }
+    }
+
+    public function testArchivePhpCronArchivesFullRanges()
+    {
+        $this->setLastRunArchiveOptions();
+
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_range_force_on_browser_request', 0);
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'archiving_custom_ranges', ['2012-08-09,2012-08-13']);
+        self::$fixture->getTestEnvironment()->save();
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        Config::getInstance()->General['archiving_range_force_on_browser_request'] = 0;
+        Config::getInstance()->General['archiving_custom_ranges'][] = '';
+
+        $output = $this->runArchivePhpCron(['--force-periods' => 'range', '--force-idsites' => 1]);
+
+        $this->runApiTests(array(
+            'VisitsSummary.get', 'Actions.get', 'DevicesDetection.getType'),
+            array('idSite'     => '1',
+                'date'       => '2012-08-09,2012-08-13',
+                'periods'    => array('range'),
+                'testSuffix' => '_range_archive'
+            )
+        );
     }
 
     public function test_archivePhpScript_DoesNotFail_WhenCommandHelpRequested()
