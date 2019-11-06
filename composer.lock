@@ -1245,16 +1245,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275"
+                "reference": "3a002c561f1c87fb21417929062be75bf74ffbb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/3b31a6366fdf1f39520d7cbf858967f309d89275",
-                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/3a002c561f1c87fb21417929062be75bf74ffbb5",
+                "reference": "3a002c561f1c87fb21417929062be75bf74ffbb5",
                 "shasum": ""
             },
             "type": "library",
@@ -1281,7 +1281,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2018-10-12T00:37:52+00:00"
+            "time": "2019-11-06T04:21:26+00:00"
         },
         {
             "name": "psr/container",
