@@ -3189,7 +3189,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(26);
+        expect(27);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -3236,6 +3236,10 @@ function PiwikTest() {
 
             // Set the same Visitor IDs in both trackers
             tracker2.setVisitorId(tracker.getVisitorId());
+            
+        // set userId works with a number
+        tracker.setUserId(5939383);
+        equal(5939383, tracker.getUserId(), "getUserId() returns numeric User Id");
 
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
@@ -3631,7 +3635,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(165);
+        expect(180);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3935,6 +3939,7 @@ if ($mysql) {
         tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
         deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
         tracker.setEcommerceView( "SKUMultiple", false, ["CATEGORY1","CATEGORY2"] );
+        deepEqual( tracker.getCustomVariable(3, "page"), ["_pks","SKUMultiple"], "Ecommerce view sku");
         deepEqual( tracker.getCustomVariable(4, "page"), ["_pkn",""], "Ecommerce view Name");
         deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","[\"CATEGORY1\",\"CATEGORY2\"]"], "Ecommerce view Category");
         tracker.trackPageView("MultipleCategories");
@@ -3969,6 +3974,32 @@ if ($mysql) {
         deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
         deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
         tracker3.trackPageView("EcommerceView");
+
+        tracker3.deleteCustomVariables('page');
+
+        // No data set
+        tracker3.setEcommerceView( );
+        deepEqual( tracker3.getCustomVariable(2, "page"), false, "No data Ecommerce price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), false, "No data Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), false, "No data Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc",""], "No data Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
+
+        // all numbers
+        tracker3.setEcommerceView( 34343, 3432, 343, 12121 );
+        deepEqual( tracker3.getCustomVariable(2, "page"), ["_pkp",12121], "All numbers Ecommerce view price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks",34343], "All numbers Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn",3432], "All numbers Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", '343'], "All numbers Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
+
+        // all false
+        tracker3.setEcommerceView( false, false, false, false );
+        deepEqual( tracker3.getCustomVariable(2, "page"), false, "All numbers Ecommerce view price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), false, "All numbers Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), false, "All numbers Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", ''], "All numbers Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
 
         //Ecommerce tests
         tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2);
@@ -4029,6 +4060,23 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU TO REMOVE 1");
         tracker3.addEcommerceItem("SKU TO REMOVE 2");
         tracker3.addEcommerceItem("SKU TO REMOVE 3");
+        tracker3.clearEcommerceCart();
+
+        tracker3.addEcommerceItem(12345, 544, 34343, 34, 1);
+        cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {
+            '12345': [
+                '12345',
+                544,
+                34343,
+                34,
+                1
+            ]
+        });
+        tracker3.removeEcommerceItem(12345);
+        cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {}, 'removed numeric item');
+        
         tracker3.clearEcommerceCart();
 
         // the same order tracked once more, should have no items

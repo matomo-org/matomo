@@ -1157,6 +1157,20 @@ if (typeof window.Piwik !== 'object') {
             return typeof property === 'string' || property instanceof String;
         }
 
+        /*
+         * Is property a string?
+         */
+        function isNumber(property) {
+            return typeof property === 'number' || property instanceof Number;
+        }
+
+        /*
+         * Is property a string?
+         */
+        function isNumberOrHasLength(property) {
+            return isDefined(property) && (isNumber(property) || (isString(property) && property.length));
+        }
+
         function isObjectEmpty(property)
         {
             if (!property) {
@@ -5996,10 +6010,9 @@ if (typeof window.Piwik !== 'object') {
              * @param string User ID
              */
             this.setUserId = function (userId) {
-                if(!isDefined(userId) || !userId.length) {
-                    return;
+                if (isNumberOrHasLength(userId)) {
+                    configUserId = userId;
                 }
-                configUserId = userId;
             };
 
             /**
@@ -7268,7 +7281,10 @@ if (typeof window.Piwik !== 'object') {
              * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
-                if (!isDefined(category) || !category.length) {
+                if (isNumberOrHasLength(category)) {
+                    category = String(category);
+                }
+                if (!isDefined(category) || category === null || category === false || !category.length) {
                     category = "";
                 } else if (category instanceof Array) {
                     category = JSON_PIWIK.stringify(category);
@@ -7276,21 +7292,20 @@ if (typeof window.Piwik !== 'object') {
 
                 customVariablesPage[5] = ['_pkc', category];
 
-                if (isDefined(price) && String(price).length) {
+                if (isDefined(price) && price !== null && price !== false && String(price).length) {
                     customVariablesPage[2] = ['_pkp', price];
                 }
 
                 // On a category page, do not track Product name not defined
-                if ((!isDefined(sku) || !sku.length)
-                    && (!isDefined(name) || !name.length)) {
+                if (!isNumberOrHasLength(sku) && !isNumberOrHasLength(name)) {
                     return;
                 }
 
-                if (isDefined(sku) && sku.length) {
+                if (isNumberOrHasLength(sku)) {
                     customVariablesPage[3] = ['_pks', sku];
                 }
 
-                if (!isDefined(name) || !name.length) {
+                if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
@@ -7326,8 +7341,8 @@ if (typeof window.Piwik !== 'object') {
              * @param float quantity (optional) Item's quantity. If not specified, will default to 1
              */
             this.addEcommerceItem = function (sku, name, category, price, quantity) {
-                if (sku.length) {
-                    ecommerceItems[sku] = [ sku, name, category, price, quantity ];
+                if (isNumberOrHasLength(sku)) {
+                    ecommerceItems[sku] = [ String(sku), name, category, price, quantity ];
                 }
             };
 
@@ -7337,7 +7352,8 @@ if (typeof window.Piwik !== 'object') {
              * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
              */
             this.removeEcommerceItem = function (sku) {
-                if (sku.length) {
+                if (isNumberOrHasLength(sku)) {
+                    sku = String(sku);
                     delete ecommerceItems[sku];
                 }
             };
