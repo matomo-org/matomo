@@ -142,9 +142,10 @@ class Get extends \Piwik\Plugin\Report
             'nb_actions'
         );
 
+        $i = 1;
         foreach ($metrics as $metric) {
             foreach (array('_returning', '_new') as $suffix) {
-                $view->config->addSparklineMetric(array($metric . $suffix));
+                $view->config->addSparklineMetric(array($metric . $suffix), $i++);
             }
         }
 
