@@ -565,7 +565,7 @@
 	<row>
 		<type>dimension</type>
 		<category>Actions</category>
-		<name>Clicked URL</name>
+		<name>Clicked Outlink</name>
 		<segment>outlinkUrl</segment>
 	</row>
 	<row>
