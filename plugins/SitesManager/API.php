@@ -1065,7 +1065,7 @@ class API extends \Piwik\Plugin\API
      * only the global user agent substrings (see @setGlobalExcludedUserAgents) will be used.
      *
      * @return bool
-     * @deprecated
+     * @deprecated Will be removed in Matomo 4.0
      */
     public function isSiteSpecificUserAgentExcludeEnabled()
     {
@@ -1077,7 +1077,7 @@ class API extends \Piwik\Plugin\API
      * websites.
      *
      * @param bool $enabled
-     * @deprecated
+     * @deprecated Will be removed in Matomo 4.0
      */
     public function setSiteSpecificUserAgentExcludeEnabled($enabled)
     {
