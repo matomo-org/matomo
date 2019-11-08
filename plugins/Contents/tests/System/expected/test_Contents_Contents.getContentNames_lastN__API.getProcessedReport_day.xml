@@ -65,15 +65,15 @@
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
 				<segment>contentName==ImageAd</segment>
-				<idsubdatatable>2</idsubdatatable>
+				
 			</row>
 			<row>
 				<segment>contentName==Text+Ad</segment>
-				<idsubdatatable>1</idsubdatatable>
+				
 			</row>
 			<row>
 				<segment>contentName==Video+Ad</segment>
-				<idsubdatatable>3</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010" />

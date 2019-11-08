@@ -4102,7 +4102,7 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st?__?key=value</url>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
 				<pageIdAction>66</pageIdAction>
 				
 				
@@ -4219,7 +4219,7 @@
 		<actionDetails>
 			<row>
 				<type>event</type>
-				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st?__?key=value</url>
+				<url>http://piwik.net/shqshne4jdp4b6.cloudfront.net/cfx/st​?key=value</url>
 				<pageIdAction>66</pageIdAction>
 				
 				
@@ -5580,7 +5580,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>17</idVisit>
-		<visitIp>50.112.0.11</visitIp>
+		<visitIp>0.0.0.0</visitIp>
 		
 		
 		<actionDetails>
@@ -5687,17 +5687,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>San Jose</city>
-		<location>San Jose, California, United States</location>
-		<latitude>45.870000</latitude>
-		<longitude>-119.688000</longitude>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>15:31:05</visitLocalTime>
 		<visitLocalHour>15</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -5710,7 +5710,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>16</idVisit>
-		<visitIp>50.112.0.28</visitIp>
+		<visitIp>0.0.0.0</visitIp>
 		
 		
 		<actionDetails>
@@ -5817,17 +5817,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>North America</continent>
-		<continentCode>amn</continentCode>
-		<country>United States</country>
-		<countryCode>us</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
-		<region>California</region>
-		<regionCode>CA</regionCode>
-		<city>San Jose</city>
-		<location>San Jose, California, United States</location>
-		<latitude>45.870000</latitude>
-		<longitude>-119.688000</longitude>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>13:49:46</visitLocalTime>
 		<visitLocalHour>13</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -6490,7 +6490,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>10</idVisit>
-		<visitIp>79.125.0.21</visitIp>
+		<visitIp>0.0.0.0</visitIp>
 		
 		
 		<actionDetails>
@@ -6597,17 +6597,17 @@
 		<totalAbandonedCarts>0</totalAbandonedCarts>
 		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>Ireland</country>
-		<countryCode>ie</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/ie.png</countryFlag>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
-		<location>Ireland</location>
-		<latitude>53</latitude>
-		<longitude>-8</longitude>
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
 		<visitLocalTime>18:03:40</visitLocalTime>
 		<visitLocalHour>18</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
