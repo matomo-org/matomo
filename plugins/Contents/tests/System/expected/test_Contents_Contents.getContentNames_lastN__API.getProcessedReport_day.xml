@@ -9,6 +9,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>

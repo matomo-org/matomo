@@ -21,6 +21,7 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->categoryId = 'Goals_Goals';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/tracking-goals-web-analytics/';
     }
 
     protected function addReportMetadataForEachGoal(&$availableReports, $infos, $goalNameFormatter, $isGoalSummaryReport = false)

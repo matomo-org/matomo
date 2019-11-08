@@ -17,7 +17,7 @@
         <p>{{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
             {{ 'CorePluginsAdmin_OncePluginIsInstalledYouMayActivateHere'|translate }}
 
-            {% if isMarketplaceEnabled %}
+            {% if isMarketplaceEnabled or isPluginUploadEnabled %}
                 {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate(
                     '<a href="' ~ linkTo({'action':'browsePlugins', 'sort': null, 'activated': null})|e('html_attr') ~ '">',
                     '</a>',

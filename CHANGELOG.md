@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.13.0
 
+### New API
+* New tracker method `setVisitStandardLength` which lets you configure a custom visit standard length in case a custom "visit_standard_length" is configured in the config. Setting only applies when heart beat is enabled.
+
 ### Other Changes
 * User ID is no longer linked to visitor ID. Actions with different user IDs will still be considered as part of different visits, irrespective of their visitor IDs, but the same visitor ID can be used with different user IDs.
 

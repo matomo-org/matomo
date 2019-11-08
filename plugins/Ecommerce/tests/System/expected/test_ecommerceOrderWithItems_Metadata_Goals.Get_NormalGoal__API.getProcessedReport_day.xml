@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>

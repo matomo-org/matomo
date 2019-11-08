@@ -19,6 +19,7 @@ abstract class Base extends Report
     {
         $this->module   = 'Goals';
         $this->categoryId = 'Goals_Ecommerce';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/ecommerce-analytics/';
     }
 
     public function isEnabled()

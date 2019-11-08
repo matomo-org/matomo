@@ -170,6 +170,14 @@ class ProxyHttp
             Common::sendHeader('Content-Encoding: ' . $encoding);
         }
 
+        // in case any notices were triggered before this point (eg in WordPress) etc.
+        // it would break the gzipped response since it would have mixed regular notice/string plus gzipped content
+        // and would not be able to decode the response
+        $levels = ob_get_level();
+        for ( $i = 0; $i < $levels; $i++ ) {
+            ob_end_clean();
+        }
+
         if (!_readfile($file, $byteStart, $byteEnd)) {
             Common::sendResponseCode(500);
         }
