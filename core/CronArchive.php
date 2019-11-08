@@ -27,6 +27,7 @@ use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -890,8 +891,10 @@ class CronArchive
 
         $visitsLastDays = 0;
 
-        list($visitsToday, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, 'day', $segment = '');
+        $isThereArchive = $this->isThereAValidArchiveForPeriod($idSite, 'day', $date, $segment = '');
         if ($isThereArchive) {
+            $visitsToday = Archive::build($idSite, 'day', $date)->getNumeric('nb_visits');
+
             $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, 'day', $date);
             ++$this->skipped;
         } else {
@@ -956,19 +959,33 @@ class CronArchive
         return $dayArchiveWasSuccessful;
     }
 
-    private function isThereAValidArchiveForPeriod($idSite, $period, $segment = '')
+    private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
     {
-        $dateTodayInTimezone = Date::factoryInTimezone('now', Site::getTimezoneFor($idSite));
+        if (Range::isMultiplePeriod($date, $period)) {
+            $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
+            $periodsToCheck = $rangePeriod->getSubperiods();
+        } else {
+            $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
+        }
+
+        $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);
 
         $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
 
-        $params = new Parameters(new Site($idSite), Factory::build($period, $dateTodayInTimezone), new Segment($segment, [$idSite]));
-        $result = ArchiveSelector::getArchiveIdAndVisits($params, false, $includeInvalidated = false);
-        if (empty($result)) {
-            return false;
+        $archiveIds = ArchiveSelector::getArchiveIds(
+            [$idSite], $periodsToCheck, new Segment($segment, [$idSite]), $plugins = [], // empty plugins param since we only check for an 'all' archive
+            $includeInvalidated = false
+        );
+
+        $foundArchivePeriods = [];
+        foreach ($archiveIds as $doneFlag => $dates) {
+            foreach ($dates as $dateRange => $idArchives) {
+                $foundArchivePeriods[] = $dateRange;
+            }
         }
-        $isThereArchive = $result[0] !== false && is_numeric($result[0]);
-        return [$result[1], $isThereArchive];
+
+        $diff = array_diff($periodsToCheckRanges, $foundArchivePeriods);
+        return empty($diff);
     }
 
     /**
@@ -1040,7 +1057,7 @@ class CronArchive
                     return Request::ABORT;
                 }
 
-                list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+                $isThereArchive = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
                 if ($isThereArchive) {
                     $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
                     return Request::ABORT;
@@ -1901,7 +1918,7 @@ class CronArchive
                     return Request::ABORT;
                 }
 
-                list($visits, $isThereArchive) = $this->isThereAValidArchiveForPeriod($idSite, $period, $segment);
+                $isThereArchive = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
                 if ($isThereArchive) {
                     $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
                     return Request::ABORT;
