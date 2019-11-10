@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Raport prezentuje wszystkie Twoje Odnośniki w pojedynczym, zunifikowanym raporcie, zawierającym Wszystkie serwisy, frazy Wyszukiwania i Kampanie wykorzystane przez odwiedzających aby do Ciebie dotrzeć.",
         "Campaigns": "Kampanie",
         "CampaignsDocumentation": "Odwiedzający, którzy dotarli na Twoją stronę dzięki kampanii. %1$sZobacz%2$sszczegółowy raport.",
-        "CampaignsReportDocumentation": "Raport pokazujący, które kampanie pozwoliły odwiedzającym trafić do Twojego serwisu. %1$s Więcej o śledzeniu kampanii przeczytasz w %2$sdokumentacji kampanii na matomo.org%3$s",
         "ColumnCampaign": "Kampania",
         "ColumnSearchEngine": "Wyszukiwarka",
         "ColumnSocial": "Sieć społecznościowa",

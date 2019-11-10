@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "URL–ზე დაწკაპუნება",
         "ColumnClicks": "დაწკაპუნებები",
         "ColumnDownloadURL": "URL–ის ჩამოტვირთვა",
         "ColumnPageName": "გვერდის სახელი",

@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Questo report mostra tutti i tuoi Referenti in un unico report che elenca tutti i Siti web, le Parole chiave di ricerca e Campagne utilizzate dai visitatori per trovare il tuo sito web.",
         "Campaigns": "Campagne",
         "CampaignsDocumentation": "Visitatori che sono arrivati sul tuo sito web a seguito di una campagna. %1$sVedi il%2$s report per maggiori dettagli.",
-        "CampaignsReportDocumentation": "Questo report mostra quali campagne hanno condotto i visitatori al tuo sito web. %1$s Per ulteriori informazioni sul tracciamento delle campagne, leggi la %2$sdocumentazione sulle campagne su matomo.org%3$s",
         "ColumnCampaign": "Campagna",
         "CampaignPageUrlHelp": "URL della pagina in cui si trova questa campagna, per esempio 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Scegli un nome che descriva per che cosa è stata creata la campagna e che distingua la tua campagna dalle altre. Ad esempio \"Email-SummerDeals\" o \"PaidAds-SummerDeals\".",

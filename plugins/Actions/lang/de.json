@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Durchschnitt basierend auf %1$s Aufruf(en) %2$s zwischen %3$s und %4$s",
-        "ColumnClickedURL": "Angeklickte URL",
-        "ColumnClickedURLs": "Angeklickte URLs",
+        "ColumnClickedURL": "Gewählter ausgehender Verweis",
+        "ColumnClickedURLs": "Gewählte ausgehende Verweise",
         "ColumnActionURL": "Aktions-URL",
         "ColumnClicks": "Klicks",
         "ColumnClicksDocumentation": "Anzahl der Klicks auf diesen Link.",
@@ -40,7 +40,6 @@
         "ExitPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Ausstiegsseiten im gewählten Zeitraum. Die Ausstiegsseite ist die letzte Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
         "ExitPageTitles": "Titel der Ausstiegsseite",
         "ExitPageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Titel der Ausstiegsseiten, die angeforderten Zeitraum verwendet wurden.",
-        "LearnMoreAboutSiteSearchLink": "Mehr Informationen über das Auswerten der internen Suche.",
         "OneSearch": "1 Suche",
         "OutlinkDocumentation": "Ein ausgehender Verweis ist ein Link der einen Besucher auf eine andere Website führt (auf eine andere Domain).",
         "OutlinksReportDocumentation": "Dieser Bericht zeigt eine hierarchisch angeordnete Liste von ausgehenden Links, die von ihren Besuchern angeklickt wurden.",

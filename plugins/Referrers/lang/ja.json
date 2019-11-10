@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "このレポートは、すべての参照元を確認することができる統合レポートです。ビジターがサイト閲覧の際に利用したすべてのウェブサイト、検索キーワード、キャンペーンを一覧表示します。",
         "Campaigns": "キャンペーン",
         "CampaignsDocumentation": "キャンペーンの結果としてウェブサイトを訪れたビジター。詳細のリポートは %1$s こちら %2$s",
-        "CampaignsReportDocumentation": "このリポートは、ウェブサイトにビジターを導いたキャンペーンについて示します。 %1$s キャンペーンのトラッキングの詳細については、%2$s matomo.org のキャンペーンについてのドキュメント %3$s を読んでください。",
         "ColumnCampaign": "キャンペーン",
         "CampaignPageUrlHelp": "このキャンペーンが表示されるページの URL です。 例： 'http:\/\/example.org\/offer.html'",
         "CampaignNameHelp": "キャンペーンが作成された内容を説明する名前を選択します。この名前は、キャンペーンと他のキャンペーンを区別します。 たとえば、「Email-SummerDeals」または「PaidAds-SummerDeals」などです。",

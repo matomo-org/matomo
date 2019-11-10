@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "Este informe muestra todos tus orígenes de visitantes en un informe unificado, listando todos los sitios web, palabras claves en la búsqueda y campañas usadas por tus visitantes para encontrar tu sitio web.",
         "Campaigns": "Campañas",
         "CampaignsDocumentation": "Visitantes que visitan tu sitio web como resultado de una campaña. %1$s Leé el %2$s informe para más detalles.",
-        "CampaignsReportDocumentation": "Este informee muestra qué campaña llevó visitantes a tu sitio web. %1$s Para una mayor información acerca del rastreo de las campañas, leé la %2$sdocumentación de campañas en matomo.org%3$s",
+        "CampaignsReportDocumentation": "Este informe muestra qué campañas llevan visitantes a tu sitio web.",
         "ColumnCampaign": "Campaña",
         "CampaignPageUrlHelp": "La dirección web de la página para la cual va dirigida esta campaña, por ejemplo: \"http:\/\/ejemplo.org\/oferta_diciembre_2019.html\".",
         "CampaignNameHelp": "Elegí un nombre que describa para qué fue creada la campaña y que la diferencie de otras. Por ejemplo: \"ofertasverano-porcorreoelectronico\" o \"ofertasverano-publicidadpaga\".",
