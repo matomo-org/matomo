@@ -1,6 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Config file",
+        "MysqlTemporaryTablesWarning": "MySQL Permission CREATE TEMPORARY TABLES is required for Matomo to work properly.",
         "MysqlMaxPacketSize": "Max Packet Size",
         "MysqlMaxPacketSizeWarning": "It is recommended to configure a 'max_allowed_packet' size in your MySQL database of at least %1$s. Configured is currently %2$s.",
         "ConfigFileIntroduction": "Here you can view the Matomo configuration. If you are running Matomo in a load balanced environment, the page might be different depending on from which server this page is loaded. Rows with a different background color are changed config values that are specified for example in the %1$s file.",

@@ -15,7 +15,7 @@ use Piwik\Translation\Translator;
 /**
  * Check if Piwik can use LOAD DATA INFILE.
  */
-class LoadDataInfileCheck implements Diagnostic
+class DatabaseAbilitiesCheck implements Diagnostic
 {
     /**
      * @var Translator
@@ -35,8 +35,15 @@ class LoadDataInfileCheck implements Diagnostic
             return array();
         }
 
-        $label = $this->translator->translate('Installation_DatabaseAbilities');
+        $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
+        $result->addItem($this->checkLoadDataInfile());
+        $result->addItem($this->checkTemporaryTables());
 
+        return [$result];
+    }
+
+    protected function checkLoadDataInfile()
+    {
         $optionTable = Common::prefixTable('option');
         $testOptionNames = array('test_system_check1', 'test_system_check2');
 
@@ -61,7 +68,7 @@ class LoadDataInfileCheck implements Diagnostic
         Db::exec("DELETE FROM `$optionTable` WHERE option_name IN ('" . implode("','", $testOptionNames) . "')");
 
         if ($loadDataInfile) {
-            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, 'LOAD DATA INFILE'));
+            return new DiagnosticResultItem(DiagnosticResult::STATUS_OK, 'LOAD DATA INFILE');
         }
 
         $comment = sprintf(
@@ -82,6 +89,25 @@ class LoadDataInfileCheck implements Diagnostic
             );
         }
 
-        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
+        return new DiagnosticResultItem(DiagnosticResult::STATUS_WARNING, $comment);
+    }
+
+    protected function checkTemporaryTables()
+    {
+        $status = DiagnosticResult::STATUS_OK;
+        $comment = 'CREATE TEMPORARY TABLES';
+
+        try {
+            Db::exec("CREATE TEMPORARY TABLE `piwik_test_table_temp` (
+                                        id INT AUTO_INCREMENT,
+                                        PRIMARY KEY (id)
+                                     )");
+        } catch (\Exception $e) {
+            $status = DiagnosticResult::STATUS_ERROR;
+            $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTemporaryTablesWarning');
+        }
+
+        return new DiagnosticResultItem($status, $comment);
+
     }
 }
