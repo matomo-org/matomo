@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Promig basat en %1$s accessos %2$s entre %3$s i %4$s",
-        "ColumnClickedURL": "URL picada",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Nombre de vegades que s'ha fet clic en aquest enllaç",
         "ColumnDownloadURL": "URL de descàrrega",
@@ -29,7 +28,6 @@
         "EntryPageTitlesReportDocumentation": "Aquest informe conté la informació sobre els títols de les pàgines d'entrada que s'han utilitzat durant el període especificat.",
         "ExitPageTitles": "Títols de les pàgines de sortida",
         "ExitPageTitlesReportDocumentation": "Aquest informe conté els títols de les pàgins de sortida que s'han utiltizat durant el període especificat.",
-        "LearnMoreAboutSiteSearchLink": "Apren més sobre com els teus visitants utiltizent el motor de cerca del teu lloc web.",
         "OneSearch": "1 cerca",
         "OutlinkDocumentation": "Un enllaç de sortida es un enllaç que porta el visitant fora del teu lloc web (a un altre domini)",
         "OutlinksReportDocumentation": "Aquest informe mostra una lista jeràrquica de les URL de sortida que han estat clicades pels vostres visitants.",

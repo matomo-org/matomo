@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Acest raport arată toati referali într-un singur raport unificat, care listează toate site-urile, cuvintele cheie de căutare și campanii utilizate de vizitatorii dvs. pentru a găsi site-ul dumneavoastră.",
         "Campaigns": "Campanii",
         "CampaignsDocumentation": "Vizitatorii care au venit pe site-ul dvs. ca rezultat al unei campanii. %1$s A se vedea raportul %2$s pentru mai multe detalii.",
-        "CampaignsReportDocumentation": "Acest raport arată care care campanii a adus vizitatori websitului.%1$s Pentru mai multe informații despre campaniile de urmărire, citiți documentația %2$scampanii pe matomo.org%3$s",
         "ColumnCampaign": "Campanie",
         "ColumnSearchEngine": "Motor de căutare",
         "ColumnSocial": "Reţea socială",

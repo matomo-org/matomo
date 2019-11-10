@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Kattintott URL",
         "ColumnActionURL": "Akció URL",
         "ColumnClicks": "Kattintások",
         "ColumnClicksDocumentation": "Erre a linkre történt kattintások száma.",
