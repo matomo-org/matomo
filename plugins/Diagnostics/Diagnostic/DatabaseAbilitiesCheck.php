@@ -36,7 +36,11 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         $result = new DiagnosticResult($this->translator->translate('Installation_DatabaseAbilities'));
-        $result->addItem($this->checkLoadDataInfile());
+
+        if (Config::getInstance()->General['enable_load_data_infile']) {
+            $result->addItem($this->checkLoadDataInfile());
+        }
+
         $result->addItem($this->checkTemporaryTables());
 
         return [$result];
