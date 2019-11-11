@@ -36,6 +36,7 @@ class ProductCategory extends Dimension
             $segment->setType('dimension');
             $segment->setName($this->getName() . ' ' . ($i + 1));
             $segment->setSegment($productCategoryName);
+            $segment->setSqlFilter('\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment');
             $segment->setSqlSegment('log_conversion_item.' . $productCategoryColumnName);
             $this->addSegment($segment);
         }

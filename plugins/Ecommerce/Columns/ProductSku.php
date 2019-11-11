@@ -21,6 +21,8 @@ class ProductSku extends Dimension
     protected $nameSingular = 'Goals_ProductSKU';
     protected $namePlural = 'Goals_ProductSKUs';
     protected $category = 'Goals_Ecommerce';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $segmentName = 'productSku';
 
     public function getDbColumnJoin()
     {

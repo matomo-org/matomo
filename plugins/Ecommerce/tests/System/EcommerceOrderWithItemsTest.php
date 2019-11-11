@@ -274,7 +274,31 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     'date' => $dateTime,
                     'periods' => 'week',
                     'testSuffix' => '_productCategorySegment',
-                    'segment' => 'productCategory==' . urlencode(urlencode('second category')),
+                    'segment' => 'productCategory==Tools',
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productNameSegment',
+                    'segment' => 'productName=@' . urlencode(urlencode('bought day after')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegment',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU VERY nice indeed')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productPrice',
+                    'segment' => 'productPrice>500',
                 ]],
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
