@@ -25,8 +25,7 @@
             "custom_var_v1": "200",
             "idsite": "Site 1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
-            "last_idlink_va": "11",
+            "idvisitor": "08aa728aec13d68d",
             "location_browser_lang": "French (fr)",
             "location_country": "Intl_Continent_ie",
             "location_ip": "156.5.3.200",
@@ -65,10 +64,9 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "1",
             "server_time": "2017-01-02 03:04:05",
-            "time_spent": "360",
             "time_spent_ref_action": "00:00:00"
         },
         {
@@ -81,7 +79,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "2",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:06:00"
@@ -96,7 +94,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "3",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -114,7 +112,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -130,7 +128,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -146,7 +144,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -162,7 +160,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -178,7 +176,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -193,7 +191,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -210,7 +208,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -226,7 +224,7 @@
             "idpageview": "123456",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "interaction_position": "4",
             "server_time": "2017-01-02 03:10:05",
             "time_spent_ref_action": "00:00:00"
@@ -280,7 +278,7 @@
             "idgoal": "1",
             "idsite": "1",
             "idvisit": "1",
-            "idvisitor": "5484eb1bcd82eefe",
+            "idvisitor": "08aa728aec13d68d",
             "location_country": "ie",
             "referer_name": "www.example.com",
             "referer_type": "3",
