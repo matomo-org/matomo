@@ -161,7 +161,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/Sparkline.git",
-                "reference": "d5840d8bd753eab9cadf7589af76b51dfd92e098"
+                "reference": "91268fa3b812729b230dabcd866771738e67315d"
             },
             "require": {
                 "ext-gd": "*",
@@ -207,7 +207,7 @@
                 "issues": "https://github.com/davaxi/Sparkline/issues",
                 "source": "https://github.com/davaxi/Sparkline/releases"
             },
-            "time": "2019-08-26T06:43:23+00:00"
+            "time": "2019-11-12T23:40:23+00:00"
         },
         {
             "name": "doctrine/cache",
