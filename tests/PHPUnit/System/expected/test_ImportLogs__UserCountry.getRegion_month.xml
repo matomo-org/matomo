@@ -2,23 +2,23 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>34</nb_visits>
-		<nb_actions>41</nb_actions>
+		<nb_visits>36</nb_visits>
+		<nb_actions>43</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>553</sum_visit_length>
-		<bounce_count>28</bounce_count>
-		<nb_visits_converted>30</nb_visits_converted>
+		<bounce_count>30</bounce_count>
+		<nb_visits_converted>32</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>30</nb_conversions>
-				<nb_visits_converted>30</nb_visits_converted>
-				<revenue>150</revenue>
+				<nb_conversions>32</nb_conversions>
+				<nb_visits_converted>32</nb_visits_converted>
+				<revenue>160</revenue>
 			</row>
 		</goals>
-		<nb_conversions>30</nb_conversions>
-		<revenue>150</revenue>
-		<sum_daily_nb_uniq_visitors>32</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<nb_conversions>32</nb_conversions>
+		<revenue>160</revenue>
+		<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -49,32 +49,6 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
-	</row>
-	<row>
-		<label>California, United States</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>10</revenue>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==CA;countryCode==us</segment>
-		<region>CA</region>
-		<country>us</country>
-		<country_name>United States</country_name>
-		<region_name>California</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>

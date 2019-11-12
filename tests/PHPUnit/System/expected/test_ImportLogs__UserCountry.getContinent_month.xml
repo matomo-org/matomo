@@ -23,44 +23,44 @@
 	</row>
 	<row>
 		<label>North America</label>
-		<nb_visits>14</nb_visits>
-		<nb_actions>17</nb_actions>
+		<nb_visits>12</nb_visits>
+		<nb_actions>15</nb_actions>
 		<max_actions>2</max_actions>
 		<sum_visit_length>6</sum_visit_length>
-		<bounce_count>11</bounce_count>
-		<nb_visits_converted>14</nb_visits_converted>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>12</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>14</nb_conversions>
-				<nb_visits_converted>14</nb_visits_converted>
-				<revenue>70</revenue>
+				<nb_conversions>12</nb_conversions>
+				<nb_visits_converted>12</nb_visits_converted>
+				<revenue>60</revenue>
 			</row>
 		</goals>
-		<nb_conversions>14</nb_conversions>
-		<revenue>70</revenue>
-		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<nb_conversions>12</nb_conversions>
+		<revenue>60</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<code>North America</code>
 	</row>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>6</nb_visits>
-		<nb_actions>7</nb_actions>
+		<nb_visits>9</nb_visits>
+		<nb_actions>10</nb_actions>
 		<max_actions>2</max_actions>
 		<sum_visit_length>242</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<nb_visits_converted>4</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<bounce_count>8</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>4</nb_conversions>
-				<nb_visits_converted>4</nb_visits_converted>
-				<revenue>20</revenue>
+				<nb_conversions>7</nb_conversions>
+				<nb_visits_converted>7</nb_visits_converted>
+				<revenue>35</revenue>
 			</row>
 		</goals>
-		<nb_conversions>4</nb_conversions>
-		<revenue>20</revenue>
+		<nb_conversions>7</nb_conversions>
+		<revenue>35</revenue>
+		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<code>Unknown</code>
 	</row>
 	<row>
@@ -83,27 +83,6 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>South America</code>
-	</row>
-	<row>
-		<label>Europe</label>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>1</nb_visits_converted>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>5</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>Europe</code>
 	</row>
 	<row>
 		<label>Oceania</label>

@@ -2,23 +2,23 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>31</nb_visits>
-		<nb_actions>38</nb_actions>
+		<nb_visits>33</nb_visits>
+		<nb_actions>40</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>553</sum_visit_length>
-		<bounce_count>25</bounce_count>
-		<nb_visits_converted>27</nb_visits_converted>
+		<bounce_count>27</bounce_count>
+		<nb_visits_converted>29</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>27</nb_conversions>
-				<nb_visits_converted>27</nb_visits_converted>
-				<revenue>135</revenue>
+				<nb_conversions>29</nb_conversions>
+				<nb_visits_converted>29</nb_visits_converted>
+				<revenue>145</revenue>
 			</row>
 		</goals>
-		<nb_conversions>27</nb_conversions>
-		<revenue>135</revenue>
-		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<nb_conversions>29</nb_conversions>
+		<revenue>145</revenue>
+		<sum_daily_nb_uniq_visitors>31</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
 		<region>xx</region>
@@ -84,35 +84,6 @@
 		<country_name>Singapore</country_name>
 		<region_name>Unknown</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/sg.png</logo>
-	</row>
-	<row>
-		<label>San Jose, California, United States</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>2</nb_visits_converted>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>10</revenue>
-		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<lat>45.87</lat>
-		<long>-119.688</long>
-		<segment>city==San+Jose;regionCode==CA;countryCode==us</segment>
-		<city_name>San Jose</city_name>
-		<region>CA</region>
-		<country>us</country>
-		<country_name>United States</country_name>
-		<region_name>California</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
 		<label>Igloolik, Nunavut, Canada</label>
