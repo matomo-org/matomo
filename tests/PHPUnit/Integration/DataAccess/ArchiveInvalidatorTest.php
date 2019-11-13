@@ -19,6 +19,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Segment;
@@ -55,6 +56,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         // these are static because it takes a long time to create new Segment instances (for some reason)
         self::$segment1 = new Segment(self::TEST_SEGMENT_1, array());
         self::$segment2 = new Segment(self::TEST_SEGMENT_2, array());
+    }
+
+    protected static function beforeTableDataCached()
+    {
+        parent::beforeTableDataCached();
+
+        for ($i = 0; $i != 10; ++$i) {
+            Fixture::createWebsite('2012-03-04');
+        }
     }
 
     public function setUp()
