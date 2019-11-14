@@ -182,7 +182,7 @@
         } else if (/^last/.test(strDate)) {
             return RangePeriod.getLastNRange(childPeriodType, strDate.substring(4));
         } else {
-            var parts = strDate.split(',');
+            var parts = decodeURIComponent(strDate).split(',');
             return new RangePeriod(parseDate(parts[0]), parseDate(parts[1]), childPeriodType)
         }
     };
