@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Plugins\CoreConsole\Commands;
@@ -52,6 +52,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
 
         $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
+        $archiver->skipSegmentsToday = $input->getOption('skip-segments-today');
 
         $segmentIds = $input->getOption('force-idsegments');
         $segmentIds = explode(',', $segmentIds);
@@ -101,6 +102,8 @@ class CoreArchiver extends ConsoleCommand
             'If specified, all segments will be skipped during archiving.');
         $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
             'If specified, archiving will be processed only for these Sites Ids (comma separated)');
+        $command->addOption('skip-segments-today', null, InputOption::VALUE_NONE,
+            'If specified, segments will be only archived for yesterday, but not today. If the segment was created or changed recently, then it will still be archived for today and the setting will be ignored for this segment.');
         $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
             "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
         $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,

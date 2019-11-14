@@ -1,6 +1,6 @@
 {
     "SegmentEditor": {
-        "PluginDescription": "Crie e reutilize Segmentos de visitantes personalizados com o Editor de segmentos.",
+        "PluginDescription": "Um segmento é um conjunto de critérios utilizados para selecionar apenas uma parte do conjunto completo de visitas. Ao utilizar segmentos, pode injetar contextos arbitrários nos seus relatórios.",
         "AddANDorORCondition": "Adicionar condição %s",
         "AddNewSegment": "Adicionar novo segmento",
         "AreYouSureDeleteSegment": "Tem a certeza de que pretende eliminar este segmento?",
@@ -51,6 +51,11 @@
         "CustomUnprocessedSegmentApiError4": "Depois de criar o segmento no editor (ou via a API), esta mensagem de erro irá desaparecer e, no espaço de algumas horas, irá ver o relatório de dados segmentados depois do segmento de dados ser pré-processado. (Se isto não acontecer, pode existir um problema.)",
         "CustomUnprocessedSegmentApiError5": "Por favor, note que, pode testar se o seu segmento vai funcionar sem ter de aguardar que o mesmo seja processado, utilizando a API Live.getLastVisitsDetails.",
         "CustomUnprocessedSegmentApiError6": "Quando utiliza este método da API, irá ver que utilizadores e ações coincidiram com o seu parâmetro &segment=.",
-        "CustomUnprocessedSegmentNoData": "Para ver dados para este segmento, deve criar este segmento manualmente no editor de segmentos, depois aguardar algumas horas até o pré-processamento terminar."
+        "CustomUnprocessedSegmentNoData": "Para ver dados para este segmento, deve criar este segmento manualmente no editor de segmentos, depois aguardar algumas horas até o pré-processamento terminar.",
+        "AddThisToMatomo": "Adicionar este segmento ao Matomo",
+        "ThisSegmentIsCompared": "Este segmentos está atualmente a ser comparado.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Este segmento está atualmente selecionado pelo que não pode ser selecionado para a comparação.",
+        "CompareThisSegment": "Comparar este segmento com o segmento e período selecionado.",
+        "Test": "Teste"
     }
 }

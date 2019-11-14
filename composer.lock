@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "93fb13394d1cb02f14d3e74ab475702b",
+    "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -157,17 +157,11 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "1.1.2",
+            "version": "dev-multiple-series",
             "source": {
                 "type": "git",
-                "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
-                "shasum": ""
+                "url": "https://github.com/matomo-org/Sparkline.git",
+                "reference": "d5840d8bd753eab9cadf7589af76b51dfd92e098"
             },
             "require": {
                 "ext-gd": "*",
@@ -192,7 +186,6 @@
                     "Davaxi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -210,7 +203,11 @@
                 "picture",
                 "sparkline"
             ],
-            "time": "2017-12-15T15:45:18+00:00"
+            "support": {
+                "issues": "https://github.com/davaxi/Sparkline/issues",
+                "source": "https://github.com/davaxi/Sparkline/releases"
+            },
+            "time": "2019-08-26T06:43:23+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1042,16 +1039,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578"
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/0dcaaba79735bc2d60b72f020f6371eca633b578",
-                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b000c45ce257b6949e2de4df7c094046986d85bc",
+                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc",
                 "shasum": ""
             },
             "require": {
@@ -1086,7 +1083,7 @@
                 "redis"
             ],
             "abandoned": "matomo/cache",
-            "time": "2018-03-05T02:55:54+00:00"
+            "time": "2019-07-14T20:55:33+00:00"
         },
         {
             "name": "piwik/decompress",
@@ -1127,21 +1124,21 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.11.6",
+            "version": "3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "96d35ccd3dacf973b9b24a52686018cc047d45ae"
+                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/96d35ccd3dacf973b9b24a52686018cc047d45ae",
-                "reference": "96d35ccd3dacf973b9b24a52686018cc047d45ae",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/72630c0cc012da96fe9fb842e7af480ffa740b76",
+                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76",
                 "shasum": ""
             },
             "require": {
                 "mustangostang/spyc": "*",
-                "php": ">=5.3.2"
+                "php": ">=5.5"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.7",
@@ -1178,7 +1175,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-03-24T11:37:05+00:00"
+            "time": "2019-10-24T15:38:52+00:00"
         },
         {
             "name": "piwik/ini",
@@ -1216,23 +1213,23 @@
         },
         {
             "name": "piwik/network",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/component-network.git",
-                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20"
+                "url": "https://github.com/matomo-org/component-network.git",
+                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-network/zipball/b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
-                "reference": "b270d14d9b4ddc9d63bfee4e85f08899a215ef20",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/fb847317b79fe41d52f5eb5fd92f197df4538b7d",
+                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "^4.8.36"
             },
             "type": "library",
             "autoload": {
@@ -1244,20 +1241,20 @@
             "license": [
                 "LGPL-3.0"
             ],
-            "time": "2016-07-18T04:10:33+00:00"
+            "time": "2019-11-06T19:13:42+00:00"
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.4.1",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275"
+                "reference": "172c68f9cd2781841a282474c8e0f695aac28933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/3b31a6366fdf1f39520d7cbf858967f309d89275",
-                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/172c68f9cd2781841a282474c8e0f695aac28933",
+                "reference": "172c68f9cd2781841a282474c8e0f695aac28933",
                 "shasum": ""
             },
             "type": "library",
@@ -1284,7 +1281,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2018-10-12T00:37:52+00:00"
+            "time": "2019-11-06T06:56:10+00:00"
         },
         {
             "name": "psr/container",
@@ -1744,31 +1741,31 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.38.4",
+            "version": "v1.42.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35"
+                "reference": "201baee843e0ffe8b0b956f336dd42b2a92fae4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7732e9e7017d751313811bd118de61302e9c8b35",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/201baee843e0ffe8b0b956f336dd42b2a92fae4e",
+                "reference": "201baee843e0ffe8b0b956f336dd42b2a92fae4e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
+                "php": ">=5.5.0",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/debug": "^3.4|^4.2",
+                "symfony/phpunit-bridge": "^4.4@dev|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.38-dev"
+                    "dev-master": "1.42-dev"
                 }
             },
             "autoload": {
@@ -1791,14 +1788,14 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
                     "name": "Twig Team",
                     "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -1806,7 +1803,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-23T14:27:19+00:00"
+            "time": "2019-08-24T12:51:03+00:00"
         }
     ],
     "packages-dev": [
@@ -3277,6 +3274,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

@@ -49,6 +49,7 @@
         "NotDownloadable": "不可下载",
         "PluginNotDownloadable": "插件无法下载。",
         "PluginNotDownloadablePaidReason": "可能是因为使用了过期或超过使用权的许可证。",
+        "PluginRequiresInternet": "该插件需要连接到互联网。请先检查您的\"enable_internet_features\"配置，如果你需要使用此插件。",
         "PluginActivated": "插件已启用",
         "Status": "状态",
         "SuccessfullyActicated": "您已成功启用<strong>%s<\/strong>。",
@@ -56,6 +57,17 @@
         "TeaserExtendPiwikByPlugin": "您可以通过%1$s从市场里安装插件%2$s或%3$s上传一个 ZIP 格式的插件%4$s来扩充 Matomo 功能。",
         "TeaserExtendPiwikByTheme": "%1$s安装一个新的主题%2$s来感受一下不同的外观吧。",
         "InstallingNewPluginViaMarketplaceOrUpload": "你可以从市场里自动安装插件，或%1$s上传%2$s一个.zip格式的插件。",
+        "TagManagerNowAvailableTitle": "Matomo 标签管理器现在可以使用",
+        "TagManagerNowAvailableSubtitle": "在一个平台管理所有标签，获得您所需要的建议，得到无限的商机！",
+        "ActivateTagManagerNow": "激活标签管理器",
+        "TagManagerEmailSuperUserToActivate": "向超级管理员用户发送邮件以激活此功能",
+        "TagManagerTeaserHideSuperUser": "不将此页面展示与任何用户",
+        "TagManagerTeaserHideNonSuperUser": "不感兴趣，不再显示此页面",
+        "TagManagerTeaserEmailSuperUserBody": "嗨，%1$sMatomo标签管理器现在在Matomo中可用，我很想使用此新功能。 拥有超级管理员访问权限后，您可以通过顶部菜单中的标签管理器页面激活此功能吗？%2$sMatomo URL是%3$s。%4$s谢谢！",
+        "WhatIsTagManager": "什么是标签管理器？",
+        "WhyUsingATagManager": "为什么要使用标签管理器？",
+        "AreThereAnyRisks": "是否有任何风险？",
+        "AreThereAnyRisksDetails2": "在您激活标签管理器后，可以在“管理=>常规设置”下禁用这些自定义模块。 或者，您也可以将这些模板的使用限制为仅特定用户或超级管理员用户。",
         "Theme": "主题",
         "Themes": "主题",
         "ThemesDescription": "主题可以改变 Matomo 界面外观，提供全新的分析报告视觉体验。",
@@ -64,6 +76,7 @@
         "Version": "版本",
         "ViewAllMarketplacePlugins": "浏览所有的市场插件",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "插件%1$s不能被加载，因为缺少依赖：%2$s",
-        "Websites": "网站"
+        "Websites": "网站",
+        "UpdateSelected": "更新选择的项目"
     }
 }

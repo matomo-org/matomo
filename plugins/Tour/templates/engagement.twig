@@ -1,0 +1,60 @@
+<div class="widgetBody tourEngagement">
+    <p title="{{ 'Tour_StatusLevel'|translate(level.currentLevelName, level.challengesNeededForNextLevel, level.nextLevelName)|e('html_attr') }}">
+    {% for i in 1..level.numLevelsTotal %}
+        <span class="icon-star {% if level.currentLevel >= i %}successStar{% else %}upgradeStar{% endif %}"></span>
+    {% endfor %}
+    </p>
+
+    {% if isCompleted %}
+       <p><strong class="completed">{{ 'Tour_CompletionTitle'|translate }}</strong>
+           {{ 'Tour_CompletionMessage'|translate }}
+            <br />
+            <br />
+           {{ 'Tour_YouCanCallYourselfExpert'|translate('<strong class="successStar">', '</strong>')|raw }}<br /><br />
+           {{ 'Tour_ShareYourAchievementOn'|translate('<a target="_blank" rel="noreferrer noopener" href="http://twitter.com/share?text='~ "Tour_ShareAllChallengesCompleted"|translate(level.currentLevelName)|e('url') ~ '&url=' ~ "https://matomo.org"|e('url') ~ '">Twitter</a>')|raw }}
+       </p>
+    {% else %}
+        {% if level.description %}<p>{{ level.description }}</p>{% endif %}
+
+        <p>
+            {{ 'Tour_StatusLevel'|translate('<strong>'~ level.currentLevelName ~'</strong>', level.challengesNeededForNextLevel, '<strong>'~ level.nextLevelName ~'</strong>')|raw }}
+        </p>
+
+        <ul>
+            {% for challenge in challenges %}
+                <li class="tourChallenge {{ challenge.id|e('html_attr') }}" title="{{ challenge.description|e('html_attr') }}">
+                    {%- if challenge.isCompleted or challenge.isSkipped %}
+                        <span class="icon-ok" title="{{ 'Tour_ChallengeCompleted'|translate|e('html_attr') }}"></span>
+                    {% else %}
+                        <a href="javascript:void 0;" onclick="tourEngagement.skipChallenge('{{ challenge.id|e('js') }}')" title="{{ 'Tour_SkipThisChallenge'|translate|e('html_attr') }}"><span class="icon-hide"></span></a>
+                    {% endif %}
+                    {% if challenge.url is not empty %}
+                        <a href="{{ challenge.url|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener">{{ challenge.name }}</a>
+                    {% else %}
+                        {{ challenge.name }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <hr />
+        <p style="text-align: center;padding-bottom: 0;">
+        {% if previousPage is not null %}
+            <a class="previousChallenges" onclick="tourEngagement.goToPage({{ previousPage|e('js') }})">&lsaquo; {% if nextPage %}{{ 'General_Previous'|translate }}{% else %}{{ 'Tour_PreviousChallenges'|translate }}{% endif %}</a>
+        {% endif %}
+        {% if nextPage %}
+            {% if previousPage is not null %} | {% endif %}
+            <a class="nextChallenges" onclick="tourEngagement.goToPage({{ nextPage|e('js') }})">{% if previousPage is not null %}{{ 'General_Next'|translate }}{% else %}{{ 'Tour_NextChallenges'|translate }}{% endif %} &rsaquo;</a>
+        {% endif %}
+        </p>
+        <hr />
+        <p class="tourSuperUserNote">{{ 'Tour_OnlyVisibleToSuperUser'|translate('<a href="https://matomo.org/faq/general/faq_35/" target="_blank" rel="noreferrer noopener">', '</a>')|raw }}</p>
+        <script>
+            jQuery(window).off('focus.tourEngagement').on('focus.tourEngagement', function () {
+                if (jQuery('#widgetTourgetEngagement').size()) {
+                    tourEngagement.goToPage({{ currentPage|e('js') }});
+                }
+            });
+        </script>
+    {% endif %}
+
+</div>

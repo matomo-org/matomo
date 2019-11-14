@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,8 +23,7 @@ class GetSiteSearchKeywords extends SiteSearchBase
         parent::init();
         $this->dimension     = new Keyword();
         $this->name          = Piwik::translate('Actions_WidgetSearchKeywords');
-        $this->documentation = Piwik::translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik::translate('Actions_SiteSearchIntro') . '<br/><br/>'
-                             . '<a href="https://matomo.org/docs/site-search/" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>';
+        $this->documentation = Piwik::translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik::translate('Actions_SiteSearchIntro');
         $this->metrics       = array('nb_visits', 'nb_pages_per_search');
         $this->processedMetrics = array(
             new AverageTimeOnPage(),

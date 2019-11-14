@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -102,6 +103,12 @@ class Controller extends \Piwik\Plugin\Controller
             'nb_uniq_outlinks',
             'avg_time_generation'
         );
+
+        $currentPeriod = Common::getRequestVar('period', false);
+
+        if (!SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod)) {
+            $selectableColumns = array_diff($selectableColumns, ['nb_uniq_visitors', 'nb_users']);
+        }
 
         $displaySiteSearch = Site::isSiteSearchEnabledFor($this->idSite);
 

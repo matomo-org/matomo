@@ -8,8 +8,6 @@
  */
 
 describe("RowEvolution", function () {
-    this.timeout(0);
-
     const viewDataTableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=week&date=2012-02-09&"
                          + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5";
 
@@ -62,6 +60,7 @@ describe("RowEvolution", function () {
         await page.waitForNetworkIdle();
 
         const dialog = await page.$('.ui-dialog');
+        await page.waitForNetworkIdle();
         expect(await dialog.screenshot()).to.matchImage('multirow_evolution');
     });
 

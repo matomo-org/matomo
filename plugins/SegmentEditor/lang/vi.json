@@ -17,6 +17,7 @@
         "ThisSegmentIsVisibleTo": "Phân đoạn này có thể nhìn thấy:",
         "VisibleToAllUsers": "Tất cả người dùng",
         "VisibleToMe": "Tôi",
-        "YouMustBeLoggedInToCreateSegments": "Bạn phải đăng nhập để tạo và chỉnh sửa các phân đoạn khách hàng."
+        "YouMustBeLoggedInToCreateSegments": "Bạn phải đăng nhập để tạo và chỉnh sửa các phân đoạn khách hàng.",
+        "Test": "Thử nghiệm"
     }
 }

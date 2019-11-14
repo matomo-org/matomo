@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Trung bình dựa trên %1$s lần %2$s giữa %3$s và %4$s",
-        "ColumnClickedURL": "URL đã truy cập",
         "ColumnActionURL": "URL hành động",
         "ColumnClicks": "Clicks",
         "ColumnClicksDocumentation": "Số lần đường dẫn này đã được click",
@@ -30,7 +29,6 @@
         "EntryPageTitlesReportDocumentation": "Báo cáo này chứa thông tin về các tiêu đề của các trang đến đã được sử dụng trong một thời hạn quy định.",
         "ExitPageTitles": "Tiêu đề trang rời đi",
         "ExitPageTitlesReportDocumentation": "Báo cáo này có chứa thông tin về những tiêu đề của những trang thoát xuất hiện trong một khoảng thời gian nhất định.",
-        "LearnMoreAboutSiteSearchLink": "Tìm hiểu thêm về việc theo dõi cách những khách truy cập của bạn sử dụng công cụ tìm kiếm của bạn.",
         "OneSearch": "1 lần tìm kiếm",
         "OutlinkDocumentation": "Một outlink là một liên kết dẫn người truy cập từ trang web của bạn (đến tên miền khác)",
         "OutlinksReportDocumentation": "Báo cáo này cho thấy một danh sách phân cấp của outlink URL đã được click bởi khách truy cập của bạn",

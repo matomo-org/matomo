@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -35,8 +35,7 @@ class UrlsFromWebsiteId extends BaseFilter
         $table->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
             return htmlspecialchars_decode($label);
         }));
-        $table->filter('ColumnCallbackReplace', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
-        $table->filter('GroupBy', array('label'));
+        $table->filter('GroupBy', array('label', 'Piwik\Plugins\Referrers\getPathFromUrl'));
 
         foreach ($table->getRowsWithoutSummaryRow() as $row) {
             $subtable = $row->getSubtable();

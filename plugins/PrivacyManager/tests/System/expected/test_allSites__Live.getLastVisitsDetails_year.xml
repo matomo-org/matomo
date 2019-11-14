@@ -12,6 +12,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
@@ -283,8 +284,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -381,6 +382,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -446,8 +448,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -544,6 +546,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -624,8 +627,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -721,6 +724,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -884,6 +888,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -1214,6 +1219,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -1388,6 +1394,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -1550,6 +1557,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -1920,6 +1928,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -1985,8 +1994,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -2083,6 +2092,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -2163,8 +2173,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -2260,6 +2270,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -2423,6 +2434,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -2753,6 +2765,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -2927,6 +2940,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -3089,6 +3103,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -3459,6 +3474,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -3524,8 +3540,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -3622,6 +3638,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -3702,8 +3719,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -3799,6 +3816,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -3962,6 +3980,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -4292,6 +4311,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -4466,6 +4486,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -4629,6 +4650,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -4673,8 +4695,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -4770,6 +4792,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -5076,8 +5099,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -5301,6 +5324,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -5578,6 +5602,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -5622,8 +5647,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -5719,6 +5744,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -6251,6 +6277,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -6527,6 +6554,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -6571,8 +6599,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -6668,6 +6696,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -7200,6 +7229,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -7542,8 +7572,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7855,8 +7885,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -7978,6 +8008,7 @@
 				<revenueShipping>14.77</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -8196,8 +8227,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -8319,6 +8350,7 @@
 				<revenueShipping>14.77</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -9598,8 +9630,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10232,8 +10264,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10412,8 +10444,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -10582,8 +10614,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10746,8 +10778,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -10869,6 +10901,7 @@
 				<revenueShipping>14.35</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -11124,8 +11157,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11288,8 +11321,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11411,6 +11444,7 @@
 				<revenueShipping>14.35</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -11666,8 +11700,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -11901,8 +11935,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12520,8 +12554,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12669,8 +12703,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12818,8 +12852,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -12967,8 +13001,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13116,8 +13150,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13265,8 +13299,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13435,8 +13469,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -13939,8 +13973,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14055,6 +14089,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -14261,8 +14296,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14425,8 +14460,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -14541,6 +14576,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -14911,8 +14947,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -15027,6 +15063,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -15331,6 +15368,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -15396,8 +15434,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15494,6 +15532,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -15559,8 +15598,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15657,6 +15696,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -15722,8 +15762,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -15886,8 +15926,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -15984,6 +16024,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -16049,8 +16090,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -16213,8 +16254,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16310,6 +16351,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -16540,8 +16582,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -16637,6 +16679,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -16867,8 +16910,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17031,8 +17074,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17195,8 +17238,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17314,6 +17357,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -17367,8 +17411,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17531,8 +17575,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -17649,6 +17693,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -17986,6 +18031,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -18301,6 +18347,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world200</url>
@@ -18572,8 +18619,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -18670,6 +18717,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -18735,8 +18783,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -18833,6 +18881,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -18913,8 +18962,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -19010,6 +19059,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -19173,6 +19223,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -19503,6 +19554,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -19677,6 +19729,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -19840,6 +19893,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -19884,8 +19938,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -19981,6 +20035,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -20287,8 +20342,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -20512,6 +20567,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -20855,8 +20911,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21569,8 +21625,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21733,8 +21789,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -21913,8 +21969,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -22083,8 +22139,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22318,8 +22374,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22467,8 +22523,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22616,8 +22672,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22786,8 +22842,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -22950,8 +23006,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23066,6 +23122,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -23272,8 +23329,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23370,6 +23427,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -23435,8 +23493,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -23599,8 +23657,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -23697,6 +23755,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -23762,8 +23821,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -23926,8 +23985,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24045,6 +24104,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -24098,8 +24158,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24262,8 +24322,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -24359,6 +24419,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -24631,8 +24692,8 @@
 		
 		
 		<userId>userId200</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -24729,6 +24790,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -24794,8 +24856,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -24892,6 +24954,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -24972,8 +25035,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -25069,6 +25132,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -25232,6 +25296,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -25562,6 +25627,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -25736,6 +25802,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -25898,6 +25965,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -26268,6 +26336,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -26333,8 +26402,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -26431,6 +26500,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -26511,8 +26581,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -26608,6 +26678,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -26771,6 +26842,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -27101,6 +27173,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -27275,6 +27348,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -27438,6 +27512,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -27482,8 +27557,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -27579,6 +27654,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -27885,8 +27961,8 @@
 		
 		
 		<userId>userId204</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -28110,6 +28186,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -28387,6 +28464,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -28431,8 +28509,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -28528,6 +28606,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -29060,6 +29139,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -29402,8 +29482,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -29715,8 +29795,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -30759,8 +30839,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31158,8 +31238,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31338,8 +31418,8 @@
 		
 		
 		<userId>userId205</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -31508,8 +31588,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -31672,8 +31752,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32022,8 +32102,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32257,8 +32337,8 @@
 		
 		
 		<userId>userId207</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32641,8 +32721,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32790,8 +32870,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -32939,8 +33019,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33088,8 +33168,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33258,8 +33338,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33592,8 +33672,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -33708,6 +33788,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -33914,8 +33995,8 @@
 		
 		
 		<userId>userId208</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -34078,8 +34159,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -34194,6 +34275,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -34498,6 +34580,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -34563,8 +34646,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -34661,6 +34744,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -34726,8 +34810,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -34890,8 +34974,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -34988,6 +35072,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -35053,8 +35138,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -35217,8 +35302,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35314,6 +35399,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -35544,8 +35630,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35708,8 +35794,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -35827,6 +35913,7 @@
 				
 				<items>1</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>202</itemSKU>
@@ -35880,8 +35967,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -36044,8 +36131,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -36162,6 +36249,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -36477,6 +36565,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -36847,6 +36936,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world202</url>
@@ -36912,8 +37002,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -37010,6 +37100,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world203</url>
@@ -37090,8 +37181,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -37187,6 +37278,7 @@
 				<type>goal</type>
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
+				
 				
 				<goalPageId />
 				
@@ -37350,6 +37442,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -37680,6 +37773,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world209</url>
@@ -37854,6 +37948,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -38017,6 +38112,7 @@
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world201</url>
@@ -38061,8 +38157,8 @@
 		
 		
 		<userId>userId201</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -38158,6 +38254,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -38690,6 +38787,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world210</url>
@@ -39032,8 +39130,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -39155,6 +39253,7 @@
 				<revenueShipping>14.77</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -39938,8 +40037,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40061,6 +40160,7 @@
 				<revenueShipping>14.35</revenueShipping>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -40316,8 +40416,8 @@
 		
 		
 		<userId>userId206</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40700,8 +40800,8 @@
 		
 		
 		<userId>userId202</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -40849,8 +40949,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -41183,8 +41283,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -41299,6 +41399,7 @@
 				<type>ecommerceAbandonedCart</type>
 				
 				<items>1</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -41603,6 +41704,7 @@
 				<goalName>Goal 1</goalName>
 				<goalId>1</goalId>
 				
+				
 				<goalPageId />
 				
 				<url>http://www.helloworld.com/hello/world211</url>
@@ -41668,8 +41770,8 @@
 		
 		
 		<userId>userId211</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.svg</visitConvertedIcon>
 		<visitCount>1</visitCount>
@@ -41832,8 +41934,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
@@ -41929,6 +42031,7 @@
 				<type>goal</type>
 				<goalName>Goal 2</goalName>
 				<goalId>2</goalId>
+				
 				
 				<goalPageId />
 				
@@ -42159,8 +42262,8 @@
 		
 		
 		<userId>userId203</userId>
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>

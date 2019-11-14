@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -18,8 +18,14 @@ class SEO extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'Widget.filterWidgets' => 'filterWidgets'
+            'Widget.filterWidgets' => 'filterWidgets',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
         ];
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/SEO/javascripts/rank.js";
     }
 
     /**

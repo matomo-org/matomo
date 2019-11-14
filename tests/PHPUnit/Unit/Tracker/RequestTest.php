@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -35,44 +35,6 @@ class RequestTest extends UnitTestCase
 
         $this->time = 1416795617;
         $this->request = $this->buildRequest(array('idsite' => '1'));
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Custom timestamp is 86500 seconds old
-     */
-    public function test_cdt_ShouldNotTrackTheRequest_IfNotAuthenticatedAndTimestampIsNotRecent()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . $this->time - 86500));
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfNotAuthenticatedButTimestampIsRecent()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 5)));
-
-        $this->assertSame('' . ($this->time - 5), $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfAuthenticatedAndValid()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time - 86500)));
-        $request->setIsAuthenticated();
-        $this->assertSame('' . ($this->time - 86500), $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_IfTimestampIsInFuture()
-    {
-        $request = $this->buildRequest(array('cdt' => '' . ($this->time + 30800)));
-        $this->assertSame($this->time, $request->getCurrentTimestamp());
-    }
-
-    public function test_cdt_ShouldReturnTheCustomTimestamp_ShouldUseStrToTime_IfItIsNotATime()
-    {
-        $request = $this->buildRequest(array('cdt' => '5 years ago'));
-        $request->setIsAuthenticated();
-        $this->assertNotSame($this->time, $request->getCurrentTimestamp());
-        $this->assertNotEmpty($request->getCurrentTimestamp());
     }
 
     public function test_getCurrentTimestamp_ShouldReturnTheSetTimestamp_IfNoCustomValueGiven()

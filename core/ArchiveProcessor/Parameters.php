@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -221,12 +221,9 @@ class Parameters
         return count($this->getIdSites()) == 1;
     }
 
-    public function logStatusDebug($isTemporary)
+    public function logStatusDebug()
     {
         $temporary = 'definitive archive';
-        if ($isTemporary) {
-            $temporary = 'temporary archive';
-        }
         Log::debug(
             "%s archive, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),

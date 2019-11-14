@@ -11,6 +11,7 @@
         "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
         "VisibleToAllUsers": "alle brukere",
         "VisibleToMe": "meg",
-        "SharedWithYou": "Delt med deg"
+        "SharedWithYou": "Delt med deg",
+        "Test": "Test"
     }
 }

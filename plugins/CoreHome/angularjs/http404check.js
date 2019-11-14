@@ -7,7 +7,7 @@
 
         function isClientError(rejection)
         {
-            if (rejection.status === 500) {
+            if (rejection.status === 500 || rejection.status <= 0) {
                 return true;
             }
 
@@ -15,6 +15,23 @@
         }
 
         return {
+            'request': function(config) {
+                if ('object' === typeof piwik.relativePluginWebDirs
+                    && config && config.url && config.url.indexOf('plugins/') === 0
+                    && config.url.indexOf('.html') > 0
+                    && config.url.indexOf('/angularjs/') > 0) {
+
+                    var urlParts = config.url.split('/');
+                    if (urlParts && urlParts.length > 2 && urlParts[1]) {
+                        var pluginName = urlParts[1];
+                        if (pluginName && pluginName in piwik.relativePluginWebDirs && piwik.relativePluginWebDirs[pluginName]) {
+                            urlParts[0] = piwik.relativePluginWebDirs[pluginName];
+                            config.url = urlParts.join('/');
+                        }
+                    }
+                }
+                return config;
+            },
             'responseError': function(rejection) {
 
                 if (rejection &&
@@ -29,6 +46,10 @@
 
                     var message = 'Please check your server configuration. You may want to whitelist "*.html" files from the "plugins" directory.';
                     message    += ' The HTTP status code is ' + rejection.status + ' for URL "' + url + '"';
+                    
+                    if (rejection.status === -1) {
+                        message = 'Please check if you have an ad blocker or something similar enabled.';
+                    }
 
                     var UI = require('piwik/UI');
                     var notification = new UI.Notification();
@@ -50,3 +71,4 @@
 
 
 })();
+

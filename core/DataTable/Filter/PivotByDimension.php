@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -159,12 +159,10 @@ class PivotByDimension extends BaseFilter
             . "pivotByColumnLimit = %s, isFetchingBySegmentEnabled = %s]", __FUNCTION__, $report, $pivotByDimension,
             $pivotColumn, $pivotByColumnLimit, $isFetchingBySegmentEnabled);
 
-        $this->pivotColumn = $pivotColumn;
         $this->pivotByColumnLimit = $pivotByColumnLimit ?: self::getDefaultColumnLimit();
         $this->isFetchingBySegmentEnabled = $isFetchingBySegmentEnabled;
 
-        $namesToId = Metrics::getMappingFromNameToId();
-        $this->metricIndexValue = isset($namesToId[$this->pivotColumn]) ? $namesToId[$this->pivotColumn] : null;
+        $this->setPivotColumn($pivotColumn);
 
         $this->setPivotByDimension($pivotByDimension);
 
@@ -186,7 +184,8 @@ class PivotByDimension extends BaseFilter
 
         // if no pivot column was set, use the first one found in the row
         if (empty($this->pivotColumn)) {
-            $this->pivotColumn = $this->getNameOfFirstNonLabelColumnInTable($table);
+            $firstColumn = $this->getNameOfFirstNonLabelColumnInTable($table);
+            $this->setPivotColumn($firstColumn);
         }
 
         Log::debug("PivotByDimension::%s: pivoting table with pivot column = %s", __FUNCTION__, $this->pivotColumn);
@@ -570,5 +569,13 @@ class PivotByDimension extends BaseFilter
     private static function areDimensionsNotEqualAndNotNull($lhs, $rhs)
     {
         return !empty($lhs) && !empty($rhs) && $lhs->getId() != $rhs->getId();
+    }
+
+    private function setPivotColumn($pivotColumn)
+    {
+        $this->pivotColumn = $pivotColumn;
+
+        $namesToId = Metrics::getMappingFromNameToId();
+        $this->metricIndexValue = isset($namesToId[$this->pivotColumn]) ? $namesToId[$this->pivotColumn] : null;
     }
 }

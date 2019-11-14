@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Unit\Session;
 
 
+use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
 
 class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
@@ -26,6 +27,13 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->testInstance = new SessionFingerprint();
+    }
+
+    public function tearDown()
+    {
+        Date::$now = null;
+
+        parent::tearDown();
     }
 
     public function test_getUser_ReturnsUserNameSessionVar_WhenSessionVarIsSet()
@@ -60,7 +68,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true],
+            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true, 'expiration' => self::TEST_TIME_VALUE + 3600],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -77,10 +85,24 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
     }
 
-    public function test_getSessionStartTime_()
+    public function test_updateSessionExpireTime_SetsANewExpirationTime()
+    {
+        $this->testInstance->initialize('testuser', false, self::TEST_TIME_VALUE);
+
+        Date::$now = self::TEST_TIME_VALUE + 100;
+
+        $this->testInstance->updateSessionExpirationTime();
+
+        $this->assertEquals(
+            self::TEST_TIME_VALUE + 3700,
+            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]['expiration']
+        );
+    }
+
+    public function test_getSessionStartTime_ReturnsCorrectValue()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ts' => 123.
+            'ts' => 123,
         ];
         $this->assertEquals(123, $this->testInstance->getSessionStartTime());
     }

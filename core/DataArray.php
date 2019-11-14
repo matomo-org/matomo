@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -381,9 +381,7 @@ class DataArray
             if (!isset($values[Metrics::INDEX_GOALS])) {
                 continue;
             }
-            // When per goal metrics are processed, general 'visits converted' is not meaningful because
-            // it could differ from the sum of each goal conversions
-            unset($values[Metrics::INDEX_NB_VISITS_CONVERTED]);
+
             $revenue = $conversions = 0;
             foreach ($values[Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
                 // Do not sum Cart revenue since it is a lost revenue

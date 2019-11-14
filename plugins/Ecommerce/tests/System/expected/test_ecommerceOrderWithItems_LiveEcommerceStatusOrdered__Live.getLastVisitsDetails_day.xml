@@ -17,6 +17,7 @@
 				<revenueDiscount>20</revenueDiscount>
 				<items>2</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>TRIPOD SKU</itemSKU>
@@ -44,6 +45,7 @@
 				<revenueShipping>0</revenueShipping>
 				<revenueDiscount>0</revenueDiscount>
 				<items>0</items>
+				
 				
 				<itemDetails>
 				</itemDetails>
@@ -281,6 +283,7 @@
 				<type>ecommerceAbandonedCart</type>
 				<revenue>2510.11</revenue>
 				<items>4</items>
+				
 				
 				<itemDetails>
 					<row>

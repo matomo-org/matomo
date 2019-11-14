@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -73,6 +73,12 @@ class Report
      * @var string
      */
     protected $documentation;
+
+    /**
+     * URL linking to an online guide for this report or plugin.
+     * @var string
+     */
+    protected $onlineGuideUrl;
 
     /**
      * The translation key of the category the report belongs to.
@@ -598,6 +604,10 @@ class Report
 
         if (!empty($this->documentation)) {
             $report['documentation'] = $this->documentation;
+        }
+
+        if (!empty($this->onlineGuideUrl)) {
+            $report['onlineGuideUrl'] = $this->onlineGuideUrl;
         }
 
         if (true === $this->isSubtableReport) {

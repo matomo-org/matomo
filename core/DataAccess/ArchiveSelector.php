@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -45,7 +45,13 @@ class ArchiveSelector
         return new Model();
     }
 
-    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC)
+    /**
+     * @param ArchiveProcessor\Parameters $params
+     * @param bool $minDatetimeArchiveProcessedUTC deprecated. will be removed in Matomo 4.
+     * @return array|bool
+     * @throws Exception
+     */
+    public static function getArchiveIdAndVisits(ArchiveProcessor\Parameters $params, $minDatetimeArchiveProcessedUTC = false)
     {
         $idSite       = $params->getSite()->getId();
         $period       = $params->getPeriod()->getId();
@@ -55,11 +61,6 @@ class ArchiveSelector
 
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
 
-        $minDatetimeIsoArchiveProcessedUTC = null;
-        if ($minDatetimeArchiveProcessedUTC) {
-            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
-        }
-
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
@@ -67,7 +68,7 @@ class ArchiveSelector
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues);
 
         if (empty($results)) {
             return false;
@@ -173,6 +174,8 @@ class ArchiveSelector
             $monthToPeriods[$table][] = $period;
         }
 
+        $db = Db::get();
+
         // for every month within the archive query, select from numeric table
         $result = array();
         foreach ($monthToPeriods as $table => $periods) {
@@ -204,7 +207,8 @@ class ArchiveSelector
 
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
-            $archiveIds = Db::fetchAll($sql, $bind);
+
+            $archiveIds = $db->fetchAll($sql, $bind);
 
             // get the archive IDs
             foreach ($archiveIds as $row) {
@@ -227,12 +231,14 @@ class ArchiveSelector
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param int|null|string $idSubtable  null if the root blob should be loaded, an integer if a subtable should be
      *                                     loaded and 'all' if all subtables should be loaded.
-     * @throws Exception
      * @return array
+     *@throws Exception
      */
     public static function getArchiveData($archiveIds, $recordNames, $archiveDataType, $idSubtable)
     {
         $chunk = new Chunk();
+
+        $db = Db::get();
 
         // create the SQL to select archive data
         $loadAllSubtables = $idSubtable == Archive::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
@@ -293,7 +299,7 @@ class ArchiveSelector
             }
 
             $sql      = sprintf($getValuesSql, $table, implode(',', $ids));
-            $dataRows = Db::fetchAll($sql, $bind);
+            $dataRows = $db->fetchAll($sql, $bind);
 
             foreach ($dataRows as $row) {
                 if ($isNumeric) {

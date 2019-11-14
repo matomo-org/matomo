@@ -23,6 +23,7 @@
         "VisibleToSuperUser": "Synlig for dig, fordi du har superbrugeradgang",
         "YouMustBeLoggedInToCreateSegments": "Du skal være logget ind for at oprette og anvende brugerdefinerede besøgssegmenter.",
         "YouDontHaveAccessToCreateSegments": "Du har ikke det nødvendige adgangsniveau til at oprette og redigere segmenter.",
-        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret."
+        "AddingSegmentForAllWebsitesDisabled": "Tilføjelse af segmenter for alle websteder er blevet deaktiveret.",
+        "Test": "Test"
     }
 }

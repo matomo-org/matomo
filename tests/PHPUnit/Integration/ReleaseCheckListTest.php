@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -584,7 +584,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 51;
+        $maximumTotalFilesizesExpectedInMb = 54;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -816,7 +816,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
 
-            if(strpos($file, 'vendor/php-di/php-di/website/') !== false) {
+            if(strpos($file, 'vendor/php-di/php-di/website/') !== false
+                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }
 

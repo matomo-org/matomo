@@ -51,7 +51,6 @@
         "JSTracking_VisitorCustomVarsDesc": "例如變數名稱為「類型」，值為「顧客」。",
         "JSTracking_EndNote": "注意：你可以在管理中心的%1$s追蹤程式碼%2$s頁面中產生自訂的追蹤程式碼。",
         "JSTrackingIntro2": "當你有了網站的 JavaScript 追蹤程式碼，請複製並貼上到所有你想透過 Matomo 追蹤的頁面上。",
-        "JSTrackingIntro3b": "多數的網站、部落格、CMS 等等。你可以使用一個預製的外掛來幫你做技術性的工作。（查看%1$s用來整合 Matomo 的外掛列表%2$s。）如果沒有看到你想要的外掛，你可以直接編輯網站的模板，並將程式碼貼到 &lt;\/head&gt; 標籤之前，通常出現在「header.php」、「header.tpl」等類似的模板檔案中。",
         "JSTrackingIntro4": "如果你不想透過 JavaScript 來追蹤訪客，%1$s在下方產生圖片追蹤連結%2$s。",
         "JSTrackingIntro5": "如果你不只是想追蹤網頁訪問，可以查看%1$sMatomo Javascript 追蹤說明文件%2$s中的功能列表。可以透過這功能來追蹤目標、自訂變數、電子商務訂單、遺棄的購物車等等。",
         "LogoNotWriteableInstruction": "要使用你的自訂標誌取代 Matomo 預設標誌，請給予此資料夾寫入權限：%1$s Matomo 需要寫入權限才能將你的標誌儲存為檔案 %2$s。",

@@ -25,7 +25,7 @@
         "PluginDescription": "Fornece o registo em tempo real do visitante e permite-lhe ver os seus visitantes em tempo real na widget do painel. A extensão também lhe permite ver o perfil do Visitante para qualquer utilizador.",
         "PreviousVisitor": "Visitante anterior",
         "RealTimeVisitors": "Visitas em tempo-real",
-        "RealTimeVisitorCount": "Contagem dos visitantes em tempo real",
+        "RealTimeVisitorCount": "Número de visitantes em tempo real",
         "Referrer_URL": "Endereço do referenciador",
         "ShowMap": "mostrar o mapa",
         "ActionsAndDuration": "%1$s ações em %2$s",
@@ -36,6 +36,10 @@
         "ToggleActions": "Ativar visibilidade para todas as ações",
         "TopVisitedPages": "Principais páginas visitadas",
         "VisitsLog": "Registo de visitas",
+        "QueryMaxExecutionTimeExceeded": "A consulta demorou demasiado tempo a ser executada.",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "Isto pode acontecer se o intervalo selecionado for demasiado grande. Por favor, tente selecionar um intervalo mais curto.",
+        "QueryMaxExecutionTimeExceededReasonSegment": "Isto pode acontecer se o segmento selecionado não coincidir com qualquer visita. Por favor, confirme o segmento selecionado.",
+        "QueryMaxExecutionTimeExceededReasonUnknown": "Por favor, tente novamente. Se isto acontece repetidamente, por favor entre em contacto com o administrador ou apoio técnico.",
         "VisitorLog": "Registo de visitas",
         "VisitorLogDocumentation": "Esta tabela mostra as últimas visitas dentro do período selecionado. Pode ver quando ocorreu a última visita de um visitante passando o cursor sobre os dados de uma visita. %1$s Se o intervalo de datas incluir hoje, pode ver os seus visitantes em tempo real! %2$s Os dados apresentados aqui são sempre em tempo real, independentemente de quantas vezes está a utilizar a tarefa cron de arquivamento.",
         "VisitorLogNoDataMessagePurged": "É provável que os dados tenham sido limpos visto que a eliminação periódica de dados em bruto antigos está ativa e a data para este relatório ultrapassa os %s dias. Um super-utilizador pode alterar esta configuração ao aceder a Administração => Privacidade.",
@@ -50,6 +54,7 @@
         "RowActionTooltipTitle": "Abrir o registo segmentado de visitas",
         "SegmentedVisitorLogTitle": "O registo de visitas mostrando as visitas onde %1$s é \"%2$s\"",
         "OnClickPause": "%s está iniciado. Clique para pausar.",
-        "OnClickStart": "%s está parado. Clique para iniciar."
+        "OnClickStart": "%s está parado. Clique para iniciar.",
+        "ClickToSeeAllContents": "Clique para ver cada interação\/impressão do conteúdo"
     }
 }

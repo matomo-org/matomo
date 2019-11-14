@@ -1,6 +1,7 @@
 {
     "SegmentEditor": {
         "DefaultAllVisits": "כל הביקורים",
-        "VisibleToAllUsers": "כל המשתמשים"
+        "VisibleToAllUsers": "כל המשתמשים",
+        "Test": "בדיקה"
     }
 }

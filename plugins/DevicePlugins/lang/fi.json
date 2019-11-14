@@ -5,6 +5,6 @@
         "PluginDescription": "Lista liitännäisistä, joita kävijöiden selaimet tukevat.",
         "PluginDetectionDoesNotWorkInIE": "Huom. Liitännäisten tunnistus ei toimi Internet Explorerissa ennen versiota 11. Tässä raportissa on mukana vain uudet IE:t ja muut selaimet.",
         "WidgetPlugins": "Lista liitännäisistä",
-        "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainliitännäisiä vierailijoillasi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään vierailijoille."
+        "WidgetPluginsDocumentation": "Tämä raportti näyttää, mitä selainliitännäisiä kävijöilläsi oli käytössä. Tästä tiedosta voi olla hyötyä, kun joudut valitsemaan, miten tietoa esitetään ja välitetään kävijöille."
     }
 }

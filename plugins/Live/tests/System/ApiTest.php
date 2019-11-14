@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -75,6 +75,19 @@ class ApiTest extends SystemTestCase
                 'periods'    => array('day'),
                 'otherRequestParameters' => array('limitVisits' => 40),
                 'testSuffix' => 'multiSites'
+            )
+        );
+
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => '1',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array(
+                    'segment' => 'pageTitle=@title',
+                    'filter_limit' => 2,
+                ),
+                'testSuffix' => 'actionSegment'
             )
         );
 

@@ -92,7 +92,7 @@
         "CssDidntLoad": "Selaimesi ei saanut ladattua tämän sivun tyyliä.",
         "JsDidntLoad": "Selaimesi ei saanut ladattua tämän sivun skriptejä.",
         "AdblockIsMaybeUsed": "Jos käytät mainostenestoa (ad blocker), poista se käytöstä tällä sivulla, jotta Matomo toimii ongelmitta.",
-        "ChangeCurrentWebsite": "Valitse verkkosivu, nyt valittuna %s",
+        "ChangeCurrentWebsite": "Valitse sivusto, nyt valittuna %s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Johtava avoimen lähdekoodin analytiikka-alusta, joka kunnioittaa yksityisyyttäsi.",
         "MacPageUp": "Fn + Nuoli vasemmalle",
         "MacPageDown": "Fn + Nuoli oikealle",
@@ -104,6 +104,7 @@
         "StandardReport": "Standardiraportti",
         "FlattenReport": "Litistä raportti",
         "ReportWithMetadata": "Raportti metadatan kera",
-        "SeeAvailableVersions": "Näytä saatavilla olevat versiot"
+        "SeeAvailableVersions": "Näytä saatavilla olevat versiot",
+        "QuickLinks": "Pikalinkit"
     }
 }

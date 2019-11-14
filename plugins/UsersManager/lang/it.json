@@ -127,8 +127,8 @@
         "SuperUserIntro2": "Usa questa funzionalità con cautela.",
         "HasSuperUserAccess": "Ha l'accesso come Superuser",
         "AreYouSure": "Sei sicuro?",
-        "RemoveSuperuserAccessConfirm": "La rimozione dell'accesso superuser lascerà l'utente senza alcuna autorizzazione (dovrai aggiungerla in seguito). Vuoi continuare?",
-        "AddSuperuserAccessConfirm": "Fornire a un utente un accesso superuser gli consentirà di avere il pieno controllo su Matomo, e dunque ciò dovrebbe essere fatto con parsimonia. Vuoi continuare?",
+        "RemoveSuperuserAccessConfirm": "La rimozione dell'accesso superuser lascerà l'utente senza i permessi (dovrai aggiungerli in seguito). Inserisci la tua password per continuare.",
+        "AddSuperuserAccessConfirm": "Concedere un accesso di superuser consentirà all'utente di avere il pieno controllo su Matomo e ciò dovrebbe essere fatto con cautela. Inserisci la tua password per continuare.",
         "DeleteUsers": "Elimina Utenti",
         "UserSearch": "Ricerca utente",
         "FilterByAccess": "Filtra per tipo di accesso",
@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "Questo cambiamento ha avuto origine dal seguente dispositivo: %1$s (Indirizzo IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Se sei stato tu, ignora questa email. Altrimenti, accedi, correggi il tuo indirizzo email, cambia la password e contatta il tuo amministratore di Matomo.",
         "PasswordChangeNotificationSubject": "La password del tuo account Matomo è stata cambiata adesso",
-        "PasswordChangedEmail": "La tua password è stata cambiata adesso. Il cambiamento ha avuto origine dal seguente dispositivo: %1$s (Indirizzo IP =%2$s)."
+        "PasswordChangedEmail": "La tua password è stata cambiata adesso. Il cambiamento ha avuto origine dal seguente dispositivo: %1$s (Indirizzo IP =%2$s).",
+        "NewsletterSignupTitle": "Iscrizione alla Newsletter",
+        "NewsletterSignupMessage": "Iscriviti alla nostra newsletter per ricevere regolarmente informazioni su Matomo. Puoi cancellare l'iscrizione in ogni momento. Qeusto servizio utilizza MadMimi. Leggi di più su di esso nella nostra pagina %1$sPolitiche sulla Privacy%2$s.",
+        "NewsletterSignupFailureMessage": "Oooops, qualcosa è andata storta. Non abbiamo potuto iscriverti alla newsletter.",
+        "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto."
     }
 }

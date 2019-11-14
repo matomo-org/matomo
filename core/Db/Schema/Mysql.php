@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -132,7 +132,7 @@ class Mysql implements SchemaInterface
                               `description` varchar(255) NOT NULL DEFAULT '',
                               `match_attribute` varchar(20) NOT NULL,
                               `pattern` varchar(255) NOT NULL,
-                              `pattern_type` varchar(10) NOT NULL,
+                              `pattern_type` varchar(25) NOT NULL,
                               `case_sensitive` tinyint(4) NOT NULL,
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
@@ -154,7 +154,7 @@ class Mysql implements SchemaInterface
 
             'log_action'          => "CREATE TABLE {$prefixTables}log_action (
                                       idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                      name TEXT,
+                                      name VARCHAR(4096),
                                       hash INTEGER(10) UNSIGNED NOT NULL,
                                       type TINYINT UNSIGNED NULL,
                                       url_prefix TINYINT(2) NULL,
@@ -209,7 +209,7 @@ class Mysql implements SchemaInterface
                                       buster int unsigned NOT NULL,
                                       idorder varchar(100) default NULL,
                                       items SMALLINT UNSIGNED DEFAULT NULL,
-                                      url text NOT NULL,
+                                      url VARCHAR(4096) NOT NULL,
                                         PRIMARY KEY (idvisit, idgoal, buster),
                                         UNIQUE KEY unique_idsite_idorder (idsite, idorder),
                                         INDEX index_idsite_datetime ( idsite, server_time )
@@ -308,6 +308,13 @@ class Mysql implements SchemaInterface
                                       `date_first_occurred` DATETIME NOT NULL ,
                                       `request_url` MEDIUMTEXT NOT NULL ,
                                       PRIMARY KEY(`idsite`, `idfailure`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+            'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
+                                      `key` VARCHAR(70) NOT NULL,
+                                      `value` VARCHAR(255) NULL DEFAULT NULL,
+                                      `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
+                                      PRIMARY KEY (`key`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
         );
@@ -443,7 +450,7 @@ class Mysql implements SchemaInterface
      */
     public function createTable($nameWithoutPrefix, $createDefinition)
     {
-        $statement = sprintf("CREATE TABLE `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
+        $statement = sprintf("CREATE TABLE IF NOT EXISTS `%s` ( %s ) ENGINE=%s DEFAULT CHARSET=utf8 ;",
                              Common::prefixTable($nameWithoutPrefix),
                              $createDefinition,
                              $this->getTableEngine());

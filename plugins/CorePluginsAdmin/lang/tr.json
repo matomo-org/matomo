@@ -73,7 +73,7 @@
         "WhyUsingATagManagerDetails2": "Daha uygun olamazdı, pazara değişiklikleri daha hızlı getirmenin yanında maliyetlerinizi de düşürür.",
         "WhyUsingATagManagerDetails3": "Böylece pazarlama, sayısal reklam ve BT ekipleri mutlu olur... Herkes kazanır!",
         "AreThereAnyRisks": "Herhangi bir risk var mı?",
-        "AreThereAnyRisksDetails1": "Kod İmi Yöneticisini etkinleştirdiğinizde, yönetici erişimine sahip kullanıcılar, web sitenizde JavaScript ile yürütülebilen özel HTML kod imleri, tetikleyiciler ve değişkenler oluşturabilir. Bu özel kalıplar, web sitenizin ziyaretçilerinden kişisel bilgileri çalmak için kötüye kullanılabilir (%1$sXSS%2$s olarak bilinir).",
+        "AreThereAnyRisksDetails1": "Kod İmi Yöneticisini etkinleştirdiğinizde, yönetici erişimine sahip kullanıcılar, web sitenizde JavaScript ile yürütülebilen özel HTML kod imleri, tetikleyiciler ve değişkenler ekleyebilir. Bu özel kalıplar, web sitenizin ziyaretçilerinden kişisel bilgileri çalmak için kötüye kullanılabilir (%1$sXSS%2$s olarak bilinir).",
         "AreThereAnyRisksDetails2": "Kod İmi Yöneticisini etkinleştirdikten sonra bu özel kalıpları \"Yönetim => Genel Ayarlar\" bölümünden devre dışı bırakabilirsiniz. Alternatif olarak, bu kalıpların kullanımını belirli kullanıcılar ya da süper kullanıcılar ile kısıtlayabilirsiniz.",
         "Theme": "Tema",
         "Themes": "Temalar",

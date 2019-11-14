@@ -127,8 +127,8 @@
         "SuperUserIntro2": "Ju lutemi, përdoreni me kujdes këtë veçori.",
         "HasSuperUserAccess": "Ka Leje Superpërdoruesi",
         "AreYouSure": "Jeni i sigurt?",
-        "RemoveSuperuserAccessConfirm": "Heqja e lejeve superpërdoruesi do ta lërë përdoruesin pa ndonjë leje (do t’ju duhet të shtoni të tilla më pas). Doni të vazhdohet?",
-        "AddSuperuserAccessConfirm": "Dhënia një përdoruesi leje superpërdoruesi do ta lejojë përdoruesin të ketë kontroll të plotë mbi Matomo-n dhe duhet bërë me kursim. Doni të vazhdohet?",
+        "RemoveSuperuserAccessConfirm": "Heqja e fuqive si superpërdorues do ta lërë përdoruesin pa leje (do t’ju duhet t’i shtoni ato më pas). Që të vazhdohet, jepni fjalëkalimin tuaj.",
+        "AddSuperuserAccessConfirm": "Dhënia një përdoruesi e fuqive si superpërdorues do ta lejojë përdoruesin të ketë kontroll të plotë mbi Matomo-n dhe duhet bërë me kursim. Që të vazhdohet, jepni fjalëkalimin tuaj.",
         "DeleteUsers": "Fshini Përdorues",
         "UserSearch": "Kërkim përdoruesi",
         "FilterByAccess": "Filtroji sipas lejesh",
@@ -161,6 +161,10 @@
         "EmailChangedEmail2": "Ky ndryshim zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Nëse qetë ju, mos ngurroni ta shpërfillni këtë email. Nëse s’qetë ju, ju lutemi, bëni hyrjen në llogarinë tuaj, ndreqni adresën tuaj email, ndryshoni fjalëkalimin tuaj dhe lidhuni me përgjegjësin e instancës tuaj Matomo.",
         "PasswordChangeNotificationSubject": "Fjalëkalimi i llogarisë tuaj Matomo sapo u ndryshua",
-        "PasswordChangedEmail": "Fjalëkalimi juaj sapo u ndryshua. Ndryshimi zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s)."
+        "PasswordChangedEmail": "Fjalëkalimi juaj sapo u ndryshua. Ndryshimi zuri fill prej pajisjes vijuese: %1$s (Adresë IP = %2$s).",
+        "NewsletterSignupTitle": "Regjistrim Për Buletin",
+        "NewsletterSignupMessage": "Pajtohuni te buletini ynë për të marrë informacione periodike rreth Matomo-s. Mund të shpajtoheni kur të doni. Ky shërbim përdor MadMimi. Mësoni më tepër rreth tij te %1$sfaqja e Rregullave tona të Privatësisë%2$s.",
+        "NewsletterSignupFailureMessage": "Hëm, diç shkoi ters. S’qemë në gjendje t’ju regjistronim për buletinin tonë.",
+        "NewsletterSignupSuccessMessage": "Super, u regjistruat! Do të lidhemi së shpejti."
     }
 }

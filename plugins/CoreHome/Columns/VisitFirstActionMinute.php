@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -20,7 +20,7 @@ class VisitFirstActionMinute extends VisitDimension
     protected $columnName = 'visit_first_action_time';
     protected $type = self::TYPE_DATETIME;
 
-    protected $sqlSegment = 'HOUR(log_visit.visit_first_action_time)';
+    protected $sqlSegment = 'MINUTE(log_visit.visit_first_action_time)';
     protected $segmentName = 'visitStartServerMinute';
     protected $acceptValues = '0, 1, 2, 3, ..., 56, 57, 58, 59';
     protected $nameSingular = 'VisitTime_ColumnVisitStartServerMinute';

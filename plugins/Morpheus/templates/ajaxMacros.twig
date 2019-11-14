@@ -31,7 +31,7 @@
 
             {%- if areAdsForProfessionalServicesEnabled %}
                 –
-                {% set supportUrl = 'https://matomo.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Piwik_App' %}
+                {% set supportUrl = 'https://matomo.org/support-plans/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Matomo_App' %}
                 <a rel="noreferrer noopener" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
         </div>

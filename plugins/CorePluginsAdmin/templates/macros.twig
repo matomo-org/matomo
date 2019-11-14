@@ -3,14 +3,14 @@
     {% import '@Marketplace/macros.twig' as marketplaceMacro %}
 
     <div>
-        <a id="update-selected-plugins" href="javascript:" class="btn">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
+        <a id="update-selected-plugins" href="javascript:" class="btn disabled">{{ 'CorePluginsAdmin_UpdateSelected'|translate }}</a>
     </div>
     <table piwik-content-table>
         <thead>
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select-plugin-all" />
+                    <input type="checkbox" id="select-plugin-all"/>
                     <label for="select-plugin-all"></label>
                 </span>
             </th>
@@ -74,6 +74,11 @@
 
     <script>
         $(function () {
+            $('span.checkbox-container').on('change', function() {
+                var isAtLeastOneChecked = $('span.checkbox-container > input:checked').length >= 1;
+                isAtLeastOneChecked ? $('#update-selected-plugins').removeClass('disabled') : $('#update-selected-plugins').addClass('disabled');
+            });
+
             $('#update-selected-plugins').on('click', function () {
                 var pluginsToUpdate = [];
                 $('tbody#plugins td.select-cell input').each(function () {
@@ -282,6 +287,7 @@
         </tbody>
     </table>
 
+    {% if displayAdminLinks %}
     <div class="tableActionBar">
         {% if isTheme %}
             <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
@@ -289,6 +295,7 @@
             <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><span class="icon-add"></span> {{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
         {% endif %}
     </div>
+    {% endif %}
 
     <div class="footer-message">
         {% set pluginsAlwaysActivated %}

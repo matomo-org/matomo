@@ -63,7 +63,6 @@
         "ShowTrackingTag": "Vis sporingskoden",
         "Sites": "Nettsteder",
         "SiteSearchUse": "Du kan bruke Matomo for å spore og rapportere hva besøkere søker etter i ditt nettsteds interne søkemotor.",
-        "SiteWithoutDataTitle": "Ingen data har blitt samlet inn ennå",
         "SiteWithoutDataDescription": "Ingen analysedata har blitt sporet for dette nettstedet ennå.",
         "SiteWithoutDataMessageDisappears": "Denne meldingen vil forsvinne så snart noe data har blitt registrert for dette nettstedet.",
         "SuperUserAccessCan": "En bruker med superbrukertilgang kan også %1$s spesifisere globale innstillinger%2$s for nye nettsteder.",

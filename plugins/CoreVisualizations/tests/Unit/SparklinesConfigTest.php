@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -49,9 +49,9 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->addFewSparklines();
 
         $this->assertSame(array(
-            array('columns' => 'nb_visits', 'order' => null),
-            array('columns' => 'nb_unique_visitors', 'order' => 99),
-            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null),
+            array('columns' => 'nb_visits', 'order' => null, 'graphParams' => null),
+            array('columns' => 'nb_unique_visitors', 'order' => 99, 'graphParams' => null),
+            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null, 'graphParams' => null),
         ), $this->config->getSparklineMetrics());
     }
 
@@ -62,8 +62,8 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->removeSparklineMetric('nb_unique_visitors');
 
         $this->assertSame(array(
-            array('columns' => 'nb_visits', 'order' => null),
-            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null),
+            array('columns' => 'nb_visits', 'order' => null, 'graphParams' => null),
+            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null, 'graphParams' => null),
         ), $this->config->getSparklineMetrics());
     }
 
@@ -74,8 +74,8 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->removeSparklineMetric(array('nb_downloads', 'nb_outlinks'));
 
         $this->assertSame(array(
-            array('columns' => 'nb_visits', 'order' => null),
-            array('columns' => 'nb_unique_visitors', 'order' => 99),
+            array('columns' => 'nb_visits', 'order' => null, 'graphParams' => null),
+            array('columns' => 'nb_unique_visitors', 'order' => 99, 'graphParams' => null),
         ), $this->config->getSparklineMetrics());
     }
 
@@ -86,9 +86,9 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->replaceSparklineMetric('nb_unique_visitors', '');
 
         $this->assertSame(array(
-            array('columns' => 'nb_visits', 'order' => null),
-            array('columns' => '', 'order' => 99),
-            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null),
+            array('columns' => 'nb_visits', 'order' => null, 'graphParams' => null),
+            array('columns' => '', 'order' => 99, 'graphParams' => null),
+            array('columns' => array('nb_downloads', 'nb_outlinks'), 'order' => null, 'graphParams' => null),
         ), $this->config->getSparklineMetrics());
     }
 
@@ -99,9 +99,9 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->replaceSparklineMetric(array('nb_downloads', 'nb_outlinks'), '');
 
         $this->assertSame(array(
-            array('columns' => 'nb_visits', 'order' => null),
-            array('columns' => 'nb_unique_visitors', 'order' => 99),
-            array('columns' => '', 'order' => null),
+            array('columns' => 'nb_visits', 'order' => null, 'graphParams' => null),
+            array('columns' => 'nb_unique_visitors', 'order' => 99, 'graphParams' => null),
+            array('columns' => '', 'order' => null, 'graphParams' => null),
         ), $this->config->getSparklineMetrics());
     }
 
@@ -113,10 +113,10 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->addPlaceholder($order = 3);
 
         $this->assertSame(array(
-            array('url' => '', 'metrics' => array(), 'order' => 3),
-            array('url' => '', 'metrics' => array(), 'order' => 10),
-            array('url' => '', 'metrics' => array(), 'order' => 999),
-            array('url' => '', 'metrics' => array(), 'order' => 1001),
+            'placeholder3' => [['url' => '', 'metrics' => array(), 'order' => 3, 'group' => 'placeholder3']],
+            'placeholder1' => [['url' => '', 'metrics' => array(), 'order' => 10, 'group' => 'placeholder1']],
+            'placeholder0' => [['url' => '', 'metrics' => array(), 'order' => 999, 'group' => 'placeholder0']],
+            'placeholder2' => [['url' => '', 'metrics' => array(), 'order' => 1001, 'group' => 'placeholder2']],
         ), $this->config->getSortedSparklines());
     }
 
@@ -126,5 +126,4 @@ class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->addSparklineMetric('nb_unique_visitors', 99);
         $this->config->addSparklineMetric(array('nb_downloads', 'nb_outlinks'));
     }
-
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Metrics;
@@ -207,7 +207,11 @@ class Formatter
         foreach ($dataTable->getRows() as $row) {
             $subtable = $row->getSubtable();
             if (!empty($subtable)) {
-                $this->formatMetrics($subtable, $report, $metricsToFormat);
+                $this->formatMetrics($subtable, $report, $metricsToFormat, $formatAll);
+            }
+            $comparisons = $row->getComparisons();
+            if (!empty($comparisons)) {
+                $this->formatMetrics($comparisons, $report, $metricsToFormat, $formatAll);
             }
         }
 

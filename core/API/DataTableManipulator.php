@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -192,6 +192,7 @@ abstract class DataTableManipulator
         $request['expanded'] = 0;
         $request['format'] = 'original';
         $request['format_metrics'] = 0;
+        $request['compare'] = 0;
 
         // don't want to run recursive filters on the subtables as they are loaded,
         // otherwise the result will be empty in places (or everywhere). instead we

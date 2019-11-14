@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -13,11 +13,8 @@ use Piwik\Plugin\Dependency;
 use Piwik\Plugin\Manager;
 use Piwik\Plugin\MetadataLoader;
 
-/**
- * @see Piwik\Plugin\MetadataLoader
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
-
+if (!class_exists('Piwik\Plugin')) {
+  
 /**
  * Base class of all Plugin Descriptor classes.
  *
@@ -598,3 +595,5 @@ class Plugin
         return $dependency;
     }
 }
+}
+    

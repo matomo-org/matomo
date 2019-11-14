@@ -48,7 +48,7 @@
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0.134</avg_time_generation>
-				<segment>pageTitle==Checkout%2FPurchasing...</segment>
+				<segment>pageTitle==Checkout%252FPurchasing...</segment>
 			</row>
 		</subtable>
 	</row>
@@ -75,7 +75,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.234</avg_time_generation>
-		<segment>pageTitle==incredible+title%21</segment>
+		<segment>pageTitle==incredible%2Btitle%2521</segment>
 	</row>
 	<row>
 		<label> Looking at homepage after site search...</label>
@@ -98,7 +98,7 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.024</avg_time_generation>
-		<segment>pageTitle==Looking+at+homepage+after+site+search...</segment>
+		<segment>pageTitle==Looking%2Bat%2Bhomepage%2Bafter%2Bsite%2Bsearch...</segment>
 	</row>
 	<row>
 		<label> Second page view - should be registered as URL</label>
@@ -118,6 +118,6 @@
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0.224</avg_time_generation>
-		<segment>pageTitle==Second+page+view+-+should+be+registered+as+URL</segment>
+		<segment>pageTitle==Second%2Bpage%2Bview%2B-%2Bshould%2Bbe%2Bregistered%2Bas%2BURL</segment>
 	</row>
 </result>

@@ -96,8 +96,8 @@ DataTable_RowActions_Registry.register({
     isAvailableOnReport: function (dataTableParams) {
         return (
             typeof dataTableParams.disable_row_evolution == 'undefined'
-                || dataTableParams.disable_row_evolution == "0"
-            );
+            || dataTableParams.disable_row_evolution == "0"
+        );
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
@@ -144,7 +144,7 @@ DataTable_RowAction.prototype.initTr = function (tr) {
     // API actions. For the label filter to work, we need to use the parent action.
     // We use jQuery events to let subtables access their parents.
     tr.bind(self.trEventName, function (e, params) {
-        self.trigger($(this), params.originalEvent, params.label);
+        self.trigger($(this), params.originalEvent, params.label, params.originalRow);
     });
 };
 
@@ -152,7 +152,7 @@ DataTable_RowAction.prototype.initTr = function (tr) {
  * This method is called from the click event and the tr event (see this.trEventName).
  * It derives the label and calls performAction.
  */
-DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
+DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel, originalRow) {
     var label = this.getLabelFromTr(tr);
 
     // if we have received the event from the sub table, add the label
@@ -166,7 +166,8 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
     if (subtable.is('.subDataTable')) {
         subtable.closest('tr').prev().trigger(this.trEventName, {
             label: label,
-            originalEvent: e
+            originalEvent: e,
+            originalRow: tr
         });
         return;
     }
@@ -186,18 +187,28 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
                 }
                 ptr.trigger(this.trEventName, {
                     label: label,
-                    originalEvent: e
+                    originalEvent: e,
+                    originalRow: tr
                 });
                 return;
             }
         }
     }
 
-    this.performAction(label, tr, e);
+    this.performAction(label, tr, e, originalRow);
 };
 
 /** Get the label string from a tr dom element */
 DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
+    if (tr.data('label')) {
+        return tr.data('label');
+    }
+
+    var rowMetadata = this.getRowMetadata(tr);
+    if (rowMetadata.combinedLabel) {
+        return '@' + rowMetadata.combinedLabel;
+    }
+
     var label = tr.find('span.label');
 
     // handle truncation
@@ -258,6 +269,7 @@ function DataTable_RowActions_RowEvolution(dataTable) {
 
     /** The rows to be compared in multi row evolution */
     this.multiEvolutionRows = [];
+    this.multiEvolutionRowsSeries = [];
 }
 
 /** Static helper method to launch row evolution from anywhere */
@@ -268,20 +280,38 @@ DataTable_RowActions_RowEvolution.launch = function (apiMethod, label) {
 
 DataTable_RowActions_RowEvolution.prototype = new DataTable_RowAction;
 
-DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr, e) {
+DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr, e, originalRow) {
     if (e.shiftKey) {
         // only mark for multi row evolution if shift key is pressed
-        this.addMultiEvolutionRow(label);
+        this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'));
         return;
     }
 
-    this.addMultiEvolutionRow(label);
+    this.addMultiEvolutionRow(label, $(originalRow || tr).data('comparison-series'));
 
     // check whether we have rows marked for multi row evolution
-    var extraParams = {};
+    var extraParams = $.extend({}, $(originalRow || tr).data('param-override'));
+    if (typeof extraParams !== 'object') {
+        extraParams = {};
+    }
+
     if (this.multiEvolutionRows.length > 1) {
         extraParams.action = 'getMultiRowEvolutionPopover';
         label = this.multiEvolutionRows.join(',');
+
+        if (this.multiEvolutionRowsSeries.length > 1) { // when comparison is active
+            var piwikUrl = piwikHelper.getAngularDependency('piwikUrl');
+            extraParams.compareDates = piwikUrl.getSearchParam('compareDates');
+            extraParams.comparePeriods = piwikUrl.getSearchParam('comparePeriods');
+            extraParams.compareSegments = piwikUrl.getSearchParam('compareSegments');
+            extraParams.labelSeries = this.multiEvolutionRowsSeries.join(',');
+
+            // remove override period/date/segment since we are sending compare params so we can have the whole set of comparison
+            // serieses for LabelFilter
+            delete extraParams.period;
+            delete extraParams.date;
+            delete extraParams.segment;
+        }
     }
 
     $.each(this.dataTable.param, function (index, value) {
@@ -304,9 +334,27 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     this.openPopover(apiMethod, extraParams, label);
 };
 
-DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (label) {
-    if ($.inArray(label, this.multiEvolutionRows) == -1) {
+DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function (label, seriesIndex) {
+    if (typeof seriesIndex !== 'undefined') {
+        var self = this;
+
+        var found = false;
+        this.multiEvolutionRows.forEach(function (rowLabel, index) {
+            var rowSeriesIndex = self.multiEvolutionRowsSeries[index];
+            if (label === rowLabel && seriesIndex === rowSeriesIndex) {
+                found = true;
+                return false;
+            }
+        });
+
+        if (!found) {
+            this.multiEvolutionRows.push(label);
+            this.multiEvolutionRowsSeries.push(seriesIndex);
+        }
+    } else if ($.inArray(label, this.multiEvolutionRows) === -1) {
         this.multiEvolutionRows.push(label);
+
+        this.multiEvolutionRowsSeries = []; // for safety, make sure state is consistent
     }
 };
 
@@ -368,6 +416,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         Piwik_Popover.onClose(function () {
             // reset rows marked for multi row evolution on close
             self.multiEvolutionRows = [];
+            self.multiEvolutionRowsSeries = [];
         });
 
         if (self.dataTable !== null) {

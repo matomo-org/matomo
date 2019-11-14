@@ -1,8 +1,16 @@
 {
     "UsersManager": {
         "2FA": "2SA",
-        "TwoFactorAuthentication": "Autentykacja 2 stopniowa",
+        "UsesTwoFactorAuthentication": "Wykorzystuje 2 składnikowe uwierzytelnianie",
+        "TwoFactorAuthentication": "Uwierzytelnianie 2 składnikowe",
+        "ResetTwoFactorAuthentication": "Resetuj uwierzytelnienie 2 składnikowe",
+        "ResetTwoFactorAuthenticationInfo": "Jeśli użytkownik nie może zalogować się po utracie kodów dostępu lub utracie tokena sprzętowego, możesz zresetować uwierzytelnianie 2 składnikowe dla niego, aby umożliwić ponowne logowanie.",
         "AddUser": "Dodaj nowego użytkownika",
+        "AddExistingUser": "Dodaj istniejącego użytkownika",
+        "AddNewUser": "Dodaj nowego użytkownika",
+        "EditUser": "Edytuj użytkownika",
+        "CreateUser": "Utwórz użytkownika",
+        "SaveBasicInfo": "Zapisz Podstawowe Info",
         "Alias": "Alias",
         "AllWebsites": "Wszystkie strony",
         "AnonymousAccessConfirmation": "Zamierzasz przyznać anonimowemu użytkownikowi dostęp 'podgląd' do tego serwisu. To oznacza, że raporty analityczne i informacje o odwiedzających będą publicznie dostępne dla każdego nawet bez loginu. Czy na pewno chcesz kontynuować?",
@@ -76,6 +84,7 @@
         "YourVisitsAreIgnoredOnDomain": "%1$sTwoje odwiedziny są ignorowane przez Matomo na %2$s %3$s (Matomo zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
         "YourVisitsAreNotIgnored": "%1$sTwoje odwiedziny nie będą ignorowane przez Matomo%2$s (Matomo nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce).",
         "ShowAll": "Pokaż wszystko",
-        "Username": "Nazwa użytkownika"
+        "Username": "Nazwa użytkownika",
+        "EmailChangeNotificationSubject": "Adres email powiązany z Twoim kontem Matomo został zmieniony"
     }
 }

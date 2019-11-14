@@ -1,0 +1,32 @@
+{% if showMatomoLinks %}** {{ 'General_JsTrackingTag'|translate }}{% endif %}
+
+{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHeadEmail'|translate("'head'") }}
+
+{{ jsTag|raw }}
+
+{% if showMatomoLinks %}{{ 'SitesManager_EmailInstructionsDocsPlainText'|translate('https://developer.matomo.org/guides/tracking-javascript-guide')|raw }}{% endif %}
+
+{{ 'SitesManager_EmailInstructionsGenerateTrackingCode'|translate(piwikUrl ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}))|raw }}
+
+{% if showMatomoLinks %}
+** Integrations
+{{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
+https://matomo.org/integrate/
+
+** {{ 'SitesManager_LogAnalytics'|translate }}
+{{ 'SitesManager_LogAnalyticsDescription'|translate('', '') }}
+https://matomo.org/log-analytics/
+
+** {{ 'SitesManager_MobileAppsAndSDKs'|translate }}
+{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('', '') }}
+https://matomo.org/integrate/#programming-language-platforms-and-frameworks
+
+** {{ 'CoreAdminHome_HttpTrackingApi'|translate }}
+{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('', '') }}
+https://developer.matomo.org/api-reference/tracking-api
+    
+** {{ 'SitesManager_EmailInstructionsSiteDetailsHeading'|translate }}
+{{ 'SitesManager_EmailInstructionsSiteDetails'|translate }}
+* {{ 'SitesManager_EmailInstructionsYourSiteId'|translate(idSite) }}
+* {{ 'SitesManager_EmailInstructionsYourTrackingUrl'|translate(trackingUrl) }}
+{% endif %}

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -21,8 +21,14 @@ class Transitions extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'API.getPagesComparisonsDisabledFor' => 'getPagesComparisonsDisabledFor',
         );
+    }
+
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = "General_Actions.Transitions_Transitions";
     }
 
     public function getStylesheetFiles(&$stylesheets)

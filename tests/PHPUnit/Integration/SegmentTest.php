@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -1424,13 +1424,13 @@ log_visit.visit_total_actions
         $this->assertCacheWasHit($hits = 0);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 0);
+        $this->assertCacheWasHit($hits = 8);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 4);
+        $this->assertCacheWasHit($hits = 20);
 
         $this->test_getSelectQuery_whenPageUrlDoesNotExist_asBothStatements_OR_AND_withCacheSave();
-        $this->assertCacheWasHit($hits = 4 + 4);
+        $this->assertCacheWasHit($hits = 32);
 
     }
 
@@ -1494,11 +1494,11 @@ log_visit.visit_total_actions
 
         // this will create the caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 0);
+        $this->assertCacheWasHit($hits = 4);
 
         // this will hit caches for both segments
         $this->test_getSelectQuery_withTwoSegments_subqueryNotCached_whenResultsetTooLarge();
-        $this->assertCacheWasHit($hits = 2);
+        $this->assertCacheWasHit($hits = 10);
     }
 
     // se https://github.com/piwik/piwik/issues/9194
@@ -1803,6 +1803,48 @@ log_visit.visit_total_actions
             [urlencode('browserCode==ff;visitCount>1'), ';', 'visitCount>1', urlencode('browserCode==ff;visitCount>1')],
             ['browserCode==ff;visitCount>1', ';', urlencode('visitCount>1'), 'browserCode==ff;visitCount>1'],
             ['browserCode==ff;'.urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;'.urlencode('visitCount>1')],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForGetStoredSegmentName
+     */
+    public function test_getStoredSegmentName($segment, $expectedName)
+    {
+        SegmentEditorApi::getInstance()->add('test segment 1', 'browserCode==ff');
+        SegmentEditorApi::getInstance()->add('test segment 2', urlencode('browserCode==ch'));
+        SegmentEditorApi::getInstance()->add('test segment 3', 'pageUrl=@' . urlencode('/a/b?d=blahfty'));
+        SegmentEditorApi::getInstance()->add('test segment 4', 'pageUrl=@' . urlencode(urlencode('/a/b?d=wafty')));
+        SegmentEditorApi::getInstance()->add('test segment 5', urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=woo'))));
+
+        $segmentObj = new Segment($segment, [1]);
+        $this->assertEquals($expectedName, $segmentObj->getStoredSegmentName(1));
+    }
+
+    public function getTestDataForGetStoredSegmentName()
+    {
+        return [
+            ['browserCode==ff', 'test segment 1'],
+            [urlencode('browserCode==ff'), 'test segment 1'],
+
+            ['browserCode==ch', 'test segment 2'],
+            [urlencode('browserCode==ch'), 'test segment 2'],
+
+            ['pageUrl=@' . urlencode('/a/b?d=blahfty'), 'test segment 3'],
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=blahfty')), 'test segment 3'],
+
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=wafty')), 'test segment 4'],
+            [urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=wafty'))), 'test segment 4'],
+
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=woo')), 'test segment 5'],
+            [urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=woo'))), 'test segment 5'],
+
+            // these test cases won't pass because the value is encoded, but the operator isn't in one of the segments. kept here just
+            // so there's a `record that they won't work
+            // ['pageUrl=@' . urlencode('/a/b?d=wafty'), 'test segment 4'],
+            // [urlencode('pageUrl=@' . urlencode('/a/b?d=wafty')), 'test segment 4'],
+            // [urlencode('pageUrl=@' . urlencode('/a/b?d=woo')), 'test segment 5'],
+            // ['pageUrl=@' . urlencode('/a/b?d=woo'), 'test segment 5'],
         ];
     }
 

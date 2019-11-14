@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "這份報表顯示你所有的參照連結，列出所有你訪客找到你網站透過的參照連結網站、搜尋關鍵字和廣告活動。",
         "Campaigns": "廣告活動",
         "CampaignsDocumentation": "訪客透過廣告活動前往你的網站。%1$s查看 %2$s 報表以取得更多細節。",
-        "CampaignsReportDocumentation": "這份報表顯示哪個廣告活動引導訪客到你的網站。%1$s更多關於廣告活動追蹤的資訊，請閱讀 %2$smatomo.org 上的廣告活動說明文件%3$s，",
         "ColumnCampaign": "廣告活動",
         "ColumnSearchEngine": "搜尋引擎",
         "ColumnSocial": "社群網站",

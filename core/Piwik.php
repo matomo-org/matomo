@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -332,12 +332,7 @@ class Piwik
      */
     public static function checkUserIsNotAnonymous()
     {
-        if (Access::getInstance()->hasSuperUserAccess()) {
-            return;
-        }
-        if (self::isUserIsAnonymous()) {
-            throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
-        }
+        Access::getInstance()->checkUserIsNotAnonymous();
     }
 
     /**
@@ -606,7 +601,7 @@ class Piwik
      * @param array|string $columns
      * @return array
      */
-    public static function getArrayFromApiParameter($columns)
+    public static function getArrayFromApiParameter($columns, $unique = true)
     {
         if (empty($columns)) {
             return array();
@@ -615,7 +610,9 @@ class Piwik
             return $columns;
         }
         $array = explode(',', $columns);
-        $array = array_unique($array);
+        if ($unique) {
+            $array = array_unique($array);
+        }
         return $array;
     }
 
@@ -649,9 +646,7 @@ class Piwik
      */
     public static function isValidEmailString($emailAddress)
     {
-        /** @var \Zend_Validate_EmailAddress $zendEmailValidator */
-        $zendEmailValidator = StaticContainer::get('Zend_Validate_EmailAddress');
-        return $zendEmailValidator->isValid($emailAddress);
+        return filter_var($emailAddress, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     /**

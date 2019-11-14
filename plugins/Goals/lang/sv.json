@@ -43,6 +43,7 @@
         "DaysToConv": "Dagar till omvandling",
         "Details": "Måldetaljer",
         "DefaultGoalConvertedOncePerVisit": "(standard) Mål kan endast omvandlas en gång per besök",
+        "DefaultRevenueLabel": "Målsatt standardintäkt",
         "DefaultRevenueHelp": "Ett fullständigt ifyllt kontaktformulär av en besökare kan t.ex. vara värt 100kr i genomsnitt. Matomo hjälper dig att förstå hur dina besökarsegment lever upp till dina mål.",
         "DeleteGoalConfirm": "Är du säker på att du vill ta bort Målet %s?",
         "DocumentationRevenueGeneratedByProductSales": "Produktförsäljning. Exklusive moms, frakt och rabatter.",
@@ -64,6 +65,8 @@
         "GoalName": "Målets namn",
         "Goals": "Mål",
         "NGoals": "%s mål",
+        "NRevenue": "%s intäkter",
+        "NItems": "%s objekt",
         "ManageGoals": "Hantera mål",
         "GoalsOverview": "Målöversikt",
         "GoalsOverviewDocumentation": "Detta är en översikt över dina målomvandlingar. Inledningsvis visar grafen summan av alla omvandlingar. %s Nedanför diagrammet kan du se omvandlingsrapporter för varje mål. Miniatyrdiagrammen kan förstoras genom att klicka på dem.",
@@ -109,6 +112,8 @@
         "WhenVisitors": "när besökarna",
         "WhereThe": "där",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Den besökta sidan behöver inkludera ett anrop till 'trackGoal'-metoden i javaskript (%1$slär dig mer%2$s)",
-        "YouCanEnableEcommerceReports": "Du kan aktivera %1$s för denna webbplats på sidan %2$s."
+        "YouCanEnableEcommerceReports": "Du kan aktivera %1$s för denna webbplats på sidan %2$s.",
+        "GoalRevenue": "Målsatt intäkt",
+        "TimeInMinutes": "Tid i minuter"
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -245,17 +245,28 @@ class TrackerCodeGenerator
         $websiteHosts = array();
         $firstHost = null;
         foreach ($websiteUrls as $site_url) {
+            if (empty($site_url)) {
+                continue;
+            }
+            
             $referrerParsed = parse_url($site_url);
 
-            if (!isset($firstHost)) {
+            if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
             }
 
-            $url = $referrerParsed['host'];
+            if (isset($referrerParsed['host'])) {
+                $url = $referrerParsed['host'];
+            } else {
+                $url = '';
+            }
             if (!empty($referrerParsed['path'])) {
                 $url .= $referrerParsed['path'];
             }
-            $websiteHosts[] = $url;
+            
+            if (!empty($url)) {
+                $websiteHosts[] = $url;
+            }
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {
@@ -266,5 +277,18 @@ class TrackerCodeGenerator
             $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . "\n";
         }
         return $options;
+    }
+
+    /**
+     * When including the JS tracking code in a mailto link, we need to strip the surrounding HTML tags off. This
+     * ensures consistent behaviour between mail clients that render the mailto body as plain text (as in the
+     * spec), and those which try to render it as HTML and therefore hide the tags.
+     * @param string $jsTrackingCode JS tracking code as returned from the generate() function.
+     * @return string
+     */
+    public static function stripTags($jsTrackingCode)
+    {
+        // Strip off open and close <script> tag and comments so that JS will be displayed in ALL mail clients
+        return trim(strip_tags(html_entity_decode($jsTrackingCode)));
     }
 }

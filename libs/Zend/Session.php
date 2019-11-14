@@ -424,6 +424,13 @@ class Zend_Session extends Zend_Session_Abstract
             return; // already started
         }
 
+        if (session_status() === PHP_SESSION_ACTIVE) {
+	        parent::$_readable = true;
+	        parent::$_writable = true;
+	        self::$_sessionStarted = true;
+	        return;
+        }
+
         // make sure our default options (at the least) have been set
         if (!self::$_defaultOptionsSet) {
             self::setOptions(is_array($options) ? $options : array());
@@ -472,14 +479,14 @@ class Zend_Session extends Zend_Session_Abstract
                 restore_error_handler();
             }
 
-            if (!$startedCleanly || Zend_Session_Exception::$sessionStartError != null) {
+            if (!$startedCleanly || !empty(Zend_Session_Exception::$sessionStartError)) {
                 if (self::$_throwStartupExceptions) {
                     set_error_handler(array('Zend_Session_Exception', 'handleSilentWriteClose'), $errorLevel);
                 }
                 session_write_close();
                 if (self::$_throwStartupExceptions) {
                     restore_error_handler();
-                    throw new Zend_Session_Exception(__CLASS__ . '::' . __FUNCTION__ . '() - ' . Zend_Session_Exception::$sessionStartError);
+                    throw new Zend_Session_Exception(__CLASS__ . '::' . __FUNCTION__ . '() - ' . Zend_Session_Exception::$sessionStartError . ' Warnings: ' . Zend_Session_Exception::$sessionStartWarning);
                 }
             }
         }

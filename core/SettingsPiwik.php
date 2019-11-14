@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Cache as PiwikCache;
+use Piwik\Container\StaticContainer;
 
 /**
  * Contains helper methods that can be used to get common Piwik settings.
@@ -265,7 +266,7 @@ class SettingsPiwik
     {
         return (bool) Config::getInstance()->General['enable_internet_features'];
     }
-    
+
     /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
@@ -354,7 +355,7 @@ class SettingsPiwik
      */
     public static function rewriteMiscUserPathWithInstanceId($path)
     {
-        $tmp = 'misc/user/';
+        $tmp = StaticContainer::get('path.misc.user');
         $path = self::rewritePathAppendPiwikInstanceId($path, $tmp);
         return $path;
     }

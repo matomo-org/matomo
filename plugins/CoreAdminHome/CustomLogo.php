@@ -2,13 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use DI\NotFoundException;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -83,6 +85,11 @@ class CustomLogo
         return ini_get('file_uploads') == 1;
     }
 
+    public function isCustomLogoFeatureEnabled()
+    {
+        return Config::getInstance()->General['enable_custom_logo'] != 0;
+    }
+
     /**
      * @return bool
      */
@@ -134,24 +141,39 @@ class CustomLogo
         return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
 
+    private static function getBasePath()
+    {
+        try {
+            $basePath = StaticContainer::get('path.misc.user');
+            return $basePath;
+        } catch (NotFoundException $e) {
+            // happens when upgrading from an older version which didn't have that global config entry yet
+            // to a newer version of Matomo when this value is being requested while the update happens
+            // basically request starts... the old global.php is loaded, then we update all PHP files, then after the
+            // update within the same request a newer version of CustomLogo.php is loaded and they are not compatible.
+            // In this case we return the default value
+            return 'misc/user/';
+        }
+    }
+
     public static function getPathUserLogo()
     {
-        return static::rewritePath('misc/user/logo.png');
+        return static::rewritePath(self::getBasePath() . 'logo.png');
     }
 
     public static function getPathUserFavicon()
     {
-        return static::rewritePath('misc/user/favicon.png');
+        return static::rewritePath(self::getBasePath() . 'favicon.png');
     }
 
     public static function getPathUserSvgLogo()
     {
-        return static::rewritePath('misc/user/logo.svg');
+        return static::rewritePath(self::getBasePath() . 'logo.svg');
     }
 
     public static function getPathUserLogoSmall()
     {
-        return static::rewritePath('misc/user/logo-header.png');
+        return static::rewritePath(self::getBasePath() . 'logo-header.png');
     }
 
     protected static function rewritePath($path)
@@ -288,3 +310,4 @@ class CustomLogo
     }
 
 }
+

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -45,7 +45,7 @@ class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function test_isMinifiedJs($scriptFileName, $isMinified)
     {
-        $scriptFile = new OnDiskUIAsset(PIWIK_USER_PATH, $scriptFileName);
+        $scriptFile = new OnDiskUIAsset(PIWIK_DOCUMENT_ROOT, $scriptFileName);
 
         $this->assertEquals(
             $isMinified,

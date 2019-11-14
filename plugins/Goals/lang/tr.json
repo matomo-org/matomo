@@ -89,7 +89,7 @@
         "OverallRevenue": "genel gelir",
         "PageTitle": "Sayfa Başlığı",
         "Pattern": "Model",
-        "PluginDescription": "Hedefler oluşturun ve hedef tutturma, zaman içinde gelişme, ziyarete göre gelir, yönlendirenlere göre hedef tutturma, anahtar sözcükler ve diğer ayrıntıların bulunduğu raporlara bakın.",
+        "PluginDescription": "Hedefler ekleyerek hedef tutturma, zaman içinde gelişme, ziyarete göre gelir, yönlendirenlere göre hedef tutturma, anahtar sözcükler ve diğer ayrıntıların bulunduğu raporlara bakın.",
         "ProductCategory": "Ürün Kategorisi",
         "ProductName": "Ürün Adı",
         "ProductNames": "Ürün Adı",
@@ -109,6 +109,8 @@
         "VisitPageTitle": "Belirtilen bir sayfa başlığı ziyareti",
         "VisitsUntilConv": "Hedefi Tutturan Ziyaret Sayısı",
         "VisitUrl": "Belirtilen bir adres (sayfa ya da sayfa grubu) ziyareti",
+        "VisitDurationMatchAttr": "Belirli bir süre kalan",
+        "VisitDuration": "ziyaret süresi şu olan",
         "WhenVisitors": "ziyaretçiler şunu yaptığında",
         "WhereThe": "şuraya",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Hedef izlemek için ziyaret edilen sayfada 'trackGoal' işlevini çağıran bir JavaScript kodu bulunmalıdır (%1$sayrıntılı bilgi alın%2$s)",
@@ -116,6 +118,8 @@
         "UseEventValueAsRevenue": "Hedef dönüşümü geliri olarak etkinlik değeri (varsa) kullanılsın.",
         "GoalRevenue": "Hedef Geliri",
         "EventValueAsRevenueHelp": "Eşleşen etkinliğin bir geliri varsa ve bu gelir etkinlik değeri olarak izleniyorsa, bu seçeneği etkinleştirerek etkinlik değerinin hedef dönüşüm değeri olarak kaydedilmesini sağlayabilirsiniz. Hedef geliriniz dönüşümlere göre değişmiyorsa bu seçeneği yok sayarak yukarıdaki varsayılan geliri ayarlayabilirsiniz.",
-        "EventValueAsRevenueHelp2": "Not: Hem varsayılan hedef geliri hem de etkinlik değeri belirtilmiş ise etkinlik değeri kullanılır. Bu seçenek etkinleştirilmiş olduğu halde bir istekte herhangi bir etkinlik değeri gönderilmemiş ise (belirtilmiş ise) varsayılan gelir kullanılır."
+        "EventValueAsRevenueHelp2": "Not: Hem varsayılan hedef geliri hem de etkinlik değeri belirtilmiş ise etkinlik değeri kullanılır. Bu seçenek etkinleştirilmiş olduğu halde bir istekte herhangi bir etkinlik değeri gönderilmemiş ise (belirtilmiş ise) varsayılan gelir kullanılır.",
+        "AtLeastMinutes": "en az %1$s dakika. Saniye belirtmek için ondalık olarak yazın. Örneğin 30 saniye için %2$s.",
+        "TimeInMinutes": "Dakika Cinsinden Süre"
     }
 }

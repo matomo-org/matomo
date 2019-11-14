@@ -119,6 +119,7 @@
 				<revenue>2510.11</revenue>
 				<items>4</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -371,6 +372,7 @@
 				<revenueDiscount>666</revenueDiscount>
 				<items>8</items>
 				
+				
 				<itemDetails>
 					<row>
 						<itemSKU>SKU VERY nice indeed</itemSKU>
@@ -411,6 +413,7 @@
 				<revenueShipping>100</revenueShipping>
 				<revenueDiscount>0</revenueDiscount>
 				<items>2</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -550,6 +553,7 @@
 				<type>ecommerceAbandonedCart</type>
 				<revenue>2510.11</revenue>
 				<items>4</items>
+				
 				
 				<itemDetails>
 					<row>
@@ -747,6 +751,7 @@
 				<type>goal</type>
 				<goalName>title match, triggered ONCE</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>10</revenue>
 				<goalPageId>1</goalPageId>
 				

@@ -7,6 +7,7 @@
 		<max_actions>7</max_actions>
 		<sum_visit_length>7398</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>11</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>23</nb_conversions>
@@ -90,6 +91,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2194</sum_visit_length>
 		<bounce_count>6</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>14</nb_conversions>
@@ -162,6 +164,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2194</sum_visit_length>
 		<bounce_count>6</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>14</nb_conversions>
@@ -234,6 +237,7 @@
 		<max_actions>3</max_actions>
 		<sum_visit_length>2194</sum_visit_length>
 		<bounce_count>6</bounce_count>
+		<nb_visits_converted>8</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>14</nb_conversions>
@@ -306,6 +310,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>2555</sum_visit_length>
 		<bounce_count>7</bounce_count>
+		<nb_visits_converted>7</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>14</nb_conversions>
@@ -356,6 +361,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>2190</sum_visit_length>
 		<bounce_count>6</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>12</nb_conversions>
@@ -406,6 +412,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>4</sum_visit_length>
 		<bounce_count>4</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>4</nb_conversions>
@@ -467,6 +474,7 @@
 		<max_actions>5</max_actions>
 		<sum_visit_length>723</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>6</nb_conversions>
@@ -517,6 +525,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -567,6 +576,7 @@
 		<max_actions>4</max_actions>
 		<sum_visit_length>1804</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>7</nb_conversions>
@@ -617,6 +627,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -656,6 +667,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>362</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
@@ -695,6 +707,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -734,6 +747,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -773,6 +787,7 @@
 		<max_actions>2</max_actions>
 		<sum_visit_length>2</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -812,6 +827,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
@@ -851,6 +867,7 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>1</sum_visit_length>
 		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>

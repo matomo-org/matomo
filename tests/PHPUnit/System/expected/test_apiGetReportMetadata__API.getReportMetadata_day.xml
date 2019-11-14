@@ -904,6 +904,7 @@
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
 		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on matomo.org&lt;/a&gt;</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/custom-variables/</onlineGuideUrl>
 		<dimensions>
 			<CustomVariables_CustomVariableName>Custom Variable name</CustomVariables_CustomVariableName>
 			<CustomVariables_CustomVariableValue>Custom Variable value</CustomVariables_CustomVariableValue>
@@ -1216,7 +1217,8 @@
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1241,6 +1243,7 @@
 		<action>getPageUrlsFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Pageviews</nb_hits>
@@ -1268,6 +1271,7 @@
 		<action>getSiteSearchNoResultKeywords</action>
 		<dimension>Keyword with No Search Result</dimension>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 		</metrics>
@@ -1290,6 +1294,7 @@
 		<action>getPageTitlesFollowingSiteSearch</action>
 		<dimension>Destination Page</dimension>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
 			<nb_hits>Pageviews</nb_hits>
@@ -1317,6 +1322,7 @@
 		<action>getSiteSearchCategories</action>
 		<dimension>Search Category</dimension>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1337,7 +1343,7 @@
 		<name>Outlinks</name>
 		<module>Actions</module>
 		<action>getOutlinks</action>
-		<dimension>Clicked URL</dimension>
+		<dimension>Clicked Outlink</dimension>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_visits>Unique Clicks</nb_visits>
@@ -1380,6 +1386,7 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventCategory>Event Category</Events_EventCategory>
 			<Events_EventAction>Event Action</Events_EventAction>
@@ -1414,6 +1421,7 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventAction>Event Action</Events_EventAction>
 			<Events_EventName>Event Name</Events_EventName>
@@ -1448,6 +1456,7 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 		<dimensions>
 			<Events_EventName>Event Name</Events_EventName>
 			<Events_EventAction>Event Action</Events_EventAction>
@@ -1482,6 +1491,7 @@
 		<module>Contents</module>
 		<action>getContentNames</action>
 		<dimension>Content Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>
@@ -1506,6 +1516,7 @@
 		<module>Contents</module>
 		<action>getContentPieces</action>
 		<dimension>Content Piece</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
 			<nb_interactions>Content Interactions</nb_interactions>
@@ -1619,6 +1630,32 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
+	</row>
+	<row>
+		<category>Referrers</category>
+		<name>Referrers Overview</name>
+		<module>Referrers</module>
+		<action>get</action>
+		<metrics>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
+		</metrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referrers&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Referrers_get</uniqueId>
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -1875,7 +1912,8 @@
 		<module>Referrers</module>
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;campaigns documentation on matomo.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website.</documentation>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-campaigns/</onlineGuideUrl>
 		<dimensions>
 			<Referrers_Campaign>Campaign</Referrers_Campaign>
 			<Referrers_Keyword>Keyword</Referrers_Keyword>
@@ -1921,6 +1959,7 @@
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Ecommerce Orders</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -1951,6 +1990,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -1967,6 +2007,7 @@
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -1982,6 +2023,7 @@
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Abandoned Carts</nb_conversions>
 			<conversion_rate>Conversion Rate</conversion_rate>
@@ -2007,6 +2049,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2023,6 +2066,7 @@
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2037,6 +2081,7 @@
 		<module>Goals</module>
 		<action>getItemsName</action>
 		<dimension>Product Name</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2059,6 +2104,7 @@
 		<module>Goals</module>
 		<action>getItemsSku</action>
 		<dimension>Product SKU</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2081,6 +2127,7 @@
 		<module>Goals</module>
 		<action>getItemsCategory</action>
 		<dimension>Product Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>
@@ -2101,6 +2148,7 @@
 		<name>Goals</name>
 		<module>Goals</module>
 		<action>get</action>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2122,6 +2170,7 @@
 		<module>Goals</module>
 		<action>getVisitsUntilConversion</action>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2142,6 +2191,7 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2164,6 +2214,7 @@
 		<parameters>
 			<idGoal>0</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2188,6 +2239,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2204,6 +2256,7 @@
 			<idGoal>0</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2219,6 +2272,7 @@
 		<parameters>
 			<idGoal>1</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2243,6 +2297,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2259,6 +2314,7 @@
 			<idGoal>1</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2274,6 +2330,7 @@
 		<parameters>
 			<idGoal>2</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2298,6 +2355,7 @@
 			<idGoal>2</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2314,6 +2372,7 @@
 			<idGoal>2</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2329,6 +2388,7 @@
 		<parameters>
 			<idGoal>3</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
@@ -2353,6 +2413,7 @@
 			<idGoal>3</idGoal>
 		</parameters>
 		<dimension>Visits to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2369,6 +2430,7 @@
 			<idGoal>3</idGoal>
 		</parameters>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>
@@ -2517,6 +2579,21 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
+			<Referrers_visitorsFromSearchEngines>Visitors from Search Engines</Referrers_visitorsFromSearchEngines>
+			<Referrers_visitorsFromSearchEngines_percent>Percent of Visitors from Search Engines</Referrers_visitorsFromSearchEngines_percent>
+			<Referrers_visitorsFromSocialNetworks>Visitors from Social Networks</Referrers_visitorsFromSocialNetworks>
+			<Referrers_visitorsFromSocialNetworks_percent>Percent of Visitors from Social Networks</Referrers_visitorsFromSocialNetworks_percent>
+			<Referrers_visitorsFromDirectEntry>Visitors from Direct Entry</Referrers_visitorsFromDirectEntry>
+			<Referrers_visitorsFromDirectEntry_percent>Percent of Visitors from Direct Entry</Referrers_visitorsFromDirectEntry_percent>
+			<Referrers_visitorsFromWebsites>Visitors from Websites</Referrers_visitorsFromWebsites>
+			<Referrers_visitorsFromWebsites_percent>Percent of Visitors from Websites</Referrers_visitorsFromWebsites_percent>
+			<Referrers_visitorsFromCampaigns>Visitors from Campaigns</Referrers_visitorsFromCampaigns>
+			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
+			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
+			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
+			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
+			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
+			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<revenue>Revenue</revenue>

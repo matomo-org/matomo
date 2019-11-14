@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Session;
 
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionFingerprint;
@@ -74,24 +75,67 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
     {
         $this->initializeSession(self::TEST_OTHER_USER);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $expireTime = $sessionFingerprint->getExpirationTime();
+        $this->assertNotNull($expireTime);
 
         $usersModel = new UsersModel();
         $user = $usersModel->getUser(self::TEST_OTHER_USER);
         unset($user['ts_password_modified']);
 
+        sleep(1);
+
         $sessionAuth = new SessionAuth(new MockUsersModel($user));
         $result = $sessionAuth->authenticate();
+
+        $this->assertGreaterThan($expireTime, $sessionFingerprint->getExpirationTime());
 
         $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
-    private function initializeSession($userLogin)
+    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeUsed()
+    {
+        Date::$now = strtotime('2012-02-03 04:55:44');
+        $this->initializeSession(self::TEST_OTHER_USER, true);
+
+        Date::$now = strtotime('2012-03-03 04:55:44');
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function test_authenticate_ReturnsFailure_IfSessionIsExpiredWhenRememberMeNotUsed()
+    {
+        Date::$now = strtotime('2012-02-03 04:55:44');
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        Date::$now = strtotime('2012-02-04 04:56:44');
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    private function initializeSession($userLogin, $isRemembered = false)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin);
+        $sessionFingerprint->initialize($userLogin, $isRemembered);
     }
 
     protected static function configureFixture($fixture)

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -1070,7 +1070,12 @@ class Date
         return new Exception($message . ": $dateString");
     }
 
-    private static function getNowTimestamp()
+    /**
+     * For tests.
+     * @return int|null
+     * @ignore
+     */
+    public static function getNowTimestamp()
     {
         return isset(self::$now) ? self::$now : time();
     }

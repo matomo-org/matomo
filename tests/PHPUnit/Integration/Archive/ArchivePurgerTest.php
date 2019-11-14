@@ -116,8 +116,8 @@ class ArchivePurgerTest extends IntegrationTestCase
 
         //There are 5 rows for website #3. We leave the other two because they're before our purge threshold.
         $deletedRowCount = $this->archivePurger->purgeDeletedSiteArchives($this->january);
-        $this->assertEquals(3 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
-        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10), $this->january);
+        $this->assertEquals(5 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(3, 7, 10, 13, 18), $this->january);
     }
 
     public function test_purgeNoSegmentArchives_PurgesSegmentForAppropriateSitesOnly()
@@ -125,16 +125,44 @@ class ArchivePurgerTest extends IntegrationTestCase
         //Extra data set with segment and plugin archives
         self::$fixture->insertSegmentArchives($this->january);
 
-        $validSegmentIds = array(
-            0 => ['DUMMYHASHSTR'],          //valid for all sites
-            1 => ['abcd1234abcd5678'],      //valid for site 1. should be ignored for site 2
-            2 => ['hashthatdontexist', 'hash1', 'hash2']
+        $segmentsToDelete = array(
+            array('definition' => '9876fedc5432abcd', 'enable_only_idsite' => 0),
+            array('definition' => 'hash3', 'enable_only_idsite' => 0),
+            // This segment also has archives for idsite = 1, which will be retained
+            array('definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2)
         );
 
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
-        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $validSegmentIds);
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
         $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
         self::$fixture->assertArchivesDoNotExist(array(22, 23, 24, 28), $this->january);
+    }
+
+    public function test_purgeNoSegmentArchives_preservesSingleSiteSegmentArchivesForDeletedAllSiteSegment()
+    {
+        // Extra data set with segment and plugin archives
+        self::$fixture->insertSegmentArchives($this->january);
+
+        $segmentsToDelete = array(
+            // This segment also has archives for idsite = 1, which will be retained
+            array('definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => array(2))
+        );
+
+        // Archives for idsite=1 should be purged, but those for idsite=2 can stay
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+        $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        self::$fixture->assertArchivesDoNotExist(array(20, 21), $this->january);
+    }
+
+    public function test_purgeNoSegmentArchives_blankSegmentName()
+    {
+        $segmentsToDelete = array(
+            array('definition' => '', 'enable_only_idsite' => 0)
+        );
+
+        // Should not purge all the "done%" archives!
+        $deletedRowCount = $this->archivePurger->purgeDeletedSegmentArchives($this->january, $segmentsToDelete);
+        $this->assertEquals(0, $deletedRowCount);
     }
 
     private function configureCustomRangePurging()

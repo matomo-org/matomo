@@ -22,7 +22,7 @@
 		<bounce_rate>100 %</bounce_rate>
 		<exit_rate>100 %</exit_rate>
 		<url>http://example.org/contact.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcontact.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcontact.htm</segment>
 	</row>
 	<row>
 		<label>category</label>
@@ -62,7 +62,7 @@
 				<bounce_rate>0 %</bounce_rate>
 				<exit_rate>0 %</exit_rate>
 				<url>http://example.org/category/Page1</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage1</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage1</segment>
 			</row>
 			<row>
 				<label>/Page2</label>
@@ -78,7 +78,7 @@
 				<bounce_rate>0 %</bounce_rate>
 				<exit_rate>0 %</exit_rate>
 				<url>http://example.org/category/Page2</url>
-				<segment>pageUrl==http%3A%2F%2Fexample.org%2Fcategory%2FPage2</segment>
+				<segment>pageUrl==http%253A%252F%252Fexample.org%252Fcategory%252FPage2</segment>
 			</row>
 			<row>
 				<label>Autres</label>

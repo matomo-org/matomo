@@ -7,6 +7,7 @@
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Alterar o seu fuso horário apenas afeta os dados futuros e não será aplicado retroativamente.",
         "Currency": "Moeda",
         "CurrencySymbolWillBeUsedForGoals": "O símbolo da Moeda será mostrado ao lado dos rendimentos dos Objetivos.",
+        "CustomizeJavaScriptTracker": "Personalizar o acompanhamento por JavaScript",
         "DefaultCurrencyForNewWebsites": "Moeda predefinida para novos sites",
         "DefaultTimezoneForNewWebsites": "Fuso horário predefinido para novos sites",
         "DeleteConfirm": "Tem a certeza que pretende eliminar o site %s?",
@@ -71,7 +72,7 @@
         "ShowTrackingTag": "Ver código de acompanhamento",
         "Sites": "Sites",
         "SiteSearchUse": "Pode utilizar o Matomo para acompanhar e analisar o que os visitantes estão a pesquisar no motor de pesquisa interno do seu site.",
-        "SiteWithoutDataTitle": "Ainda não foram registados dados",
+        "SiteWithoutDataTitle": "Ainda não foram registados dados. Configure abaixo",
         "SiteWithoutDataDescription": "Ainda não foram registados dados de análise para este site.",
         "SiteWithoutDataSetupTracking": "Por favor, configure o %1$scódigo de acompanhamento%2$s abaixo no seu site ou aplicação móvel, caso ainda não o tenha feito.",
         "SiteWithoutDataMessageDisappears": "Esta mensagem irá desaparecer assim que forem registados alguns dados para este site.",
@@ -86,11 +87,20 @@
         "UTCTimeIs": "A hora UTC é %s.",
         "OnlyMatchedUrlsAllowed": "Acompanhar apenas as visitas e ações quando o endereço de ação começar com um dos endereços acima.",
         "OnlyMatchedUrlsAllowedHelp": "Quando ativo, o Matomo apenas irá acompanhar ações internas quando o endereço da página for igual a um dos endereços conhecidos para o seu site. Isto impede que pessoas introduzam spam nos seus dados de análise com endereços para outros sites.",
+        "OnlyMatchedUrlsAllowedHelpExamples": "O domínio e caminho devem coincidir e cada um dos subdomínios válidos devem ser especificados separamente. Por exemplo, quando os endereços conhecidos são 'http:\/\/example.com\/caminho' and 'http:\/\/subdominio.example.com', pedidos de acompanhamento para 'http:\/\/example.com\/outrocaminho' ou 'http:\/\/outrosubdomínio.example.com' são ignorados.",
         "WebsitesManagement": "Gestão de sites",
         "XManagement": "Gerir %s",
         "ChooseMeasurableTypeHeadline": "O que quer medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Atualmente tem acesso a %s sites.",
         "YourCurrentIpAddressIs": "O seu endereço IP atual é %s",
-        "DeleteSiteExplanation": "A eliminação de um site irá remover todos os registos de dados que foram recolhidos para o mesmo. Esta ação é permanente e não pode ser anulada."
+        "DeleteSiteExplanation": "A eliminação de um site irá remover todos os registos de dados que foram recolhidos para o mesmo. Esta ação é permanente e não pode ser anulada.",
+        "EmailInstructionsButton": "Enviar estas instruções por e-mail",
+        "EmailInstructionsSubject": "Código de acompanhamento do Matomo Analytics",
+        "EmailInstructionsDocsPlainText": "Se quiser fazer mais do que acompanhar visualizações de páginas, por favor consulte a nossa documentação do Matomo em %1$s.",
+        "EmailInstructionsGenerateTrackingCode": "Pode também gerar um código de acompanhamento específico em %1$s.",
+        "EmailInstructionsSiteDetailsHeading": "Detalhes sobre o seu site",
+        "EmailInstructionsSiteDetails": "Irá necessitar destes detalhes para utilizar a API ou SDKs para acompanhar as suas visitas do Matomo.",
+        "EmailInstructionsYourSiteId": "O ID do seu site: %1$s",
+        "EmailInstructionsYourTrackingUrl": "O seu endereço de acompanhamento: %1$s"
     }
 }

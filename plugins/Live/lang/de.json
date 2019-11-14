@@ -36,6 +36,10 @@
         "ToggleActions": "Sichtbarkeit aller Aktionen umschalten",
         "TopVisitedPages": "Meistbesuchte Seiten",
         "VisitsLog": "Besucher-Log",
+        "QueryMaxExecutionTimeExceeded": "Die Ausführung der Abfrage dauerte zu lange.",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "Dies kann vorkommen, wenn der ausgewählte Zeitraum zu groß ist. Bitte wählen Sie einen kleineren Zeitraum.",
+        "QueryMaxExecutionTimeExceededReasonSegment": "Dies kann vorkommen, wenn das ausgewählte Segment keinem Besuch entspricht. Bitte überprüfen Sie das von Ihnen ausgewählte Segment.",
+        "QueryMaxExecutionTimeExceededReasonUnknown": "Bitte erneut versuchen. Wenn dies wiederholt vorkommt, wenden Sie sich bitte an den Administrator oder den Support.",
         "VisitorLog": "Besucher-Log",
         "VisitorLogDocumentation": "Diese Tabelle zeigt die letzten Besuche innerhalb der ausgewählten Periode. Sie können sehen, wann der Besucher die Seite zuletzt besucht hat, wenn Sie die Maus über das Datum eines Besuches bewegen. %1$s Wenn die gewählte Periode den heutigen Tag enthält, können Sie die Besuche in Echtzeit sehen! %2$s Die angezeigten Daten sind immer live, egal ob und in welchem Intervall Sie den Archivierungs-Cronjob verwenden.",
         "VisitorLogNoDataMessagePurged": "Wahrscheinlich wurden die Daten bereinigt, weil das reguläre Löschen alter Daten aktiviert ist und das Datum für diesen Bericht älter als %s Tage alt ist. Ein Hauptadministrator kann diese Einstellung im Menü Administration => Privatsphäre ändern.",
@@ -50,6 +54,7 @@
         "RowActionTooltipTitle": "Öffne segmentiertes Besucher-Log",
         "SegmentedVisitorLogTitle": "Zeige Log bei denen %1$s \"%2$s\" ist",
         "OnClickPause": "%s ist gestartet. Klicken Sie um zu pausieren.",
-        "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten."
+        "OnClickStart": "%s ist gestoppt. Klicken Sie um zu starten.",
+        "ClickToSeeAllContents": "Klicken um sämtliche Inhaltsinteraktionen\/Impressionen zu sehen"
     }
 }

@@ -17,7 +17,7 @@ $root = dirname(__FILE__) . '/../..';
 try {
     $mysql = include_once $root . "/tests/PHPUnit/bootstrap.php";
 } catch (Exception $e) {
-    echo 'alert("' . $e->getMessage() .  '")';
+    echo 'alert("ERROR, not all tests are running! --> ' . $e->getMessage() .  '")';
     $mysql = false;
 }
 
@@ -2149,7 +2149,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(107);
+        expect(109);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2228,6 +2228,7 @@ function PiwikTest() {
         equal( typeof tracker.setConversionAttributionFirstReferrer, 'function', 'setConversionAttributionFirstReferrer' );
         equal( typeof tracker.addListener, 'function', 'addListener' );
         equal( typeof tracker.enableLinkTracking, 'function', 'enableLinkTracking' );
+        equal( typeof tracker.setVisitStandardLength, 'function', 'setVisitStandardLength' );
         equal( typeof tracker.enableHeartBeatTimer, 'function', 'enableHeartBeatTimer' );
         equal( typeof tracker.disableHeartBeatTimer, 'function', 'disableHeartBeatTimer' );
         equal( typeof tracker.killFrame, 'function', 'killFrame' );
@@ -2240,6 +2241,7 @@ function PiwikTest() {
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
         equal( typeof tracker.queueRequest, 'function', 'queueRequest' );
         equal( typeof tracker.disableQueueRequest, 'function', 'disableQueueRequest' );
+        equal( typeof tracker.setRequestQueueInterval, 'function', 'setRequestQueueInterval' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
@@ -2378,14 +2380,8 @@ function PiwikTest() {
         equal(firstTracker.getTrackerUrl(), asyncTracker.getTrackerUrl(), 'getAsyncTracker() async same getTrackerUrl()');
         equal(firstTracker, asyncTracker, 'getAsyncTracker() async same tracker instance');
 
-
-        try {
-            // should throw exception when no idSite given
-            asyncTracker.addTracker(tracker.url);
-            ok(false, 'addTracker() without siteId expected exception has not been triggered');
-        } catch (e) {
-            ok(true, 'addTracker() siteId expected exception has been triggered');
-        }
+        var trackerWithoutIdSite = asyncTracker.addTracker(tracker.url);
+        ok(!!trackerWithoutIdSite, 'addTracker() without siteId can be called');
 
         // getting a specific tracker instance
 
@@ -3193,7 +3189,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(26);
+        expect(27);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -3240,6 +3236,10 @@ function PiwikTest() {
 
             // Set the same Visitor IDs in both trackers
             tracker2.setVisitorId(tracker.getVisitorId());
+            
+        // set userId works with a number
+        tracker.setUserId(5939383);
+        equal(5939383, tracker.getUserId(), "getUserId() returns numeric User Id");
 
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
@@ -3291,6 +3291,30 @@ function PiwikTest() {
         equal( requestString.indexOf('hello=world&idsite=4&rec=1&r='), 0, "Request string " + requestString);
 
         ok( -1 !== tracker.getRequest('hello=world').indexOf('send_image=0'), 'should disable sending image response');
+    });
+
+    test("POST requests are sent with cookies", function() {
+        expect(3);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token": '---' });
+        tracker.setRequestMethod('POST');
+
+        var callbackCalled = false;
+        tracker.trackPageView('withCredentialsTest', null, function (event) {
+            callbackCalled = true;
+            ok(event.success, 'succeeded');
+            ok(event.xhr && event.xhr.withCredentials, 'withCredentials is true');
+        });
+
+        stop();
+        setTimeout(function() {
+            ok(callbackCalled, 'called the callback');
+
+            start();
+        }, 2000);
     });
 
     // support for setCustomRequestProcessing( customRequestContentProcessingLogic )
@@ -3611,7 +3635,7 @@ if ($mysql) {
 
 
     test("tracking", function() {
-        expect(164);
+        expect(180);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3698,8 +3722,8 @@ if ($mysql) {
         equal(tracker.getCustomDimension('not valid'), null, "if custom dimension index is invalid should return null");
         tracker.setCustomDimension(1, 5);
         equal(tracker.getCustomDimension(1), "5", "set custom dimension should convert any value to a string" );
-        tracker.setCustomDimension(1, "my custom value");
-        equal(tracker.getCustomDimension(1), "my custom value", "should get stored custom dimension value" );
+        tracker.setCustomDimension(1, "my custom value with éàç&*() EOL");
+        equal(tracker.getCustomDimension(1), "my custom value with éàç&*() EOL", "should get stored custom dimension value" );
         tracker.setCustomDimension(2, undefined);
         equal(tracker.getCustomDimension(2), "", "setCustomDimension should convert undefined to an empty string" );
 
@@ -3756,7 +3780,7 @@ if ($mysql) {
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
-        equal(tracker.getCustomDimension(1), "my custom value", "custom dimensions should not be cleared after a tracked pageview");
+        equal(tracker.getCustomDimension(1), "my custom value with éàç&*() EOL", "custom dimensions should not be cleared after a tracked pageview");
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
@@ -3915,6 +3939,7 @@ if ($mysql) {
         tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
         deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
         tracker.setEcommerceView( "SKUMultiple", false, ["CATEGORY1","CATEGORY2"] );
+        deepEqual( tracker.getCustomVariable(3, "page"), ["_pks","SKUMultiple"], "Ecommerce view sku");
         deepEqual( tracker.getCustomVariable(4, "page"), ["_pkn",""], "Ecommerce view Name");
         deepEqual( tracker.getCustomVariable(5, "page"), ["_pkc","[\"CATEGORY1\",\"CATEGORY2\"]"], "Ecommerce view Category");
         tracker.trackPageView("MultipleCategories");
@@ -3949,6 +3974,32 @@ if ($mysql) {
         deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn","NAME HERE"], "Ecommerce view Name");
         deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc","CATEGORY HERE"], "Ecommerce view Category");
         tracker3.trackPageView("EcommerceView");
+
+        tracker3.deleteCustomVariables('page');
+
+        // No data set
+        tracker3.setEcommerceView( );
+        deepEqual( tracker3.getCustomVariable(2, "page"), false, "No data Ecommerce price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), false, "No data Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), false, "No data Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc",""], "No data Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
+
+        // all numbers
+        tracker3.setEcommerceView( 34343, 3432, 343, 12121 );
+        deepEqual( tracker3.getCustomVariable(2, "page"), ["_pkp",12121], "All numbers Ecommerce view price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), ["_pks",34343], "All numbers Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), ["_pkn",3432], "All numbers Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", '343'], "All numbers Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
+
+        // all false
+        tracker3.setEcommerceView( false, false, false, false );
+        deepEqual( tracker3.getCustomVariable(2, "page"), false, "All numbers Ecommerce view price");
+        deepEqual( tracker3.getCustomVariable(3, "page"), false, "All numbers Ecommerce view SKU");
+        deepEqual( tracker3.getCustomVariable(4, "page"), false, "All numbers Ecommerce view Name");
+        deepEqual( tracker3.getCustomVariable(5, "page"), ["_pkc", ''], "All numbers Ecommerce view Category");
+        tracker3.deleteCustomVariables('page');
 
         //Ecommerce tests
         tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2);
@@ -4009,6 +4060,23 @@ if ($mysql) {
         tracker3.addEcommerceItem("SKU TO REMOVE 1");
         tracker3.addEcommerceItem("SKU TO REMOVE 2");
         tracker3.addEcommerceItem("SKU TO REMOVE 3");
+        tracker3.clearEcommerceCart();
+
+        tracker3.addEcommerceItem(12345, 544, 34343, 34, 1);
+        cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {
+            '12345': [
+                '12345',
+                544,
+                34343,
+                34,
+                1
+            ]
+        });
+        tracker3.removeEcommerceItem(12345);
+        cart = tracker3.getEcommerceItems();
+        deepEqual(cart, {}, 'removed numeric item');
+        
         tracker3.clearEcommerceCart();
 
         // the same order tracked once more, should have no items
@@ -4077,7 +4145,11 @@ if ($mysql) {
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "41", "count tracking events" );
+            var countTrackingEvents = /<span\>([0-9]+)\<\/span\>/.exec(results);
+            ok (countTrackingEvents, "countTrackingEvents is set");
+            if(countTrackingEvents) {
+                equal( countTrackingEvents[1], "41", "count tracking events" );
+            }
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -4124,10 +4196,10 @@ if ($mysql) {
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
 
             // Test CustomDimension (persistent ones across requests)
-            ok( /dimension1=my%20custom%20value&dimension2=&/.test(results), "test custom dimensions are set");
+            ok( /dimension1=my%20custom%20value%20with%20%C3%A9%C3%A0%C3%A7%26\*\(\)%20EOL&dimension2=&/.test(results), "test custom dimensions are set");
 
             // send along a page view and ony valid for this pageview (dimension 2 overwrites another one)
-            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%20custom%20value&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
+            ok( /dimension2=my%20new%20value&dimension5=another%20dimension&dimension1=my%.*&data=%7B%22token/.test( results ), "trackPageView(customTitle, customData)" );
 
             // Test campaign parameters set
             ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found");
@@ -4190,7 +4262,7 @@ if ($mysql) {
 
     // heartbeat tests
     test("trackingHeartBeat", function () {
-        expect(14);
+        expect(13);
 
         var tokenBase = getHeartbeatToken();
 
@@ -4212,7 +4284,7 @@ if ($mysql) {
         }).then(function () {
             triggerEvent(window, 'focus');
 
-            return Q.delay(4000); // ping request sent after this (afterwards 2 secs to next heartbeat)
+            return Q.delay(4000); // ping request not sent after this 
         }).then(function () {
             // test ping not sent after N secs, if tracking request sent in the mean time
             tracker.setCustomData('token', 3 + tokenBase);
@@ -4221,28 +4293,35 @@ if ($mysql) {
             // heart beat will trigger in 2 secs, then reset to 1 sec later, since tracker request
             // was sent 2 secs ago
         }).then(function () {
-            return Q.delay(2100); // ping request NOT sent here (heart beat triggered. after, .9s to next heartbeat)
+            return Q.delay(2100); // ping request NOT sent here
         }).then(function () {
-            // test ping sent N secs after second tracking request if inactive.
+            // test ping not sent N secs after second tracking request if inactive.
             tracker.setCustomData('token', 4 + tokenBase);
 
-            return Q.delay(2100); // ping request sent here (heart beat triggered after 1s; 2s to next heart beat)
+            return Q.delay(4100); // ping request not sent here
         }).then(function () {
-            // test ping not sent N secs after, if window blur event triggered (ie tab switch) and N secs pass.
+            // test ping sent once after window blur event triggered (ie tab switch).
             tracker.setCustomData('token', 5 + tokenBase);
 
             triggerEvent(window, 'blur');
 
-            return Q.delay(3000); // ping request not sent here (heart beat triggered after 2s; 1s to next heart beat)
+            return Q.delay(4000); // ping request sent here because of blur
         }).then(function () {
-            // test ping sent immediately if tab switched and more than N secs pass, then tab switched back
+            // test ping not sent on focus
             tracker.setCustomData('token', 6 + tokenBase);
 
-            triggerEvent(window, 'focus'); // ping request sent here
+            triggerEvent(window, 'focus'); // no ping request sent here
 
             tracker.disableHeartBeatTimer(); // flatline
 
-            return Q.delay(1000); // for the ping request to get sent
+            return Q.delay(1000); // for a ping request to get sent if there was one
+        }).then(function () {
+            // test ping not sent on focus
+            tracker.enableHeartBeatTimer();
+            tracker.setCustomData('token', 7 + tokenBase);
+            tracker.setVisitStandardLength(5);
+
+            return Q.delay(6000); // should not send a tracking request because of visit standard length reached
         }).then(function () {
             var token;
 
@@ -4251,23 +4330,24 @@ if ($mysql) {
 
             requests = fetchTrackedRequests(token = 2 + tokenBase, true);
             ok(/action_name=whatever/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 2] first request is page view not ping");
-            ok(/ping=1/.test(requests[1]), "[token = 2] second request is ping request");
-            equal(requests.length, 2, "[token = 2] only 2 requests sent for normal ping");
+            equal(requests.length, 1, "[token = 2] only 1 requests sent for normal ping");
 
             requests = fetchTrackedRequests(token = 3 + tokenBase, true);
             ok(/action_name=whatever2/.test(requests[0]) && !(/ping=1/.test(requests[0])), "[token = 3] first request is page view not ping");
             equal(requests.length, 1, "[token = 3] no ping request sent if other request sent in meantime");
 
             requests = fetchTrackedRequests(token = 4 + tokenBase, true);
-            ok(/ping=1/.test(requests[0]), "[token = 4] ping request sent if no other activity and after heart beat");
-            equal(requests.length, 1, "[token = 4] only ping request sent if no other activity");
+            equal(requests.length, 0, "[token = 4] no ping request sent if no other activity");
 
             requests = fetchTrackedRequests(token = 5 + tokenBase, true);
-            equal(requests.length, 0, "[token = 5] no requests sent if window not in focus");
+            ok(/ping=1/.test(requests[0]), "[token = 5] ping request sent on blur");
+            equal(requests.length, 1, "[token = 5] one request is sent if window is blurred");
 
             requests = fetchTrackedRequests(token = 6 + tokenBase, true);
-            ok(/ping=1/.test(requests[0]), "[token = 6] ping sent after window regains focus");
-            equal(requests.length, 1, "[token = 6] only one ping request sent after window regains focus");
+            equal(requests.length, 0, "[token = 6] no ping request is sent after window regains focus");
+
+            requests = fetchTrackedRequests(token = 7 + tokenBase, true);
+            equal(requests.length, 0, "[token = 7] no ping request because of visit standard length");
 
             start();
         });

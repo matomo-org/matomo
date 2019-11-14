@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -11,10 +11,12 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Tracker;
+use Psr\Log\LoggerInterface;
 
 /**
  * An action
@@ -75,6 +77,11 @@ abstract class Action
      *  Raw URL (will contain excluded URL query parameters)
      */
     private $rawActionUrl;
+
+    /**
+     * @var mixed|LoggerInterface
+     */
+    private $logger;
 
     /**
      * Makes the correct Action object based on the request.
@@ -148,6 +155,7 @@ abstract class Action
     {
         $this->actionType = $type;
         $this->request    = $request;
+        $this->logger = StaticContainer::get(LoggerInterface::class);
     }
 
     /**
@@ -202,8 +210,12 @@ abstract class Action
         $this->actionUrl = PageUrl::getUrlIfLookValid($url2);
 
         if ($url != $this->rawActionUrl) {
-            Common::printDebug(' Before was "' . $this->rawActionUrl . '"');
-            Common::printDebug(' After is "' . $url2 . '"');
+            $this->logger->debug(' Before was "{rawActionUrl}"', [
+                'rawActionUrl' => $this->rawActionUrl,
+            ]);
+            $this->logger->debug(' After is "{url2}"', [
+                'url2' => $url2,
+            ]);
         }
     }
 
@@ -332,7 +344,7 @@ abstract class Action
 
                 $actionId        = $dimension->getActionId();
                 $actions[$field] = array($value, $actionId);
-                Common::printDebug("$field = $value");
+                $this->logger->debug("$field = $value");
             }
         }
 
@@ -403,10 +415,11 @@ abstract class Action
 
         $visitAction['idlink_va'] = $this->idLinkVisitAction;
 
-        Common::printDebug("Inserted new action:");
         $visitActionDebug = $visitAction;
         $visitActionDebug['idvisitor'] = bin2hex($visitActionDebug['idvisitor']);
-        Common::printDebug($visitActionDebug);
+        $this->logger->debug("Inserted new action: {action}", [
+            'action' => var_export($visitActionDebug, true),
+        ]);
     }
 
     public function writeDebugInfo()
@@ -415,9 +428,11 @@ abstract class Action
         $name = $this->getActionName();
         $url  = $this->getActionUrl();
 
-        Common::printDebug("Action is a $type,
-                Action name =  " . $name . ",
-                Action URL = " . $url);
+        $this->logger->debug('Action is a {type}, Action name = {name}, Action URL = {url}', [
+            'type' => $type,
+            'name' => $name,
+            'url' => $url,
+        ]);
 
         return true;
     }

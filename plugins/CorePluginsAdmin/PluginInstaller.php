@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -197,7 +198,7 @@ class PluginInstaller
         }
 
         $dependency = new PluginDependency();
-        $dependency->setEnvironment($this->marketplaceClient->getEnvironment());
+        $dependency->setEnvironment($this->getEnvironment());
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {
@@ -298,6 +299,10 @@ class PluginInstaller
     private function copyPluginToDestination($tmpPluginFolder)
     {
         $pluginsDir = Manager::getPluginsDirectory();
+
+        if (!empty($GLOBALS['MATOMO_PLUGIN_COPY_DIR'])) {
+            $pluginsDir = $GLOBALS['MATOMO_PLUGIN_COPY_DIR'];
+        }
         $pluginTargetPath = $pluginsDir . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
@@ -341,6 +346,15 @@ class PluginInstaller
     {
         if (!isset($this->marketplaceClient)) {
             throw new PluginInstallerException('Marketplace plugin needs to be enabled to perform this action.');
+        }
+    }
+
+    private function getEnvironment()
+    {
+        if ($this->marketplaceClient) {
+            return $this->marketplaceClient->getEnvironment();
+        } else {
+            return StaticContainer::get(Environment::class);
         }
     }
 

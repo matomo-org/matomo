@@ -91,10 +91,10 @@ class VisitorDetails extends VisitorDetailsAbstract
     protected function queryEcommerceConversionsVisitorLifeTimeMetricsForVisitor($idSite, $idVisitor)
     {
         $sql             = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_ORDER);
-        $ecommerceOrders = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $ecommerceOrders = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         $sql            = $this->getSqlEcommerceConversionsLifeTimeMetricsForIdGoal(GoalManager::IDGOAL_CART);
-        $abandonedCarts = Db::fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
+        $abandonedCarts = $this->getDb()->fetchRow($sql, array($idSite, @Common::hex2bin($idVisitor)));
 
         return array(
             'totalEcommerceRevenue'      => $ecommerceOrders['lifeTimeRevenue'],
@@ -157,7 +157,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					WHERE log_conversion.idvisit IN ('" . implode("','", $idVisits) . "')
 						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
 					ORDER BY log_conversion.idvisit, log_conversion.server_time ASC";
-        $ecommerceDetails = Db::fetchAll($sql);
+        $ecommerceDetails = $this->getDb()->fetchAll($sql);
         return $ecommerceDetails;
     }
 
@@ -201,7 +201,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $bind = array($idVisit, $idOrder);
 
-        $itemsDetails = Db::fetchAll($sql, $bind);
+        $itemsDetails = $this->getDb()->fetchAll($sql, $bind);
 
         // create categories array for each item
         foreach ($itemsDetails as &$item) {

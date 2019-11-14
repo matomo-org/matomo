@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -52,7 +52,7 @@ class GroupBy extends BaseFilter
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.
      * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`
-     *                                 columng in some way. If not set then the filter will group by the raw column value.
+     *                                 column in some way. If not set then the filter will group by the raw column value.
      * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                          instead.
      */

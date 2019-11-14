@@ -22,6 +22,6 @@
 		<exit_rate>100%</exit_rate>
 		<avg_time_generation>0.134</avg_time_generation>
 		<url>http://example.org/store/purchase.htm</url>
-		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fstore%2Fpurchase.htm</segment>
+		<segment>pageUrl==http%253A%252F%252Fexample.org%252Fstore%252Fpurchase.htm</segment>
 	</row>
 </result>

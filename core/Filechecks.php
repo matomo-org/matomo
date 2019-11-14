@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -23,7 +23,7 @@ class Filechecks
         if (!is_writable(PIWIK_INCLUDE_PATH . '/') ||
             !is_writable(PIWIK_DOCUMENT_ROOT . '/index.php') ||
             !is_writable(PIWIK_INCLUDE_PATH . '/core') ||
-            !is_writable(PIWIK_USER_PATH . '/config/global.ini.php')
+            !is_writable(PIWIK_DOCUMENT_ROOT . '/config/global.ini.php')
         ) {
             return false;
         }
@@ -40,10 +40,6 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
-            if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
-                $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
-            }
-
             Filesystem::mkdir($directoryToCheck);
 
             $directory = Filesystem::realpath($directoryToCheck);

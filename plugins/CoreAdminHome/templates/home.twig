@@ -18,9 +18,12 @@
 
     {% if isSuperUser %}
         <div class="row">
-            <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
-                <div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>
-            </div>
+            {% if hasQuickLinks or hasSystemSummary %}
+                <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
+                    {% if hasQuickLinks %}<div piwik-widget-loader='{"module":"CoreHome","action":"quickLinks"}'></div>{% endif %}
+                    {% if hasSystemSummary %}<div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>{% endif %}
+                </div>
+            {% endif %}
             {% if hasDiagnostics or hasTrackingFailures %}
                 <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
                     {% if hasDiagnostics %}
@@ -31,11 +34,11 @@
                     {% endif %}
                 </div>
             {% endif %}
+            <div class="col s12 m4">
             {% if isFeedbackEnabled %}
-                <div class="col s12 m4">
-                    {{ feedbackHelp|raw }}
-                </div>
+                {{ feedbackHelp|raw }}
             {% endif %}
+            </div>
         </div>
     {% elseif isFeedbackEnabled %}
         {{ feedbackHelp|raw }}

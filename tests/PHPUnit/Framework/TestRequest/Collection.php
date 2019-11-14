@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -51,6 +51,7 @@ class Collection
         'LogViewer',
         'Referrers.getKeywordNotDefinedString',
         'CorePluginsAdmin.getSystemSettings',
+        'API.getPagesComparisonsDisabledFor',
     );
 
     /**
@@ -344,6 +345,7 @@ class Collection
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
                                             'API.getPhpVersion',
+                                            'API.getPagesComparisonsDisabledFor',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {

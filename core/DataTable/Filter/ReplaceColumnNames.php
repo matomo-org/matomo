@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -56,7 +56,7 @@ class ReplaceColumnNames extends BaseFilter
     public function __construct($table, $mappingToApply = null)
     {
         parent::__construct($table);
-        $this->mappingToApply = Metrics::$mappingFromIdToName;
+        $this->mappingToApply = Metrics::getMappingFromIdToName();
         if (!is_null($mappingToApply)) {
             $this->mappingToApply = $mappingToApply;
         }
@@ -81,7 +81,14 @@ class ReplaceColumnNames extends BaseFilter
      */
     protected function filterTable($table)
     {
-        foreach ($table->getRows() as $row) {
+        $rows = $table->getRows();
+
+        $totalRow = $table->getTotalsRow();
+        if ($totalRow) {
+            $rows[] = $totalRow;
+        }
+
+        foreach ($rows as $row) {
             $newColumns = $this->getRenamedColumns($row->getColumns());
             $row->setColumns($newColumns);
             $this->filterSubTable($row);

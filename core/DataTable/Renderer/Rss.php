@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -147,7 +147,9 @@ class Rss extends Renderer
             foreach ($row->getColumns() as $column => $value) {
                 // for example, goals data is array: not supported in export RSS
                 // in the future we shall reuse ViewDataTable for html exports in RSS anyway
-                if (is_array($value)) {
+                if (is_array($value)
+                    || is_object($value)
+                ) {
                     continue;
                 }
                 $allColumns[$column] = true;

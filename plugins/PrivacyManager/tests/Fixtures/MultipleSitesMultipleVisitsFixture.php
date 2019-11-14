@@ -451,6 +451,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         $this->tracker->setForceNewVisit();
         $this->tracker->setIp('156.5.3.' . $userId);
         $this->tracker->setUserId('userId' . $userId);
+        $this->tracker->setVisitorId(substr(md5('userId' . $userId), 0, 16)); // predictable visitor ID for tests
         $this->tracker->setForceVisitDateTime($time);
         $this->tracker->setCustomVariable(1, 'myCustomUserId', $userId, 'visit');
         $this->tracker->setTokenAuth(Fixture::getTokenAuth());

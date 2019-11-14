@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 
 /**
@@ -412,7 +413,7 @@ class Access
     public function checkUserHasSuperUserAccess()
     {
         if (!$this->hasSuperUserAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
+            $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
     }
 
@@ -456,7 +457,7 @@ class Access
     public function checkUserHasSomeWriteAccess()
     {
         if (!$this->isUserHasSomeWriteAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
+            $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
         }
     }
 
@@ -468,7 +469,7 @@ class Access
     public function checkUserHasSomeAdminAccess()
     {
         if (!$this->isUserHasSomeAdminAccess()) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+            $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
         }
     }
 
@@ -486,7 +487,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
 
         if (count($idSitesAccessible) == 0) {
-            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+            $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
         }
     }
 
@@ -508,7 +509,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
+                $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
             }
         }
     }
@@ -531,7 +532,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+                $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
     }
@@ -554,8 +555,18 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
+                $this->throwNoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
             }
+        }
+    }
+
+    public function checkUserIsNotAnonymous()
+    {
+        if ($this->hasSuperUserAccess()) {
+            return;
+        }
+        if (Piwik::isUserIsAnonymous()) {
+            $this->throwNoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
         }
     }
 
@@ -578,7 +589,7 @@ class Access
 
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
+                $this->throwNoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
             }
         }
 
@@ -600,7 +611,7 @@ class Access
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
 
         if (empty($idSites)) {
-            throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
+            $this->throwNoAccessException("The parameter 'idSite=' is missing from the request.");
         }
 
         return $idSites;
@@ -688,6 +699,29 @@ class Access
         }
         return $result;
     }
+
+    /**
+     * Throw a NoAccessException with the given message, or a more generic 'You need to log in' message if the
+     * user is not currently logged in (e.g. if session has expired).
+     * @param $message
+     * @throws NoAccessException
+     */
+    private function throwNoAccessException($message)
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            $message = Piwik::translate('General_YouMustBeLoggedIn');
+        }
+        // Try to detect whether user was previously logged in so that we can display a different message
+        $referrer = Url::getReferrer();
+        $matomoUrl = SettingsPiwik::getPiwikUrl();
+        if ($referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
+            strpos($referrer, $matomoUrl) === 0
+        ) {
+            $message = Piwik::translate('General_YourSessionHasExpired');
+        }
+
+        throw new NoAccessException($message);
+    }
 }
 
 /**
@@ -695,6 +729,6 @@ class Access
  *
  * @api
  */
-class NoAccessException extends \Exception
+class NoAccessException extends InvalidRequestParameterException
 {
 }

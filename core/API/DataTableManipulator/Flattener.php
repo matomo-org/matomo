@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -102,30 +102,51 @@ class Flattener extends DataTableManipulator
      * @param string $dimensionName
      * @param bool $parentLogo
      */
-    private function flattenRow
-    (Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
+    private function flattenRow(Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
                                 $labelPrefix = '', $parentLogo = false)
     {
+        $dimensions = $dataTable->getMetadata('dimensions');
+
+        if (empty($dimensions)) {
+            $dimensions = [];
+        }
+
+        if (!in_array($dimensionName, $dimensions)) {
+            $dimensions[] = $dimensionName;
+        }
+
+        $dataTable->setMetadata('dimensions', $dimensions);
+
         $origLabel = $label = $row->getColumn('label');
 
         if ($label !== false) {
-            $label = trim($label);
+            $origLabel = $label = trim($label);
 
             if ($this->recursiveLabelSeparator == '/') {
                 if (substr($label, 0, 1) == '/' && substr($labelPrefix, -1) == '/') {
-                    $label = substr($label, 1);
+                    $origLabel = $label = substr($label, 1);
                 } elseif ($rowId === DataTable::ID_SUMMARY_ROW && $labelPrefix && $label != DataTable::LABEL_SUMMARY_ROW) {
                     $label = ' - ' . $label;
                 }
             }
 
-            $origLabel = $label;
+            if ($rowId === DataTable::ID_SUMMARY_ROW) {
+                if ($row->getMetadata('url')) {
+                    // remove url metadata for flattened summary rows
+                    $row->deleteMetadata('url');
+                }
+                $row->setMetadata('is_summary', true);
+            }
 
             $label = $labelPrefix . $label;
             $row->setColumn('label', $label);
 
             if ($row->getMetadata($dimensionName)) {
-                $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                if ($rowId === DataTable::ID_SUMMARY_ROW && $this->recursiveLabelSeparator == '/') {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . ' - ' . $origLabel;
+                } else {
+                    $origLabel = $row->getMetadata($dimensionName) . $this->recursiveLabelSeparator . $origLabel;
+                }
             }
 
             $row->setMetadata($dimensionName, $origLabel);
@@ -180,6 +201,12 @@ class Flattener extends DataTableManipulator
             if ($origLabel !== false) {
                 foreach ($subTable->getRows() as $subRow) {
                     foreach ($row->getMetadata() as $name => $value) {
+                        // do not set 'segment' parameter if there is a segmentValue on the row, since that will prevent the segmentValue
+                        // from being used in DataTablePostProcessor
+                        if ($name == 'segment' && $subRow->getMetadata('segmentValue') !== false) {
+                            continue;
+                        }
+
                         if ($subRow->getMetadata($name) === false) {
                             $subRow->setMetadata($name, $value);
                         }

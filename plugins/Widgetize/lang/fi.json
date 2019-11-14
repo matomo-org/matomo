@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "Avaa uudessa ikkunassa",
-        "PluginDescription": "Näytä mikä tahansa Matomon raporteista verkkosivullasi tai ohjelmassa yksinkertaisella HTML-koodinpätkällä.",
-        "TopLinkTooltip": "Vie Matomon raportteja vimpaimiksi ja lisää työpöytä ohjelmaan iframena."
+        "PluginDescription": "Näytä mikä tahansa Matomon raporteista verkkosivullasi tai ohjelmassa yksinkertaisella HTML-upotuskoodinpätkällä.",
+        "TopLinkTooltip": "Vie Matomon raportteja vimpaimiksi ja lisää työpöytä sovellukseesi iframe-kehyksenä."
     }
 }

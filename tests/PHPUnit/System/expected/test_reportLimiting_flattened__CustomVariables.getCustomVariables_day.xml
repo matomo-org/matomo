@@ -3,6 +3,7 @@
 	<row>
 		<label>Others</label>
 		<nb_actions>60</nb_actions>
+		<is_summary>1</is_summary>
 		<CustomVariables_CustomVariableName>Others</CustomVariables_CustomVariableName>
 	</row>
 	<row>
@@ -16,6 +17,7 @@
 			</row>
 		</slots>
 		<CustomVariables_CustomVariableName>name</CustomVariables_CustomVariableName>
+		<is_summary>1</is_summary>
 		<CustomVariables_CustomVariableValue>Others</CustomVariables_CustomVariableValue>
 	</row>
 	<row>
@@ -42,6 +44,7 @@
 			</row>
 		</slots>
 		<CustomVariables_CustomVariableName>liked</CustomVariables_CustomVariableName>
+		<is_summary>1</is_summary>
 		<CustomVariables_CustomVariableValue>Others</CustomVariables_CustomVariableValue>
 	</row>
 	<row>

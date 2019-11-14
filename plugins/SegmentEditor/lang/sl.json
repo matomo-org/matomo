@@ -1,5 +1,6 @@
 {
     "SegmentEditor": {
-        "DefaultAllVisits": "Vsi obiski"
+        "DefaultAllVisits": "Vsi obiski",
+        "Test": "Test"
     }
 }

@@ -89,13 +89,13 @@
 	<reportMetadata>
 		<result prettyDate="January 2010">
 			<row>
-				<segment>pageTitle==Im+just+a+page</segment>
+				<segment>pageTitle==Im%2Bjust%2Ba%2Bpage</segment>
 			</row>
 			<row>
-				<segment>pageTitle==Pageview%2C+not+search</segment>
+				<segment>pageTitle==Pageview%252C%2Bnot%2Bsearch</segment>
 			</row>
 			<row>
-				<segment>pageTitle==This+is+a+pageview%2C+not+a+Search+-+IS_FOLLOWING_SEARCH+ONCE</segment>
+				<segment>pageTitle==This%2Bis%2Ba%2Bpageview%252C%2Bnot%2Ba%2BSearch%2B-%2BIS_FOLLOWING_SEARCH%2BONCE</segment>
 			</row>
 		</result>
 		<result prettyDate="February 2010" />

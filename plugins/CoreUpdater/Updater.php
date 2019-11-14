@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -296,11 +296,6 @@ class Updater
             // Copy the non-PHP files (e.g., images, css, javascript)
             Filesystem::copyRecursive($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT, true);
             $model->removeGoneFiles($extractedArchiveDirectory, PIWIK_DOCUMENT_ROOT);
-        }
-
-        // Config files may be user (account) specific
-        if (PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH) {
-            Filesystem::copyRecursive($extractedArchiveDirectory . '/config', PIWIK_USER_PATH . '/config');
         }
 
         Filesystem::unlinkRecursive($extractedArchiveDirectory, true);

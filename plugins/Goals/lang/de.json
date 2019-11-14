@@ -109,6 +109,8 @@
         "VisitPageTitle": "eine Seite mit einem bestimmten Titel besucht",
         "VisitsUntilConv": "Besuche bis zur Konversion",
         "VisitUrl": "Die angegebene URL (Seite oder Gruppe von Seiten) wird besucht",
+        "VisitDurationMatchAttr": "Verweilt für eine bestimmte Zeitdauer",
+        "VisitDuration": "Besuchsdauer ist",
         "WhenVisitors": "wenn vom Besucher",
         "WhereThe": "bei denen die",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "Die besuchte Seite muss einen Aufruf der JavaScript-Methode \"trackGoal\" enthalten (%1$serfahren Sie mehr%2$s)",
@@ -116,6 +118,8 @@
         "UseEventValueAsRevenue": "Den Ereigniswert (falls er existiert) als Zielertragsumsatz verwenden.",
         "GoalRevenue": "Ertrags-Ziel",
         "EventValueAsRevenueHelp": "Wenn das passende Ereignis einen Ertrag hat, und dieser Ertrag als Ereignis-Wert getrackt wird, können Sie diese Option verwenden, um den Ereignis-Wert als Zielertragsumsatz aufzuzeichnen. Wenn Ihr Ertrags-Ziel im Umsatz nicht variiert, können Sie diese Option ignorieren und einfach oebn einen Standardertrag setzen.",
-        "EventValueAsRevenueHelp2": "Hinweis: Wenn sowohl ein Ertragsziel als auch ein Ereignis-Wert definiert ist, wird der Ereignis-Wert verwendet. Wenn diese Option aktiviert ist und in einer Anfrage kein Ereignis-Wert gesangt wird, dann wird das Standard Ertrags-Ziel (falls definiert) verwendet."
+        "EventValueAsRevenueHelp2": "Hinweis: Wenn sowohl ein Ertragsziel als auch ein Ereignis-Wert definiert ist, wird der Ereignis-Wert verwendet. Wenn diese Option aktiviert ist und in einer Anfrage kein Ereignis-Wert gesangt wird, dann wird das Standard Ertrags-Ziel (falls definiert) verwendet.",
+        "AtLeastMinutes": "mindestens %1$s Minuten. Verwenden Sie Dezimale um Sekunden anzugeben, zum Beispiel %2$s um 30 Sekunden zu definieren.",
+        "TimeInMinutes": "Zeit in Minuten"
     }
 }

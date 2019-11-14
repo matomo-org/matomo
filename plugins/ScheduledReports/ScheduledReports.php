@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -342,6 +342,7 @@ class ScheduledReports extends \Piwik\Plugin
                 $emails[] = $user['email'];
             }
         }
+        $emails = array_unique($emails);
 
         if (! $force) {
             $this->markReportAsSent($report, $period);
@@ -571,7 +572,7 @@ class ScheduledReports extends \Piwik\Plugin
                 throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
-        $additionalEmails = array_values(array_filter($additionalEmails));
+        $additionalEmails = array_values(array_unique(array_filter($additionalEmails)));
         return $additionalEmails;
     }
 

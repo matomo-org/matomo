@@ -43,7 +43,10 @@ matrix:
       env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
     - php: 5.6
-      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=IntegrationTestsCore MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=IntegrationTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
     - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
@@ -123,7 +126,7 @@ after_script:
   # output contents of files w/ debugging info to screen
   - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
-  - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
+  - cat $PIWIK_ROOT_DIR/tmp/logs/matomo.log
   - cat $PIWIK_ROOT_DIR/config/config.ini.php
 
   # upload test artifacts (for debugging travis failures)

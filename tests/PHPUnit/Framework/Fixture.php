@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Framework;
@@ -200,7 +200,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $this->dbName = $this->getDbName();
 
         if ($this->persistFixtureData) {
-            $this->dropDatabaseInSetUp = false;
+            $this->dropDatabaseInSetUp = getenv('DROP') == 1;
             $this->dropDatabaseInTearDown = false;
             $this->overwriteExisting = false;
             $this->removeExistingSuperUser = false;
@@ -895,7 +895,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
         // and no one will know why the build fails.
         if (SystemTestCase::isTravisCI()) {
-            $cmd = "timeout 5m $cmd";
+            $cmd = "timeout 10m $cmd";
         }
 
         exec($cmd, $output, $result);

@@ -40,7 +40,7 @@
                         {% for product in action.itemDetails %}
                             <li>
                                 {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif -%}
-                                {%- if product.categories is not empty %} ({% for category in product.categories %}{{ category }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %},
+                                {%- if product.categories is defined and product.categories is not empty %} ({% for category in product.categories %}{{ category }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %},
                                 {{ 'General_Quantity'|translate }}: {{ product.quantity }},
                                 {{ 'General_Price'|translate }}: {{ product.price|money(visitInfo.idSite)|raw }}
                             </li>

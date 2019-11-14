@@ -1,6 +1,6 @@
 {
     "Live": {
-        "AveragePageGenerationTime": "Jokainen sivun lataaminen kesti keskimäärin %1$s tälle käyttäjälle.",
+        "AveragePageGenerationTime": "Jokainen sivun lataaminen kesti keskimäärin %1$s tälle kävijälle.",
         "CalculatedOverNPageViews": "Laskettu käyttämällä tämän kävijän %1$s viimeisintä nähtyä sivua.",
         "ClickToViewMoreAboutVisit": "Klikkaa saadaksesi lisätietoa tästä käynnistä",
         "ClickToViewAllActions": "Klikkaa näyttääksesi tarkat tiedot tästä ryhmästä",
@@ -36,6 +36,8 @@
         "ToggleActions": "Vaihda kaikkien toimintojen näkyvyys",
         "TopVisitedPages": "Suosituimmat sivut",
         "VisitsLog": "Käyntiloki",
+        "QueryMaxExecutionTimeExceeded": "Tämän kyselyn suorittaminen kesti liian kauan.",
+        "QueryMaxExecutionTimeExceededReasonDateRange": "Näin saattaa tapahtua, jos aikaväli on liian suuri. Yritä uudelleen käyttäen lyhyempää aikaväliä.",
         "VisitorLog": "Käyntiloki",
         "VisitorLogDocumentation": "Tämä taulukko näyttää viimeisimmät käynnit valitulta aikaväliltä. Voit nähdä, koska viimeisin käynti oli pitämällä hiirtä päiväyksen päällä. %1$s Jos aikaväli sisältää tämän päivän, näet kävijät reaaliaikaisena! %2$s Näytetyt tiedot ovat aina reaaliaikaisia, riippumatta arkistoinnista.",
         "VisitorLogNoDataMessagePurged": "Tiedot on luultavasti poistettu, koska säännöllinen vanhan raakadatan poisto on käytössä, ja tämän raportin päivämäärä on yli %s päivää sitten. Pääkäyttäjä voi muuttaa tätä asetusta kohdassa Ylläpitö => Yksityisyys.",
@@ -49,7 +51,8 @@
         "RowActionTooltipWithDimension": "Näytä käyntiloki paloiteltuna: %s",
         "RowActionTooltipTitle": "Näytä paloiteltu käyntiloki",
         "SegmentedVisitorLogTitle": "Käyntilokin käynnit, joissa %1$s on \"%2$s\"",
-        "OnClickPause": "%s on käynnissä. Pysäytä klikkaamalla.",
-        "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla."
+        "OnClickPause": "%s on käynnissä. Keskeytä klikkaamalla.",
+        "OnClickStart": "%s on pysäytetty. Aloita klikkaamalla.",
+        "ClickToSeeAllContents": "Klikkaa nähdäksesi interaktion sisältö"
     }
 }

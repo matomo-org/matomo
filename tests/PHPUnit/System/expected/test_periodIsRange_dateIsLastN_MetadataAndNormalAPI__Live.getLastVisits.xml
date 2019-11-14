@@ -132,6 +132,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>1000</revenue>
 				<goalPageId />
 				
@@ -267,6 +268,7 @@
 				<type>goal</type>
 				<goalName>second goal</goalName>
 				<goalId>2</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				
@@ -300,6 +302,7 @@
 				<type>goal</type>
 				<goalName>triggered js</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>0</revenue>
 				<goalPageId />
 				

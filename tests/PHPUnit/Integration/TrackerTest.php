@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
@@ -384,9 +385,27 @@ class TrackerTest extends IntegrationTestCase
         $this->request->setCurrentTimestamp(Date::$now);
         $this->tracker->trackRequest($this->request);
 
-        // Check for correct detection of whether the request's timestamp is 'today' in the appropriate timezone
-        // See Visit::markArchivedReportsAsInvalidIfArchiveAlreadyFinished() method
-        $this->assertEmpty(Option::getLike('report_to_invalidate_2_2019-04-02%'));
+        // make sure today archives are also invalidated
+        $this->assertEquals(['report_to_invalidate_2_2019-04-02_' . getmypid() => '1'], Option::getLike('report_to_invalidate_2_2019-04-02%'));
+    }
+
+    public function test_TrackingNewVisitOfKnownVisitor()
+    {
+        Fixture::createWebsite('2015-01-01 00:00:00');
+
+        // track one visit
+        $t = self::$fixture->getTracker($idSite = 1, '2015-01-01', $defaultInit = true, $useLocalTracker = true);
+        $t->setForceVisitDateTime('2015-08-06 07:53:09');
+        $t->setNewVisitorId();
+        Fixture::checkResponse($t->doTrackPageView('page view'));
+
+        // track action 2 seconds later w/ new_visit=1
+        $t->setForceVisitDateTime('2015-08-06 07:53:11');
+        $t->setCustomTrackingParameter('new_visit', '1');
+        Fixture::checkResponse($t->doTrackPageView('page view 2'));
+
+        $this->assertEquals(2, $this->getVisitCount());
+        $this->assertEquals(1, $this->getReturningVisitorCount());
     }
 
     private function getDefaultHandler()
@@ -448,12 +467,31 @@ class TrackerTest extends IntegrationTestCase
             rename($this->getLocalConfigPathMoved(), $this->getLocalConfigPath());
         }
     }
+
+    private function getVisitCount()
+    {
+        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('log_visit'));
+    }
+
+    private function getReturningVisitorCount()
+    {
+        return Db::fetchOne("SELECT COUNT(DISTINCT idvisitor) FROM " . Common::prefixTable('log_visit') . ' WHERE visitor_returning = 1');
+    }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+
+        $fixture->createSuperUser = true;
+    }
 }
 
 class TestTracker extends Tracker
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->isInstalled = true;
         $this->record = true;
     }

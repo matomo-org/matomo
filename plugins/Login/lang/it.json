@@ -36,6 +36,7 @@
         "PasswordChanged": "La tua password è stata cambiata.",
         "PasswordRepeat": "Password (ripeti)",
         "PasswordsDoNotMatch": "La password non corrisponde.",
+        "PasswordResetAlreadySent": "Di recente hai richiesto troppi ripristini di password. Una nuova richiesta può essere effettuata tra un'ora. In caso di problemi con la reimpostazione della password, contatta l'amministratore per avere assistenza.",
         "WrongPasswordEntered": "Si prega di inserire la tua password corretta.",
         "ConfirmPasswordToContinue": "Conferma la tua password per continuare",
         "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",

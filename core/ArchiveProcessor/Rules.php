@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -57,7 +57,7 @@ class Rules
 
     public static function shouldProcessReportsAllPlugins(array $idSites, Segment $segment, $periodLabel)
     {
-        if ($segment->isEmpty() && $periodLabel != 'range') {
+        if ($segment->isEmpty() && ($periodLabel != 'range' || SettingsServer::isArchivePhpTriggered())) {
             return true;
         }
 

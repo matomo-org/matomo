@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Plugin\LogTablesProvider;
+use Piwik\Plugins\SitesManager\Model;
 
 /**
  * Service that deletes log entries. Methods in this class cascade, so deleting visits will delete visit actions,
@@ -69,7 +70,7 @@ class LogDeleter
      * @param callable $afterChunkDeleted Callback executed after every chunk of visits are deleted.
      * @return int The number of visits deleted.
      */
-    public function deleteVisitsFor($startDatetime, $endDatetime, $idSite = null, $iterationStep = 1000, $afterChunkDeleted = null)
+    public function deleteVisitsFor($startDatetime, $endDatetime, $idSite = null, $iterationStep = 2000, $afterChunkDeleted = null)
     {
         $fields = array('idvisit');
         $conditions = array();
@@ -84,6 +85,12 @@ class LogDeleter
 
         if (!empty($idSite)) {
             $conditions[] = array('idsite', '=', $idSite);
+        } elseif (!empty($startDatetime) || !empty($endDatetime)) {
+            // make sure to use index!
+            $sitesModel = new Model();
+            $allIdSites = $sitesModel->getSitesId();
+            $allIdSites = array_map('intval', $allIdSites);
+            $conditions[] = array('idsite', '', $allIdSites);
         }
 
         $logsDeleted = 0;
@@ -95,7 +102,7 @@ class LogDeleter
             if (!empty($afterChunkDeleted)) {
                 $afterChunkDeleted($logsDeleted);
             }
-        });
+        }, $willDelete = true);
 
         return $logsDeleted;
     }

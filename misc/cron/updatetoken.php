@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
@@ -15,19 +15,15 @@ use Piwik\Application\Environment;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
 
-if (!defined('PIWIK_INCLUDE_PATH')) {
-    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
-}
-
-if (!defined('PIWIK_USER_PATH')) {
-    define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+if (!defined('PIWIK_DOCUMENT_ROOT')) {
+    define('PIWIK_DOCUMENT_ROOT', realpath(dirname(__FILE__) . "/../.."));
 }
 
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 
-require_once PIWIK_INCLUDE_PATH . "/index.php";
+require_once PIWIK_DOCUMENT_ROOT . "/index.php";
 
 if (!Common::isPhpCliMode()) {
     return;

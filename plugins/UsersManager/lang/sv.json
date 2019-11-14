@@ -124,8 +124,6 @@
         "SuperUserIntro2": "Vänligen använd denna funktion med försiktighet.",
         "HasSuperUserAccess": "Har Superanvändarrättigheter",
         "AreYouSure": "Är du säker?",
-        "RemoveSuperuserAccessConfirm": "Genom att ta bort superanvändarrättighet så kommer användaren inte längre ha några rättigheter (du behöver lägga till dessa efteråt). Vill du fortsätta?",
-        "AddSuperuserAccessConfirm": "Genom att ge en användare superanvändarrättighet får den full kontroll över Matomo och bör därför tilldelas i enstaka fall. Vill du fortsätta?",
         "DeleteUsers": "Ta bort användare",
         "UserSearch": "Sök användare",
         "FilterByAccess": "Filtrera på rättighet",

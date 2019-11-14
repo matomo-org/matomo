@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -65,12 +65,18 @@ class SparklinesConfigTest extends IntegrationTestCase
         $expectedSparkline = array(
             'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
             'metrics' => array (
-                array ('column' => '', 'value' => 10, 'description' => 'Visits'),
+                '' => [
+                    array ('value' => 10, 'description' => 'Visits', 'column' => ''),
+                ],
             ),
-            'order' => 999
+            'order' => 999,
+            'title' => null,
+            'group' => '',
+            'seriesIndices' => null,
+            'graphParams' => null,
         );
 
-        $this->assertSame(array($expectedSparkline), $this->config->getSortedSparklines());
+        $this->assertSame(array($expectedSparkline), $this->config->getSortedSparklines()['']);
     }
 
     public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrderWithColumn()
@@ -79,10 +85,10 @@ class SparklinesConfigTest extends IntegrationTestCase
         $params['columns'] = 'nb_visits';
         $this->config->addSparkline($params, $value = 10, $description = 'Visits');
 
-        $expectedSparkline = array('column' => 'nb_visits', 'value' => 10, 'description' => 'Visits');
+        $expectedSparkline = array('value' => 10, 'description' => 'Visits', 'column' => 'nb_visits');
 
         $sparklines = $this->config->getSortedSparklines();
-        $this->assertSame(array($expectedSparkline), $sparklines[0]['metrics']);
+        $this->assertSame(array($expectedSparkline), $sparklines[''][0]['metrics']['']);
     }
 
     public function test_addSparkline_shouldAddSparklineWithMultipleValues()
@@ -92,9 +98,9 @@ class SparklinesConfigTest extends IntegrationTestCase
         $sparklines = $this->config->getSortedSparklines();
 
         $this->assertSame(array (
-                array ('column' => '', 'value' => 10, 'description' => 'Visits'),
-                array ('column' => '', 'value' => 20, 'description' => 'Actions'),
-            ), $sparklines[0]['metrics']);
+                array ('value' => 10, 'description' => 'Visits', 'column' => ''),
+                array ('value' => 20, 'description' => 'Actions', 'column' => ''),
+            ), $sparklines[''][0]['metrics']['']);
     }
 
     public function test_addSparkline_shouldAddSparklinesMultipleValuesWithColumns()
@@ -105,12 +111,12 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->config->addSparkline($params, $values = array(10, 20), $description = array('Visits', 'Actions'));
 
         $expectedSparkline = array(
-            array ('column' => 'nb_visits', 'value' => 10, 'description' => 'Visits'),
-            array ('column' => 'nb_actions', 'value' => 20, 'description' => 'Actions')
+            array ('value' => 10, 'description' => 'Visits', 'column' => 'nb_visits'),
+            array ('value' => 20, 'description' => 'Actions', 'column' => 'nb_actions')
         );
 
         $sparklines = $this->config->getSortedSparklines();
-        $this->assertSame($expectedSparkline, $sparklines[0]['metrics']);
+        $this->assertSame($expectedSparkline, $sparklines[''][0]['metrics']['']);
     }
 
     /**
@@ -133,7 +139,7 @@ class SparklinesConfigTest extends IntegrationTestCase
         $this->assertSame(array (
             'percent'  => '-52.4%',
              'tooltip' => '1 visit compared to 2 visits'
-        ), $sparklines[0]['evolution']);
+        ), $sparklines[''][0]['evolution']);
     }
 
     public function test_addSparkline_shouldAddOrder()
@@ -142,7 +148,7 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $sparklines = $this->config->getSortedSparklines();
 
-        $this->assertSame(42, $sparklines[0]['order']);
+        $this->assertSame(42, $sparklines[''][0]['order']);
     }
 
     public function test_addSparkline_shouldBeAbleToBuildSparklineUrlBasedOnGETparams()
@@ -154,7 +160,166 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $sparklines = $this->config->getSortedSparklines();
 
-        $this->assertSame('?columns=nb_visits&viewDataTable=sparkline&date=2012-03-06,2012-04-04', $sparklines[0]['url']);
+        $this->assertSame('?columns=nb_visits&viewDataTable=sparkline&date=2012-03-06,2012-04-04', $sparklines[''][0]['url']);
+    }
+
+    public function test_addSparkline_shouldAddSparklinesWithGroups()
+    {
+        $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Visits', $evolution = null, $order = '4', $title = 'title1', $group = 'one');
+        $this->config->addSparkline($this->sparklineParams(), $value = 11, $description = 'Visits1', $evolution = null, $order = '1', $title = 'title2', $group = 'one');
+        $this->config->addSparkline($this->sparklineParams(), $value = 12, $description = 'Visits2', $evolution = null, $order = '3', $title = 'title3', $group = 'two');
+        $this->config->addSparkline($this->sparklineParams(), $value = 13, $description = 'Visits3', $evolution = null, $order = '6', $title = 'title4', $group = 'two');
+
+        $sparklines = $this->config->getSortedSparklines();
+        $expectedSparklines = [
+            'one' => [
+                [
+                    'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'metrics' => [
+                        '' => [
+                            0 => [
+                                'value' => 11,
+                                'description' => 'Visits1',
+                                'column' => '',
+                            ],
+                        ],
+                    ],
+                    'order' => 1,
+                    'title' => 'title2',
+                    'group' => 'one',
+                    'seriesIndices' => null,
+                    'graphParams' => null,
+                ],
+                [
+                    'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'metrics' => [
+                        '' => [
+                            0 => [
+                                'value' => 10,
+                                'description' => 'Visits',
+                                'column' => '',
+                            ],
+                        ],
+                    ],
+                    'order' => 4,
+                    'title' => 'title1',
+                    'group' => 'one',
+                    'seriesIndices' => null,
+                    'graphParams' => null,
+                ],
+            ],
+            'two' => [
+                [
+                    'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'metrics' => [
+                        '' => [
+                            0 => [
+                                'value' => 12,
+                                'description' => 'Visits2',
+                                'column' => '',
+                            ],
+                        ],
+                    ],
+                    'order' => 3,
+                    'title' => 'title3',
+                    'group' => 'two',
+                    'seriesIndices' => null,
+                    'graphParams' => null,
+                ],
+                [
+                    'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'metrics' => [
+                        '' => [
+                            0 => [
+                                'value' => 13,
+                                'description' => 'Visits3',
+                                'column' => '',
+                            ],
+                        ],
+                    ],
+                    'order' => 6,
+                    'title' => 'title4',
+                    'group' => 'two',
+                    'seriesIndices' => null,
+                    'graphParams' => null,
+                ],
+            ],
+        ];
+
+        $this->assertSame($expectedSparklines, $sparklines);
+    }
+
+    public function test_addSparkline_shouldAddSparklineMetricsWithGroups()
+    {
+        $metricInfos = [
+            [
+                'value' => 'v1',
+                'description' => 'd1',
+                'group' => 'g1',
+            ],
+            [
+                'value' => 'v2',
+                'description' => 'd3',
+                'group' => 'g1',
+            ],
+            [
+                'value' => 'v3',
+                'description' => 'd3',
+                'group' => 'g3',
+            ],
+            [
+                'value' => 'v4',
+                'description' => 'd4',
+                'group' => 'g1',
+            ],
+        ];
+        $this->config->addSparkline($this->sparklineParams(), $metricInfos, $description = null);
+
+        $sparklines = $this->config->getSortedSparklines();
+        $expectedSparklines = [
+            '' => [
+                [
+                    'url' => '?period=day&date=2012-03-06,2012-04-04&idSite=1&module=CoreHome&action=renderMe&viewDataTable=sparkline',
+                    'metrics' => [
+                        'g1' => [
+                            0 => [
+                                'value' => 'v1',
+                                'description' => 'd1',
+                                'group' => 'g1',
+                                'column' => '',
+                            ],
+                            1 => [
+                                'value' => 'v2',
+                                'description' => 'd3',
+                                'group' => 'g1',
+                                'column' => '',
+                            ],
+                            2 => [
+                                'value' => 'v4',
+                                'description' => 'd4',
+                                'group' => 'g1',
+                                'column' => '',
+                            ],
+                        ],
+                        'g3' => [
+                            0 => [
+                                'value' => 'v3',
+                                'description' => 'd3',
+                                'group' => 'g3',
+                                'column' => '',
+                            ],
+                        ],
+                    ],
+                    'order' => 999,
+                    'title' => null,
+                    'group' => '',
+                    'seriesIndices' => null,
+                    'graphParams' => null,
+                ],
+            ],
+        ];
+
+        $this->assertSame($expectedSparklines, $sparklines);
     }
 
     private function sparklineParams($params = array())

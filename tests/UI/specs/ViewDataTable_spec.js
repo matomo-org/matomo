@@ -26,12 +26,14 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should sort a column in descending order when column clicked initially", async function () {
         await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('2_column_sorted_desc');
     });
 
     it("should sort a column in ascending order when column clicked second time", async function () {
         await page.click('th#avg_time_on_site');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('3_column_sorted_asc');
     });
@@ -101,7 +103,45 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         expect(await page.screenshot({ fullPage: true })).to.matchImage('11_flattened');
     });
 
+    it("should show dimensions separately when option is clicked", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_columns');
+    });
+
+    it("should search in subtable dimensions even when they are displayed separately", async function () {
+        await page.click('.dataTableAction.searchAction');
+        await page.focus('.searchAction .dataTableSearchInput');
+        await page.keyboard.type('Bing');
+        await page.click('.searchAction .icon-search');
+        await page.waitForNetworkIdle();
+        await page.evaluate(() => document.activeElement.blur());
+        await page.waitFor(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
+    });
+
+    it("search should still work when showing dimensions combined again", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('flatten_search');
+    });
+
+    it("search should still work when switching to back to separate dimensions", async function () {
+        await page.click('.dropdownConfigureIcon');
+        await page.click('.dataTableShowDimensions');
+        await page.waitForNetworkIdle();
+        await page.waitFor(500);
+        await page.mouse.move(-10, -10);
+        await page.evaluate(() => document.activeElement.blur());
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('dimension_search');
+    });
+
     it("should show aggregate rows when the aggregate rows option is clicked", async function () {
+        await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableIncludeAggregateRows');
         await page.waitForNetworkIdle();

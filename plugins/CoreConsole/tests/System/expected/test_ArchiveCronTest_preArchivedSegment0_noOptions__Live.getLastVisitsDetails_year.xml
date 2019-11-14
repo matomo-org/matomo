@@ -38,6 +38,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>70</goalPageId>
 				
@@ -406,6 +407,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>84</goalPageId>
 				
@@ -488,8 +490,8 @@
 		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
 		<region />
 		<regionCode />
-		<city />
-		<location>Singapore</location>
+		<city>Singapore</city>
+		<location>Singapore, Singapore</location>
 		<visitLocalTime>08:10:38</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
@@ -541,6 +543,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>30</goalPageId>
 				
@@ -685,6 +688,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>31</goalPageId>
 				
@@ -845,6 +849,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>28</goalPageId>
 				
@@ -976,6 +981,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>29</goalPageId>
 				
@@ -1109,6 +1115,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>26</goalPageId>
 				
@@ -1430,6 +1437,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>22</goalPageId>
 				
@@ -1561,6 +1569,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<goalId>1</goalId>
+				
 				<revenue>5</revenue>
 				<goalPageId>21</goalPageId>
 				

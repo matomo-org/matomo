@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -244,7 +244,7 @@ class Url
         $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('$|', $trustedHosts) . '$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;

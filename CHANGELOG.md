@@ -4,11 +4,28 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.13.0
+
+### New API
+* New tracker method `setVisitStandardLength` which lets you configure a custom visit standard length in case a custom "visit_standard_length" is configured in the config. Setting only applies when heart beat is enabled.
+* Added new event `Metrics.isLowerValueBetter` so plugins can define if lower metric values are better for additional metrics.
+
+### Other Changes
+* User ID is no longer linked to visitor ID. Actions with different user IDs will still be considered as part of different visits, irrespective of their visitor IDs, but the same visitor ID can be used with different user IDs.
+
+## Matomo 3.12.0
+
+### New API
+* Added new event `Visualization.beforeRender`, triggered after immediately before rendering a visualization.
+* Added new event `Http.sendHttpRequest` and `Http.sendHttpRequest.end` so plugins can listen to external HTTP requests, monitor them, or resolve the request themselves.
+* Added new event `CliMulti.supportsAsync` so plugins can force or disable the usage of archiving through the CLI
+
 ## Matomo 3.10.0
 
 ### Breaking Changes
 * When giving a user superuser access through the `UsersManager.setSuperUserAccess` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
 * Website referrer URLs are now detected using domain only instead of domain and path. This means if you have two different websites on the same domain, but different paths, and a visitor visits from one to the other, it won't have a referrer website set.
+* Custom Dimensions values set with `setCustomDimension` are now URL encoded (they previously weren't). If you were manually URL encoding the custom dimension values before calling `setCustomDimension`, your custom dimension values appearing in reports and Visits log/Visitor profile may now be double URL encoded. To solve the double encoding issue, you can remove your URL encoding and trust that Matomo JavaScript Tracker will URL encode the values correctly.
 
 ### New APIs
 * A new tracker method `ping` has been added to send a ping request manually instead of using the heart beat timer.
@@ -511,7 +528,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### Breaking Changes
 * The `UserSettings` API has been removed. The API was deprecated in earlier versions. Use `DevicesDetection`, `Resolution` and `DevicePlugins` API instead.
-* Many translations have been moved to the new Intl plugin. Most of them will still work, but please update their usage. See https://github.com/matomo-org/piwik/pull/8101 for a full list 
+* Many translations have been moved to the new Intl plugin. Most of them will still work, but please update their usage. See https://github.com/matomo-org/matomo/pull/8101 for a full list 
 
 ### New features 
 * The JavaScript Tracker does now track outlinks and downloads if a user opens the context menu if the `enabled` parameter of the `enableLinkTracking()` method is set to `true`. To use this new feature use `tracker.enableLinkTracking(true)` or `_paq.push(['enableLinkTracking', true]);`. This is not industry standard and is vulnerable to false positives since not every user will select "Open in a new tab" when the context menu is shown. Most users will do though and it will lead to more accurate results in most cases.
@@ -619,7 +636,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
 
 ### New commands
-* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: [#6436](https://github.com/matomo-org/piwik/issues/6436)
+* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: [#6436](https://github.com/matomo-org/matomo/issues/6436)
 
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
@@ -738,10 +755,10 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * New APIs have been added for [Content Tracking](https://matomo.org/docs/content-tracking/) feature: Contents.getContentNames, Contents.getContentPieces
 
 ### Deprecations
-* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/matomo-org/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
+* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/matomo-org/matomo/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
 
 ### New APIs
-* It is now easier to generate the URL for a menu item see [#6140](https://github.com/matomo-org/piwik/issues/6140), [urlForDefaultAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/matomo-org/matomo/issues/6140), [urlForDefaultAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
 
 ### New commands
 * `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
@@ -771,8 +788,8 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The [settings](http://developer.matomo.org/guides/piwik-configuration) API will receive the actual entered value and will no longer convert characters like `&` to `&amp;`. If you still want this behavior - for instance to prevent XSS - you can define a filter by setting the `transform` property like this:
   `$setting->transform = function ($value) { return Common::sanitizeInputValue($value); }`
 * Config setting `disable_merged_assets` moved from `Debug` section to `Development`. The updater will automatically change the section for you.
-* `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/matomo-org/piwik/issues/5951)
-* `MultiSites.getAll` returns from now on always an array of websites. In the past it returned a single object and it didn't contain all properties in case only one website was found which was a bug see [#5987](https://github.com/matomo-org/piwik/issues/5987)
+* `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/matomo-org/matomo/issues/5951)
+* `MultiSites.getAll` returns from now on always an array of websites. In the past it returned a single object and it didn't contain all properties in case only one website was found which was a bug see [#5987](https://github.com/matomo-org/matomo/issues/5987)
 
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.

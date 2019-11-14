@@ -25,10 +25,10 @@ describe("ActionsDataTable", function () {
     });
 
     it("should load subtables correctly when row clicked", async function() {
-        firstRow = await page.jQuery('tr.subDataTable:first');
-        await firstRow.click();
         secondRow = await page.jQuery('tr.subDataTable:eq(2)');
         await secondRow.click();
+        firstRow = await page.jQuery('tr.subDataTable:first');
+        await firstRow.click();
         await page.mouse.move(-10, -10);
 
         await page.waitForNetworkIdle();
@@ -105,6 +105,7 @@ describe("ActionsDataTable", function () {
 
     it("should show the search when clicking on the search icon", async function() {
         await page.click('.dataTableAction.searchAction');
+        await page.mouse.move(-10, -10);
         await page.waitFor(500);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('search_visible');
     });

@@ -2,13 +2,15 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 namespace Piwik;
 
 use Piwik\Cache as PiwikCache;
+use Piwik\Columns\MetricsList;
+use Piwik\Container\StaticContainer;
 
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
@@ -175,6 +177,36 @@ class Metrics
         Metrics::INDEX_NB_VISITS_CONVERTED,
     );
 
+    public static function getMappingFromIdToName()
+    {
+        $cache = StaticContainer::get(PiwikCache\Transient::class);
+        $cacheKey = CacheId::siteAware(CacheId::pluginAware('Metrics.mappingFromIdToName'));
+
+        $value = $cache->fetch($cacheKey);
+        if (empty($value)) {
+            $value = self::$mappingFromIdToName;
+
+            /**
+             * Use this event if your plugin uses custom metric integer IDs to associate those IDs with the
+             * actual metric names (eg, 2 => nb_visits). This allows matomo to automate the replacing
+             * of IDs => metric names for your new metrics.
+             *
+             * **Example**
+             *
+             *     public function addMetricIdToNameMapping(&$mapping)
+             *     {
+             *         $mapping[Archiver::INDEX_MY_NEW_METRIC] = $mapping['MyPlugin_myNewMetric'];
+             *     }
+             *
+             * @ignore
+             */
+            Piwik::postEvent('Metrics.addMetricIdToNameMapping', [&$value]);
+
+            $cache->save($cacheKey, $value);
+        }
+        return $value;
+    }
+
     public static function getVisitsMetricNames()
     {
         $names = array();
@@ -213,6 +245,29 @@ class Metrics
      */
     public static function isLowerValueBetter($column)
     {
+        $isLowerBetter = null;
+
+        /**
+         * Use this event to define if a lower value of a metric is better.
+         *
+         * @param string $isLowerBetter should be set to a boolean indicating if lower is better
+         * @param string $column name of the column to determine
+         *
+         * **Example**
+         *
+         * public function checkIsLowerMetricValueBetter(&$isLowerBetter, $metric)
+         * {
+         *     if ($metric === 'position') {
+         *         $isLowerBetter = true;
+         *     }
+         * }
+         */
+        Piwik::postEvent('Metrics.isLowerValueBetter', [&$isLowerBetter, $column]);
+
+        if (!is_null($isLowerBetter)) {
+            return true;
+        }
+
         $lowerIsBetterPatterns = array(
             'bounce', 'exit'
         );

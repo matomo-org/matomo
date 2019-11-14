@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>10</nb_visits>
+		<nb_impressions>10</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<interaction_rate>50%</interaction_rate>
+		<is_summary>1</is_summary>
+		<Contents_ContentName>Others</Contents_ContentName>
+	</row>
+	<row>
+		<label>content name 20 - content piece 20</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
+		<Contents_ContentName>content name 20 - content piece 20</Contents_ContentName>
+		<segment>contentName==content+name+20</segment>
+	</row>
+	<row>
+		<label>content name 21 - content piece 21</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<Contents_ContentName>content name 21 - content piece 21</Contents_ContentName>
+		<segment>contentName==content+name+21</segment>
+	</row>
+	<row>
+		<label>content name 22 - content piece 22</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_impressions>5</nb_impressions>
+		<nb_interactions>5</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
+		<Contents_ContentName>content name 22 - content piece 22</Contents_ContentName>
+		<segment>contentName==content+name+22</segment>
+	</row>
+</result>

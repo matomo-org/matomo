@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -178,10 +178,6 @@ class Option
         $value = Db::fetchOne('SELECT option_value FROM `' . Common::prefixTable('option') . '` ' .
                               'WHERE option_name = ?', $name);
 
-        if ($value === false) {
-            return false;
-        }
-
         $this->all[$name] = $value;
         return $value;
     }
@@ -199,7 +195,7 @@ class Option
 
         if (! $rowsUpdated) {
             try {
-                $sql  = 'INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+                $sql  = 'INSERT IGNORE INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                         'VALUES (?, ?, ?) ';
                 $bind = array($name, $value, $autoLoad);
 

@@ -2,7 +2,7 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Tests\Fixtures;
@@ -108,9 +108,8 @@ class FewVisitsWithSetVisitorId extends Fixture
         // Set User ID
         $t->setUserId($userId);
 
-        // User ID takes precedence over any previously set Visitor ID
-        $this->assertEquals($t->getUserIdHashed($userId), $t->getVisitorId());
-        $this->assertEquals('9395988394d4568d', $t->getVisitorId());
+        // User ID does not take precedence over any previously set Visitor ID
+        $this->assertEquals($generatedVisitorId, $t->getVisitorId());
         $this->assertEquals($userId, $t->getUserId());
 
         // Track a pageview with this user id
@@ -124,7 +123,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         // A NEW VISIT WITH A SET USER ID
         // Change User ID -> This will create a new visit
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.2)->getDatetime());
-        $t->setNewVisitorId();
+        $t->setVisitorId('2f16b4d842cc294d');
         $secondUserId = 'new-email@example.com';
         $t->setUserId($secondUserId);
         self::checkResponse($t->doTrackPageView('a new user id was set -> new visit'));
@@ -132,6 +131,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         // A NEW VISIT BY THE SAME USER
         // Few hours later, the same user ID comes in from a different place and computer
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t->setVisitorId('7dcebef4faef4969'); // set manually so tests are not random
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5)->getDatetime());
         // Make sure the computer and IP look really different from previous visit
         $t->setIp('67.51.31.21');
@@ -176,6 +176,7 @@ class FewVisitsWithSetVisitorId extends Fixture
 
         // Set User ID to a known user id
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t->setVisitorId('7dcebef4faef4325'); // set manually so tests are not random
         $t->setForceVisitDateTime($oneWeekLater->getDatetime());
         $t->setUrl('http://example.org/index.htm');
         $t->setUserId(self::USER_ID_EXAMPLE_COM);
@@ -186,7 +187,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         $t->setUrl('http://example.org/index.htm');
         $userId = 'new-user-id@one-weeklater';
         $t->setUserId($userId);
-        $t->setVisitorId('6ccebef4faef4969'); // this should be ignored and User ID prevail
+        $t->setVisitorId('6ccebef4faef4969'); // this should not be ignored
         self::checkResponse($t->doTrackPageView('A page view by ' . $userId));
         $t->setForceVisitDateTime($oneWeekLater->addHour(0.8)->getDatetime());
 
