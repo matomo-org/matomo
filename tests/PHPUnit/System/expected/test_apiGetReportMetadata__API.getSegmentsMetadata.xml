@@ -723,4 +723,35 @@
 		<name>Order ID</name>
 		<segment>orderId</segment>
 	</row>
+	<row>
+		<type>metric</type>
+		<category>Ecommerce</category>
+		<name>Product Price</name>
+		<segment>productPrice</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product Category</name>
+		<segment>productCategory</segment>
+		<unionOfSegments>
+			<row>productCategory1</row>
+			<row>productCategory2</row>
+			<row>productCategory3</row>
+			<row>productCategory4</row>
+			<row>productCategory5</row>
+		</unionOfSegments>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product Name</name>
+		<segment>productName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Ecommerce</category>
+		<name>Product SKU</name>
+		<segment>productSku</segment>
+	</row>
 </result>
