@@ -42,6 +42,22 @@ class TwoSitesVisitsInPast extends Fixture
         if (!self::siteCreated($idSite = 2)) {
             self::createWebsite($this->dateTimeCreationWebsite2);
         }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 4)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 5)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
+
+        if (!self::siteCreated($idSite = 6)) {
+            self::createWebsite($this->dateTimeCreationWebsite2);
+        }
     }
 
     protected function trackVisits()
