@@ -293,6 +293,15 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                     'segment' => 'productSku==' . urlencode(urlencode('SKU VERY nice indeed')),
                 ]],
 
+                // deleted sku will be deleted
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegmentDeleted',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU WILL BE DELETED')),
+                ]],
+
                 [array_merge(['VisitsSummary.get'], $goalItemApi), [
                     'idSite' => $idSite,
                     'date' => $dateTime,
