@@ -122,6 +122,7 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
+        $('#overlayDateRangeSelect').prop('disabled', false).material_select();
     }
 
     function getOverlaySegment(url) {
