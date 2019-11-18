@@ -25,7 +25,7 @@
         "PluginDescription": "Fornece o registo em tempo real do visitante e permite-lhe ver os seus visitantes em tempo real na widget do painel. A extensão também lhe permite ver o perfil do Visitante para qualquer utilizador.",
         "PreviousVisitor": "Visitante anterior",
         "RealTimeVisitors": "Visitas em tempo-real",
-        "RealTimeVisitorCount": "Contagem dos visitantes em tempo real",
+        "RealTimeVisitorCount": "Número de visitantes em tempo real",
         "Referrer_URL": "Endereço do referenciador",
         "ShowMap": "mostrar o mapa",
         "ActionsAndDuration": "%1$s ações em %2$s",

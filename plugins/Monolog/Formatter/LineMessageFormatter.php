@@ -76,7 +76,7 @@ class LineMessageFormatter implements FormatterInterface
     {
         $strTrace = '';
         for ($i = 0; $i < $numLevels; $i++) {
-            if (empty($trace[$i])) {
+            if (!isset($trace[$i])) {
                 continue;
             }
 

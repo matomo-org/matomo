@@ -996,9 +996,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
-    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
+    enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered, setVisitStandardLength,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, ping, queueRequest, trackSiteSearch, trackEvent,
-    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,getRequestQueue, unsetPageIsUnloading,
+    requests, timeout, enabled, sendRequests, queueRequest, disableQueueRequest,setRequestQueueInterval,interval,getRequestQueue, unsetPageIsUnloading,
     setEcommerceView, getEcommerceItems, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1098,6 +1098,7 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+            coreHeartBeatCounter = 0,
 
             trackerIdCounter = 0,
 
@@ -1154,6 +1155,20 @@ if (typeof window.Piwik !== 'object') {
          */
         function isString(property) {
             return typeof property === 'string' || property instanceof String;
+        }
+
+        /*
+         * Is property a string?
+         */
+        function isNumber(property) {
+            return typeof property === 'number' || property instanceof Number;
+        }
+
+        /*
+         * Is property a string?
+         */
+        function isNumberOrHasLength(property) {
+            return isDefined(property) && (isNumber(property) || (isString(property) && property.length));
         }
 
         function isObjectEmpty(property)
@@ -3091,6 +3106,9 @@ if (typeof window.Piwik !== 'object') {
                 // alias to circumvent circular function dependency (JSLint requires this)
                 heartBeatPingIfActivityAlias,
 
+                // the standard visit length as configured in Matomo in "visit_standard_length" config setting
+                configVisitStandardLength = 1800,
+
                 // Disallow hash tags in URL
                 configDiscardHashTag,
 
@@ -3205,6 +3223,7 @@ if (typeof window.Piwik !== 'object') {
                 // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
+                timeWindowLastFocussed = null,
 
                 // Timestamp of last tracker request sent to Piwik
                 lastTrackerRequestTime = null,
@@ -3712,17 +3731,21 @@ if (typeof window.Piwik !== 'object') {
 
             function heartBeatOnFocus() {
                 hadWindowFocusAtLeastOnce = true;
+                timeWindowLastFocussed = new Date().getTime();
+            }
 
-                // since it's possible for a user to come back to a tab after several hours or more, we try to send
-                // a ping if the page is active. (after the ping is sent, the heart beat timeout will be set)
-                if (heartBeatPingIfActivityAlias()) {
-                    return;
-                }
-
-                heartBeatUp();
+            function hadWindowMinimalFocusToConsiderViewed() {
+                // we ping on blur or unload only if user was active for more than configHeartBeatDelay seconds on
+                // the page otherwise we can assume user was not really on the page and for example only switching
+                // through tabs
+                var now = new Date().getTime();
+                return !timeWindowLastFocussed || (now - timeWindowLastFocussed) > configHeartBeatDelay;
             }
 
             function heartBeatOnBlur() {
+                if (hadWindowMinimalFocusToConsiderViewed()) {
+                    heartBeatPingIfActivityAlias();
+                }
                 heartBeatDown();
             }
 
@@ -3741,7 +3764,21 @@ if (typeof window.Piwik !== 'object') {
                 addEventListener(windowAlias, 'focus', heartBeatOnFocus);
                 addEventListener(windowAlias, 'blur', heartBeatOnBlur);
 
-                heartBeatUp();
+                // when using multiple trackers then we need to add this event for each tracker
+                coreHeartBeatCounter++;
+                Piwik.addPlugin('HeartBeat' + coreHeartBeatCounter, {
+                    unload: function () {
+                        // we can't remove the unload plugin event when disabling heart beat timer but we at least
+                        // check if it is still enabled... note: when enabling heart beat, then disabling, then
+                        // enabling then this could trigger two requests under circumstances maybe. it's edge case though
+
+                        // we only send the heartbeat if onunload the user spent at least 15seconds since last focus
+                        // or the configured heatbeat timer
+                        if (heartBeatSetUp && hadWindowMinimalFocusToConsiderViewed()) {
+                            heartBeatPingIfActivityAlias();
+                        }
+                    }
+                });
             }
 
             function makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(callback)
@@ -3805,8 +3842,6 @@ if (typeof window.Piwik !== 'object') {
                 }
                 if (!heartBeatSetUp) {
                     setUpHeartBeat(); // setup window events too, but only once
-                } else {
-                    heartBeatUp();
                 }
             }
 
@@ -3894,6 +3929,71 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
+             * Browser features (plugins, resolution, cookies)
+             */
+            function detectBrowserFeatures() {
+                if (isDefined(browserFeatures.res)) {
+                    return browserFeatures;
+                }
+                var i,
+                    mimeType,
+                    pluginMap = {
+                        // document types
+                        pdf: 'application/pdf',
+
+                        // media players
+                        qt: 'video/quicktime',
+                        realp: 'audio/x-pn-realaudio-plugin',
+                        wma: 'application/x-mplayer2',
+
+                        // interactive multimedia
+                        dir: 'application/x-director',
+                        fla: 'application/x-shockwave-flash',
+
+                        // RIA
+                        java: 'application/x-java-vm',
+                        gears: 'application/x-googlegears',
+                        ag: 'application/x-silverlight'
+                    };
+
+                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
+                if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
+                    // general plugin detection
+                    if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
+                        for (i in pluginMap) {
+                            if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
+                                mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
+                                browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
+                            }
+                        }
+                    }
+
+                    // Safari and Opera
+                    // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
+                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
+                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
+                        typeof navigator.javaEnabled !== 'unknown' &&
+                        isDefined(navigatorAlias.javaEnabled) &&
+                        navigatorAlias.javaEnabled()) {
+                        browserFeatures.java = '1';
+                    }
+
+                    // Firefox
+                    if (isFunction(windowAlias.GearsFactory)) {
+                        browserFeatures.gears = '1';
+                    }
+
+                    // other browser features
+                    browserFeatures.cookie = hasCookies();
+                }
+
+                var width = parseInt(screenAlias.width, 10);
+                var height = parseInt(screenAlias.height, 10);
+                browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
+                return browserFeatures;
+            }
+
+            /*
              * Inits the custom variables object
              */
             function getCustomVariablesFromCookie() {
@@ -3926,6 +4026,7 @@ if (typeof window.Piwik !== 'object') {
              * note: this isn't a RFC4122-compliant UUID
              */
             function generateRandomUuid() {
+                var browserFeatures = detectBrowserFeatures();
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
@@ -3936,6 +4037,8 @@ if (typeof window.Piwik !== 'object') {
             }
 
             function generateBrowserSpecificId() {
+                var browserFeatures = detectBrowserFeatures();
+
                 return hash(
                     (navigatorAlias.userAgent || '') +
                     (navigatorAlias.platform || '') +
@@ -4409,6 +4512,7 @@ if (typeof window.Piwik !== 'object') {
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
                     '&send_image=0';
 
+                var browserFeatures = detectBrowserFeatures();
                 // browser features
                 for (i in browserFeatures) {
                     if (Object.prototype.hasOwnProperty.call(browserFeatures, i)) {
@@ -4523,7 +4627,18 @@ if (typeof window.Piwik !== 'object') {
              */
             heartBeatPingIfActivityAlias = function heartBeatPingIfActivity() {
                 var now = new Date();
-                if (lastTrackerRequestTime + configHeartBeatDelay <= now.getTime()) {
+                now = now.getTime();
+
+                if (!lastTrackerRequestTime) {
+                    return false; // no tracking request was ever sent so lets not send heartbeat now
+                }
+                if ((lastTrackerRequestTime + (1000*configVisitStandardLength)) <= now) {
+                    // heart beat does not extend the visit length and therefore there is pretty much no point
+                    // to send requests after this
+                    return false;
+                }
+
+                if (lastTrackerRequestTime + configHeartBeatDelay <= now) {
                     trackerInstance.ping();
 
                     return true;
@@ -5565,67 +5680,6 @@ if (typeof window.Piwik !== 'object') {
                 });
             }
 
-            /*
-             * Browser features (plugins, resolution, cookies)
-             */
-            function detectBrowserFeatures() {
-                var i,
-                    mimeType,
-                    pluginMap = {
-                        // document types
-                        pdf: 'application/pdf',
-
-                        // media players
-                        qt: 'video/quicktime',
-                        realp: 'audio/x-pn-realaudio-plugin',
-                        wma: 'application/x-mplayer2',
-
-                        // interactive multimedia
-                        dir: 'application/x-director',
-                        fla: 'application/x-shockwave-flash',
-
-                        // RIA
-                        java: 'application/x-java-vm',
-                        gears: 'application/x-googlegears',
-                        ag: 'application/x-silverlight'
-                    };
-
-                // detect browser features except IE < 11 (IE 11 user agent is no longer MSIE)
-                if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
-                    // general plugin detection
-                    if (navigatorAlias.mimeTypes && navigatorAlias.mimeTypes.length) {
-                        for (i in pluginMap) {
-                            if (Object.prototype.hasOwnProperty.call(pluginMap, i)) {
-                                mimeType = navigatorAlias.mimeTypes[pluginMap[i]];
-                                browserFeatures[i] = (mimeType && mimeType.enabledPlugin) ? '1' : '0';
-                            }
-                        }
-                    }
-
-                    // Safari and Opera
-                    // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
-                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
-                        typeof navigator.javaEnabled !== 'unknown' &&
-                        isDefined(navigatorAlias.javaEnabled) &&
-                        navigatorAlias.javaEnabled()) {
-                        browserFeatures.java = '1';
-                    }
-
-                    // Firefox
-                    if (isFunction(windowAlias.GearsFactory)) {
-                        browserFeatures.gears = '1';
-                    }
-
-                    // other browser features
-                    browserFeatures.cookie = hasCookies();
-                }
-
-                var width = parseInt(screenAlias.width, 10);
-                var height = parseInt(screenAlias.height, 10);
-                browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
-            }
-
             /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
@@ -5655,6 +5709,7 @@ if (typeof window.Piwik !== 'object') {
                 enabled: true,
                 requests: [],
                 timeout: null,
+                interval: 2500,
                 sendRequests: function () {
                     var requestsToTrack = this.requests;
                     this.requests = [];
@@ -5680,11 +5735,11 @@ if (typeof window.Piwik !== 'object') {
                         clearTimeout(this.timeout);
                         this.timeout = null;
                     }
-                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    // we always extend by another 2.5 seconds after receiving a tracking request
                     this.timeout = setTimeout(function () {
                         requestQueue.timeout = null;
                         requestQueue.sendRequests();
-                    }, 1750);
+                    }, requestQueue.interval);
 
                     var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
                     if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
@@ -5709,7 +5764,6 @@ if (typeof window.Piwik !== 'object') {
             /*
              * initialize tracker
              */
-            detectBrowserFeatures();
             updateDomainHash();
             setVisitorIdCookie();
 
@@ -5956,10 +6010,9 @@ if (typeof window.Piwik !== 'object') {
              * @param string User ID
              */
             this.setUserId = function (userId) {
-                if(!isDefined(userId) || !userId.length) {
-                    return;
+                if (isNumberOrHasLength(userId)) {
+                    configUserId = userId;
                 }
-                configUserId = userId;
             };
 
             /**
@@ -6823,12 +6876,24 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Set visit standard length (in seconds). This should ideally match the visit_standard_length setting
+             * in Matomo in case you customised it. This setting only has an effect if heart beat timer is active
+             * currently.
+             *
+             * @param int visitStandardLengthinSeconds Defaults to 1800s (30 minutes). Cannot be lower than 5.
+             */
+            this.setVisitStandardLength = function (visitStandardLengthinSeconds) {
+                visitStandardLengthinSeconds = Math.max(visitStandardLengthinSeconds, 5);
+                configVisitStandardLength = visitStandardLengthinSeconds;
+            };
+
+            /**
              * Set heartbeat (in seconds)
              *
-             * @param int heartBeatDelayInSeconds Defaults to 15. Cannot be lower than 1.
+             * @param int heartBeatDelayInSeconds Defaults to 15s. Cannot be lower than 5.
              */
             this.enableHeartBeatTimer = function (heartBeatDelayInSeconds) {
-                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 1);
+                heartBeatDelayInSeconds = Math.max(heartBeatDelayInSeconds, 5);
                 configHeartBeatDelay = (heartBeatDelayInSeconds || 15) * 1000;
 
                 // if a tracking request has already been sent, start the heart beat timeout
@@ -7216,7 +7281,10 @@ if (typeof window.Piwik !== 'object') {
              * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
-                if (!isDefined(category) || !category.length) {
+                if (isNumberOrHasLength(category)) {
+                    category = String(category);
+                }
+                if (!isDefined(category) || category === null || category === false || !category.length) {
                     category = "";
                 } else if (category instanceof Array) {
                     category = JSON_PIWIK.stringify(category);
@@ -7224,21 +7292,20 @@ if (typeof window.Piwik !== 'object') {
 
                 customVariablesPage[5] = ['_pkc', category];
 
-                if (isDefined(price) && String(price).length) {
+                if (isDefined(price) && price !== null && price !== false && String(price).length) {
                     customVariablesPage[2] = ['_pkp', price];
                 }
 
                 // On a category page, do not track Product name not defined
-                if ((!isDefined(sku) || !sku.length)
-                    && (!isDefined(name) || !name.length)) {
+                if (!isNumberOrHasLength(sku) && !isNumberOrHasLength(name)) {
                     return;
                 }
 
-                if (isDefined(sku) && sku.length) {
+                if (isNumberOrHasLength(sku)) {
                     customVariablesPage[3] = ['_pks', sku];
                 }
 
-                if (!isDefined(name) || !name.length) {
+                if (!isNumberOrHasLength(name)) {
                     name = "";
                 }
 
@@ -7274,8 +7341,8 @@ if (typeof window.Piwik !== 'object') {
              * @param float quantity (optional) Item's quantity. If not specified, will default to 1
              */
             this.addEcommerceItem = function (sku, name, category, price, quantity) {
-                if (sku.length) {
-                    ecommerceItems[sku] = [ sku, name, category, price, quantity ];
+                if (isNumberOrHasLength(sku)) {
+                    ecommerceItems[sku] = [ String(sku), name, category, price, quantity ];
                 }
             };
 
@@ -7285,7 +7352,8 @@ if (typeof window.Piwik !== 'object') {
              * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
              */
             this.removeEcommerceItem = function (sku) {
-                if (sku.length) {
+                if (isNumberOrHasLength(sku)) {
+                    sku = String(sku);
                     delete ecommerceItems[sku];
                 }
             };
@@ -7363,6 +7431,17 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableQueueRequest = function () {
                 requestQueue.enabled = false;
+            };
+
+            /**
+             * Defines after how many ms a queued requests will be executed after the request was queued initially.
+             * The higher the value the more tracking requests can be send together at once.
+             */
+            this.setRequestQueueInterval = function (interval) {
+                if (interval < 1000) {
+                    throw new Error('Request queue interval needs to be at least 1000ms');
+                }
+                requestQueue.interval = interval;
             };
 
             /**

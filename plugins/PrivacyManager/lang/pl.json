@@ -27,6 +27,7 @@
         "DoNotTrack_Description": "\"Nie Śledź Mnie\" jest technologią i propozycją polityki, która umożliwia użytkownikom wypisanie się ze śledzenia na odwiedzanych stronach, włączając w to serwisy analityczne, sieci reklamowe i platformy społecznościowe.",
         "DoNotTrack_Disable": "Wyłącz wsparcie Do Not Track",
         "DoNotTrack_Disabled": "Obecnie Matomo śledzi wszystkich użytkowników, nawet tych, którzy ustawili w przeglądarce opcję \"Nie chcę być śledzony\".",
+        "DoNotTrack_DisabledMoreInfo": "Zalecamy włączenie wsparcia dla DoNotTrack, aby respektować prawo do prywatności odwiedzających",
         "DoNotTrack_Enable": "Włącz wspracie dla \"Nie chcę być śledzony\"",
         "DoNotTrack_Enabled": "Obecnie szanujesz prywatności swojch użytkowników, Brawo!",
         "DoNotTrack_EnabledMoreInfo": "Jeśli użytkownicy ustawili w przeglądarce \"Nie chcę być śledzony\" (DoNotTrack włączony), Matomo nie będzie rejestrowało tych wizyt,",

@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "本报表集中显示所有访问来源，列出了访客用于查找您的网站而用到的所有的网站、搜索关键词和广告。",
         "Campaigns": "广告活动",
         "CampaignsDocumentation": "广告活动带来的访客。%1$s 查看 %2$s 报表了解详情。",
-        "CampaignsReportDocumentation": "本报表显示哪些广告活动带来了访客，%1$s 广告跟踪的详情，请看 %2$s matomo.org 上的广告活动文档 %3$s",
         "ColumnCampaign": "广告活动",
         "ColumnSearchEngine": "搜索引擎",
         "ColumnSocial": "社交网络",

@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Prosijek baziran na %1$s pogodak(a) %2$s između %3$s i %4$s",
-        "ColumnClickedURL": "Kliknut URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link",
         "ColumnDownloadURL": "Download URL",
@@ -29,7 +28,6 @@
         "EntryPageTitlesReportDocumentation": "Ovaj izvještaj sadrži informacije o naslovima ulaznih stranica koje su korištene prilikom specifičnog vremena.",
         "ExitPageTitles": "Naslovi izlaznih stranica",
         "ExitPageTitlesReportDocumentation": "Ovaj izvještaj sadrži informacije o naslovima izlaznih stranica koji su se dogodili prilikom specifičnom perioda.",
-        "LearnMoreAboutSiteSearchLink": "Nauči više o praćenju kako vaši posjetioci koriste pretragu na vašoj stranici.",
         "OneSearch": "1 traži",
         "OutlinkDocumentation": "Izlazni link je link na kojeg je izašao posjetilac sa tvoje stranica na neki drugi websajt (druga domena)",
         "OutlinksReportDocumentation": "Ovaj izvještaj sadrži hijerarhalnu listu izlaznih linkova koji su kliknuti od strane tvojih posjetilaca.",

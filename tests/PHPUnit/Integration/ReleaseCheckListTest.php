@@ -815,7 +815,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
 
-            if(strpos($file, 'vendor/php-di/php-di/website/') !== false) {
+            if(strpos($file, 'vendor/php-di/php-di/website/') !== false
+                || strpos($file, 'plugins/VisitorGenerator/vendor/fzaninotto/faker/src/Faker/Provider/') !== false) {
                 continue;
             }
 

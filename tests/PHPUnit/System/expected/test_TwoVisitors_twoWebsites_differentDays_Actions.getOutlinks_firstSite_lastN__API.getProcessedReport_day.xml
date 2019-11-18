@@ -8,7 +8,7 @@
 		<name>Outlinks</name>
 		<module>Actions</module>
 		<action>getOutlinks</action>
-		<dimension>Clicked URL</dimension>
+		<dimension>Clicked Outlink</dimension>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_visits>Unique Clicks</nb_visits>
@@ -24,7 +24,7 @@
 		<uniqueId>Actions_getOutlinks</uniqueId>
 	</metadata>
 	<columns>
-		<label>Clicked URL</label>
+		<label>Clicked Outlink</label>
 		<nb_visits>Unique Clicks</nb_visits>
 		<nb_hits>Clicks</nb_hits>
 	</columns>
