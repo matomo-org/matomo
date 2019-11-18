@@ -5612,6 +5612,12 @@ if (typeof window.Piwik !== 'object') {
                 }
             }
 
+            function updateOptOutText()
+            {
+                // Post a message to the opt-out form iframe to let it know whether our cookie says we are opted in or not
+                let optOutStatus = {opted_in: configHasConsent};
+                window.postMessage(JSON.stringify(optOutStatus), '*');
+            }
 
             function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
@@ -6808,6 +6814,7 @@ if (typeof window.Piwik !== 'object') {
                 var self = this;
                 trackCallback(function () {
                     trackCallbackOnReady(function () {
+                        updateOptOutText();
                         addClickListeners(enable, self);
                     });
                 });
@@ -7582,6 +7589,23 @@ if (typeof window.Piwik !== 'object') {
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
+            this.rememberConsentNotGiven = function (hoursToExpire) {
+                if (configCookiesDisabled) {
+                    logConsoleError('rememberConsentNotGiven is called but cookies are disabled, consent will not be remembered');
+                    return;
+                }
+
+                configHasConsent = false;
+
+                var now = new Date().getTime();
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                }
+
+                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+            };
+
             /**
              * Calling this method will remove any previously given consent and during this page view no request
              * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
@@ -7705,6 +7729,20 @@ if (typeof window.Piwik !== 'object') {
 
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
+
+        window.addEventListener('message', function(e) {
+            let data = JSON.parse(e.data);
+            if (typeof data.opted_in == 'undefined') {
+                return;
+            }
+
+            var tracker = new Tracker();
+            if (data.opted_in) {
+                tracker.rememberConsentGiven();
+            } else {
+                tracker.rememberConsentNotGiven();
+            }
+        });
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 

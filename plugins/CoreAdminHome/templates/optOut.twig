@@ -37,15 +37,14 @@
     <noscript>
     {% endif %}
 
-    {% if not trackVisits %}
-        <p>
+        <p id="optedOut" {% if not trackVisits %}style="display:none"{% endif %}>
         {{ 'CoreAdminHome_OptOutComplete'|translate }}
 
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
         </p>
-    {% else %}
-        <p>{{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}</p>
-    {% endif %}
+        <p id="optedIn" {% if trackVisits %}style="display:none"{% endif %}>
+            {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
+        </p>
 
     {% if showConfirmOnly %}</noscript>{% endif %}
 
@@ -55,11 +54,13 @@
         <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
         <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
-        {% if trackVisits %}
-            {{ 'CoreAdminHome_YouAreNotOptedOut'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
-        {% else %}
-            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
-        {% endif %}
+                <span id="labelOptOut" {% if not trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreNotOptedOut'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
+                </span>
+
+                <span id="labelOptIn" {% if trackVisits %} style="display:none;"{% endif %}>
+                    {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
+                </span>
         </strong></label>
         <noscript>
             <button type="submit">{{ 'General_Save'|translate }}</button>
