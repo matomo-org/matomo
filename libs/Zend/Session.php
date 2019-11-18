@@ -313,11 +313,38 @@ class Zend_Session extends Zend_Session_Abstract
         } else {
             if (!self::$_unitTestEnabled) {
                 session_regenerate_id(true);
+                self::rewriteSessionCookieWithSameSiteDirective();
             }
             self::$_regenerateIdState = 1;
         }
     }
 
+    /**
+     * Check if there is a Set-Cookie header present - if so, overwrite it with
+     * a similar header which also includes a SameSite directive. This workaround
+     * is needed because the SameSite property on the session cookie is not supported
+     * by PHP until 7.3.
+     */
+    private static function rewriteSessionCookieWithSameSiteDirective()
+    {
+        $headers = headers_list();
+        $cookieHeader = '';
+        foreach ($headers as $header) {
+            if (strpos($header, 'Set-Cookie: ' . \Piwik\Session::SESSION_NAME) === 0) {
+                $cookieHeader = $header;
+                break;
+            }
+        }
+
+        if (! $cookieHeader) {
+            return;
+        }
+
+        if (stripos($cookieHeader, 'SameSite') === false) {
+            $cookieHeader .= '; SameSite=Lax';
+            header($cookieHeader);
+        }
+    }
 
     /**
      * rememberMe() - Write a persistent cookie that expires after a number of seconds in the future. If no number of
@@ -763,14 +790,16 @@ class Zend_Session extends Zend_Session_Abstract
         if (isset($_COOKIE[session_name()])) {
             $cookie_params = session_get_cookie_params();
 
-            setcookie(
+            \Piwik\Session::writeCookie(
                 session_name(),
                 false,
                 315554400, // strtotime('1980-01-01'),
                 $cookie_params['path'],
                 $cookie_params['domain'],
-                $cookie_params['secure']
-                );
+                $cookie_params['secure'],
+                false,
+                'lax'
+            );
         }
     }
 

@@ -185,4 +185,41 @@ class Session extends Zend_Session
     {
         return self::$sessionStarted;
     }
+
+    /**
+     * Write cookie header.  Similar to the native setcookie() function but also supports
+     * the SameSite cookie property.
+     * @param $name
+     * @param $value
+     * @param int $expires
+     * @param string $path
+     * @param string $domain
+     * @param bool $secure
+     * @param bool $httpOnly
+     * @param string $sameSite
+     * @return string
+     */
+    public static function writeCookie($name, $value, $expires = 0, $path = '/', $domain = '/', $secure = false, $httpOnly = false, $sameSite = 'lax')
+    {
+        $headerStr = 'Set-Cookie: ' . $name . '=' . $value;
+        if ($expires) {
+            $headerStr .= '; expires=' . $expires;
+        }
+        if ($path) {
+            $headerStr .= '; path=' . $path;
+        }
+        if ($domain) {
+            $headerStr .= '; domain=' . $domain;
+        }
+        if ($secure) {
+            $headerStr .= '; secure';
+        }
+        if ($httpOnly) {
+            $headerStr .= '; httponly';
+        }
+        if ($sameSite) {
+            $headerStr .= '; SameSite=' . $sameSite;
+        }
+        return $headerStr;
+    }
 }
