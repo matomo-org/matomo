@@ -26,13 +26,15 @@
                     element.attr('data-target', element.attr('data-activates'));
                 }
 
-                $(element).dropdown({
-                    inDuration: 300,
-                    outDuration: 225,
-                    constrainWidth: false, // Does not change width of dropdown to that of the activator
-                    //  hover: true, // Activate on hover
-                    belowOrigin: true // Displays dropdown below the button
-                });
+                if (element.attr('data-target')) {
+                    $(element).dropdown({
+                        inDuration: 300,
+                        outDuration: 225,
+                        constrainWidth: false, // Does not change width of dropdown to that of the activator
+                        //  hover: true, // Activate on hover
+                        belowOrigin: true // Displays dropdown below the button
+                    });
+                }
 
                 return function (scope, element, attrs) {
 
