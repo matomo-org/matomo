@@ -145,7 +145,7 @@ describe("Comparison", function () {
     });
 
     it('should show the correct percentages and tooltip during comparison', async () => {
-        const element = await page.jQuery('span.ratio:visible:eq(3)');
+        const element = await page.jQuery('span.ratio:visible:eq(1)');
         await element.hover();
         const tooltip = await page.waitFor('.ui-tooltip', { visible: true });
         expect(await tooltip.screenshot()).to.matchImage('totals_tooltip');
