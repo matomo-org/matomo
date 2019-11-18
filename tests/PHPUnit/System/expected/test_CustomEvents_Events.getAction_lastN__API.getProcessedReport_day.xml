@@ -286,57 +286,57 @@
 			<row>
 				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>4</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>2</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>9</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>11</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>5</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>7</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>10</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>12</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>6</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>8</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>3</idsubdatatable>
+				
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>
@@ -349,57 +349,57 @@
 			<row>
 				
 				<segment>eventAction==playTrailer</segment>
-				<idsubdatatable>16</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==Search</segment>
-				<idsubdatatable>14</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play25%25</segment>
-				<idsubdatatable>15</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play50%25</segment>
-				<idsubdatatable>20</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play75%25</segment>
-				<idsubdatatable>17</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==playEnd</segment>
-				<idsubdatatable>22</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==rating</segment>
-				<idsubdatatable>18</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==clickBuyNow</segment>
-				<idsubdatatable>21</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>24</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==play</segment>
-				<idsubdatatable>19</idsubdatatable>
+				
 			</row>
 			<row>
 				
 				<segment>eventAction==playStart</segment>
-				<idsubdatatable>23</idsubdatatable>
+				
 			</row>
 			<row>
 				<segment>eventAction==Purchase</segment>
