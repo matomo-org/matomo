@@ -119,7 +119,7 @@ class Model
 
     public function createEcommerceItems($ecommerceItems)
     {
-        $sql = "INSERT INTO " . Common::prefixTable('log_conversion_item');
+        $sql = "INSERT IGNORE INTO " . Common::prefixTable('log_conversion_item');
         $i    = 0;
         $bind = array();
 
