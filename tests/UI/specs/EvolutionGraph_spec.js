@@ -51,6 +51,7 @@ describe("EvolutionGraph", function () {
         const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
         await element.click();
         await page.waitForNetworkIdle();
+        await page.waitFor(250);
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('two_metrics');
     });
