@@ -25,10 +25,12 @@
                 <form {{ form_data.attributes|raw }} ng-non-bindable>
                     <div class="row">
                         <div class="col s12 input-field">
-                            <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
-                                   autocorrect="off" autocapitalize="none"
-                                   tabindex="10" autofocus="autofocus"/>
-                            <label for="login_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
+                            <label>
+                                <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
+                                       tabindex="10" autofocus="autofocus"/>
+                                <span><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</span>
+                            </label>
                         </div>
                     </div>
 
@@ -45,9 +47,11 @@
 
                     <div class="row actions">
                         <div class="col s12">
-                            <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
-                                   {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
-                            <label for="login_form_rememberme">{{ 'Login_RememberMe'|translate }}</label>
+                            <label for="login_form_rememberme">
+                                <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
+                                       {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
+                                <span>{{ 'Login_RememberMe'|translate }}</span>
+                            </label>
                             <input class="submit btn" id="login_form_submit" type="submit" value="{{ 'Login_LogIn'|translate }}"
                                    tabindex="100"/>
                         </div>

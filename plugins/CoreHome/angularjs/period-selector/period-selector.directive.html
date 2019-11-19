@@ -52,7 +52,7 @@
                                             name="period"
                                             ng-attr-id="period_id_{{ period }}"
                                             ng-model="periodSelector.selectedPeriod"
-                                            ng-value="period"
+                                            ng-checked="periodSelector.selectedPeriod == period"
                                             ng-change="periodSelector.selectedPeriod = period"
                                             ng-dblclick="periodSelector.changeViewedPeriod(period)"
                                     />
@@ -66,8 +66,14 @@
         </table>
 
         <div class="compare-checkbox" ng-if="periodSelector.isComparisonEnabled()">
-            <input id="comparePeriodTo" type="checkbox" ng-model="periodSelector.isComparing"/>
-            <label for="comparePeriodTo">Compare to:</label>
+            <label>
+                <input
+                        id="comparePeriodTo"
+                        type="checkbox"
+                        ng-model="periodSelector.isComparing"
+                />
+                <span>Compare to:</span>
+            </label>
 
             <div
                     id="comparePeriodToDropdown"
