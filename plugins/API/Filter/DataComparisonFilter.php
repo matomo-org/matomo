@@ -126,6 +126,11 @@ class DataComparisonFilter
      */
     private $columnMappings;
 
+    /**
+     * @var bool
+     */
+    private $invertCompareChangeCompute;
+
     public function __construct($request, Report $report = null)
     {
         $this->request = $request;
@@ -168,6 +173,11 @@ class DataComparisonFilter
         foreach ($this->comparePeriods as $index => $period) {
             $date = $this->compareDates[$index];
             $this->comparePeriodIndices[$period][$date] = $index;
+        }
+
+        $this->invertCompareChangeCompute = Common::getRequestVar('invert_compare_change_compute', $default = 0, $type = 'int', $request) == 1;
+        if ($this->invertCompareChangeCompute && count($this->comparePeriods) != 2) {
+            throw new \Exception("invert_compare_change_compute=1 can only be used when comparing two periods.");
         }
 
         $this->columnMappings = $this->getColumnMappings();
@@ -474,31 +484,51 @@ class DataComparisonFilter
                 /** @var DataTable\Row[] $rows */
                 $rows = array_values($comparisons->getRows());
                 foreach ($rows as $index => $compareRow) {
-                    if ($index < $segmentCount) {
-                        continue; // do not calculate for first period
-                    }
-
                     list($periodIndex, $segmentIndex) = self::getIndividualComparisonRowIndices($table, $index, $segmentCount);
 
-                    $otherPeriodRowIndex = $segmentIndex;
-                    $otherPeriodRow = $comparisons[$otherPeriodRowIndex];
+                    if (!$this->invertCompareChangeCompute && $index < $segmentCount) {
+                        continue; // do not calculate for first period
+                    } else if ($this->invertCompareChangeCompute && $periodIndex != 0) {
+                        continue; // when inverting change calculation, only calculate for first period rows
+                    }
+
+                    if (!$this->invertCompareChangeCompute) {
+                        $otherPeriodRowIndex = $segmentIndex;
+                        $otherPeriodRow = $comparisons[$otherPeriodRowIndex];
+                    } else {
+                        $otherPeriodIndex = 1;
+                        $otherPeriodRowIndex = self::getComparisonSeriesIndex($table, $otherPeriodIndex, $segmentIndex, $segmentCount);
+                        $otherPeriodRow = $comparisons[$otherPeriodRowIndex];
+                    }
 
                     foreach ($compareRow->getColumns() as $name => $value) {
-                        $valueToCompare = $otherPeriodRow ? $otherPeriodRow->getColumn($name) : 0;
-                        $valueToCompare = $valueToCompare ?: 0;
+                        $changeTo = $this->computeChangePercent($otherPeriodRow, $compareRow, $name);
+                        $compareRow->addColumn($name . '_change', $changeTo);
 
-                        $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
-
-                        if ($change >= 0) {
-                            $change = '+' . $change;
-                        }
-                        $change .= '%';
-
-                        $compareRow->addColumn($name . '_change', $change);
+                        $changeFrom = $this->computeChangePercent($compareRow, $otherPeriodRow, $name);
+                        $compareRow->addColumn($name . '_change_from', $changeFrom);
                     }
                 }
             }
         });
+    }
+
+    private function computeChangePercent(DataTable\Row $fromRow, DataTable\Row $toRow, $columnName)
+    {
+        $value = $toRow ? $toRow->getColumn($columnName) : 0;
+        $value = $value ?: 0;
+
+        $valueToCompare = $fromRow ? $fromRow->getColumn($columnName) : 0;
+        $valueToCompare = $valueToCompare ?: 0;
+
+        $change = DataTable\Filter\CalculateEvolutionFilter::calculate($value, $valueToCompare, $precision = 1, $appendPercent = false);
+
+        if ($change >= 0) {
+            $change = '+' . $change;
+        }
+        $change .= '%';
+
+        return $change;
     }
 
     /**
@@ -584,6 +614,7 @@ class DataComparisonFilter
         foreach ($allMappings as $index => $name) {
             $mappings[$index] = $name;
             $mappings[$index . '_change'] = $name . '_change';
+            $mappings[$index . '_change_from'] = $name . '_change_from';
         }
         return $mappings;
     }

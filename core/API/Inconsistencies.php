@@ -38,6 +38,8 @@ class Inconsistencies
             'nb_visits_percentage',
             '/.*_evolution/',
             '/goal_.*_conversion_rate/',
+            '/step_.*_rate/',
+            '/funnel_.*_rate/',
             '/form_.*_rate/',
             '/field_.*_rate/',
         );

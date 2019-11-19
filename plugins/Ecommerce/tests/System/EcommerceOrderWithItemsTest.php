@@ -268,6 +268,47 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
                                             'columns' => 'avg_order_revenue'),
                                          'testSuffix' => '_AvgOrderRevenue')),
 
+                // product category segment
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productCategorySegment',
+                    'segment' => 'productCategory==Tools',
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productNameSegment',
+                    'segment' => 'productName=@' . urlencode(urlencode('bought day after')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegment',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU VERY nice indeed')),
+                ]],
+
+                // deleted sku will be deleted
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productSkuSegmentDeleted',
+                    'segment' => 'productSku==' . urlencode(urlencode('SKU WILL BE DELETED')),
+                ]],
+
+                [array_merge(['VisitsSummary.get'], $goalItemApi), [
+                    'idSite' => $idSite,
+                    'date' => $dateTime,
+                    'periods' => 'week',
+                    'testSuffix' => '_productPrice',
+                    'segment' => 'productPrice>500',
+                ]],
            ),
             self::getApiForTestingScheduledReports($dateTime, 'week')
         );

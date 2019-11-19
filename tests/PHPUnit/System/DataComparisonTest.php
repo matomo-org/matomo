@@ -404,6 +404,21 @@ class DataComparisonTest extends SystemTestCase
                     'expanded' => '0',
                 ],
             ]],
+
+            // invert comparison change test
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'testSuffix' => '_invertCompare',
+                'otherRequestParameters' => [
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$date1],
+                    'comparePeriods' => [$period1],
+                    'compare' => '1',
+                    'invert_compare_change_compute' => '1',
+                ],
+            ]],
         ];
     }
 }
