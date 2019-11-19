@@ -25,12 +25,10 @@
                 <form {{ form_data.attributes|raw }} ng-non-bindable>
                     <div class="row">
                         <div class="col s12 input-field">
-                            <label>
-                                <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
-                                       autocorrect="off" autocapitalize="none"
-                                       tabindex="10" autofocus="autofocus"/>
-                                <span><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</span>
-                            </label>
+                            <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
+                                   autocorrect="off" autocapitalize="none"
+                                   tabindex="10" autofocus="autofocus"/>
+                            <label for="login_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                         </div>
                     </div>
 
@@ -47,7 +45,7 @@
 
                     <div class="row actions">
                         <div class="col s12">
-                            <label for="login_form_rememberme">
+                            <label>
                                 <input name="form_rememberme" type="checkbox" id="login_form_rememberme" value="1" tabindex="90"
                                        {% if form_data.form_rememberme.value %}checked="checked" {% endif %}/>
                                 <span>{{ 'Login_RememberMe'|translate }}</span>
