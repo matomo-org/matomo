@@ -116,16 +116,19 @@ div.scrollable {
     margin: -1px 0 0 0;
 }
 
-.segment-element .edit_segment_name {
+.segment-element input.edit_segment_name[type=text]:not(.browser-default) {
     width: 200px;
 }
-
 
 .segment-element .segment-top {
     font-size: 11px;
     color: #505050;
     text-align: right;
     padding: 3px 7px 0 0;
+
+    > * {
+        vertical-align: top;
+    }
 }
 
 .segment-element .segment-top a {
@@ -552,4 +555,12 @@ a.metric_category {
 
 .enable_all_users, .visible_to_website, .auto_archive {
     display: inline-block;
+}
+
+.auto_archive {
+    max-width: 280px;
+    a.dropList {
+        display: inline-block;
+        width: calc(100% - 15px);
+    }
 }

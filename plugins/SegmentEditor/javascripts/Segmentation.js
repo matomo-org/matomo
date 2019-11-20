@@ -769,7 +769,8 @@ Segmentation = (function($) {
         };
 
         var makeDropList = function(spanId, selectId){
-            var select = $(self.form).find(selectId).hide();
+            var select = $(self.form).find(selectId);
+            select.hide().closest('.select-wrapper').children().hide();
             var dropList = $( '<a class="dropList dropdown">' )
                 .insertAfter( select )
                 .text( select.children(':selected').text() )

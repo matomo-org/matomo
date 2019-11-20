@@ -40,6 +40,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should show all available visualizations for this report", async function () {
         await page.click('.activateVisualizationSelection');
+        await page.waitFor(250); // wait for animation
 
         const element = await page.$('.dataTableFooterIcons');
         expect(await element.screenshot()).to.matchImage('5_visualizations');
