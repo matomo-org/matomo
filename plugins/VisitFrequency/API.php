@@ -27,7 +27,7 @@ class API extends \Piwik\Plugin\API
     const RETURNING_COLUMN_SUFFIX = "_returning";
 
     const NEW_VISITOR_SEGMENT = 'visitorType%3D%3Dnew';
-    const NEW_VISITOR_SUFFIX = "_new";
+    const NEW_COLUMN_SUFFIX = "_new";
 
     /**
      * @param int $idSite
@@ -42,9 +42,20 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $visitTypes = array(
-            self::NEW_VISITOR_SUFFIX => self::NEW_VISITOR_SEGMENT,
+            self::NEW_COLUMN_SUFFIX => self::NEW_VISITOR_SEGMENT,
             self::RETURNING_COLUMN_SUFFIX => self::RETURNING_VISITOR_SEGMENT
         );
+
+        // Unset one of the visit types if it was not requested - means fewer visit types
+        // We always need to have at least one though
+        $columns = Piwik::getArrayFromApiParameter($columns);
+        if (! empty($columns)) {
+            if (!$this->hasPrefix($columns, self::NEW_COLUMN_SUFFIX)) {
+                unset($visitTypes[self::NEW_COLUMN_SUFFIX]);
+            } elseif (!$this->hasPrefix($columns, self::RETURNING_COLUMN_SUFFIX)) {
+                unset($visitTypes[self::RETURNING_COLUMN_SUFFIX]);
+            }
+        }
 
         foreach (array_keys($visitTypes) as $columnSuffix) {
             $this->unprefixColumns($columns, $columnSuffix);
@@ -70,7 +81,7 @@ class API extends \Piwik\Plugin\API
             $response = Request::processRequest('VisitsSummary.get', $params);
             $this->prefixColumns($response, $period, $columnSuffix);
 
-            if ($resultSet == null) {
+            if ($resultSet === null) {
                 $resultSet = $response;
             } else {
                 $merger = new MergeDataTables();
@@ -92,9 +103,8 @@ class API extends \Piwik\Plugin\API
         return $segment;
     }
 
-    protected function unprefixColumns(&$columns, $suffix)
+    protected function unprefixColumns(array &$columns, $suffix)
     {
-        $columns = Piwik::getArrayFromApiParameter($columns);
         foreach ($columns as &$column) {
             $column = str_replace($suffix, "", $column);
         }
@@ -107,5 +117,15 @@ class API extends \Piwik\Plugin\API
             $rename[$oldColumn] = $oldColumn . $suffix;
         }
         $table->filter('ReplaceColumnNames', array($rename));
+    }
+
+    protected function hasPrefix(array $columns, $suffix)
+    {
+        foreach ($columns as $column) {
+            if (strpos($column, $suffix) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }

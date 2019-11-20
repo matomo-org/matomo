@@ -30,9 +30,9 @@ class Get extends \Piwik\Plugin\Report
         $this->name          = Piwik::translate('VisitFrequency_ColumnReturningVisits');
         $this->documentation = ''; // TODO
         $this->processedMetrics = array(
-            new ReturningMetric(new AverageTimeOnSite()),
-            new ReturningMetric(new ActionsPerVisit()),
-            new ReturningMetric(new BounceRate()),
+            new ReturningMetric(new AverageTimeOnSite(), '_returning'),
+            new ReturningMetric(new ActionsPerVisit(), '_returning'),
+            new ReturningMetric(new BounceRate(), '_returning'),
             new ReturningMetric(new AverageTimeOnSite(), '_new'),
             new ReturningMetric(new ActionsPerVisit(), '_new'),
             new ReturningMetric(new BounceRate(), '_new')
@@ -43,14 +43,12 @@ class Get extends \Piwik\Plugin\Report
             'nb_uniq_visitors_returning',
             'nb_users_returning',
             'max_actions_returning',
+
             'nb_visits_new',
             'nb_actions_new',
             'nb_uniq_visitors_new',
             'nb_users_new',
             'max_actions_new',
-            'bounce_rate_new',
-            'nb_actions_per_visit_new',
-            'avg_time_on_site_new'
         );
         $this->order = 40;
         $this->subcategoryId = 'VisitorInterest_Engagement';
