@@ -8,7 +8,7 @@
  */
 namespace Piwik;
 
-use DeviceDetector\DeviceDetector;
+use Piwik\Container\StaticContainer;
 
 /**
  * Simple class to handle the cookies:
@@ -439,20 +439,21 @@ class Cookie
     {
         $sameSite = ucfirst($default);
 
-        $userAgent = Http::getUserAgent();
-        $deviceDetector = new DeviceDetector($userAgent);
-        $deviceDetector->parse();
-        $browser = $deviceDetector->getClient();
-        if (is_array($browser)) {
-            $browser = $browser['name'];
-        }
+        if ($sameSite == 'None') {
+            $userAgent = Http::getUserAgent();
+            $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+            $deviceDetector = $ddFactory->makeInstance($userAgent);
+            $deviceDetector->parse();
+            $browser = $deviceDetector->getClient();
+            if (is_array($browser)) {
+                $browser = $browser['name'];
+            }
 
-        if ((!ProxyHttp::isHttps()) && $browser === 'Chrome' && ($sameSite === 'None')) {
-            $sameSite = 'Lax';
-        }
-
-        if ($sameSite === 'None' && $browser === 'Safari') {
-            $sameSite = '';
+            if ((!ProxyHttp::isHttps()) && $browser === 'Chrome') {
+                $sameSite = 'Lax';
+            } else if ($browser === 'Safari') {
+                $sameSite = '';
+            }
         }
 
         return $sameSite;

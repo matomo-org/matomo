@@ -19,23 +19,29 @@ class CookieTest extends SystemTestCase
     const USERAGENT_FIREFOX = 'Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/20100101 Firefox/6.0';
     const USERAGENT_SAFARI = 'Mozilla/5.0 (X11; U; Linux x86_64; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/531.2+';
 
+    private $testVars;
+
     private $originalAssumeSecureValue;
 
     public function setUp()
     {
         parent::setUp();
+        $this->testVars = static::$fixture->getTestEnvironment();
         $this->originalAssumeSecureValue = Config::getInstance()->General['assume_secure_protocol'];
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Config::getInstance()->General['assume_secure_protocol'] = $this->originalAssumeSecureValue;
+        $this->testVars->overrideConfig('General', 'assume_secure_protocol', $this->originalAssumeSecureValue);
+        $this->testVars->save();
     }
 
     public function testIgnoreCookieSameSiteChromeSecure()
     {
-        Config::getInstance()->General['assume_secure_protocol'] = 1;
+        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 1);
+        $this->testVars->save();
+
         $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('None', $cookie);
@@ -43,6 +49,9 @@ class CookieTest extends SystemTestCase
 
     public function testIgnoreCookieSameSiteChromeNotSecure()
     {
+        $this->testVars->overrideConfig('General', 'assume_secure_protocol', 0);
+        $this->testVars->save();
+
         $headers = $this->setIgnoreCookie(self::USERAGENT_CHROME);
         $cookie = $this->findIgnoreCookie($headers);
         $this->assertCookieSameSiteMatches('Lax', $cookie);
