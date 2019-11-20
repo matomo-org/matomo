@@ -92,7 +92,7 @@ class CoreHome extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        //$stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css";
+        //$stylesheets[] = "libs/jquery/themes/base/jquery-ui.min.css"; TODO
         $stylesheets[] = "node_modules/jquery-ui-dist/jquery-ui.min.css";
         $stylesheets[] = "node_modules/materialize-css/dist/css/materialize.min.css";
         $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";

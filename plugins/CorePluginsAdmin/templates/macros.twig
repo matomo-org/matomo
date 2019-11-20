@@ -10,8 +10,9 @@
         <tr>
             <th>
                 <span class="checkbox-container">
-                    <label for="select-plugin-all">
+                    <label>
                         <input type="checkbox" id="select-plugin-all"/>
+                        <span></span>
                     </label>
                 </span>
             </th>
@@ -29,6 +30,7 @@
                     <span class="checkbox-container">
                         <label>
                             <input type="checkbox" id="select-plugin-{{ plugin.name|e('html_attr') }}" {% if plugin.isDownloadable is defined and not plugin.isDownloadable %}disabled="disabled"{% endif %} />
+                            <span></span>
                         </label>
                     </span>
                 </td>

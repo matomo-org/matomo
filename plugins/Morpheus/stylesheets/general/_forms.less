@@ -82,7 +82,8 @@ nav.blue-grey.darken-3 {
 }
 
 [type="radio"]:checked + label::after,
- [type="radio"].with-gap:checked + label::after {
+[type="radio"].with-gap:checked + label::after,
+[type="radio"]:checked + span::after {
   background-color: @theme-color-brand;
   border-color: @theme-color-brand;
 }
@@ -118,4 +119,9 @@ input:not([type]):focus:not([readonly]) + label,
  input[type=search]:focus:not([readonly]) + label,
  textarea.materialize-textarea:focus:not([readonly]) + label {
   color: @theme-color-brand;
+}
+
+abbr[title] {
+  border-bottom: 1px dotted;
+  text-decoration: none;
 }
