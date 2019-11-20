@@ -3003,6 +3003,34 @@ if (typeof window.Piwik !== 'object') {
             }
         }
 
+        var optOutTimer = null;
+
+        function updateOptOutText(optIn)
+        {
+            // Post a message to the opt-out form iframe to let it know whether our cookie says we are opted in or not
+            // We don't know whether iframe has finished loading yet so we'll fire it a few times, either until we
+            // receive a response from the iframe that it's succeeded (we have a listener registered for this event)
+            // or until we've tried enough times that it seems pointless to keep going
+            var optOutStatus = {opted_in: optIn};
+            var numAttempts = 0;
+            optOutTimer = setInterval(function() {
+                var iframes = document.getElementsByTagName('iframe');
+                for (var i = 0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+                    iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
+                }
+                numAttempts++;
+                if (numAttempts > 5) {
+                    clearInterval(optOutTimer);
+                }
+            }, 1000);
+        }
+
+        function stopInitializationInterval()
+        {
+            clearInterval(optOutTimer);
+        }
+
         /************************************************************
          * End Page Overlay
          ************************************************************/
@@ -5612,13 +5640,6 @@ if (typeof window.Piwik !== 'object') {
                 }
             }
 
-            function updateOptOutText()
-            {
-                // Post a message to the opt-out form iframe to let it know whether our cookie says we are opted in or not
-                let optOutStatus = {opted_in: configHasConsent};
-                window.postMessage(JSON.stringify(optOutStatus), '*');
-            }
-
             function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
                 if (isTrackOnlyVisibleContentEnabled) {
@@ -6814,7 +6835,7 @@ if (typeof window.Piwik !== 'object') {
                 var self = this;
                 trackCallback(function () {
                     trackCallbackOnReady(function () {
-                        updateOptOutText();
+                        updateOptOutText(configHasConsent);
                         addClickListeners(enable, self);
                     });
                 });
@@ -7731,7 +7752,19 @@ if (typeof window.Piwik !== 'object') {
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
         window.addEventListener('message', function(e) {
-            let data = JSON.parse(e.data);
+            try {
+                var data = JSON.parse(e.data);
+            } catch (e) {
+                return;
+            }
+
+            if (typeof data.loaded != 'undefined') {
+                // We received a response to our message sending the initial state to the iframe
+                // We can clear the interval so that we don't send any more
+                stopInitializationInterval();
+                return;
+            }
+
             if (typeof data.opted_in == 'undefined') {
                 return;
             }

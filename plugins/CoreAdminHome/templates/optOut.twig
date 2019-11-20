@@ -37,12 +37,12 @@
     <noscript>
     {% endif %}
 
-        <p id="optedOut" {% if not trackVisits %}style="display:none"{% endif %}>
+        <p id="textOptIn" {% if trackVisits %}style=" display:none"{% endif %}>
         {{ 'CoreAdminHome_OptOutComplete'|translate }}
 
         {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
         </p>
-        <p id="optedIn" {% if trackVisits %}style="display:none"{% endif %}>
+        <p id="textOptOut" {% if not trackVisits %}style="display:none"{% endif %}>
             {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
         </p>
 
