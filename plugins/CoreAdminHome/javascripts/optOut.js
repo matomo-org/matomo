@@ -4,8 +4,10 @@ function submitForm(e, form) {
 
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
-    var optOutStatus = {opted_in: optedIn};
-    parent.postMessage(JSON.stringify(optOutStatus), "*");
+    if (typeof parent.postMessage !== 'undefined') {
+        var optOutStatus = {opted_in: optedIn};
+        parent.postMessage(JSON.stringify(optOutStatus), "*");
+    }
 
     // Update the text on the form
     updateText(optedIn);

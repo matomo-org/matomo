@@ -1037,7 +1037,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
+          updateOptOutForm, DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -3004,27 +3004,6 @@ if (typeof window.Piwik !== 'object') {
         }
 
         var optOutTimer = null;
-
-        function updateOptOutText(optIn)
-        {
-            // Post a message to the opt-out form iframe to let it know whether our cookie says we are opted in or not
-            // We don't know whether iframe has finished loading yet so we'll fire it a few times, either until we
-            // receive a response from the iframe that it's succeeded (we have a listener registered for this event)
-            // or until we've tried enough times that it seems pointless to keep going
-            var optOutStatus = {opted_in: optIn};
-            var numAttempts = 0;
-            optOutTimer = setInterval(function() {
-                var iframes = document.getElementsByTagName('iframe');
-                for (var i = 0; i < iframes.length; i++) {
-                    var iframe = iframes[i];
-                    iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
-                }
-                numAttempts++;
-                if (numAttempts > 5) {
-                    clearInterval(optOutTimer);
-                }
-            }, 1000);
-        }
 
         function stopInitializationInterval()
         {
@@ -6835,7 +6814,6 @@ if (typeof window.Piwik !== 'object') {
                 var self = this;
                 trackCallback(function () {
                     trackCallbackOnReady(function () {
-                        updateOptOutText(configHasConsent);
                         addClickListeners(enable, self);
                     });
                 });
@@ -7610,23 +7588,6 @@ if (typeof window.Piwik !== 'object') {
                 setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
-            this.rememberConsentNotGiven = function (hoursToExpire) {
-                if (configCookiesDisabled) {
-                    logConsoleError('rememberConsentNotGiven is called but cookies are disabled, consent will not be remembered');
-                    return;
-                }
-
-                configHasConsent = false;
-
-                var now = new Date().getTime();
-                if (hoursToExpire) {
-                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
-                }
-
-                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
-                setCookie(CONSENT_REMOVED_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
-            };
-
             /**
              * Calling this method will remove any previously given consent and during this page view no request
              * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
@@ -7773,7 +7734,7 @@ if (typeof window.Piwik !== 'object') {
             if (data.opted_in) {
                 tracker.rememberConsentGiven();
             } else {
-                tracker.rememberConsentNotGiven();
+                tracker.forgetConsentGiven();
             }
         });
 
@@ -8005,8 +7966,39 @@ if (typeof window.Piwik !== 'object') {
                 for (i; i < missedCalls.length; i++) {
                     apply(missedCalls[i]);
                 }
+            },
+
+            /**
+             * Send a message to the iframe which holds the opt-out form, telling it the current value of the 
+             * first-party opt-out cookie.
+             */
+            updateOptOutForm: function() {
+                if (typeof window.postMessage === 'undefined') {
+                    // We're on an older browser so we can't do anything
+                    return;
+                }
+
+                // We don't know whether iframe has finished loading yet so we'll fire it a few times per second
+                // The iframe will send a response back to us which we handle in our message listener by
+                // clearing this interval.
+                var optOutStatus = {opted_in: this.getTracker().hasConsent()};
+                var numAttempts = 0;
+                optOutTimer = setInterval(function() {
+                    var iframes = document.getElementsByTagName('iframe');
+                    for (var i = 0; i < iframes.length; i++) {
+                        var iframe = iframes[i];
+                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
+                    }
+                    numAttempts++;
+                    // 10 times per second * 1200 = 2 minutes
+                    // If the iframe hasn't finished loading by now, it ain't gonna, so let's stop trying
+                    if (numAttempts > 1200) {
+                        clearInterval(optOutTimer);
+                    }
+                }, 100);
             }
-        };
+
+    };
 
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
@@ -8068,6 +8060,8 @@ if (typeof window.Piwik !== 'object') {
                 }};
         }
     }
+
+    window.Piwik.updateOptOutForm();
 
     window.Piwik.trigger('PiwikInitialized', []);
     window.Piwik.initialized = true;
