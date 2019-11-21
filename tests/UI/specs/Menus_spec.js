@@ -60,7 +60,7 @@ describe("Menus", function () {
     });
 
     // top menu on mobile
-    it('should load the admin reporting menu correctly', async function() {
+    it('should load the admin reporting menu correctly on mobile', async function() {
         page.webpage.setViewport({ width: 768, height: 512 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
         await page.waitFor('.pageWrap');
