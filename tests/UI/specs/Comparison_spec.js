@@ -38,7 +38,7 @@ describe("Comparison", function () {
         await page.goto(dashboardUrl);
         await page.waitForNetworkIdle();
 
-        await page.click('#periodString');
+        await page.click('#periodString #date');
         await page.waitFor('input#comparePeriodTo', { visible: true });
         await page.click('input#comparePeriodTo');
 

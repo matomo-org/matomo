@@ -25,7 +25,6 @@
             restrict: 'A',
             priority: 10,
             link: function(scope, element, attr, ctrl) {
-
                 if (attr.piwikSideNav) {
                     $timeout(function () {
                         if (!initialized) {
@@ -33,7 +32,7 @@
 
                             var sideNavActivator = $(attr.piwikSideNav).show();
 
-                            sideNavActivator.sideNav({
+                            $('#' + sideNavActivator.attr('data-target')).sidenav({
                                 closeOnClick: true
                             });
                         }
