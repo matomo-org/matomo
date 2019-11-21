@@ -24,7 +24,7 @@
             restrict: 'A',
             link: function(scope, element, attr) {
 
-                var sensitiveData = attr.piwikShowSensitiveData || attr.text();
+                var sensitiveData = attr.piwikShowSensitiveData || (attr.text ? attr.text() : '');
                 var showCharacters = attr.showCharacters || 6;
                 var clickElement = attr.clickElementSelector || element;
 

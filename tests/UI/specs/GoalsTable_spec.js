@@ -13,7 +13,7 @@ describe("GoalsTable", function () {
 
     it("should load when the goals icon is clicked", async function () {
         await page.goto(url);
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
         await page.waitForNetworkIdle();
 
@@ -50,7 +50,7 @@ describe("GoalsTable", function () {
     });
 
     it("should show abandoned carts data when the abandoned carts link is clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=ecommerceAbandonedCart]');
         await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();

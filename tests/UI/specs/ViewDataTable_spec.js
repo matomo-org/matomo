@@ -18,7 +18,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should load all columns when all columns clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('1_all_columns');
@@ -39,7 +39,8 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should show all available visualizations for this report", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
+        await page.mouse.move(-10, -10);
         await page.waitFor(250); // wait for animation
 
         const element = await page.$('.dataTableFooterIcons');
@@ -53,28 +54,28 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     });
 
     it("should load bar graph when bar graph footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=graphVerticalBar]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('6_bar_graph');
     });
 
     it("should load pie graph when pie graph footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=graphPie]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('7_pie_graph');
     });
 
     it("should load a tag cloud when tag cloud footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=cloud]');
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('8_tag_cloud');
     });
 
     it("should load normal table when normal table footer icon clicked", async function () {
-        await page.click('.activateVisualizationSelection');
+        await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=table]');
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10); // mae sure no row is highlighted
