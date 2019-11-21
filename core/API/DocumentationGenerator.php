@@ -212,8 +212,8 @@ class DocumentationGenerator
             'email'          => 'test@example.org',
 
             'languageCode'   => 'fr',
-            'url'            => 'http://forum.piwik.org/',
-            'pageUrl'        => 'http://forum.piwik.org/',
+            'url'            => 'https://divezone.net/',
+            'pageUrl'        => 'https://divezone.net/',
             'apiModule'      => 'UserCountry',
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
