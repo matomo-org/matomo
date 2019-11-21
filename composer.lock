@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec6d45d73018da7c8e46c09e80fd4a52",
+    "content-hash": "f244a77e8ac6cfb4125e24912c39833d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -153,6 +153,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {
@@ -333,17 +334,11 @@
         },
         {
             "name": "leafo/lessphp",
-            "version": "v0.5.0",
+            "version": "dev-php74-compat",
             "source": {
                 "type": "git",
-                "url": "https://github.com/leafo/lessphp.git",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-                "shasum": ""
+                "url": "https://github.com/matomo-org/lessphp.git",
+                "reference": "f16f6984aa9098559ababa9f47154a397b974c24"
             },
             "type": "library",
             "extra": {
@@ -356,7 +351,6 @@
                     "lessc.inc.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT",
                 "GPL-3.0"
@@ -370,7 +364,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2014-11-24T18:39:20+00:00"
+            "time": "2019-11-21T09:39:30+00:00"
         },
         {
             "name": "matomo-org/jshrink",
@@ -3273,6 +3267,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "leafo/lessphp": 20,
         "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
