@@ -65,7 +65,7 @@ describe("Menus", function () {
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
         await page.waitFor('.pageWrap');
         await page.evaluate(function(){
-            $('.activateTopMenu').click();
+            $('.activateTopMenu>span').click();
         });
         await page.waitFor(250);
 

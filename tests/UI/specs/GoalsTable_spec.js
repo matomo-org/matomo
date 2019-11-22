@@ -15,6 +15,7 @@ describe("GoalsTable", function () {
         await page.goto(url);
         await page.click('.activateVisualizationSelection > span');
         await page.click('.tableIcon[data-footer-icon-id=tableGoals]');
+        await page.mouse.move(-10, -10);
         await page.waitForNetworkIdle();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');

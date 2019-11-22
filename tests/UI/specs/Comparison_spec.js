@@ -39,8 +39,9 @@ describe("Comparison", function () {
         await page.waitForNetworkIdle();
 
         await page.click('#periodString #date');
+
         await page.waitFor('input#comparePeriodTo', { visible: true });
-        await page.click('input#comparePeriodTo');
+        await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();
@@ -115,7 +116,7 @@ describe("Comparison", function () {
     it('should remove period comparison if period is selected w/o compare set', async () => {
         await page.click('#periodString .periodSelector');
         await page.waitFor('input#comparePeriodTo', { visible: true });
-        await page.click('input#comparePeriodTo');
+        await page.click('input#comparePeriodTo + span');
 
         await page.click('#calendarApply');
         await page.waitForNetworkIdle();
