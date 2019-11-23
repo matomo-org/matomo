@@ -4,13 +4,14 @@
   }
 }
 
-.dataTableVizInsight .dataTableFeatures,
 .insightsDataTable {
 
   .controls {
-    padding: 20px 10px 0 0;
-    margin-bottom: 10px;
-    border-top: 1px solid @theme-color-border;
+    padding: 10px 0 0;
+
+    > div {
+      padding: 10px 0;
+    }
   }
 
   th.orderBy {
@@ -29,16 +30,17 @@
     display: block;
   }
 
-  .grown {
-    color:green;
-  }
+  tr:not(.subDataTableContainer) { // required to overwrite the color set in main.less
+    .grown {
+      color: green;
+    }
 
-  .notGrown {
-    color:red;
+    .notGrown {
+      color: red;
+    }
   }
 
   .isMoverAndShaker {
     font-weight:bold;
   }
-
 }

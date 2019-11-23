@@ -323,7 +323,7 @@ class AssetManager extends Singleton
      * @param UIAssetFetcher $assetFetcher
      * @return string
      */
-    private function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
+    protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher)
     {
         $jsIncludeString = '';
 

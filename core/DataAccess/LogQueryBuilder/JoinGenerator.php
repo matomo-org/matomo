@@ -277,6 +277,10 @@ class JoinGenerator
             return null;
         }
 
+        if ($table == 'log_conversion_item') { // by default we don't want to consider deleted columns
+            $join .= sprintf(' AND `%s`.deleted = 0', $table);
+        }
+
         return $join;
     }
 

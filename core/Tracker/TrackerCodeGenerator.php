@@ -245,17 +245,28 @@ class TrackerCodeGenerator
         $websiteHosts = array();
         $firstHost = null;
         foreach ($websiteUrls as $site_url) {
+            if (empty($site_url)) {
+                continue;
+            }
+            
             $referrerParsed = parse_url($site_url);
 
-            if (!isset($firstHost)) {
+            if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
             }
 
-            $url = $referrerParsed['host'];
+            if (isset($referrerParsed['host'])) {
+                $url = $referrerParsed['host'];
+            } else {
+                $url = '';
+            }
             if (!empty($referrerParsed['path'])) {
                 $url .= $referrerParsed['path'];
             }
-            $websiteHosts[] = $url;
+            
+            if (!empty($url)) {
+                $websiteHosts[] = $url;
+            }
         }
         $options = '';
         if ($mergeSubdomains && !empty($firstHost)) {

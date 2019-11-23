@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Paspausti URL",
         "ColumnClicks": "Paspaudimai",
         "ColumnDownloadURL": "Atsisiuntimų URL",
         "ColumnPageName": "Puslapio pavadinimas",

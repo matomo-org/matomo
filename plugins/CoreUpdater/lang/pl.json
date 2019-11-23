@@ -1,6 +1,7 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Sprawdzanie aktualizacji wtyczek",
+        "ClickHereToViewSqlQueries": "Kliknij, aby zobaczyć i skopiować listę kwerend SQL i poleceń konsoli, które zostaną wykonane",
         "CriticalErrorDuringTheUpgradeProcess": "Błąd krytyczny w trakcie procesu aktualizacji:",
         "DatabaseUpgradeRequired": "Wymagana aktualizacja bazy danych",
         "DisablingIncompatiblePlugins": "Wyłączanie niekompatybilnych wtyczek: %s",

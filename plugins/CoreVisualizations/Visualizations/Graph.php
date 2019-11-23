@@ -73,6 +73,19 @@ abstract class Graph extends Visualization
             $this->requestConfig->request_parameters_to_modify['keep_totals_row_label'] = Piwik::translate('General_Total');
         }
 
+        if (!empty($this->config->columns_to_display)) {
+            $metrics = $this->removeUnavailableMetrics($this->config->columns_to_display);
+            if (empty($metrics)) {
+                if (!empty($this->config->selectable_columns)) {
+                    $this->config->columns_to_display = array(reset($this->config->selectable_columns));
+                } else {
+                    $this->config->columns_to_display = array('nb_visit');
+                }
+                $this->requestConfig->request_parameters_to_modify['columns'] = 'nb_visits';
+                $this->requestConfig->request_parameters_to_modify['columns_to_display'] = 'nb_visits';
+            }
+        }
+
         $this->metricsFormatter = new Numeric();
     }
 

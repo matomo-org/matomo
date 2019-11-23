@@ -4,6 +4,7 @@
         "Administration": "管理",
         "ArchivingSettings": "归档设置",
         "BrandingSettings": "图标设置",
+        "ErrorEmailFromAddressNotValid": "SMTP发件人地址无效",
         "ReleaseChannel": "发布通道",
         "ClickHereToOptIn": "点这里主动加入。",
         "ClickHereToOptOut": "点这里主动退出。",
@@ -123,6 +124,7 @@
         "TrackingURL": "追踪网址",
         "LearnMore": "学到更多",
         "DeleteAllFailures": "删除所有失败",
+        "NTrackingFailures": "%s跟踪失败",
         "ViewAllTrackingFailures": "查看所有跟踪失败",
         "TrackingFailureInvalidSiteProblem": "该网站不存在。",
         "TrackingFailureInvalidSiteSolution": "更新跟踪器中已配置的idSite。",
@@ -130,7 +132,10 @@
         "TrackingFailureAuthenticationSolution": "在跟踪请求中设置或更正“token_auth”。",
         "ConfirmDeleteAllTrackingFailures": "您确定要删除所有错误追踪记录吗？",
         "ConfirmDeleteThisTrackingFailure": "您确定要删除这条错误追踪记录吗？",
+        "TrackingFailuresEmailSubject": "在您的Matomo Analytics中跟踪故障",
         "TrackingFailuresEmail1": "这只是为了让您知道%s在过去几天发生了不同类型的跟踪失败。",
-        "TrackingFailuresEmail2": "要查看所有失败的跟踪请求%1$s，请点击此处%2$s。"
+        "TrackingFailuresEmail2": "要查看所有失败的跟踪请求%1$s，请点击此处%2$s。",
+        "ImportFromGoogleAnalytics": "从Google Analytics（分析）导入",
+        "ImportFromGoogleAnalyticsDescription": "如果您拥有Google Analytics（分析）媒体资源，并且要切换到Matomo，则可以使用%1$s GoogleAnalyticsImporter%2$s插件导入现有数据。"
     }
 }

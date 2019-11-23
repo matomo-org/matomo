@@ -3,7 +3,7 @@
         "AllReferrersReportDocumentation": "Este relatório mostra todos os Referenciadores num relatório unificado, listando todos os sites, palavras-chave de pesquisa e campanhas utilizadas pelos seus visitantes para encontrar o seu site.",
         "Campaigns": "Campanhas",
         "CampaignsDocumentation": "Visitantes que chegaram ao seu site como resultado de uma campanha. %1$s Consulte o %2$s relatório para mais detalhes.",
-        "CampaignsReportDocumentation": "Este relatório mostra quais as campanhas que levaram visitantes ao seu site. %1$s Para mais informações sobre dados de campanhas de acompanhamento, leia a %2$sdocumentação de campanhas em matomo.org%3$s.",
+        "CampaignsReportDocumentation": "Este relatório mostra que campanhas conduziram visitantes ao seu site.",
         "ColumnCampaign": "Campanha",
         "CampaignPageUrlHelp": "O endereço da página para onde esta campanha remete, por exemplo, 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Escolha um nome que descreva para que foi criada a campanha e que distinga a sua campanha de outras campanhas. Por exemplo, 'Email-OportunidadesDeVerao' ou 'PublicidadePaga-OportunidadesDeVerao'.",
@@ -26,6 +26,7 @@
         "DistinctSearchEngines": "motores de pesquisa distintos",
         "DistinctSocialNetworks": "redes sociais distintas",
         "DistinctWebsites": "sites distintos",
+        "DistinctWebsiteUrls": "endereços distintos do site",
         "EvolutionDocumentation": "Isto é uma visão global dos referenciadores que trouxeram visitantes ao seu site.",
         "EvolutionDocumentationMoreInfo": "Para mais informações sobre os diferentes tipos de canais, consulte a documentação da tabela %s.",
         "Keywords": "Palavras-chave",
@@ -68,6 +69,12 @@
         "WidgetSocials": "Lista de redes sociais",
         "WidgetTopKeywordsForPages": "Principais palavras-chave por endereço de página",
         "XPercentOfVisits": "%s de visitas",
-        "Acquisition": "Aquisição"
+        "Acquisition": "Aquisição",
+        "VisitorsFromSearchEngines": "Visitantes de motores de pesquisa",
+        "PercentOfX": "Percentagem de %s",
+        "VisitorsFromSocialNetworks": "Visitantes de redes sociais",
+        "VisitorsFromDirectEntry": "Visitantes de entrada direta",
+        "VisitorsFromWebsites": "Visitantes de sites",
+        "VisitorsFromCampaigns": "Visitantes de campanhas"
     }
 }

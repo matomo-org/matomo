@@ -4,6 +4,7 @@
         "UsesTwoFactorAuthentication": "Wykorzystuje 2 składnikowe uwierzytelnianie",
         "TwoFactorAuthentication": "Uwierzytelnianie 2 składnikowe",
         "ResetTwoFactorAuthentication": "Resetuj uwierzytelnienie 2 składnikowe",
+        "ResetTwoFactorAuthenticationInfo": "Jeśli użytkownik nie może zalogować się po utracie kodów dostępu lub utracie tokena sprzętowego, możesz zresetować uwierzytelnianie 2 składnikowe dla niego, aby umożliwić ponowne logowanie.",
         "AddUser": "Dodaj nowego użytkownika",
         "AddExistingUser": "Dodaj istniejącego użytkownika",
         "AddNewUser": "Dodaj nowego użytkownika",

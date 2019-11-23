@@ -83,6 +83,7 @@
         "Version": "Versão",
         "ViewAllMarketplacePlugins": "Ver todas as extensões da loja",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "A extensão %1$s não pôde ser carregada dado que tem dependências em falta: %2$s",
-        "Websites": "Sites"
+        "Websites": "Sites",
+        "UpdateSelected": "Atualizar selecionados"
     }
 }

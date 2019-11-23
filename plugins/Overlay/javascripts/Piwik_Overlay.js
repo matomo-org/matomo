@@ -122,6 +122,7 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
+        $('#overlayDateRangeSelect').prop('disabled', false).material_select();
     }
 
     function getOverlaySegment(url) {
@@ -145,14 +146,15 @@ var Piwik_Overlay = (function () {
     }
 
     function setIframeOrigin(location) {
-        iframeOrigin = location.match(ORIGIN_PARSE_REGEX)[0];
+        var m = location.match(ORIGIN_PARSE_REGEX);
+        iframeOrigin = m ? m[0] : null;
 
         // unset iframe origin if it is not one of the site URLs
         var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
-            return url.match(ORIGIN_PARSE_REGEX)[0];
+            return url.match(ORIGIN_PARSE_REGEX)[0].toLowerCase();
         });
 
-        if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin) === -1) {
+        if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin.toLowerCase()) === -1) {
             try {
                 console.log('Found invalid iframe origin in hash URL: ' + iframeOrigin);
             } catch (e) {
@@ -191,6 +193,10 @@ var Piwik_Overlay = (function () {
         window.addEventListener("message", function (event) {
             if (event.origin !== iframeOrigin || !iframeOrigin) {
                 return;
+            }
+
+            if (typeof event.data !== 'string') {
+                return; // some other message not intended for us
             }
 
             var strData = event.data.split(':', 3);

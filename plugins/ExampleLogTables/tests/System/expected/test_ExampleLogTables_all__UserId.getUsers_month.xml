@@ -3,10 +3,10 @@
 	<row>
 		<label>user4</label>
 		<nb_visits>45</nb_visits>
-		<nb_actions>70</nb_actions>
+		<nb_actions>74</nb_actions>
 		<max_actions>3</max_actions>
-		<sum_visit_length>24</sum_visit_length>
-		<bounce_count>26</bounce_count>
+		<sum_visit_length>28</sum_visit_length>
+		<bounce_count>22</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>11</sum_daily_nb_users>

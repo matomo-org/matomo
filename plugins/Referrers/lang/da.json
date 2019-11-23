@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Rapporten viser alle henvisninger i én samlet rapport, over alle hjemmesider, Søg i nøgleord og kampagner som bruges af de besøgende til at finde hjemmesiden.",
         "Campaigns": "Kampagner",
         "CampaignsDocumentation": "Besøgende kom til hjemmesiden som følge af en kampagne. %1$s Se %2$s rapport for yderligere oplysninger.",
-        "CampaignsReportDocumentation": "Rapporten viser, hvilke kampagner der førte besøgende til hjemmesiden. %1$s Finde flere oplysninger om sporing af kampagner, læs %2$skampagne dokumentation på matomo.org%3$s",
         "ColumnCampaign": "Kampagne",
         "CampaignPageUrlHelp": "URL'en for en side, som denne kampagne fører til, for eksempel 'http:\/\/example.org\/tilbud.html'.",
         "ColumnSearchEngine": "Søgemaskine",

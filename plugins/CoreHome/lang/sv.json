@@ -14,6 +14,8 @@
         "DataTableExcludeAggregateRows": "Aggregerade rader dolda %s Dölj dem",
         "DataTableIncludeAggregateRows": "Aggregerade rader dolda %s Visa dem",
         "DataTableHowToSearch": "Tryck enter eller klicka på sökikonen för att söka",
+        "DataTableShowDimensions": "Dimensioner som är kombinerade %s Visa dimensioner separerade",
+        "DataTableCombineDimensions": "Dimensioner som visas separerade %s Visa dimensioner kombinerade",
         "Default": "standard",
         "DonateCall1": "Matomo kommer alltid vara gratis att använda men det innebär inte att det inte kostar något att skapa den.",
         "DonateCall2": "Matomo behöver ditt fortsatta stöd för att växa och frodas.",
@@ -104,6 +106,7 @@
         "StandardReport": "Standardrapport",
         "FlattenReport": "Platta till rapport",
         "ReportWithMetadata": "Rapport med metadata",
-        "SeeAvailableVersions": "Se tillgängliga versioner"
+        "SeeAvailableVersions": "Se tillgängliga versioner",
+        "QuickLinks": "Snabblänkar"
     }
 }

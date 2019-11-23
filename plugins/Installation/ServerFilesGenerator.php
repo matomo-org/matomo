@@ -232,7 +232,7 @@ Header set Cache-Control \"Cache-Control: private, no-cache, no-store\"
     /**
      * @return string
      */
-    protected static function getDenyHtaccessContent()
+    public static function getDenyHtaccessContent()
     {
 # Source: https://github.com/phpbb/phpbb/pull/2386/files#diff-f72a38c4bec79cc6ded3f8e435d6bd55L11
 # With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
@@ -268,7 +268,7 @@ HTACCESS_DENY;
     /**
      * @return string
      */
-    protected static function getAllowHtaccessContent()
+    public static function getAllowHtaccessContent()
     {
         $allow = <<<HTACCESS_ALLOW
 <IfModule mod_version.c>
