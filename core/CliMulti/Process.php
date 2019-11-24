@@ -181,7 +181,7 @@ class Process
             return false;
         }
 
-        if (!self::isProcFSMounted()) {
+        if (!self::isProcFSMounted() && !SettingsServer::isMac()) {
             return false;
         }
 
