@@ -366,10 +366,9 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-        if (empty($bind) && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
-            // bind is empty when a segment table was applied...
+        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
             $query['sql'] = trim($query['sql']);
-            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' ' . implode(',', array_map('intval', $this->sites)). ' */' . substr($query['sql'], strlen($select));
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
         }
  
     	// Log on DEBUG level all SQL archiving queries
