@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "%3$s から %4$s の間の %2$s のヒット ( 複数 ) %1$s に基づく平均",
+        "ColumnClickedURL": "クリックされたアウトリンク",
+        "ColumnClickedURLs": "クリックされたアウトリンク",
         "ColumnActionURL": "アクション URL",
         "ColumnClicks": "クリック",
         "ColumnClicksDocumentation": "このリンクがクリックされた回数",

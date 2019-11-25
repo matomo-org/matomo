@@ -19,6 +19,7 @@
         "ConfirmRemoveLicense": "ライセンスキーを削除してもよろしいですか？購入したプラグインのアップデートは今後受信しません。",
         "Developer": "デベロッパー",
         "DevelopersLearnHowToDevelopPlugins": "デベロッパー：%1$s テーマやプラグイン %2$s を開発することで Matomo を拡張、カスタマイズする方法を学びます。",
+        "NoticeRemoveMarketplaceFromReportingMenu": "%1$sホワイトラベル%2$sプラグインをインストールすると、レポートメニューからマーケットプレイスを削除できます。",
         "Marketplace": "マーケットプレイス",
         "PaidPlugins": "プレミアム機能",
         "FeaturedPlugin": "注目のプラグイン",

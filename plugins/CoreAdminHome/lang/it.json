@@ -4,6 +4,7 @@
         "Administration": "Amministrazione",
         "ArchivingSettings": "Impostazioni archiviazione",
         "BrandingSettings": "Impostazioni di personalizzazione",
+        "ErrorEmailFromAddressNotValid": "L'SMTP da indirizzo non è validio",
         "ReleaseChannel": "Canale release",
         "ClickHereToOptIn": "Clicca qui per accettare (opt-in).",
         "ClickHereToOptOut": "Clicca qui per rifiutare (opt-out).",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Sei sicuro di voler eliminare questo errore di tracking?",
         "TrackingFailuresEmailSubject": "Errori di tracking nel tuo Matomo Analytics",
         "TrackingFailuresEmail1": "Questo è solo per farti sapere che %s diversi tipi di errori di tracking si sono verificati negli ultimi giorni.",
-        "TrackingFailuresEmail2": "Per visualizzare tutte le richieste di tracking fallite %1$sclicca qui%2$s."
+        "TrackingFailuresEmail2": "Per visualizzare tutte le richieste di tracking fallite %1$sclicca qui%2$s.",
+        "ImportFromGoogleAnalytics": "Importazione da Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Se hai una proprietà Google Analytics e stai passando a Matomo, puoi importare i dati esistenti utilizzando il plugin %1$sGoogleAnalyticsImporter%2$s."
     }
 }

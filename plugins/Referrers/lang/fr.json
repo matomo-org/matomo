@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "Ce rapport affiche tous les référents en un rapport consolidé, listant tous les sites web, mots-clés de recherche et campagnes utilisés par vos visiteurs pour trouver votre site web.",
         "Campaigns": "Campagnes",
         "CampaignsDocumentation": "Visiteurs venus sur votre site web grâce à une campagne. %1$s Affichez le rapport %2$s pour plus de détails.",
+        "CampaignsReportDocumentation": "Ce rapport montre quel campagne a amené les visiteurs sur votre site web.",
         "ColumnCampaign": "Campagne",
         "CampaignPageUrlHelp": "L'URL de la page sur laquelle se rend cette campagne, par exemple 'http:\/\/exemple.org\/offre.html'.",
         "CampaignNameHelp": "Choisissez un nom qui décrit la campagne qui est en train d'être créée et qui la distingue d'autres campagnes. Par exemple 'DealsEte-Email' ou 'DealsEte-PubPay\".",
