@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin\Dependency as PluginDependency;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Unzip;
 use Piwik\Plugins\Marketplace\Api\Client;
@@ -197,7 +198,7 @@ class PluginInstaller
         }
 
         $dependency = new PluginDependency();
-        $dependency->setEnvironment($this->marketplaceClient->getEnvironment());
+        $dependency->setEnvironment($this->getEnvironment());
         $missingDependencies = $dependency->getMissingDependencies($requires);
 
         if (!empty($missingDependencies)) {
@@ -345,6 +346,15 @@ class PluginInstaller
     {
         if (!isset($this->marketplaceClient)) {
             throw new PluginInstallerException('Marketplace plugin needs to be enabled to perform this action.');
+        }
+    }
+
+    private function getEnvironment()
+    {
+        if ($this->marketplaceClient) {
+            return $this->marketplaceClient->getEnvironment();
+        } else {
+            return StaticContainer::get(Environment::class);
         }
     }
 

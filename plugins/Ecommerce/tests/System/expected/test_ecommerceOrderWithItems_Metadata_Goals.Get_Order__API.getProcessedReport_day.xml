@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Ecommerce Orders</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>

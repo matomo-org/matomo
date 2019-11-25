@@ -27,10 +27,16 @@ class Glossary
         $reports = array();
         foreach ($metadata as $report) {
             if (isset($report['documentation'])) {
-                $reports[] = array(
+                $docReport = array(
                     'name' => sprintf("%s (%s)", $report['name'], $report['category']),
                     'documentation' => $report['documentation']
                 );
+
+                if (isset($report['onlineGuideUrl'])) {
+                    $docReport['onlineGuideUrl'] = $report['onlineGuideUrl'];
+                }
+
+                $reports[] = $docReport;
             }
         }
 

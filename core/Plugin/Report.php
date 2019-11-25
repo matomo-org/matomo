@@ -75,6 +75,12 @@ class Report
     protected $documentation;
 
     /**
+     * URL linking to an online guide for this report or plugin.
+     * @var string
+     */
+    protected $onlineGuideUrl;
+
+    /**
      * The translation key of the category the report belongs to.
      * @var string
      * @api
@@ -598,6 +604,10 @@ class Report
 
         if (!empty($this->documentation)) {
             $report['documentation'] = $this->documentation;
+        }
+
+        if (!empty($this->onlineGuideUrl)) {
+            $report['onlineGuideUrl'] = $this->onlineGuideUrl;
         }
 
         if (true === $this->isSubtableReport) {

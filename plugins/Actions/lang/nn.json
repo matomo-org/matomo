@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Klikka URL",
         "ColumnClicks": "Klikk",
         "ColumnClicksDocumentation": "Talet på klikk på denne peikaren.",
         "ColumnDownloadURL": "Nedlasta URL",

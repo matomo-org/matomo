@@ -522,7 +522,7 @@
         "AddPiwikDemo": "Ajouter une démo Matomo",
         "Advanced": "Avancé",
         "AnonymousAccess": "Accès anonyme",
-        "AnonymousTracking": "Suivit anonyme",
+        "AnonymousTracking": "Suivi anonyme",
         "AskForAnonymousTrackingPermission": "Lorsque cette option est activée, Matomo Mobile enverra des données d'utilisation anonymes à matomo.org. Le but est d'utiliser ces données pour aider les développeurs de Matomo Mobile à mieux comprendre comment l'application est utilisée. Les informations envoyées sont : les menus et paramètres cliqués, le nom et la version du système d'exploitation, toute erreur affichée dans Matomo Mobile. Nous NE suivrons PAS vos données statistiques. Ces données anonymes ne seront jamais rendues publiques. Vous pouvez désactiver\/activer le suivi anonyme dans Paramètres à tout moment.",
         "ChooseHttpTimeout": "Choisir la valeur d'expiration HTTP",
         "ChooseMetric": "Choisissez un métrique",

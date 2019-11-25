@@ -4,6 +4,7 @@
         "Administration": "Administratie",
         "ArchivingSettings": "Archiveringsinstellingen",
         "BrandingSettings": "Merkinstellingen",
+        "ErrorEmailFromAddressNotValid": "Het SMTP afzender adres is niet geldig",
         "ReleaseChannel": "Versiekanaal",
         "ClickHereToOptIn": "Klik hier om u aan te melden.",
         "ClickHereToOptOut": "Klik hier om u af te melden.",
@@ -133,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "Weet u zeker dat u deze tracking fout wilt verwijderen?",
         "TrackingFailuresEmailSubject": "Tracking fouten in je Matomo Analyses",
         "TrackingFailuresEmail1": "Dit is om je te laten weten dat er gedurende de afgelopen dagen %s verschillende tracking fouten zijn opgetreden.",
-        "TrackingFailuresEmail2": "Om alle foute tracking aanvragen te bekijken %1$sklik hier%2$s."
+        "TrackingFailuresEmail2": "Om alle foute tracking aanvragen te bekijken %1$sklik hier%2$s.",
+        "ImportFromGoogleAnalytics": "Importeer van Google Analytics",
+        "ImportFromGoogleAnalyticsDescription": "Indien u een Google Analytics eigendomsrecht heeft en overschakelt naar Matomo kan u de bestaande gegevens importeren met de %1$sGoogleAnalyticsImporter%2$s plugin."
     }
 }

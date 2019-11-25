@@ -38,6 +38,7 @@
         "PluginDescription": "Marka (Üretici), Model (aygıt sürümü), aygıt türü (tv, oyun konsolu, akıllı telefon, masaüstü gibi) özellikleri içeren kullanıcı aygıtları ile ilgili ek bilgileri kapsar.",
         "SmartDisplay": "Akıllı Görüntüleyici",
         "Smartphone": "Akıllı Telefon",
+        "SmartSpeaker": "Akıllı hoparlör",
         "PortableMediaPlayer": "Taşınabilir Ortam Oynatıcısı",
         "Devices": "Aygıtlar",
         "GenericDevice": "Genel %s",

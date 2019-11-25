@@ -38,6 +38,7 @@
         "PluginDescription": "Unterstützt erweiterte Informationen über Benutzergeräte, wie Marke (Hersteller), Modell (Geräteversion), Gerätetyp (Fernseher, Konsolen, Smartphones, Desktops, usw.) und mehr.",
         "SmartDisplay": "Smart Display",
         "Smartphone": "Smartphone",
+        "SmartSpeaker": "Smarter Lautsprecher",
         "PortableMediaPlayer": "Portable Mediengeräte",
         "Devices": "Geräte",
         "GenericDevice": "Allgemeines %s",

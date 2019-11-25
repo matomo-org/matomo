@@ -212,8 +212,8 @@ class DocumentationGenerator
             'email'          => 'test@example.org',
 
             'languageCode'   => 'fr',
-            'url'            => 'http://forum.piwik.org/',
-            'pageUrl'        => 'http://forum.piwik.org/',
+            'url'            => 'https://divezone.net/',
+            'pageUrl'        => 'https://divezone.net/',
             'apiModule'      => 'UserCountry',
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
@@ -291,6 +291,7 @@ class DocumentationGenerator
         $aParameters['comparePeriods'] = false;
         $aParameters['compareSegments'] = false;
         $aParameters['comparisonIdSubtables'] = false;
+        $aParameters['invert_compare_change_compute'] = false;
 
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {

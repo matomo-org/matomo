@@ -1,0 +1,15 @@
+{
+    "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "¡No se pudo encontrar una base de datos válida de GeoIP en el archivo tar %1$s!",
+        "CannotUnzipGeoIPFile": "No se pudo descomprimir el archivo GeoIP en %1$s: %2$s",
+        "PluginDescription": "Ofrece proveedores de geolocalización GeoIP2.",
+        "LocationProviderDesc_Php": "Este proveedor de ubicación es el más sencillo de instalar ya que no requiere de configuración del servidor (¡es ideal para el hospedaje compartido!). Usa una base de datos GeoIP2 y la API PHP de MaxMind para determinar con precisión la ubicación de tus visitantes.",
+        "LocationProviderDesc_Php_WithExtension": "Este proveedor de ubicación se acelera al instalar la extensión %1$sMaxMindDB%2$s.",
+        "LocationProviderDesc_ServerModule": "Este proveedor de ubicación utiliza el módulo GeoIP2 que se instaló en tu servidor HTTP. Este proveedor es fiable y rápido, pero %1$ssólo puede ser usado con el rastreo común de los navegadores web.%2$s",
+        "LocationProviderDesc_ServerModule2": "Si tenés que importar archivos de registro o cualquier otra acción que requiera configurar direcciones IP, usá la %3$simplementación GeoIP2 PHP%4$s e instalá la extensión %1$sMaxMindDB%2$s.",
+        "ServerBasedVariablesConfiguration": "Configuración para variables de servidor usadas por los módulos de servidor GeoIP2",
+        "GeoIPVariablesConfigurationHere": "Podés configurar las variables de servidor usadas %1$sacá%2$s.",
+        "ShowCustomServerVariablesConfig": "Uso el módulo de servidor GeoIP2 (Nginx, Apache, etc.) y quiero configurar las variables de servidor",
+        "ServerVariableFor": "Variable de servidor para %s"
+    }
+}

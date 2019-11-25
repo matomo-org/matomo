@@ -106,7 +106,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an OR condition when a segment dimension is selected in the OR placeholder section", async function() {
-        await selectDimension('.segmentRow0 .segment-row:last', 'Actions', 'Clicked URL');
+        await selectDimension('.segmentRow0 .segment-row:last', 'Actions', 'Clicked Outlink');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('drag_or_condition');
     });
@@ -119,7 +119,7 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", async function() {
-        await selectDimension('.segmentRow1', 'Actions', 'Clicked URL');
+        await selectDimension('.segmentRow1', 'Actions', 'Clicked Outlink');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('drag_and_condition');
     });

@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Klikšķinātais URL",
         "ColumnClicks": "Klikšķi",
         "ColumnClicksDocumentation": "Saites klikšķu skaits.",
         "ColumnDownloadURL": "Lejupielādes URL",

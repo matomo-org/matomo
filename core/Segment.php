@@ -66,6 +66,11 @@ class Segment
     protected $string = null;
 
     /**
+     * @var string
+     */
+    protected $originalString = null;
+
+    /**
      * @var array
      */
     protected $idSites = null;
@@ -103,6 +108,8 @@ class Segment
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
+
+        $this->originalString = $segmentCondition;
 
         // The segment expression can be urlencoded. Unfortunately, both the encoded and decoded versions
         // can usually be parsed successfully. To pick the right one, we try both and pick the one w/ more
@@ -147,7 +154,11 @@ class Segment
         // segment metadata
         if (empty($this->availableSegments)) {
             $this->availableSegments = Request::processRequest('API.getSegmentsMetadata', array(
-                'idSites' => $this->idSites, '_hideImplementationData' => 0, 'filter_limit' => -1, 'filter_offset' => 0
+                'idSites' => $this->idSites,
+                '_hideImplementationData' => 0,
+                'filter_limit' => -1,
+                'filter_offset' => 0,
+                '_showAllSegments' => 1,
             ), []);
         }
 
@@ -464,6 +475,10 @@ class Segment
             if ($storedSegment['definition'] == $segment
                 || $storedSegment['definition'] == urldecode($segment)
                 || $storedSegment['definition'] == urlencode($segment)
+
+                || $storedSegment['definition'] == $this->originalString
+                || $storedSegment['definition'] == urldecode($this->originalString)
+                || $storedSegment['definition'] == urlencode($this->originalString)
             ) {
                 $foundStoredSegment = $storedSegment;
             }

@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Kliknjeni URL-ju",
         "ColumnClicks": "Kliki",
         "ColumnClicksDocumentation": "Število klikov na to povezavo.",
         "ColumnDownloadURL": "URL za prenos",

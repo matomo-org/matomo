@@ -215,4 +215,9 @@ class SettingsServer
         @ini_set('max_execution_time', $executionTime);
         @set_time_limit($executionTime);
     }
+
+    public static function isMac()
+    {
+        return defined('PHP_OS') && PHP_OS === 'Darwin';
+    }
 }
