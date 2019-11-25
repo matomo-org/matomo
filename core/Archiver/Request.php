@@ -66,4 +66,11 @@ class Request
     {
         $this->url = $url;
     }
+
+    public function changeDate($newDate)
+    {
+        $url = $this->getUrl();
+        $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+        $this->setUrl($url);
+    }
 }

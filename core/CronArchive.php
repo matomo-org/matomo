@@ -1099,11 +1099,9 @@ class CronArchive
                     return Request::ABORT;
                 }
 
-                $url = $request->getUrl();
-                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
-                $request->setUrl($url);
+                $request->changeDate($newDate);
 
-                $this->logArchiveWebsite($idSite, $period, $date);
+                $this->logArchiveWebsite($idSite, $period, $newDate);
             });
             $urls[] = $request;
         }
