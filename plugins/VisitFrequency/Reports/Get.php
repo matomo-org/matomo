@@ -17,6 +17,7 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
 use Piwik\Plugins\CoreHome\Columns\Metrics\BounceRate;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Plugins\VisitFrequency\API;
 use Piwik\Plugins\VisitFrequency\Columns\Metrics\ReturningMetric;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
@@ -30,12 +31,12 @@ class Get extends \Piwik\Plugin\Report
         $this->name          = Piwik::translate('VisitFrequency_ColumnReturningVisits');
         $this->documentation = ''; // TODO
         $this->processedMetrics = array(
-            new ReturningMetric(new AverageTimeOnSite(), '_returning'),
-            new ReturningMetric(new ActionsPerVisit(), '_returning'),
-            new ReturningMetric(new BounceRate(), '_returning'),
-            new ReturningMetric(new AverageTimeOnSite(), '_new'),
-            new ReturningMetric(new ActionsPerVisit(), '_new'),
-            new ReturningMetric(new BounceRate(), '_new')
+            new ReturningMetric(new AverageTimeOnSite(), API::RETURNING_COLUMN_SUFFIX),
+            new ReturningMetric(new ActionsPerVisit(), API::RETURNING_COLUMN_SUFFIX),
+            new ReturningMetric(new BounceRate(), API::RETURNING_COLUMN_SUFFIX),
+            new ReturningMetric(new AverageTimeOnSite(), API::NEW_COLUMN_SUFFIX),
+            new ReturningMetric(new ActionsPerVisit(), API::NEW_COLUMN_SUFFIX),
+            new ReturningMetric(new BounceRate(), API::NEW_COLUMN_SUFFIX)
         );
         $this->metrics       = array(
             'nb_visits_returning',
