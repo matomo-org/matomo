@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "ColumnClickedURL": "Kliknuti URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj koliko je puta link bio kliknut",
         "ColumnDownloadURL": "Preuzeti URL",
@@ -28,7 +27,6 @@
         "EntryPageTitlesReportDocumentation": "Ovo izvješće sadrži informacije o naslovima korištenih dolaznih stranica unutar određenog razdoblja.",
         "ExitPageTitles": "Naslovi odlaznih stranica",
         "ExitPageTitlesReportDocumentation": "Ovo izvješće sadrži podatke o naslovima odlaznih stranica koje su zabilježene u određenom razdoblju.",
-        "LearnMoreAboutSiteSearchLink": "Saznajte više o načinima praćenja načina na koji vaši posjetitelji koriste tražilicu na vašoj stranici.",
         "OneSearch": "1 pretraga",
         "OutlinkDocumentation": "Odlazna poveznica je poveznica koja odvodi vašeg posjetitelja sa vaše stranice (na drugu domenu).",
         "OutlinksReportDocumentation": "Ovo izvješće prikazuje hijerarhijski popis odlaznih URL adresa na koje su kliknuli vaši posjetitelji.",

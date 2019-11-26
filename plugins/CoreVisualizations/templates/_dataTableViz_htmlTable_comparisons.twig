@@ -1,6 +1,6 @@
 {% if properties.columns_to_display is not empty %}
 {% set lastSeenComparePeriod = false %}
-{% set comparedPeriodPretty = dataTable.getFirstRow().getMetadata('comparePeriodPretty') %}
+{% set comparedPeriodPretty = (dataTable.getRows()|last).getMetadata('comparePeriodPretty') %}
 {% set isComparingSegments = rootDataTable.getMetadata('compareSegments')|default([])|length > 1 %}
 {% set isComparingPeriods = rootDataTable.getMetadata('comparePeriods')|default([])|length > 1 %}
 {%- for rowId, row in dataTable.getRows() -%}
@@ -56,6 +56,7 @@
 
             {% set comparisonTooltipSuffix = '' %}
             {% set columnChange = false %}
+
             {% if row.getColumn(column ~ '_change')|default is not empty %}
                 {% set columnChange = row.getColumn(column ~ '_change')|default('+0%') %}
                 {% set comparisonTooltipSuffix = 'General_ComparisonRatioTooltip'|translate(columnChange, row.getMetadata('compareSegmentPretty'), comparedPeriodPretty) %}

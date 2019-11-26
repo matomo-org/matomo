@@ -25,9 +25,9 @@
 		<label>North America</label>
 		<nb_visits>12</nb_visits>
 		<nb_actions>15</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>4</sum_visit_length>
-		<bounce_count>10</bounce_count>
+		<max_actions>2</max_actions>
+		<sum_visit_length>6</sum_visit_length>
+		<bounce_count>9</bounce_count>
 		<nb_visits_converted>12</nb_visits_converted>
 		<goals>
 			<row idgoal='1'>

@@ -1806,6 +1806,48 @@ log_visit.visit_total_actions
         ];
     }
 
+    /**
+     * @dataProvider getTestDataForGetStoredSegmentName
+     */
+    public function test_getStoredSegmentName($segment, $expectedName)
+    {
+        SegmentEditorApi::getInstance()->add('test segment 1', 'browserCode==ff');
+        SegmentEditorApi::getInstance()->add('test segment 2', urlencode('browserCode==ch'));
+        SegmentEditorApi::getInstance()->add('test segment 3', 'pageUrl=@' . urlencode('/a/b?d=blahfty'));
+        SegmentEditorApi::getInstance()->add('test segment 4', 'pageUrl=@' . urlencode(urlencode('/a/b?d=wafty')));
+        SegmentEditorApi::getInstance()->add('test segment 5', urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=woo'))));
+
+        $segmentObj = new Segment($segment, [1]);
+        $this->assertEquals($expectedName, $segmentObj->getStoredSegmentName(1));
+    }
+
+    public function getTestDataForGetStoredSegmentName()
+    {
+        return [
+            ['browserCode==ff', 'test segment 1'],
+            [urlencode('browserCode==ff'), 'test segment 1'],
+
+            ['browserCode==ch', 'test segment 2'],
+            [urlencode('browserCode==ch'), 'test segment 2'],
+
+            ['pageUrl=@' . urlencode('/a/b?d=blahfty'), 'test segment 3'],
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=blahfty')), 'test segment 3'],
+
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=wafty')), 'test segment 4'],
+            [urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=wafty'))), 'test segment 4'],
+
+            ['pageUrl=@' . urlencode(urlencode('/a/b?d=woo')), 'test segment 5'],
+            [urlencode('pageUrl=@' . urlencode(urlencode('/a/b?d=woo'))), 'test segment 5'],
+
+            // these test cases won't pass because the value is encoded, but the operator isn't in one of the segments. kept here just
+            // so there's a `record that they won't work
+            // ['pageUrl=@' . urlencode('/a/b?d=wafty'), 'test segment 4'],
+            // [urlencode('pageUrl=@' . urlencode('/a/b?d=wafty')), 'test segment 4'],
+            // [urlencode('pageUrl=@' . urlencode('/a/b?d=woo')), 'test segment 5'],
+            // ['pageUrl=@' . urlencode('/a/b?d=woo'), 'test segment 5'],
+        ];
+    }
+
     private function assertWillBeArchived($segmentString)
     {
         $this->assertTrue($this->willSegmentByArchived($segmentString));

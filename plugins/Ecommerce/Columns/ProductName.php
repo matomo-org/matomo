@@ -21,6 +21,8 @@ class ProductName extends Dimension
     protected $nameSingular = 'Goals_ProductName';
     protected $namePlural = 'Goals_ProductNames';
     protected $category = 'Goals_Ecommerce';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $segmentName = 'productName';
 
     public function getDbColumnJoin()
     {

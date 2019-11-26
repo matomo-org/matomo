@@ -2,7 +2,6 @@
     "Referrers": {
         "Campaigns": "Campanyes",
         "CampaignsDocumentation": "Visitants que visiten el vostre lloc web com a resultat d'una campanya. %1$s Visualitzeu l'inforrme %2$s per més detalls.",
-        "CampaignsReportDocumentation": "Aquest informe mostra quines campanyes han portat visitants al vostre lloc web. %1$s Per mes informació sobre la gestió de campanyes, llegiu la %2$s documetnació de campanyes a matomo.org %3$s",
         "ColumnCampaign": "Campanya",
         "ColumnSearchEngine": "Cercador",
         "ColumnSocial": "Xarxa social",

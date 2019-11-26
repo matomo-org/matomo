@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Tämä raportti näyttää kaikki viittaukset yhdessä raportissa, listaten kaikki sivustot, hakusanat ja kampanjat, joita kävijäsi käyttivät löytääkseen sivustosi.",
         "Campaigns": "Kampanjat",
         "CampaignsDocumentation": "Kävijät, jotka tulivat sivullesi kampanjan mukana. %1$s Katso %2$s raportista lisätietoja.",
-        "CampaignsReportDocumentation": "Tässä raportissa on tietoa kampanjoista, jotka ohjasivat kävijöitä sivustollesi. %1$s Lisätietoa kampanjoiden seuraamisesta löytyy %2$senglanninkielisestä dokumentista matomo.orgissa%3$s",
         "ColumnCampaign": "Kampanja",
         "CampaignPageUrlHelp": "Tämän kampanjasivun osoite, esimerkiksi 'http:\/\/example.org\/offer.html'",
         "CampaignNameHelp": "Valitse nimi, joka kuvaa kampanjan tarkoitus ja erottaa sen muista kampanjoista. Esimerkiksi 'sposti-talvipyoraily' tai 'mainos-merellinenhelsinki'.",

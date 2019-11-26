@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Media bazata pe %1$s hit(uri) %2$s intre %3$s si %4$s",
-        "ColumnClickedURL": "URL-uri accesate",
         "ColumnActionURL": "Acţiuni URL",
         "ColumnClicks": "Click-uri",
         "ColumnClicksDocumentation": "Numărul de ori link-ul a fost click-uit.",
@@ -30,7 +29,6 @@
         "EntryPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de intrare ce au fost folosite în timpul perioadei specificate.",
         "ExitPageTitles": "Titlurile paginilor de ieşire",
         "ExitPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de ieşire ce au fost folosite în timpul perioadei specificate.",
-        "LearnMoreAboutSiteSearchLink": "Află mai multe despre urmărirea utilizării motorului de căutare de pe situl tău.",
         "OneSearch": "1 căutare",
         "OutlinkDocumentation": "Un outlink este un link ce trimite vizitatori de pe website-ul tău (către alt domeniu).",
         "OutlinksReportDocumentation": "Acest raport arată o listă ierarhică al URL-urilor outlink-urilor ce au fost click-uite de vizitatorii tăi.",

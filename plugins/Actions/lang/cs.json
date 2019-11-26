@@ -1,8 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Průměr dle %1$s přístupů %2$s mezi %3$s a %4$s",
-        "ColumnClickedURL": "URL prokliku",
-        "ColumnClickedURLs": "Kliknuté adresy URL",
         "ColumnActionURL": "URL akce",
         "ColumnClicks": "Prokliků",
         "ColumnClicksDocumentation": "Počet kliknutí na odkaz v závislosti na čase.",
@@ -40,7 +38,6 @@
         "ExitPagesReportDocumentation": "Toto hlášení obsahujje informace o výstupních stránkách, které se za dané časové období vyskytly. Výstupní stránka je poslední stránka, kterou návštěvník během své návštěvy navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
         "ExitPageTitles": "Titulky výstupních stránek",
         "ExitPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích výstupních stránek za dané období.",
-        "LearnMoreAboutSiteSearchLink": "Zjistěte více o sledování toho, jak návštěvníci používají váš vyhledávač.",
         "OneSearch": "1 Vyhledávání",
         "OutlinkDocumentation": "Externí odkaz je odkaz, který vede z vašich stránek na jinou domén.",
         "OutlinksReportDocumentation": "Toto hlášení zobrazuje hyerarchický seznam URL externích odkazů, na které vaši návštěvníci klikli.",

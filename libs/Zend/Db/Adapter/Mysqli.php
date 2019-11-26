@@ -346,6 +346,8 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             }
         }
 
+        $socket = !empty($this->_config['unix_socket']) ? $this->_config['unix_socket'] : null;
+
         // Suppress connection warnings here.
         // Throw an exception instead.
         $_isConnected = @mysqli_real_connect(
@@ -355,7 +357,7 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $this->_config['password'],
             $this->_config['dbname'],
             $port,
-            $socket = null,
+            $socket,
             $enable_ssl ? $flags : null
         );
 

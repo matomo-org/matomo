@@ -447,7 +447,7 @@ var broadcast = {
             return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
         };
 
-        if (valFromUrl != '') {
+        if (valFromUrl != '' || urlStr.indexOf(paramName + '=') !== -1) {
             // replacing current param=value to newParamValue;
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');

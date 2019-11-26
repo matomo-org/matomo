@@ -1,8 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Keskiarvo %1$s osumasta %2$s %3$s - %4$s",
-        "ColumnClickedURL": "Klikattu osoite",
-        "ColumnClickedURLs": "Klikatut osoitteet",
         "ColumnActionURL": "Toiminnon osoite",
         "ColumnClicks": "Klikkaukset",
         "ColumnClicksDocumentation": "Tämän linkin klikkausten määrä.",
@@ -40,7 +38,6 @@
         "ExitPagesReportDocumentation": "Tämä raportti sisältää tietoa poistumissivuista annetulla aikavälillä. Poistumissivu on viimeinen sivu, jota käyttäjä on katsonut käyntinsä aikana. %s Poistumis-URL:t näytetään kansiorakenteena.",
         "ExitPageTitles": "Poistumissivujen otsikot",
         "ExitPageTitlesReportDocumentation": "Tämä raportti sisältää tietoa poistumissivujen otsikoista annetulla aikavälillä.",
-        "LearnMoreAboutSiteSearchLink": "Opi lisää sivujesi hakukoneen käytöstä",
         "OneSearch": "1 haku",
         "OutlinkDocumentation": "Lähtevä linkki on linkki, joka vie kävijän pois sinun sivultasi (eri verkkotunnukseen).",
         "OutlinksReportDocumentation": "Tämä raportti näyttää hierarkisen listan lähtevistä osoitteista, joita kävijät ovat seuranneet.",

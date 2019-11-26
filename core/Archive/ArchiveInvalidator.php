@@ -20,6 +20,7 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Segment;
+use Piwik\Site;
 
 /**
  * Service that can be used to invalidate archives or add archive references to a list so they will
@@ -157,6 +158,21 @@ class ArchiveInvalidator
     {
         $invalidationInfo = new InvalidationResult();
 
+        // quick fix for #15086, if we're only invalidating today's date for a site, don't add the site to the list of sites
+        // to reprocess.
+        $hasMoreThanJustToday = [];
+        foreach ($idSites as $idSite) {
+            $hasMoreThanJustToday[$idSite] = true;
+            $tz = Site::getTimezoneFor($idSite);
+
+            if (($period == 'day' || $period === false)
+                && count($dates) == 1
+                && $dates[0]->toString() == Date::factoryInTimezone('today', $tz)
+            ) {
+                $hasMoreThanJustToday[$idSite] = false;
+            }
+        }
+
         /**
          * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
          * developers can automatically invalidate another site, when a site is being invalidated. A plugin may even
@@ -194,7 +210,7 @@ class ArchiveInvalidator
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
-        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths);
+        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday);
 
         foreach ($idSites as $idSite) {
             foreach ($dates as $date) {
@@ -399,10 +415,14 @@ class ArchiveInvalidator
      * @param array $idSites
      * @param array $yearMonths
      */
-    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths)
+    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths, $hasMoreThanJustToday)
     {
         $store = new SitesToReprocessDistributedList();
-        $store->add($idSites);
+        foreach ($idSites as $idSite) {
+            if (!empty($hasMoreThanJustToday[$idSite])) {
+                $store->add($idSite);
+            }
+        }
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
