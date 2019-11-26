@@ -9,6 +9,7 @@
 		<module>Goals</module>
 		<action>getItemsCategory</action>
 		<dimension>Product Category</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<revenue>Product Revenue</revenue>
 			<quantity>Quantity</quantity>

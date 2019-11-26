@@ -49,7 +49,7 @@ class Insight extends Visualization
             'reportUniqueId' => $report,
             'minImpactPercent' => $this->requestConfig->min_impact_percent,
             'minGrowthPercent' => $this->requestConfig->min_growth_percent,
-            'comparedToXPeriods' => $this->requestConfig->compared_to_x_periods_ago,
+            'comparedToXPeriods' => $this->getComparedToXPeriodsAgo(),
             'orderBy'  => $this->requestConfig->order_by,
             'filterBy' => $this->requestConfig->filter_by,
             'pivotBy' => false,
@@ -57,6 +57,21 @@ class Insight extends Visualization
             'limitIncreaser' => $this->getLimitIncrease(),
             'limitDecreaser' => $this->getLimitDecrease(),
         );
+    }
+
+    private function getComparedToXPeriodsAgo()
+    {
+        $period = Common::getRequestVar('period', null, 'string');
+
+        if ($period === 'month' && $this->requestConfig->compared_to_x_periods_ago > 1) {
+            return 12;
+        }
+
+        if ($period !== 'day') {
+            return 1;
+        }
+
+        return $this->requestConfig->compared_to_x_periods_ago;
     }
 
     private function getLimitIncrease()

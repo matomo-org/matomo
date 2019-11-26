@@ -44,6 +44,13 @@ class HtmlTable extends Visualization
         $this->checkRequestIsNotForMultiplePeriods();
 
         if ($this->isComparing()) {
+            $request = $this->getRequestArray();
+            if (!empty($request['comparePeriods'])
+                && count($request['comparePeriods']) == 1
+            ) {
+                $this->requestConfig->request_parameters_to_modify['invert_compare_change_compute'] = 1;
+            }
+
             // forward the comparisonIdSubtables var if present so it will be used when next/prev links are clicked
             $comparisonIdSubtables = Common::getRequestVar('comparisonIdSubtables', false, 'string');
             if (!empty($comparisonIdSubtables)) {

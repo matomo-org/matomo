@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "ค่าเฉลี่ยของจำนวน %1$s ครั้ง %2$s ระหว่าง %3$s และ %4$s",
-        "ColumnClickedURL": "URL ที่ถูกคลิก",
         "ColumnClicks": "คลิก",
         "ColumnClicksDocumentation": "จำนวนครั้งที่ link นี้ถูกคลิก",
         "ColumnDownloadURL": "URL ที่ถูกดาว์นโหลด",
@@ -29,7 +28,6 @@
         "EntryPageTitlesReportDocumentation": "รายงานนี้ประกอบด้วยข้อมูลเกี่ยวกับหัวเรื่องของหน้าขาเข้า ที่ถูกเรียกใช้ในช่วงระยะเวลาที่กำหนดไว้",
         "ExitPageTitles": "หัวเรื่องหน้าขาออก",
         "ExitPageTitlesReportDocumentation": "รายงานนี้ประกอบด้วยข้อมูลเกี่ยวกับหัวเรื่องของหน้าขาออก ที่เกิดขึ้นระหว่างระยะเวลาที่กำหนดไว้",
-        "LearnMoreAboutSiteSearchLink": "เรียนรู้เพิ่มเติมเกี่ยวกับการติดตามผู้เข้าชมของคุณ ว่าใช้เครื่องมือค้นหาของคุณอย่างไร",
         "OneSearch": "1 ค้นหา",
         "OutlinkDocumentation": "Outlink คือการเชื่อมโยงที่นำไปสู่​​ผู้เข้าชมอยู่ห่างจากเว็บไซต์ของคุณ (โดเมนอื่น)",
         "OutlinksReportDocumentation": "รายงานนี้จะแสดงรายการลำดับชั้นของการเชื่อมโยง URL อัตโนมัติ ที่มีการคลิกโดยผู้เข้าชมของคุณ",

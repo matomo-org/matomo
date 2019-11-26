@@ -151,6 +151,9 @@ class Console extends Renderer
                         } elseif (is_array($value)) {
                             $value = 'Array ' . json_encode($value);
                         }
+                        if (is_array($value)) {
+                            $value = json_encode($value);
+                        }
                         $output .= $prefix . $prefix . "$name => $value";
                     }
                 }

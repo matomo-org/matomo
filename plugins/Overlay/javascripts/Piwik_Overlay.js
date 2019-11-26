@@ -122,6 +122,7 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
+        $('#overlayDateRangeSelect').prop('disabled', false).material_select();
     }
 
     function getOverlaySegment(url) {
@@ -145,7 +146,8 @@ var Piwik_Overlay = (function () {
     }
 
     function setIframeOrigin(location) {
-        iframeOrigin = location.match(ORIGIN_PARSE_REGEX)[0];
+        var m = location.match(ORIGIN_PARSE_REGEX);
+        iframeOrigin = m ? m[0] : null;
 
         // unset iframe origin if it is not one of the site URLs
         var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {

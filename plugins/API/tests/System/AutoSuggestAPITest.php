@@ -229,6 +229,9 @@ class AutoSuggestAPITest extends SystemTestCase
                 }
 
                 foreach ($dimension->getSegments() as $segment) {
+                    if ($segment->isInternal()) {
+                        continue;
+                    }
                     $segments[] = $segment->getSegment();
                 }
             }

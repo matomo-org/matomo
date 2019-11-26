@@ -261,7 +261,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idaction_url = log_action.idaction ';
         $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
         $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_conversion.idvisit = log_link_visit_action.idvisit ';
-        $expected .= 'LEFT JOIN log_conversion_item AS log_conversion_item ON log_conversion_item.idvisit = log_link_visit_action.idvisit';
+        $expected .= 'LEFT JOIN log_conversion_item AS log_conversion_item ON log_conversion_item.idvisit = log_link_visit_action.idvisit AND `log_conversion_item`.deleted = 0';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 

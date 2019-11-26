@@ -17,5 +17,6 @@ class ProductPrice extends Dimension
     protected $columnName = 'price';
     protected $nameSingular = 'Goals_ProductPrice';
     protected $category = 'Goals_Ecommerce';
+    protected $segmentName = 'productPrice';
 
 }

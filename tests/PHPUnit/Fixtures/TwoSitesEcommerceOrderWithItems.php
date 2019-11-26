@@ -114,6 +114,15 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         $t->setCustomVariable(3, 'VisitorName', 'Great name!', 'visit');
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
         $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed REMOVED', $name = 'PRODUCT name REMOVED', $category = 'Electronics & Cameras REMOVED', $price = 300, $quantity = 1);
+        $t->addEcommerceItem($sku = 'SKU WILL BE DELETED', $name = 'BLABLA DELETED', $category = '', $price = 5000000, $quantity = 20);
+        self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1300));
+
+        // REMOVE FROM CART
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1.95)->getDatetime());
+        $t->setCustomVariable(3, 'VisitorName', 'Great name!', 'visit');
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 1);
+        $t->addEcommerceItem($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $category = 'Electronics & Cameras', $price = 500, $quantity = 2);
         $t->addEcommerceItem($sku = 'SKU WILL BE DELETED', $name = 'BLABLA DELETED', $category = '', $price = 5000000, $quantity = 20);
         self::checkResponse($t->doTrackEcommerceCartUpdate($grandTotal = 1000));
 

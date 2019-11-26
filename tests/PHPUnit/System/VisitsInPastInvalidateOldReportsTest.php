@@ -79,7 +79,7 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
 
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,-1,s',1&dates=2010-01-03");
         $this->assertApiResponseHasNoError($r->process());
 
         // Test invalidate comma separated dates

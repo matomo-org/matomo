@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Pamantayan batay sa mga %1$s ng mga hit %2$s sa pagitan ng %3$s at %4$s",
-        "ColumnClickedURL": "Na-click na URL",
         "ColumnClicks": "Mga Click",
         "ColumnClicksDocumentation": "Kung ilang beses na na-click ang link na ito.",
         "ColumnDownloadURL": "URL para ma-download",
@@ -29,7 +28,6 @@
         "EntryPageTitlesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga pamagat ng mga 'entry page' na ginamit sa tinukoy na panahon.",
         "ExitPageTitles": "Mga pamagat ng exit page",
         "ExitPageTitlesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga pamagat ng mga 'exit page' na ginamit sa tinukoy na panahon.",
-        "LearnMoreAboutSiteSearchLink": "Matuto nang higit pa tungkol sa Pagsubaybay sa kung paano ginagamit ng iyong mga bisita ang iyong engine ng Paghahanap",
         "OneSearch": "1 paghahanap",
         "OutlinkDocumentation": "Ang isang outlink ay isang link na naghahatid sa isang bisita nang palayo mula sa iyong website (sa isa pang domain).",
         "OutlinksReportDocumentation": "Ipinapakita ng ulat na ito ang hirerkiya na listahan ng mga outlink URL na na-click ng iyong mga bisita.",
