@@ -22,6 +22,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'Events_Events';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/event-tracking/';
 
         $this->processedMetrics = array(
             new AverageEventValue()

@@ -1,8 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Gennemsnit baseret på %1$s hits %2$s mellem %3$s og %4$s",
-        "ColumnClickedURL": "Klikkede URL",
-        "ColumnClickedURLs": "Klikkede URL’er",
         "ColumnActionURL": "Handlings-URL",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Antal gange linket blev klikket på.",
@@ -40,7 +38,6 @@
         "ExitPagesReportDocumentation": "Rapporten indeholder oplysninger om de udgangssider, der blev brugt i den angivne periode. En udgangsside er den sidste side, en bruger får vist under sit besøg. %s udgangs-URLer vises med en mappestruktur.",
         "ExitPageTitles": "Udgangssidetitler",
         "ExitPageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på udgangssider, der blev brugt i den angivne periode.",
-        "LearnMoreAboutSiteSearchLink": "Lær mere om sporing af hvordan besøgende bruger din søgemaskine.",
         "OneSearch": "1 søgning",
         "OutlinkDocumentation": "Et udgående link er et link, der fører den besøgende væk fra hjemmesiden (til et andet domæne)",
         "OutlinksReportDocumentation": "Rapporten viser en hierarkisk liste over udgående netadresser, der blev klikket på af de besøgende",

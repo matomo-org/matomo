@@ -304,6 +304,12 @@ class   Config
     public $documentation = false;
 
     /**
+     * URL linking to an online guide for this report (or plugin).
+     * @var string
+     */
+    public $onlineGuideUrl = false;
+
+    /**
      * Array property containing custom data to be saved in JSON in the data-params HTML attribute
      * of a data table div. This data can be used by JavaScript DataTable classes.
      *
@@ -621,6 +627,10 @@ class   Config
 
         if (isset($report['documentation'])) {
             $this->documentation = $report['documentation'];
+        }
+
+        if (isset($report['onlineGuideUrl'])) {
+            $this->onlineGuideUrl = $report['onlineGuideUrl'];
         }
     }
 

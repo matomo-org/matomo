@@ -19,6 +19,7 @@ abstract class SiteSearchBase extends Base
     {
         parent::init();
         $this->categoryId = 'General_Actions';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/site-search/';
     }
 
     public function isEnabled()

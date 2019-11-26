@@ -71,15 +71,13 @@ class Model
         $rows = Db::fetchAll($sql);
         foreach ($rows as $row) {
             $duplicateArchives = explode(',', $row['archives']);
+            $countOfArchives = count($duplicateArchives);
 
             $firstArchive = array_shift($duplicateArchives);
             list($firstArchiveId, $firstArchiveValue) = explode('.', $firstArchive);
 
-            // if the first archive (ie, the newest) is an 'ok' or 'ok temporary' archive, then
-            // all invalidated archives after it can be deleted
-            if ($firstArchiveValue == ArchiveWriter::DONE_OK
-                || $firstArchiveValue == ArchiveWriter::DONE_OK_TEMPORARY
-            ) {
+            // if there is more than one archive, the older invalidated ones can be deleted
+            if ($countOfArchives > 1) {
                 foreach ($duplicateArchives as $pair) {
                     if (strpos($pair, '.') === false) {
                         $this->logger->info("GROUP_CONCAT cut off the query result, you may have to purge archives again.");

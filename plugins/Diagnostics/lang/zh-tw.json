@@ -9,7 +9,7 @@
         "CronArchivingHasNotRun": "報表尚未成功彙整過。",
         "CronArchivingHasNotRunInAWhile": "上次於 %1$s 時成功彙整了報表 ( %2$s 之前 )",
         "CronArchivingRunDetails": "請你檢查是否已經設定了 crontab 工作排程指令 %1$s，且已設定了 %2$s 以便在報表彙整失敗時可以收到信件。你也能試著執行此指令來手動彙整報表：%3$s。%4$s了解更多。%5$s",
-        "CronArchivingRanSuccessfullyXAgo": "報表彙整程序於 %1$s 時執行成功。",
+        "CronArchivingRanSuccessfullyXAgo": "報表彙整程序於 %1$s 前執行成功。",
         "BrowserTriggeredArchivingEnabled": "為使 Matomo 能最佳化，我們強烈建議你設定 crontab 工作排程來自動彙整你的報告，且在 Matomo 一般設定內關閉瀏覽器的自動觸發彙整。%1$s 了解更多。%2$s",
         "NoDataForReportArchivingNotRun": "你最近尚未執行彙整報表，%1$s 了解如何產生你的報表。%2$s"
     }

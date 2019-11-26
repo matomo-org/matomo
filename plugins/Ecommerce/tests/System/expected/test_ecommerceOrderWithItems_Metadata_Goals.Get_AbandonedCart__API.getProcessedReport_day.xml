@@ -10,6 +10,7 @@
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
 		</parameters>
+		<onlineGuideUrl>https://matomo.org/docs/ecommerce-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Abandoned Carts</nb_conversions>
 			<conversion_rate>Conversion Rate</conversion_rate>

@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Rerata berdasar %1$s kunjungan %2$s antara %3$s dan %4$s",
-        "ColumnClickedURL": "URL diklik",
         "ColumnActionURL": "URL tindakan",
         "ColumnClicks": "Klik",
         "ColumnClicksDocumentation": "Jumlah tautan ini diklik.",
@@ -35,7 +34,6 @@
         "ExitPagesReportDocumentation": "Laporan ini berisi informasi tentang halaman keluar yang terjadi selama periode yang ditentukan. Halaman keluar adalah halaman terakhir yang dilihat pengguna selama kunjungan mereka. %s URL keluar ditampilkan sebagai struktur folder.",
         "ExitPageTitles": "Judul halaman keluar",
         "ExitPageTitlesReportDocumentation": "Laporan ini mengandung informasi tentang judul halman keluar yang terjadi selama waktu tertentu.",
-        "LearnMoreAboutSiteSearchLink": "Pelajari selengkapnya tentang Melacak bagaimana pengunjung Anda menggunakan Mesin Pencari Anda.",
         "OneSearch": "1 pencarian",
         "OutlinkDocumentation": "Tautan keluar merupakan tautan yang mengarahkan keluar pengunjung dari situs Anda (ke ranah lainnya).",
         "OutlinksReportDocumentation": "Laporan ini menampilkan laporan secara berurutan tautan keluar URL yang diklik oleh pengunjung Anda.",

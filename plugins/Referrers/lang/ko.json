@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "이 보고서는 모든 리퍼러에 대한 보고서를 하나로 통합한 것으로, 방문자가 경유한 웹사이트, 검색어 그리고 캠페인의 목록입니다.",
         "Campaigns": "캠페인",
         "CampaignsDocumentation": "캠페인의 결과로 웹사이트를 방문한 방문자입니다. 상세 보고서는 %1$s이곳%2$s에 있습니다.",
-        "CampaignsReportDocumentation": "이 보고서는 웹사이트에 방문자를 이끈 캠페인에 대해 설명합니다. %1$s 캠페인 추적에 대한 자세한 내용은 %2$smatomo.org의 캠페인에 대한 문서%3$s를 읽어 보세요.",
         "ColumnCampaign": "캠페인",
         "ColumnSearchEngine": "검색엔진",
         "ColumnSocial": "소셜 네트워크",

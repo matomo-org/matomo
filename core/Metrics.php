@@ -245,6 +245,29 @@ class Metrics
      */
     public static function isLowerValueBetter($column)
     {
+        $isLowerBetter = null;
+
+        /**
+         * Use this event to define if a lower value of a metric is better.
+         *
+         * @param string $isLowerBetter should be set to a boolean indicating if lower is better
+         * @param string $column name of the column to determine
+         *
+         * **Example**
+         *
+         * public function checkIsLowerMetricValueBetter(&$isLowerBetter, $metric)
+         * {
+         *     if ($metric === 'position') {
+         *         $isLowerBetter = true;
+         *     }
+         * }
+         */
+        Piwik::postEvent('Metrics.isLowerValueBetter', [&$isLowerBetter, $column]);
+
+        if (!is_null($isLowerBetter)) {
+            return true;
+        }
+
         $lowerIsBetterPatterns = array(
             'bounce', 'exit'
         );

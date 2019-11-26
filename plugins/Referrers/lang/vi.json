@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Báo cáo này cho thấy tất cả sự chỉ dẫn của bạn trong một báo cáo, liệt kê tất cả các trang web, từ khóa tìm kiếm và Chiến dịch được sử dụng bởi khách truy cập để tìm trang web của bạn.",
         "Campaigns": "Các chiến dịch",
         "CampaignsDocumentation": "Khách truy cập đã tới trang web của bạn như là kết quả của một chiến dịch. %1$s Xem báo cáo %2$s để biết thêm chi tiết.",
-        "CampaignsReportDocumentation": "Báo cáo này cho thấy các chiến dịch dẫn khách truy cập vào trang web của bạn. %1$s Để biết thêm thông tin về các chiến dịch theo dõi, đọc tài liệu chiến dịch %2$s trên %3$s matomo.org",
         "ColumnCampaign": "Chiến dịch",
         "ColumnSearchEngine": "Công cụ tìm kiếm",
         "ColumnSocial": "Mạng xã hội",

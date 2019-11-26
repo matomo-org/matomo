@@ -1,8 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Gemiddelde gebaseerd op %1$s hit(s) %2$s tussen %3$s en %4$s",
-        "ColumnClickedURL": "Geklikte URL",
-        "ColumnClickedURLs": "Geklikte URL's",
         "ColumnActionURL": "Actie-URL",
         "ColumnClicks": "Kliks",
         "ColumnClicksDocumentation": "Aantal keren dat er op deze link was gekikt.",
@@ -40,7 +38,6 @@
         "ExitPagesReportDocumentation": "Dit rapport bevat informatie over de exit pagina's gedurende een geselecteerde periode. Een exit pagina is de laatste pagina die bekeken is gedurende een bezoek. %s De exit pagina's worden getoond in een folder structuur.",
         "ExitPageTitles": "Titels vertrekpagina's",
         "ExitPageTitlesReportDocumentation": "Dit rapport bevat informatie over de titels van de uitgaande pagina's in de opgegeven periode.",
-        "LearnMoreAboutSiteSearchLink": "Leer meer over de manier waarop bezoekers de zoekoptie in uw website gebruiken.",
         "OneSearch": "1 zoekopdracht",
         "OutlinkDocumentation": "Een uitgaande link is een link die de bezoeker wegleid van uw website (naar een ander domein).",
         "OutlinksReportDocumentation": "Dit rapport geeft een hiërarchische lijst van outlink URL's die zijn aangeklikt door uw bezoekers.",
