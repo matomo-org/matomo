@@ -321,7 +321,7 @@ var piwikHelper = {
         }
 
         domElem.show();
-        $content.openModal(options);
+        $content.modal(options).modal('open');
     },
 
     getQueryStringWithParametersModified: function (queryString, newParameters) {

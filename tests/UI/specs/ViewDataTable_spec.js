@@ -171,7 +171,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.waitForNetworkIdle();
 
         (await page.$$('tr.subDataTable'))[2].click();
-        await page.mouse.move(-10, -10); // mae sure no row is highlighted
+        await page.mouse.move(-10, -10); // make sure no krow is highlighted
         await page.waitForNetworkIdle();
 
         await page.waitFor(function () {
