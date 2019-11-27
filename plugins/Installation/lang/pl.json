@@ -31,6 +31,7 @@
         "JSTracking_Intro": "Aby śledzić ruch na swoich stronach przy pomocy Matomo upewnij się, że trochę dodatkowego kodu znajdzie się na każdej analizowanej stronie.",
         "LargePiwikInstances": "Pomoc w przypadku dużych instalacji z Matomo",
         "Legend": "Legenda",
+        "LoadDataInfileRecommended": "Jeśli Twój serwer Matomo śledzi strony o wysokim ruchu (większym niż 100 000 stron miesięcznie), zalecamy podjęcie próby rozwiązania tego problemu.",
         "LoadDataInfileUnavailableHelp": "Użycie %1$s w znaczny sposób przyspieszy proces archiwizowania Matomo'a. Aby Matomo mógł z niego korzystać zaktualizuj PHP i MySQL oraz upewnij się, że użytkownik bazy danych ma uprawnienia %2$s.",
         "NfsFilesystemWarning": "Twój system używa systemu plików NFS",
         "NfsFilesystemWarningSuffixAdmin": "To oznacza, że Matomo będzie ekstremalnie wolny, ponieważ korzysta z sesji opartych o pliki.",

@@ -268,7 +268,7 @@ HTACCESS_DENY;
     /**
      * @return string
      */
-    protected static function getAllowHtaccessContent()
+    public static function getAllowHtaccessContent()
     {
         $allow = <<<HTACCESS_ALLOW
 <IfModule mod_version.c>

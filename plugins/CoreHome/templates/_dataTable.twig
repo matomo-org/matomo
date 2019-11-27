@@ -2,7 +2,7 @@
     {% include visualizationTemplate %}
 {%- else -%}
 
-{% set isDataTableEmpty = (dataTable is empty or dataTableHasNoData|default(false)) %}
+{% set isDataTableEmpty = (dataTable is not defined or dataTable is null or dataTableHasNoData|default(false)) %}
 
 {% set showCardAsContentBlock = (properties.show_as_content_block and properties.show_title and not isWidget) %}
 {% set showOnlyTitleWithoutCard = not showCardAsContentBlock and properties.title and properties.show_title %}
@@ -42,7 +42,8 @@
 
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p ng-bind-html="{{ properties.documentation|json_encode|e('html_attr') }}"></p>{% endif %}
-        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
+        {% if properties.onlineGuideUrl|default is not empty %}<a href="{{ properties.onlineGuideUrl|safelink|e('html_attr') }}" target="_blank" rel="noreferrer noopener" class="onlineGuide">{{ 'CoreHome_ReadMoreOnlineGuide'|translate }}</a>{% endif %}
+        {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class="helpDate">{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
 
     <div class="dataTableWrapper">

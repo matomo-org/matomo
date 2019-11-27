@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Ang ulat na ito ay nagpapakita ng lahat ng referrers sa pinag-isang ulat ng nakalista ang lahat ng websites Mga keywords at campaigns na ginamit ng iyong bisita upang makita ang iyong website",
         "Campaigns": "Mga Kampanya",
         "CampaignsDocumentation": "Ang iyong mga bisita na mula sa iyong website ay result ng isang campaign. %1$s Tignan ang %2$s ulat para sa karagdagang mga detalye.",
-        "CampaignsReportDocumentation": "Ang ulat na ito ay nagpapakita ng campaigns kung saan galing ang iyong mga bisita sa iyong website. %1$s Para sa karagdagang impormasyon tungkol sa tracking campaigns. basahin ang dokumentasyon ng %2$s campaigns sa matomo.org %3$s",
         "ColumnCampaign": "Kampanya",
         "ColumnSearchEngine": "Search Engine",
         "ColumnSocial": "Social network",

@@ -1,7 +1,6 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "متوسط على أساس %1$s كبسة %2$s ما بين %3$s و %4$s",
-        "ColumnClickedURL": "الرابط المتبوع",
         "ColumnActionURL": "رابط الأمر",
         "ColumnClicks": "النقرات",
         "ColumnClicksDocumentation": "عدد مرات النقر على هذا الرابط.",
@@ -30,7 +29,6 @@
         "EntryPageTitlesReportDocumentation": "يتضمن هذا التقرير معلومات عن عناوين صفحات الوصول التي تم استخدامها خلال فترة زمنية معينة.",
         "ExitPageTitles": "عناوين صفحات الخروج",
         "ExitPageTitlesReportDocumentation": "يتضمن هذا التقرير معلومات عن عناوين صفحات الخروج التي حدثت خلال الفترة المحددة.",
-        "LearnMoreAboutSiteSearchLink": "تعرف على المزيد عن تتبع كيف يستخدم زوارك محرك بحثك.",
         "OneSearch": "نتيجة بحث واحدة",
         "OutlinkDocumentation": "الرابط الصادر هو رابط يقود الزائر بعيداً عن موقعك (إلى اسم نطاق آخر).",
         "OutlinksReportDocumentation": "يعرض هذا التقرير قائمة هيكلية بالروابط الصادرة والتي تم النقر عليها بواسطة زوارك.",

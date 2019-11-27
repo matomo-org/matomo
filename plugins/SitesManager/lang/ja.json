@@ -93,6 +93,14 @@
         "ChooseMeasurableTypeHeadline": "何を測定しますか？",
         "YouCurrentlyHaveAccessToNWebsites": "現在 %s つのウェブサイトに接続しています。",
         "YourCurrentIpAddressIs": "あなたの現在の IP アドレスは %s です。",
-        "DeleteSiteExplanation": "ウェブサイトを削除すると、収集されたすべてのログデータが削除されます。 この操作は永続的で、元に戻すことはできません。"
+        "DeleteSiteExplanation": "ウェブサイトを削除すると、収集されたすべてのログデータが削除されます。 この操作は永続的で、元に戻すことはできません。",
+        "EmailInstructionsButton": "これらの手順をメールで送信",
+        "EmailInstructionsSubject": "Matomo Analyticsトラッキングコード",
+        "EmailInstructionsDocsPlainText": "ページビューの追跡以外の操作を行う場合は、%1$sで Matomo のドキュメントをご覧ください。",
+        "EmailInstructionsGenerateTrackingCode": "%1$sでカスタマイズされたトラッキングコードを生成することもできます。",
+        "EmailInstructionsSiteDetailsHeading": "あなたのサイトの詳細",
+        "EmailInstructionsSiteDetails": "API または SDK を使用して Matomo のビジットを追跡するには、これらの詳細が必要になります。",
+        "EmailInstructionsYourSiteId": "あなたのサイト ID: %1$s",
+        "EmailInstructionsYourTrackingUrl": "あなたのトラッキング URL: %1$s"
     }
 }

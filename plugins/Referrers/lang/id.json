@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Laporan ini menampilkan seluruh Pengarah Anda dalam laporan satu kompak, mendaftar seluruh Situs, dan kata kunci Pencarian serta Kampanye yang digunakan pengunjung Anda menemukan situs Anda.",
         "Campaigns": "Kampanye",
         "CampaignsDocumentation": "Pengunjung yang datang ke situs Anda sebagai hasil dari kampanye. %1$s Lihat laporan %2$s untuk selengkapnya.",
-        "CampaignsReportDocumentation": "Laporan ini menampilan kampanye mana yang mengarahkan pengungunjung ke situs Anda. %1$s Informasi selengkapnya tentang kampanye pelacakan, baca %2$sdokumentasi kampanye di matomo.org%3$s",
         "ColumnCampaign": "Kampanye",
         "ColumnSearchEngine": "Mesin Pencari",
         "ColumnSocial": "Jejaring Sosial",

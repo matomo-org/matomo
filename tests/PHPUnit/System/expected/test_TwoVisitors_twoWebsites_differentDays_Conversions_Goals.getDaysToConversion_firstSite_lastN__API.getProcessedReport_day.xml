@@ -8,6 +8,7 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
+		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 		</metrics>

@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Este informe muestra todas las Referencias en un solo informe enumerando todos los sitios de internet, las palabras claves y las campañas que utilizan sus visitantes para encontrar su sitio.",
         "Campaigns": "Campañas",
         "CampaignsDocumentation": "Visitantes que visitaron su sitio web como resultado de una campaña. %1$s Vea el informe %2$s para más detalles.",
-        "CampaignsReportDocumentation": "Este informe muestra que campañas llevaron visitantes a su sitio web. %1$s Para una mayor información acerca del seguimiento de campañas, lea la %2$sdocumentación sobre las campañas en matomo.org%3$s",
         "ColumnCampaign": "Campaña",
         "CampaignPageUrlHelp": "La URL de la página para esta campaña, por ejemplo, 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Elija un nombre que describa para qué se creó la campaña y que distingue su campaña de sus otras campañas. Por ejemplo, 'Email-SummerDeals' o 'PaidAds-SummerDeals'.",

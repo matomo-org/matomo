@@ -3,7 +3,6 @@
         "AllReferrersReportDocumentation": "Dit samengestelde rapport laat al uw verwijzers zien met weergave van alle websites, zoekwoorden en campagnes waarmee bezoekers uw site hebben gevonden.",
         "Campaigns": "Campagnes",
         "CampaignsDocumentation": "Bezoekers die op uw website uitkwamen via een campagne. %1$s Bekijk het %2$s rapport voor meer details.",
-        "CampaignsReportDocumentation": "Dit rapport toont de campagnes die bezoekers naar uw website hebben geleid. %1$s Voor meer informatie over Campagne Tracking, lees de %2$scampagne documentatie op matomo.org%3$s",
         "ColumnCampaign": "Campagne",
         "CampaignPageUrlHelp": "De URL waar deze campagne naar leidt, bijvoorbeeld 'http:\/\/jouwwebsite.org\/aanbieding.html',",
         "CampaignSource": "Campagne Bron",

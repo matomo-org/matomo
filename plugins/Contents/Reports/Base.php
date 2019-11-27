@@ -22,6 +22,7 @@ abstract class Base extends Report
     {
         $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'Contents_Contents';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/content-tracking/';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

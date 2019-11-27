@@ -1,8 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Mesatare e bazuar në %1$s hit(e) %2$s mes %3$s dhe %4$s",
-        "ColumnClickedURL": "URL të klikuara",
-        "ColumnClickedURLs": "URL të klikuara",
+        "ColumnClickedURL": "Lidhje për Jashtë e Klikuar",
+        "ColumnClickedURLs": "Lidhje për Jashtë të Klikuara",
         "ColumnActionURL": "URL Veprimi",
         "ColumnClicks": "Klikime",
         "ColumnClicksDocumentation": "Sa herë është klikuar kjo lidhje.",
@@ -40,7 +40,6 @@
         "ExitPagesReportDocumentation": "Ky raport përmban të dhëna rreth faqesh daljesh që janë kryer gjatë një periudhe të caktuar. Faqe daljeje është faqja e fundit që sheh një vizitor gjatë vizitës së tij. %s URL-të e daljeve shfaqen sipas një strukture dosjeje.",
         "ExitPageTitles": "Tituj faqesh dalje",
         "ExitPageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujve të faqeve dalje që janë përdorur gjatë periudhës së dhënë.",
-        "LearnMoreAboutSiteSearchLink": "Mësoni më tepër rreth Ndjekjes së përdorimit që vizitorët i bëjnë motorit tuaj të Kërkimeve.",
         "OneSearch": "1 kërkim",
         "OutlinkDocumentation": "Një lidhje për jashtë është një lidhje që e shpie përdoruesin diku jashtë sajtit tuaj (te një tjetër përkatësi).",
         "OutlinksReportDocumentation": "Ky raport shfaq një listë hierarkike URL-sh lidhjesh për jashtë që janë klikuar nga vizitorët tuaj.",
