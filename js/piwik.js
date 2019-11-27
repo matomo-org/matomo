@@ -5619,6 +5619,7 @@ if (typeof window.Piwik !== 'object') {
                 }
             }
 
+
             function enableTrackOnlyVisibleContent (checkOnScroll, timeIntervalInMs, tracker) {
 
                 if (isTrackOnlyVisibleContentEnabled) {
@@ -7719,22 +7720,17 @@ if (typeof window.Piwik !== 'object') {
                 return;
             }
 
-            if (typeof data.loaded != 'undefined') {
+            if (isDefined(data.mtm_loaded)) {
                 // We received a response to our message sending the initial state to the iframe
                 // We can clear the interval so that we don't send any more
                 stopInitializationInterval();
-                return;
-            }
-
-            if (typeof data.opted_in == 'undefined') {
-                return;
-            }
-
-            var tracker = new Tracker();
-            if (data.opted_in) {
-                tracker.rememberConsentGiven();
-            } else {
-                tracker.forgetConsentGiven();
+            } else if (isDefined(data.mtm_opted_in)) {
+                var tracker = this.getTracker();
+                if (data.mtm_opted_in) {
+                    tracker.rememberConsentGiven();
+                } else {
+                    tracker.forgetConsentGiven();
+                }
             }
         });
 
@@ -7973,21 +7969,24 @@ if (typeof window.Piwik !== 'object') {
              * first-party opt-out cookie.
              */
             updateOptOutForm: function() {
-                if (typeof window.postMessage === 'undefined') {
+                if (!isDefined(window.postMessage)) {
                     // We're on an older browser so we can't do anything
                     return;
                 }
 
+                var tracker = this.getTracker();
+                var matomoUrl = tracker.getPiwikUrl();
+
                 // We don't know whether iframe has finished loading yet so we'll fire it a few times per second
                 // The iframe will send a response back to us which we handle in our message listener by
                 // clearing this interval.
-                var optOutStatus = {opted_in: this.getTracker().hasConsent()};
+                var optOutStatus = {mtm_opted_in: tracker.hasConsent()};
                 var numAttempts = 0;
                 optOutTimer = setInterval(function() {
                     var iframes = document.getElementsByTagName('iframe');
                     for (var i = 0; i < iframes.length; i++) {
                         var iframe = iframes[i];
-                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
+                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), matomoUrl);
                     }
                     numAttempts++;
                     // 10 times per second * 1200 = 2 minutes

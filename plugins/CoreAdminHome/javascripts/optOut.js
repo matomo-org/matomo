@@ -5,7 +5,7 @@ function submitForm(e, form) {
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
     if (typeof parent.postMessage !== 'undefined') {
-        var optOutStatus = {opted_in: optedIn};
+        var optOutStatus = {mtm_opted_in: optedIn};
         parent.postMessage(JSON.stringify(optOutStatus), "*");
     }
 
@@ -61,13 +61,13 @@ window.addEventListener('message', function(e) {
     } catch (e) {
         return;
     }
-    if (typeof data.opted_in == 'undefined') {
+    if (typeof data.mtm_opted_in == 'undefined') {
         return;
     }
 
-    updateText(data.opted_in);
+    updateText(data.mtm_opted_in);
 
     // Send a message back to the parent letting them know that we got it.
-    var message = {loaded: true};
+    var message = {mtm_loaded: true};
     parent.postMessage(JSON.stringify(message), '*');
 });
