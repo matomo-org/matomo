@@ -10,6 +10,14 @@ function isTrackerDebugEnabled(ContainerInterface $c)
 
 return array(
 
+    'ini.log.log_writers' => DI\decorate(function ($previous, ContainerInterface $c) {
+        if (isTrackerDebugEnabled($c)) {
+            $previous[] = 'screen';
+            $previous = array_unique($previous);
+        }
+        return $previous;
+    }),
+
     'log.handler.classes' => DI\decorate(function ($previous, ContainerInterface $c) {
         if (isset($previous['screen'])
             && isTrackerDebugEnabled($c)
