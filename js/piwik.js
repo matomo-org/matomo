@@ -7986,7 +7986,9 @@ if (typeof window.Piwik !== 'object') {
                     var iframes = document.getElementsByTagName('iframe');
                     for (var i = 0; i < iframes.length; i++) {
                         var iframe = iframes[i];
-                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), matomoUrl);
+                        if (isDefined(iframe.src) && getPiwikUrlForOverlay(iframe.src) == matomoUrl) {
+                            iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), matomoUrl);
+                        }
                     }
                     numAttempts++;
                     // 10 times per second * 1200 = 2 minutes
