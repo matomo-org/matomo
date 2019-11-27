@@ -157,7 +157,7 @@ table.actionsDataTable td.label {
   z-index: 1;
   background-clip: padding-box;
 
-  &:first-child {
+  &.first {
     position: sticky; position: -webkit-sticky;
   }
 }
@@ -666,6 +666,6 @@ div.dataTableScroller {
   table.dataTable td.label,
   table.subActionsDataTable td.label,
   table.actionsDataTable td.label {
-    position: static;
+    position: static !important;
   }
 }
