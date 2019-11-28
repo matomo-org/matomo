@@ -1037,7 +1037,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          updateOptOutForm, DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
+          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -3001,13 +3001,6 @@ if (typeof window.Piwik !== 'object') {
             } catch (e2) {
                 return true;
             }
-        }
-
-        var optOutTimer = null;
-
-        function stopInitializationInterval()
-        {
-            clearInterval(optOutTimer);
         }
 
         /************************************************************
@@ -7714,19 +7707,58 @@ if (typeof window.Piwik !== 'object') {
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
         window.addEventListener('message', function(e) {
+            var tracker = Piwik.getTracker();
+
+            // Get a stripped-down version of the actual message origin
+            var origin = e.origin;
+            if (stringEndsWith(origin, '/')) {
+                origin = origin.substring(0, origin.length - 1);
+            }
+            var originNoProtocol = origin.replace(/^.*\/\//, '');
+
+            // Get a stripped-down version of expected origin (i.e. our Matomo install's domain)
+            var matomoUrl = getPiwikUrlForOverlay(tracker.getPiwikUrl());
+            if (stringEndsWith(matomoUrl, '/')) {
+                matomoUrl = matomoUrl.substring(0, matomoUrl.length - 1);
+            }
+            matomoUrl = matomoUrl.replace(/^.*\/\//, '');
+
+            // Don't accept the message unless it came from the expected origin
+            if (matomoUrl !== originNoProtocol) {
+                return;
+            }
+
             try {
                 var data = JSON.parse(e.data);
             } catch (e) {
                 return;
             }
 
-            if (isDefined(data.mtm_loaded)) {
-                // We received a response to our message sending the initial state to the iframe
-                // We can clear the interval so that we don't send any more
-                stopInitializationInterval();
-            } else if (isDefined(data.mtm_opted_in)) {
-                var tracker = this.getTracker();
-                if (data.mtm_opted_in) {
+            // This listener can process two kinds of messages
+            // 1) maq_loaded => sent by optout iframe when it finishes loading.  We need to send back the current status
+            // of the cookie so that it can display the form correctly.
+            // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
+            // our first-party cookie.
+            if (isDefined(data.maq_loaded)) {
+                // Send a message back to the optout iframe telling it the current status
+                var optOutStatus = {maq_opted_in: tracker.hasConsent()};
+
+                var iframes = document.getElementsByTagName('iframe');
+                for (var i = 0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+
+                    var iframeSrc = getPiwikUrlForOverlay(iframe.src);
+                    if (stringEndsWith(iframeSrc, '/')) {
+                        iframeSrc = iframeSrc.substring(0, iframeSrc.length - 1);
+                    }
+
+                    if (isDefined(iframe.contentWindow.postMessage) && iframeSrc == origin) {
+                        console.log("Posted the message");
+                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
+                    }
+                }
+            } else if (isDefined(data.maq_opted_in)) {
+                if (data.maq_opted_in) {
                     tracker.rememberConsentGiven();
                 } else {
                     tracker.forgetConsentGiven();
@@ -7962,41 +7994,6 @@ if (typeof window.Piwik !== 'object') {
                 for (i; i < missedCalls.length; i++) {
                     apply(missedCalls[i]);
                 }
-            },
-
-            /**
-             * Send a message to the iframe which holds the opt-out form, telling it the current value of the 
-             * first-party opt-out cookie.
-             */
-            updateOptOutForm: function() {
-                if (!isDefined(window.postMessage)) {
-                    // We're on an older browser so we can't do anything
-                    return;
-                }
-
-                var tracker = this.getTracker();
-                var matomoUrl = tracker.getPiwikUrl();
-
-                // We don't know whether iframe has finished loading yet so we'll fire it a few times per second
-                // The iframe will send a response back to us which we handle in our message listener by
-                // clearing this interval.
-                var optOutStatus = {mtm_opted_in: tracker.hasConsent()};
-                var numAttempts = 0;
-                optOutTimer = setInterval(function() {
-                    var iframes = document.getElementsByTagName('iframe');
-                    for (var i = 0; i < iframes.length; i++) {
-                        var iframe = iframes[i];
-                        if (isDefined(iframe.src) && getPiwikUrlForOverlay(iframe.src) == matomoUrl) {
-                            iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), matomoUrl);
-                        }
-                    }
-                    numAttempts++;
-                    // 10 times per second * 1200 = 2 minutes
-                    // If the iframe hasn't finished loading by now, it ain't gonna, so let's stop trying
-                    if (numAttempts > 1200) {
-                        clearInterval(optOutTimer);
-                    }
-                }, 100);
             }
 
     };
@@ -8061,8 +8058,6 @@ if (typeof window.Piwik !== 'object') {
                 }};
         }
     }
-
-    window.Piwik.updateOptOutForm();
 
     window.Piwik.trigger('PiwikInitialized', []);
     window.Piwik.initialized = true;

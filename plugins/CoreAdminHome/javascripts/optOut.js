@@ -5,7 +5,7 @@ function submitForm(e, form) {
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
     if (typeof parent.postMessage !== 'undefined') {
-        var optOutStatus = {mtm_opted_in: optedIn};
+        var optOutStatus = {maq_opted_in: optedIn};
         parent.postMessage(JSON.stringify(optOutStatus), "*");
     }
 
@@ -47,9 +47,24 @@ function updateText(optedIn) {
 
 }
 
+var initializationTimer = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     var trackVisitsCheckbox = document.getElementById('trackVisits');
     if (typeof trackVisitsCheckbox === "undefined") trackVisitsCheckbox.addEventListener('click', function(event) { submitForm(event, this.form); });
+
+    // Ask the parent window to send us initial state of the optout cookie so that we can display the form correctly
+    var numAttempts = 0;
+    initializationTimer = setInterval(function() {
+        var message = {maq_loaded: true};
+        parent.postMessage(JSON.stringify(message), '*');
+        numAttempts++;
+        // 10 times per second * 1200 = 2 minutes
+        // If the tracker JS hasn't finished loading by now, it ain't gonna, so let's stop trying
+        if (numAttempts > 1200) {
+            clearInterval(initializationTimer);
+        }
+    }, 100);
 });
 
 // Listener for initialization message from parent window
@@ -61,13 +76,12 @@ window.addEventListener('message', function(e) {
     } catch (e) {
         return;
     }
-    if (typeof data.mtm_opted_in == 'undefined') {
+
+    if (typeof data.maq_opted_in == 'undefined') {
         return;
     }
 
-    updateText(data.mtm_opted_in);
-
-    // Send a message back to the parent letting them know that we got it.
-    var message = {mtm_loaded: true};
-    parent.postMessage(JSON.stringify(message), '*');
+    updateText(data.maq_opted_in);
+    // Cancel the interval so that we don't keep sending requests to the parent
+    clearInterval(initializationTimer);
 });
