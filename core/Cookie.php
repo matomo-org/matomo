@@ -133,8 +133,9 @@ class Cookie
      * @param string $Domain
      * @param bool $Secure
      * @param bool $HTTPOnly
+     * @param string $sameSite
      */
-    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = null)
+    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = false)
     {
         if (!empty($Domain)) {
             // Fix the domain to accept domains with and without 'www.'.
