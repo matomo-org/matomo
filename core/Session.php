@@ -201,15 +201,15 @@ class Session extends Zend_Session
      */
     public static function writeCookie($name, $value, $expires = 0, $path = '/', $domain = '/', $secure = false, $httpOnly = false, $sameSite = 'lax')
     {
-        $headerStr = 'Set-Cookie: ' . $name . '=' . $value;
+        $headerStr = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
         if ($expires) {
-            $headerStr .= '; expires=' . $expires;
+            $headerStr .= '; expires=' . rawurlencode($expires);
         }
         if ($path) {
-            $headerStr .= '; path=' . $path;
+            $headerStr .= '; path=' . rawurlencode($path);
         }
         if ($domain) {
-            $headerStr .= '; domain=' . $domain;
+            $headerStr .= '; domain=' . rawurlencode($domain);
         }
         if ($secure) {
             $headerStr .= '; secure';
@@ -218,7 +218,7 @@ class Session extends Zend_Session
             $headerStr .= '; httponly';
         }
         if ($sameSite) {
-            $headerStr .= '; SameSite=' . $sameSite;
+            $headerStr .= '; SameSite=' . rawurlencode($sameSite);
         }
         return $headerStr;
     }
