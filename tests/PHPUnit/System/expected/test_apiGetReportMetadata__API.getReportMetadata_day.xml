@@ -1626,9 +1626,6 @@
 			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
 			<nb_users_new>New Users</nb_users_new>
 			<max_actions_new>max_actions_new</max_actions_new>
-			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
-			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
-			<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
 		</metrics>
 		<processedMetrics>
 			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
@@ -2623,9 +2620,6 @@
 			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
 			<nb_users_new>New Users</nb_users_new>
 			<max_actions_new>max_actions_new</max_actions_new>
-			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
-			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
-			<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
