@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "Bu raporda tüm yönlendirenler, web siteleri, aranan anahtar sözcükler ve ziyaretçilerin web sitenize gelmesi için kullanılan kampanyaların listesi toplu olarak görüntülenir.",
         "Campaigns": "Kampanyalar",
         "CampaignsDocumentation": "Bir kampanya sonucunda sitenize gelen ziyaretçiler. %1$sAyrıntılı bilgi almak için %2$s raporuna bakın.",
+        "CampaignsReportDocumentation": "Bu rapor, ziyaretçilerin web sitenize eriştiği kampanya bilgilerini içerir.",
         "ColumnCampaign": "Kampanya",
         "CampaignPageUrlHelp": "Bu kampanyanın gideceği sayfanın adresi. Örnek: 'http:\/\/websitem.org\/kampanya.html'.",
         "CampaignNameHelp": "Kampanyanın amacını belirtecek ve diğerlerinden ayrılmasını sağlayacak bir ad seçin. Örnek: 'E-posta-YazFırsatları' ya da 'ÜcretliReklamlar-YazFırsatları'.",

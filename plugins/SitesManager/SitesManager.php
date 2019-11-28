@@ -288,9 +288,7 @@ class SitesManager extends \Piwik\Plugin
     private static function getExcludedUserAgents($website)
     {
         $excludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
-        if (API::getInstance()->isSiteSpecificUserAgentExcludeEnabled()) {
-            $excludedUserAgents .= ',' . $website['excluded_user_agents'];
-        }
+        $excludedUserAgents .= ',' . $website['excluded_user_agents'];
         return self::filterBlankFromCommaSepList($excludedUserAgents);
     }
 
@@ -403,8 +401,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_GlobalListExcludedQueryParameters";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites";
         $translationKeys[] = "SitesManager_GlobalListExcludedUserAgents";
-        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude_Help";
-        $translationKeys[] = "SitesManager_EnableSiteSpecificUserAgentExclude";
         $translationKeys[] = "SitesManager_KeepURLFragments";
         $translationKeys[] = "SitesManager_KeepURLFragmentsHelp";
         $translationKeys[] = "SitesManager_KeepURLFragmentsHelp2";

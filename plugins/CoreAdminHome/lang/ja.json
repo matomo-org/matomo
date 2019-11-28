@@ -4,6 +4,7 @@
         "Administration": "管理",
         "ArchivingSettings": "アーカイブ設定",
         "BrandingSettings": "ブランディング設定",
+        "ErrorEmailFromAddressNotValid": "SMTP からのアドレスが無効です",
         "ReleaseChannel": "リリース チャネル",
         "ClickHereToOptIn": "オプトインするにはここをクリックしてください。",
         "ClickHereToOptOut": "オプトアウトするにはここをクリックしてください。",
@@ -29,6 +30,7 @@
         "JSTracking_CampaignKwdParam": "キャンペーン用キーワードパラメータ",
         "JSTracking_CampaignNameParam": "キャンペーン名パラメータ",
         "JSTracking_CodeNoteBeforeClosingHead": "このコードがあなたのウェブサイトのすべてのページにあることを確認してください。 %1$sタグを閉じる直前に貼り付けることをお勧めします。",
+        "JSTracking_CodeNoteBeforeClosingHeadEmail": "このコードが Web サイトのすべてのページのスクリプト要素に埋め込まれていることを確認してください。 終了タグの直前に貼り付けることをお勧めします。",
         "JSTracking_CustomCampaignQueryParam": "キャンペーン名とキーワード用のカスタムクエリパラメータ名を使用",
         "JSTracking_CrossDomain": "デフォルトでは、ユニークビジターを識別するビジター ID は、同じドメインのページからのみアクセスできるブラウザのファーストパーティの Cookie に格納されます。 クロスドメインリンクを有効にすると、複数のドメインのページを表示している場合でも、特定のビジターのすべてのアクションとページビューを同じ訪問でトラッキングすることができます。 ユーザーがウェブサイトのエイリアス URL のいずれかへのリンクをクリックするたびに、ビジター ID を転送する URL パラメータ pk_vid が追加されます。",
         "JSTracking_CrossDomain_NeedsMultipleDomains": "注意：クロスドメインリンクを使用するには、ウェブサイトに複数のドメイン名 ( URL ) を指定する必要があります。",
@@ -53,6 +55,8 @@
         "JSTracking_EndNote": "注：カスタマイズしたトラッキングコードは、%1$sトラッキングコード%2$s管理セクションで生成できます。",
         "JSTrackingIntro1": "Web サイトへのビジターをさまざまな方法で追跡できます。 推奨される方法は JavaScript を使用することです。 この方法を使用するには、Web サイトのすべての Web ページに JavaScript コードがあることを確認する必要があります。これはここで生成できます。",
         "JSTrackingIntro2": "WebサイトのJavaScriptトラッキングコードを入手したら、それをコピーしてMatomoで追跡したいすべてのページに貼り付けます。",
+        "JSTrackingIntro3a": "ほとんどの Web サイト、ブログ、CMS などでは、事前に作成されたプラグインを使用して技術的な作業を行うことができます。 （ %1$sMatomo の統合に使用されるプラグインのリスト%2$sを参照してください。）",
+        "JSTrackingIntro3b": "プラグインが存在しない場合は、Web サイトテンプレートを編集し、JavaScriptトラッキングコードを &lt;\/head&gt; tag に追加できます。多くの場合、'header.php'、'header.tpl' などのテンプレートファイルで定義されているタグ。",
         "JSTrackingIntro4": "ビジターの追跡に JavaScript を使用したくない場合は、%1$s以下の画像によるトラッキングリンクを生成します。%2$s",
         "JSTrackingIntro5": "ページビューを追跡する以外にも、%1$sMatomo Javascript Tracking のドキュメント%2$sで利用可能な機能のリストを確認してください。 これらの機能を使用すると、目標、カスタム変数、e コマース注文、放棄されたカートなどを追跡できます。",
         "LogoNotWriteableInstruction": "Matomo デフォルトロゴの代わりにカスタムロゴを使用するには、このディレクトリへの書込権限を与えて下さい。 :%1$s ロゴをファイルに保存するには、書込アクセスが必要です。%2$s",
@@ -130,6 +134,8 @@
         "ConfirmDeleteThisTrackingFailure": "このトラッキングエラーを削除してもよろしいですか？",
         "TrackingFailuresEmailSubject": "Matomo Analytics のトラッキングエラー",
         "TrackingFailuresEmail1": "これは、直近で%s 種類のトラッキング障害が発生したことを伝えるためです。",
-        "TrackingFailuresEmail2": "失敗した追跡リクエストをすべて表示するには、%1$s ここをクリック %2$s してください。"
+        "TrackingFailuresEmail2": "失敗した追跡リクエストをすべて表示するには、%1$s ここをクリック %2$s してください。",
+        "ImportFromGoogleAnalytics": "Google アナリティクス からインポート",
+        "ImportFromGoogleAnalyticsDescription": "Google アナリティクスのプロパティがあり、Matomo に切り替える場合、%1$sGoogleAnalyticsImporter%2$s プラグインを使用して既存のデータをインポートできます。"
     }
 }
