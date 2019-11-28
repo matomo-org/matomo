@@ -769,7 +769,20 @@
                             }
 
                             $.each(data.reportData, function (i, row) {
-                                regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
+
+                                var region = data.reportMetadata[i].region;
+
+                                if (!regionExistsInMap(region)) {
+                                    var q = {
+                                        'p': region
+                                    };
+
+                                    if (map.getLayer('regions').getPaths(q).length) {
+                                        region = map.getLayer('regions').getPaths(q)[0].data.fips.substr(2);
+                                    }
+                                }
+
+                                regionDict[region] = $.extend(row, data.reportMetadata[i], {
                                     curMetric: quantify(row, metric)
                                 });
                             });
