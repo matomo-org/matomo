@@ -52,11 +52,11 @@ class API extends \Piwik\Plugin\API
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
             $modifiedSegment = $this->appendVisitorTypeSegment($segment, $visitorTypeSegment);
 
-            $columnsForVisit = $this->unprefixColumns($columns, $columnSuffix);
+            $columnsForVisitType = empty($columns) ? array() : $this->unprefixColumns($columns, $columnSuffix);
 
             // Only make the API call if either $columns is empty (i.e. no list of columns was passed in, so we
             // should fetch all columns) or if one of the columns that was passed in is for this visitor type
-            if (!empty($columns) && empty($columnsForVisit)) {
+            if (!empty($columns) && empty($columnsForVisitType)) {
                 continue;
             }
 
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
                 'period'    => $period,
                 'date'      => $date,
                 'segment'   => $modifiedSegment,
-                'columns'   => implode(',', $columns),
+                'columns'   => implode(',', $columnsForVisitType),
                 'format'    => 'original',
                 'format_metrics' => 0
             );
