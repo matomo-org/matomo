@@ -46,6 +46,8 @@ class API extends \Piwik\Plugin\API
             self::RETURNING_COLUMN_SUFFIX => self::RETURNING_VISITOR_SEGMENT
         );
 
+        $columns = Piwik::getArrayFromApiParameter($columns);
+
         /** @var \Piwik\DataTable\Map $resultSet */
         $resultSet = null;
 
