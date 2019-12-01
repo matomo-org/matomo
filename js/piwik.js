@@ -7697,6 +7697,11 @@ if (typeof window.Piwik !== 'object') {
             return tracker;
         }
 
+        function checkConsent()
+        {
+            return Piwik.getTracker().hasConsent();
+        }
+
         /************************************************************
          * Proxy object
          * - this allows the caller to continue push()'ing to _paq
@@ -7709,22 +7714,11 @@ if (typeof window.Piwik !== 'object') {
         window.addEventListener('message', function(e) {
             var tracker = Piwik.getTracker();
 
-            // Get a stripped-down version of the actual message origin
-            var origin = e.origin;
-            if (stringEndsWith(origin, '/')) {
-                origin = origin.substring(0, origin.length - 1);
-            }
-            var originNoProtocol = origin.replace(/^.*\/\//, '');
-
-            // Get a stripped-down version of expected origin (i.e. our Matomo install's domain)
-            var matomoUrl = getPiwikUrlForOverlay(tracker.getPiwikUrl());
-            if (stringEndsWith(matomoUrl, '/')) {
-                matomoUrl = matomoUrl.substring(0, matomoUrl.length - 1);
-            }
-            matomoUrl = matomoUrl.replace(/^.*\/\//, '');
+            var originHost = getHostName(e.origin);
+            var matomoHost = getHostName(tracker.getPiwikUrl());
 
             // Don't accept the message unless it came from the expected origin
-            if (matomoUrl !== originNoProtocol) {
+            if (matomoHost !== originHost) {
                 return;
             }
 
@@ -7746,14 +7740,9 @@ if (typeof window.Piwik !== 'object') {
                 var iframes = document.getElementsByTagName('iframe');
                 for (var i = 0; i < iframes.length; i++) {
                     var iframe = iframes[i];
+                    var iframeHost = getHostName(iframe.src);
 
-                    var iframeSrc = getPiwikUrlForOverlay(iframe.src);
-                    if (stringEndsWith(iframeSrc, '/')) {
-                        iframeSrc = iframeSrc.substring(0, iframeSrc.length - 1);
-                    }
-
-                    if (isDefined(iframe.contentWindow.postMessage) && iframeSrc == origin) {
-                        console.log("Posted the message");
+                    if (isDefined(iframe.contentWindow.postMessage) && iframeHost == originHost) {
                         iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
                     }
                 }

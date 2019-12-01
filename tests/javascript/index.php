@@ -5045,6 +5045,25 @@ if ($mysql) {
         });
     });
 
+    test("Test API - optOut (via iframe)", function () {
+        expect(9);
+
+        var tracker = Piwik.getTracker();
+
+        strictEqual(tracker.hook.test._hasConsent(), true, "hasConsent(), should be true by default" );
+
+        stop();
+        Q.delay(1).then(function () {
+            var optOutMessage = JSON.stringify({maq_opted_in: false});
+            tracker.hook.test._windowAlias.postMessage(optOutMessage, '*');
+            return Q.delay(500);
+       }).then(function () {
+            strictEqual(tracker.hook.test._hasConsent(), false, "optout message listener should have set the cookie (private method)" );
+            strictEqual(tracker.hasConsent(), false, "optout message listener should have set the cookie (public method)" );
+        }).catch(function (e) {
+            console.log('caught', e.stack || e.message || e);
+        });
+    });
 
     test("Internal timers and setLinkTrackingTimer()", function() {
         expect(8);
