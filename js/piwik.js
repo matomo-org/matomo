@@ -3923,7 +3923,9 @@ if (typeof window.Piwik !== 'object') {
                 var testCookieName = configCookieNamePrefix + 'testcookie';
 				setCookie(testCookieName, '1');
 
-                return getCookie(testCookieName) === '1' ? '1' : '0';
+                var hasCookies = getCookie(testCookieName) === '1' ? '1' : '0';
+                deleteCookie(testCookieName);
+                return hasCookies;
             }
 
             /*
