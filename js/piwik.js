@@ -974,7 +974,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag,
+    pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
@@ -3915,7 +3915,12 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-				var testCookieName = getCookieName('testcookie');
+                if(!isDefined(window.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
+                    return navigatorAlias.cookieEnabled ? '1' : '0';
+                }
+
+                // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
+                var testCookieName = configCookieNamePrefix + 'testcookie';
 				setCookie(testCookieName, '1');
 
                 return getCookie(testCookieName) === '1' ? '1' : '0';
