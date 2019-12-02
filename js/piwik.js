@@ -7697,8 +7697,14 @@ if (typeof window.Piwik !== 'object') {
             return tracker;
         }
 
-        function checkConsent()
+        function resetConsentRequired()
         {
+            var trackers = Piwik.getAsyncTrackers();
+            for (var i = 0; i < trackers.length; i++) {
+                var tracker = trackers[i];
+                tracker.deleteCookies();
+                tracker.configConsentRequired = false;
+            }
             return Piwik.getTracker().hasConsent();
         }
 
@@ -7747,10 +7753,14 @@ if (typeof window.Piwik !== 'object') {
                     }
                 }
             } else if (isDefined(data.maq_opted_in)) {
-                if (data.maq_opted_in) {
-                    tracker.rememberConsentGiven();
-                } else {
-                    tracker.forgetConsentGiven();
+                var trackers = Piwik.getAsyncTrackers();
+                for (var i = 0; i < trackers.length; i++) {
+                    tracker = trackers[i];
+                    if (data.maq_opted_in) {
+                        tracker.rememberConsentGiven();
+                    } else {
+                        tracker.forgetConsentGiven();
+                    }
                 }
             }
         });
