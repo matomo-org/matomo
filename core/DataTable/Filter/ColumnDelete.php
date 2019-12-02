@@ -160,11 +160,15 @@ class ColumnDelete extends BaseFilter
                 continue;
             }
             foreach ($this->columnsToRemove as $column) {
-
-                if (!array_key_exists($column, $row)) {
-                    continue;
+                if (is_array($row )) {
+                	if (!array_key_exists($column, $row)) {
+		                continue;
+	                }
+                } else {
+                	if (!property_exists($row, $column)) {
+		                continue;
+	                }
                 }
-
                 if ($this->deleteIfZeroOnly) {
                     $value = $row[$column];
                     if ($value === false || !empty($value)) {
