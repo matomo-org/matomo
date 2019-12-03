@@ -3812,9 +3812,24 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
+             * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
+             * change to the user opt-in/out status in another browser window will be respected.
+             */
+            function refreshConsentStatus() {
+                var status;
+                if (configConsentRequired) {
+                    status = !!getCookie(CONSENT_COOKIE_NAME);
+                } else {
+                    status = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
+                }
+                configHasConsent = status;
+            }
+
+            /*
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
                     return;
