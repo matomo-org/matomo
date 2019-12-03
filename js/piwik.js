@@ -3907,6 +3907,10 @@ if (typeof window.Piwik !== 'object') {
                 return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
             }
 
+            function deleteCookie(cookieName, path, domain) {
+                setCookie(cookieName, '', -86400, path, domain);
+            }
+
             /*
              * Does browser have cookies enabled (for this site)?
              */
@@ -3915,7 +3919,7 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-                if(!isDefined(window.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
+                if(!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
                     return navigatorAlias.cookieEnabled ? '1' : '0';
                 }
 
@@ -3923,9 +3927,9 @@ if (typeof window.Piwik !== 'object') {
                 var testCookieName = configCookieNamePrefix + 'testcookie';
 				setCookie(testCookieName, '1');
 
-                var hasCookies = getCookie(testCookieName) === '1' ? '1' : '0';
+                var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
                 deleteCookie(testCookieName);
-                return hasCookies;
+                return hasCookie;
             }
 
             /*
@@ -4290,10 +4294,6 @@ if (typeof window.Piwik !== 'object') {
                     0,
                     ''
                 ];
-            }
-
-            function deleteCookie(cookieName, path, domain) {
-                setCookie(cookieName, '', -86400, path, domain);
             }
 
             function isPossibleToSetCookieOnDomain(domainToTest)
