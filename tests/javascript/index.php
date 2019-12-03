@@ -5046,28 +5046,26 @@ if ($mysql) {
     });
 
     test("Test API - optOut (via iframe)", function () {
-        expect(9);
+        expect(3);
 
-        var tracker = Piwik.getAsyncTracker();
-
-        var mockTracker = Piwik.getTracker();
-        mockTracker.hook.test._resetConsentRequired();
+        var tracker = Piwik.addTracker();
 
         strictEqual(tracker.hasConsent(), true, "hasConsent(), should be true by default" );
 
-        var optOutMessage = JSON.stringify({maq_opted_in: false});
-
         stop();
         Q.delay(1).then(function () {
-            mockTracker.hook.test._windowAlias.postMessage(optOutMessage, '*');
+            // Fire a message to set the opt in status to false
+            var optOutMessage = JSON.stringify({maq_opted_in: false});
+            tracker.hook.test._windowAlias.postMessage(optOutMessage, '*');
             return Q.delay(500);
        }).then(function () {
-            strictEqual(tracker.hasConsent(), false, "optout message listener should have set the cookie to false" );
+            strictEqual(tracker.hasConsent(), false, "optout message listener should have set the cookie to false (async tracker)" );
             // Fire another message to set it back to true
-            // optOutMessage = JSON.stringify({maq_opted_in: true});
-            // return Q.delay(500);
-        // }).then(function () {
-        //     strictEqual(tracker.hasConsent(), true, "optout message listener should have set the cookie to true" );
+            var optInMessage = JSON.stringify({maq_opted_in: true});
+            tracker.hook.test._windowAlias.postMessage(optInMessage, '*');
+            return Q.delay(500);
+        }).then(function () {
+            strictEqual(tracker.hasConsent(), true, "optout message listener should have set the cookie to true" );
         }).catch(function (e) {
             console.log('caught', e.stack || e.message || e);
         });

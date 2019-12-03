@@ -7697,17 +7697,6 @@ if (typeof window.Piwik !== 'object') {
             return tracker;
         }
 
-        function resetConsentRequired()
-        {
-            var trackers = Piwik.getAsyncTrackers();
-            for (var i = 0; i < trackers.length; i++) {
-                var tracker = trackers[i];
-                tracker.deleteCookies();
-                tracker.configConsentRequired = false;
-            }
-            return Piwik.getTracker().hasConsent();
-        }
-
         /************************************************************
          * Proxy object
          * - this allows the caller to continue push()'ing to _paq
