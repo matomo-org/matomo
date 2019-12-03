@@ -1078,8 +1078,8 @@ class CronArchive
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
             $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
+            $m = str_replace(array("\n", "\t"), " ", $m);
         }
-        $m = str_replace(array("\n", "\t"), " ", $m);
         $this->errors[] = $m;
         $this->logger->error($m);
     }
