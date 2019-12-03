@@ -159,19 +159,19 @@ class ColumnDelete extends BaseFilter
             if(!$this->isArrayAccess($row)) {
                 continue;
             }
-            
-            if (is_array($row)) {	
-                if (!array_key_exists($column, $row)) {
-                    continue;
-                }
-            } elseif ($table instanceof \ArrayAccess) {
-                if (!$row->offsetExists($column)) {
-                    continue;
-                }
-            }
-            
+           
             foreach ($this->columnsToRemove as $column) {
-                if ($this->deleteIfZeroOnly && isset($row[$column])) {
+                
+                if (is_array($row)) {	
+                    if (!array_key_exists($column, $row)) {
+                        continue;
+                    }
+                } elseif ($table instanceof \ArrayAccess) {
+                    if (!$row->offsetExists($column)) {
+                    continue;
+                    }
+                }
+                if ($this->deleteIfZeroOnly) {
                     $value = $row[$column];
                     if ($value === false || !empty($value)) {
                         continue;
