@@ -3816,13 +3816,11 @@ if (typeof window.Piwik !== 'object') {
              * change to the user opt-in/out status in another browser window will be respected.
              */
             function refreshConsentStatus() {
-                var status;
-                if (configConsentRequired) {
-                    status = !!getCookie(CONSENT_COOKIE_NAME);
-                } else {
-                    status = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
+                if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
+                    configHasConsent = false;
+                } else if (getCookie(CONSENT_COOKIE_NAME)) {
+                    configHasConsent = true;
                 }
-                configHasConsent = status;
             }
 
             /*

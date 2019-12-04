@@ -5045,8 +5045,8 @@ if ($mysql) {
         });
     });
 
-    test("Test API - optOut (via iframe)", function () {
-        expect(3);
+    test("Test optOut (via iframe)", function () {
+        expect(6);
 
         var tracker = Piwik.addTracker();
 
@@ -5066,9 +5066,37 @@ if ($mysql) {
             return Q.delay(500);
         }).then(function () {
             strictEqual(tracker.hasConsent(), true, "optout message listener should have set the cookie to true" );
+            start();
         }).catch(function (e) {
             console.log('caught', e.stack || e.message || e);
         });
+    });
+
+    test("Test refreshConsentStatus()", function() {
+        expect(7);
+
+        var tracker = Piwik.addTracker();
+        var document = tracker.hook.test._windowAlias.document;
+
+        // Test 1: no cookies
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), true, "hasConsent() true when no cookies present");
+
+        // Test 2: optout cookie
+        document.cookie = 'mtm_consent_removed=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
+
+        // Test 3: optin cookie
+        document.cookie = 'mtm_consent_removed=;expires=Sun, 01 Dec 2019 00:00:01 GMT';
+        document.cookie = 'mtm_consent=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), true, "hasConsent() true when optin cookie present");
+
+        // Test 4: both cookies
+        document.cookie = 'mtm_consent_removed=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
     });
 
     test("Internal timers and setLinkTrackingTimer()", function() {
