@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Ortalama %1$s %2$s ortalama tıklamaya göre %3$s ile %4$s arasında",
+        "ColumnClickedURL": "Tıklanmış Dış Bağlantı",
+        "ColumnClickedURLs": "Tıklanmış Dış Bağlantılar",
         "ColumnActionURL": "İşlem Adresi",
         "ColumnClicks": "Tıklanma",
         "ColumnClicksDocumentation": "Bu bağlantıya tıklanma sayısı.",

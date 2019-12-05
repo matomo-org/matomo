@@ -27,7 +27,6 @@ class OneVisitorTwoVisits extends Fixture
 
     public $useThirdPartyCookies = false;
     public $useSiteSearch = false;
-    public $excludeMozilla = false;
     public $simulateIntegerOverflow = false;
     public $maxUnsignedIntegerValue = '4294967295';
 
@@ -81,10 +80,6 @@ class OneVisitorTwoVisits extends Fixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        if ($this->excludeMozilla) {
-            APISitesManager::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
-        }
-
         self::createSuperUser();
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
@@ -114,9 +109,7 @@ class OneVisitorTwoVisits extends Fixture
             $timezone = null,
             $currency = null,
             $group = null,
-            $startDate = null,
-            // test that visit won't be excluded since site-specific exclude is not enabled
-            $excludedUserAgents = $this->excludeMozilla ? 'mozilla' : null
+            $startDate = null
         );
 
         // Record 1st page view

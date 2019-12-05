@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "Questo report mostra tutti i tuoi Referenti in un unico report che elenca tutti i Siti web, le Parole chiave di ricerca e Campagne utilizzate dai visitatori per trovare il tuo sito web.",
         "Campaigns": "Campagne",
         "CampaignsDocumentation": "Visitatori che sono arrivati sul tuo sito web a seguito di una campagna. %1$sVedi il%2$s report per maggiori dettagli.",
+        "CampaignsReportDocumentation": "Questo report mostra quali campagne hanno portato sul tuo sito i visitatori.",
         "ColumnCampaign": "Campagna",
         "CampaignPageUrlHelp": "URL della pagina in cui si trova questa campagna, per esempio 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Scegli un nome che descriva per che cosa è stata creata la campagna e che distingua la tua campagna dalle altre. Ad esempio \"Email-SummerDeals\" o \"PaidAds-SummerDeals\".",
@@ -25,6 +26,7 @@
         "DistinctSearchEngines": "motori di ricerca distinti",
         "DistinctSocialNetworks": "social networks distinti",
         "DistinctWebsites": "siti web distinti",
+        "DistinctWebsiteUrls": "URL di siti web distinti",
         "EvolutionDocumentation": "Questa è una panoramica dei referenti che hanno portato i visitatori sul tuo sito web.",
         "EvolutionDocumentationMoreInfo": "Per ulteriori informazioni sui diversi tipi di canale, leggi la documentazione della tabella %s.",
         "Keywords": "Keywords",
@@ -67,6 +69,12 @@
         "WidgetSocials": "Elenco di social network",
         "WidgetTopKeywordsForPages": "Top Keyword per URL Pagina",
         "XPercentOfVisits": "%s di visite",
-        "Acquisition": "Acquisizione"
+        "Acquisition": "Acquisizione",
+        "VisitorsFromSearchEngines": "Visitatori da Motori di Ricerca",
+        "PercentOfX": "Percentuale di %s",
+        "VisitorsFromSocialNetworks": "Visitatori da Social Networks",
+        "VisitorsFromDirectEntry": "Visitatori da Ingressi Diretti",
+        "VisitorsFromWebsites": "Visitatori da Siti Web",
+        "VisitorsFromCampaigns": "Visitatori da Campagne"
     }
 }

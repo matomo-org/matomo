@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "このレポートは、すべての参照元を確認することができる統合レポートです。ビジターがサイト閲覧の際に利用したすべてのウェブサイト、検索キーワード、キャンペーンを一覧表示します。",
         "Campaigns": "キャンペーン",
         "CampaignsDocumentation": "キャンペーンの結果としてウェブサイトを訪れたビジター。詳細のリポートは %1$s こちら %2$s",
+        "CampaignsReportDocumentation": "このレポートは、どのキャンペーンがあなたのウェブサイトにビジターを導いたかを示します。",
         "ColumnCampaign": "キャンペーン",
         "CampaignPageUrlHelp": "このキャンペーンが表示されるページの URL です。 例： 'http:\/\/example.org\/offer.html'",
         "CampaignNameHelp": "キャンペーンが作成された内容を説明する名前を選択します。この名前は、キャンペーンと他のキャンペーンを区別します。 たとえば、「Email-SummerDeals」または「PaidAds-SummerDeals」などです。",
@@ -25,6 +26,7 @@
         "DistinctSearchEngines": "個別の検索エンジン",
         "DistinctSocialNetworks": "異なるソーシャルネットワーク",
         "DistinctWebsites": "個別のウェブサイト",
+        "DistinctWebsiteUrls": "個別の Web サイト URL",
         "EvolutionDocumentation": "ビジターをウェブサイトへと導いた参照元についての概観です。",
         "EvolutionDocumentationMoreInfo": "さまざまなチャネルタイプの詳細については、%s の表のドキュメントを参照してください。",
         "Keywords": "キーワード",
@@ -67,6 +69,12 @@
         "WidgetSocials": "ソーシャルネットワークのリスト",
         "WidgetTopKeywordsForPages": "ページ URL のトップキーワード",
         "XPercentOfVisits": "訪問の %s",
-        "Acquisition": "集客"
+        "Acquisition": "集客",
+        "VisitorsFromSearchEngines": "検索エンジンからのビジター",
+        "PercentOfX": "%s の割合",
+        "VisitorsFromSocialNetworks": "ソーシャルネットワークからのビジター",
+        "VisitorsFromDirectEntry": "直接入力からのビジター",
+        "VisitorsFromWebsites": "ウェブサイトからのビジター",
+        "VisitorsFromCampaigns": "キャンペーンからのビジター"
     }
 }

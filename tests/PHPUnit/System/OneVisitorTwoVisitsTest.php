@@ -242,4 +242,3 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
 }
 
 OneVisitorTwoVisitsTest::$fixture = new OneVisitorTwoVisits();
-OneVisitorTwoVisitsTest::$fixture->excludeMozilla = true;
