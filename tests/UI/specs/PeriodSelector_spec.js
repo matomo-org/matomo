@@ -106,12 +106,13 @@ describe("PeriodSelector", function () {
         await element.click();
 
         await page.hover('#calendarApply');
+        await page.waitFor(250);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('date_range_selected');
     });
 
     it("should enable the comparison dropdown when 'compare' is checked", async function () {
-        await page.click('#comparePeriodTo');
+        await page.click('#comparePeriodTo + span');
         await page.waitFor(250); // wait for animation
 
         expect(await page.screenshotSelector(selector)).to.matchImage('comparison_checked');
