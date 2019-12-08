@@ -39,6 +39,16 @@ class Lock
         return $this->backend->getKeysMatchingPattern($this->lockKeyStart . '*');
     }
 
+    public function execute($id, $callback)
+    {
+        $this->acquireLock($id);
+        try {
+            return $callback();
+        } finally {
+            $this->unlock();
+        }
+    }
+
     public function acquireLock($id, $ttlInSeconds = 60)
     {
         $this->lockKey = $this->lockKeyStart . $id;

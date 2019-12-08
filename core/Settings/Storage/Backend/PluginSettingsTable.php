@@ -10,6 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Db;
 use Exception;
 use Piwik\Version;
@@ -36,6 +38,9 @@ class PluginSettingsTable implements BackendInterface
      */
     private $db;
 
+    /** @var Lock */
+    private $lockWrapper;
+
     public function __construct($pluginName, $userLogin)
     {
         if (empty($pluginName)) {
@@ -48,6 +53,7 @@ class PluginSettingsTable implements BackendInterface
 
         $this->pluginName = $pluginName;
         $this->userLogin = $userLogin;
+        $this->lockWrapper = new Lock(new LockBackend\MySqlLockBackend(), 'PluginSettingsTable');
     }
 
     private function initDbIfNeeded()
@@ -66,6 +72,21 @@ class PluginSettingsTable implements BackendInterface
         return 'PluginSettings_' . $this->pluginName . '_User_' . $this->userLogin;
     }
 
+    public function readAndUpdate($callback)
+    {
+        $lockKey = $this->getTableName() . '.' . $this->pluginName . '.' . $this->userLogin;
+
+        $this->lockWrapper->execute($lockKey, function() use ($callback) {
+            // Read settings from the database and apply the callback to transform them as needed
+            $settings = $this->load();
+            $isChanged = $callback($settings);
+
+            if ($isChanged) {
+                $this->save($settings);
+            }
+        });
+    }
+
     /**
      * Saves (persists) the current setting values in the database.
      */
@@ -75,7 +96,19 @@ class PluginSettingsTable implements BackendInterface
 
         $table = $this->getTableName();
 
+        $bind = $this->buildVarsToInsert($values);
+
+        $sql = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES ";
+        $insertSubclauses = array_fill(0, count($bind) / 5, "(?, ?, ?, ?, ?)");
+        $sql .= implode(', ' , $insertSubclauses);
+
         $this->delete();
+        $this->db->query($sql, $bind);
+    }
+
+    private function buildVarsToInsert($values)
+    {
+        $bind = array();
 
         foreach ($values as $name => $value) {
             if (!isset($value)) {
@@ -94,11 +127,14 @@ class PluginSettingsTable implements BackendInterface
                 }
             }
 
-            $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
-            $bind = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
-
-            $this->db->query($sql, $bind);
+            $bind[] = $this->pluginName;
+            $bind[] = $this->userLogin;
+            $bind[] = $name;
+            $bind[] = $value;
+            $bind[] = $jsonEncoded;
         }
+
+        return $bind;
     }
 
     private function jsonEncodedMissingError(Exception $e)
