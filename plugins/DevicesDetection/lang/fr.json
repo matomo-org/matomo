@@ -38,6 +38,7 @@
         "PluginDescription": "Fournit des informations détaillés à propos des périphériques de l'utilisateur telles que la Marque (fabriquant), le Modèle (version pérhip.), type de périph. (tv, consoles, téléphone intelligent, ordinateur, etc) et plus.",
         "SmartDisplay": "Affichage intelligent",
         "Smartphone": "Téléphone intelligent (smartphone)",
+        "SmartSpeaker": "Haut-parleur intelligent",
         "PortableMediaPlayer": "Lecteur de medias portable",
         "Devices": "Périphériques",
         "GenericDevice": "Générique %s",

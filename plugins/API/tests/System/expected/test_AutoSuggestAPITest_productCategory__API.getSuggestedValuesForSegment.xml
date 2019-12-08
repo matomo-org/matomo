@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result>
-	<error message="Requested segment productCategory1 not found.
- 
- --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
-</result>
+<result />

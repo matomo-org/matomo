@@ -53,6 +53,9 @@
         "CustomUnprocessedSegmentApiError6": "この API メソッドを使用すると、&segment= parameter で一致したユーザーとアクションが表示されます。",
         "CustomUnprocessedSegmentNoData": "このセグメントのデータを表示するには、セグメントエディタでこのセグメントを手動で作成し、前処理が完了するまで数時間待つ必要があります。",
         "AddThisToMatomo": "このセグメントを Matomo に追加する",
+        "ThisSegmentIsCompared": "このセグメントは現在比較されています。",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "このセグメントは現在選択されているため、比較するために選択できません。",
+        "CompareThisSegment": "このセグメントを選択したセグメントと期間と比較します。",
         "Test": "テスト"
     }
 }

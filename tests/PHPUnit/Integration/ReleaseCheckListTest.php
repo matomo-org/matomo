@@ -38,6 +38,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function test_woff2_fileIsUpToDate()
+    {
+        link(PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.ttf", "temp.ttf");
+        $command = PIWIK_INCLUDE_PATH . "/../travis_woff2/woff2_compress 'temp.ttf'";
+        passthru($command);
+
+        $this->assertFileEquals('temp.woff2', PIWIK_INCLUDE_PATH . "/plugins/Morpheus/fonts/matomo.woff2");
+    }
+
     public function test_minimumPHPVersion_isEnforced()
     {
         global $piwik_minimumPHPVersion;

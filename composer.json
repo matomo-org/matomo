@@ -27,9 +27,9 @@
     "require": {
         "php": ">=5.5.9",
         "twig/twig": "~1.0",
-        "leafo/lessphp": "~0.5.0",
+        "leafo/lessphp": "dev-php74-compat",
         "symfony/console": "~2.6.0",
-        "mustangostang/spyc": "~0.5.0",
+        "mustangostang/spyc": "~0.6.0",
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~1.0",
         "piwik/network": "~0",
@@ -118,6 +118,10 @@
         {
             "type": "git",
             "url": "https://github.com/matomo-org/Sparkline.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/matomo-org/lessphp.git"
         }
     ],
     "scripts": {

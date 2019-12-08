@@ -1078,8 +1078,8 @@ class CronArchive
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
             $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
+            $m = str_replace(array("\n", "\t"), " ", $m);
         }
-        $m = str_replace(array("\n", "\t"), " ", $m);
         $this->errors[] = $m;
         $this->logger->error($m);
     }
@@ -1391,6 +1391,11 @@ class CronArchive
             $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.");
             $this->logger->info("  See the doc at: https://matomo.org/docs/setup-auto-archiving/");
         }
+
+        $cliMulti = new CliMulti();
+        $supportsAsync = $cliMulti->supportsAsync();
+        $this->logger->info("- " . ($supportsAsync ? 'Async process archiving supported, using CliMulti.' : 'Async process archiving not supported, using curl requests.'));
+
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
 
