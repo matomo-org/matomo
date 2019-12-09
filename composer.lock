@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6f55fbf412b9cbd339f37eec4e60dee",
+    "content-hash": "2c3cad958b7cbc5cd9133b1facf607ac",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -481,6 +481,39 @@
                 "LGPL-3.0"
             ],
             "time": "2018-02-09T12:19:44+00:00"
+        },
+        {
+            "name": "matomo/ini",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/component-ini.git",
+                "reference": "4cf2d9d73f884a1ce0d9a8c8a119d56f44771c80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/4cf2d9d73f884a1ce0d9a8c8a119d56f44771c80",
+                "reference": "4cf2d9d73f884a1ce0d9a8c8a119d56f44771c80",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "athletic/athletic": "0.1.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matomo\\Ini\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "time": "2019-07-03T07:42:01+00:00"
         },
         {
             "name": "matomo/referrer-spam-blacklist",
@@ -1171,40 +1204,6 @@
                 "useragent"
             ],
             "time": "2019-12-22T21:23:31+00:00"
-        },
-        {
-            "name": "piwik/ini",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/component-ini.git",
-                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/663d4fdedd8f344407fd1599e623f41912fe2ebd",
-                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "athletic/athletic": "0.1.*",
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Piwik\\Ini\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "abandoned": "matomo/ini",
-            "time": "2019-12-21T20:06:47+00:00"
         },
         {
             "name": "piwik/network",

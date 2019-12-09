@@ -24,7 +24,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\FrontController;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Log;
 use Piwik\NumberFormatter;
 use Piwik\Option;

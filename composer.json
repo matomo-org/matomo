@@ -34,7 +34,7 @@
         "matomo/decompress": "~2.0",
         "piwik/network": "~0",
         "matomo/cache": "~2.0",
-        "piwik/ini": "^1.0.8",
+        "matomo/ini": "~2.0",
         "php-di/php-di": "^5.0.0",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",

@@ -8,7 +8,7 @@
 namespace Piwik\Plugins\Diagnostics;
 
 use Piwik\Development;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Settings as PiwikSettings;
 use Piwik\Plugin\Settings as PluginSettings;
