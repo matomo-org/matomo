@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee2f6bf0856de149245ca36273fbd45a",
+    "content-hash": "d6f55fbf412b9cbd339f37eec4e60dee",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -445,6 +445,42 @@
                 "redis"
             ],
             "time": "2019-07-14T20:55:17+00:00"
+        },
+        {
+            "name": "matomo/decompress",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/component-decompress.git",
+                "reference": "1220757676c8d5cc8faa9d1cb0a48bf0b1fedc9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/component-decompress/zipball/1220757676c8d5cc8faa9d1cb0a48bf0b1fedc9c",
+                "reference": "1220757676c8d5cc8faa9d1cb0a48bf0b1fedc9c",
+                "shasum": ""
+            },
+            "require": {
+                "pear/archive_tar": "~1.3,>=1.3.15",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matomo\\Decompress\\": "src/"
+                },
+                "classmap": [
+                    "libs/PclZip"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "time": "2018-02-09T12:19:44+00:00"
         },
         {
             "name": "matomo/referrer-spam-blacklist",
@@ -1080,43 +1116,6 @@
                 "reflection"
             ],
             "time": "2019-09-26T11:24:58+00:00"
-        },
-        {
-            "name": "piwik/decompress",
-            "version": "1.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/component-decompress.git",
-                "reference": "15088059c38378939db8a3490b67b569797a6a3a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-decompress/zipball/15088059c38378939db8a3490b67b569797a6a3a",
-                "reference": "15088059c38378939db8a3490b67b569797a6a3a",
-                "shasum": ""
-            },
-            "require": {
-                "pear/archive_tar": "~1.3,>=1.3.15",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Piwik\\Decompress\\": "src/"
-                },
-                "classmap": [
-                    "libs/PclZip"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "abandoned": "matomo/decompress",
-            "time": "2017-07-14T10:45:10+00:00"
         },
         {
             "name": "piwik/device-detector",

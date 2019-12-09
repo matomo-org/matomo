@@ -31,7 +31,7 @@
         "symfony/console": "~2.6.0",
         "mustangostang/spyc": "~0.6.0",
         "piwik/device-detector": "~3.0",
-        "piwik/decompress": "~1.0",
+        "matomo/decompress": "~2.0",
         "piwik/network": "~0",
         "matomo/cache": "~2.0",
         "piwik/ini": "^1.0.8",
