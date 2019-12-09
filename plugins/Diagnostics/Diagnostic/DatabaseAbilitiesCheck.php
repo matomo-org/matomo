@@ -109,6 +109,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         } catch (\Exception $e) {
             $status = DiagnosticResult::STATUS_ERROR;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTemporaryTablesWarning');
+            $comment .= '<br/>Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_23484/">FAQ on matomo.org</a>';
         }
 
         return new DiagnosticResultItem($status, $comment);
