@@ -41,6 +41,10 @@ class Lock
 
     public function execute($id, $callback)
     {
+        // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
+        // to make it more readable
+        $id = substr($id, 0, 30) . md5($id);
+
         $this->acquireLock($id);
         try {
             return $callback();

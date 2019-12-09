@@ -139,20 +139,12 @@ abstract class Challenge
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
-        $clearCache = false;
-
         $pluginSettings = $this->getPluginSettingsInstance();
-        $pluginSettings->readAndUpdate(function(array &$settings) use ($appendix, &$clearCache) {
-            if (empty($settings[$this->getId() . $appendix])) {
-                $settings[$this->getId() . $appendix] = '1';
-                $clearCache = true;
-                return true;
-            }
+        $settings = $pluginSettings->load();
 
-            return false;
-        });
-
-        if ($clearCache) {
+        if (empty($settings[$this->getId() . $appendix])) {
+            $settings[$this->getId() . $appendix] = '1';
+            $pluginSettings->save($settings);
             self::clearCache();
         }
     }

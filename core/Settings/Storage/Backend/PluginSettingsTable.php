@@ -72,21 +72,6 @@ class PluginSettingsTable implements BackendInterface
         return 'PluginSettings_' . $this->pluginName . '_User_' . $this->userLogin;
     }
 
-    public function readAndUpdate($callback)
-    {
-        $lockKey = $this->getTableName() . '.' . $this->pluginName . '.' . $this->userLogin;
-
-        $this->lockWrapper->execute($lockKey, function() use ($callback) {
-            // Read settings from the database and apply the callback to transform them as needed
-            $settings = $this->load();
-            $isChanged = $callback($settings);
-
-            if ($isChanged) {
-                $this->save($settings);
-            }
-        });
-    }
-
     /**
      * Saves (persists) the current setting values in the database.
      */
@@ -98,12 +83,16 @@ class PluginSettingsTable implements BackendInterface
 
         $bind = $this->buildVarsToInsert($values);
 
+        // Generate multi-row insert statement - one set of (?, ?, ?, ?, ?) for each row we want to insert
         $sql = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES ";
-        $insertSubclauses = array_fill(0, count($bind) / 5, "(?, ?, ?, ?, ?)");
+        $insertSubclauses = array_fill(0, count($values), "(?, ?, ?, ?, ?)");
         $sql .= implode(', ' , $insertSubclauses);
 
-        $this->delete();
-        $this->db->query($sql, $bind);
+        $lockKey = $this->getStorageId();
+        $this->lockWrapper->execute($lockKey, function() use ($sql, $bind) {
+            $this->delete();
+            $this->db->query($sql, $bind);
+        });
     }
 
     private function buildVarsToInsert($values)
