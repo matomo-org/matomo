@@ -13,7 +13,7 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Auth\Password;
-use Piwik\Cache\Backend\File;
+use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;

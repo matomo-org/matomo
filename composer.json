@@ -33,7 +33,7 @@
         "piwik/device-detector": "~3.0",
         "piwik/decompress": "~1.0",
         "piwik/network": "~0",
-        "piwik/cache": "~1.0.0",
+        "matomo/cache": "~2.0",
         "piwik/ini": "^1.0.8",
         "php-di/php-di": "^5.0.0",
         "psr/log": "~1.0",

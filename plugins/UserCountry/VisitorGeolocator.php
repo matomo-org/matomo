@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\Cache\Cache;
-use Piwik\Cache\Transient;
+use Matomo\Cache\Cache;
+use Matomo\Cache\Transient;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;

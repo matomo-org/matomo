@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Marketplace\Api;
 
-use Piwik\Cache;
+use Matomo\Cache\Lazy;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -34,7 +34,7 @@ class Client
     private $service;
 
     /**
-     * @var Cache\Lazy
+     * @var Lazy
      */
     private $cache;
 
@@ -53,7 +53,7 @@ class Client
      */
     private $environment;
 
-    public function __construct(Service $service, Cache\Lazy $cache, LoggerInterface $logger, Environment $environment)
+    public function __construct(Service $service, Lazy $cache, LoggerInterface $logger, Environment $environment)
     {
         $this->service = $service;
         $this->cache = $cache;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d99d35ca04c2630aa60587ece9195de",
+    "content-hash": "ee2f6bf0856de149245ca36273fbd45a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -398,6 +398,53 @@
                 "javascript",
                 "minifier"
             ]
+        },
+        {
+            "name": "matomo/cache",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/component-cache.git",
+                "reference": "01e82b9dc0f2f8b0ee070212b0e9e91045f60926"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/01e82b9dc0f2f8b0ee070212b0e9e91045f60926",
+                "reference": "01e82b9dc0f2f8b0ee070212b0e9e91045f60926",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.4",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matomo\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "The Matomo Team",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org/the-matomo-team/"
+                }
+            ],
+            "description": "PHP caching library based on Doctrine cache",
+            "keywords": [
+                "array",
+                "cache",
+                "file",
+                "redis"
+            ],
+            "time": "2019-07-14T20:55:17+00:00"
         },
         {
             "name": "matomo/referrer-spam-blacklist",
@@ -1033,54 +1080,6 @@
                 "reflection"
             ],
             "time": "2019-09-26T11:24:58+00:00"
-        },
-        {
-            "name": "piwik/cache",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b000c45ce257b6949e2de4df7c094046986d85bc",
-                "reference": "b000c45ce257b6949e2de4df7c094046986d85bc",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/cache": "~1.4",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Piwik\\Cache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "The Piwik Team",
-                    "email": "hello@piwik.org",
-                    "homepage": "http://piwik.org/the-piwik-team/"
-                }
-            ],
-            "description": "PHP caching library based on Doctrine cache",
-            "keywords": [
-                "array",
-                "cache",
-                "file",
-                "redis"
-            ],
-            "abandoned": "matomo/cache",
-            "time": "2019-07-14T20:55:33+00:00"
         },
         {
             "name": "piwik/decompress",
