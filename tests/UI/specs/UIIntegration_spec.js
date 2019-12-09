@@ -137,7 +137,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         await page.waitForNetworkIdle();
 
         pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('visitors_overview');
+        expect(await pageWrap.screenshot()).to.matchImage('visitors_overview_columns');
     });
 
     it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
