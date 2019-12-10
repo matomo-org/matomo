@@ -974,7 +974,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     min, round, random, floor,
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
-    pdf, qt, realp, wma, dir, fla, java, gears, ag,
+    pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
@@ -3907,6 +3907,10 @@ if (typeof window.Piwik !== 'object') {
                 return configCookieNamePrefix + baseName + '.' + configTrackerSiteId + '.' + domainHash;
             }
 
+            function deleteCookie(cookieName, path, domain) {
+                setCookie(cookieName, '', -86400, path, domain);
+            }
+
             /*
              * Does browser have cookies enabled (for this site)?
              */
@@ -3915,10 +3919,17 @@ if (typeof window.Piwik !== 'object') {
                     return '0';
                 }
 
-				var testCookieName = getCookieName('testcookie');
+                if(!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
+                    return navigatorAlias.cookieEnabled ? '1' : '0';
+                }
+
+                // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
+                var testCookieName = configCookieNamePrefix + 'testcookie';
 				setCookie(testCookieName, '1');
 
-                return getCookie(testCookieName) === '1' ? '1' : '0';
+                var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
+                deleteCookie(testCookieName);
+                return hasCookie;
             }
 
             /*
@@ -4283,10 +4294,6 @@ if (typeof window.Piwik !== 'object') {
                     0,
                     ''
                 ];
-            }
-
-            function deleteCookie(cookieName, path, domain) {
-                setCookie(cookieName, '', -86400, path, domain);
             }
 
             function isPossibleToSetCookieOnDomain(domainToTest)
