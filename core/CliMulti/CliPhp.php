@@ -34,7 +34,7 @@ class CliPhp
             $bin = $this->getPhpCommandIfValid($_SERVER['argv'][0]);
         }
 
-        if (defined('PHP_BINDIR')) {
+        if (empty($bin)) {
             $possiblePhpPath = PHP_BINDIR . ('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php');
             $bin = $this->getPhpCommandIfValid($possiblePhpPath);
         }
