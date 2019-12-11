@@ -153,11 +153,11 @@ class Cookie
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
             . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
-            . (empty($Path) ? '' : '; path=' . $Path)
-            . (empty($Domain) ? '' : '; domain=' . $Domain)
+            . (empty($Path) ? '' : '; path=' . rawurlencode($Path))
+            . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
             . (!$HTTPOnly ? '' : '; HttpOnly')
-            . (!$sameSite ? '' : '; SameSite=' . $sameSite);
+            . (!$sameSite ? '' : '; SameSite=' . rawurlencode($sameSite));
 
         Common::sendHeader($header, false);
     }
@@ -432,13 +432,13 @@ class Cookie
      * for some requests which are deemed CSRF-safe, although other requests may have broken functionality.
      * - On Safari, the "None" value is interpreted as "Strict".  In order to set a cookie which will be available
      * in all third-party contexts, we have to omit the SameSite attribute altogether.
-     * @param string $default The value that 
+     * @param string $default The desired SameSite value that we should use if it won't cause any problems.
      * @return string SameSite attribute value that should be set on the cookie. Empty string indicates that no value
      * should be set.
      */
     private static function getSameSiteValueForBrowser($default)
     {
-        $sameSite = ucfirst($default);
+        $sameSite = ucfirst(strtolower($default));
 
         if ($sameSite == 'None') {
             $userAgent = Http::getUserAgent();
