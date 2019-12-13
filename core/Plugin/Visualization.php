@@ -323,8 +323,13 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
+        // disable post processing in request so ProxySite won't return processed data
+        $proxyRequestParams = array_merge($request, [
+            'disable_datatable_post_processing' => 1,
+        ]);
+
         $class     = ApiRequest::getClassNameAPI($module);
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);
 
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
