@@ -114,8 +114,9 @@ class Controller extends \Piwik\Plugin\Controller
 
             $savedSegmentsById = array(
                 '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
-             );
-            foreach (APISegmentEditor::getInstance()->getAll($this->idSite) as $savedSegment) {
+            );
+            $response = Request::processRequest("SegmentEditor.getAll", ['idSite' => $this->idSite], $defaultRequest = []);
+            foreach ($response as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
             }
             $view->savedSegmentsById = $savedSegmentsById;
