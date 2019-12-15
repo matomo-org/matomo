@@ -43,11 +43,11 @@ class Mysqli extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } elseif ($dbInfo['port'][0] == '/') {
+        } elseif (isset($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];

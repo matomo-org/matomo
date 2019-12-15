@@ -153,10 +153,13 @@ table.subActionsDataTable td.label,
 table.actionsDataTable td.label {
   border-top: 0;
   border-left: 0;
-  position: sticky; position: -webkit-sticky;
   left: 0;
   z-index: 1;
   background-clip: padding-box;
+
+  &.first {
+    position: sticky; position: -webkit-sticky;
+  }
 }
 
 .dataTableActions table.dataTable th.label {
@@ -663,6 +666,6 @@ div.dataTableScroller {
   table.dataTable td.label,
   table.subActionsDataTable td.label,
   table.actionsDataTable td.label {
-    position: static;
+    position: static !important;
   }
 }

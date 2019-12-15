@@ -44,7 +44,7 @@
                     <span class="title">{{ 'SitesManager_ExcludedParameters'|translate }}:</span>
                     {{ site.excluded_parameters.join(', ') }}
                 </li>
-                <li ng-if="globalSettings.siteSpecificUserAgentExcludeEnabled && site.excluded_user_agents.length">
+                <li ng-if="site.excluded_user_agents.length">
                     <span class="title">{{ 'SitesManager_ExcludedUserAgents'|translate }}:</span>
                     {{ site.excluded_user_agents.join(', ') }}
                 </li>

@@ -241,8 +241,6 @@ class VisitTest extends IntegrationTestCase
      */
     public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
     {
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
-
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
@@ -276,7 +274,6 @@ class VisitTest extends IntegrationTestCase
             'http://valid.domain/page' => false,
             'https://valid.domain/page' => false,
         );
-        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
         $idsite = API::getInstance()->addSite("name", "http://piwik.net/");
 

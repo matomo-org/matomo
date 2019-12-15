@@ -225,7 +225,6 @@
                 excludedQueryParameters: $scope.globalSettings.excludedQueryParametersGlobal.join(','),
                 excludedUserAgents: $scope.globalSettings.excludedUserAgentsGlobal.join(','),
                 keepURLFragments: $scope.globalSettings.keepURLFragmentsGlobal ? 1 : 0,
-                enableSiteUserAgentExclude: $scope.globalSettings.siteSpecificUserAgentExcludeEnabled ? 1 : 0,
                 searchKeywordParameters: $scope.globalSettings.searchKeywordParametersGlobal.join(','),
                 searchCategoryParameters: $scope.globalSettings.searchCategoryParametersGlobal.join(',')
             }, 'POST');

@@ -4,7 +4,7 @@
 		<id>track_data</id>
 		<name>Embed tracking code</name>
 		<description>Matomo offers you various ways to embed the tracking code for your website, mobile app, and even for any device or application.</description>
-		<isCompleted>1</isCompleted>
+		<isCompleted>0</isCompleted>
 		<isSkipped>0</isSkipped>
 		<url>index.php?module=CoreAdminHome&amp;action=trackingCodeGenerator</url>
 	</row>
