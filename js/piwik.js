@@ -3811,6 +3811,20 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            /**
+             * Set the appropriate value for the <code>configHasConsent</code> flag based on the default value provided 
+             * (which is passed from the optout script after checking third-party cookies) and then checking any 
+             * first-party cookies that are present.
+             * @param boolean defaultStatus
+             */
+            this.initializeConsentStatus = function(defaultStatus)
+            {
+                // Third-party cookie and opt-in/opt-out configuration
+                configHasConsent = defaultStatus && !configConsentRequired;
+                // Check first-party cookies as well
+                refreshConsentStatus();
+            }
+
             /*
              * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
              * change to the user opt-in/out status in another browser window will be respected.
@@ -7737,11 +7751,14 @@ if (typeof window.Piwik !== 'object') {
             }
 
             // This listener can process two kinds of messages
-            // 1) maq_loaded => sent by optout iframe when it finishes loading.  We need to send back the current status
-            // of the cookie so that it can display the form correctly.
+            // 1) maq_initial_value => sent by optout iframe when it finishes loading.  Passes the value of the third
+            // party opt-out cookie (if set) - we need to use this and any first-party cookies that are present to
+            // initialise the configHasConsent value and send back the result so that the display can be updated.
             // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
             // our first-party cookie.
-            if (isDefined(data.maq_loaded)) {
+            if (isDefined(data.maq_initial_value)) {
+                debugger;
+                tracker.initializeConsentStatus(data.maq_initial_value);
                 // Send a message back to the optout iframe telling it the current status
                 var optOutStatus = {maq_opted_in: tracker.hasConsent()};
 

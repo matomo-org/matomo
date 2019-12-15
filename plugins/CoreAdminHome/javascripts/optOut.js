@@ -52,11 +52,12 @@ var initializationTimer = null;
 document.addEventListener('DOMContentLoaded', function() {
     var trackVisitsCheckbox = document.getElementById('trackVisits');
     if (typeof trackVisitsCheckbox === "undefined") trackVisitsCheckbox.addEventListener('click', function(event) { submitForm(event, this.form); });
+    var initiallyChecked = trackVisitsCheckbox.checked;
 
     // Ask the parent window to send us initial state of the optout cookie so that we can display the form correctly
     var numAttempts = 0;
     initializationTimer = setInterval(function() {
-        var message = {maq_loaded: true};
+        var message = {maq_initial_value: initiallyChecked};
         parent.postMessage(JSON.stringify(message), '*');
         numAttempts++;
         // 10 times per second * 1200 = 2 minutes
