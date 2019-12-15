@@ -554,6 +554,11 @@ class CronArchive
         $this->logger->info($timer->__toString());
     }
 
+    public function getErrors()
+    {
+    	return $this->errors;
+    }
+
     /**
      * End of the script
      */
