@@ -29,6 +29,11 @@ class ArchivingStatus
      */
     private $archivingTTLSecs;
 
+    /**
+     * @var Lock[]
+     */
+    private $lockStack = [];
+
     public function __construct(LockBackend $lockBackend, $archivingTTLSecs = self::DEFAULT_ARCHIVING_TTL)
     {
         $this->lockBackend = $lockBackend;
@@ -39,12 +44,21 @@ class ArchivingStatus
     {
         $lock = $this->makeArchivingLock($params);
         $lock->acquireLock($this->getInstanceProcessId(), $this->archivingTTLSecs);
-        return $lock;
+        array_push($this->lockStack, $lock);
     }
 
-    public function archiveFinished(Lock $lock)
+    public function archiveFinished()
     {
+        $lock = array_pop($this->lockStack);
         $lock->unlock();
+    }
+
+    public function getCurrentArchivingLock()
+    {
+        if (empty($this->lockStack)) {
+            return null;
+        }
+        return end($this->lockStack);
     }
 
     public function getSitesCurrentlyArchiving()
@@ -83,7 +97,7 @@ class ArchivingStatus
         ];
 
         $lockKeyPrefix = implode('.', $lockKeyParts);
-        return new Lock(StaticContainer::get(LockBackend::class), $lockKeyPrefix);
+        return new Lock(StaticContainer::get(LockBackend::class), $lockKeyPrefix, $this->archivingTTLSecs);
     }
 
     private function getInstanceProcessId()

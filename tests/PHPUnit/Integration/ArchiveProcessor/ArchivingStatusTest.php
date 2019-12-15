@@ -36,8 +36,9 @@ class ArchivingStatusTest extends IntegrationTestCase
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
 
         $params = new Parameters(new Site(1), Factory::build('month', '2012-02-04'), new Segment('', [1]));
-        $lock = $archivingStatus->archiveStarted($params);
+        $archivingStatus->archiveStarted($params);
 
+        $lock = $archivingStatus->getCurrentArchivingLock();
         $this->assertNotEmpty($lock);
         $this->assertTrue($lock->isLocked());
 
@@ -48,7 +49,7 @@ class ArchivingStatusTest extends IntegrationTestCase
             ],
         ], $this->getLockKeysAndTtls());
 
-        $archivingStatus->archiveFinished($lock);
+        $archivingStatus->archiveFinished();
 
         $this->assertEquals([], $this->getLockKeysAndTtls());
     }
@@ -59,20 +60,20 @@ class ArchivingStatusTest extends IntegrationTestCase
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
 
         $params = new Parameters(new Site(1), Factory::build('month', '2012-02-04'), new Segment('', [1]));
-        $lock1 = $archivingStatus->archiveStarted($params);
+        $archivingStatus->archiveStarted($params);
 
         $params = new Parameters(new Site(1), Factory::build('month', '2012-02-04'), new Segment('browserCode==ff', [1]));
-        $lock2 = $archivingStatus->archiveStarted($params);
+        $archivingStatus->archiveStarted($params);
 
         $params = new Parameters(new Site(2), Factory::build('month', '2012-02-04'), new Segment('', [1]));
-        $lock3 = $archivingStatus->archiveStarted($params);
+        $archivingStatus->archiveStarted($params);
 
         $this->assertEquals([
             1, 2,
         ], $archivingStatus->getSitesCurrentlyArchiving());
 
-        $archivingStatus->archiveFinished($lock2);
-        $archivingStatus->archiveFinished($lock3);
+        $archivingStatus->archiveFinished();
+        $archivingStatus->archiveFinished();
 
         $this->assertEquals([
             1,

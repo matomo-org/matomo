@@ -8,8 +8,10 @@
  */
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
@@ -371,9 +373,6 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
         }
  
-    	// Log on DEBUG level all SQL archiving queries
-        $this->logger->debug($query['sql']);
-
         return $query;
     }
 
@@ -1160,6 +1159,9 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::getReader();
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingLock = $archivingStatus->getCurrentArchivingLock();
+        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
     }
 }
