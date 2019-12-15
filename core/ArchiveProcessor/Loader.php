@@ -12,12 +12,16 @@ use Piwik\Archive;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 
 /**
  * This class uses PluginsArchiver class to trigger data aggregation and create archives.
@@ -73,12 +77,21 @@ class Loader
             return $idArchive;
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $lock = $archivingStatus->archiveStarted($this->params);
 
-        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return $idArchive;
+        try {
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+
+            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                return $idArchive;
+            }
+        } finally {
+            $archivingStatus->archiveFinished($lock);
         }
+
         return false;
     }
 

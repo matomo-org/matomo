@@ -10,6 +10,7 @@
 namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -54,9 +55,15 @@ class ArchiveInvalidator
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var ArchivingStatus
+     */
+    private $archivingStatus;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
+        $this->archivingStatus = $archivingStatus;
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
@@ -206,7 +213,11 @@ class ArchiveInvalidator
             $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
         }
 
+        // TODO: it's possible an archiving request could begin during invalidation, though probably unlikely that it would cause true disruption... just note in issue.
+
         $periodDates = $this->getUniqueDates($periodDates);
+
+        $idSites = $this->removeSitesWithInProgressArchiving($idSites);
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
@@ -426,5 +437,11 @@ class ArchiveInvalidator
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
+    }
+
+    private function removeSitesWithInProgressArchiving($idSites)
+    {
+        $idSitesArchiving = $this->archivingStatus->getSitesCurrentlyArchiving();
+        return array_diff($idSites, $idSitesArchiving);
     }
 }
