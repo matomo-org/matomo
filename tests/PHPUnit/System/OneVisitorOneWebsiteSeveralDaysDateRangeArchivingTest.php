@@ -121,18 +121,19 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
              *               + 1 flag // VisitTime
              *               = 11
              *
-             *   because we call VisitFrequency.get, this creates an archive for the visitorType==returning segment.
+             *   because we call VisitFrequency.get, this creates archives for visitorType==returning
+             *   and visitorType==new segment.
              *          -> There are two archives for each segment (one for "countryCode!=aa"
-             *                      and VisitFrequency creates one for "countryCode!=aa;visitorType==returning")
+             *                      and VisitFrequency creates two more.
              *
-             * So each period=range will have = 11 records + (5 metrics + 1 flag // VisitsSummary)
-             *                                = 17
+             * So each period=range will have = 11 records + (5 metrics + 2 flags // VisitsSummary)
+             *                                = 18
              *
              * Total expected records = count unique archives * records per archive
-             *                        = 3 * 17
-             *                        = 51
+             *                        = 3 * 18
+             *                        = 54
              */
-            'archive_numeric_2010_12' => 17 * 3,
+            'archive_numeric_2010_12' => 18 * 3,
 
             /**
              * In the January date range,
