@@ -81,6 +81,9 @@ class PluginSettingsTable implements BackendInterface
 
         $table = $this->getTableName();
 
+        $values = array_filter($values, function($value) {
+            return isset($value);
+        });
         $bind = $this->buildVarsToInsert($values);
 
         // Generate multi-row insert statement - one set of (?, ?, ?, ?, ?) for each row we want to insert
@@ -100,10 +103,6 @@ class PluginSettingsTable implements BackendInterface
         $bind = array();
 
         foreach ($values as $name => $value) {
-            if (!isset($value)) {
-                continue;
-            }
-
             if (is_array($value) || is_object($value)) {
                 $jsonEncoded = 1;
                 $value = json_encode($value);
