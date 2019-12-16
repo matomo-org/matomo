@@ -3825,6 +3825,11 @@ if (typeof window.Piwik !== 'object') {
                 refreshConsentStatus();
             }
 
+            this.isConsentRequired = function()
+            {
+                return configConsentRequired;
+            }
+
             /*
              * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
              * change to the user opt-in/out status in another browser window will be respected.
@@ -7764,11 +7769,16 @@ if (typeof window.Piwik !== 'object') {
             // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
             // our first-party cookie.
             if (isDefined(data.maq_initial_value)) {
-                debugger;
                 tracker.initializeConsentStatus(data.maq_initial_value);
-                // Send a message back to the optout iframe telling it the current status
-                var optOutStatus = {maq_opted_in: tracker.hasConsent()};
 
+                // Make a message to tell the optout iframe about the current state
+                var optOutStatus = {
+                    maq_opted_in: tracker.hasConsent(),
+                    maq_url: tracker.getPiwikUrl(),
+                    maq_optout_by_default: tracker.isConsentRequired()
+                };
+
+                // Find the iframe with the right URL to send it back to
                 var iframes = document.getElementsByTagName('iframe');
                 for (var i = 0; i < iframes.length; i++) {
                     var iframe = iframes[i];

@@ -45,6 +45,8 @@
         <p id="textOptOut" {% if not trackVisits %}style="display:none"{% endif %}>
             {{ 'CoreAdminHome_YouMayOptOut2'|translate }} {{ 'CoreAdminHome_YouMayOptOut3'|translate }}
         </p>
+        <p id="textError" style="display:none; color: red; font-weight: bold;" %}>
+        </p>
 
     {% if showConfirmOnly %}</noscript>{% endif %}
 
