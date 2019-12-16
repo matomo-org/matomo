@@ -101,10 +101,7 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif (self::isSessionHandler('dbtable')
-            || self::isSessionHandler('files')
-            || in_array($currentSaveHandler, array('user', 'mm'))
-        ) {
+        } else {
             // as of Matomo 3.7.0 we only support files session handler during installation
 
             // We consider these to be misconfigurations, in that:
