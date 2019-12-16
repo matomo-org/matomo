@@ -643,10 +643,6 @@ class Request
          */
         Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
 
-        if (!$shouldDisable) {
-            $shouldDisable = Common::getRequestVar('disable_datatable_post_processing', 0, 'int', $this->request) == 1;
-        }
-
         return $shouldDisable;
     }
 }

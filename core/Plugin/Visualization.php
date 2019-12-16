@@ -323,11 +323,6 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
-        // disable post processing in request so ProxySite won't return processed data
-        $proxyRequestParams = array_merge($request, [
-            'disable_datatable_post_processing' => 1,
-        ]);
-
         $class     = ApiRequest::getClassNameAPI($module);
         $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);
 
@@ -516,7 +511,6 @@ class Visualization extends ViewDataTable
         $postProcessor->setCallbackAfterGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self) {
 
             $self->setDataTable($dataTable);
-
             $self->afterGenericFiltersAreAppliedToLoadedDataTable();
 
             // queue other filters so they can be applied later if queued filters are disabled
