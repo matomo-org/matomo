@@ -213,8 +213,6 @@ class ArchiveInvalidator
             $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
         }
 
-        // TODO: it's possible an archiving request could begin during invalidation, though probably unlikely that it would cause true disruption... just note in issue.
-
         $periodDates = $this->getUniqueDates($periodDates);
 
         $idSites = $this->removeSitesWithInProgressArchiving($idSites);
