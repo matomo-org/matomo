@@ -643,6 +643,11 @@ class Request
          */
         Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
 
+        if (!$shouldDisable) {
+            $shouldDisable = self::isCurrentApiRequestTheRootApiRequest() &&
+                Common::getRequestVar('disable_root_datatable_post_processor', 0, 'int', $this->request) == 1;
+        }
+
         return $shouldDisable;
     }
 }
