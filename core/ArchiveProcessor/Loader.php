@@ -79,7 +79,7 @@ class Loader
 
         /** @var ArchivingStatus $archivingStatus */
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $lock = $archivingStatus->archiveStarted($this->params);
+        $archivingStatus->archiveStarted($this->params);
 
         try {
             list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
@@ -89,7 +89,7 @@ class Loader
                 return $idArchive;
             }
         } finally {
-            $archivingStatus->archiveFinished($lock);
+            $archivingStatus->archiveFinished();
         }
 
         return false;
