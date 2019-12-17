@@ -197,7 +197,8 @@ class LogAggregator
     private function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        return self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+        $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+        return Common::mb_substr($tableName, 0, Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH);
     }
 
     public function cleanup()
