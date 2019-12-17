@@ -77,34 +77,31 @@ document.addEventListener('DOMContentLoaded', function() {
 function checkForWarnings(message)
 {
     var optOutUrl = window.location.href;
-    var isHttps = optOutUrl.startsWith('https') && message.maq_url.startsWith('https');
+    var isHttps = optOutUrl.startsWith('https');
     var optOutDomain = getDomain(optOutUrl);
     var matomoDomain = getDomain(message.maq_url);
 
-    var errorMessage = null;
+    var errorType = null;
     var isError = false;
     if ((!navigator.cookieEnabled) && (!message.maq_optout_by_default)) {
         // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
-        errorMessage = 'The tracking opt-out feature requires cookies to be enabled.';
+        errorType = 'cookies';
         isError = true;
     } else if (!isHttps) {
         // Warning condition: not on HTTPS. On some browsers the third-party opt-out cookie won't work.
-        errorMessage = 'The tracking opt-out feature may not work because this site was not loaded over HTTPS.';
+        errorType = 'https';
     } else if (optOutDomain != matomoDomain) {
         // Warning condition: mismatched domains for optout and Matomo JS scripts. Cookies may not work as expected.
-        errorMessage = 'The tracking Opt-out feature may not work because it was embedded incorrectly.';
+        errorType = 'domains';
     }
 
-    var optInPara = document.getElementById('textOptIn');
-    var optOutPara = document.getElementById('textOptOut');
-    var errorPara = document.getElementById('textError');
-
-    var optInLabel = document.getElementById('labelOptIn');
-    var optOutLabel = document.getElementById('labelOptOut');
-
-    var checkbox = document.getElementById('trackVisits');
-
     if (isError) {
+        var checkbox = document.getElementById('trackVisits');
+        var optInPara = document.getElementById('textOptIn');
+        var optOutPara = document.getElementById('textOptOut');
+        var optInLabel = document.getElementById('labelOptIn');
+        var optOutLabel = document.getElementById('labelOptOut');
+
         // Hide the checkbox
         checkbox.style.display = 'none';
         optInPara.style.display = 'none';
@@ -113,8 +110,8 @@ function checkForWarnings(message)
         optOutLabel.style.display = 'none';
     }
 
-    if (errorMessage != null) {
-        errorPara.innerText = errorMessage;
+    if (errorType != null) {
+        var errorPara = document.getElementById('textError_' + errorType);
         errorPara.style.display = 'block';
     }
     
