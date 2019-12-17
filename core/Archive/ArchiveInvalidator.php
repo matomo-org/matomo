@@ -215,7 +215,6 @@ class ArchiveInvalidator
 
         $periodDates = $this->getUniqueDates($periodDates);
 
-        $idSites = $this->removeSitesWithInProgressArchiving($idSites);
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
@@ -435,11 +434,5 @@ class ArchiveInvalidator
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
-    }
-
-    private function removeSitesWithInProgressArchiving($idSites)
-    {
-        $idSitesArchiving = $this->archivingStatus->getSitesCurrentlyArchiving();
-        return array_diff($idSites, $idSitesArchiving);
     }
 }
