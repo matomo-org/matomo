@@ -85,21 +85,21 @@ class LoaderTest extends IntegrationTestCase
         $this->assertEquals(['1', '10', '0'], $archiveInfo);
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndOldEnough()
+    public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndNewEnough()
     {
-        $params = new Parameters(new Site(1), Factory::build('month', 'now'), new Segment('', [1]));
-        $this->insertArchive($params, $tsArchived = Date::factory('now')->subHour(3));
+        $params = new Parameters(new Site(1), Factory::build('day', 'now'), new Segment('', [1]));
+        $this->insertArchive($params, $tsArchived = time() - 1);
 
         $loader = new Loader($params);
 
         $archiveInfo = $loader->loadExistingArchiveIdFromDb();
-        $this->assertEquals([false, false, false], $archiveInfo);
+        $this->assertEquals(['1', '10', '0'], $archiveInfo);
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreOldEnough()
+    public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreNewEnough()
     {
         $params = new Parameters(new Site(1), Factory::build('month', 'now'), new Segment('', [1]));
-        $this->insertArchive($params, $tsArchived = Date::factory('now'));
+        $this->insertArchive($params, $tsArchived = time() - 3 * 3600);
 
         $loader = new Loader($params);
 
@@ -115,7 +115,8 @@ class LoaderTest extends IntegrationTestCase
         $archiveWriter->finalizeArchive();
 
         if ($tsArchived) {
-            Db::query("UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?", [$tsArchived]);
+            Db::query("UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?",
+                [Date::factory($tsArchived)->getDatetime()]);
         }
     }
 }
