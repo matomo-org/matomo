@@ -103,8 +103,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function updateQuerySelectFromForSiteSearch(&$select, &$from)
     {
         $selectFlagNoResultKeywords = ",
-                CASE WHEN (MAX(log_link_visit_action.custom_var_v" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . ") = 0
-                    AND log_link_visit_action.custom_var_k" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . " = '" . ActionSiteSearch::CVAR_KEY_SEARCH_COUNT . "')
+                CASE WHEN (MAX(log_link_visit_action.search_count) = 0)
                 THEN 1 ELSE 0 END
                     AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
