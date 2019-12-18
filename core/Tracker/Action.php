@@ -358,6 +358,11 @@ abstract class Action
         return $this->actionIdsCached;
     }
 
+    protected function getExtraVisitActionFields()
+    {
+        return array();
+    }
+
     /**
      * Records in the DB the association between the visit and this action.
      *
@@ -408,6 +413,8 @@ abstract class Action
         }
 
         $visitAction = array_merge($visitAction, $this->customFields);
+
+        $visitAction = array_merge($visitAction, $this->getExtraVisitActionFields());
 
         $this->idLinkVisitAction = $this->getModel()->createAction($visitAction);
 

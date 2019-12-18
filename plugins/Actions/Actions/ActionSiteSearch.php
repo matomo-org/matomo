@@ -296,4 +296,11 @@ class ActionSiteSearch extends Action
         );
     }
 
+    protected function getExtraVisitActionFields()
+    {
+        return array(
+            'search_cat' => $this->searchCategory,
+            'search_count' => $this->searchCount
+        );
+    }
 }
