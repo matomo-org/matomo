@@ -195,7 +195,8 @@ class LogAggregator
     private function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        return self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+        $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+        return Common::mb_substr($tableName, 0, Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH);
     }
 
     public function cleanup()
@@ -366,6 +367,11 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
+        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+        }
+ 
     	// Log on DEBUG level all SQL archiving queries
         $this->logger->debug($query['sql']);
 

@@ -72,26 +72,32 @@ class Lock
 
     public function expireLock($ttlInSeconds)
     {
-        if ($ttlInSeconds > 0 && $this->lockValue) {
-            $success = $this->backend->expireIfKeyHasValue($this->lockKey, $this->lockValue, $ttlInSeconds);
-            if (!$success) {
-                $value = $this->backend->get($this->lockKey);
-                $message = sprintf('Failed to expire key %s (%s / %s).', $this->lockKey, $this->lockValue, (string) $value);
+        if ($ttlInSeconds > 0) {
+            if ($this->lockValue) {
+                $success = $this->backend->expireIfKeyHasValue($this->lockKey, $this->lockValue, $ttlInSeconds);
+                if (!$success) {
+                    $value = $this->backend->get($this->lockKey);
+                    $message = sprintf('Failed to expire key %s (%s / %s).', $this->lockKey, $this->lockValue, (string)$value);
 
-                if ($value === false) {
-                    Common::printDebug($message . ' It seems like the key already expired as it no longer exists.');
-                } elseif (!empty($value) && $value == $this->lockValue) {
-                    Common::printDebug($message . ' We still have the lock but for some reason it did not expire.');
-                } elseif (!empty($value)) {
-                    Common::printDebug($message . ' This lock has been acquired by another process/server.');
-                } else {
-                    Common::printDebug($message . ' Failed to expire key.');
+                    if ($value === false) {
+                        Common::printDebug($message . ' It seems like the key already expired as it no longer exists.');
+                    } elseif (!empty($value) && $value == $this->lockValue) {
+                        Common::printDebug($message . ' We still have the lock but for some reason it did not expire.');
+                    } elseif (!empty($value)) {
+                        Common::printDebug($message . ' This lock has been acquired by another process/server.');
+                    } else {
+                        Common::printDebug($message . ' Failed to expire key.');
+                    }
+
+                    return false;
                 }
 
-                return false;
+                return true;
+            } else {
+                Common::printDebug('Lock is not acquired, cannot update expiration.');
             }
-
-            return true;
+        } else {
+            Common::printDebug('Provided TTL ' . $ttlInSeconds . ' is in valid in Lock::expireLock().');
         }
 
         return false;

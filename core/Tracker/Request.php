@@ -686,7 +686,7 @@ class Request
         $cookie = $this->makeThirdPartyCookieUID();
         $idVisitor = bin2hex($idVisitor);
         $cookie->set(0, $idVisitor);
-        $cookie->save();
+        $cookie->save('None');
 
         Common::printDebug(sprintf("We set the visitor ID to %s in the 3rd party cookie...", $idVisitor));
     }

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Access\CapabilitiesProvider;
+use Piwik\API\Request;
 use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -708,7 +709,7 @@ class Access
      */
     private function throwNoAccessException($message)
     {
-        if (Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
         }
         // Try to detect whether user was previously logged in so that we can display a different message

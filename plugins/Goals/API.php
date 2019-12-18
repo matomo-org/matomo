@@ -56,6 +56,7 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
+    /** @deprecated Use VisitFrequency\API::NEW_VISITOR_SEGMENT */
     const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
@@ -449,7 +450,7 @@ class API extends \Piwik\Plugin\API
 
         $segments = array(
             '' => false,
-            '_new_visit' => self::NEW_VISIT_SEGMENT,
+            '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
             '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
         );
 

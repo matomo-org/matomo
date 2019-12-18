@@ -43,8 +43,9 @@ return array(
             if ($writerName === 'screen'
                 && \Piwik\Common::isPhpCliMode()
                 && !defined('PIWIK_TEST_MODE')
+                && !\Piwik\SettingsServer::isTrackerApiRequest()
             ) {
-                continue; // screen writer is only valid for web requests
+                continue; // screen writer is only valid for web requests (except for tracker CLI requests)
             }
 
             if (isset($classes[$writerName])) {
