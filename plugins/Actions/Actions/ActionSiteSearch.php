@@ -101,26 +101,22 @@ class ActionSiteSearch extends Action
         return true;
     }
 
-    public function getCustomVariables()
+    public function getSearchCategory()
     {
-        $customVariables = parent::getCustomVariables();
+        $searchCategory = trim($this->searchCategory);
+        if (!empty($searchCategory)) {
+            // Max length of DB field = 200
+            $searchCategory = substr($this->searchCategory, 0, 200);
+        }
+        return $searchCategory;
+    }
 
-        // Enrich Site Search actions with Custom Variables, overwriting existing values
-        if (!empty($this->searchCategory)) {
-            if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY])) {
-                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
-            }
-            $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY] = self::CVAR_KEY_SEARCH_CATEGORY;
-            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_CATEGORY] = Request::truncateCustomVariable($this->searchCategory);
-        }
+    public function getSearchCount()
+    {
         if ($this->searchCount !== false) {
-            if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT])) {
-                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_COUNT . " for this page view");
-            }
-            $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT] = self::CVAR_KEY_SEARCH_COUNT;
-            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_COUNT] = (int)$this->searchCount;
+            $this->searchCount = (int)$this->searchCount;
         }
-        return $customVariables;
+        return $this->searchCount;
     }
 
     public static function detectSiteSearchFromUrl($website, $parsedUrl, $pageEncoding = null)
@@ -293,14 +289,6 @@ class ActionSiteSearch extends Action
             $url,
             $categoryName,
             $count
-        );
-    }
-
-    protected function getExtraVisitActionFields()
-    {
-        return array(
-            'search_cat' => $this->searchCategory,
-            'search_count' => $this->searchCount
         );
     }
 }

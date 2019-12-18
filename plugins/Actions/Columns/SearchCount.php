@@ -1,6 +1,6 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
@@ -14,17 +14,15 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
-class SearchCategory extends ActionDimension
+class SearchCount extends ActionDimension
 {
     protected $type = self::TYPE_TEXT;
-    protected $nameSingular = 'Actions_ColumnSearchCategory';
-    protected $namePlural = 'Actions_SiteSearchCategories';
-    protected $columnName = 'search_cat';
+    protected $columnName = 'search_count';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
         if ($action instanceof ActionSiteSearch) {
-            return $action->getSearchCategory();
+            return $action->getSearchCount();
         }
 
         return parent::onNewAction($request, $visitor, $action);
