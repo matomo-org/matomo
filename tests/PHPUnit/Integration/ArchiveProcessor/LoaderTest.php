@@ -12,6 +12,12 @@ namespace Piwik\Tests\Integration\ArchiveProcessor;
 
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Loader;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\Period\Factory;
 use Piwik\Segment;
 use Piwik\Site;
@@ -37,23 +43,79 @@ class LoaderTest extends IntegrationTestCase
         $this->assertEquals([false, false, false], $archiveInfo);
     }
 
-    public function test_loadExistingArchiveIdFromDb_returnsFalsesPeriodIsForcedToArchive()
+    /**
+     * @dataProvider getTestDataForLoadExistingArchiveIdFromDbDebugConfig
+     */
+    public function test_loadExistingArchiveIdFromDb_returnsFalsesPeriodIsForcedToArchive($periodType, $configSetting)
     {
-        // TODO
+        $date = $periodType == 'range' ? '2015-03-03,2015-03-04' : '2015-03-03';
+        $params = new Parameters(new Site(1), Factory::build($periodType, $date), new Segment('', [1]));
+        $this->insertArchive($params);
+
+        $loader = new Loader($params);
+
+        $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+        $this->assertNotEquals([false, false, false], $archiveInfo);
+
+        Config::getInstance()->Debug[$configSetting] = 1;
+
+        $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+        $this->assertEquals([false, false, false], $archiveInfo);
+    }
+
+    public function getTestDataForLoadExistingArchiveIdFromDbDebugConfig()
+    {
+        return [
+            ['day', 'always_archive_data_day'],
+            ['week', 'always_archive_data_period'],
+            ['month', 'always_archive_data_period'],
+            ['year', 'always_archive_data_period'],
+            ['range', 'always_archive_data_range'],
+        ];
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfArchiveInThePast()
     {
-        // TODO
+        $params = new Parameters(new Site(1), Factory::build('month', '2015-03-03'), new Segment('', [1]));
+        $this->insertArchive($params);
+
+        $loader = new Loader($params);
+
+        $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+        $this->assertEquals(['1', '10', '0'], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsArchiveIfForACurrentPeriod_AndOldEnough()
     {
-        // TODO
+        $params = new Parameters(new Site(1), Factory::build('month', 'now'), new Segment('', [1]));
+        $this->insertArchive($params, $tsArchived = Date::factory('now')->subHour(3));
+
+        $loader = new Loader($params);
+
+        $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+        $this->assertEquals([false, false, false], $archiveInfo);
     }
 
     public function test_loadExistingArchiveIdFromDb_returnsNoArchiveIfForACurrentPeriod_AndNoneAreOldEnough()
     {
-        // TODO
+        $params = new Parameters(new Site(1), Factory::build('month', 'now'), new Segment('', [1]));
+        $this->insertArchive($params, $tsArchived = Date::factory('now'));
+
+        $loader = new Loader($params);
+
+        $archiveInfo = $loader->loadExistingArchiveIdFromDb();
+        $this->assertEquals([false, false, false], $archiveInfo);
+    }
+
+    private function insertArchive(Parameters $params, $tsArchived = null, $visits = 10)
+    {
+        $archiveWriter = new ArchiveWriter($params);
+        $archiveWriter->initNewArchive();
+        $archiveWriter->insertRecord('nb_visits', $visits);
+        $archiveWriter->finalizeArchive();
+
+        if ($tsArchived) {
+            Db::query("UPDATE " . ArchiveTableCreator::getNumericTable($params->getPeriod()->getDateStart()) . " SET ts_archived = ?", [$tsArchived]);
+        }
     }
 }
