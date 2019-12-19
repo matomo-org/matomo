@@ -59,9 +59,13 @@ class MergeDataTables
             $result->setKeyName($subTable2->getKeyName());
             return $result;
         } else if ($subTable2 instanceof DataTable\Simple) {
-            return new DataTable\Simple();
+            $result = new DataTable\Simple();
+            $result->setAllTableMetadata($subTable2->getAllTableMetadata());
+            return $result;
         } else if ($subTable2 instanceof DataTable) {
-            return new DataTable();
+            $result = new DataTable();
+            $result->setAllTableMetadata($subTable2->getAllTableMetadata());
+            return $result;
         } else {
             throw new \Exception("Unknown datatable type: " . get_class($subTable2));
         }
