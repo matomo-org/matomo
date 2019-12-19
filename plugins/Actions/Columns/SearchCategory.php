@@ -20,6 +20,7 @@ class SearchCategory extends ActionDimension
     protected $nameSingular = 'Actions_ColumnSearchCategory';
     protected $namePlural = 'Actions_SiteSearchCategories';
     protected $columnName = 'search_cat';
+    protected $columnType = 'VARCHAR(200) NULL';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

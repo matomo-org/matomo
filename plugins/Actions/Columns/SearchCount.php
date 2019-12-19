@@ -18,6 +18,7 @@ class SearchCount extends ActionDimension
 {
     protected $type = self::TYPE_TEXT;
     protected $columnName = 'search_count';
+    protected $columnType = 'INTEGER(10) UNSIGNED NULL';
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {
