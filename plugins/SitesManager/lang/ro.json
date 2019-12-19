@@ -13,8 +13,6 @@
         "EcommerceHelp": "Când este activat, raportul \"Goluri\" va avea o nouă secțiune \"E-commerce\".",
         "EnableEcommerce": "E Commerce activat",
         "EnableSiteSearch": "Activare website cautare",
-        "EnableSiteSpecificUserAgentExclude": "Permite excluderea agentului utilizator de pe site-ul specific.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Dacă aveți nevoie să excludeți diferiti agentii utilizator d pentru diferite site-uri, bifați această casetă, faceți clic pe Salvare și % %1$s adaugati agenții de utilizator de mai sus %2$s.",
         "ExceptionDeleteSite": "Nu este posibil să ștergeți acest site, acesta este singurul website-ul înregistrat. Adauga un nou site web în primul rând, apoi ștergel pe asta.",
         "ExceptionEmptyName": "The site name can't be empty.",
         "ExceptionInvalidCurrency": "Moneda \"%1$s\" nu este valida. Vă rugăm să introduceți un simbol monetar valabil (de exemplu %2$s)",

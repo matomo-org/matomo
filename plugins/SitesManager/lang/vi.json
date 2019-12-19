@@ -13,8 +13,6 @@
         "EcommerceHelp": "Khi được kích hoạt, báo cáo \"Mục tiêu\" sẽ có một phần \"thương mại điện tử\" mới.",
         "EnableEcommerce": "Thương mại điện tử đã được kích hoạt",
         "EnableSiteSearch": "Theo dõi trang web tìm kiếm đã được kích hoạt",
-        "EnableSiteSpecificUserAgentExclude": "Kích hoạt loại trừ tác nhân người dùng được xác định bởi trang web",
-        "EnableSiteSpecificUserAgentExclude_Help": "Nếu bạn cần phải loại bỏ các đại lý khác nhau cho các trang web khác nhau, kiểm tra ô này, bấm lưu và %1$s thêm các đại lý người dùng %2$s trên .",
         "ExceptionDeleteSite": "Nó không thể xóa trang web này vì nó là trang web chỉ đăng ký. Thêm một trang web mới đầu tiên, sau đó xóa nó.",
         "ExceptionEmptyName": "Tên trang web không thể để trống.",
         "ExceptionInvalidCurrency": "Loại tiền tệ \"%1$s\" không hợp lệ. Xin vui lòng nhập một biểu tượng tiền tệ hợp lệ (ví dụ: %2$s)",

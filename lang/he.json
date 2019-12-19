@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "קובץ תצורת Matomo %1$s אינו ניתן לכתיבה, ייתכן שחלק מהשינויים שלך לא יישמרו. אנא שנה את ההרשאות של קובץ ההגדרות %2$s כדי להפוך אותו לכתיבה.",
         "Continue": "להמשיך",
         "ContinueToPiwik": "חזרה לMatomo",
-        "CurrentlyUsingUnsecureHttp": "אתם משתמשים כעת בפיוויק באמצעות קשר HTTP שאינו בטוח. אנו ממליצים שתגדירו את פיוויק לשימוש ב-SSL (HTTPS) לשיפור רמת האבטחה.",
         "CreatedByUser": "נוצר על די %s",
         "CurrentMonth": "חודש נוכחי",
         "CurrentWeek": "שבוע נוכחי",

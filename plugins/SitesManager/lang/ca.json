@@ -13,8 +13,6 @@
         "EcommerceHelp": "Quan s'activi, l'apartat \"Objectius\" tindrà una nova secció \"Ecommerce\".",
         "EnableEcommerce": "Ecommerce activat",
         "EnableSiteSearch": "Rastreig de les cerques al lloc web activat",
-        "EnableSiteSpecificUserAgentExclude": "Activa l'exclusió per user-agent específic per al lloc web.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Si necessiteu excluïr diferents user-agent per a diferents llocs webs, marque aquesta opció, guardeu les opcions i %1$s afegiu user-agents a continuaicó %2$s.",
         "ExceptionDeleteSite": "No és possible eliminar aquest lloc ja que és l'únic configurat. Afegiu un altre lloc primer i, llavors, ja esborrareu aquest.",
         "ExceptionEmptyName": "El nom del lloc no pot estar buit.",
         "ExceptionInvalidCurrency": "La moneda \"%1$s\" no es vàlida. Sisplau, introduïu un símbol de moneda vàlid (p.e. %2$s)",

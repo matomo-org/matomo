@@ -161,6 +161,7 @@
         "EmailChangedEmail2": "Este cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
         "IfThisWasYouIgnoreIfNot": "Si fuistes vos, no dudes en ignorar este correo electrónico. Si no, inicia sesión, corrije tu dirección de correo electrónico, cambia tu contraseña y ponte en contacto con tu administrador de Matomo.",
         "PasswordChangeNotificationSubject": "La contraseña de su cuenta Matomo ha sido modificada",
-        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s)."
+        "PasswordChangedEmail": "Tu contraseña acaba de ser modificada. Dicho cambio fue iniciado desde el siguiente dispositivo: %1$s (Dirección IP = %2$s).",
+        "NewsletterSignupSuccessMessage": "Genial, ya te haz registrado! Estaremos en contacto pronto."
     }
 }

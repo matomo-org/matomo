@@ -14,8 +14,6 @@
         "EcommerceHelp": "启用后，\"目标\" 报表会有一个新的 \"电子商务\" 栏目。",
         "EnableEcommerce": "启用电子商务",
         "EnableSiteSearch": "启用站内搜索跟踪",
-        "EnableSiteSpecificUserAgentExclude": "排除使用代理的访客",
-        "EnableSiteSpecificUserAgentExclude_Help": "如果不同的网站要排除不同的用户代理，选中这个复选框，点击保存并 %1$s增加上面的用户代理%2$s。",
         "ExceptionDeleteSite": "不可能删除这个网站，因为它是唯一注册的网站！",
         "ExceptionEmptyName": "网站名称不可为空！",
         "ExceptionInvalidCurrency": "货币 \"%1$s\" 不正确。请输入正确的货币符号(例如 %2$s)",

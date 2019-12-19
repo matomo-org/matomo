@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "Matomon asetustiedostoon %1$s ei voi kirjoittaa. Kaikkia muutoksia ei voi tallentaa. %2$s Muuta tiedoston oikeuksia niin, että kirjoittaminen on sallittua.",
         "Continue": "Jatka",
         "ContinueToPiwik": "Jatka Matomoon",
-        "CurrentlyUsingUnsecureHttp": "Käytät Matomoa turvattoman HTTP:n yli. Suosittelemme säätämään Matomon käyttämään SSL:ää (HTTPS).",
         "CreatedByUser": "luoja %s",
         "CurrentMonth": "Tämä kuukausi",
         "CurrentWeek": "Tämä viikko",
