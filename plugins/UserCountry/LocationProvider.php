@@ -498,9 +498,9 @@ abstract class LocationProvider
      */
     protected function getIpFromInfo($info)
     {
-        $ip = \Piwik\Network\IP::fromStringIP($info['ip']);
+        $ip = \Matomo\Network\IP::fromStringIP($info['ip']);
 
-        if ($ip instanceof \Piwik\Network\IPv6 && $ip->isMappedIPv4()) {
+        if ($ip instanceof \Matomo\Network\IPv6 && $ip->isMappedIPv4()) {
             return $ip->toIPv4String();
         } else {
             return $ip->toString();

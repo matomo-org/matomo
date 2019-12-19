@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration\Tracker;
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;

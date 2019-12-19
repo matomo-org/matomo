@@ -13,7 +13,7 @@ use Matomo\Cache\Transient;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\RawLogDao;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Visit;
 use Psr\Log\LoggerInterface;

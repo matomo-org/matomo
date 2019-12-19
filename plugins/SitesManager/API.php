@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Intl\Data\Provider\CurrencyDataProvider;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;

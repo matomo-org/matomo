@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c3cad958b7cbc5cd9133b1facf607ac",
+    "content-hash": "21db453cbd5760aff1906ff501ffda83",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -516,6 +516,38 @@
             "time": "2019-07-03T07:42:01+00:00"
         },
         {
+            "name": "matomo/network",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/component-network.git",
+                "reference": "010e49629115e7227bec08c39639e0efeb048905"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/010e49629115e7227bec08c39639e0efeb048905",
+                "reference": "010e49629115e7227bec08c39639e0efeb048905",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matomo\\Network\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "time": "2020-01-01T12:57:48+00:00"
+        },
+        {
             "name": "matomo/referrer-spam-blacklist",
             "version": "1.1.2",
             "source": {
@@ -891,18 +923,18 @@
             "authors": [
                 {
                     "name": "Greg Beaver",
-                    "email": "cellog@php.net",
-                    "role": "Helper"
+                    "role": "Helper",
+                    "email": "cellog@php.net"
                 },
                 {
                     "name": "Andrei Zmievski",
-                    "email": "andrei@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "andrei@php.net"
                 },
                 {
                     "name": "Stig Bakken",
-                    "email": "stig@php.net",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "stig@php.net"
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
@@ -945,8 +977,8 @@
             "authors": [
                 {
                     "name": "Christian Weiske",
-                    "email": "cweiske@php.net",
-                    "role": "Lead"
+                    "role": "Lead",
+                    "email": "cweiske@php.net"
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
@@ -1204,38 +1236,6 @@
                 "useragent"
             ],
             "time": "2019-12-22T21:23:31+00:00"
-        },
-        {
-            "name": "piwik/network",
-            "version": "0.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/component-network.git",
-                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/fb847317b79fe41d52f5eb5fd92f197df4538b7d",
-                "reference": "fb847317b79fe41d52f5eb5fd92f197df4538b7d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.36"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Piwik\\Network\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "time": "2019-11-06T19:13:42+00:00"
         },
         {
             "name": "piwik/piwik-php-tracker",
