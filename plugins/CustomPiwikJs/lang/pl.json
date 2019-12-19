@@ -1,5 +1,6 @@
 {
     "CustomPiwikJs": {
-        "DiagnosticPiwikJsWritable": "Zapisywalny Traker JavaScript (%s)"
+        "DiagnosticPiwikJsWritable": "Zapisywalny Traker JavaScript (%s)",
+        "DiagnosticPiwikJsMakeWritable": "Zalecamy nadanie dla %1$s uprawnień do zapisu wykonując tą komendę: %2$s"
     }
 }

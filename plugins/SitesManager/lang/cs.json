@@ -14,8 +14,6 @@
         "EcommerceHelp": "Pokud zapnete Cíle, tak hlášení bude mít novou sekci Obchod.",
         "EnableEcommerce": "Obchod zapnutý",
         "EnableSiteSearch": "Sledování vyhledávání na stránkách je povoleno",
-        "EnableSiteSpecificUserAgentExclude": "Povolit vynechání user agentů specifické pro stránky.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Pokud potřebujete pro různé weby vyloučit různé uživatelské agenty, zaškrtněte toto pole, klikněte na uložit a pak %1$spřidejte uživatelské agenty výše%2$s.",
         "ExceptionDeleteSite": "Není možné vymazat toto Web, protože je jediné registrované. Nejprve přidejte nový web, poté jej vymažte.",
         "ExceptionEmptyName": "Jméno Webu nemůže zůstat prázdné.",
         "ExceptionInvalidCurrency": "Měna %1$s je neplatná. Prosím zadejte platný symbol měny. (např.: %2$s)",

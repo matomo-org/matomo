@@ -1,6 +1,8 @@
 {
     "Actions": {
         "AvgGenerationTimeTooltip": "Promedio basado en %1$s hit(s) %2$s entre %3$s y %4$s",
+        "ColumnClickedURL": "Hizo clic en enlace externo",
+        "ColumnClickedURLs": "Hizo clic en enlaces externos",
         "ColumnActionURL": "URL de acción",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "El número de veces que se ha hecho clic en este enlace.",

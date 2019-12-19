@@ -14,8 +14,6 @@
         "EcommerceHelp": "사용한 경우 \"목표\" 보고서에 \"전자상거래\" 표시가 새롭게 추가됩니다.",
         "EnableEcommerce": "전자상거래 활성화",
         "EnableSiteSearch": "사이트 검색 추적을 사용함",
-        "EnableSiteSpecificUserAgentExclude": "웹사이트에서 특정 사용자 에이전트 제외를 사용하도록 설정합니다.",
-        "EnableSiteSpecificUserAgentExclude_Help": "다른 웹사이트에 대해 서로 다른 사용자 에이전트를 제외해야하는 경우, 이 확인란을 선택하여 저장하고 %1$s사용자 에이전트를 추가%2$s합니다.",
         "ExceptionDeleteSite": "이 웹사이트만 등록되있기에 이 웹사이트를 삭제할 수 없습니다. 새 웹사이트를 먼저 추가하시고 이 웹사이트를 삭제하세요.",
         "ExceptionEmptyName": "웹사이트명은 빈칸으로 둘 수 없습니다.",
         "ExceptionInvalidCurrency": "통화 \"%1$s\"는 유효하지 않습니다. 유효한 통화 문자 (예: %2$s)를 입력하세요.",

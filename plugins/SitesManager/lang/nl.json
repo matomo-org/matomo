@@ -14,8 +14,6 @@
         "EcommerceHelp": "Bij inschakeling zal het hoofdstuk \"Doelen\" worden uitgebreid met een sectie \"E-commerce\".",
         "EnableEcommerce": "E-commerce ingeschakeld",
         "EnableSiteSearch": "Zoekopdrachten op de website worden bijgehouden",
-        "EnableSiteSpecificUserAgentExclude": "Maak per website uitgesloten user agents mogelijk",
-        "EnableSiteSpecificUserAgentExclude_Help": "Wanneer je gebruikers moet uitsluiten van verschillende websites, vink dit veld aan, klik op save en %1$svoeg de ueser agents boven%2$s.",
         "ExceptionDeleteSite": "Het is niet mogelijk deze website te verwijderen aangezien het de enige geregistreerde website is. Voeg eerst een nieuwe website toe alvorens deze te verwijderen.",
         "ExceptionEmptyName": "De naam van de website kan niet leeg zijn.",
         "ExceptionInvalidCurrency": "De valuta \"%1$s\" is niet geldig. Vul een geldig valutasymbool in (bijv. %2$s)",
