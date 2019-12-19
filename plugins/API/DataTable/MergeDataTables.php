@@ -13,7 +13,6 @@ use Piwik\DataTable;
 
 class MergeDataTables
 {
-
     /**
      * Merge the columns of two data tables.
      * Manipulates the first table.
@@ -56,7 +55,9 @@ class MergeDataTables
     private function makeNewDataTable(DataTable\DataTableInterface $subTable2)
     {
         if ($subTable2 instanceof DataTable\Map) {
-            return new DataTable\Map();
+            $result = new DataTable\Map();
+            $result->setKeyName($subTable2->getKeyName());
+            return $result;
         } else if ($subTable2 instanceof DataTable\Simple) {
             return new DataTable\Simple();
         } else if ($subTable2 instanceof DataTable) {

@@ -49,7 +49,12 @@ class API extends \Piwik\Plugin\API
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         /** @var \Piwik\DataTable\DataTableInterface $resultSet */
-        $resultSet = Period::isMultiplePeriod($date, $period) ? new DataTable\Map() : new DataTable\Simple();
+        if (Period::isMultiplePeriod($date, $period)) {
+            $resultSet = new DataTable\Map();
+            $resultSet->setKeyName('period');
+        } else {
+            $resultSet = new DataTable\Simple();
+        }
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
             $modifiedSegment = $this->appendVisitorTypeSegment($segment, $visitorTypeSegment);
