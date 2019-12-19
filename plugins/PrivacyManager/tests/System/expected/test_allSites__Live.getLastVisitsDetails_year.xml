@@ -102,16 +102,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -1648,16 +1638,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -3194,16 +3174,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -5375,12 +5345,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -6327,12 +6291,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -7279,12 +7237,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -10416,16 +10368,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -10959,16 +10901,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -11502,16 +11434,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -18437,16 +18359,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -20618,12 +20530,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -21941,16 +21847,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -24510,16 +24406,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -26056,16 +25942,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -28237,12 +28113,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -29189,12 +29059,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -31390,16 +31254,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -31904,16 +31758,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
@@ -36656,16 +36500,6 @@
 				<title>Site Search</title>
 				<subtitle>mobile</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>images</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>200</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -38837,12 +38671,6 @@
 				<title>Site Search</title>
 				<subtitle>analytics</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>210</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -40218,16 +40046,6 @@
 				<title>Site Search</title>
 				<subtitle>ecommerce</subtitle>
 				
-				<customVariables>
-					<row>
-						<customVariablePageName4>Search Category</customVariablePageName4>
-						<customVariablePageValue4>web</customVariablePageValue4>
-					</row>
-					<row>
-						<customVariablePageName5>Search Results Count</customVariablePageName5>
-						<customVariablePageValue5>205</customVariablePageValue5>
-					</row>
-				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
