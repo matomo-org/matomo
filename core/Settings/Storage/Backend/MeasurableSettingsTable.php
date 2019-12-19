@@ -10,6 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
 use Piwik\Version;
@@ -19,7 +21,7 @@ use Piwik\Version;
  *
  * If a value that needs to be stored is an array, will insert a new row for each value of this array.
  */
-class MeasurableSettingsTable implements BackendInterface
+class MeasurableSettingsTable extends BaseSettingsTable
 {
     /**
      * @var int
@@ -31,13 +33,10 @@ class MeasurableSettingsTable implements BackendInterface
      */
     private $pluginName;
 
-    /**
-     * @var Db\AdapterInterface
-     */
-    private $db;
-
     public function __construct($idSite, $pluginName)
     {
+        parent::__construct();
+
         if (empty($pluginName)) {
             throw new Exception('No plugin name given for MeasurableSettingsTable backend');
         }
@@ -50,15 +49,6 @@ class MeasurableSettingsTable implements BackendInterface
         $this->pluginName = $pluginName;
     }
 
-    private function initDbIfNeeded()
-    {
-        if (!isset($this->db)) {
-            // we need to avoid db creation on instance creation, especially important in tracker mode
-            // the db might be never actually used when values are eg fetched from a cache
-            $this->db = Db::get();
-        }
-    }
-
     /**
      * @inheritdoc
      */
@@ -67,39 +57,26 @@ class MeasurableSettingsTable implements BackendInterface
         return 'MeasurableSettings_' . $this->idSite . '_' . $this->pluginName;
     }
 
-    /**
-     * Saves (persists) the current setting values in the database.
-     */
-    public function save($values)
+    protected function getColumnNamesToInsert()
     {
-        $this->initDbIfNeeded();
+        return array('idsite', 'plugin_name', 'setting_name', 'setting_value', 'json_encoded');
+    }
 
-        $table = $this->getTableName();
-
-        $this->delete();
+    protected function buildVarsToInsert(array $values)
+    {
+        $bind = array();
 
         foreach ($values as $name => $value) {
-            if (!isset($value)) {
-                continue;
-            }
+            list($value, $jsonEncoded) = self::cleanValue($value);
 
-            if (is_array($value) || is_object($value)) {
-                $jsonEncoded = 1;
-                $value = json_encode($value);
-            } else {
-                $jsonEncoded = 0;
-                if (is_bool($value)) {
-                    // we are currently not storing booleans as json as it could result in trouble with the UI and regress
-                    // preselecting the correct value
-                    $value = (int) $value;
-                }
-            }
-
-            $sql  = "INSERT INTO $table (`idsite`, `plugin_name`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
-            $bind = array($this->idSite, $this->pluginName, $name, $value, $jsonEncoded);
-
-            $this->db->query($sql, $bind);
+            $bind[] = $this->idSite;
+            $bind[] = $this->pluginName;
+            $bind[] = $name;
+            $bind[] = $value;
+            $bind[] = $jsonEncoded;
         }
+
+        return $bind;
     }
 
     private function jsonEncodedMissingError(Exception $e)
@@ -149,7 +126,7 @@ class MeasurableSettingsTable implements BackendInterface
         return $flat;
     }
 
-    private function getTableName()
+    protected function getTableName()
     {
         return Common::prefixTable('site_setting');
     }

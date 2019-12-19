@@ -11,7 +11,7 @@ namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
-use Piwik\Concurrency\LockBackend;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
 use Piwik\Version;
@@ -21,7 +21,7 @@ use Piwik\Version;
  *
  * If a value that needs to be stored is an array, will insert a new row for each value of this array.
  */
-class PluginSettingsTable implements BackendInterface
+class PluginSettingsTable extends BaseSettingsTable
 {
     /**
      * @var string
@@ -33,16 +33,10 @@ class PluginSettingsTable implements BackendInterface
      */
     private $userLogin;
 
-    /**
-     * @var Db\AdapterInterface
-     */
-    private $db;
-
-    /** @var Lock */
-    private $lockWrapper;
-
     public function __construct($pluginName, $userLogin)
     {
+        parent::__construct();
+
         if (empty($pluginName)) {
             throw new Exception('No plugin name given for PluginSettingsTable backend');
         }
@@ -53,15 +47,6 @@ class PluginSettingsTable implements BackendInterface
 
         $this->pluginName = $pluginName;
         $this->userLogin = $userLogin;
-        $this->lockWrapper = new Lock(new LockBackend\MySqlLockBackend(), 'PluginSettingsTable');
-    }
-
-    private function initDbIfNeeded()
-    {
-        if (!isset($this->db)) {
-            // we do not want to create a db connection on backend creation
-            $this->db = Db::get();
-        }
     }
 
     /**
@@ -72,48 +57,17 @@ class PluginSettingsTable implements BackendInterface
         return 'PluginSettings_' . $this->pluginName . '_User_' . $this->userLogin;
     }
 
-    /**
-     * Saves (persists) the current setting values in the database.
-     */
-    public function save($values)
+    protected function getColumnNamesToInsert()
     {
-        $this->initDbIfNeeded();
-
-        $table = $this->getTableName();
-
-        $values = array_filter($values, function($value) {
-            return isset($value);
-        });
-        $bind = $this->buildVarsToInsert($values);
-
-        // Generate multi-row insert statement - one set of (?, ?, ?, ?, ?) for each row we want to insert
-        $sql = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES ";
-        $insertSubclauses = array_fill(0, count($values), "(?, ?, ?, ?, ?)");
-        $sql .= implode(', ' , $insertSubclauses);
-
-        $lockKey = $this->getStorageId();
-        $this->lockWrapper->execute($lockKey, function() use ($sql, $bind) {
-            $this->delete();
-            $this->db->query($sql, $bind);
-        });
+        return array('plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded');
     }
 
-    private function buildVarsToInsert($values)
+    protected function buildVarsToInsert(array $values)
     {
         $bind = array();
 
         foreach ($values as $name => $value) {
-            if (is_array($value) || is_object($value)) {
-                $jsonEncoded = 1;
-                $value = json_encode($value);
-            } else {
-                $jsonEncoded = 0;
-                if (is_bool($value)) {
-                    // we are currently not storing booleans as json as it could result in trouble with the UI and regress
-                    // preselecting the correct value
-                    $value = (int) $value;
-                }
-            }
+            list($value, $jsonEncoded) = self::cleanValue($value);
 
             $bind[] = $this->pluginName;
             $bind[] = $this->userLogin;
@@ -169,7 +123,7 @@ class PluginSettingsTable implements BackendInterface
         return $flat;
     }
 
-    private function getTableName()
+    protected function getTableName()
     {
         return Common::prefixTable('plugin_setting');
     }
