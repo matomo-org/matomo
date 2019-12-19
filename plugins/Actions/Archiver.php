@@ -171,9 +171,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dimensions = array('search_cat');
         $query = $this->getLogAggregator()->queryActionsByDimension(
             $dimensions, 
-            $where,
-            $additionalSelects = false,
-            $metrics = array(PiwikMetrics::INDEX_NB_VISITS, PiwikMetrics::INDEX_NB_ACTIONS)
+            $where
         );
 
         $dataArray = new DataArray();
