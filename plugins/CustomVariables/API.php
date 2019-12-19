@@ -92,7 +92,7 @@ class API extends \Piwik\Plugin\API
      */
     public static function getReservedCustomVariableKeys()
     {
-        return array('_pks', '_pkn', '_pkc', '_pkp', ActionSiteSearch::CVAR_KEY_SEARCH_COUNT, ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
+        return array('_pks', '_pkn', '_pkc', '_pkp');
     }
 
     /**
