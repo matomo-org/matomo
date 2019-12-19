@@ -49,20 +49,27 @@ abstract class BaseSettingsTable implements BackendInterface
         $values = array_filter($values, function($value) {
             return isset($value);
         });
+        $sql = '';
+        $bind = array();
 
-        $table = $this->getTableName();
-        $columnNames = '`' . implode('`, `', $this->getColumnNamesToInsert()) . '`';
-        $bind = $this->buildVarsToInsert($values);
+        if ($values) {
+            $table = $this->getTableName();
+            $columnNames = '`' . implode('`, `', $this->getColumnNamesToInsert()) . '`';
+            $bind = $this->buildVarsToInsert($values);
 
-        // Generate multi-row insert statement - one set of (?, ?, ?, ?, ?) for each row we want to insert
-        $sql = "INSERT INTO $table ($columnNames) VALUES ";
-        $insertSubclauses = array_fill(0, count($values), "(?, ?, ?, ?, ?)");
-        $sql .= implode(', ' , $insertSubclauses);
+            // Generate multi-row insert statement - one set of (?, ?, ?, ?, ?) for each row we want to insert
+            $sql = "INSERT INTO $table ($columnNames) VALUES ";
+            $insertSubclauses = array_fill(0, count($values), "(?, ?, ?, ?, ?)");
+            $sql .= implode(', ' , $insertSubclauses);
+        }
 
         $lockKey = $this->getStorageId();
         $this->lock->execute($lockKey, function() use ($sql, $bind) {
             $this->delete();
-            $this->db->query($sql, $bind);
+            // No values = nothing to save 
+            if ($sql) {
+                $this->db->query($sql, $bind);
+            }
         });
     }
 
