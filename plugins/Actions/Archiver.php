@@ -9,11 +9,11 @@
 namespace Piwik\Plugins\Actions;
 
 use Piwik\Config;
+use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Actions\Actions\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -61,6 +61,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->archiveDayPageActions($rankingQueryLimit);
         $this->archiveDaySiteSearchActions($rankingQueryLimit);
+        $this->archiveDaySearchCategoryActions();
         $this->archiveDayEntryActions($rankingQueryLimit);
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
@@ -162,6 +163,27 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQueryLimit = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
             $this->archiveDayActions($rankingQueryLimit, array(Action::TYPE_SITE_SEARCH), false);
         }
+    }
+
+    protected function archiveDaySearchCategoryActions()
+    {
+        $where = "%s.search_cat != ''";
+        $dimensions = array('search_cat');
+        $query = $this->getLogAggregator()->queryActionsByDimension(
+            $dimensions, 
+            $where,
+            $additionalSelects = false,
+            $metrics = array(PiwikMetrics::INDEX_NB_VISITS, PiwikMetrics::INDEX_NB_ACTIONS)
+        );
+
+        $dataArray = new DataArray();
+        while ($row = $query->fetch()) {
+            $dataArray->sumMetricsActions($row['search_cat'], $row);
+        }
+
+        $dataTable = $dataArray->asDataTable();
+        $report = $dataTable->getSerialized();
+        $this->getProcessor()->insertBlobRecord('Actions_SiteSearchCategories', $report);
     }
 
     protected function archiveDayActions($rankingQueryLimit, array $actionTypes, $includePageNotDefined)
