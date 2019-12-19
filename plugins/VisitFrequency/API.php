@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
-use Piwik\Archive;
 use Piwik\DataTable;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
@@ -49,7 +49,7 @@ class API extends \Piwik\Plugin\API
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         /** @var \Piwik\DataTable\DataTableInterface $resultSet */
-        $resultSet = new DataTable\Simple();
+        $resultSet = Period::isMultiplePeriod($date, $period) ? new DataTable\Map() : new DataTable\Simple();
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
             $modifiedSegment = $this->appendVisitorTypeSegment($segment, $visitorTypeSegment);

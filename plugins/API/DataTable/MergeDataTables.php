@@ -25,13 +25,14 @@ class MergeDataTables
     {
         // handle table arrays
         if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
-            $subTables2 = $table2->getDataTables();
-            foreach ($table1->getDataTables() as $index => $subTable1) {
-                if (!array_key_exists($index, $subTables2)) {
-                    // occurs when archiving starts on dayN and continues into dayN+1, see https://github.com/piwik/piwik/issues/5168#issuecomment-50959925
-                    continue;
+            $subTables1 = $table1->getDataTables();
+            foreach ($table2->getDataTables() as $index => $subTable2) {
+                if (!array_key_exists($index, $subTables1)) {
+                    $subTable1 = $this->makeNewDataTable($subTable2);
+                    $table1->addTable($subTable1, $index);
+                } else {
+                    $subTable1 = $subTables1[$index];
                 }
-                $subTable2 = $subTables2[$index];
                 $this->mergeDataTables($subTable1, $subTable2);
             }
             return;
@@ -49,6 +50,19 @@ class MergeDataTables
 
         foreach ($firstRow2->getColumns() as $metric => $value) {
             $firstRow1->setColumn($metric, $value);
+        }
+    }
+
+    private function makeNewDataTable(DataTable\DataTableInterface $subTable2)
+    {
+        if ($subTable2 instanceof DataTable\Map) {
+            return new DataTable\Map();
+        } else if ($subTable2 instanceof DataTable\Simple) {
+            return new DataTable\Simple();
+        } else if ($subTable2 instanceof DataTable) {
+            return new DataTable();
+        } else {
+            throw new \Exception("Unknown datatable type: " . get_class($subTable2));
         }
     }
 
