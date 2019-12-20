@@ -295,8 +295,17 @@ class Visualization extends ViewDataTable
     {
         $hasData = false;
         $dataTable->filter(function (DataTable $table) use (&$hasData) {
-            if ($table->getRowsCount() > 0) {
-                $hasData = true;
+            if ($hasData || $table->getRowsCount() == 0) {
+                return;
+            }
+
+            foreach ($table->getRows() as $row) {
+                foreach ($row->getColumns() as $column => $value) {
+                    if ($value != 0 && $value !== '0%') {
+                        $hasData = true;
+                        return;
+                    }
+                }
             }
         });
         return $hasData;
