@@ -115,7 +115,7 @@ class Updates_2_1_1_b11 extends Updates
                                    SET idarchive = CASE idarchive ";
             $updateSqlSuffix = " END, name = CASE name ";
             foreach ($returningMetrics as $metric) {
-                $newMetricName = substr($metric, 0, strlen($metric) - strlen(VisitFrequencyApi::COLUMN_SUFFIX));
+                $newMetricName = substr($metric, 0, strlen($metric) - strlen(VisitFrequencyApi::RETURNING_COLUMN_SUFFIX));
                 $updateSqlSuffix .= "WHEN '$metric' THEN '" . $newMetricName . "' ";
             }
             $updateSqlSuffix .= " END WHERE idarchive IN (%s)

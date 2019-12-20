@@ -83,7 +83,6 @@
         "ConfigFileIsNotWritable": "Matomo-ova konfiguracijska datoteka %1$s ni zapisljiva, zato nekaterih vaših sprememb ni bilo mogoče shraniti. %2$s Prosimo, da spremenite dovoljenja konfiguracijske datoteke tako, da bo zapisljiva.",
         "Continue": "Nadaljuj",
         "ContinueToPiwik": "Nadaljuj na Matomo",
-        "CurrentlyUsingUnsecureHttp": "Trenutno uporabljaš Matomo preko nekodiranega HTTP protokola, kar je lahko nevarno. Priporočamo uporabo Matomo z uporabo SSL (HTTPS) protokola za izboljšano varnost.",
         "CreatedByUser": "ustvaril %s",
         "CurrentMonth": "Trenutni mesec",
         "CurrentWeek": "Trenutni teden",

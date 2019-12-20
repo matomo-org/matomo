@@ -23,8 +23,13 @@ class ReturningMetric extends ProcessedMetric
 {
     private static $translations = array(
         'avg_time_on_site_returning' => 'VisitFrequency_ColumnAverageVisitDurationForReturningVisitors',
+        'avg_time_on_site_new' => 'VisitFrequency_ColumnAverageVisitDurationForNewVisitors',
         'nb_actions_per_visit_returning' => 'VisitFrequency_ColumnAvgActionsPerReturningVisit',
+        'nb_actions_per_visit_new' => 'VisitFrequency_ColumnAvgActionsPerNewVisit',
         'bounce_rate_returning' => 'VisitFrequency_ColumnBounceRateForReturningVisits',
+        'bounce_rate_new'      => 'VisitFrequency_ColumnBounceRateForNewVisits',
+        'nb_users_returning' => 'VisitFrequency_ColumnReturningUsers',
+        'nb_users_new' => 'VisitFrequency_ColumnNewUsers'
     );
 
     /**
@@ -32,14 +37,17 @@ class ReturningMetric extends ProcessedMetric
      */
     private $wrapped;
 
-    public function __construct(ProcessedMetric $wrapped)
+    private $suffix;
+
+    public function __construct(ProcessedMetric $wrapped, $suffix = '_returning')
     {
         $this->wrapped = $wrapped;
+        $this->suffix = $suffix;
     }
 
     public function getName()
     {
-        return $this->wrapped->getName() . '_returning';
+        return $this->wrapped->getName() . $this->suffix;
     }
 
     public function getTranslatedName()

@@ -15,8 +15,6 @@
         "EcommerceHelp": "Bu seçenek etkinleştirildiğinde, \"Hedefler\" raporuna bir \"E-ticaret\" bölümü eklenir.",
         "EnableEcommerce": "E-ticaret sitesi",
         "EnableSiteSearch": "Site Arama izlemesi kullanılıyor",
-        "EnableSiteSpecificUserAgentExclude": "Web sitesine özel kullanıcı uygulamaları katılmasın",
-        "EnableSiteSpecificUserAgentExclude_Help": "Farklı web siteleri için farklı kullanıcı uygulamalarının katılmamasına gerek duyuyorsanız bu seçeceği işaretleyin, kaydet üzerine tıklayın ve %1$syukarıya kullanıcı uygulamalarını ekleyin%2$s.",
         "ExceptionDeleteSite": "Kayıtlı olan tek web sitesi silinemez. Yeni bir web sitesi ekledikten sonra bu web sitesini silebilirsiniz.",
         "ExceptionEmptyName": "Web sitesi adı boş olamaz.",
         "ExceptionInvalidCurrency": "\"%1$s\" para birimi geçersiz. Lütfen geçerli bir para birimi simgesi yazın (%2$s gibi)",

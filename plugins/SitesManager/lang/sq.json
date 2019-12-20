@@ -15,8 +15,6 @@
         "EcommerceHelp": "Po u aktivizua, te raporti \"Objektiva\" do të shfaqet një ndarje e re, \"E-tregti\".",
         "EnableEcommerce": "Me E-tregti të aktivizuar",
         "EnableSiteSearch": "Ndjekja e Kërkimeve në Sajt është i aktivizuar",
-        "EnableSiteSpecificUserAgentExclude": "Aktivizoni përjashtim agjenti përdoruesi për sajte të dhënë.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Nëse ju duhet të përjashtoni agjentë të ndryshëm përdoruesi për sajte të ndryshëm, i vini shenjë kësaj kutize, klikoni mbi Ruaje dhe %1$sshtojeni agjentin e përdoruesi më sipër%2$s.",
         "ExceptionDeleteSite": "Heqja e këtij sajti s’është e mundur, ngaqë është i vetmi sajt i regjistruar. Së pari, shtoni një sajt të ri, mandej hiqni këtë këtu.",
         "ExceptionEmptyName": "Sajti s’mund të jetë i zbrazët.",
         "ExceptionInvalidCurrency": "Monedha \"%1$s\" s’është një nga të vlefshmet. Ju lutemi, jepni një simbol monedhe të vlefshme (p.sh. %2$s).",

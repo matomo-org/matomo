@@ -80,6 +80,11 @@ class Environment
         $this->definitions = $definitions;
     }
 
+    public function getEnvironmentName()
+    {
+        return $this->environment;
+    }
+
     /**
      * Initializes the kernel globals and DI container.
      */
@@ -88,6 +93,7 @@ class Environment
         $this->invokeBeforeContainerCreatedHook();
 
         $this->container = $this->createContainer();
+        $this->container->set(self::class, $this);
 
         StaticContainer::push($this->container);
 

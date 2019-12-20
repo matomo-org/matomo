@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "O ficheiro de configuração do Matomo %1$s não é modificável, as suas alterações podem não ser guardadas. %2$s Por favor altere as permissões do ficheiro de configuração para o mesmo ser modificável.",
         "Continue": "Continuar",
         "ContinueToPiwik": "Continuar para o Matomo",
-        "CurrentlyUsingUnsecureHttp": "Atualmente está a utilizar o Matomo sob o inseguro HTTP, o que pode ser arriscado. Recomendamos que configure o Matomo para utilizar SSL (HTTPS) para uma segurança melhorada.",
         "CreatedByUser": "criado por %s",
         "CurrentMonth": "Mês atual",
         "CurrentWeek": "Semana atual",
