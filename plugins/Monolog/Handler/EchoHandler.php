@@ -17,7 +17,11 @@ class EchoHandler extends AbstractProcessingHandler
 {
     protected function write(array $record)
     {
-        $message = $record['level_name'] . ': ' . $record['message'];
+        if (isset($record['formatted'])) {
+            $message = $record['formatted'];
+        } else {
+            $message = $record['level_name'] . ': ' . $record['message'];
+        }
 
         echo $message . "\n";
     }
