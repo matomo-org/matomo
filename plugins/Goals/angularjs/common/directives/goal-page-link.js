@@ -27,6 +27,7 @@
                     var link =  element.find('a');
                     link.text(title);
                     link.attr('href', 'javascript:void(0)');
+                    link.attr('title', _pk_translate('Goals_ClickToViewThisGoal'));
                     link.bind('click', function () {
                         var $search = $location.search();
                         $search.category = 'Goals_Goals';
