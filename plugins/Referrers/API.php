@@ -18,9 +18,7 @@ use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
-use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Site;
 
 /**
@@ -66,7 +64,7 @@ class API extends \Piwik\Plugin\API
             $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [
                 $column . '_percent',
                 $column,
-                $totalVisits
+                $totalVisits,
             ]);
         }
 
@@ -171,7 +169,7 @@ class API extends \Piwik\Plugin\API
             )
         ));
         // set referrer type column to readable value
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
 
         return $dataTable;
     }
