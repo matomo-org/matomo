@@ -11,7 +11,7 @@
 		<bounce_count>55</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==direct</segment>
-		<referrerType>1</referrerType>
+		<referrer_type>1</referrer_type>
 	</row>
 	<row>
 		<label>Search Engines</label>
@@ -24,7 +24,7 @@
 		<bounce_count>12</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==search</segment>
-		<referrerType>2</referrerType>
+		<referrer_type>2</referrer_type>
 		<subtable>
 			<row>
 				<label>search term 2</label>
@@ -72,7 +72,7 @@
 		<bounce_count>8</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==website</segment>
-		<referrerType>3</referrerType>
+		<referrer_type>3</referrer_type>
 		<subtable>
 			<row>
 				<label>whatever0.com</label>

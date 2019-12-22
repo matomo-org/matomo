@@ -114,7 +114,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable
      */
     public function getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
-                                    $idSubtable = false, $expanded = false)
+                                    $idSubtable = false, $expanded = false, $_setReferrerTypeLabel = true)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -169,9 +169,12 @@ class API extends \Piwik\Plugin\API
                 Common::REFERRER_TYPE_WEBSITE        => 'website',
             )
         ));
+
         // set referrer type column to readable value
-        $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrer_type']);
-        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
+        if ($_setReferrerTypeLabel == 1) {
+            $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrer_type']);
+            $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
+        }
 
         return $dataTable;
     }
@@ -201,6 +204,7 @@ class API extends \Piwik\Plugin\API
             'expanded' => true,
             'disable_generic_filters' => true,
             'disable_queued_filters' => true,
+            '_setReferrerTypeLabel' => false,
         ], []);
 
         if ($dataTable instanceof DataTable\Map) {
