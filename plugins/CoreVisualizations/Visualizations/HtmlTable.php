@@ -14,7 +14,9 @@ use Piwik\Common;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\NumberFormatter;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugin\Visualization;
 
 /**
@@ -81,31 +83,8 @@ class HtmlTable extends Visualization
             }
         }
 
-        // we do not want to get a datatable\map
-        $period = Common::getRequestVar('period', 'day', 'string');
-        if (Period\Range::parseDateRange($period)) {
-            $period = 'range';
-        }
-
         if ($this->dataTable->getRowsCount()) {
-            $request = new ApiRequest(array(
-                'method' => 'API.get',
-                'module' => 'API',
-                'action' => 'get',
-                'format' => 'original',
-                'filter_limit'  => '-1',
-                'disable_generic_filters' => 1,
-                'expanded'      => 0,
-                'flat'          => 0,
-                'filter_offset' => 0,
-                'period'        => $period,
-                'showColumns'   => implode(',', $this->config->columns_to_display),
-                'columns'       => implode(',', $this->config->columns_to_display),
-                'pivotBy'       => ''
-            ));
-
-            $dataTable = $request->process();
-            $this->assignTemplateVar('siteSummary', $dataTable);
+            $this->assignTemplateVar('siteTotalRow', $this->getSiteSummary()->getFirstRow());
         }
 
         if ($this->isPivoted()) {
@@ -222,6 +201,54 @@ class HtmlTable extends Visualization
         }
     }
 
+    public function afterGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        parent::afterGenericFiltersAreAppliedToLoadedDataTable();
+
+        $this->calculateTotalPercentages(); // this must be done before metrics are formatted
+    }
+
+    private function calculateTotalPercentages()
+    {
+        if (empty($this->report)) {
+            return;
+        }
+
+        $columnNamesToIndices = Metrics::getMappingFromNameToId();
+        $formatter = NumberFormatter::getInstance();
+
+        $totals = $this->dataTable->getMetadata('totals');
+
+        $siteSummary = $this->getSiteSummary();
+        $siteTotalRow = $siteSummary->getFirstRow();
+
+        foreach ($this->dataTable->getRows() as $row) {
+            foreach ($this->report->getMetrics() as $column => $translation) {
+                $indexColumn = $columnNamesToIndices[$column]; // TODO: This might fail for goal specific columns...
+
+                $value = $row->getColumn($indexColumn) ?: $row->getColumn($column);
+                if ($column == 'label'
+                    || $value === false
+                ) {
+                    continue;
+                }
+
+                $reportTotal = isset($totals[$column]) ? $totals[$column] : 0;
+                $siteTotal = $siteTotalRow->getColumn($column) ?: 0;
+
+                $percentageColumnName = $column . '_row_percentage';
+                $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1));
+                $row->setMetadata($percentageColumnName, $rowPercentage);
+
+                $siteTotalPercentage = $column . '_site_total_percentage';
+                if ($siteTotal && $siteTotal > $reportTotal) {
+                    $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $siteTotal, $precision = 1));
+                    $row->setMetadata($siteTotalPercentage, $rowPercentage);
+                }
+            }
+        }
+    }
+
     protected function isPivoted()
     {
         return $this->requestConfig->pivotBy || Common::getRequestVar('pivotBy', '');
@@ -247,5 +274,36 @@ class HtmlTable extends Visualization
     protected function isFlattened()
     {
         return $this->requestConfig->flat || Common::getRequestVar('flat', '');
+    }
+
+    private function getSiteSummary()
+    {
+        if (empty($this->siteSummary)) {
+            // we do not want to get a datatable\map
+            $period = Common::getRequestVar('period', 'day', 'string');
+            if (Period\Range::parseDateRange($period)) {
+                $period = 'range';
+            }
+
+            $request = new ApiRequest(array(
+                'method' => 'API.get',
+                'module' => 'API',
+                'action' => 'get',
+                'format' => 'original',
+                'filter_limit'  => '-1',
+                'disable_generic_filters' => 1,
+                'expanded'      => 0,
+                'flat'          => 0,
+                'filter_offset' => 0,
+                'period'        => $period,
+                'showColumns'   => implode(',', $this->config->columns_to_display),
+                'columns'       => implode(',', $this->config->columns_to_display),
+                'pivotBy'       => ''
+            ));
+
+            $this->siteSummary = $request->process();
+        }
+
+        return $this->siteSummary;
     }
 }
