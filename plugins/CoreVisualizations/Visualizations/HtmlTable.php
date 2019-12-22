@@ -84,7 +84,8 @@ class HtmlTable extends Visualization
         }
 
         if ($this->dataTable->getRowsCount()) {
-            $this->assignTemplateVar('siteTotalRow', $this->getSiteSummary()->getFirstRow());
+            $siteTotalRow = $this->getSiteSummary() ? $this->getSiteSummary()->getFirstRow() : null;
+            $this->assignTemplateVar('siteTotalRow', $siteTotalRow);
         }
 
         if ($this->isPivoted()) {
@@ -220,7 +221,7 @@ class HtmlTable extends Visualization
         $totals = $this->dataTable->getMetadata('totals');
 
         $siteSummary = $this->getSiteSummary();
-        $siteTotalRow = $siteSummary->getFirstRow();
+        $siteTotalRow = $siteSummary ? $siteSummary->getFirstRow() : null;
 
         foreach ($this->dataTable->getRows() as $row) {
             foreach ($this->report->getMetrics() as $column => $translation) {
@@ -234,16 +235,19 @@ class HtmlTable extends Visualization
                 }
 
                 $reportTotal = isset($totals[$column]) ? $totals[$column] : 0;
-                $siteTotal = $siteTotalRow->getColumn($column) ?: 0;
 
                 $percentageColumnName = $column . '_row_percentage';
                 $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1));
                 $row->setMetadata($percentageColumnName, $rowPercentage);
 
-                $siteTotalPercentage = $column . '_site_total_percentage';
-                if ($siteTotal && $siteTotal > $reportTotal) {
-                    $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $siteTotal, $precision = 1));
-                    $row->setMetadata($siteTotalPercentage, $rowPercentage);
+                if ($siteTotalRow) {
+                    $siteTotal = $siteTotalRow->getColumn($column) ?: 0;
+
+                    $siteTotalPercentage = $column . '_site_total_percentage';
+                    if ($siteTotal && $siteTotal > $reportTotal) {
+                        $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $siteTotal, $precision = 1));
+                        $row->setMetadata($siteTotalPercentage, $rowPercentage);
+                    }
                 }
             }
         }
