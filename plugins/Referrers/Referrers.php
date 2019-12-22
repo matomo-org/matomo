@@ -133,30 +133,38 @@ class Referrers extends \Piwik\Plugin
     public function setGetAllHtmlPrefix($referrerType)
     {
         // get singular label for referrer type
-        $indexTranslation = '';
-        switch ($referrerType) {
-            case Common::REFERRER_TYPE_DIRECT_ENTRY:
-                $indexTranslation = 'Referrers_DirectEntry';
-                break;
-            case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                $indexTranslation = 'General_ColumnKeyword';
-                break;
-            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
-                $indexTranslation = 'Referrers_ColumnSocial';
-                break;
-            case Common::REFERRER_TYPE_WEBSITE:
-                $indexTranslation = 'Referrers_ColumnWebsite';
-                break;
-            case Common::REFERRER_TYPE_CAMPAIGN:
-                $indexTranslation = 'Referrers_ColumnCampaign';
-                break;
-            default:
-                // case of newsletter, partners, before Piwik 0.2.25
-                $indexTranslation = 'General_Others';
-                break;
+        $label = $referrerType;
+        if (is_numeric($referrerType)) {
+            switch ($referrerType) {
+                case Common::REFERRER_TYPE_DIRECT_ENTRY:
+                    $indexTranslation = 'Referrers_DirectEntry';
+                    break;
+                case Common::REFERRER_TYPE_SEARCH_ENGINE:
+                    $indexTranslation = 'General_ColumnKeyword';
+                    break;
+                case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                    $indexTranslation = 'Referrers_ColumnSocial';
+                    break;
+                case Common::REFERRER_TYPE_WEBSITE:
+                    $indexTranslation = 'Referrers_ColumnWebsite';
+                    break;
+                case Common::REFERRER_TYPE_CAMPAIGN:
+                    $indexTranslation = 'Referrers_ColumnCampaign';
+                    break;
+                default:
+                    // case of newsletter, partners, before Piwik 0.2.25
+                    $indexTranslation = 'General_Others';
+                    break;
+            }
+
+            $label = Piwik::translate($indexTranslation);
         }
 
-        $label = strtolower(Piwik::translate($indexTranslation));
+        if ($label == Piwik::translate('Referrers_SearchEngines')) {
+            $label = Piwik::translate('General_ColumnKeyword');
+        }
+
+        $label = strtolower($label);
 
         // return html that displays it as grey & italic
         return '<span class="datatable-label-category">(' . $label . ')</span>';

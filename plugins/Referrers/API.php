@@ -18,6 +18,7 @@ use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
 
@@ -169,7 +170,7 @@ class API extends \Piwik\Plugin\API
             )
         ));
         // set referrer type column to readable value
-        $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrerType']);
+        $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrer_type']);
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
 
         return $dataTable;
@@ -731,7 +732,7 @@ class API extends \Piwik\Plugin\API
 
             $newRow = array_fill_keys(array_values($nameToColumnId), 0);
             foreach ($table->getRows() as $row) {
-                $referrerType = $row->getMetadata('referrerType');
+                $referrerType = $row->getMetadata('referrer_type');
                 if (empty($nameToColumnId[$referrerType])) {
                     continue;
                 }
