@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function checkForWarnings(message)
 {
     var optOutUrl = window.location.href;
-    var isHttps = optOutUrl.startsWith('https');
+    var isHttps = optOutUrl && optOutUrl.indexOf('https') === 0;
     var optOutDomain = getDomain(optOutUrl);
     var matomoDomain = getDomain(message.maq_url);
 
@@ -90,7 +90,7 @@ function checkForWarnings(message)
     } else if (!isHttps) {
         // Warning condition: not on HTTPS. On some browsers the third-party opt-out cookie won't work.
         errorType = 'https';
-    } else if (optOutDomain != matomoDomain) {
+    } else if (optOutDomain !== matomoDomain) {
         // Warning condition: mismatched domains for optout and Matomo JS scripts. Cookies may not work as expected.
         errorType = 'domains';
     }

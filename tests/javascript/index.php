@@ -2149,7 +2149,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(109);
+        expect(110);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2263,6 +2263,7 @@ function PiwikTest() {
         // consent
         equal( typeof tracker.getRememberedConsent, 'function', 'getRememberedConsent' );
         equal( typeof tracker.hasRememberedConsent, 'function', 'hasRememberedConsent' );
+        equal( typeof tracker.isConsentRequired, 'function', 'isConsentRequired' );
         equal( typeof tracker.requireConsent, 'function', 'requireConsent' );
         equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
         equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
@@ -4930,7 +4931,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(27);
+        expect(29);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -4940,7 +4941,10 @@ if ($mysql) {
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
         strictEqual(tracker.hasConsent(), true, "hasConsent, assumes consent by default" );
 
+        ok(!tracker.isConsentRequired(), 'by default consent is not required')
         tracker.requireConsent();
+
+        ok(tracker.isConsentRequired(), 'consent is required after requiring it')
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
 
         tracker.trackRequest('myFoo=bar&baz=1');
