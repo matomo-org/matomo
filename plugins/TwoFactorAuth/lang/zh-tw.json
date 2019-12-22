@@ -1,0 +1,7 @@
+{
+    "TwoFactorAuth": {
+        "TwoFactorAuthentication": "兩步驟驗證",
+        "TwoFactorAuthenticationIsEnabled": "已啟用兩步驟驗證。",
+        "TwoFactorAuthenticationIsDisabled": "已停用兩步驟驗證。"
+    }
+}

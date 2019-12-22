@@ -80,7 +80,8 @@ class CliPhp
         return !empty($path)
         && false === strpos($path, 'fpm')
         && false === strpos($path, 'cgi')
-        && false === strpos($path, 'phpunit');
+        && false === strpos($path, 'phpunit')
+        && false === strpos($path, 'lsphp');
     }
 
     private function getPhpCommandIfValid($path)

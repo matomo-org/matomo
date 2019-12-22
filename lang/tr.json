@@ -111,7 +111,7 @@
         "ConfigFileIsNotWritable": "%1$s Matomo yapılandırma dosyası yazılabilir değil. Yaptığınız bazı değişiklikler kaydedilemeyebilir. %2$s Lütfen yapılandırma dosyasının izinlerini yazılabilir olarak değiştirin.",
         "Continue": "Devam",
         "ContinueToPiwik": "Matomo Uygulamasını Kullanmaya Başlayın",
-        "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum riskli olabilir. Matomo uygulamasını güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
+        "CurrentlyUsingUnsecureHttp": "Matomo uygulamasını güvenli olmayan HTTP bağlantısı üzerinden kullanıyorsunuz. Bu durum Matomo uygulamanızı güvenlik açıklarına karşı savunmasız bırakabilir. Ayrıca abonelikten ayrılma çerezlerini de içeren bazı özellikler çalışmayacağından, kişisel gizlilik yasalarına da karşı geliyor olabilirsiniz. Matomo uygulamasını daha güvenli olarak kullanmak için SSL ile şifrelenmiş (HTTPS) bir bağlantı kullanmanız önerilir.",
         "CreatedByUser": "%s tarafından eklendi",
         "CurrentMonth": "Bu Ay",
         "CurrentWeek": "Bu Hafta",

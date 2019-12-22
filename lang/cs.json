@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "Konfigurační soubor Matomo %1$s není zapisovatelný, některé změny nebudou uloženy. %2$s Prosím upravte oprávnění ke konfiguračnímu souboru",
         "Continue": "Pokračovat",
         "ContinueToPiwik": "Pokračujte do Matomo",
-        "CurrentlyUsingUnsecureHttp": "Aktuálně používáte Matomo přes nezabezpečené HTTP připojení, což sebou nese svá rizika. Pro zvýšení bezpečnosti doporučujeme nastavit Matomo tak, aby používal SSL (HTTPS).",
         "CreatedByUser": "vytvořil %s",
         "CurrentMonth": "Tento měsíc",
         "CurrentWeek": "Tento týden",

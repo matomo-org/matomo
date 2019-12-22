@@ -1,12 +1,15 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Acciones por Nuevas Visitas",
         "ColumnActionsByReturningVisits": "Acciones de visitantes que regresan",
         "ColumnAverageVisitDurationForReturningVisitors": "Duración promedio de una visita que regresa (en segundos)",
         "ColumnAvgActionsPerReturningVisit": "Acciones promedio por visitante que regresa",
         "ColumnBounceCountForReturningVisits": "Contador de rebotes de visitantes que regresan",
+        "ColumnBounceRateForNewVisits": "Porcentaje de Rebote por Nuevas Visitas",
         "ColumnBounceRateForReturningVisits": "Porcentaje de rebotes por visitantes que regresan",
         "ColumnMaxActionsInReturningVisit": "Máximas acciones en una visita de retorno",
         "ColumnNbReturningVisitsConverted": "Número de visitas que regresan convertidas",
+        "ColumnNewVisits": "Nuevas Visitas",
         "ColumnReturningVisits": "Visitantes que han vuelto",
         "ColumnSumVisitLengthReturning": "Tiempo total transcurrido por visitantes que retornan (en segundos)",
         "ColumnUniqueReturningVisitors": "Visitantes únicos que regresan",

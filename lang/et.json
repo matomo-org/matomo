@@ -346,6 +346,7 @@
         "VisitTypes": "Külastuste liigid",
         "Warning": "Hoiatus",
         "Warnings": "Hoiatused",
+        "PiwikCannotBeUpgradedBecausePhpIsTooOld": "Kuna kasutada olev PHP versioon on liiga vana siis ei saa Matomot uuendada.",
         "ValidatorErrorNotANumber": "Väärtus pole arv.",
         "Website": "Veebileht",
         "Weekly": "Iganädalane",
@@ -362,7 +363,11 @@
         "Yes": "Jah",
         "YouAreCurrentlyUsing": "Kasutad hetkel Matomo versiooni %s.",
         "YouMustBeLoggedIn": "Antud funktsionaalsusele ligipääsuks pead olema sisselogitud.",
-        "YourChangesHaveBeenSaved": "Sinu muudatused on salvestatud."
+        "YourChangesHaveBeenSaved": "Sinu muudatused on salvestatud.",
+        "TheMatomoTeam": "Matomo meeskond",
+        "PleaseTryAgain": "Palun proovi uuesti",
+        "Comparisons": "Võrdlused",
+        "ClickToRemoveComp": "Kliki võrdluse eemaldamiseks."
     },
     "Mobile": {
         "AboutPiwikMobile": "Rohkem infot Matomo mobiilis kohta",
