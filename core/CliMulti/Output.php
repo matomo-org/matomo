@@ -8,6 +8,7 @@
 namespace Piwik\CliMulti;
 
 use Piwik\CliMulti;
+use Piwik\Common;
 use Piwik\Filesystem;
 
 class Output
@@ -58,7 +59,14 @@ class Output
 
     public function get()
     {
-        return @file_get_contents($this->tmpFile);
+        $content = @file_get_contents($this->tmpFile);
+        $search = '#!/usr/bin/env php';
+        if (!empty($content)
+            && is_string($content)
+            && Common::mb_substr(trim($content), 0, strlen($search)) === $search) {
+            $content = trim(Common::mb_substr(trim($content), strlen($search)));
+        }
+        return $content;
     }
 
     public function destroy()
