@@ -169,6 +169,7 @@ class API extends \Piwik\Plugin\API
             )
         ));
         // set referrer type column to readable value
+        $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrerType']);
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
 
         return $dataTable;
@@ -721,20 +722,22 @@ class API extends \Piwik\Plugin\API
     {
         if ($table instanceof DataTable) {
             $nameToColumnId = array(
-                'Referrers_visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'Referrers_visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
-                'Referrers_visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'Referrers_visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
-                'Referrers_visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
+                Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referrers_visitorsFromSearchEngines',
+                Common::REFERRER_TYPE_SOCIAL_NETWORK => 'Referrers_visitorsFromSocialNetworks',
+                Common::REFERRER_TYPE_DIRECT_ENTRY => 'Referrers_visitorsFromDirectEntry',
+                Common::REFERRER_TYPE_WEBSITE => 'Referrers_visitorsFromWebsites',
+                Common::REFERRER_TYPE_CAMPAIGN => 'Referrers_visitorsFromCampaigns',
             );
 
-            $newRow = array();
-            foreach ($nameToColumnId as $nameVar => $columnId) {
-                $value = 0;
-                $row = $table->getRowFromLabel($columnId);
-                if ($row !== false) {
-                    $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
+            $newRow = array_fill_keys(array_values($nameToColumnId), 0);
+            foreach ($table->getRows() as $row) {
+                $referrerType = $row->getMetadata('referrerType');
+                if (empty($nameToColumnId[$referrerType])) {
+                    continue;
                 }
+
+                $nameVar = $nameToColumnId[$referrerType];
+                $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
                 $newRow[$nameVar] = $value;
             }
 
