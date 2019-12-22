@@ -50,33 +50,51 @@ class MeasurableSettingsTable extends BaseSettingsTable
     }
 
     /**
+     * Saves (persists) the current setting values in the database.
+     * @param array $values Key/value pairs of setting values to be written
+     */
+    public function save($values)
+    {
+        $this->initDbIfNeeded();
+
+        $valuesKeep = array();
+        foreach ($values as $name => $value) {
+            if (!isset($value)) {
+                continue;
+            }
+            if (is_array($value) || is_object($value)) {
+                $jsonEncoded = 1;
+                $value = json_encode($value);
+            } else {
+                $jsonEncoded = 0;
+                if (is_bool($value)) {
+                    // we are currently not storing booleans as json as it could result in trouble with the UI and regress
+                    // preselecting the correct value
+                    $value = (int) $value;
+                }
+            }
+            $valuesKeep[] = array($this->idSite, $this->pluginName, $name, $value, $jsonEncoded);
+        }
+
+        $columns = array('idsite', 'plugin_name', 'setting_name', 'setting_value', 'json_encoded');
+
+        $table = $this->getTableName();
+        $lockKey = $this->getStorageId();
+        $this->lock->execute($lockKey, function() use ($valuesKeep, $table, $columns) {
+            $this->delete();
+            // No values = nothing to save
+            if (!empty($valuesKeep)) {
+                Db\BatchInsert::tableInsertBatchSql($table, $columns, $valuesKeep, true);
+            }
+        });
+    }
+
+    /**
      * @inheritdoc
      */
     public function getStorageId()
     {
         return 'MeasurableSettings_' . $this->idSite . '_' . $this->pluginName;
-    }
-
-    protected function getColumnNamesToInsert()
-    {
-        return array('idsite', 'plugin_name', 'setting_name', 'setting_value', 'json_encoded');
-    }
-
-    protected function buildVarsToInsert(array $values)
-    {
-        $bind = array();
-
-        foreach ($values as $name => $value) {
-            list($value, $jsonEncoded) = self::cleanValue($value);
-
-            $bind[] = $this->idSite;
-            $bind[] = $this->pluginName;
-            $bind[] = $name;
-            $bind[] = $value;
-            $bind[] = $jsonEncoded;
-        }
-
-        return $bind;
     }
 
     private function jsonEncodedMissingError(Exception $e)

@@ -57,26 +57,46 @@ class PluginSettingsTable extends BaseSettingsTable
         return 'PluginSettings_' . $this->pluginName . '_User_' . $this->userLogin;
     }
 
-    protected function getColumnNamesToInsert()
+    /**
+     * Saves (persists) the current setting values in the database.
+     * @param array $values Key/value pairs of setting values to be written
+     */
+    public function save($values)
     {
-        return array('plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded');
-    }
+        $this->initDbIfNeeded();
 
-    protected function buildVarsToInsert(array $values)
-    {
-        $bind = array();
+        $valuesKeep = array();
 
         foreach ($values as $name => $value) {
-            list($value, $jsonEncoded) = self::cleanValue($value);
+            if (!isset($value)) {
+                continue;
+            }
+            if (is_array($value) || is_object($value)) {
+                $jsonEncoded = 1;
+                $value = json_encode($value);
+            } else {
+                $jsonEncoded = 0;
+                if (is_bool($value)) {
+                    // we are currently not storing booleans as json as it could result in trouble with the UI and regress
+                    // preselecting the correct value
+                    $value = (int) $value;
+                }
+            }
 
-            $bind[] = $this->pluginName;
-            $bind[] = $this->userLogin;
-            $bind[] = $name;
-            $bind[] = $value;
-            $bind[] = $jsonEncoded;
+            $valuesKeep[] = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
         }
 
-        return $bind;
+        $columns = array('plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded');
+
+        $table = $this->getTableName();
+        $lockKey = $this->getStorageId();
+        $this->lock->execute($lockKey, function() use ($valuesKeep, $table, $columns) {
+            $this->delete();
+            // No values = nothing to save
+            if (!empty($valuesKeep)) {
+                Db\BatchInsert::tableInsertBatchSql($table, $columns, $valuesKeep);
+            }
+        });
     }
 
     private function jsonEncodedMissingError(Exception $e)

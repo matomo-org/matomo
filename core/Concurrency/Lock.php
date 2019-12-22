@@ -12,6 +12,8 @@ use Piwik\Common;
 
 class Lock
 {
+    const MAX_KEY_LEN = 70;
+
     /**
      * @var LockBackend
      */
@@ -41,11 +43,21 @@ class Lock
 
     public function execute($id, $callback)
     {
-        // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
-        // to make it more readable
-        $id = substr($id, 0, 30) . md5($id);
+        if (Common::mb_strlen($id) > self::MAX_KEY_LEN) {
+            // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
+            // to make it more readable
+            $md5Len = 32;
+            $id = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+        }
 
-        $this->acquireLock($id);
+        $i = 0;
+        while (!$this->acquireLock($id)) {
+            $i++;
+            usleep( 100 * 1000 ); // 100ms
+            if ($i > 50) { // give up after 5seconds (50 * 100ms)
+                throw new \Exception('Could not get the lock for ID: ' . $id);
+            }
+        };
         try {
             return $callback();
         } finally {
