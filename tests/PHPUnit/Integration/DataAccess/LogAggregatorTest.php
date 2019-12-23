@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration\DataAccess;
 
 use Piwik\ArchiveProcessor\Parameters;
+use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Period;
@@ -72,6 +73,17 @@ class LogAggregatorTest extends IntegrationTestCase
             )
         );
         $this->assertSame($expected, $query);
+    }
+
+    public function test_getSegmentTmpTableName()
+    {
+        $this->assertEquals('logtmpsegmentcc2efa0acbd5f209e8ee8618e72f3f9b', $this->logAggregator->getSegmentTmpTableName());
+    }
+
+    public function test_getSegmentTmpTableNameWithLongPrefix()
+    {
+        Config::getInstance()->database['tables_prefix'] = 'myverylongtableprefixtestfoobartest';
+        $this->assertEquals('logtmpsegmentcc2efa0acbd5f209', $this->logAggregator->getSegmentTmpTableName());
     }
 
     public function test_generateQuery_WithQueryHint_ShouldAddQueryHintAsComment()
