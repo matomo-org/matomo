@@ -1,10 +1,49 @@
+function checkCorrectlyUnsubscribed() {
+
+}
+
+function getDataIfMessageIsForThisFrame(e){
+    if (!e || !e.data) {
+        return false;
+    }
+
+    try {
+        var data = JSON.parse(e.data);
+    } catch (e) {
+        return false;
+    }
+
+    if (!data || !data.maq_url) {
+        return false;
+    }
+
+    var originHost = getHostName(data.maq_url);
+    if (originHost !== getHostName(window.location.href)) {
+        // just to double check it really is for this optOut script...
+        return false;
+    }
+
+    return data;
+}
+
 function submitForm(e, form) {
     // Find out whether checkbox is turned on
     var optedIn = document.getElementById('trackVisits').checked;
 
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
-    if (typeof parent.postMessage !== 'undefined') {
+    if (typeof parent === 'object' && typeof parent.postMessage !== 'undefined') {
+        window.addEventListener('message', function(e) {
+            var data = getDataIfMessageIsForThisFrame(e);
+            if (!data) {
+                return;
+            }
+
+            if (typeof data.maq_confirm_opted_in !== 'undefined' && optedIn != data.maq_confirm_opted_in) {
+                checkForWarnings(data); // looks like opt out did not work...
+            }
+        });
+
         var optOutStatus = {maq_opted_in: optedIn};
         parent.postMessage(JSON.stringify(optOutStatus), "*");
     }
@@ -16,7 +55,16 @@ function submitForm(e, form) {
     // We have the first-party cookie but it's nice to set this too if we can, since it will respect the
     // user's wishes across multiple sites.
     var now = Date.now ? Date.now() : (+(new Date())); // Date.now does not exist in < IE8
-    window.open(form.action + '&time=' + now);
+    var openedWindow = window.open(form.action + '&time=' + now);
+
+    var checkWindowClosedInterval;
+    checkWindowClosedInterval = setInterval(function() {
+        if (openedWindow && openedWindow.closed) {
+            clearInterval(checkWindowClosedInterval);
+            checkWindowClosedInterval = null;
+            checkCorrectlyUnsubscribed();
+        }
+    }, 200);
 
     return false;
 }
@@ -54,16 +102,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ask the parent window to send us initial state of the optout cookie so that we can display the form correctly
     var numAttempts = 0;
-    initializationTimer = setInterval(function() {
+    function checkParentTrackerLoaded() {
         var message = {maq_initial_value: initiallyChecked};
         parent.postMessage(JSON.stringify(message), '*');
         numAttempts++;
-        // 10 times per second * 1200 = 2 minutes
+        // 0.15 times per second * 800 = 2 minutes
         // If the tracker JS hasn't finished loading by now, it ain't gonna, so let's stop trying
-        if (numAttempts > 1200) {
+        if (numAttempts > 800) {
             clearInterval(initializationTimer);
+            initializationTimer = null;
+            checkForWarnings();
         }
-    }, 100);
+    }
+
+    initializationTimer = setInterval(checkParentTrackerLoaded, 150);
 });
 
 /**
@@ -83,31 +135,12 @@ function checkForWarnings(message)
 
     var errorType = null;
     var isError = false;
-    if ((!navigator.cookieEnabled) && (!message.maq_optout_by_default)) {
-        // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
-        errorType = 'cookies';
-        isError = true;
-    } else if (!isHttps) {
+    if (!isHttps) {
         // Warning condition: not on HTTPS. On some browsers the third-party opt-out cookie won't work.
         errorType = 'https';
     } else if (optOutDomain !== matomoDomain) {
         // Warning condition: mismatched domains for optout and Matomo JS scripts. Cookies may not work as expected.
         errorType = 'domains';
-    }
-
-    if (isError) {
-        var checkbox = document.getElementById('trackVisits');
-        var optInPara = document.getElementById('textOptIn');
-        var optOutPara = document.getElementById('textOptOut');
-        var optInLabel = document.getElementById('labelOptIn');
-        var optOutLabel = document.getElementById('labelOptOut');
-
-        // Hide the checkbox
-        checkbox.style.display = 'none';
-        optInPara.style.display = 'none';
-        optOutPara.style.display = 'none';
-        optInLabel.style.display = 'none';
-        optOutLabel.style.display = 'none';
     }
 
     if (errorType != null) {
@@ -123,30 +156,53 @@ function getDomain(url)
 {
     return url.replace(/^http[s]?:\/\//, '').replace(/\/.*/, '');
 }
+// Strips off protocol and trailing path and URL params
+function getHostName(url)
+{
+    // scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
+    var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
+        matches = e.exec(url);
+
+    return matches ? matches[1] : url;
+}
 
 // Listener for initialization message from parent window
 // This will tell us the initial state the form should be in
 // based on the first-party cookie value (which we can't access directly)
 window.addEventListener('message', function(e) {
-    try {
-        var data = JSON.parse(e.data);
-    } catch (e) {
+    var data = getDataIfMessageIsForThisFrame(e);
+    if (!data) {
         return;
     }
 
-    if (typeof data.maq_opted_in == 'undefined' 
-        || typeof data.maq_url == 'undefined'
-        || typeof data.maq_optout_by_default == 'undefined'
+    if (typeof data.maq_opted_in !== 'undefined'
+        && typeof data.maq_url !== 'undefined'
+        && typeof data.maq_optout_by_default !== 'undefined'
     ) {
-        return;
-    }
+        // Cancel the interval so that we don't keep sending requests to the parent
+        if (initializationTimer) {
+            clearInterval(initializationTimer);
+        }
 
-    var okToDisplay = checkForWarnings(data);
-
-    if (okToDisplay) {
         updateText(data.maq_opted_in);
-    }
 
-    // Cancel the interval so that we don't keep sending requests to the parent
-    clearInterval(initializationTimer);
+        if (!navigator.cookieEnabled && !data.maq_optout_by_default) {
+            // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
+            var errorPara = document.getElementById('textError_cookies');
+            errorPara.style.display = 'block';
+
+            var checkbox = document.getElementById('trackVisits');
+            var optInPara = document.getElementById('textOptIn');
+            var optOutPara = document.getElementById('textOptOut');
+            var optInLabel = document.getElementById('labelOptIn');
+            var optOutLabel = document.getElementById('labelOptOut');
+
+            // Hide the checkbox
+            checkbox.style.display = 'none';
+            optInPara.style.display = 'none';
+            optOutPara.style.display = 'none';
+            optInLabel.style.display = 'none';
+            optOutLabel.style.display = 'none';
+        }
+    }
 });

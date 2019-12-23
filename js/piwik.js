@@ -7773,6 +7773,19 @@ if (typeof window.Piwik !== 'object') {
                 return;
             }
 
+            function postMessageToCorrectFrame(postMessage){
+                // Find the iframe with the right URL to send it back to
+                var iframes = documentAlias.getElementsByTagName('iframe');
+                for (i = 0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+                    var iframeHost = getHostName(iframe.src);
+
+                    if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
+                        iframe.contentWindow.postMessage(postMessage, '*');
+                    }
+                }
+            }
+
             // This listener can process two kinds of messages
             // 1) maq_initial_value => sent by optout iframe when it finishes loading.  Passes the value of the third
             // party opt-out cookie (if set) - we need to use this and any first-party cookies that are present to
@@ -7787,17 +7800,9 @@ if (typeof window.Piwik !== 'object') {
                     maq_optout_by_default: tracker.isConsentRequired()
                 };
 
-                // Find the iframe with the right URL to send it back to
-                var iframes = documentAlias.getElementsByTagName('iframe');
-                for (i = 0; i < iframes.length; i++) {
-                    var iframe = iframes[i];
-                    var iframeHost = getHostName(iframe.src);
-
-                    if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
-                        iframe.contentWindow.postMessage(JSON.stringify(optOutStatus), '*');
-                    }
-                }
+                postMessageToCorrectFrame(JSON.stringify(optOutStatus));
             } else if (isDefined(data.maq_opted_in)) {
+                // perform the opt in or opt out...
                 trackers = Piwik.getAsyncTrackers();
                 for (i = 0; i < trackers.length; i++) {
                     tracker = trackers[i];
@@ -7807,6 +7812,15 @@ if (typeof window.Piwik !== 'object') {
                         tracker.forgetConsentGiven();
                     }
                 }
+
+                // Make a message to tell the optout iframe about the current state
+                var optOutStatus = {
+                    maq_confirm_opted_in: tracker.hasConsent(),
+                    maq_url: tracker.getPiwikUrl(),
+                    maq_optout_by_default: tracker.isConsentRequired()
+                };
+
+                postMessageToCorrectFrame(JSON.stringify(optOutStatus));
             }
         });
 
