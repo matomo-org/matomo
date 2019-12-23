@@ -186,8 +186,10 @@ class GeoIP2AutoUpdater extends Task
             $fileToExtract = null;
             foreach ($content as $info) {
                 $archivedPath = $info['filename'];
-                if (in_array(basename($archivedPath), LocationProviderGeoIp2::$dbNames[$dbType])) {
-                    $fileToExtract = $archivedPath;
+                foreach (LocationProviderGeoIp2::$dbNames[$dbType] as $dbName) {
+                    if (basename($archivedPath) === $dbName || preg_match($dbName, basename($archivedPath))) {
+                        $fileToExtract = $archivedPath;
+                    }
                 }
             }
 
@@ -215,7 +217,8 @@ class GeoIP2AutoUpdater extends Task
         } else if (substr($path, -3, 3) == '.gz') {
             $unzip = Unzip::factory('gz', $path);
 
-            $dbFilename = basename($path);
+            $dbFilename = substr(basename($path), 0, -3);
+
             $tempFilename = $dbFilename . '.new';
             $outputPath = self::getTemporaryFolder($tempFilename);
 
@@ -467,6 +470,10 @@ class GeoIP2AutoUpdater extends Task
             } else {
                 $ext = reset($filenameParts);
             }
+        }
+
+        if ('mmdb.gz' === $ext) {
+            $ext = 'gz';
         }
 
         self::checkForSupportedArchiveType($ext);

@@ -38,7 +38,7 @@ abstract class GeoIp2 extends LocationProvider
      * @var array
      */
     public static $dbNames = array(
-        'loc' => array('GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb'),
+        'loc' => array('GeoIP2-City.mmdb', 'dbip-city-lite-\d{4}-\d{2}.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'dbip-country-lite-\d{4}-\d{2}.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb'),
         'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb'),
     );
 
@@ -178,7 +178,7 @@ abstract class GeoIp2 extends LocationProvider
     {
         foreach (self::$dbNames as $key => $names) {
             foreach ($names as $name) {
-                if ($name === $filename) {
+                if ($name === $filename || preg_match('/'.$name.'/', $filename)) {
                     return $key;
                 }
             }

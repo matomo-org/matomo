@@ -99,11 +99,15 @@ class Php extends GeoIp2
                 switch ($reader->metadata()->databaseType) {
                     case 'GeoLite2-Country':
                     case 'GeoIP2-Country':
+                    case 'DBIP-Country-Lite':
+                    case 'DBIP-Country':
                         $lookupResult = $reader->country($ip);
                         $this->setCountryResults($lookupResult, $result);
                         break;
                     case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
+                    case 'DBIP-City-Lite':
+                    case 'DBIP-City':
                     case 'GeoIP2-City':
                     case 'GeoIP2-City-Africa':
                     case 'GeoIP2-City-Asia-Pacific':
@@ -233,6 +237,8 @@ class Php extends GeoIp2
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoLite2-City':
+                case 'DBIP-City-Lite':
+                case 'DBIP-City':
                 case 'GeoIP2-City':
                 case 'GeoIP2-City-Africa':
                 case 'GeoIP2-City-Asia-Pacific':
@@ -282,14 +288,19 @@ class Php extends GeoIp2
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 
+        $availableInfo = $this->getSupportedLocationInfo();
+
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoLite2-City.mmdb']) !== false) {
+
+        if (isset($availableInfo[self::CITY_NAME_KEY]) && $availableInfo[self::CITY_NAME_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
-        if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
+
+        if (isset($availableInfo[self::COUNTRY_NAME_KEY]) && $availableInfo[self::COUNTRY_NAME_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Country');
         }
-        if (self::getPathToGeoIpDatabase(self::$dbNames['isp']) !== false) {
+
+        if (isset($availableInfo[self::ISP_KEY]) && $availableInfo[self::ISP_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
         }
 
