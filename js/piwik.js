@@ -7781,7 +7781,8 @@ if (typeof window.Piwik !== 'object') {
                     var iframeHost = getHostName(iframe.src);
 
                     if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
-                        iframe.contentWindow.postMessage(postMessage, '*');
+                        var jsonMessage = JSON.stringify(postMessage);
+                        iframe.contentWindow.postMessage(jsonMessage, '*');
                     }
                 }
             }
@@ -7794,13 +7795,12 @@ if (typeof window.Piwik !== 'object') {
             // our first-party cookie.
             if (isDefined(data.maq_initial_value)) {
                 // Make a message to tell the optout iframe about the current state
-                var optOutStatus = {
+
+                postMessageToCorrectFrame({
                     maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
                     maq_url: tracker.getPiwikUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
-                };
-
-                postMessageToCorrectFrame(JSON.stringify(optOutStatus));
+                });
             } else if (isDefined(data.maq_opted_in)) {
                 // perform the opt in or opt out...
                 trackers = Piwik.getAsyncTrackers();
@@ -7814,13 +7814,11 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 // Make a message to tell the optout iframe about the current state
-                var optOutStatus = {
+                postMessageToCorrectFrame({
                     maq_confirm_opted_in: tracker.hasConsent(),
                     maq_url: tracker.getPiwikUrl(),
                     maq_optout_by_default: tracker.isConsentRequired()
-                };
-
-                postMessageToCorrectFrame(JSON.stringify(optOutStatus));
+                });
             }
         });
 

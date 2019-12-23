@@ -1,5 +1,42 @@
-function checkCorrectlyUnsubscribed() {
+// Strips off protocol and trailing path and URL params
+function getDomain(url)
+{
+    return url.replace(/^http[s]?:\/\//, '').replace(/\/.*/, '');
+}
 
+// Strips off protocol and trailing path and URL params
+function getHostName(url)
+{
+    // scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
+    var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
+        matches = e.exec(url);
+
+    return matches ? matches[1] : url;
+}
+
+function isOptIn() {
+    return document.getElementById('trackVisits').checked;
+}
+
+/**
+ * Check for common error conditions (cases where we know the optout will not work) and warning conditions (cases
+ * where the optout may not work on some browsers).  Displays a message if warning/error conditions are encountered,
+ * and also hides the checkbox in the case of an error condition.
+ * @param obj message The message as received from the tracking JS
+ * @returns {boolean} Whether we should display the checkbox and the optin/optout text.  Returns false if an error
+ * condition was encountered, otherwise true.
+ */
+function showWarningIfHttp()
+{
+    var optOutUrl = window.location.href;
+    var isHttp = optOutUrl && optOutUrl.indexOf('http:') === 0;
+
+    if (isHttp) {
+        var errorPara = document.getElementById('textError_https');
+        if (errorPara) {
+            errorPara.style.display = 'block';
+        }
+    }
 }
 
 function getDataIfMessageIsForThisFrame(e){
@@ -26,21 +63,27 @@ function getDataIfMessageIsForThisFrame(e){
     return data;
 }
 
+
 function submitForm(e, form) {
     // Find out whether checkbox is turned on
-    var optedIn = document.getElementById('trackVisits').checked;
+    var optedIn = isOptIn();
+    var hasOptOutChangeWorkedThroughPostMessage = null;
 
     // Send a message to the parent window so that it can set a first-party cookie (a fallback in case
     // third-party cookies are not permitted by the browser).
     if (typeof parent === 'object' && typeof parent.postMessage !== 'undefined') {
         window.addEventListener('message', function(e) {
             var data = getDataIfMessageIsForThisFrame(e);
-            if (!data) {
+            if (!data || typeof data.maq_confirm_opted_in === 'undefined') {
                 return;
             }
 
-            if (typeof data.maq_confirm_opted_in !== 'undefined' && optedIn != data.maq_confirm_opted_in) {
-                checkForWarnings(data); // looks like opt out did not work...
+            var optedIn = isOptIn(); // need to get value again as otherwise might be changed
+            hasOptOutChangeWorkedThroughPostMessage = optedIn == data.maq_confirm_opted_in;
+            if (!hasOptOutChangeWorkedThroughPostMessage) {
+                // looks like opt out or opt in did maybe not work...
+                // this might be IF eg the Matomo instance trackerUrl on the page does not match the Matomo instance optOut url...
+                showWarningIfHttp();
             }
         });
 
@@ -57,14 +100,25 @@ function submitForm(e, form) {
     var now = Date.now ? Date.now() : (+(new Date())); // Date.now does not exist in < IE8
     var openedWindow = window.open(form.action + '&time=' + now);
 
-    var checkWindowClosedInterval;
-    checkWindowClosedInterval = setInterval(function() {
-        if (openedWindow && openedWindow.closed) {
-            clearInterval(checkWindowClosedInterval);
-            checkWindowClosedInterval = null;
-            checkCorrectlyUnsubscribed();
+    if (openedWindow) {
+        var checkWindowClosedInterval;
+        checkWindowClosedInterval = setInterval(function() {
+            if (openedWindow.closed) {
+                clearInterval(checkWindowClosedInterval);
+                checkWindowClosedInterval = null;
+                if (!hasOptOutChangeWorkedThroughPostMessage) {
+                    // this is not always 100% correct but better show a warning if post message hasn't completed by now.
+                    // Technically, the postMessage should finish before the window.open but this might not always be the case
+                    showWarningIfHttp();
+                }
+            }
+        }, 200);
+    } else {
+        var errorPara = document.getElementById('textError_popupBlocker');
+        if (errorPara) {
+            errorPara.style.display = 'block';
         }
-    }, 200);
+    }
 
     return false;
 }
@@ -97,74 +151,49 @@ var initializationTimer = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     var trackVisitsCheckbox = document.getElementById('trackVisits');
-    if (typeof trackVisitsCheckbox === "undefined") trackVisitsCheckbox.addEventListener('click', function(event) { submitForm(event, this.form); });
-    var initiallyChecked = trackVisitsCheckbox.checked;
+    if (trackVisitsCheckbox && typeof parent === 'object') {
+        var initiallyChecked = trackVisitsCheckbox.checked;
 
-    // Ask the parent window to send us initial state of the optout cookie so that we can display the form correctly
-    var numAttempts = 0;
-    function checkParentTrackerLoaded() {
-        var message = {maq_initial_value: initiallyChecked};
-        parent.postMessage(JSON.stringify(message), '*');
-        numAttempts++;
-        // 0.15 times per second * 800 = 2 minutes
-        // If the tracker JS hasn't finished loading by now, it ain't gonna, so let's stop trying
-        if (numAttempts > 800) {
-            clearInterval(initializationTimer);
-            initializationTimer = null;
-            checkForWarnings();
+        // Ask the parent window to send us initial state of the optout cookie so that we can display the form correctly
+        var numAttempts = 0;
+        function checkParentTrackerLoaded() {
+            var message = {maq_initial_value: initiallyChecked};
+            parent.postMessage(JSON.stringify(message), '*');
+            numAttempts++;
+            // 0.15 times per second * 1200 = 3 minutes
+            // If the tracker JS hasn't finished loading by now, it ain't gonna, so let's stop trying
+            if (numAttempts > 1200) {
+                clearInterval(initializationTimer);
+                initializationTimer = null;
+            }
         }
-    }
 
-    initializationTimer = setInterval(checkParentTrackerLoaded, 150);
+        initializationTimer = setInterval(checkParentTrackerLoaded, 150);
+    }
 });
 
-/**
- * Check for common error conditions (cases where we know the optout will not work) and warning conditions (cases
- * where the optout may not work on some browsers).  Displays a message if warning/error conditions are encountered,
- * and also hides the checkbox in the case of an error condition.
- * @param obj message The message as received from the tracking JS
- * @returns {boolean} Whether we should display the checkbox and the optin/optout text.  Returns false if an error
- * condition was encountered, otherwise true.
- */
-function checkForWarnings(message)
-{
-    var optOutUrl = window.location.href;
-    var isHttps = optOutUrl && optOutUrl.indexOf('https') === 0;
-    var optOutDomain = getDomain(optOutUrl);
-    var matomoDomain = getDomain(message.maq_url);
+(function () {
+    if (navigator && !navigator.cookieEnabled) {
+        // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
+        var errorPara = document.getElementById('textError_cookies');
+        if (errorPara) {
+            errorPara.style.display = 'block';
+        }
 
-    var errorType = null;
-    var isError = false;
-    if (!isHttps) {
-        // Warning condition: not on HTTPS. On some browsers the third-party opt-out cookie won't work.
-        errorType = 'https';
-    } else if (optOutDomain !== matomoDomain) {
-        // Warning condition: mismatched domains for optout and Matomo JS scripts. Cookies may not work as expected.
-        errorType = 'domains';
+        var checkbox = document.getElementById('trackVisits');
+        var optInPara = document.getElementById('textOptIn');
+        var optOutPara = document.getElementById('textOptOut');
+        var optInLabel = document.getElementById('labelOptIn');
+        var optOutLabel = document.getElementById('labelOptOut');
+
+        // Hide the checkbox
+        checkbox.style.display = 'none';
+        optInPara.style.display = 'none';
+        optOutPara.style.display = 'none';
+        optInLabel.style.display = 'none';
+        optOutLabel.style.display = 'none';
     }
-
-    if (errorType != null) {
-        var errorPara = document.getElementById('textError_' + errorType);
-        errorPara.style.display = 'block';
-    }
-    
-    return !isError;
-}
-
-// Strips off protocol and trailing path and URL params
-function getDomain(url)
-{
-    return url.replace(/^http[s]?:\/\//, '').replace(/\/.*/, '');
-}
-// Strips off protocol and trailing path and URL params
-function getHostName(url)
-{
-    // scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
-    var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
-        matches = e.exec(url);
-
-    return matches ? matches[1] : url;
-}
+})();
 
 // Listener for initialization message from parent window
 // This will tell us the initial state the form should be in
@@ -185,24 +214,5 @@ window.addEventListener('message', function(e) {
         }
 
         updateText(data.maq_opted_in);
-
-        if (!navigator.cookieEnabled && !data.maq_optout_by_default) {
-            // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
-            var errorPara = document.getElementById('textError_cookies');
-            errorPara.style.display = 'block';
-
-            var checkbox = document.getElementById('trackVisits');
-            var optInPara = document.getElementById('textOptIn');
-            var optOutPara = document.getElementById('textOptOut');
-            var optInLabel = document.getElementById('labelOptIn');
-            var optOutLabel = document.getElementById('labelOptOut');
-
-            // Hide the checkbox
-            checkbox.style.display = 'none';
-            optInPara.style.display = 'none';
-            optOutPara.style.display = 'none';
-            optInLabel.style.display = 'none';
-            optOutLabel.style.display = 'none';
-        }
     }
 });
