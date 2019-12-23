@@ -147,9 +147,34 @@ function updateText(optedIn) {
     }
 }
 
+function showWarningIfCookiesDisabled() {
+    if (navigator && !navigator.cookieEnabled) {
+        // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
+        var errorPara = document.getElementById('textError_cookies');
+        if (errorPara) {
+            errorPara.style.display = 'block';
+        }
+
+        var checkbox = document.getElementById('trackVisits');
+        var optInPara = document.getElementById('textOptIn');
+        var optOutPara = document.getElementById('textOptOut');
+        var optInLabel = document.getElementById('labelOptIn');
+        var optOutLabel = document.getElementById('labelOptOut');
+
+        // Hide the checkbox
+        checkbox.style.display = 'none';
+        optInPara.style.display = 'none';
+        optOutPara.style.display = 'none';
+        optInLabel.style.display = 'none';
+        optOutLabel.style.display = 'none';
+    }
+}
+
 var initializationTimer = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+    showWarningIfCookiesDisabled();
+    
     var trackVisitsCheckbox = document.getElementById('trackVisits');
     if (trackVisitsCheckbox && typeof parent === 'object') {
         var initiallyChecked = trackVisitsCheckbox.checked;
@@ -171,29 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initializationTimer = setInterval(checkParentTrackerLoaded, 150);
     }
 });
-
-(function () {
-    if (navigator && !navigator.cookieEnabled) {
-        // Error condition: cookies disabled and Matomo not configured to opt the user out by default = they can't opt out
-        var errorPara = document.getElementById('textError_cookies');
-        if (errorPara) {
-            errorPara.style.display = 'block';
-        }
-
-        var checkbox = document.getElementById('trackVisits');
-        var optInPara = document.getElementById('textOptIn');
-        var optOutPara = document.getElementById('textOptOut');
-        var optInLabel = document.getElementById('labelOptIn');
-        var optOutLabel = document.getElementById('labelOptOut');
-
-        // Hide the checkbox
-        checkbox.style.display = 'none';
-        optInPara.style.display = 'none';
-        optOutPara.style.display = 'none';
-        optInLabel.style.display = 'none';
-        optOutLabel.style.display = 'none';
-    }
-})();
 
 // Listener for initialization message from parent window
 // This will tell us the initial state the form should be in
