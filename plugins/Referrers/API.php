@@ -204,7 +204,7 @@ class API extends \Piwik\Plugin\API
             'expanded' => true,
             'disable_generic_filters' => true,
             'disable_queued_filters' => true,
-            '_setReferrerTypeLabel' => false,
+            '_setReferrerTypeLabel' => 0,
         ], []);
 
         if ($dataTable instanceof DataTable\Map) {
