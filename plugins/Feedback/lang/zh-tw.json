@@ -16,12 +16,19 @@
         "ThankYou": "謝謝你協助我們使 Matomo 變得更好！",
         "TopLinkTooltip": "請分享你的意見，或要求專業支援。",
         "ViewAnswersToFAQ": "查看%1$s常見問題集%2$s的答案。",
+        "FAQs": "問與答",
         "ViewUserGuides": "查看我們的%1$s使用者指南%2$s以了解如何設定 Matomo 及如何有效分你的資料。",
+        "UserGuides": "使用者指南",
         "CommunityHelp": "社區協助",
         "ProfessionalHelp": "專業協助",
         "ProfessionalServicesOfferIntro": "你可以獲得哪些服務？",
         "ContactUs": "聯絡我們",
         "VisitTheForums": "訪問%1$s論壇%2$s從社區中的 Matomo 使用者中取得協助。",
-        "Forums": "論壇"
+        "Forums": "論壇",
+        "ReviewMatomoTitle": "信任 Matomo 嗎？",
+        "PleaseLeaveExternalReviewForMatomo": "在這些網站上分享你的評價，讓更多人加入我們的資料革命。",
+        "HowCanWeHelp": "我們如何協助你？",
+        "SearchHelpResources": "搜尋 matomo.org 上的說明資源",
+        "PopularHelpTopics": "熱門的說明主題"
     }
 }

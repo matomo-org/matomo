@@ -15,8 +15,6 @@
         "EcommerceHelp": "Quando ativado, o relatório de \"Objetivos\" terá uma nova secção de \"Comércio eletrónico\".",
         "EnableEcommerce": "Comércio eletrónico ativado",
         "EnableSiteSearch": "Acompanhamento de pesquisas do site ativado",
-        "EnableSiteSpecificUserAgentExclude": "Ativar exclusão específica de agente de utilizador no site",
-        "EnableSiteSpecificUserAgentExclude_Help": "Se necessitar de excluir agentes de utilizador diferentes para sites diferentes, marque esta caixa, clique guardar e %1$sadicione os agentes do utilizador acima%2$s.",
         "ExceptionDeleteSite": "Não é possível eliminar este site dado ser o único site registado. Primeiro, adicione um novo site e depois elimine este.",
         "ExceptionEmptyName": "O nome do site não pode ficar vazio.",
         "ExceptionInvalidCurrency": "A moeda \"%1$s\" não é válida. Por favor, introduza um símbolo de moeda válido (por exemplo, %2$s)",

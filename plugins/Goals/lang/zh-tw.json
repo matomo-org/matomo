@@ -108,9 +108,13 @@
         "VisitPageTitle": "訪問特定的網頁標題",
         "VisitsUntilConv": "訪問次數轉換",
         "VisitUrl": "訪問特定網址（網頁或網頁群組）",
+        "VisitDurationMatchAttr": "停留超過一定時間",
+        "VisitDuration": "訪問停留時間是",
         "WhenVisitors": "當訪客",
         "WhereThe": "符合",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "所訪問的頁面必須包含呼叫 JavaScript 的「trackGoal」方法（%1$s了解更多%2$s）",
-        "YouCanEnableEcommerceReports": "你可以在 %2$s 頁面為這個網站啟用 %1$s。"
+        "YouCanEnableEcommerceReports": "你可以在 %2$s 頁面為這個網站啟用 %1$s。",
+        "GoalRevenue": "目標收益",
+        "TimeInMinutes": "以分鐘計時"
     }
 }

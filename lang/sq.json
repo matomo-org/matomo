@@ -111,7 +111,7 @@
         "ConfigFileIsNotWritable": "Kartela për formësimin e Matomo-s %1$s s’është e shkrueshme, disa nga ndryshimet tuaja mund të mos ruhen dot. %2$s Ju lutemi, ndryshoni lejet mbi kartelën e formësimit për ta bërë të shkrueshshme.",
         "Continue": "Vazhdo",
         "ContinueToPiwik": "Vazhdoni te Matomo",
-        "CurrentlyUsingUnsecureHttp": "Po e përdorni Matomo-n përmes HTTP-je jo të sigurt, çka mund të jetë e rrezikshme. Për shtim të sigurisë, këshillojmë ta rregulloni Matomo-n të përdorë SSL (HTTPS).",
+        "CurrentlyUsingUnsecureHttp": "Po e përdorni Matomo-n përmes HTTP-je jo të sigurt. Kjo mund ta bëjë Matomo-n tuaj të cenueshëm kundrejt shfrytëzimit të kësaj për komprometim të sigurisë. Mundet të gjendeni edhe në rrethana shkeljeje të ligjeve mbi privatësinë, ngaqë disa veçori, përfshi <em>cookies<\/em> për <em>opt-out<\/em> s’do të funksionojnë. Për siguri të përmirësuar, këshillojmë ta ujdisni Matomo-n të përdorë SSL (HTTPS).",
         "CreatedByUser": "krijuar nga %s",
         "CurrentMonth": "Muaji i Tanishëm",
         "CurrentWeek": "Java e Tanishme",

@@ -43,14 +43,12 @@ describe("UnprocessedSegmentTest", function () {
     it("should show a notification for unprocessed segments", async function () {
         await page.goto(url + '&segment=' + encodeURIComponent(segment));
 
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('unprocessed_segment');
+        expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('unprocessed_segment');
     });
 
     it('should not show a notification for custom segments that are not preprocessed', async function () {
         await page.goto(url + '&segment=' + encodeURIComponent(customSegment));
 
-        pageWrap = await page.$('.pageWrap');
-        expect(await pageWrap.screenshot()).to.matchImage('custom_segment');
+        expect(await page.screenshotSelector('.pageWrap,#notificationContainer')).to.matchImage('custom_segment');
     });
 });

@@ -3,6 +3,7 @@
         "AllReferrersReportDocumentation": "Este informe muestra todas las Referencias en un solo informe enumerando todos los sitios de internet, las palabras claves y las campañas que utilizan sus visitantes para encontrar su sitio.",
         "Campaigns": "Campañas",
         "CampaignsDocumentation": "Visitantes que visitaron su sitio web como resultado de una campaña. %1$s Vea el informe %2$s para más detalles.",
+        "CampaignsReportDocumentation": "Este reporte muestra que campañas llevaron a visitantes a tu sitio de internet.",
         "ColumnCampaign": "Campaña",
         "CampaignPageUrlHelp": "La URL de la página para esta campaña, por ejemplo, 'http:\/\/example.org\/offer.html'.",
         "CampaignNameHelp": "Elija un nombre que describa para qué se creó la campaña y que distingue su campaña de sus otras campañas. Por ejemplo, 'Email-SummerDeals' o 'PaidAds-SummerDeals'.",
@@ -25,6 +26,7 @@
         "DistinctSearchEngines": "motores de búsqueda distintos",
         "DistinctSocialNetworks": "redes sociales distintas",
         "DistinctWebsites": "páginas de internet distintas",
+        "DistinctWebsiteUrls": "URLs de sitios de internet distintos",
         "EvolutionDocumentation": "Esta es una viste general de las páginas de internet externas que condujeron visitantes a su sitio de internet.",
         "EvolutionDocumentationMoreInfo": "Para mayor información acerca de los diferentes tipos de canales, ve la documentación de la tabla %s.",
         "Keywords": "Palabras claves",
@@ -67,6 +69,12 @@
         "WidgetSocials": "Lista de redes sociales",
         "WidgetTopKeywordsForPages": "Principales palabras clave para el URL de página",
         "XPercentOfVisits": "%s de visitas",
-        "Acquisition": "Adquisición"
+        "Acquisition": "Adquisición",
+        "VisitorsFromSearchEngines": "Visitantes de Motores de Búsqueda",
+        "PercentOfX": "Porcentaje de %s",
+        "VisitorsFromSocialNetworks": "Visitantes de Redes Sociales",
+        "VisitorsFromDirectEntry": "Visitantes de Entrada Directa",
+        "VisitorsFromWebsites": "Visitantes de Sitios de Internet",
+        "VisitorsFromCampaigns": "Visitantes de Campañas"
     }
 }

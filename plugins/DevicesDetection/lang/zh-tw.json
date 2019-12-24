@@ -1,5 +1,6 @@
 {
     "DevicesDetection": {
+        "BotDetected": "此 User Agent 被判斷為 %1$s。 來自此 User Agent 的訪問預設將不會被 Matomo 記錄。",
         "BrowserEngine": "瀏覽器核心",
         "BrowserEngineDocumentation": "這份報表顯示訪客所使用瀏覽器的核心。%s 對於網頁開發者來說了解使用者的瀏覽器核心是最重要事情。所有瀏覽器核心的名稱後方都會標示出該核心中最廣泛運用的瀏覽器。",
         "BrowserEngines": "瀏覽器核心",
@@ -11,6 +12,7 @@
         "CarBrowser": "車用顯示器",
         "Software": "軟體",
         "ColumnBrowser": "瀏覽器",
+        "BrowserCode": "瀏覽器代號",
         "ColumnOperatingSystem": "作業系統",
         "ColumnOperatingSystemVersion": "作業系統版本",
         "Console": "主控台",
@@ -30,11 +32,13 @@
         "FeaturePhone": "功能型手機",
         "OperatingSystemFamilies": "作業系統家族",
         "OperatingSystemFamily": "作業系統家族",
+        "OperatingSystemCode": "作業系統代號",
         "OperatingSystems": "作業系統",
         "OperatingSystemVersions": "作業系統版本",
         "PluginDescription": "提供使用者裝置的更多資訊，如品牌（製造商）、型號（版本）、類型（電視、手機或電腦等等）及更多。",
         "SmartDisplay": "智慧型電視",
         "Smartphone": "智慧型手機",
+        "SmartSpeaker": "智慧音箱",
         "PortableMediaPlayer": "可攜式媒體播放器",
         "Devices": "裝置",
         "GenericDevice": "通用 %s",

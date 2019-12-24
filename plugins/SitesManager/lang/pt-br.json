@@ -15,8 +15,6 @@
         "EcommerceHelp": "Quando ativado, o relatório de \"Metas\" você terá uma nova seção \"Ecommerce\".",
         "EnableEcommerce": "Ecommerce ativado",
         "EnableSiteSearch": "Ativado o rastreamento de pesquisas no site.",
-        "EnableSiteSpecificUserAgentExclude": "Ativar exclusão de User Agent específico no website.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Se você precisa excluir diferentes user agents para sites distintos, marque esta caixa, clique em salvar e %1$sadicione os user agents acima%2$s.",
         "ExceptionDeleteSite": "Não é possível excluir este site já que ele é o único site registrado. Adicione um novo site primeiro, depois exclua este.",
         "ExceptionEmptyName": "O nome do site não pode ficar vazio.",
         "ExceptionInvalidCurrency": "A moeda \"%1$s\" não é válida. Por favor inserir um símbolo monetário válido (ex. %2$s)",

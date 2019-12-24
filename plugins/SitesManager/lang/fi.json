@@ -15,8 +15,6 @@
         "EcommerceHelp": "Kun tämä on käytössä, \"Tavoitteet\"-raporttiin tulee uusi \"Verkkokauppa\"-osio.",
         "EnableEcommerce": "Verkkokauppa käytössä",
         "EnableSiteSearch": "Sivuhaun seuranta aktivoitu",
-        "EnableSiteSpecificUserAgentExclude": "Mahdollista verkkosivukohtainen käyttäjäagenttien poissulkeminen.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Jos haluat sulkea pois eri käyttäjäagentteja eri verkkosivuilla, rastita tämä ruutu, klikkaa tallenna ja %1$slisää käyttäjäagentit yläpuolelle%2$s.",
         "ExceptionDeleteSite": "Sivua ei voi poistaa, sillä se on ainoa rekisteröity sivu. Lisää ensin uusi sivu.",
         "ExceptionEmptyName": "Sivun nimi ei voi olla tyhjä.",
         "ExceptionInvalidCurrency": "Valuutta \"%1$s\" ei kelpaa. Valitse oikea valuutan symboli (esim. %2$s)",
