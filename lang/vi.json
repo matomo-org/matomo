@@ -94,7 +94,6 @@
         "ConfigFileIsNotWritable": "Tập tin cấu hình Matomo %1$s không ghi, một số thay đổi của bạn có thể không được lưu. %2$s Hãy cho phép thay đổi các tập tin cấu hình để làm cho nó có thể ghi",
         "Continue": "Tiếp tục",
         "ContinueToPiwik": "Tiếp tục đến Matomo",
-        "CurrentlyUsingUnsecureHttp": "Bạn hiện đang sử dụng Matomo qua kết nối HTTP không an toàn, điều này có thể gặp rủi ro. Chúng tôi khuyên bạn nên thiết lập Matomo để sử dụng SSL (HTTPS) để tăng cường bảo mật.",
         "CreatedByUser": "đã tạo bởi %s",
         "CurrentMonth": "Tháng này",
         "CurrentWeek": "Tuần này",

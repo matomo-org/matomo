@@ -10,6 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
 use Piwik\Version;
@@ -19,7 +21,7 @@ use Piwik\Version;
  *
  * If a value that needs to be stored is an array, will insert a new row for each value of this array.
  */
-class PluginSettingsTable implements BackendInterface
+class PluginSettingsTable extends BaseSettingsTable
 {
     /**
      * @var string
@@ -31,13 +33,10 @@ class PluginSettingsTable implements BackendInterface
      */
     private $userLogin;
 
-    /**
-     * @var Db\AdapterInterface
-     */
-    private $db;
-
     public function __construct($pluginName, $userLogin)
     {
+        parent::__construct();
+
         if (empty($pluginName)) {
             throw new Exception('No plugin name given for PluginSettingsTable backend');
         }
@@ -50,14 +49,6 @@ class PluginSettingsTable implements BackendInterface
         $this->userLogin = $userLogin;
     }
 
-    private function initDbIfNeeded()
-    {
-        if (!isset($this->db)) {
-            // we do not want to create a db connection on backend creation
-            $this->db = Db::get();
-        }
-    }
-
     /**
      * @inheritdoc
      */
@@ -68,20 +59,18 @@ class PluginSettingsTable implements BackendInterface
 
     /**
      * Saves (persists) the current setting values in the database.
+     * @param array $values Key/value pairs of setting values to be written
      */
     public function save($values)
     {
         $this->initDbIfNeeded();
 
-        $table = $this->getTableName();
-
-        $this->delete();
+        $valuesKeep = array();
 
         foreach ($values as $name => $value) {
             if (!isset($value)) {
                 continue;
             }
-
             if (is_array($value) || is_object($value)) {
                 $jsonEncoded = 1;
                 $value = json_encode($value);
@@ -94,11 +83,20 @@ class PluginSettingsTable implements BackendInterface
                 }
             }
 
-            $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
-            $bind = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
-
-            $this->db->query($sql, $bind);
+            $valuesKeep[] = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
         }
+
+        $columns = array('plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded');
+
+        $table = $this->getTableName();
+        $lockKey = $this->getStorageId();
+        $this->lock->execute($lockKey, function() use ($valuesKeep, $table, $columns) {
+            $this->delete();
+            // No values = nothing to save
+            if (!empty($valuesKeep)) {
+                Db\BatchInsert::tableInsertBatchSql($table, $columns, $valuesKeep);
+            }
+        });
     }
 
     private function jsonEncodedMissingError(Exception $e)
@@ -145,7 +143,7 @@ class PluginSettingsTable implements BackendInterface
         return $flat;
     }
 
-    private function getTableName()
+    protected function getTableName()
     {
         return Common::prefixTable('plugin_setting');
     }

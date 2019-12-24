@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "Matomos konfigurationsfil %1$s er skrivebeskyttet, så nogle af ændringerne vil ikke blive gemt. %2$s Skift rettigheder til konfigurationsfilen for at gøre den skrivebar.",
         "Continue": "Fortsæt",
         "ContinueToPiwik": "Fortsæt til Matomo",
-        "CurrentlyUsingUnsecureHttp": "Du bruger i øjeblikket Matomo på en usikker HTTP-forbindelse, hvilket kan være risikabelt. Vi anbefaler, at du sætter Matomo op til at bruge SSL (HTTPS) for at øge sikkerheden.",
         "CreatedByUser": "oprettet af %s",
         "CurrentMonth": "Denne måned",
         "CurrentWeek": "Nuværende uge",

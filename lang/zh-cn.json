@@ -111,7 +111,6 @@
         "ConfigFileIsNotWritable": "Matomo 配置文件 %1$s 无法写入，无法保存部分修改。%2$s 请修改配置文件的权限为可写。",
         "Continue": "继续",
         "ContinueToPiwik": "继续使用Matomo",
-        "CurrentlyUsingUnsecureHttp": "目前您正使用不安全的HTTP环境下使用Matomo， 这将为您带来风险。我们建议您使用SLL（HTTPS）配置Matomo以增强访问的安全性。",
         "CreatedByUser": "版权所有 %s",
         "CurrentMonth": "本月",
         "CurrentWeek": "本周",

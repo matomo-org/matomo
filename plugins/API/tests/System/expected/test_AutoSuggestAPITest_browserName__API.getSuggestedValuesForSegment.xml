@@ -8,6 +8,7 @@
 	<row>ANT Fresco</row>
 	<row>ANTGalio</row>
 	<row>Aloha Browser</row>
+	<row>Aloha Browser Lite</row>
 	<row>Amaya</row>
 	<row>Amigo</row>
 	<row>Android Browser</row>
@@ -18,17 +19,20 @@
 	<row>Atomic Web Browser</row>
 	<row>Avast Secure Browser</row>
 	<row>Beaker Browser</row>
+	<row>Beamrise</row>
 	<row>BlackBerry Browser</row>
 	<row>Baidu Browser</row>
 	<row>Baidu Spark</row>
 	<row>Basilisk</row>
 	<row>Beonex</row>
+	<row>BlackHawk</row>
 	<row>Bunjalloo</row>
 	<row>B-Line</row>
 	<row>Brave</row>
 	<row>BriskBard</row>
 	<row>BrowseX</row>
 	<row>Camino</row>
+	<row>CCleaner</row>
 	<row>Coc Coc</row>
 	<row>Comodo Dragon</row>
 	<row>Coast</row>
@@ -42,10 +46,12 @@
 	<row>Chrome Mobile</row>
 	<row>CoolNovo</row>
 	<row>CometBird</row>
+	<row>COS Browser</row>
 	<row>ChromePlus</row>
 	<row>Chromium</row>
 	<row>Cyberfox</row>
 	<row>Cheshire</row>
+	<row>Crusta</row>
 	<row>Cunaguaro</row>
 	<row>Chrome Webview</row>
 	<row>dbrowser</row>
@@ -59,8 +65,12 @@
 	<row>Epic</row>
 	<row>Elinks</row>
 	<row>Element Browser</row>
+	<row>eZ Browser</row>
+	<row>EUI Browser</row>
 	<row>GNOME Web</row>
 	<row>Espial TV Browser</row>
+	<row>Falkon</row>
+	<row>Faux Browser</row>
 	<row>Firefox Mobile iOS</row>
 	<row>Firebird</row>
 	<row>Fluid</row>
@@ -99,6 +109,7 @@
 	<row>K-meleon</row>
 	<row>Konqueror</row>
 	<row>Kapiko</row>
+	<row>Kinza</row>
 	<row>Kiwi</row>
 	<row>Kylo</row>
 	<row>Kazehakase</row>
@@ -109,14 +120,17 @@
 	<row>LuaKit</row>
 	<row>Lunascape</row>
 	<row>Lynx</row>
+	<row>mCent</row>
 	<row>MicroB</row>
 	<row>NCSA Mosaic</row>
+	<row>Meizu Browser</row>
 	<row>Mercury</row>
 	<row>Mobile Safari</row>
 	<row>Midori</row>
 	<row>Mobicip</row>
 	<row>MIUI Browser</row>
 	<row>Mobile Silk</row>
+	<row>Minimo</row>
 	<row>Mint Browser</row>
 	<row>Maxthon</row>
 	<row>Nokia Browser</row>
@@ -143,6 +157,7 @@
 	<row>Opera Next</row>
 	<row>Opera Touch</row>
 	<row>Oregano</row>
+	<row>Origyn Web Browser</row>
 	<row>Openwave Mobile Browser</row>
 	<row>OmniWeb</row>
 	<row>Otter Browser</row>
@@ -171,27 +186,37 @@
 	<row>SEMC-Browser</row>
 	<row>Sogou Explorer</row>
 	<row>Safari</row>
+	<row>SalamWeb</row>
 	<row>Shiira</row>
+	<row>SimpleBrowser</row>
 	<row>Skyfire</row>
 	<row>Seraphic Sraf</row>
 	<row>Sleipnir</row>
 	<row>Snowshoe</row>
 	<row>Sogou Mobile Browser</row>
+	<row>Splash</row>
 	<row>Sputnik Browser</row>
 	<row>Sunrise</row>
 	<row>SuperBird</row>
+	<row>Super Fast Browser</row>
 	<row>Streamy</row>
 	<row>Swiftfox</row>
 	<row>Seznam Browser</row>
+	<row>t-online.de Browser</row>
+	<row>Tao Browser</row>
 	<row>TenFourFox</row>
 	<row>Tenta Browser</row>
 	<row>Tizen Browser</row>
 	<row>TweakStyle</row>
+	<row>UBrowser</row>
 	<row>UC Browser</row>
 	<row>UC Browser Mini</row>
+	<row>UC Browser Turbo</row>
+	<row>Uzbl</row>
 	<row>Vivaldi</row>
 	<row>vivo Browser</row>
 	<row>Vision Mobile Browser</row>
+	<row>Wear Internet Browser</row>
 	<row>Web Explorer</row>
 	<row>WebPositive</row>
 	<row>Waterfox</row>
@@ -199,6 +224,7 @@
 	<row>wOSBrowser</row>
 	<row>WeTab Browser</row>
 	<row>Yandex Browser</row>
+	<row>Yandex Browser Lite</row>
 	<row>Xiino</row>
 	<row>Unknown</row>
 </result>

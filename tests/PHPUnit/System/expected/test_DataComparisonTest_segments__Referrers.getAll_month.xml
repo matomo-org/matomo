@@ -19,7 +19,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<referer_type>3</referer_type>
+		<referer_type>Websites</referer_type>
 		<comparisons>
 			<row>
 				<nb_visits>1</nb_visits>
@@ -99,7 +99,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<referer_type>3</referer_type>
+		<referer_type>Websites</referer_type>
 		<comparisons>
 			<row>
 				<nb_visits>1</nb_visits>

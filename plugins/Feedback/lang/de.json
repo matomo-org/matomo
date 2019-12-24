@@ -36,12 +36,12 @@
         "RemindMeLater": "Erinnere mich später daran",
         "NeverAskMeAgain": "Nie mehr fragen",
         "HowCanWeHelp": "Wie können wir helfen?",
-        "NotTrackingVisits": "Matamo zeichnet keinerlei Besuche auf",
-        "TrackMultipleSites": "Ich möchte mehrer Seiten oder Subdomains aufzeichnen",
-        "RemoveOtherLabel": "Ich moöchte meine 'Anderen' Daten sehen",
-        "PurgeOldData": "I möchte einige alte Daten entfernen",
-        "SearchHelpResources": "Matamo.org Hilfequellen durchsuchen",
-        "PopularHelpTopics": "Beliebet Hilfethemen",
+        "NotTrackingVisits": "Matomo zeichnet keine Besuche auf",
+        "TrackMultipleSites": "Ich möchte mehrere Seiten oder Subdomains aufzeichnen",
+        "RemoveOtherLabel": "Ich möchte meine 'anderen' Daten sehen",
+        "PurgeOldData": "Ich möchte einige alte Daten entfernen",
+        "SearchHelpResources": "matomo.org Hilfequellen durchsuchen",
+        "PopularHelpTopics": "Beliebte Hilfethemen",
         "SearchOnMatomo": "Suche '%1$s' auf Matomo.org"
     }
 }

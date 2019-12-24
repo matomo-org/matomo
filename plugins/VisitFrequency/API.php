@@ -49,7 +49,7 @@ class API extends \Piwik\Plugin\API
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         /** @var \Piwik\DataTable\DataTableInterface $resultSet */
-        $resultSet = new DataTable();
+        $resultSet = new DataTable\Simple();
 
         foreach ($visitTypes as $columnSuffix => $visitorTypeSegment) {
             $modifiedSegment = $this->appendVisitorTypeSegment($segment, $visitorTypeSegment);

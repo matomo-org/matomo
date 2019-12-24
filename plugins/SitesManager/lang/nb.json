@@ -14,8 +14,6 @@
         "EcommerceHelp": "Når aktivert vil «Mål»-rapporten ha en ny E-handelsseksjon.",
         "EnableEcommerce": "E-handel aktivert",
         "EnableSiteSearch": "Sporing av sidesøk aktivert",
-        "EnableSiteSpecificUserAgentExclude": "Aktiver nettstedsspesifikk ekskludering av brukeragenter.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Hvis du må ekskludere ulike brukeragenter for ulike nettsteder, huk av denne boksen, klikk lagre og %1$slegg til brukeragentene over%2$s.",
         "ExceptionDeleteSite": "Det er ikke mulig å slette dette nettstedet, da det er det eneste registrerte nettstedet. Legg til et nytt nettsted, og slett deretter dette.",
         "ExceptionEmptyName": "Nettstedets navn kan ikke være tomt.",
         "ExceptionInvalidCurrency": "Valutaen «%1$s» er ikke gyldig. Vennligst skriv inn et gyldig valutasymbol (f.eks %2$s)",
