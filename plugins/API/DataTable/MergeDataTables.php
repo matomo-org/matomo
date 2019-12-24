@@ -14,7 +14,7 @@ use Piwik\DataTable;
 class MergeDataTables
 {
     /**
-     * Merge the columns of two data tables.
+     * Merge the columns of two data tables. Only takes into consideration the first row of each table.
      * Manipulates the first table.
      *
      * @param DataTable|DataTable\Map $table1 The table to eventually filter.

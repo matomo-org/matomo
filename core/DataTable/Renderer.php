@@ -124,7 +124,7 @@ abstract class Renderer extends BaseFactory
     /**
      * Set the DataTable to be rendered
      *
-     * @param DataTable|Simple|DataTable\Map $table table to be rendered
+     * @param DataTableInterface $table table to be rendered
      * @throws Exception
      */
     public function setTable($table)
