@@ -19,6 +19,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
 		<segment>referrerType==search</segment>
+		<referrer_type>2</referrer_type>
 		<subtable>
 			<row>
 				<label>purchase</label>
@@ -60,6 +61,7 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
 		<segment>referrerType==website</segment>
+		<referrer_type>3</referrer_type>
 		<subtable>
 			<row>
 				<label>referrer.com</label>
