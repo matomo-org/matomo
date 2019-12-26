@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8692e933623d6cb39415bcbe5186b5c",
+    "content-hash": "3d99d35ca04c2630aa60587ece9195de",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1176,16 +1176,16 @@
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-ini.git",
-                "reference": "6dec8e1f7f31ed6c3656eb997e771f23a1bdf2e1"
+                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/6dec8e1f7f31ed6c3656eb997e771f23a1bdf2e1",
-                "reference": "6dec8e1f7f31ed6c3656eb997e771f23a1bdf2e1",
+                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/663d4fdedd8f344407fd1599e623f41912fe2ebd",
+                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd",
                 "shasum": ""
             },
             "require": {
@@ -1193,12 +1193,12 @@
             },
             "require-dev": {
                 "athletic/athletic": "0.1.*",
-                "phpunit/phpunit": "^4.8.36"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Matomo\\Ini\\": "src/"
+                    "Piwik\\Ini\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1206,7 +1206,7 @@
                 "LGPL-3.0"
             ],
             "abandoned": "matomo/ini",
-            "time": "2019-11-06T19:06:07+00:00"
+            "time": "2019-12-21T20:06:47+00:00"
         },
         {
             "name": "piwik/network",
