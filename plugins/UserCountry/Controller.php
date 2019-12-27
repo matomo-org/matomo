@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Http;
+use Piwik\Date;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
@@ -225,6 +226,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($this->isGeoIp2Enabled()) {
             // Get GeoIPLegacy Update information to show them
             $urls = GeoIPAutoUpdater::getConfiguredUrls();
+            $today = Date::today();
 
             $view->geoIPLegacyLocUrl = $urls['loc'];
             $view->geoIPLegacyIspUrl = $urls['isp'];
@@ -237,8 +239,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->geoIPIspUrl = $urls['isp'];
             $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
 
-            $view->geoLiteUrl = GeoIp2::GEO_LITE_URL;
-            $view->geoLiteFilename = 'GeoLite2-City.mmdb';
+            $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+            $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+            $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
             $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
 
             $lastRunTime = GeoIP2AutoUpdater::getLastRunTime();

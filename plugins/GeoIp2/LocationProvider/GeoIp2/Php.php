@@ -23,7 +23,7 @@ use Piwik\Plugins\Marketplace\Api\Exception;
 class Php extends GeoIp2
 {
     const ID = 'geoip2php';
-    const TITLE = 'GeoIP 2 (Php)';
+    const TITLE = 'DBIP / GeoIP 2 (Php)';
 
     /**
      * The GeoIP2 reader instances used. This array will contain at most two

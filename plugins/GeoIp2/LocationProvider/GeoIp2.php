@@ -10,6 +10,7 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -38,9 +39,18 @@ abstract class GeoIp2 extends LocationProvider
      * @var array
      */
     public static $dbNames = array(
-        'loc' => array('GeoIP2-City.mmdb', 'dbip-city-lite-\d{4}-\d{2}.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'dbip-country-lite-\d{4}-\d{2}.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb'),
+        'loc' => array('GeoIP2-City.mmdb', 'DBIP-City.mmdb', 'DBIP-City-Lite.mmdb', 'DBIP-Country-Lite.mmdb', 'DBIP-Country.mmdb',
+            'dbip-city-lite-\d{4}-\d{2}.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb',
+            'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb',
+            'dbip-country-lite-\d{4}-\d{2}.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb'),
         'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb'),
     );
+
+    public static function getDbIpLiteUrl()
+    {
+        $today = Date::today();
+        return "https://download.db-ip.com/free/dbip-city-lite-{$today->toString('Y-m')}.mmdb.gz";
+    }
 
     /**
      * Returns true if this provider has been setup correctly, the error message if not.
@@ -54,7 +64,7 @@ abstract class GeoIp2 extends LocationProvider
         try {
             $supportedInfo = $this->getSupportedLocationInfo();
 
-            list($testIp, $expectedResult) = self::getTestIpAndResult();
+            list($testIp, $expectedResult) = $this->getTestIpAndResult();
 
             // get location using test IP
             $location = $this->getLocation(array('ip' => $testIp));
@@ -136,12 +146,11 @@ abstract class GeoIp2 extends LocationProvider
      *
      * @return array eg. array('1.2.3.4', array(self::COUNTRY_CODE_KEY => ...))
      */
-    private static function getTestIpAndResult()
+    protected function getTestIpAndResult()
     {
         static $result = null;
         if (is_null($result)) {
             $expected = array(self::COUNTRY_CODE_KEY => 'FR',
-                self::REGION_CODE_KEY  => 'BFC',
                 self::CITY_NAME_KEY    => 'Besançon');
             $result = array(self::TEST_IP, $expected);
         }
