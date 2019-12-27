@@ -29,6 +29,7 @@ use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to automatically update installed GeoIP 2 databases, and manages the updater's
@@ -56,8 +57,11 @@ class GeoIP2AutoUpdater extends Task
      */
     public function __construct()
     {
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         if (!SettingsPiwik::isInternetEnabled()) {
             // no automatic updates possible if no internet available
+            $logger->info("Internet is disabled in INI config, cannot update GeoIP database.");
             return;
         }
 
@@ -122,12 +126,17 @@ class GeoIP2AutoUpdater extends Task
      */
     protected function downloadFile($dbType, $url)
     {
+        $logger = StaticContainer::get(LoggerInterface::class);
+
         $url = trim($url);
+        if ($this->isDbIpUrl($url)) {
+            $url = $this->getDbIpUrlWithLatestDate($url);
+        }
 
         $ext = GeoIP2AutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
-        $zippedFilename = LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
+        $zippedFilename = $this->getZippedFilenameToDownloadTo($url, $dbType, $ext);
 
         $zippedOutputPath = self::getTemporaryFolder($zippedFilename);
 
@@ -135,6 +144,11 @@ class GeoIP2AutoUpdater extends Task
 
         // download zipped file to misc dir
         try {
+            $logger->info("Downloading {url} to {output}.", [
+                'url' => $url,
+                'output' => $zippedOutputPath,
+            ]);
+
             $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
         } catch (Exception $ex) {
             throw new Exception("GeoIP2AutoUpdater: failed to download '$url' to "
@@ -652,5 +666,28 @@ class GeoIP2AutoUpdater extends Task
             return Date::factory($rescheduledTime)->subMonth(1);
         }
         throw new Exception("Unknown GeoIP 2 updater period found in database: %s", $updaterPeriod);
+    }
+
+    private function getZippedFilenameToDownloadTo($url, $dbType, $ext)
+    {
+        if ($this->isDbIpUrl($url)) {
+            preg_match('/(dbip-[a-zA-Z0-9_]+)(?:-lite)?-\d{4}-\d{2}/', $url, $matches);
+            $parts = explode('-', $matches[1]);
+            $filename = strtoupper($parts[0]) . '-' . ucfirst($parts[1]) . '.mmdb.' . $ext;
+            return $filename;
+        }
+
+        return LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
+    }
+
+    private function getDbIpUrlWithLatestDate($url)
+    {
+        $today = Date::today();
+        return preg_replace('/-\d{4}-\d{2}\./', '-' . $today->toString('Y-m') . '.', $url);
+    }
+
+    private function isDbIpUrl($url)
+    {
+        return !! preg_match('/\/dbip-/', $url);
     }
 }
