@@ -318,6 +318,11 @@ class Tracker
         PluginManager::getInstance()->setTrackerPluginsNotToLoad($pluginsDisabled);
     }
 
+    public function shouldOutputTrackerConfigs()
+    {
+        return Common::getRequestVar('configs', 0, 'int') == 1;
+    }
+
     protected function loadTrackerPlugins()
     {
         try {
