@@ -113,7 +113,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
 
         if ($this->isGeoIp2Enabled()) {
-            return $this->downloadFreeGeoIP2DB();
+            return $this->downloadFreeDBIPLiteDB();
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -149,7 +149,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Starts or continues download of GeoLite2-City.mmdb.
+     * Starts or continues download of DBIP-City.mmdb.
      *
      * To avoid a server/PHP timeout & to show progress of the download to the user, we
      * use the HTTP Range header to download one chunk of the file at a time. After each
@@ -165,17 +165,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *   'next_screen' - When the download finishes, this is the next screen that should be shown.
      *   'error' - When an error occurs, the message is returned in this property.
      */
-    public function downloadFreeGeoIP2DB()
+    public function downloadFreeDBIPLiteDB()
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
             Json::sendHeaderJSON();
-            $outputPath = GeoIp2::getPathForGeoIpDatabase('GeoLite2-City.tar') . '.gz';
+            $outputPath = GeoIp2::getPathForGeoIpDatabase('DBIP-City.mmdb') . '.gz';
             try {
                 $result = Http::downloadChunk(
-                    $url = GeoIp2::GEO_LITE_URL,
+                    $url = GeoIp2::getDbIpLiteUrl(),
                     $outputPath,
                     $continue = Common::getRequestVar('continue', true, 'int')
                 );
@@ -192,9 +192,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                     // setup the auto updater
                     GeoIP2AutoUpdater::setUpdaterOptions(array(
-                                                             'loc' => GeoIp2::GEO_LITE_URL,
-                                                             'period' => GeoIP2AutoUpdater::SCHEDULE_PERIOD_MONTHLY,
-                                                        ));
+                         'loc' => GeoIp2::getDbIpLiteUrl(),
+                         'period' => GeoIP2AutoUpdater::SCHEDULE_PERIOD_MONTHLY,
+                    ));
 
                     $result['settings'] = GeoIP2AutoUpdater::getConfiguredUrls();
                 }

@@ -146,7 +146,7 @@
                                         <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
                                     </div>
                                     <div class="geoipdb-column-2 col s6">
-                                        <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>')|raw }}</p>
+                                        <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/">','</a>')|raw }}</p>
                                     </div>
                                     <div class="geoipdb-column-1 col s6">
                                         <input type="button" class="btn"
@@ -163,7 +163,7 @@
                         </div>
                         <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
                             <div piwik-progressbar
-                                 label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">'~geoLiteFilename~'</a>') ~ '...')|json_encode }}"
+                                 label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
                                  progress="locationUpdater.progressFreeDownload">
                             </div>
                         </div>
