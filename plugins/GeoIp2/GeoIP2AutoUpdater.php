@@ -201,7 +201,9 @@ class GeoIP2AutoUpdater extends Task
             foreach ($content as $info) {
                 $archivedPath = $info['filename'];
                 foreach (LocationProviderGeoIp2::$dbNames[$dbType] as $dbName) {
-                    if (basename($archivedPath) === $dbName || preg_match($dbName, basename($archivedPath))) {
+                    if (basename($archivedPath) === $dbName
+                        || preg_match('/' . $dbName . '/', basename($archivedPath))
+                    ) {
                         $fileToExtract = $archivedPath;
                     }
                 }
