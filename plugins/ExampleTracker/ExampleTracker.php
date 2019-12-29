@@ -8,6 +8,26 @@
  */
 namespace Piwik\Plugins\ExampleTracker;
 
+use Piwik\Common;
+
 class ExampleTracker extends \Piwik\Plugin
 {
+    public function getListHooksRegistered()
+    {
+        return [
+            'Tracker.getTrackerConfigs' => 'getTrackerConfigs',
+        ];
+    }
+
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    public function getTrackerConfigs(&$configs)
+    {
+        $configs['ExampleTracker'] = [
+            'randomValue' => Common::getRandomInt(0, 100),
+        ];
+    }
 }

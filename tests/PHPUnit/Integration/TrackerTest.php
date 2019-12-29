@@ -12,13 +12,16 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tests\Framework\Mock\Tracker\Handler;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
 use Piwik\Tracker;
 use Piwik\Tracker\Request;
 
@@ -145,7 +148,7 @@ class TrackerTest extends IntegrationTestCase
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());
-        
+
         //always reset on the test itself
         $this->restoreConfigFile();
     }
@@ -408,6 +411,36 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, $this->getReturningVisitorCount());
     }
 
+    public function test_TrackerGetsConfigIfRequested()
+    {
+        $testingEnvironment = new TestingEnvironmentVariables();
+        $testingEnvironment->pluginsToLoad = ['ExampleTracker'];
+        $testingEnvironment->save();
+
+        Fixture::createWebsite('2015-01-01 00:00:00');
+
+        // get config w/ action
+        $t = self::$fixture->getTracker($idSite = 1, '2015-01-01', $defaultInit = true);
+        $t->setForceVisitDateTime('2015-08-06 07:53:09');
+        $t->setNewVisitorId();
+        $t->setCustomTrackingParameter('configs', 1);
+
+        $response = $t->doTrackPageView('page view');
+        $expected = '{"ExampleTracker":{"randomValue":%d}}';
+        $this->assertStringMatchesFormat($expected, $response);
+
+        $this->assertEquals(1, $this->getVisitCount());
+
+        // tracking request without params
+        $url = Fixture::getTrackerUrl() . '?configs=1&idsite=1';
+        $response = Http::sendHttpRequest($url, $timeout = 1);
+
+        $expected = '{"ExampleTracker":{"randomValue":%d}}';
+        $this->assertStringMatchesFormat($expected, $response);
+
+        $this->assertEquals(1, $this->getVisitCount());
+    }
+
     private function getDefaultHandler()
     {
         return new Tracker\Handler();
@@ -483,6 +516,20 @@ class TrackerTest extends IntegrationTestCase
         parent::configureFixture($fixture);
 
         $fixture->createSuperUser = true;
+        $fixture->extraPluginsToLoad = ['ExampleTracker'];
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Environment.bootstrapped', function () {
+                    // hack to get the plugin to load during tracking
+                    Manager::getInstance()->loadPlugin('ExampleTracker');
+                    Manager::getInstance()->installLoadedPlugins();
+                }],
+            ]),
+        ];
     }
 }
 
