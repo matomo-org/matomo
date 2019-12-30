@@ -21,6 +21,8 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
  */
 class Updates_3_13_1_b2 extends PiwikUpdates
 {
+    const GEO_LITE_COUNTRY_URL = 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz';
+
     /**
      * @var MigrationFactory
      */
@@ -34,9 +36,11 @@ class Updates_3_13_1_b2 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $optionTable = Common::prefixTable('option');
-        $migration = $this->migration->db->boundSql("UPDATE $optionTable SET option_value = ? WHERE option_name = ? AND option_value = ?",
+        $migration1 = $this->migration->db->boundSql("UPDATE $optionTable SET option_value = ? WHERE option_name = ? AND option_value = ?",
             [GeoIp2::getDbIpLiteUrl(), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, GeoIp2::GEO_LITE_URL]);
-        return [$migration];
+        $migration2 = $this->migration->db->boundSql("UPDATE $optionTable SET option_value = ? WHERE option_name = ? AND option_value = ?",
+            [GeoIp2::getDbIpLiteUrl('country'), GeoIP2AutoUpdater::LOC_URL_OPTION_NAME, self::GEO_LITE_COUNTRY_URL]);
+        return [$migration1, $migration2];
     }
 
     public function doUpdate(Updater $updater)

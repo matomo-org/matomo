@@ -48,10 +48,10 @@ abstract class GeoIp2 extends LocationProvider
         'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb'),
     );
 
-    public static function getDbIpLiteUrl()
+    public static function getDbIpLiteUrl($type = 'city')
     {
         $today = Date::today();
-        return "https://download.db-ip.com/free/dbip-city-lite-{$today->toString('Y-m')}.mmdb.gz";
+        return "https://download.db-ip.com/free/dbip-{$type}-lite-{$today->toString('Y-m')}.mmdb.gz";
     }
 
     /**
