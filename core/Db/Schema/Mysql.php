@@ -10,7 +10,6 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
@@ -313,7 +312,7 @@ class Mysql implements SchemaInterface
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
             'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
-                                      `key` VARCHAR(".Lock::MAX_KEY_LEN.") NOT NULL,
+                                      `key` VARCHAR(70) NOT NULL,
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)
