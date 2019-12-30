@@ -3260,7 +3260,19 @@ if (typeof window.Piwik !== 'object') {
                 consentRequestsQueue = [],
 
                 // a unique ID for this tracker during this request
-                uniqueTrackerId = trackerIdCounter++;
+                uniqueTrackerId = trackerIdCounter++,
+
+                // TODO
+                extraTrackerConfigByPlugin = null,
+
+                // TODO
+                extraTrackerConfigCallbacks = [],
+
+                // TODO
+                isAlreadyFetchingExtraConfig = false,
+
+                // TODO
+                loadExtraConfigEncounteredError = false;
 
             // Document title
             try {
@@ -7606,6 +7618,83 @@ if (typeof window.Piwik !== 'object') {
              */
             this.isUserOptedOut = function () {
                 return !configHasConsent;
+            };
+
+            /**
+             * TODO
+             * @param callback
+             */
+            function loadExtraConfig(callback) { // TODO: move to appropriate location
+                extraTrackerConfigCallbacks.push(callback);
+
+                if (isAlreadyFetchingExtraConfig) {
+                    return;
+                }
+
+                isAlreadyFetchingExtraConfig = true;
+
+                var getConfigsUrl = // TODO (include trackerId + configJsonp (+ server side logic))
+
+                var script = documentAlias.createElement('script');
+                script.async = true;
+                script.defer = true;
+                script.onerror = function () {
+                    loadExtraConfigEncounteredError = true;
+                };
+                script.src = getConfigsUrl;
+                // timeout may reduce the risk of delaying onload event
+                setTimeout(function () {
+                    var head = documentAlias.getElementsByTagName('head');
+                    if (head && head.length && head[0]) {
+                        head[0].appendChild(script);
+                    } else {
+                        var body = documentAlias.getElementsByTagName('body');
+                        if (body && body.length && body[0]) {
+                            body[0].appendChild(script);
+                        }
+                    }
+                }, 10);
+            }
+
+            /**
+             * TODO
+             *
+             * @param {string} trackerId
+             * @param {object} config
+             */
+            this.setExtraConfig = function (trackerId, config) {
+                if (uniqueTrackerId !== trackerId) {
+                    return;
+                }
+
+                var callbacks = extraTrackerConfigCallbacks;
+                extraTrackerConfigCallbacks = [];
+
+                var isError = loadExtraConfigEncounteredError;
+                loadExtraConfigEncounteredError = false;
+
+                var err = isError ? new Error('unable to load config') : null;
+
+                callbacks.forEach(function () {// TODO: foreach ok to call?
+                    callback(err, config);
+                });
+            };
+
+            /**
+             * TODO
+             *
+             * @param {string} plugin TODO
+             * @param {Function} callback TODO
+             */
+            this.getExtraConfig = function (plugin, callback) {
+                if (extraTrackerConfigByPlugin !== null) {
+                    callback(null, extraTrackerConfigByPlugin[plugin] || {});
+                    return;
+                }
+
+                loadExtraConfig(function (err, config) {
+                    callback(err, config[plugin] || {});
+                });
             };
 
             /**
