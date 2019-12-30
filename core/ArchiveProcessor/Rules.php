@@ -112,7 +112,7 @@ class Rules
         return $doneFlags;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(
+    public static function getMinTimeProcessedForInProgressArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
