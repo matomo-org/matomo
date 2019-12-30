@@ -68,7 +68,7 @@ class TagManagerTeaser
         Option::delete(self::DISABLE_GLOBALLY_KEY);
 
         // no need to keep any old login entries
-        $this->getTable()->delete();
+        $this->getTable()->save(array());
     }
 
     public function isEnabledGlobally()
