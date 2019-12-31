@@ -143,7 +143,7 @@ class VisitorRecognizer
 
         // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
         // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-        if (($isVisitorIdToLookup || $isForcedUserIdMustMatch) && $this->trustCookiesOnly) {
+        if ($isVisitorIdToLookup && $this->trustCookiesOnly) {
             return true;
         }
 

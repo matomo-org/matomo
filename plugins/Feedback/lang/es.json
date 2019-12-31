@@ -16,10 +16,15 @@
         "ThankYou": "¡Gracias por ayudarnos a hacer Matomo aun mejor!",
         "TopLinkTooltip": "Danos tu opinión o solicita Soporte Profesional",
         "ViewAnswersToFAQ": "Ver respuestas a las %1$sPreguntas frecuentes%2$s",
+        "FAQs": "FAQs",
         "ViewUserGuides": "Aprenda a configurar Matomo y analizar sus datos de modo eficaz con nuestras %1$sguías de usuario%2$s",
+        "UserGuides": "Guías de usuario",
         "CommunityHelp": "Ayuda comunitaria",
         "ProfessionalHelp": "Ayuda profesional",
         "ProfessionalServicesOfferIntro": "¿De qué servicios puedes beneficiarte?",
+        "ProfessionalServicesDedicatedSupport": "Soporte de un miembro dedicado del equipo de Matomo en cada etapa del camino",
+        "ProfessionalServicesSupport": "Servicio de solicitudes en linea 24\/7",
+        "ProfessionalServicesTraining": "Acceso exclusivo a videos de entrenamiento de Matomo",
         "ProfessionalServicesEmailAlerts": "Alertas por correo electrónico de comunicados de seguridad de Matomo",
         "ContactUs": "Contáctanos",
         "VisitTheForums": "Visite el %1$sForo%2$s y obtenga ayuda de la comunidad de usuarios Matomo",
@@ -27,6 +32,14 @@
         "ReviewMatomoTitle": "¿Crées en Matomo?",
         "PleaseLeaveExternalReviewForMatomo": "Comparte sus pensamientos en uno de estos sitios e inspira a otros a unirse en nuestra revolución de datos.",
         "RemindMeLater": "Recordármelo nuevamente",
-        "NeverAskMeAgain": "No volver a preguntármelo"
+        "NeverAskMeAgain": "No volver a preguntármelo",
+        "HowCanWeHelp": "¿Cómo podemos ayudar?",
+        "NotTrackingVisits": "Matomo no esta rastreando ninguna visita",
+        "TrackMultipleSites": "Necesito rastrear multiples sitios o sub dominios",
+        "RemoveOtherLabel": "Quiero ver mi información de 'Otros'",
+        "PurgeOldData": "Quiero remover información obsoleta",
+        "SearchHelpResources": "Buscar recursos de ayuda en matomo.org",
+        "PopularHelpTopics": "Temas de ayuda populares",
+        "SearchOnMatomo": "Busca '%1$s' en Matomo.org"
     }
 }

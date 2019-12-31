@@ -76,6 +76,9 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $template = '@Live/_actionEcommerce.twig';
                 break;
             case 'goal':
+                if (empty($action['goalName'])) {
+                    return; // goal deleted
+                }
                 $template = '@Live/_actionGoal.twig';
                 break;
             case 'action':

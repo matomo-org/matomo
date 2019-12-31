@@ -295,8 +295,17 @@ class Visualization extends ViewDataTable
     {
         $hasData = false;
         $dataTable->filter(function (DataTable $table) use (&$hasData) {
-            if ($table->getRowsCount() > 0) {
-                $hasData = true;
+            if ($hasData || $table->getRowsCount() == 0) {
+                return;
+            }
+
+            foreach ($table->getRows() as $row) {
+                foreach ($row->getColumns() as $column => $value) {
+                    if ($value != 0 && $value !== '0%') {
+                        $hasData = true;
+                        return;
+                    }
+                }
             }
         });
         return $hasData;
@@ -323,8 +332,12 @@ class Visualization extends ViewDataTable
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 
+        $proxyRequestParams = array_merge($request, [
+            'disable_root_datatable_post_processor' => 1,
+        ]);
+
         $class     = ApiRequest::getClassNameAPI($module);
-        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $dataTable = Proxy::getInstance()->call($class, $method, $proxyRequestParams);
 
         $response = new ResponseBuilder($format = 'original', $request);
         $response->disableSendHeader();
@@ -511,7 +524,6 @@ class Visualization extends ViewDataTable
         $postProcessor->setCallbackAfterGenericFilters(function (DataTable\DataTableInterface $dataTable) use ($self) {
 
             $self->setDataTable($dataTable);
-
             $self->afterGenericFiltersAreAppliedToLoadedDataTable();
 
             // queue other filters so they can be applied later if queued filters are disabled

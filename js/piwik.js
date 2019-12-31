@@ -7601,12 +7601,10 @@ if (typeof window.Piwik !== 'object') {
              * to the sites you want.
              */
             this.rememberConsentGiven = function (hoursToExpire) {
-                if (configCookiesDisabled) {
-                    logConsoleError('rememberConsentGiven is called but cookies are disabled, consent will not be remembered');
-                    return;
-                }
                 if (hoursToExpire) {
                     hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
                 this.setConsentGiven();
                 var now = new Date().getTime();
@@ -7620,11 +7618,6 @@ if (typeof window.Piwik !== 'object') {
              * want to re-ask for consent after a specific time period.
              */
             this.forgetConsentGiven = function () {
-                if (configCookiesDisabled) {
-                    logConsoleError('forgetConsentGiven is called but cookies are disabled, consent will not be forgotten');
-                    return;
-                }
-
                 var thirtyYears = 30 * 365 * 24 * 60 * 60 * 1000;
 
                 deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);

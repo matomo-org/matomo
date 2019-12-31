@@ -104,6 +104,8 @@
         "StandardReport": "標準報表",
         "FlattenReport": "平滑化報表",
         "ReportWithMetadata": "含中繼資料報表",
-        "SeeAvailableVersions": "查看可用版本"
+        "ReadMoreOnlineGuide": "在線上說明了解更多此主題",
+        "SeeAvailableVersions": "查看可用版本",
+        "QuickLinks": "快速連結"
     }
 }

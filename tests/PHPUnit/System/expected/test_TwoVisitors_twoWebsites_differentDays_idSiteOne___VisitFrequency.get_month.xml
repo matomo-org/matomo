@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2010-01">
+	<result period="2010-01">
+		<nb_uniq_visitors_new>2</nb_uniq_visitors_new>
+		<nb_users_new>0</nb_users_new>
+		<nb_visits_new>2</nb_visits_new>
+		<nb_actions_new>2</nb_actions_new>
+		<nb_visits_converted_new>0</nb_visits_converted_new>
+		<bounce_count_new>2</bounce_count_new>
+		<sum_visit_length_new>0</sum_visit_length_new>
+		<max_actions_new>1</max_actions_new>
+		<bounce_rate_new>100%</bounce_rate_new>
+		<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
+		<avg_time_on_site_new>0</avg_time_on_site_new>
 		<nb_uniq_visitors_returning>2</nb_uniq_visitors_returning>
 		<nb_users_returning>0</nb_users_returning>
 		<nb_visits_returning>9</nb_visits_returning>
@@ -13,10 +24,10 @@
 		<nb_actions_per_visit_returning>4.6</nb_actions_per_visit_returning>
 		<avg_time_on_site_returning>801</avg_time_on_site_returning>
 	</result>
-	<result date="2010-02" />
-	<result date="2010-03" />
-	<result date="2010-04" />
-	<result date="2010-05" />
-	<result date="2010-06" />
-	<result date="2010-07" />
+	<result period="2010-02" />
+	<result period="2010-03" />
+	<result period="2010-04" />
+	<result period="2010-05" />
+	<result period="2010-06" />
+	<result period="2010-07" />
 </results>

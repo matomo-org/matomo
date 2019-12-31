@@ -94,6 +94,13 @@
 		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 		<nb_users_returning>Returning Users</nb_users_returning>
+		<nb_visits_new>New Visits</nb_visits_new>
+		<nb_actions_new>Actions by New Visits</nb_actions_new>
+		<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+		<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
+		<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+		<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+		<nb_users_new>New Users</nb_users_new>
 		<nb_impressions>Impressions</nb_impressions>
 		<nb_interactions>Content Interactions</nb_interactions>
 		<interaction_rate>Interaction Rate</interaction_rate>

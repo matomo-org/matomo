@@ -104,7 +104,6 @@
         "ConfigFileIsNotWritable": "Matomo iestatījumu datne %1$s nav rakstāma, dažas no izmaiņām iespējams netiks saglabātas. %2$s Lūdzu izmainiet iestatījumu datnes atļaujas, lai tajā varētu ierakstīt.",
         "Continue": "Turpināt",
         "ContinueToPiwik": "Turpināt uz Matomo",
-        "CurrentlyUsingUnsecureHttp": "Jūs pagaidām izmantojat Matomo caur HTTP, kas var būt riskanti. Mēs rekomendējam, lai jūs nokonfigurētu Matomo, lai tas izmanto SSL (HTTPS) priekš uzlabotas drošības.",
         "CreatedByUser": "izveidojis %s",
         "CurrentMonth": "Pašreizējais mēnesis",
         "CurrentWeek": "Pašreizējā nedēļa",

@@ -114,6 +114,14 @@ class OutputTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($anyContent, $this->output->get());
     }
 
+    public function test_get_write_shouldRemoveHashBang()
+    {
+        $anyContent = "\n#!/usr/bin/env php {}";
+        $this->output->write($anyContent);
+
+        $this->assertEquals('{}', $this->output->get());
+    }
+
     public function test_write_shouldNotAppend_IfWriteIsCalledTwice()
     {
         $anyContent = 'My Actual Content';
