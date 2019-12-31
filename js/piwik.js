@@ -961,10 +961,10 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
-    cookie, domain, readyState, documentElement, doScroll, title, text,
+    cookie, domain, readyState, documentElement, doScroll, title, text, contentWindow, postMessage,
     location, top, onerror, document, referrer, parent, links, href, protocol, name, GearsFactory,
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
-    responseEnd, event, which, button, srcElement, type, target,
+    responseEnd, event, which, button, srcElement, type, target, data,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -975,6 +975,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     exec, success, trackerUrl, isSendBeacon, xhr,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag, showModalDialog,
+    maq_initial_value, maq_opted_in, maq_optout_by_default, maq_url,
     initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
@@ -986,13 +987,13 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
-    getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
-    rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
+    getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
+    setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
     discardHashTag, alwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs,
+    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
@@ -3812,9 +3813,22 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
+             * Check first-party cookies and update the <code>configHasConsent</code> value.  Ensures that any
+             * change to the user opt-in/out status in another browser window will be respected.
+             */
+            function refreshConsentStatus() {
+                if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
+                    configHasConsent = false;
+                } else if (getCookie(CONSENT_COOKIE_NAME)) {
+                    configHasConsent = true;
+                }
+            }
+
+            /*
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                refreshConsentStatus();
                 if (!configHasConsent) {
                     consentRequestsQueue.push(request);
                     return;
@@ -7469,6 +7483,16 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns whether consent is required or not.
+             *
+             * @returns boolean
+             */
+            this.isConsentRequired = function()
+            {
+                return configConsentRequired;
+            };
+
+            /**
              * If the user has given consent previously and this consent was remembered, it will return the number
              * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
              * the returned time depends on the users local time which may not always be correct.
@@ -7706,6 +7730,91 @@ if (typeof window.Piwik !== 'object') {
         // initialize the Piwik singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
+        window.addEventListener('message', function(e) {
+            if (!e || !e.origin) {
+                return;
+            }
+
+            var tracker, i, matomoHost;
+            var originHost = getHostName(e.origin);
+
+            var trackers = Piwik.getAsyncTrackers();
+            for (i = 0; i < trackers.length; i++) {
+                matomoHost = getHostName(trackers[i].getPiwikUrl());
+
+                // find the matching tracker
+                if (matomoHost === originHost) {
+                    tracker = trackers[i];
+                    break;
+                }
+            }
+
+            if (!tracker) {
+                // no matching tracker
+                // Don't accept the message unless it came from the expected origin
+                return;
+            }
+
+            var data = null;
+            try {
+                data = JSON.parse(e.data);
+            } catch (ex) {
+                return;
+            }
+
+            if (!data) {
+                return;
+            }
+
+            function postMessageToCorrectFrame(postMessage){
+                // Find the iframe with the right URL to send it back to
+                var iframes = documentAlias.getElementsByTagName('iframe');
+                for (i = 0; i < iframes.length; i++) {
+                    var iframe = iframes[i];
+                    var iframeHost = getHostName(iframe.src);
+
+                    if (iframe.contentWindow && isDefined(iframe.contentWindow.postMessage) && iframeHost === originHost) {
+                        var jsonMessage = JSON.stringify(postMessage);
+                        iframe.contentWindow.postMessage(jsonMessage, '*');
+                    }
+                }
+            }
+
+            // This listener can process two kinds of messages
+            // 1) maq_initial_value => sent by optout iframe when it finishes loading.  Passes the value of the third
+            // party opt-out cookie (if set) - we need to use this and any first-party cookies that are present to
+            // initialise the configHasConsent value and send back the result so that the display can be updated.
+            // 2) maq_opted_in => sent by optout iframe when the user changes their optout setting.  We need to update
+            // our first-party cookie.
+            if (isDefined(data.maq_initial_value)) {
+                // Make a message to tell the optout iframe about the current state
+
+                postMessageToCorrectFrame({
+                    maq_opted_in: data.maq_initial_value && tracker.hasConsent(),
+                    maq_url: tracker.getPiwikUrl(),
+                    maq_optout_by_default: tracker.isConsentRequired()
+                });
+            } else if (isDefined(data.maq_opted_in)) {
+                // perform the opt in or opt out...
+                trackers = Piwik.getAsyncTrackers();
+                for (i = 0; i < trackers.length; i++) {
+                    tracker = trackers[i];
+                    if (data.maq_opted_in) {
+                        tracker.rememberConsentGiven();
+                    } else {
+                        tracker.forgetConsentGiven();
+                    }
+                }
+
+                // Make a message to tell the optout iframe about the current state
+                postMessageToCorrectFrame({
+                    maq_confirm_opted_in: tracker.hasConsent(),
+                    maq_url: tracker.getPiwikUrl(),
+                    maq_optout_by_default: tracker.isConsentRequired()
+                });
+            }
+        });
+
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
         /************************************************************
@@ -7935,7 +8044,8 @@ if (typeof window.Piwik !== 'object') {
                     apply(missedCalls[i]);
                 }
             }
-        };
+
+    };
 
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
