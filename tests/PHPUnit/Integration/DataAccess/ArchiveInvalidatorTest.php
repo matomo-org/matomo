@@ -201,39 +201,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertSame($expected, $reports);
     }
 
-    public function test_markArchivesAsInvalidated_shouldSkipArchivingForInProgressSites()
-    {
-        /** @var ArchivingStatus $archivingStatus */
-        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-
-        $params = new Parameters(new Site(7), Factory::build('month', '2012-02-03'), new Segment('', [2]));
-        $archivingStatus->archiveStarted($params);
-
-        $params = new Parameters(new Site(5), Factory::build('day', '2012-02-03'), new Segment('', [7]));
-        $archivingStatus->archiveStarted($params);
-
-        $this->rememberReportsForManySitesAndDates();
-
-        $idSites = array(2, 10, 7, 5);
-        $dates = array(
-            Date::factory('2014-04-05'),
-            Date::factory('2014-04-08'),
-            Date::factory('2014-05-05'),
-        );
-
-        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
-        $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
-
-        $expected = array(
-            '2014-04-05' => [1,4,7],
-            '2014-04-06' => [3],
-            '2014-05-05' => [5],
-            '2014-04-08' => [7],
-            '2014-05-08' => [7],
-        );
-        $this->assertSame($expected, $reports);
-    }
-
     private function rememberReport($idSite, $date)
     {
         $date = Date::factory($date);
