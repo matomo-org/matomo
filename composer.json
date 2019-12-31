@@ -148,7 +148,8 @@
             "HTML_": "libs/",
             "PEAR_": "libs/",
             "Archive_": "libs/"
-        }
+        },
+        "files": ["LegacyAutoloader.php"]
     },
     "autoload-dev": {
         "psr-4": {
