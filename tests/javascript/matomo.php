@@ -1,6 +1,8 @@
 <?php
 // matomo.php test harness
 
+use Piwik\Common;
+
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
 	define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) . '/../..');
 }
@@ -80,22 +82,53 @@ function logRequest($db, $uri, $data) {
 }
 
 if (isset($_GET['requests'])) {
-	$token = htmlentities($_GET['requests'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
-	$ua = $_SERVER['HTTP_USER_AGENT'];
+    $token = htmlentities($_GET['requests'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+    $ua = $_SERVER['HTTP_USER_AGENT'];
 
-	echo "<html><head><title>$token</title></head><body>\n";
+    echo "<html><head><title>$token</title></head><body>\n";
 
-	$result = @$db->fetchAll("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
-	if ($result !== false) {
-		$nofRows = count($result);
-		echo "<span>$nofRows</span>\n";
+    $result = @$db->fetchAll("SELECT uri FROM requests WHERE token = \"$token\" AND ua = \"$ua\" ORDER BY ts ASC, requestid ASC");
+    if ($result !== false) {
+        $nofRows = count($result);
+        echo "<span>$nofRows</span>\n";
 
-		foreach ($result as $entry) {
-			echo "<span>". $entry['uri'] ."</span>\n";
-		}
-	}
+        foreach ($result as $entry) {
+            echo "<span>" . $entry['uri'] . "</span>\n";
+        }
+    }
 
-	echo "</body></html>\n";
+    echo "</body></html>\n";
+} else if (!empty($_REQUEST['configs']) && $_REQUEST['configs'] == 1) {
+    $timestamp = time();
+    $config = [
+        'MyPlugin' => [
+            'a' => 'b',
+            'requestSent' => $_SERVER['REQUEST_URI'],
+            'timestamp' => $timestamp,
+        ],
+        'AnotherPlugin' => [
+            'c' => 'd',
+            'requestSent' => $_SERVER['REQUEST_URI'],
+            'timestamp' => $timestamp,
+        ],
+    ];
+
+    sleep(1); // just to make sure the next request would happen in another second
+
+    if ($_REQUEST['idsite'] == 2) {
+        header("HTTP/1.0 500 Internal Server Error");
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['error' => 'test']);
+    } else if (!empty($_REQUEST['configJsonp'])) {
+        header('Content-Type: application/javascript');
+
+        $trackerId = json_encode($_REQUEST['trackerId']);
+        $config = json_encode($config);
+        echo "Piwik.setTrackerConfig($trackerId, $config);";
+    } else {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($config);
+    }
 } else {
 
 	if (!isset($_REQUEST['data'])) {

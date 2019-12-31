@@ -7622,9 +7622,10 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * TODO
-             * @param callback
+             * @param {Tracker} tracker
+             * @param {Function} callback
              */
-            function loadExtraConfig(callback) { // TODO: move to appropriate location
+            function loadExtraConfig(tracker, callback) { // TODO: move to appropriate location
                 extraTrackerConfigCallbacks.push(callback);
 
                 if (isAlreadyFetchingExtraConfig) {
@@ -7632,20 +7633,22 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 isAlreadyFetchingExtraConfig = true;
+                loadExtraConfigEncounteredError = false;
 
-                var trackerUrl = this.getPiwikUrl();
+                var trackerUrl = tracker.getPiwikUrl();
                 if (trackerUrl.substr(-1, 1) !== '/') {
                     trackerUrl += '/';
                 }
 
                 var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1&trackerId=' + uniqueTrackerId;
-                // TODO: server side logic for jsonp, plus move configs logic earlier on
 
                 var script = documentAlias.createElement('script');
                 script.async = true;
                 script.defer = true;
                 script.onerror = function () {
                     loadExtraConfigEncounteredError = true;
+
+                    callback(new Error("failed to fetch extra tracker config"));
                 };
                 script.src = getConfigsUrl;
                 // timeout may reduce the risk of delaying onload event
@@ -7669,20 +7672,15 @@ if (typeof window.Piwik !== 'object') {
              * @param {object} config
              */
             this.setExtraConfig = function (trackerId, config) {
-                if (uniqueTrackerId !== trackerId) {
+                if (uniqueTrackerId != trackerId || loadExtraConfigEncounteredError) {
                     return;
                 }
 
                 var callbacks = extraTrackerConfigCallbacks;
                 extraTrackerConfigCallbacks = [];
 
-                var isError = loadExtraConfigEncounteredError;
-                loadExtraConfigEncounteredError = false;
-
-                var err = isError ? new Error('unable to load config') : null;
-
-                callbacks.forEach(function () {// TODO: foreach ok to call?
-                    callback(err, config);
+                callbacks.forEach(function (callback) {// TODO: foreach ok to call?
+                    callback(null, config);
                 });
             };
 
@@ -7698,8 +7696,13 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                loadExtraConfig(function (err, config) {
-                    callback(err, config[plugin] || {});
+                loadExtraConfig(this, function (err, config) {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+
+                    callback(null, config[plugin] || {});
                 });
             };
 
@@ -8017,7 +8020,7 @@ if (typeof window.Piwik !== 'object') {
              * @ignore
              */
             setTrackerConfig: function (trackerId, config) {
-                getAsyncTrackers().forEach(function (tracker) {
+                this.getAsyncTrackers().forEach(function (tracker) {
                     tracker.setExtraConfig(trackerId, config);
                 });
             },

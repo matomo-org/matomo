@@ -410,7 +410,7 @@ class Tracker
             $configs = json_encode($configs);
 
             header('Content-Type: application/javascript');
-            $script = "<script>Piwik.setTrackerConfig($trackerId, $configs);</script>"; // TODO: method
+            $script = "Piwik.setTrackerConfig($trackerId, $configs);";
             echo $script;
         } else {
             Json::sendHeaderJSON();

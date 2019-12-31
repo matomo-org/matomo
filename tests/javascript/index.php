@@ -770,7 +770,51 @@ function PiwikTest() {
         strictEqual('[]', Piwik.JSON.stringify([]));
         propEqual([], Piwik.JSON.parse('[]'));
     });
-    
+
+    test("Extra tracker config", function () {
+        expect(9);
+
+        var tracker = Piwik.addTracker();
+        tracker.setTrackerUrl("matomo.php");
+        tracker.setSiteId(1);
+
+        var errorTracker = Piwik.addTracker();
+        errorTracker.setTrackerUrl("matomo.php");
+        errorTracker.setSiteId(2);
+
+        stop();
+
+        // test it returns the correct value and uses the correct request
+        var timestamp = null;
+        tracker.getExtraConfig('MyPlugin', function (err, data) {
+            strictEqual(null, err, "an error occurred while getting extra config");
+            strictEqual('number', typeof data.timestamp, "timestamp must be a number");
+
+            delete data.timestamp;
+            deepEqual({"a":"b","requestSent":"/tests/javascript//matomo.php?idsite=1&configs=1&configJsonp=1&trackerId=2"}, data, "Invalid config data for plugin.");
+        });
+
+        // test it won't send the request again after initial request
+        tracker.getExtraConfig('AnotherPlugin', function (err, data) {
+            strictEqual(null, err, "an error occurred while getting extra config");
+            strictEqual('number', typeof data.timestamp, "timestamp must be a number");
+            notStrictEqual(timestamp, data.timestamp, "timestamp changed meaning another request was sent.");
+
+            delete data.timestamp;
+            deepEqual({"c":"d","requestSent":"/tests/javascript//matomo.php?idsite=1&configs=1&configJsonp=1&trackerId=2"}, data, "Invalid config data for plugin.");
+        });
+
+        // test the error is returned when getting the config fails
+        errorTracker.getExtraConfig('SomePlugin', function (err, data) {
+            ok(!data, "data should not have been supplied on error");
+            strictEqual(err.message, "failed to fetch extra tracker config", "Error message was not as expected.");
+        });
+
+        setTimeout(function () {
+            start();
+        }, 3000);
+    });
+
     test("Query", function() {
         var tracker = Piwik.getTracker();
         var query   = tracker.getQuery();
