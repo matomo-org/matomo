@@ -83,7 +83,7 @@
     <script>
         var pkBaseURL = (("https:" == document.location.protocol) ? "https://%trackerBaseUrl%" : "http://%trackerBaseUrl%");
         try {
-            var piwikTracker = Piwik.getTracker(pkBaseURL + "matomo.php", 3);
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "matomo.php", %idSite%);
             piwikTracker.setCookieDomain('*.piwik.org');
 
             piwikTracker.trackPageView();
