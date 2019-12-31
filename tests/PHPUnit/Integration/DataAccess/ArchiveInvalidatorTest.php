@@ -8,7 +8,10 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -16,9 +19,11 @@ use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
@@ -71,7 +76,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator(new Model());
+        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()
@@ -192,6 +197,39 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2014-05-05' => array(2, 5),
             '2014-04-06' => array(3),
             '2014-05-08' => array(7),
+        );
+        $this->assertSame($expected, $reports);
+    }
+
+    public function test_markArchivesAsInvalidated_shouldSkipArchivingForInProgressSites()
+    {
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+
+        $params = new Parameters(new Site(7), Factory::build('month', '2012-02-03'), new Segment('', [2]));
+        $archivingStatus->archiveStarted($params);
+
+        $params = new Parameters(new Site(5), Factory::build('day', '2012-02-03'), new Segment('', [7]));
+        $archivingStatus->archiveStarted($params);
+
+        $this->rememberReportsForManySitesAndDates();
+
+        $idSites = array(2, 10, 7, 5);
+        $dates = array(
+            Date::factory('2014-04-05'),
+            Date::factory('2014-04-08'),
+            Date::factory('2014-05-05'),
+        );
+
+        $this->invalidator->markArchivesAsInvalidated($idSites, $dates, 'week');
+        $reports = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
+
+        $expected = array(
+            '2014-04-05' => [1,4,7],
+            '2014-04-06' => [3],
+            '2014-05-05' => [5],
+            '2014-04-08' => [7],
+            '2014-05-08' => [7],
         );
         $this->assertSame($expected, $reports);
     }

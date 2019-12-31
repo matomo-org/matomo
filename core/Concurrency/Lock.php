@@ -21,12 +21,19 @@ class Lock
 
     private $lockKey   = null;
     private $lockValue = null;
+    private $defaultTtl = null;
 
-    public function __construct(LockBackend $backend, $lockKeyStart)
+    public function __construct(LockBackend $backend, $lockKeyStart, $defaultTtl = null)
     {
         $this->backend = $backend;
         $this->lockKeyStart = $lockKeyStart;
         $this->lockKey = $this->lockKeyStart;
+        $this->defaultTtl = $defaultTtl;
+    }
+
+    public function reexpireLock()
+    {
+        $this->expireLock($this->defaultTtl);
     }
 
     public function getNumberOfAcquiredLocks()

@@ -215,25 +215,25 @@ class Request
      */
     public function process()
     {
-        // read the format requested for the output data
-        $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
-
-        $disablePostProcessing = $this->shouldDisablePostProcessing();
-
-        // create the response
-        $response = new ResponseBuilder($outputFormat, $this->request);
-        if ($disablePostProcessing) {
-            $response->disableDataTablePostProcessor();
-        }
-
-        $corsHandler = new CORSHandler();
-        $corsHandler->handle();
-
-        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
-        $shouldReloadAuth = false;
-
         try {
             ++self::$nestedApiInvocationCount;
+
+            // read the format requested for the output data
+            $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
+
+            $disablePostProcessing = $this->shouldDisablePostProcessing();
+
+            // create the response
+            $response = new ResponseBuilder($outputFormat, $this->request);
+            if ($disablePostProcessing) {
+                $response->disableDataTablePostProcessor();
+            }
+
+            $corsHandler = new CORSHandler();
+            $corsHandler->handle();
+
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
+            $shouldReloadAuth = false;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -642,6 +642,11 @@ class Request
          * @param array $request The request parameters.
          */
         Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        if (!$shouldDisable) {
+            $shouldDisable = self::isCurrentApiRequestTheRootApiRequest() &&
+                Common::getRequestVar('disable_root_datatable_post_processor', 0, 'int', $this->request) == 1;
+        }
 
         return $shouldDisable;
     }
