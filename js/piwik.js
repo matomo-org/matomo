@@ -7579,6 +7579,8 @@ if (typeof window.Piwik !== 'object') {
             this.rememberConsentGiven = function (hoursToExpire) {
                 if (hoursToExpire) {
                     hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                } else {
+                    hoursToExpire = 30 * 365 * 24 * 60 * 60 * 1000;
                 }
                 this.setConsentGiven();
                 var now = new Date().getTime();
