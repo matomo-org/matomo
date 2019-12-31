@@ -19,7 +19,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<referer_type>Websites</referer_type>
+		<referer_type>3</referer_type>
 	</row>
 	<row>
 		<label>piwik.org</label>
@@ -40,7 +40,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<referer_type>Websites</referer_type>
+		<referer_type>3</referer_type>
 	</row>
 	<row>
 		<label>sn110w.snt110.mail.live.com</label>
@@ -61,7 +61,7 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<referer_type>Websites</referer_type>
+		<referer_type>3</referer_type>
 	</row>
 	<row>
 		<label>www.test.nl</label>
@@ -82,6 +82,6 @@
 		<revenue>5</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<referer_type>Websites</referer_type>
+		<referer_type>3</referer_type>
 	</row>
 </result>
