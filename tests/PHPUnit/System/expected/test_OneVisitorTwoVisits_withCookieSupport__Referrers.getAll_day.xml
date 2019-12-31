@@ -19,7 +19,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1</revenue>
-		<referer_type>Search Engines</referer_type>
+		<referer_type>2</referer_type>
 	</row>
 	<row>
 		<label>referrer.com</label>
@@ -40,6 +40,6 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42</revenue>
-		<referer_type>Websites</referer_type>
+		<referer_type>3</referer_type>
 	</row>
 </result>
