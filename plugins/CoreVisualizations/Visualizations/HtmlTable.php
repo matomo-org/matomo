@@ -289,23 +289,18 @@ class HtmlTable extends Visualization
                 $period = 'range';
             }
 
-            $request = new ApiRequest(array(
-                'method' => 'API.get',
+            $this->siteSummary = ApiRequest::processRequest('API.get', [
                 'module' => 'API',
                 'action' => 'get',
-                'format' => 'original',
                 'filter_limit'  => '-1',
                 'disable_generic_filters' => 1,
-                'expanded'      => 0,
-                'flat'          => 0,
                 'filter_offset' => 0,
+                'date' => Common::getRequestVar('date', null, 'string'),
+                'idSite' => Common::getRequestVar('idSite', null, 'int'),
                 'period'        => $period,
                 'showColumns'   => implode(',', $this->config->columns_to_display),
                 'columns'       => implode(',', $this->config->columns_to_display),
-                'pivotBy'       => ''
-            ));
-
-            $this->siteSummary = $request->process();
+            ], $default = []);
         }
 
         return $this->siteSummary;
