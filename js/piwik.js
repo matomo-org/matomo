@@ -993,7 +993,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
-    disablePerformanceTracking, setGenerationTimeMs,
+    disablePerformanceTracking, setGenerationTimeMs, maq_confirm_opted_in,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
