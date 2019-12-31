@@ -10,6 +10,7 @@
 namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
@@ -54,9 +55,15 @@ class ArchiveInvalidator
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var ArchivingStatus
+     */
+    private $archivingStatus;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
+        $this->archivingStatus = $archivingStatus;
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
@@ -207,6 +214,7 @@ class ArchiveInvalidator
         }
 
         $periodDates = $this->getUniqueDates($periodDates);
+
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);

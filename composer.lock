@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1da88efb800e7f42bb70995f59858ac9",
+    "content-hash": "3d99d35ca04c2630aa60587ece9195de",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1121,16 +1121,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.12.1",
+            "version": "3.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76"
+                "reference": "c352144e2ab1aff81e659aa38224be987b87855b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/72630c0cc012da96fe9fb842e7af480ffa740b76",
-                "reference": "72630c0cc012da96fe9fb842e7af480ffa740b76",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c352144e2ab1aff81e659aa38224be987b87855b",
+                "reference": "c352144e2ab1aff81e659aa38224be987b87855b",
                 "shasum": ""
             },
             "require": {
@@ -1172,20 +1172,20 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2019-10-24T15:38:52+00:00"
+            "time": "2019-12-22T21:23:31+00:00"
         },
         {
             "name": "piwik/ini",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/component-ini.git",
-                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3"
+                "url": "https://github.com/matomo-org/component-ini.git",
+                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-ini/zipball/bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
-                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
+                "url": "https://api.github.com/repos/matomo-org/component-ini/zipball/663d4fdedd8f344407fd1599e623f41912fe2ebd",
+                "reference": "663d4fdedd8f344407fd1599e623f41912fe2ebd",
                 "shasum": ""
             },
             "require": {
@@ -1206,7 +1206,7 @@
                 "LGPL-3.0"
             ],
             "abandoned": "matomo/ini",
-            "time": "2016-01-14T21:13:33+00:00"
+            "time": "2019-12-21T20:06:47+00:00"
         },
         {
             "name": "piwik/network",
@@ -1242,16 +1242,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "172c68f9cd2781841a282474c8e0f695aac28933"
+                "reference": "314e6d00039cb9d99837c81cdf4cbcd19f5683e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/172c68f9cd2781841a282474c8e0f695aac28933",
-                "reference": "172c68f9cd2781841a282474c8e0f695aac28933",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/314e6d00039cb9d99837c81cdf4cbcd19f5683e0",
+                "reference": "314e6d00039cb9d99837c81cdf4cbcd19f5683e0",
                 "shasum": ""
             },
             "type": "library",
@@ -1278,7 +1278,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2019-11-06T06:56:10+00:00"
+            "time": "2019-12-23T21:48:04+00:00"
         },
         {
             "name": "psr/container",
