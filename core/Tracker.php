@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Db as TrackerDb;
@@ -108,6 +109,16 @@ class Tracker
         try {
             $this->init();
             $handler->init($this, $requestSet);
+
+            // if the tracker config is requested, don't bother trying to track anything
+            if ($this->shouldOutputTrackerConfigs()) {
+                Common::sendResponseCode(200);
+                $this->outputTrackerConfigs();
+
+                $this->disconnectDatabase();
+
+                return null;
+            }
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
@@ -366,4 +377,43 @@ class Tracker
 
         return false;
     }
-}
+
+    private function outputTrackerConfigs()
+    {
+        $configs = [];
+
+        /**
+         * Triggered when returning tracker configuration to the JavaScript tracker. Some plugins' tracking code may
+         * depend on information that is only stored server side. Use this event to provide this information to the
+         * JavaScript tracker.
+         *
+         * Since this event is invoked during tracking, performance is very important. Use the tracker cache
+         * as much as possible and avoid making direct requests to the database if it can be avoided.
+         *
+         * @param array &$configs Array mapping plugin names with their respective configuration. For example:
+         *                        ```
+         *                        [
+         *                            'MyPlugin' => [ 'setting1' => 1, 'setting2' => 3 ],
+         *                            'MyOtherPlugin' => ...,
+         *                        ]
+         *                        ```
+         */
+        Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs]);
+
+        $configJsonp = Common::getRequestVar('configJsonp', 0, 'int') == 1;
+        $trackerId = Common::getRequestVar('trackerId', false);
+
+        if ($configJsonp
+            && !empty($trackerId)
+        ) {
+            $trackerId = json_encode($trackerId);
+            $configs = json_encode($configs);
+
+            header('Content-Type: application/javascript');
+            $script = "<script>Piwik.setTrackerConfig($trackerId, $configs);</script>"; // TODO: method
+            echo $script;
+        } else {
+            Json::sendHeaderJSON();
+            echo json_encode($configs);
+        }
+    }}

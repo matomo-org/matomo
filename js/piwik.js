@@ -1037,7 +1037,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members push */
 /*global Piwik:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
-          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
+          DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON, setTrackerConfig */
 /*global Piwik_Overlay_Client */
 /*global AnalyticsTracker:true */
 /*members initialize */
@@ -7633,7 +7633,13 @@ if (typeof window.Piwik !== 'object') {
 
                 isAlreadyFetchingExtraConfig = true;
 
-                var getConfigsUrl = // TODO (include trackerId + configJsonp (+ server side logic))
+                var trackerUrl = this.getPiwikUrl();
+                if (trackerUrl.substr(-1, 1) !== '/') {
+                    trackerUrl += '/';
+                }
+
+                var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1&trackerId=' + uniqueTrackerId;
+                // TODO: server side logic for jsonp, plus move configs logic earlier on
 
                 var script = documentAlias.createElement('script');
                 script.async = true;
@@ -8001,6 +8007,19 @@ if (typeof window.Piwik !== 'object') {
                         return tracker;
                     }
                 }
+            },
+
+            /**
+             * TODO
+             * @param trackerId
+             * @param config
+             * @internal
+             * @ignore
+             */
+            setTrackerConfig: function (trackerId, config) {
+                getAsyncTrackers().forEach(function (tracker) {
+                    tracker.setExtraConfig(trackerId, config);
+                });
             },
 
             /**

@@ -76,9 +76,6 @@ class Response
             Common::sendResponseCode(503);
             $this->outputApiResponse($tracker);
             Common::printDebug("Logging disabled, display transparent logo");
-        } else if ($tracker->shouldOutputTrackerConfigs()) {
-            Common::sendResponseCode(200);
-            $this->outputTrackerConfigs();
         } elseif (!$tracker->hasLoggedRequests()) {
             if (!$this->isHttpGetRequest() || !empty($_GET) || !empty($_POST)) {
                 Common::sendResponseCode(400);
@@ -189,31 +186,5 @@ class Response
     protected function logExceptionToErrorLog($e)
     {
         error_log(sprintf("Error in Matomo (tracker): %s", str_replace("\n", " ", $this->getMessageFromException($e))));
-    }
-
-    private function outputTrackerConfigs()
-    {
-        $configs = [];
-
-        /**
-         * Triggered when returning tracker configuration to the JavaScript tracker. Some plugins' tracking code may
-         * depend on information that is only stored server side. Use this event to provide this information to the
-         * JavaScript tracker.
-         *
-         * Since this event is invoked during tracking, performance is very important. Use the tracker cache
-         * as much as possible and avoid making direct requests to the database if it can be avoided.
-         *
-         * @param array &$configs Array mapping plugin names with their respective configuration. For example:
-         *                        ```
-         *                        [
-         *                            'MyPlugin' => [ 'setting1' => 1, 'setting2' => 3 ],
-         *                            'MyOtherPlugin' => ...,
-         *                        ]
-         *                        ```
-         */
-        Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs]);
-
-        Json::sendHeaderJSON();
-        echo json_encode($configs);
     }
 }
