@@ -223,6 +223,9 @@ class Mysqli extends Db
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
+            if ($row === null) {
+                $row = false;
+            }
             return $row;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage());
