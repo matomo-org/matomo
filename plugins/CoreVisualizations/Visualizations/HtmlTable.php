@@ -237,7 +237,7 @@ class HtmlTable extends Visualization
                 $reportTotal = isset($totals[$column]) ? $totals[$column] : 0;
 
                 $percentageColumnName = $column . '_row_percentage';
-                $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1));
+                $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $reportTotal, $precision = 1), $precision);
                 $row->setMetadata($percentageColumnName, $rowPercentage);
 
                 if ($siteTotalRow) {
@@ -245,7 +245,7 @@ class HtmlTable extends Visualization
 
                     $siteTotalPercentage = $column . '_site_total_percentage';
                     if ($siteTotal && $siteTotal > $reportTotal) {
-                        $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $siteTotal, $precision = 1));
+                        $rowPercentage = $formatter->formatPercent(Piwik::getPercentageSafe($value, $siteTotal, $precision = 1), $precision);
                         $row->setMetadata($siteTotalPercentage, $rowPercentage);
                     }
                 }
