@@ -398,10 +398,13 @@ class Model
         } elseif ($shouldMatchOneFieldOnly) {
             $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
         } else {
-            $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            if (!empty($idVisitor)) {
+                $visitRow = $this->findVisitorByVisitorId($idVisitor, $select, $from, $visitorIdWhere, $visitorIdbindSql);
+            } else {
+                $visitRow = false;
+            }
 
             if (empty($visitRow)) {
-                $configIdWhere .= ' AND user_id IS NULL ';
                 $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
             }
         }
