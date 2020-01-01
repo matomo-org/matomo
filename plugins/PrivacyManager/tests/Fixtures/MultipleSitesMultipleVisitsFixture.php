@@ -160,7 +160,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     public $idSite = 1;
     public $numVisitsPerIteration = 32;
     /**
-     * @var \PiwikTracker
+     * @var \MatomoTracker
      */
     private $tracker;
 

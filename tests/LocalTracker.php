@@ -12,12 +12,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
 /**
  * Tracker that uses core/Tracker.php directly.
  */
-class Piwik_LocalTracker extends PiwikTracker
+class Matomo_LocalTracker extends MatomoTracker
 {
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
@@ -125,3 +124,4 @@ class Piwik_LocalTracker extends PiwikTracker
     }
 }
 
+class_alias('Matomo_LocalTracker', 'Piwik_LocalTracker');

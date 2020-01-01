@@ -869,7 +869,7 @@ class Request
     }
 
     /**
-     * Matches implementation of PiwikTracker::getUserIdHashed
+     * Matches implementation of MatomoTracker::getUserIdHashed
      *
      * @param $userId
      * @return string

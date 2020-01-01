@@ -183,7 +183,7 @@ class PingRequestTest extends IntegrationTestCase
         return Db::fetchOne("SELECT $columnName FROM " . Common::prefixTable('log_visit') . " WHERE idvisit = ?", array($idVisit));
     }
 
-    private function doPingRequest(\PiwikTracker $tracker, $pingTime, $changeDimensionValues)
+    private function doPingRequest(\MatomoTracker $tracker, $pingTime, $changeDimensionValues)
     {
         if ($changeDimensionValues) {
             $tracker->setUserAgent(self::CHANGED_USER_AGENT);

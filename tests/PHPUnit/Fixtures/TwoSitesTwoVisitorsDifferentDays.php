@@ -132,7 +132,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
 
             $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour($hoursOffset)->getDatetime());
             // visitor_returning is set to 1 only when visit count more than 1
-            // Temporary, until we implement 1st party cookies in PiwikTracker
+            // Temporary, until we implement 1st party cookies in MatomoTracker
             $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
 
             $protocol = (0 === $days % 2) ? 'http' : 'https';

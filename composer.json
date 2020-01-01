@@ -43,13 +43,13 @@
         "matomo/referrer-spam-blacklist": "~1.0",
         "matomo/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
-        "piwik/piwik-php-tracker": "^1.0.0",
         "composer/semver": "~1.3.0",
         "szymach/c-pchart": "^2.0",
         "geoip2/geoip2": "^2.8",
         "davaxi/sparkline": "dev-multiple-series",
         "matomo-org/jshrink": "1.3.1",
-        "matomo/network": "~2.0"
+        "matomo/network": "~2.0",
+        "matomo/matomo-php-tracker": "~2.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
