@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\ExampleTracker\Columns;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
@@ -76,6 +77,11 @@ class ExampleVisitDimension extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        $paramValue = Common::getRequestVar('myCustomVisitParam', '', 'string', $request->getParams());
+        if (!empty($paramValue)) {
+            return $paramValue;
+        }
+
         if (empty($action)) {
             return 0;
         }

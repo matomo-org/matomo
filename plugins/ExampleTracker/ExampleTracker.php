@@ -28,6 +28,7 @@ class ExampleTracker extends \Piwik\Plugin
     {
         $configs['ExampleTracker'] = [
             'randomValue' => Common::getRandomInt(0, 100),
+            'myCustomVisitParam' => 'special-value',
         ];
     }
 }

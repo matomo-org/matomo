@@ -404,7 +404,9 @@ class Tracker
         $trackerId = Common::getRequestVar('trackerId', false);
 
         if ($configJsonp
-            && !empty($trackerId)
+            && $trackerId !== false
+            && $trackerId !== ''
+            && $trackerId !== null
         ) {
             $trackerId = json_encode($trackerId);
             $configs = json_encode($configs);

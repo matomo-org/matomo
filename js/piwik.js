@@ -5784,7 +5784,6 @@ if (typeof window.Piwik !== 'object') {
              * initialize tracker
              */
             updateDomainHash();
-            setVisitorIdCookie();
 
             /*<DEBUG>*/
             /*
@@ -7618,6 +7617,14 @@ if (typeof window.Piwik !== 'object') {
              */
             this.isUserOptedOut = function () {
                 return !configHasConsent;
+            };
+
+            /**
+             * TODO
+             * @returns {number}
+             */
+            this.getUniqueTrackerId = function () {
+                return this.uniqueTrackerId;
             };
 
             /**

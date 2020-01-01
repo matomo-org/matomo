@@ -94,7 +94,9 @@
 
             piwikTracker.trackPageView();
             piwikTracker.enableLinkTracking();
-        } catch( err ) {}
+        } catch( err ) {
+            console.log(err.stack || err.message);
+        }
     </script>
   </body>
 </html>
