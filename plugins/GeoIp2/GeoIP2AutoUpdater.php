@@ -68,7 +68,8 @@ class GeoIP2AutoUpdater extends Task
         $schedulePeriodStr = self::getSchedulePeriod();
 
         // created the scheduledtime instance, also, since GeoIP 2 updates are done on tuesdays,
-        // get new DBs on Wednesday
+        // get new DBs on Wednesday. For db-ip, the databases are updated daily, so it doesn't matter exactly
+        // when we download a new one.
         switch ($schedulePeriodStr) {
             case self::SCHEDULE_PERIOD_WEEKLY:
                 $schedulePeriod = new Weekly();
@@ -163,7 +164,7 @@ class GeoIP2AutoUpdater extends Task
         Log::info("GeoIP2AutoUpdater: successfully downloaded '%s'", $url);
 
         try {
-            self::unzipDownloadedFile($zippedOutputPath, $dbType, $unlink = true);
+            self::unzipDownloadedFile($zippedOutputPath, $dbType, $url, $unlink = true);
         } catch (Exception $ex) {
             throw new Exception("GeoIP2AutoUpdater: failed to unzip '$zippedOutputPath' after "
                 . "downloading " . "'$url': " . $ex->getMessage());
@@ -184,8 +185,11 @@ class GeoIP2AutoUpdater extends Task
      * @param bool $unlink Whether to unlink archive or not.
      * @throws Exception
      */
-    public static function unzipDownloadedFile($path, $dbType, $unlink = false)
+    public static function unzipDownloadedFile($path, $dbType, $url, $unlink = false)
     {
+        $isDbIp = self::isDbIpUrl($url);
+        $isDbIpUnknownDbType = $isDbIp && substr($path, -5, 5) == '.mmdb';
+
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
             // find the .dat file in the tar archive
@@ -230,19 +234,29 @@ class GeoIP2AutoUpdater extends Task
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($path, -3, 3) == '.gz') {
+        } else if (substr($path, -3, 3) == '.gz'
+            || $isDbIpUnknownDbType
+        ) {
             $unzip = Unzip::factory('gz', $path);
 
-            $dbFilename = substr(basename($path), 0, -3);
+            if ($isDbIpUnknownDbType) {
+                $tempFilename = 'unzipped-temp-dbip-file.mmdb';
+            } else {
+                $dbFilename = substr(basename($path), 0, -3);
+                $tempFilename = $dbFilename . '.new';
+            }
 
-            $tempFilename = $dbFilename . '.new';
             $outputPath = self::getTemporaryFolder($tempFilename);
 
             $success = $unzip->extract($outputPath);
-
             if ($success !== true) {
                 throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
                     array("'$path'", $unzip->errorInfo())));
+            }
+
+            if ($isDbIpUnknownDbType) {
+                $php = new Php([$dbType => [$outputPath]]);
+                $dbFilename = $php->detectDatabaseType($dbType) . '.mmdb';
             }
         } else {
             $ext = end(explode(basename($path), '.', 2));
@@ -492,7 +506,7 @@ class GeoIP2AutoUpdater extends Task
             $ext = 'gz';
         }
 
-        self::checkForSupportedArchiveType($ext);
+        self::checkForSupportedArchiveType($url, $ext);
 
         return $ext;
     }
@@ -504,8 +518,12 @@ class GeoIP2AutoUpdater extends Task
      * @param string $ext The URL file's extension.
      * @throws \Exception
      */
-    private static function checkForSupportedArchiveType($ext)
+    private static function checkForSupportedArchiveType($url, $ext)
     {
+        if ($ext === 'mmdb' && self::isDbIpUrl($url)) {
+            return;
+        }
+
         if ($ext != 'tar.gz'
             && $ext != 'gz'
             && $ext != 'mmdb.gz'
@@ -670,13 +688,16 @@ class GeoIP2AutoUpdater extends Task
         throw new Exception("Unknown GeoIP 2 updater period found in database: %s", $updaterPeriod);
     }
 
-    private function getZippedFilenameToDownloadTo($url, $dbType, $ext)
+    public static function getZippedFilenameToDownloadTo($url, $dbType, $ext)
     {
-        if ($this->isDbIpUrl($url)) {
-            preg_match('/(dbip-[a-zA-Z0-9_]+)(?:-lite)?-\d{4}-\d{2}/', $url, $matches);
-            $parts = explode('-', $matches[1]);
-            $filename = strtoupper($parts[0]) . '-' . ucfirst($parts[1]) . '.mmdb.' . $ext;
-            return $filename;
+        if (self::isDbIpUrl($url)) {
+            if (preg_match('/(dbip-[a-zA-Z0-9_]+)(?:-lite)?-\d{4}-\d{2}/', $url, $matches)) {
+                $parts = explode('-', $matches[1]);
+                $filename = strtoupper($parts[0]) . '-' . ucfirst($parts[1]) . '.mmdb.' . $ext;
+                return $filename;
+            } else {
+                return basename($url);
+            }
         }
 
         return LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
@@ -688,8 +709,8 @@ class GeoIP2AutoUpdater extends Task
         return preg_replace('/-\d{4}-\d{2}\./', '-' . $today->toString('Y-m') . '.', $url);
     }
 
-    private function isDbIpUrl($url)
+    public static function isDbIpUrl($url)
     {
-        return !! preg_match('/\/dbip-/', $url);
+        return !! preg_match('/db-ip\.com/', $url);
     }
 }

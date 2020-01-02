@@ -183,7 +183,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
                     try {
-                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, 'loc', $unlink = true);
+                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, 'loc', $url, $unlink = true);
                     } catch (\Exception $e) {
                         // remove downloaded file on error
                         unlink($outputPath);
@@ -347,8 +347,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 if ($this->isGeoIp2Enabled()) {
                     $url = GeoIP2AutoUpdater::getConfiguredUrl($key);
-                    $ext = GeoIP2AutoUpdater::getGeoIPUrlExtension($url);
-                    $filename = GeoIp2::$dbNames[$key][0] . '.' . $ext;
+                    $filename = GeoIP2AutoUpdater::getZippedFilenameToDownloadTo($url, $key, GeoIP2AutoUpdater::getGeoIPUrlExtension($url));
                     $outputPath = GeoIp2::getPathForGeoIpDatabase($filename);
                 } else {
                     $url = GeoIPAutoUpdater::getConfiguredUrl($key);
@@ -368,7 +367,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
                     if ($this->isGeoIp2Enabled()) {
-                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $key, $unlink = true);
+                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $key, $url, $unlink = true);
                     } else {
                         GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
                     }
@@ -438,10 +437,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $missingDbs = GeoIPAutoUpdater::getMissingDatabases();
         if (!empty($missingDbs)) {
             $missingDbKey = $missingDbs[0];
-            $missingDbName = GeoIp::$dbNames[$missingDbKey][0];
             $url = GeoIPAutoUpdater::getConfiguredUrl($missingDbKey);
 
-            $link = '<a href="' . $url . '">' . $missingDbName . '</a>';
+            $link = '<a href="' . $url . '">' . $url . '</a>';
 
             return array(
                 'to_download'       => $missingDbKey,
@@ -461,10 +459,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $missingDbs = GeoIP2AutoUpdater::getMissingDatabases();
         if (!empty($missingDbs)) {
             $missingDbKey = $missingDbs[0];
-            $missingDbName = GeoIp2::$dbNames[$missingDbKey][0];
             $url = GeoIP2AutoUpdater::getConfiguredUrl($missingDbKey);
 
-            $link = '<a href="' . $url . '">' . $missingDbName . '</a>';
+            $link = '<a href="' . $url . '">' . $url . '</a>';
 
             return array(
                 'to_download'       => $missingDbKey,

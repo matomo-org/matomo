@@ -44,14 +44,14 @@ abstract class GeoIp2 extends LocationProvider
         'loc' => array('GeoIP2-City.mmdb', 'DBIP-City.mmdb', 'DBIP-City-Lite.mmdb', 'DBIP-Country-Lite.mmdb', 'DBIP-Country.mmdb',
             'dbip-city-lite-\d{4}-\d{2}.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb',
             'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb',
-            'dbip-country-lite-\d{4}-\d{2}.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb'),
-        'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb'),
+            'dbip-country-lite-\d{4}-\d{2}.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb', 'DBIP-Enterprise.mmdb'),
+        'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb', 'DBIP-ISP.mmdb', 'GeoIP2-Enterprise.mmdb', 'DBIP-Enterprise.mmdb'),
     );
 
     public static function getDbIpLiteUrl($type = 'city')
     {
         $today = Date::today();
-        return "https://download.db-ip.com/free/dbip-{$type}-lite-{$today->toString('Y-m')}.mmdb.gz";
+        return "https://download.db-ip.com/free/dbip-{$type}-lite-{$today->toString('Y-m')}.mmdb.gz?refid=mtm";
     }
 
     /**
@@ -79,9 +79,7 @@ abstract class GeoIp2 extends LocationProvider
                     continue;
                 }
 
-                if (empty($location[$key])
-                    || $location[$key] != $value
-                ) {
+                if (empty($location[$key])) {
                     $isResultCorrect = false;
                 }
             }
