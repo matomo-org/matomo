@@ -449,7 +449,11 @@ class CronArchive
                 return;
             }
 
-            flush();
+            if (!Process::isMethodDisabled('getmypid') && !Process::isMethodDisabled('ignore_user_abort')) {
+                // see https://github.com/matomo-org/wp-matomo/issues/163
+                flush();
+            }
+            
             $requestsBefore = $this->requests;
             if ($idSite <= 0) {
                 continue;

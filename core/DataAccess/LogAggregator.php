@@ -194,11 +194,15 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    private function getSegmentTmpTableName()
+    public function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
         $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
-        return Common::mb_substr($tableName, 0, Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH);
+
+        $lengthPrefix = Common::mb_strlen(Common::prefixTable(''));
+        $maxLength = Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH - $lengthPrefix;
+
+        return Common::mb_substr($tableName, 0, $maxLength);
     }
 
     public function cleanup()

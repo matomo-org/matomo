@@ -61,7 +61,7 @@ class IgnoreCookie
             $ignoreCookie->delete();
         } else {
             $ignoreCookie->set('ignore', '*');
-            $ignoreCookie->save();
+            $ignoreCookie->save('None');
         }
 
         self::deleteThirdPartyCookieUIDIfExists();

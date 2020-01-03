@@ -111,7 +111,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $val = $db->fetchRow('SELECT option_value from `' . $this->tableName . '` where option_name = "foobar"');
-        $this->assertNull($val);
+        $this->assertFalse($val);
     }
 
     public function test_fetch()
@@ -128,7 +128,7 @@ class DbTest extends IntegrationTestCase
     {
         $db = Tracker::getDatabase();
         $val = $db->fetch('SELECT option_value from `' . $this->tableName . '` where option_name = "foobar"');
-        $this->assertNull($val);
+        $this->assertFalse($val);
     }
 
     public function test_fetchAll()

@@ -211,7 +211,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        if ($limitVisits === false) {
+        if ($limitVisits <= 0) {
             $limitVisits = VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW;
         } else {
             $limitVisits = (int) $limitVisits;

@@ -465,7 +465,7 @@ class API extends \Piwik\Plugin\API
                 'columns' => $columns,
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
-            ));
+            ), $default = []);
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));
