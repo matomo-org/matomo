@@ -149,6 +149,39 @@ class Mysqli extends Db
     }
 
     /**
+     * @param \mysqli_stmt $stmt
+     * @param $fields
+     * @return array|bool|false
+     */
+    private function fetchResult($stmt, $fields) {
+
+        $values = array_fill(0, count($fields), null);
+
+        $refs = array();
+        foreach ($values as $i => &$f) {
+            $refs[$i] = &$f;
+        }
+
+        call_user_func_array(array($stmt, 'bind_result'), $values);
+
+        $result = $stmt->fetch();
+
+        if ($result === null || $result === false) {
+            $stmt->reset();
+            return false;
+        }
+
+        $val = array();
+        foreach ($values as $key => $value) {
+            $val[] = $value;
+        }
+
+        $row = array_combine($fields, $values);
+
+        return $row;
+    }
+
+    /**
      * Returns an array containing all the rows of a query result, using optional bound parameters.
      *
      * @see query()
@@ -165,19 +198,14 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $stmt = $this->executeQuery($query, $parameters);
-            $result = $stmt->get_result();
-
-            if ($result === false) {
-                throw new DbException('fetchAll() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
-            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
             $rows = array();
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            while ($row = $this->fetchResult($stmt, $fields)) {
                 $rows[] = $row;
             }
+
             $stmt->free_result();
-            $result->free();
             $stmt->close();
 
             if (self::$profiling && isset($timer)) {
@@ -208,16 +236,11 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $stmt = $this->executeQuery($query, $parameters);
-            $result = $stmt->get_result();
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
-            if ($result === false) {
-                throw new DbException('fetch() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
-            }
+            $row = $this->fetchResult($stmt, $fields);
 
-            $row = $result->fetch_array(MYSQLI_ASSOC);
             $stmt->free_result();
-            $result->free();
             $stmt->close();
 
             if (self::$profiling && isset($timer)) {
@@ -252,24 +275,12 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $stmt = $this->executeQuery($query, $parameters);
-            $result = $stmt->get_result();
-
-            if (!empty($stmt->error)) {
-                throw new DbException('query() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
-            }
-
-            $returnval = $stmt;
-
-            if (!is_bool($result)) {
-                $result->free();
-                $returnval = $result;
-            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
-            return $returnval;
+            return $stmt;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
                                    In query: $query
@@ -309,9 +320,32 @@ class Mysqli extends Db
             call_user_func_array(array($stmt, 'bind_param'), $refs);
         }
 
-        $stmt->execute();
+        $stmtResult = $stmt->execute();
 
-        return $stmt;
+        if ($stmtResult === false) {
+            throw new DbException("Mysqli statement execute error : " . $stmt->error, $stmt->errno);
+        }
+
+        if (!empty($stmt->error)) {
+            throw new DbException('executeQuery() failed: ' . mysqli_error($this->connection) . ' : ' . $sql);
+        }
+
+        $metaResults = $stmt->result_metadata();
+
+        if ($stmt->errno) {
+            throw new DbException("Mysqli statement metadata error: " . $stmt->error, $stmt->errno);
+        }
+
+        $fields = array();
+        if ($metaResults) {
+            $fetchedFields = $metaResults->fetch_fields();
+            foreach ($fetchedFields as $fetchedField) {
+                $fields[] = $fetchedField->name;
+            }
+            $stmt->store_result();
+        }
+
+        return array($stmt, $fields);
     }
     /**
      * Input is a prepared SQL statement and parameters
