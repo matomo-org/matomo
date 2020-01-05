@@ -406,7 +406,7 @@ class Model
 
             if (empty($visitRow)) {
                 if (!empty($userId)) {
-                    $configIdWhere .= 'AND ( user_id IS NULL OR user_id = ? )';
+                    $configIdWhere .= ' AND ( user_id IS NULL OR user_id = ? )';
                     $configIdbindSql[] = $userId;
                 }
                 $visitRow = $this->findVisitorByConfigId($configId, $select, $from, $configIdWhere, $configIdbindSql);
