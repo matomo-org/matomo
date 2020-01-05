@@ -12,15 +12,15 @@ namespace Piwik\Concurrency;
 interface LockBackend
 {
     /**
-     * TODO
+     * Returns lock keys matching a pattern.
      *
      * @param $pattern
-     * @return mixed
+     * @return string[]
      */
     public function getKeysMatchingPattern($pattern);
 
     /**
-     * TODO
+     * Set a key value if the key is not already set.
      *
      * @param $lockKey
      * @param $lockValue
@@ -30,7 +30,7 @@ interface LockBackend
     public function setIfNotExists($lockKey, $lockValue, $ttlInSeconds);
 
     /**
-     * TODO
+     * Get the lock value for a key if any.
      *
      * @param $lockKey
      * @return mixed
@@ -38,7 +38,7 @@ interface LockBackend
     public function get($lockKey);
 
     /**
-     * TODO
+     * Delete the lock with key = $lockKey if the lock has the given value.
      *
      * @param $lockKey
      * @param $lockValue
@@ -47,7 +47,7 @@ interface LockBackend
     public function deleteIfKeyHasValue($lockKey, $lockValue);
 
     /**
-     * TODO
+     * Update expiration for a lock if the lock with the specified key has the given value.
      *
      * @param $lockKey
      * @param $lockValue

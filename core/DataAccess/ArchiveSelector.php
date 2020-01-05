@@ -61,6 +61,11 @@ class ArchiveSelector
 
         $numericTable = ArchiveTableCreator::getNumericTable($dateStart);
 
+        $minDatetimeIsoArchiveProcessedUTC = null;
+        if ($minDatetimeArchiveProcessedUTC) {
+            $minDatetimeIsoArchiveProcessedUTC = Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
+        }
+
         $requestedPlugin = $params->getRequestedPlugin();
         $segment         = $params->getSegment();
         $plugins = array("VisitsSummary", $requestedPlugin);
@@ -68,7 +73,7 @@ class ArchiveSelector
         $doneFlags      = Rules::getDoneFlags($plugins, $segment);
         $doneFlagValues = Rules::getSelectableDoneFlagValues();
 
-        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $doneFlags, $doneFlagValues);
+        $results = self::getModel()->getArchiveIdAndVisits($numericTable, $idSite, $period, $dateStartIso, $dateEndIso, $minDatetimeIsoArchiveProcessedUTC, $doneFlags, $doneFlagValues);
 
         if (empty($results)) {
             return false;

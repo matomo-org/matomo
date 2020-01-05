@@ -15,10 +15,8 @@ use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
@@ -467,7 +465,7 @@ class API extends \Piwik\Plugin\API
                 'columns' => $columns,
                 'showAllGoalSpecificMetrics' => $showAllGoalSpecificMetrics,
                 'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
-            ));
+            ), $default = []);
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',
                                     array($appendToMetricName));

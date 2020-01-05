@@ -8,15 +8,12 @@
  */
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
 use Piwik\Cache;
-use Piwik\CacheId;
-use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Piwik;
 
 /**
@@ -73,12 +70,21 @@ class Loader
             return $idArchive;
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingStatus->archiveStarted($this->params);
+
+        try {
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        } finally {
+            $archivingStatus->archiveFinished();
+        }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
             return $idArchive;
         }
+
         return false;
     }
 
@@ -158,9 +164,11 @@ class Loader
      * Returns the idArchive if the archive is available in the database for the requested plugin.
      * Returns false if the archive needs to be processed.
      *
+     * (public for tests)
+     *
      * @return array
      */
-    protected function loadExistingArchiveIdFromDb()
+    public function loadExistingArchiveIdFromDb()
     {
         $noArchiveFound = array(false, false, false);
 
@@ -168,13 +176,34 @@ class Loader
             return $noArchiveFound;
         }
 
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params);
+        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
+        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
 
         if (!$idAndVisits) {
             return $noArchiveFound;
         }
 
         return $idAndVisits;
+    }
+
+    /**
+     * Returns the minimum archive processed datetime to look at. Only public for tests.
+     *
+     * @return int|bool  Datetime timestamp, or false if must look at any archive available
+     */
+    protected function getMinTimeArchiveProcessed()
+    {
+        $endDateTimestamp = self::determineIfArchivePermanent($this->params->getDateEnd());
+        if ($endDateTimestamp) {
+            // past archive
+            return $endDateTimestamp;
+        }
+        $dateStart = $this->params->getDateStart();
+        $period    = $this->params->getPeriod();
+        $segment   = $this->params->getSegment();
+        $site      = $this->params->getSite();
+        // in-progress archive
+        return Rules::getMinTimeProcessedForInProgressArchive($dateStart, $period, $segment, $site);
     }
 
     protected static function determineIfArchivePermanent(Date $dateEnd)
