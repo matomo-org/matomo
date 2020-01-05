@@ -51,7 +51,7 @@ abstract class GeoIp2 extends LocationProvider
     public static function getDbIpLiteUrl($type = 'city')
     {
         $today = Date::today();
-        return "https://download.db-ip.com/free/dbip-{$type}-lite-{$today->toString('Y-m')}.mmdb.gz?refid=mtm";
+        return "https://download.db-ip.com/free/dbip-{$type}-lite-{$today->toString('Y-m')}.mmdb.gz";
     }
 
     /**
@@ -79,7 +79,9 @@ abstract class GeoIp2 extends LocationProvider
                     continue;
                 }
 
-                if (empty($location[$key])) {
+                if (empty($location[$key])
+                    || $location[$key] != $value
+                ) {
                     $isResultCorrect = false;
                 }
             }

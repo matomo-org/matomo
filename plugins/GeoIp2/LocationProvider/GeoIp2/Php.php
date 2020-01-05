@@ -287,14 +287,14 @@ class Php extends GeoIp2
     {
         $result = array();
 
-        // country & continent info always available
-        $result[self::CONTINENT_CODE_KEY] = true;
-        $result[self::CONTINENT_NAME_KEY] = true;
-        $result[self::COUNTRY_CODE_KEY] = true;
-        $result[self::COUNTRY_NAME_KEY] = true;
-
         $reader = $this->getGeoIpInstance($key = 'loc');
         if ($reader) {
+            // country & continent info always available
+            $result[self::CONTINENT_CODE_KEY] = true;
+            $result[self::CONTINENT_NAME_KEY] = true;
+            $result[self::COUNTRY_CODE_KEY] = true;
+            $result[self::COUNTRY_NAME_KEY] = true;
+
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoLite2-City':
