@@ -5875,11 +5875,11 @@ if (typeof window.Piwik !== 'object') {
             this.unsetPageIsUnloading = function () {
                 isPageUnloading = false;
             };
+            this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
+            /*</DEBUG>*/
             this.hasConsent = function () {
                 return configHasConsent;
             };
-            this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-            /*</DEBUG>*/
 
             /**
              * Get visitor ID (from first party cookie)
