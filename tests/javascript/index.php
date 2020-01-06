@@ -2193,7 +2193,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(109);
+        expect(110);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2307,6 +2307,7 @@ function PiwikTest() {
         // consent
         equal( typeof tracker.getRememberedConsent, 'function', 'getRememberedConsent' );
         equal( typeof tracker.hasRememberedConsent, 'function', 'hasRememberedConsent' );
+        equal( typeof tracker.isConsentRequired, 'function', 'isConsentRequired' );
         equal( typeof tracker.requireConsent, 'function', 'requireConsent' );
         equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
         equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
@@ -4974,7 +4975,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(27);
+        expect(29);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -4984,7 +4985,10 @@ if ($mysql) {
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
         strictEqual(tracker.hasConsent(), true, "hasConsent, assumes consent by default" );
 
+        ok(!tracker.isConsentRequired(), 'by default consent is not required')
         tracker.requireConsent();
+
+        ok(tracker.isConsentRequired(), 'consent is required after requiring it')
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
 
         tracker.trackRequest('myFoo=bar&baz=1');
@@ -5089,6 +5093,59 @@ if ($mysql) {
         });
     });
 
+    test("Test optOut (via iframe)", function () {
+        expect(6);
+
+        var tracker = Piwik.addTracker();
+
+        strictEqual(tracker.hasConsent(), true, "hasConsent(), should be true by default" );
+
+        stop();
+        Q.delay(1).then(function () {
+            // Fire a message to set the opt in status to false
+            var optOutMessage = JSON.stringify({maq_opted_in: false});
+            tracker.hook.test._windowAlias.postMessage(optOutMessage, '*');
+            return Q.delay(500);
+       }).then(function () {
+            strictEqual(tracker.hasConsent(), false, "optout message listener should have set the cookie to false (async tracker)" );
+            // Fire another message to set it back to true
+            var optInMessage = JSON.stringify({maq_opted_in: true});
+            tracker.hook.test._windowAlias.postMessage(optInMessage, '*');
+            return Q.delay(500);
+        }).then(function () {
+            strictEqual(tracker.hasConsent(), true, "optout message listener should have set the cookie to true" );
+            start();
+        }).catch(function (e) {
+            console.log('caught', e.stack || e.message || e);
+        });
+    });
+
+    test("Test refreshConsentStatus()", function() {
+        expect(7);
+
+        var tracker = Piwik.addTracker();
+        var document = tracker.hook.test._windowAlias.document;
+
+        // Test 1: no cookies
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), true, "hasConsent() true when no cookies present");
+
+        // Test 2: optout cookie
+        document.cookie = 'mtm_consent_removed=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
+
+        // Test 3: optin cookie
+        document.cookie = 'mtm_consent_removed=;expires=Sun, 01 Dec 2019 00:00:01 GMT';
+        document.cookie = 'mtm_consent=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), true, "hasConsent() true when optin cookie present");
+
+        // Test 4: both cookies
+        document.cookie = 'mtm_consent_removed=12345';
+        tracker.hook.test._refreshConsentStatus();
+        strictEqual(tracker.hasConsent(), false, "hasConsent() false when optout cookie present");
+    });
 
     test("Internal timers and setLinkTrackingTimer()", function() {
         expect(8);

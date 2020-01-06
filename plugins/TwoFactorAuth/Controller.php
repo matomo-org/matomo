@@ -10,6 +10,8 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Endroid\QrCode\QrCode;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\IP;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -91,6 +93,14 @@ class Controller extends \Piwik\Plugin\Controller
                     Url::redirectToUrl(Url::getCurrentUrl());
                 } else {
                     $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
+                    try {
+                        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+                        if ($bruteForce->isEnabled()) {
+                            $bruteForce->addFailedAttempt(IP::getIpFromHeader());
+                        }
+                    } catch (Exception $e) {
+                        // ignore error eg if login plugin is disabled
+                     }
                 }
             } else {
                 $messageNoAccess = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));

@@ -83,6 +83,7 @@ class VisitorRecognizer
     {
         $idSite    = $request->getIdSite();
         $idVisitor = $request->getVisitorId();
+        $userId    = $request->getForcedUserId();
 
         $isVisitorIdToLookup = !empty($idVisitor);
 
@@ -98,7 +99,7 @@ class VisitorRecognizer
         $shouldMatchOneFieldOnly  = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup, $request);
         list($timeLookBack, $timeLookAhead) = $this->getWindowLookupThisVisit($request);
 
-        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
+        $visitRow = $this->model->findVisitor($idSite, $configId, $idVisitor, $userId, $persistedVisitAttributes, $shouldMatchOneFieldOnly, $isVisitorIdToLookup, $timeLookBack, $timeLookAhead);
         $this->visitRow = $visitRow;
 
         if ($visitRow
