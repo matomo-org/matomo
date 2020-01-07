@@ -62,46 +62,16 @@ abstract class GeoIp2 extends LocationProvider
     public function isWorking()
     {
         // test with an example IP to make sure the provider is working
-        // NOTE: At the moment only country, region & city info is tested.
         try {
-            $supportedInfo = $this->getSupportedLocationInfo();
+            $testIp = self::TEST_IP;
 
-            list($testIp, $expectedResult) = $this->getTestIpAndResult();
-
-            // get location using test IP
+            // get location using test IP and check that some information was returned
             $location = $this->getLocation(array('ip' => $testIp));
-
-            // check that result is the same as expected
-            $isResultCorrect = true;
-            foreach ($expectedResult as $key => $value) {
-                // if this provider is not configured to support this information type, skip it
-                if (empty($supportedInfo[$key])) {
-                    continue;
-                }
-
-                if (empty($location[$key])
-                    || $location[$key] != $value
-                ) {
-                    $isResultCorrect = false;
-                }
-            }
+            $location = array_filter($location);
+            $isResultCorrect = !empty($location);
 
             if (!$isResultCorrect) {
-                $unknown = Piwik::translate('General_Unknown');
-
-                $location = "'"
-                    . (empty($location[self::CITY_NAME_KEY]) ? $unknown : $location[self::CITY_NAME_KEY])
-                    . ", "
-                    . (empty($location[self::REGION_CODE_KEY]) ? $unknown : $location[self::REGION_CODE_KEY])
-                    . ", "
-                    . (empty($location[self::COUNTRY_CODE_KEY]) ? $unknown : $location[self::COUNTRY_CODE_KEY])
-                    . "'";
-
-                $expectedLocation = "'" . $expectedResult[self::CITY_NAME_KEY] . ", "
-                    . $expectedResult[self::REGION_CODE_KEY] . ", "
-                    . $expectedResult[self::COUNTRY_CODE_KEY] . "'";
-
-                $bind = array($testIp, $location, $expectedLocation);
+                $bind = array($testIp);
                 return Piwik::translate('UserCountry_TestIPLocatorFailed', $bind);
             }
 
@@ -147,6 +117,7 @@ abstract class GeoIp2 extends LocationProvider
      * Returns test IP used by isWorking and expected result.
      *
      * @return array eg. array('1.2.3.4', array(self::COUNTRY_CODE_KEY => ...))
+     * @deprecated
      */
     protected function getTestIpAndResult()
     {

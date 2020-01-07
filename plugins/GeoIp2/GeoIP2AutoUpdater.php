@@ -307,6 +307,8 @@ class GeoIP2AutoUpdater extends Task
             if ($unlink) {
                 unlink($path);
             }
+
+            self::renameAnyExtraGeolocationDatabases($dbFilename, $dbType);
         } catch (Exception $ex) {
             // remove downloaded files
             if (file_exists($outputPath)) {
@@ -315,6 +317,32 @@ class GeoIP2AutoUpdater extends Task
             unlink($path);
 
             throw $ex;
+        }
+    }
+
+    private static function renameAnyExtraGeolocationDatabases($dbFilename, $dbType)
+    {
+        if (!in_array($dbFilename, LocationProviderGeoIp2::$dbNames[$dbType])) {
+            return;
+        }
+
+        $logger = StaticContainer::get(LoggerInterface::class);
+        foreach (LocationProviderGeoIp2::$dbNames[$dbType] as $possibleName) {
+            if ($dbFilename == $possibleName) {
+                break;
+            }
+
+            $pathToExistingFile = LocationProviderGeoIp2::getPathForGeoIpDatabase($possibleName);
+            if (file_exists($pathToExistingFile)) {
+                $newFilename = $pathToExistingFile . '.' . time() . '.old';
+                $logger->info("Renaming old geolocation database file {old} to {rename} so new downloaded file {new} will be used.", [
+                    'old' => $possibleName,
+                    'rename' => $newFilename,
+                    'new' => $dbFilename,
+                ]);
+
+                rename($pathToExistingFile, $newFilename); // adding timestamp to avoid any potential race conditions
+            }
         }
     }
 
