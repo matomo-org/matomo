@@ -42,7 +42,7 @@
                 }
 
                 var config = configs[eventParams.tracker.getUniqueTrackerId()];
-                return 'myCustomVisitParam=' + config.myCustomVisitParam;
+                return '&myCustomVisitParam=' + config.myCustomVisitParam;
             },
         });
 

@@ -38,7 +38,7 @@ class JSTrackingUIFixture extends Fixture
             'loadRealTranslations' => 1,
         );
         $this->extraPluginsToLoad = array(
-            'ExampleTracker', // TODO: in exampletracker, add tracker.js that uses random value & sets custom dimensions via request processor
+            'ExampleTracker',
         );
 
         parent::performSetUp($setupEnvironmentOnly);
@@ -47,6 +47,7 @@ class JSTrackingUIFixture extends Fixture
         UITestFixture::createOverlayTestSite($idSite = 1);
 
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
+        $this->testEnvironment->pluginsToLoad = $this->extraPluginsToLoad;
         $this->testEnvironment->save();
     }
 }

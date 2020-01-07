@@ -400,19 +400,17 @@ class Tracker
          */
         Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs]);
 
+        $idSite = Common::getRequestVar('idsite', 0, 'int');
         $configJsonp = Common::getRequestVar('configJsonp', 0, 'int') == 1;
-        $trackerId = Common::getRequestVar('trackerId', false);
 
         if ($configJsonp
-            && $trackerId !== false
-            && $trackerId !== ''
-            && $trackerId !== null
+            && $idSite > 0
         ) {
-            $trackerId = json_encode($trackerId);
+            $idSite = json_encode($idSite);
             $configs = json_encode($configs);
 
             header('Content-Type: application/javascript');
-            $script = "Piwik.setTrackerConfig($trackerId, $configs);";
+            $script = "Piwik.setTrackerConfig($idSite, $configs);";
             echo $script;
         } else {
             Json::sendHeaderJSON();

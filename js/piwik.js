@@ -5886,11 +5886,11 @@ if (typeof window.Piwik !== 'object') {
             this.unsetPageIsUnloading = function () {
                 isPageUnloading = false;
             };
+            this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
+            /*</DEBUG>*/
             this.hasConsent = function () {
                 return configHasConsent;
             };
-            this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-            /*</DEBUG>*/
 
             /**
              * Get visitor ID (from first party cookie)
@@ -7673,7 +7673,7 @@ if (typeof window.Piwik !== 'object') {
                     trackerUrl += '/';
                 }
 
-                var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1&trackerId=' + uniqueTrackerId;
+                var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1';
 
                 var script = documentAlias.createElement('script');
                 script.async = true;
@@ -7698,16 +7698,61 @@ if (typeof window.Piwik !== 'object') {
                 }, 10);
             }
 
+            function saveTrackerExtraConfig(idSite, config) {
+                if (typeof sessionStorage === 'undefined' || !sessionStorage) {
+                    return;
+                }
+
+                var configStr = JSON.stringify({
+                    config: config,
+                    expires: (new Date()).getTime() + (configVisitStandardLength * 60 * 1000)
+                });
+                var cacheKey = 'mtm.extraTrackerConfig.' + idSite;
+
+                sessionStorage.setItem(cacheKey, configStr);
+            }
+
+            function getCachedTrackerExtraConfig() {
+                if (typeof sessionStorage === 'undefined' || !sessionStorage) {
+                    return;
+                }
+
+                var cacheEntry;
+                var cacheKey = 'mtm.extraTrackerConfig.' + configTrackerSiteId;
+
+                try {
+                    cacheEntry = JSON.parse(sessionStorage.getItem(cacheKey));
+                } catch (e) {
+                    // TODO: debug log
+                    return;
+                }
+
+                if (!cacheEntry || !cacheEntry.expires || !cacheEntry.config) {
+                    return;
+                }
+
+                var expires = cacheEntry.expires;
+                if (expires < Date.now()) {
+                    return;
+                }
+
+                return cacheEntry.config;
+            }
+
             /**
              * TODO
              *
-             * @param {string} trackerId
+             * @param {string} trackerIdSite
              * @param {object} config
              */
-            this.setExtraConfig = function (trackerId, config) {
-                if (uniqueTrackerId != trackerId || loadExtraConfigEncounteredError) {
+            this.setExtraConfig = function (trackerIdSite, config) {
+                if (configTrackerSiteId != trackerIdSite
+                    || loadExtraConfigEncounteredError
+                ) {
                     return;
                 }
+
+                saveTrackerExtraConfig(trackerIdSite, config);
 
                 var callbacks = extraTrackerConfigCallbacks;
                 extraTrackerConfigCallbacks = [];
@@ -7725,6 +7770,13 @@ if (typeof window.Piwik !== 'object') {
              */
             this.getExtraConfig = function (plugin, callback) {
                 if (extraTrackerConfigByPlugin !== null) {
+                    callback(null, extraTrackerConfigByPlugin[plugin] || {});
+                    return;
+                }
+
+                var cachedTrackerConfig = getCachedTrackerExtraConfig(); // TODO tracker
+                if (cachedTrackerConfig) {
+                    extraTrackerConfigByPlugin = cachedTrackerConfig;
                     callback(null, extraTrackerConfigByPlugin[plugin] || {});
                     return;
                 }
@@ -8132,14 +8184,14 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * TODO
-             * @param trackerId
+             * @param trackerIdSite
              * @param config
              * @internal
              * @ignore
              */
-            setTrackerConfig: function (trackerId, config) {
+            setTrackerConfig: function (trackerIdSite, config) {
                 this.getAsyncTrackers().forEach(function (tracker) {
-                    tracker.setExtraConfig(trackerId, config);
+                    tracker.setExtraConfig(trackerIdSite, config);
                 });
             },
 

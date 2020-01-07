@@ -106,6 +106,11 @@ class ExampleVisitDimension extends VisitDimension
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
+        $paramValue = Common::getRequestVar('myCustomVisitParam', '', 'string', $request->getParams());
+        if (!empty($paramValue)) {
+            return $paramValue;
+        }
+
         if (empty($action)) {
             return false; // Do not change an already persisted value
         }

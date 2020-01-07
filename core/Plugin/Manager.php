@@ -159,6 +159,7 @@ class Manager
         }
 
         $pluginsTracker = array_diff($pluginsTracker, $this->getTrackerPluginsNotToLoad());
+
         $this->doNotLoadAlwaysActivatedPlugins();
         $this->loadPlugins($pluginsTracker);
 
