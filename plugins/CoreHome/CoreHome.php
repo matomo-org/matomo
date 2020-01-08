@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\CoreHome;
 
+use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Container\StaticContainer;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
@@ -43,7 +45,20 @@ class CoreHome extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'AssetManager.addStylesheets' => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
+            'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
         );
+    }
+
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    public function setTrackerCacheGeneral(&$cacheGeneral)
+    {
+        /** @var ArchiveInvalidator $archiveInvalidator */
+        $archiveInvalidator = StaticContainer::get(ArchiveInvalidator::class);
+        $cacheGeneral[ArchiveInvalidator::TRACKER_CACHE_KEY] = $archiveInvalidator->getAllRememberToInvalidateArchivedReportsLater();
     }
 
     public function addStylesheets(&$mergedContent)
