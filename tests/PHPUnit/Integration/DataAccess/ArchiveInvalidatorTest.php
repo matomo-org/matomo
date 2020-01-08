@@ -8,7 +8,10 @@
 
 namespace Piwik\Tests\Integration\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
@@ -16,9 +19,11 @@ use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
+use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Archive\ArchiveInvalidator;
@@ -71,7 +76,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->invalidator = new ArchiveInvalidator(new Model());
+        $this->invalidator = new ArchiveInvalidator(new Model(), StaticContainer::get(ArchivingStatus::class));
     }
 
     public function test_rememberToInvalidateArchivedReportsLater_shouldCreateAnEntryInCaseThereIsNoneYet()

@@ -14,8 +14,6 @@
         "EcommerceHelp": "Po włączeniu w raporcie \"Cele\" pojawi się nowa sekcja \"Ecommerce\".",
         "EnableEcommerce": "Ecommerce włączone",
         "EnableSiteSearch": "Śledzenie wyszukiwarki serwisu włączone",
-        "EnableSiteSpecificUserAgentExclude": "Włącz specyficzne dla serwisu wykluczenia user agent.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Jeśli potrzebujesz wykluczyć róznych user agent'ów dla różnych serwisów, zaznacz to pole, kliknij zapisz i %1$sdodaj powyżej user agent'ów%2$s.",
         "ExceptionDeleteSite": "Nie jest możliwe skasowanie tej strony jako jedynej zarejestrowanej strony. Dodaj nową stronę, a następnie skasuj tą stronę.",
         "ExceptionEmptyName": "Nazwa strony internetowej nie może być pusta.",
         "ExceptionInvalidCurrency": "Podana waluta \"%1$s\" jest nieprawidłowa. Proszę wprowadzić poprawny symbol waluty (np. %2$s)",

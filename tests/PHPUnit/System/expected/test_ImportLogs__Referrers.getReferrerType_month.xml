@@ -20,6 +20,7 @@
 		<sum_daily_nb_uniq_visitors>38</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
 	</row>
 	<row>
 		<label>Websites</label>
@@ -41,6 +42,7 @@
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>referrerType==website</segment>
+		<referrer_type>3</referrer_type>
 		<subtable>
 			<row>
 				<label>example.com</label>

@@ -101,33 +101,6 @@ class Get extends \Piwik\Plugin\Report
                 if (!is_numeric($nbUsers) || 0 >= $nbUsers) {
                     $view->config->replaceSparklineMetric(array('nb_users'), '');
                 }
-
-                $avgGenerationTime = $firstRow->getColumn('avg_time_generation');
-                if (false === $avgGenerationTime) {
-                    // fix avgGenerationTime is not formatted if value is false
-                    /** @var Formatter $formatter */
-                    $formatter = StaticContainer::get('Piwik\Metrics\Formatter');
-                    $avgGenerationTime = $formatter->getPrettyTimeFromSeconds($avgGenerationTime, true);
-                    $firstRow->setColumn('avg_time_generation', $avgGenerationTime);
-                }
-
-                $numberMetrics = array('nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions',
-                                       'nb_pageviews', 'nb_uniq_pageviews', 'nb_searches', 'nb_keywords', 'nb_downloads',
-                                       'nb_uniq_downloads', 'nb_outlinks', 'nb_uniq_outlinks', 'max_actions');
-                foreach ($numberMetrics as $metric) {
-                    $value = $firstRow->getColumn($metric);
-                    if (false !== $value) {
-                        $firstRow->setColumn($metric, $numberFormatter->formatNumber($value));
-                    }
-                }
-                $value = $firstRow->getColumn('bounce_rate');
-                if (false !== $value) {
-                    $firstRow->setColumn('bounce_rate', $numberFormatter->formatPercent($value, $precision = 1));
-                }
-                $value = $firstRow->getColumn('nb_actions_per_visit');
-                if (false !== $value) {
-                    $firstRow->setColumn('nb_actions_per_visit', $numberFormatter->formatNumber($value, $maxFraction = 1));
-                }
             };
         }
     }

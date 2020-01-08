@@ -93,7 +93,6 @@
         "ConfigFileIsNotWritable": "Matomo 설정 파일 %1$s를 쓸수 없기 때문에 일부 변경이 저장되지 않을 수 있습니다. %2$s 설정 파일의 권한을 쓸 수 있게 변경하세요.",
         "Continue": "계속",
         "ContinueToPiwik": "Matomo 계속 하기",
-        "CurrentlyUsingUnsecureHttp": "현재 위험할 수 있는 불안전한 HTTP를 통해 Matomo를 이용하고 있습니다. 우리는 SSL (HTTPS)를 설치하여 보안을 향상시킬 것을 추천합니다.",
         "CreatedByUser": "%s가 만듬",
         "CurrentMonth": "이번달",
         "CurrentWeek": "이번주",

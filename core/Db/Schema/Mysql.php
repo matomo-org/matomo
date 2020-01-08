@@ -10,6 +10,7 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
@@ -24,6 +25,7 @@ use Piwik\Version;
 class Mysql implements SchemaInterface
 {
     const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+    const MAX_TABLE_NAME_LENGTH = 64;
 
     private $tablesInstalled = null;
 
@@ -311,7 +313,7 @@ class Mysql implements SchemaInterface
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
             'locks'                   => "CREATE TABLE `{$prefixTables}locks` (
-                                      `key` VARCHAR(70) NOT NULL,
+                                      `key` VARCHAR(".Lock::MAX_KEY_LEN.") NOT NULL,
                                       `value` VARCHAR(255) NULL DEFAULT NULL,
                                       `expiry_time` BIGINT UNSIGNED DEFAULT 9999999999,
                                       PRIMARY KEY (`key`)

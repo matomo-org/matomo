@@ -453,7 +453,11 @@ class CronArchive
                 return;
             }
 
-            flush();
+            if (!Process::isMethodDisabled('getmypid') && !Process::isMethodDisabled('ignore_user_abort')) {
+                // see https://github.com/matomo-org/wp-matomo/issues/163
+                flush();
+            }
+            
             $requestsBefore = $this->requests;
             if ($idSite <= 0) {
                 continue;
@@ -556,6 +560,11 @@ class CronArchive
         );
 
         $this->logger->info($timer->__toString());
+    }
+
+    public function getErrors()
+    {
+    	return $this->errors;
     }
 
     /**
@@ -1177,8 +1186,8 @@ class CronArchive
     {
         if (!defined('PIWIK_ARCHIVE_NO_TRUNCATE')) {
             $m = substr($m, 0, self::TRUNCATE_ERROR_MESSAGE_SUMMARY);
+            $m = str_replace(array("\n", "\t"), " ", $m);
         }
-        $m = str_replace(array("\n", "\t"), " ", $m);
         $this->errors[] = $m;
         $this->logger->error($m);
     }

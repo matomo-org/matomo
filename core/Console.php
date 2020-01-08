@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Monolog\Handler\FingersCrossedHandler;
 use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
@@ -63,6 +64,27 @@ class Console extends Application
         );
 
         $this->getDefinition()->addOption($option);
+    }
+
+    public function renderException($e, $output)
+    {
+        $logHandlers = StaticContainer::get('log.handlers');
+
+        $hasFingersCrossed = false;
+        foreach ($logHandlers as $handler) {
+            if ($handler instanceof FingersCrossedHandler) {
+                $hasFingersCrossed = true;
+                continue;
+            }
+        }
+
+        if ($hasFingersCrossed
+            && $output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE
+        ) {
+            $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+        }
+
+        parent::renderException($e, $output);
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)

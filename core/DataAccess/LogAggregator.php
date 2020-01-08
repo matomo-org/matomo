@@ -8,8 +8,10 @@
  */
 namespace Piwik\DataAccess;
 
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataArray;
@@ -192,10 +194,15 @@ class LogAggregator
         $this->queryOriginHint = $nameOfOrigiin;
     }
 
-    private function getSegmentTmpTableName()
+    public function getSegmentTmpTableName()
     {
         $bind = $this->getGeneralQueryBindParams();
-        return self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+        $tableName = self::LOG_TABLE_SEGMENT_TEMPORARY_PREFIX . md5(json_encode($bind) . $this->segment->getString());
+
+        $lengthPrefix = Common::mb_strlen(Common::prefixTable(''));
+        $maxLength = Db\Schema\Mysql::MAX_TABLE_NAME_LENGTH - $lengthPrefix;
+
+        return Common::mb_substr($tableName, 0, $maxLength);
     }
 
     public function cleanup()
@@ -366,9 +373,11 @@ class LogAggregator
             $query['sql'] = 'SELECT /* ' . $this->queryOriginHint . ' */' . substr($query['sql'], strlen($select));
         }
 
-    	// Log on DEBUG level all SQL archiving queries
-        $this->logger->debug($query['sql']);
-
+        if (!$this->getSegment()->isEmpty() && is_array($query) && 0 === strpos(trim($query['sql']), $select)) {
+            $query['sql'] = trim($query['sql']);
+            $query['sql'] = 'SELECT /* ' . $this->dateStart->toString() . ',' . $this->dateEnd->toString() . ' sites ' . implode(',', array_map('intval', $this->sites)) . ' segmenthash ' . $this->getSegment()->getHash(). ' */' . substr($query['sql'], strlen($select));
+        }
+ 
         return $query;
     }
 
@@ -1155,6 +1164,9 @@ class LogAggregator
 
     public function getDb()
     {
-        return Db::getReader();
+        /** @var ArchivingStatus $archivingStatus */
+        $archivingStatus = StaticContainer::get(ArchivingStatus::class);
+        $archivingLock = $archivingStatus->getCurrentArchivingLock();
+        return new ArchivingDbAdapter(Db::getReader(), $archivingLock, $this->logger);
     }
 }

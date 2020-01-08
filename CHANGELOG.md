@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.13.1
+
+### Deprecations
+* The methods `\Piwik\Plugins\SitesManager\isSiteSpecificUserAgentExcludeEnabled()` and `\Piwik\Plugins\SitesManager\setSiteSpecificUserAgentExcludeEnabled()` have been deprecated.
+* The method `\Piwik\SettingsServer::isMatomoForWordPress()` has been added so plugins can detect if the plugin is being executed within Matomo for WordPress or Matomo On-Premise 
+
 ## Matomo 3.13.0
 
 ### New API

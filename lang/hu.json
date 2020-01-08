@@ -100,7 +100,6 @@
         "ConfigFileIsNotWritable": "A Matomo konfigurációs fájl %1$s nem írható, így egyes változtatásokat nem lehet elmenteni. %2$s Kérjük, engedélyezze a konfigurációs fájlra az írási jogot.",
         "Continue": "folytatás",
         "ContinueToPiwik": "Tovább a Matomo-hoz",
-        "CurrentlyUsingUnsecureHttp": "Ez a Matomo installáció jelenleg nem biztonságos HTTP protokollon fut, ami kockázatot jelent. Javasoljuk, hogy használja a Matomót a nagyobb biztonságot nyújtó SSL (HTTPS) technológiával.",
         "CreatedByUser": "készítette %s",
         "CurrentMonth": "Aktuális hónap",
         "CurrentWeek": "Aktuális hét",

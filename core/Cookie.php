@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
+
 /**
  * Simple class to handle the cookies:
  * - read a cookie values
@@ -131,8 +133,9 @@ class Cookie
      * @param string $Domain
      * @param bool $Secure
      * @param bool $HTTPOnly
+     * @param string $sameSite
      */
-    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false)
+    protected function setCookie($Name, $Value, $Expires, $Path = '', $Domain = '', $Secure = false, $HTTPOnly = false, $sameSite = false)
     {
         if (!empty($Domain)) {
             // Fix the domain to accept domains with and without 'www.'.
@@ -150,10 +153,11 @@ class Cookie
 
         $header = 'Set-Cookie: ' . rawurlencode($Name) . '=' . rawurlencode($Value)
             . (empty($Expires) ? '' : '; expires=' . gmdate('D, d-M-Y H:i:s', $Expires) . ' GMT')
-            . (empty($Path) ? '' : '; path=' . $Path)
-            . (empty($Domain) ? '' : '; domain=' . $Domain)
+            . (empty($Path) ? '' : '; path=' . rawurlencode($Path))
+            . (empty($Domain) ? '' : '; domain=' . rawurlencode($Domain))
             . (!$Secure ? '' : '; secure')
-            . (!$HTTPOnly ? '' : '; HttpOnly');
+            . (!$HTTPOnly ? '' : '; HttpOnly')
+            . (!$sameSite ? '' : '; SameSite=' . rawurlencode($sameSite));
 
         Common::sendHeader($header, false);
     }
@@ -179,9 +183,13 @@ class Cookie
      * Saves the cookie (set the Cookie header).
      * You have to call this method before sending any text to the browser or you would get the
      * "Header already sent" error.
+     * @param string $sameSite Value for SameSite cookie property
      */
-    public function save()
+    public function save($sameSite = null)
     {
+        if ($sameSite) {
+            $sameSite = self::getSameSiteValueForBrowser($sameSite);
+        }
         $cookieString = $this->generateContentString();
         if (strlen($cookieString) > self::MAX_COOKIE_SIZE) {
             // If the cookie was going to be too large, instead, delete existing cookie and start afresh
@@ -190,7 +198,7 @@ class Cookie
         }
 
         $this->setP3PHeader();
-        $this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
+        $this->setCookie($this->name, $cookieString, $this->expire, $this->path, $this->domain, $this->secure, $this->httponly, $sameSite);
     }
 
     /**
@@ -413,5 +421,42 @@ class Cookie
     public static function isCookieInRequest($name)
     {
         return isset($_COOKIE[$name]);
+    }
+
+    /**
+     * Find the most suitable value for a cookie SameSite attribute, given environmental restrictions which
+     * may make the most "correct" value impractical:
+     * - On Chrome, the "None" value means that the cookie will not be present on third-party sites (e.g. the site
+     * that is being tracked) when the site is loaded over HTTP.  This means that important cookies which should always
+     * be present (e.g. the opt-out cookie) won't be there at all. Using "Lax" means that at least they will be there
+     * for some requests which are deemed CSRF-safe, although other requests may have broken functionality.
+     * - On Safari, the "None" value is interpreted as "Strict".  In order to set a cookie which will be available
+     * in all third-party contexts, we have to omit the SameSite attribute altogether.
+     * @param string $default The desired SameSite value that we should use if it won't cause any problems.
+     * @return string SameSite attribute value that should be set on the cookie. Empty string indicates that no value
+     * should be set.
+     */
+    private static function getSameSiteValueForBrowser($default)
+    {
+        $sameSite = ucfirst(strtolower($default));
+
+        if ($sameSite == 'None') {
+            $userAgent = Http::getUserAgent();
+            $ddFactory = StaticContainer::get(\Piwik\DeviceDetector\DeviceDetectorFactory::class);
+            $deviceDetector = $ddFactory->makeInstance($userAgent);
+            $deviceDetector->parse();
+            $browser = $deviceDetector->getClient();
+            if (is_array($browser)) {
+                $browser = $browser['name'];
+            }
+
+            if ((!ProxyHttp::isHttps()) && $browser === 'Chrome') {
+                $sameSite = 'Lax';
+            } else if ($browser === 'Safari') {
+                $sameSite = '';
+            }
+        }
+
+        return $sameSite;
     }
 }

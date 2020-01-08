@@ -10,11 +10,14 @@
 namespace Piwik\Archive;
 
 use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
+use Piwik\ArchiveProcessor\ArchivingStatus;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
+use Piwik\CliMulti\Process;
 use Piwik\Option;
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -54,9 +57,15 @@ class ArchiveInvalidator
      */
     private $model;
 
-    public function __construct(Model $model)
+    /**
+     * @var ArchivingStatus
+     */
+    private $archivingStatus;
+
+    public function __construct(Model $model, ArchivingStatus $archivingStatus)
     {
         $this->model = $model;
+        $this->archivingStatus = $archivingStatus;
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
@@ -70,16 +79,16 @@ class ArchiveInvalidator
         // MyISAM installations)
         $value = Option::getLike($key . '%');
 
-        // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
-        // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
-        // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
-        // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
-        // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
-        // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
-        // that happen to run in overlapping transactions.
-        $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
         // getLike() returns an empty array rather than 'false'
         if (empty($value)) {
+            // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+            // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+            // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+            // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+            // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+            // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+            // that happen to run in overlapping transactions.
+            $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
             Option::set($mykey, '1');
         }
     }
@@ -123,7 +132,11 @@ class ArchiveInvalidator
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
         $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
-        $id .= '_' . getmypid();
+        if (Process::isMethodDisabled('getmypid')) {
+	        $id .= '_' . Common::getRandomString();
+        } else {
+	        $id .= '_' . getmypid();
+        }
         return $id;
     }
 
@@ -207,6 +220,7 @@ class ArchiveInvalidator
         }
 
         $periodDates = $this->getUniqueDates($periodDates);
+
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);

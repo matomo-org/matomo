@@ -14,8 +14,6 @@
         "EcommerceHelp": "Bila diaktifkan, laporan \"Tujuan\" memiliki bagian \"Niaga-E\" baru.",
         "EnableEcommerce": "Niaga-E teraktifkan",
         "EnableSiteSearch": "Pencarian Situs aktif",
-        "EnableSiteSpecificUserAgentExclude": "Aktifkan pengecualian agen pengguna tertentu situs.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Bila Anda ingin mengecualikan agen pengguna tertentu untuk situs berbeda, centang kotak ini, klik simpan dan %1$stambah agen pengguna di atas%2$s.",
         "ExceptionDeleteSite": "Tak mungkin menghapus situs yang tidak terdaftar. Tambahkan situs baru telebih dahulu, lalu hapus situs tersebut.",
         "ExceptionEmptyName": "Nama Situs tidak boleh kosong.",
         "ExceptionInvalidCurrency": "Mata uang \"%1$s\" tidak sahih. Silakan masukkan mata uang yang sesuai (misalnya %2$s)",

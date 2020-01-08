@@ -14,11 +14,19 @@
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 			<nb_users_returning>Returning Users</nb_users_returning>
 			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+			<nb_visits_new>New Visits</nb_visits_new>
+			<nb_actions_new>Actions by New Visits</nb_actions_new>
+			<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+			<nb_users_new>New Users</nb_users_new>
+			<max_actions_new>max_actions_new</max_actions_new>
 		</metrics>
 		<processedMetrics>
 			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+			<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+			<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+			<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
 		</processedMetrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
@@ -30,12 +38,37 @@
 		<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
 		<nb_users_returning>Returning Users</nb_users_returning>
 		<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+		<nb_visits_new>New Visits</nb_visits_new>
+		<nb_actions_new>Actions by New Visits</nb_actions_new>
+		<nb_uniq_visitors_new>Unique new visitors</nb_uniq_visitors_new>
+		<nb_users_new>New Users</nb_users_new>
+		<max_actions_new>Max_actions_new</max_actions_new>
 		<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
 		<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 		<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+		<avg_time_on_site_new>Avg. Duration of a New Visit (in sec)</avg_time_on_site_new>
+		<nb_actions_per_visit_new>Avg. Actions per New Visit</nb_actions_per_visit_new>
+		<bounce_rate_new>Bounce Rate for New Visits</bounce_rate_new>
 	</columns>
 	<reportData>
-		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Sunday, January 3, 2010">
+			<nb_uniq_visitors_new>2</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<nb_visits_new>2</nb_visits_new>
+			<nb_actions_new>2</nb_actions_new>
+			<max_actions_new>1</max_actions_new>
+			<bounce_rate_new>100%</bounce_rate_new>
+			<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_visits_returning>0</nb_visits_returning>
+			<nb_actions_returning>0</nb_actions_returning>
+			<nb_uniq_visitors_returning>0</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
+			<max_actions_returning>0</max_actions_returning>
+			<avg_time_on_site_returning>00:00:00</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>0</nb_actions_per_visit_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
+		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 			<nb_users_returning>0</nb_users_returning>
@@ -45,6 +78,14 @@
 			<bounce_rate_returning>100%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:00:00</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -55,6 +96,14 @@
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:15:01</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -65,6 +114,14 @@
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:15:01</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -75,6 +132,14 @@
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:15:01</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -85,6 +150,14 @@
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:15:01</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
@@ -95,6 +168,14 @@
 			<bounce_rate_returning>0%</bounce_rate_returning>
 			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
 			<avg_time_on_site_returning>00:15:01</avg_time_on_site_returning>
+			<nb_visits_new>0</nb_visits_new>
+			<nb_actions_new>0</nb_actions_new>
+			<nb_uniq_visitors_new>0</nb_uniq_visitors_new>
+			<nb_users_new>0</nb_users_new>
+			<max_actions_new>0</max_actions_new>
+			<avg_time_on_site_new>00:00:00</avg_time_on_site_new>
+			<nb_actions_per_visit_new>0</nb_actions_per_visit_new>
+			<bounce_rate_new>0%</bounce_rate_new>
 		</result>
 	</reportData>
 	<reportMetadata>

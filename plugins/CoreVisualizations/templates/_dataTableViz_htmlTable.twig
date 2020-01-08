@@ -42,7 +42,7 @@
                     {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         {% set cellAttributes = visualization.getCellHtmlAttributes(row, column) %}
-                        <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {{ cellAttributes.class|default|e('html_attr') }}"
+                        <td class="{% if column =='label' or column in dimensions %}label{% else %}column{% endif %} {% if loop.first %}first{% endif %} {{ cellAttributes.class|default|e('html_attr') }}"
                             {% if cellAttributes is not empty %}{% for name, value in cellAttributes %}{{ name|e('html') }}="{{ value|e('html_attr') }}" {% endfor %}{% endif %}
                         >
                             {% if isComparing and column == 'label' %}
@@ -77,7 +77,7 @@
                 <tr class="{{ row.getMetadata('css_class') }} totalsRow"
                         title="Total values for this table">
                     {% for column in properties.columns_to_display %}
-                        <td class="{% if column =='label' %}label{% else %}column{% endif %}">
+                        <td class="{% if column =='label' %}label{% else %}column{% endif %} {% if loop.first %}first{% endif %}">
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
                         </td>
                     {% endfor %}

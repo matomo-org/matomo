@@ -216,4 +216,6 @@ return array(
     'archiving.performance.logger' => null,
 
     \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
+
+    \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
 );

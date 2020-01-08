@@ -57,6 +57,17 @@ class SettingsServer
     }
 
     /**
+     * Returns true if Matomo is running within Matomo for WordPress.
+     *
+     * @return bool  true if Matomo is running in WordPress, false if Matomo is running as part of On-Premise
+     * @api
+     */
+    public static function isMatomoForWordPress()
+    {
+        return defined( 'ABSPATH') && function_exists('\add_action');
+    }
+
+    /**
      * Returns `true` if running on Microsoft IIS 7 (or above), `false` if otherwise.
      *
      * @return bool

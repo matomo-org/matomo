@@ -131,7 +131,8 @@ class FormDatabaseSetup extends QuickForm2
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
-            'type'          => $this->getSubmitValue('type')
+            'type'          => $this->getSubmitValue('type'),
+            'enable_ssl'    => false
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {

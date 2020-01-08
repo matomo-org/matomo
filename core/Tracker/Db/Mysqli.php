@@ -43,11 +43,11 @@ class Mysqli extends Db
      */
     public function __construct($dbInfo, $driverName = 'mysql')
     {
-        if (isset($dbInfo['unix_socket']) && $dbInfo['unix_socket'][0] == '/') {
+        if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } elseif ($dbInfo['port'][0] == '/') {
+        } elseif (isset($dbInfo['port']) && substr($dbInfo['port'], 0, 1) == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];
@@ -149,6 +149,39 @@ class Mysqli extends Db
     }
 
     /**
+     * @param \mysqli_stmt $stmt
+     * @param $fields
+     * @return array|bool|false
+     */
+    private function fetchResult($stmt, $fields) {
+
+        $values = array_fill(0, count($fields), null);
+
+        $refs = array();
+        foreach ($values as $i => &$f) {
+            $refs[$i] = &$f;
+        }
+
+        call_user_func_array(array($stmt, 'bind_result'), $values);
+
+        $result = $stmt->fetch();
+
+        if ($result === null || $result === false) {
+            $stmt->reset();
+            return false;
+        }
+
+        $val = array();
+        foreach ($values as $key => $value) {
+            $val[] = $value;
+        }
+
+        $row = array_combine($fields, $values);
+
+        return $row;
+    }
+
+    /**
      * Returns an array containing all the rows of a query result, using optional bound parameters.
      *
      * @see query()
@@ -165,17 +198,15 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $rows = array();
-            $query = $this->prepare($query, $parameters);
-            $rs = mysqli_query($this->connection, $query);
-            if (is_bool($rs)) {
-                throw new DbException('fetchAll() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
-            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
-            while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+            $rows = array();
+            while ($row = $this->fetchResult($stmt, $fields)) {
                 $rows[] = $row;
             }
-            mysqli_free_result($rs);
+
+            $stmt->free_result();
+            $stmt->close();
 
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
@@ -205,17 +236,18 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $query = $this->prepare($query, $parameters);
-            $rs = mysqli_query($this->connection, $query);
-            if (is_bool($rs)) {
-                throw new DbException('fetch() failed: ' . mysqli_error($this->connection) . ' : ' . $query);
-            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
-            $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-            mysqli_free_result($rs);
+            $row = $this->fetchResult($stmt, $fields);
+
+            $stmt->free_result();
+            $stmt->close();
 
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
+            }
+            if ($row === null) {
+                $row = false;
             }
             return $row;
         } catch (Exception $e) {
@@ -243,16 +275,12 @@ class Mysqli extends Db
                 $timer = $this->initProfiler();
             }
 
-            $query = $this->prepare($query, $parameters);
-            $result = mysqli_query($this->connection, $query);
-            if (!is_bool($result)) {
-                mysqli_free_result($result);
-            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
             if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
-            return $result;
+            return $stmt;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
                                    In query: $query
@@ -270,6 +298,55 @@ class Mysqli extends Db
         return mysqli_insert_id($this->connection);
     }
 
+    private function executeQuery($sql, $bind) {
+
+        $stmt = mysqli_prepare($this->connection, $sql);
+
+        if (!$stmt) {
+            throw new DbException('preparing query failed: ' . mysqli_error($this->connection) . ' : ' . $sql);
+        }
+
+        if (!is_array($bind)) {
+            $bind = array($bind);
+        }
+
+        if (!empty($bind)) {
+            array_unshift($bind, str_repeat('s', count($bind)));
+            $refs = array();
+            foreach ($bind as $key => $value) {
+                $refs[$key] = &$bind[$key];
+            }
+
+            call_user_func_array(array($stmt, 'bind_param'), $refs);
+        }
+
+        $stmtResult = $stmt->execute();
+
+        if ($stmtResult === false) {
+            throw new DbException("Mysqli statement execute error : " . $stmt->error, $stmt->errno);
+        }
+
+        if (!empty($stmt->error)) {
+            throw new DbException('executeQuery() failed: ' . mysqli_error($this->connection) . ' : ' . $sql);
+        }
+
+        $metaResults = $stmt->result_metadata();
+
+        if ($stmt->errno) {
+            throw new DbException("Mysqli statement metadata error: " . $stmt->error, $stmt->errno);
+        }
+
+        $fields = array();
+        if ($metaResults) {
+            $fetchedFields = $metaResults->fetch_fields();
+            foreach ($fetchedFields as $fetchedField) {
+                $fields[] = $fetchedField->name;
+            }
+            $stmt->store_result();
+        }
+
+        return array($stmt, $fields);
+    }
     /**
      * Input is a prepared SQL statement and parameters
      * Returns the SQL statement
@@ -285,11 +362,9 @@ class Mysqli extends Db
         } elseif (!is_array($parameters)) {
             $parameters = array($parameters);
         }
-
         $this->paramNb = 0;
         $this->params = & $parameters;
         $query = preg_replace_callback('/\?/', array($this, 'replaceParam'), $query);
-
         return $query;
     }
 
@@ -297,7 +372,6 @@ class Mysqli extends Db
     {
         $param = & $this->params[$this->paramNb];
         $this->paramNb++;
-
         if ($param === null) {
             return 'NULL';
         } else {
@@ -318,6 +392,9 @@ class Mysqli extends Db
      */
     public function rowCount($queryResult)
     {
+        if (!empty($queryResult) && is_object($queryResult) && $queryResult instanceof \mysqli_stmt) {
+            return $queryResult->affected_rows;
+        }
         return mysqli_affected_rows($this->connection);
     }
 

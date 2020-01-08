@@ -4,6 +4,7 @@
         "Administration": "Administración",
         "ArchivingSettings": "Configuración de archivado",
         "BrandingSettings": "Configuración del Branding",
+        "ErrorEmailFromAddressNotValid": "El SMTP de la dirección no es valido",
         "ReleaseChannel": "Canal de lanzamiento",
         "ClickHereToOptIn": "Haga clic aquí para optar.",
         "ClickHereToOptOut": "Haga clic aquí para no ser seguido.",
@@ -99,7 +100,7 @@
         "ValidPiwikHostname": "Hostname válido Matomo",
         "WithOptionalRevenue": "con una facturación opcional",
         "YouAreOptedOut": "Actualmente está siendo excluido.",
-        "YouAreNotOptedOut": "No está siendo rastreado.",
+        "YouAreNotOptedOut": "Está siendo rastreado",
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis de internet asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio de internet.",
         "YouMayOptOutBis": "Para escoger esto, por favor haga clic debajo para recibir una cookie opt-out (para no ser seguido).",
         "OptingYouOut": "Opción a salir, por favor espere...",
@@ -130,6 +131,7 @@
         "ConfirmDeleteThisTrackingFailure": "¿Está seguro que desea eliminar esta falla de seguimiento?",
         "TrackingFailuresEmailSubject": "Fallas de seguimiento en su Matomo Analytics",
         "TrackingFailuresEmail1": "Esto es solo para hacerle saber que %s se han producido diferentes tipos de fallas de seguimiento en los últimos días.",
-        "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s."
+        "TrackingFailuresEmail2": "Para ver todas las peticiones de fallas de seguimiento haga %1$s clic aquí%2$s.",
+        "ImportFromGoogleAnalytics": "Importar de Google Analytics"
     }
 }

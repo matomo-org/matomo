@@ -15,8 +15,6 @@
         "EcommerceHelp": "Når aktiveret har \"Mål\" rapporten en ny \"E-handel\" sektion.",
         "EnableEcommerce": "E-handel aktiveret",
         "EnableSiteSearch": "Sporing af websteds søgninger er aktiveret",
-        "EnableSiteSpecificUserAgentExclude": "Aktiver hjemmeside specifik brugeragent udelukkelse.",
-        "EnableSiteSpecificUserAgentExclude_Help": "Hvis du har brug at udelukke forskellige brugeragenter for forskellige hjemmesider, Marker dette felt, Klik på Gem og %1$stilføj brugeragenterne ovenfor%2$s.",
         "ExceptionDeleteSite": "Det er ikke muligt at slette hjemmesiden. Det er den eneste oprettede. Tilføj en ny hjemmeside, og slet så denne.",
         "ExceptionEmptyName": "Hjemmesidens navn kan ikke være tomt.",
         "ExceptionInvalidCurrency": "Valutaen \"%1$s\" er ikke gyldig. Angiv et gyldigt valutasymbol (f.eks. %2$s)",
