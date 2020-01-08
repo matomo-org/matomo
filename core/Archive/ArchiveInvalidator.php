@@ -23,6 +23,7 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
 use Piwik\Segment;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 
@@ -90,7 +91,18 @@ class ArchiveInvalidator
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
-        $value = $this->getRememberedArchivedReportsOptionFromTracker($idSite, $date->toString());
+        if (SettingsServer::isTrackerApiRequest()) {
+            $value = $this->getRememberedArchivedReportsOptionFromTracker($idSite, $date->toString());
+        } else {
+            // To support multiple transactions at once, look for any other process to have set (and committed)
+            // this report to be invalidated.
+            $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
+
+            // we do not really have to get the value first. we could simply always try to call set() and it would update or
+            // insert the record if needed but we do not want to lock the table (especially since there are still some
+            // MyISAM installations)
+            $value = Option::getLike($key . '%');
+        }
 
         // getLike() returns an empty array rather than 'false'
         if (empty($value)) {
