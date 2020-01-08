@@ -2,7 +2,7 @@
     <p>
 		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>')|raw }}
         <br/><br/>
-		{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~dbipLiteUrl~"'>",dbipLiteUrl,'</a>')|raw }}
+		{% if dbipLiteUrl|default is not empty %}{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~dbipLiteUrl~"'>",dbipLiteUrl,'</a>')|raw }}{% endif %}
 
 		<span ng-show="locationUpdater.geoipDatabaseInstalled">
 			<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
