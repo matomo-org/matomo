@@ -23,7 +23,7 @@ use Piwik\Plugins\Marketplace\Api\Exception;
 class Php extends GeoIp2
 {
     const ID = 'geoip2php';
-    const TITLE = 'GeoIP 2 (Php)';
+    const TITLE = 'DBIP / GeoIP 2 (Php)';
 
     /**
      * The GeoIP2 reader instances used. This array will contain at most two
@@ -99,22 +99,30 @@ class Php extends GeoIp2
                 switch ($reader->metadata()->databaseType) {
                     case 'GeoLite2-Country':
                     case 'GeoIP2-Country':
+                    case 'DBIP-Country-Lite':
+                    case 'DBIP-Country':
+                    case 'DBIP-Location (compat=Country)':
                         $lookupResult = $reader->country($ip);
                         $this->setCountryResults($lookupResult, $result);
                         break;
-                    case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
+                    case 'DBIP-City-Lite':
+                    case 'DBIP-City':
                     case 'GeoIP2-City':
                     case 'GeoIP2-City-Africa':
                     case 'GeoIP2-City-Asia-Pacific':
                     case 'GeoIP2-City-Europe':
                     case 'GeoIP2-City-North-America':
                     case 'GeoIP2-City-South-America':
-                        if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
-                            $lookupResult = $reader->enterprise($ip);
-                        } else {
-                            $lookupResult = $reader->city($ip);
-                        }
+                    case 'DBIP-Location (compat=City)':
+                        $lookupResult = $reader->city($ip);
+                        $this->setCountryResults($lookupResult, $result);
+                        $this->setCityResults($lookupResult, $result);
+                        break;
+                    case 'GeoIP2-Enterprise':
+                    case 'DBIP-Location-ISP (compat=Enterprise)':
+                    case 'DBIP-Enterprise':
+                        $lookupResult = $reader->enterprise($ip);
                         $this->setCountryResults($lookupResult, $result);
                         $this->setCityResults($lookupResult, $result);
                         break;
@@ -142,6 +150,15 @@ class Php extends GeoIp2
                         $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
                         $result[self::ORG_KEY] = $lookupResult->autonomousSystemOrganization;
                         break;
+                    case 'GeoIP2-Enterprise':
+                    case 'DBIP-ISP (compat=Enterprise)':
+                    case 'DBIP-Location-ISP (compat=Enterprise)':
+                    case 'DBIP-ISP':
+                    case 'DBIP-Enterprise':
+                        $lookupResult = $ispGeoIp->enterprise($ip);
+                        $result[self::ISP_KEY] = $lookupResult->traits->isp;
+                        $result[self::ORG_KEY] = $lookupResult->traits->organization;
+                        break;
                 }
             } catch (AddressNotFoundException $e) {
                 // ignore - do nothing
@@ -154,6 +171,54 @@ class Php extends GeoIp2
 
         $this->completeLocationResult($result);
         return $result;
+    }
+
+    /**
+     * Returns a generalized name for the type of GeoIP database that is configured to load. The result is suitable
+     * for use as a filename, is not the exact value of the databaseType metadata.
+     *
+     * @param string $dbType 'loc', 'isp', etc.
+     */
+    public function detectDatabaseType($dbType)
+    {
+        $reader = $this->getGeoIpInstance($dbType);
+        if (empty($reader)) {
+            throw new \Exception("Unable to determine what type of database this is.");
+        }
+
+        $specificDatabaseTypeMetadata = $reader->metadata()->databaseType;
+        switch ($specificDatabaseTypeMetadata) {
+            case 'DBIP-Country-Lite':
+            case 'DBIP-Location (compat=Country)':
+                return 'DBIP-Country';
+            case 'DBIP-City-Lite':
+            case 'DBIP-Location (compat=City)':
+                return 'DBIP-City';
+            case 'GeoLite2-Country':
+                return 'GeoIP2-Country';
+            case 'DBIP-ISP (compat=Enterprise)':
+                return 'DBIP-ISP';
+            case 'DBIP-Location-ISP (compat=Enterprise)':
+                return 'DBIP-Enterprise';
+            case 'GeoLite2-City':
+            case 'GeoIP2-City-Africa':
+            case 'GeoIP2-City-Asia-Pacific':
+            case 'GeoIP2-City-Europe':
+            case 'GeoIP2-City-North-America':
+            case 'GeoIP2-City-South-America':
+                return 'GeoIP2-City';
+            case 'GeoIP2-ISP':
+            case 'GeoLite2-ASN':
+            case 'DBIP-Country':
+            case 'DBIP-City':
+            case 'GeoIP2-City':
+            case 'GeoIP2-Enterprise':
+            case 'GeoIP2-Country':
+            case 'DBIP-ISP':
+                return $specificDatabaseTypeMetadata;
+            default:
+                throw new \Exception("Unknown database type: $specificDatabaseTypeMetadata");
+        }
     }
 
     protected function setCountryResults($lookupResult, &$result)
@@ -222,23 +287,29 @@ class Php extends GeoIp2
     {
         $result = array();
 
-        // country & continent info always available
-        $result[self::CONTINENT_CODE_KEY] = true;
-        $result[self::CONTINENT_NAME_KEY] = true;
-        $result[self::COUNTRY_CODE_KEY] = true;
-        $result[self::COUNTRY_NAME_KEY] = true;
-
         $reader = $this->getGeoIpInstance($key = 'loc');
         if ($reader) {
+            // country & continent info always available
+            $result[self::CONTINENT_CODE_KEY] = true;
+            $result[self::CONTINENT_NAME_KEY] = true;
+            $result[self::COUNTRY_CODE_KEY] = true;
+            $result[self::COUNTRY_NAME_KEY] = true;
+
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoLite2-City':
+                case 'DBIP-City-Lite':
+                case 'DBIP-City':
                 case 'GeoIP2-City':
                 case 'GeoIP2-City-Africa':
                 case 'GeoIP2-City-Asia-Pacific':
                 case 'GeoIP2-City-Europe':
                 case 'GeoIP2-City-North-America':
                 case 'GeoIP2-City-South-America':
+                case 'DBIP-Enterprise':
+                case 'DBIP-Location-ISP (compat=Enterprise)':
+                case 'DBIP-ISP (compat=Enterprise)':
+                case 'DBIP-Location (compat=City)':
                     $result[self::REGION_CODE_KEY] = true;
                     $result[self::REGION_NAME_KEY] = true;
                     $result[self::CITY_NAME_KEY] = true;
@@ -282,14 +353,19 @@ class Php extends GeoIp2
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 
+        $availableInfo = $this->getSupportedLocationInfo();
+
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoLite2-City.mmdb']) !== false) {
+
+        if (isset($availableInfo[self::CITY_NAME_KEY]) && $availableInfo[self::CITY_NAME_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
-        if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
+
+        if (isset($availableInfo[self::COUNTRY_NAME_KEY]) && $availableInfo[self::COUNTRY_NAME_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Country');
         }
-        if (self::getPathToGeoIpDatabase(self::$dbNames['isp']) !== false) {
+
+        if (isset($availableInfo[self::ISP_KEY]) && $availableInfo[self::ISP_KEY]) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
         }
 
