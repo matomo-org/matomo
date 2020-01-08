@@ -84,7 +84,7 @@ class ArchiveInvalidator
             $suffix = substr($name, strlen($this->rememberArchivedReportIdStart));
             list($idSite, $dateStr) = explode('_', $suffix);
 
-            $all[$idSite][$dateStr][$name] = $value;
+            $all[$idSite][$dateStr] = $value;
         }
         return $all;
     }
