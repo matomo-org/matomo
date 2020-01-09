@@ -6019,7 +6019,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Clears the User ID and generates a new visitor id.
+             * Clears the User ID
              */
             this.resetUserId = function() {
                 configUserId = '';
