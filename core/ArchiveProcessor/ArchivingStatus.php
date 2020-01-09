@@ -41,7 +41,7 @@ class ArchivingStatus
     {
         $this->lockBackend = $lockBackend;
         $this->archivingTTLSecs = $archivingTTLSecs;
-        $this->pid = Common::getRandomInt(8);
+        $this->pid = Common::getProcessId();
     }
 
     public function archiveStarted(Parameters $params)
