@@ -9,6 +9,7 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
@@ -41,7 +42,12 @@ class ArchivingStatus
     {
         $this->lockBackend = $lockBackend;
         $this->archivingTTLSecs = $archivingTTLSecs;
-        $this->pid = Common::getRandomInt(8);
+
+        $cache = Cache::getTransientCache();
+        if (!$cache->contains('ArchivingStatusPid')) {
+            $cache->save('ArchivingStatusPid', Common::getRandomInt(8));
+        }
+        $this->pid = $cache->fetch('ArchivingStatusPid');
     }
 
     public function archiveStarted(Parameters $params)
