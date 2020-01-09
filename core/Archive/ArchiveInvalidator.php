@@ -171,11 +171,7 @@ class ArchiveInvalidator
     private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
         $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
-        if (Process::isMethodDisabled('getmypid')) {
-	        $id .= '_' . Common::getRandomString();
-        } else {
-	        $id .= '_' . getmypid();
-        }
+        $id .= '_' . Common::getProcessId();
         return $id;
     }
 

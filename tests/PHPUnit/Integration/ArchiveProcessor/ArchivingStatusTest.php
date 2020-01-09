@@ -44,7 +44,7 @@ class ArchivingStatusTest extends IntegrationTestCase
 
         $this->assertEquals([
             [
-                'key' => 'Archiving.1.fab0afcc3a068ecd91b14d50f3bc911d.' . getmypid(),
+                'key' => 'Archiving.1.fab0afcc3a068ecd91b14d50f3bc911d.' . Common::getProcessId(),
                 'expiry_time' => time() + ArchivingStatus::DEFAULT_ARCHIVING_TTL,
             ],
         ], $this->getLockKeysAndTtls());
