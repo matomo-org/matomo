@@ -176,6 +176,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'jsTag'         => $jsTag,
             'piwikUrl'      => $piwikUrl,
             'emailBody'     => $emailContent,
+            'showMatomoLinks' => $showMatomoLinks,
             'googleAnalyticsImporterMessage' => $googleAnalyticsImporterMessage,
         ), $viewType = 'basic');
     }
