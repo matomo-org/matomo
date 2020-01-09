@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -251,8 +252,9 @@ class Model
 
     public function getUserByTokenAuth($tokenAuth)
     {
+        $tokenAuth = hash('sha3-512', $tokenAuth . Config::getInstance()->General['salt']);
         $db = $this->getDb();
-        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
+        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE `password` = ? and login_type='token_auth'", $tokenAuth);
     }
 
     public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)

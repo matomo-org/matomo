@@ -12,6 +12,7 @@ namespace Piwik\Tests\Unit\Session;
 
 use Piwik\Date;
 use Piwik\Session\SessionFingerprint;
+use Piwik\Tests\Framework\Fixture;
 
 class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 {
@@ -64,7 +65,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $this->testInstance->initialize('testuser', true, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), true, self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
@@ -75,7 +76,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_hasVerifiedTwoFactor()
     {
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), self::TEST_TIME_VALUE);
 
         // after logging in, the user has by default not verified two factor, important
         $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
@@ -87,7 +88,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_updateSessionExpireTime_SetsANewExpirationTime()
     {
-        $this->testInstance->initialize('testuser', false, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), false, self::TEST_TIME_VALUE);
 
         Date::$now = self::TEST_TIME_VALUE + 100;
 

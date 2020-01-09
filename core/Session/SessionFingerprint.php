@@ -9,6 +9,7 @@
 
 namespace Piwik\Session;
 
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 
@@ -42,6 +43,7 @@ class SessionFingerprint
     const USER_NAME_SESSION_VAR_NAME = 'user.name';
     const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
     const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
+    const SESSION_INFO_TEMP_TOKEN_AUTH = 'user.token_auth_temp';
 
     public function getUser()
     {
@@ -61,6 +63,15 @@ class SessionFingerprint
         return null;
     }
 
+    public function getTempTokenAuth()
+    {
+        if (!empty($_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH])) {
+            return $_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH];
+        }
+
+        return null;
+    }
+
     public function hasVerifiedTwoFactor()
     {
         if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
@@ -75,11 +86,12 @@ class SessionFingerprint
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 1;
     }
 
-    public function initialize($userName, $isRemembered = false, $time = null)
+    public function initialize($userName, $tokenAuth, $isRemembered = false, $time = null)
     {
         $time = $time ?: Date::now()->getTimestampUTC();
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 0;
+        $_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH] = $tokenAuth;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time,
             'remembered' => $isRemembered,

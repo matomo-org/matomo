@@ -15,6 +15,7 @@ use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
+use Piwik\Session\SessionAuth;
 
 /**
  * Singleton that manages user access to Piwik resources.
@@ -155,8 +156,20 @@ class Access
             return false;
         }
 
+        $auth = $this->auth;
+
+        $forceApiSession = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
+        if ($forceApiSession && Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction())) {
+            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_POST);
+            if (!empty($tokenAuth)) {
+                Session::start();
+                $auth = StaticContainer::get(SessionAuth::class);
+                $auth->setTokenAuth($tokenAuth);
+            }
+        }
+
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
-        $result = $this->auth->authenticate();
+        $result = $auth->authenticate();
 
         if (!$result->wasAuthenticationSuccessful()) {
             return false;

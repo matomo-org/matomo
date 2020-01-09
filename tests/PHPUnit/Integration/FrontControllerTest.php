@@ -70,7 +70,7 @@ FORMAT;
         Access::getInstance()->setSuperUserAccess(false);
 
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize('superUserLogin');
+        $sessionFingerprint->initialize('superUserLogin', Fixture::getTokenAuth());
 
         FrontController::getInstance()->init();
 

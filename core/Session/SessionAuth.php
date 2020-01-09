@@ -11,6 +11,7 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
@@ -42,6 +43,8 @@ class SessionAuth implements Auth
      */
     private $user;
 
+    private $tokenAuth;
+
     public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
@@ -55,7 +58,7 @@ class SessionAuth implements Auth
 
     public function setTokenAuth($token_auth)
     {
-        // empty
+        $this->tokenAuth = $token_auth;
     }
 
     public function getLogin()
@@ -113,7 +116,17 @@ class SessionAuth implements Auth
 
         $this->updateSessionExpireTime($sessionFingerprint);
 
-        return $this->makeAuthSuccess($user);
+        if (!empty($this->tokenAuth) && $this->tokenAuth !== $sessionFingerprint->getTempTokenAuth()) {
+            return $this->makeAuthFailure();
+        }
+
+        if ($sessionFingerprint->getTempTokenAuth()) {
+            $tokenAuth = $sessionFingerprint->getTempTokenAuth();
+        } else {
+            $tokenAuth = Common::getRandomString(32, 'abcdef1234567890');
+        }
+
+        return $this->makeAuthSuccess($user, $tokenAuth);
     }
 
     private function isSessionStartedBeforePasswordChange(SessionFingerprint $sessionFingerprint, $tsPasswordModified)
@@ -137,14 +150,14 @@ class SessionAuth implements Auth
         return new AuthResult(AuthResult::FAILURE, null, null);
     }
 
-    private function makeAuthSuccess($user)
+    private function makeAuthSuccess($user, $tokenAuth)
     {
         $this->user = $user;
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
 
-        return new AuthResult($code, $user['login'], $user['token_auth']);
+        return new AuthResult($code, $user['login'], $tokenAuth);
     }
 
     protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
@@ -178,7 +191,7 @@ class SessionAuth implements Auth
 
     public function getTokenAuth()
     {
-        return $this->user['token_auth'];
+        return $this->tokenAuth;
     }
 
     private function updateSessionExpireTime(SessionFingerprint $sessionFingerprint)
