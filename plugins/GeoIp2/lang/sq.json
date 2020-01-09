@@ -1,9 +1,9 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "S’u gjet dot bazë e vlefshme të dhënash GeoIP te arkivi tar %1$s!",
+        "CannotFindGeoIPDatabaseInArchive": "S’u gjet dot bazë e vlefshme të dhënash DBIP \/ GeoIP te arkivi tar %1$s!",
         "CannotUnzipGeoIPFile": "S’u shzipua dot kartela GeoIP te %1$s: %2$s",
-        "PluginDescription": "Furnizon shërbime vendndodhjesh GeoIP2.",
-        "LocationProviderDesc_Php": "Ky furnizues vendesh është më i thjeshti për t’u instaluar, ngaqë nuk lyp formësim shërbyesish (ideal për strehim të përbashkët!). Për të përcaktuar saktë vendin e vizitorëve tuaj, përdor një bazë të dhënash GeoIP 2 dhe API-n PHP të MaxMind-it.",
+        "PluginDescription": "Furnizon shërbime vendndodhjesh DBIP \/ GeoIP2.",
+        "LocationProviderDesc_Php": "Ky furnizues vendndodhjesh sh është më i thjeshti për t’u instaluar, ngaqë nuk lyp formësim shërbyesish (ideal për strehim të përbashkët!). Për të përcaktuar saktë vendin e vizitorëve tuaj, përdor një bazë të dhënash DBIP ose GeoIP 2 dhe API-n PHP të MaxMind-it.",
         "LocationProviderDesc_Php_WithExtension": "Ky furnizues vendndodhjesh përshpejtohet nga zgjerimi %1$smaxminddb%2$s i instaluar.",
         "LocationProviderDesc_ServerModule": "Ky furnizues vendndodhjesh përdor modulin GeoIP 2 që është instaluar te shërbyesi juaj HTTP. Ky furnizues është i shpejtë dhe i përpiktë, por %1$smund të përdoret vetëm me ndjekje të zakonshme të shfletimit.%2$s",
         "LocationProviderDesc_ServerModule2": "Nëse ju duhet të importoni kartela regjistër ose të bëni diçka tjetër që lyp caktim adresash IP, përdorni %3$ssendërtimin PHP GeoIP 2%4$s dhe instaloni %1$szgjerimin maxminddb%2$s.",

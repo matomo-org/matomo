@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Nëse veprimtaria për të cilën keni përputhje ka të ardhura, dhe këto të ardhura ndiqen si vlera e veprimtarisë, mund ta aktivizoni këtë mundësi për të regjistruar vlerën e veprimtarisë si të ardhura shndërrimi objektivi. Nëse të ardhurat e objektivit tuaja nuk ndryshojnë sipas shndërrimesh, mund ta shpërfillni këtë mundësi dhe thjesht të caktoni më sipër një të ardhur parazgjedhje.",
         "EventValueAsRevenueHelp2": "Shënim: Nëse janë caktuar si e ardhura parazgjedhje e objektivit, ashtu edhe vlera e veprimtarisë, do të përdoret vlera e veprimtarisë. Nëse kjo mundësi është e aktivizuar dhe në një kërkesë nuk është dërguar vlerë veprimtarie, do të përdoret vlera parazgjedhje (në pastë të caktuar një të tillë).",
         "AtLeastMinutes": "të paktën %1$s minuta. Përdorni shifra dhjetore për sekonda, për shembull, %2$s për përputhje me 30 sekonda.",
-        "TimeInMinutes": "Kohë në Minuta"
+        "TimeInMinutes": "Kohë në Minuta",
+        "ClickToViewThisGoal": "Klikoni për të parë këtë objektiv."
     }
 }

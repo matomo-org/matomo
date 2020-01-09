@@ -1,8 +1,6 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Tar-arkistosta %1$s ei löytynyt kelvollista GeoIP-tietokantaa!",
         "CannotUnzipGeoIPFile": "GeoIP-tiedoston purkaminen epäonnistui: %1$s: %2$s",
-        "PluginDescription": "Tuottaa GeoIP2-sijaintitarjoajat.",
         "ServerBasedVariablesConfiguration": "Palvelimen muuttujat GeoIP2-palvelinmoduulille",
         "ServerVariableFor": "Palvelimen muuttuja %s:lle"
     }

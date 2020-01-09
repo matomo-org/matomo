@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Si el evento que estás coincidiendo tiene un ingreso, y dicho ingreso está siendo rastreado como el valor del evento, podés habilitar esta opción para registrar el valor del evento como los ingresos de la conversión de la meta. Si los ingresos de tu meta no variarán por conversión, podés ignorar esta opción y simplemente establecer un ingreso predeterminado arriba.",
         "EventValueAsRevenueHelp2": "Nota: si se establecen tanto un ingreso predeterminado de meta como un valor de evento, se usará el valor del evento. Si esta opción está habilitada y no se envió un valor de evento en una solicitud, se usará el ingreso predeterminado (si está establecido).",
         "AtLeastMinutes": "al menos %1$s minutos. Usá decimales para coincidir con los segundos. Por ejemplo: %2$s para coincidir con 30 segundos.",
-        "TimeInMinutes": "Tiempo en minutos"
+        "TimeInMinutes": "Tiempo en minutos",
+        "ClickToViewThisGoal": "Hacé clic para ver esta meta."
     }
 }

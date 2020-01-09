@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Se l'evento di cui si sta eseguendo la corrispondenza ha dei ricavi, ed essi sono tracciati come valore dell'evento, è possibile abilitare questa opzione per registrare il valore dell'evento come ricavi della conversione dell'obiettivo. Se le entrate del tuo obiettivo non variano in base alla conversione, puoi ignorare questa opzione e impostare solo le entrate predefinite qui sopra.",
         "EventValueAsRevenueHelp2": "Nota: se sono definiti sia un guadagno obiettivo che un valore evento, verrà utilizzato il valore dell'evento. Se questa opzione è abilitata e nessun valore evento viene inviato in una richiesta, verranno utilizzate le entrate predefinite (se definite).",
         "AtLeastMinutes": "almeno %1$s minuti. Usa i decimali per aggiungere i secondi, per esempio, %2$s per aggiungere 30 secondi.",
-        "TimeInMinutes": "Tempo in Minuti"
+        "TimeInMinutes": "Tempo in Minuti",
+        "ClickToViewThisGoal": "Clicca per vedere questo obiettivo."
     }
 }
