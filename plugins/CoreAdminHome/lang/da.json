@@ -4,6 +4,7 @@
         "Administration": "Administration",
         "ArchivingSettings": "Arkivering indstillinger",
         "BrandingSettings": "Brandingindstillinger",
+        "ErrorEmailFromAddressNotValid": "SMTP adressen er ikke gyldig",
         "ReleaseChannel": "Frigiv kanal",
         "ClickHereToOptIn": "Klik her for at vælge.",
         "ClickHereToOptOut": "Klik her for at fravælge.",

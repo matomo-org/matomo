@@ -1,9 +1,6 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "tar アーカイブ %1$sに有効な GeoIP データベースが見つかりません!",
         "CannotUnzipGeoIPFile": "%1$s の GeoIP ファイルを解凍できません: %2$s",
-        "PluginDescription": "GeoIP2 ロケーションプロバイダを提供します。",
-        "LocationProviderDesc_Php": "この位置情報プロバイダーはサーバーを設定する必要がないため一番簡単です（共有ホストに最適）。このプロバイダーは訪問者の位置情報を決定するためにGeoIP 2データベースとMaxMindのPHP APIを使用します。",
         "LocationProviderDesc_Php_WithExtension": "この位置情報プロバイダーは、インストールされている%1$smaxminddb%2$s 拡張機能により高速化されています。",
         "LocationProviderDesc_ServerModule": "このロケーションプロバイダーは、HTTP サーバーにインストールされている GeoIP2 モジュールを使用します。 このプロバイダは高速で正確ですが、%1$s通常のブラウザトラッキングでのみ使用できます。%2$s",
         "LocationProviderDesc_ServerModule2": "ログファイルをインポートやIPアドレスの設定が必要な場合は、 %3$sPHP GeoIP2 実装%4$s を使用し、%1$smaxminddb 拡張モジュール%2$sをインストールしてください。",

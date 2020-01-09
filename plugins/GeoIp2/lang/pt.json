@@ -1,9 +1,6 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Não foi encontrada uma base de dados GeoIP válida no arquivo tar %1$s!",
         "CannotUnzipGeoIPFile": "Não foi possível extrair o ficheiro GeoIP em %1$s: %2$s",
-        "PluginDescription": "Fornece fornecedores de localização GeoIP2.",
-        "LocationProviderDesc_Php": "Este fornecedor de localização é o mais simples de instalar, dado que não exige configurações no servidor (é ideal para alojamentos partilhados!). Utiliza uma base de dados GeoIP 2 e a API PHP do MaxMind para determinar com precisão a localização dos seus visitantes.",
         "LocationProviderDesc_Php_WithExtension": "Este fornecedor de localização é acelerado pela extensão %1$smaxminddb%2$s instalada.",
         "LocationProviderDesc_ServerModule": "Este fornecedor de localização utiliza o módulo GeoIP 2 que foi instalado no seu servidor HTTP. Este fornecedor é rápido e preciso, mas %1$ssó pode ser utilizado para um acompanhamento normal de navegadores.%2$s",
         "LocationProviderDesc_ServerModule2": "Se tiver de importar ficheiros de registo ou fazer algo mais que necessite da definição de endereços de IP, utilize a %3$simplementação PHP do GeoIP 2%4$s e instale a %1$sextensão maxminddb%2$s.",
