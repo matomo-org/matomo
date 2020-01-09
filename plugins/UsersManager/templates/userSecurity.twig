@@ -1,0 +1,51 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+{% if isUsersAdminEnabled %}
+    <div piwik-content-block content-title="{{ 'General_ChangePassword'|translate|e('html_attr') }}" feature="true">
+        <form id="userSettingsTable" method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'recordPasswordChange'}) }}">
+
+            <input type="hidden" value="{{ nonce }}" name="nonce">
+
+            {% if isValidHost is defined and isValidHost %}
+
+                <div piwik-field uicontrol="password" name="password" autocomplete="off"
+                     ng-model="personalSettings.password"
+                     ng-change="personalSettings.requirePasswordConfirmation()"
+                     data-title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
+                </div>
+
+                <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
+                     ng-model="personalSettings.passwordBis"
+                     ng-change="personalSettings.requirePasswordConfirmation()"
+                     data-title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
+                </div>
+
+                <div piwik-field uicontrol="password" name="passwordConfirmation" autocomplete="off"
+                     ng-model="personalSettings.current_password"
+                     data-title="{{ 'UsersManager_YourCurrentPassword'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'UsersManager_TypeYourCurrentPassword'|translate|e('html_attr') }}">
+                </div>
+
+                <input type="submit"
+                       value="{{ 'General_Save'|translate|e('html_attr') }}"
+                       class="btn"/>
+            {% endif %}
+
+            {% if isValidHost is not defined or not isValidHost %}
+                <div class="alert alert-danger">
+                    {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
+                    {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+
+    {{ postEvent('Template.userSecurity.afterPassword') }}
+{% endif %}
+{% endblock %}

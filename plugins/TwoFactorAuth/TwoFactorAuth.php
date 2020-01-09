@@ -34,7 +34,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
             'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
             'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
-            'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
+            'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
     }

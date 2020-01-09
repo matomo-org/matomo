@@ -91,6 +91,7 @@
         "TokenRegenerateConfirmSelf": "Changing the API authentication token will invalidate your own token. If the current token is in use, you need to update all API clients with the newly generated token. Do you really want to change your authentication token?",
         "TokenRegenerateTitle": "Regenerate",
         "TypeYourPasswordAgain": "Type your new password again.",
+        "TypeYourCurrentPassword": "Please type your current password to confirm the password change.",
         "User": "User",
         "UserHasPermission":"%1$s currently has %2$s access for %3$s.",
         "UserHasNoPermission":"%1$s currently has %2$s to %3$s",
