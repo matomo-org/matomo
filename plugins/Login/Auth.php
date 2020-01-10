@@ -101,7 +101,7 @@ class Auth implements \Piwik\Auth
     private function authenticateWithLoginAndToken($token, $login)
     {
         $user = $this->userModel->getUser($login);
-
+//TODO
         if (!empty($user['token_auth'])
             // authenticate either with the token or the "hash token"
             && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
