@@ -1,9 +1,8 @@
 <div ng-show="locationUpdater.geoipDatabaseInstalled" id="geoipdb-update-info">
     <p>
-		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>',
-        '<a href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}
+		{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/?refid=mtm">','</a>')|raw }}
         <br/><br/>
-		{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~geoLiteUrl~"'>",geoLiteUrl,'</a>')|raw }}
+		{% if dbipLiteUrl|default is not empty %}{{ 'UserCountry_GeoLiteCityLink'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl|e('html_attr')~'">',dbipLiteUrl|e('html'),'</a>')|raw }}{% endif %}
 
 		<span ng-show="locationUpdater.geoipDatabaseInstalled">
 			<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:

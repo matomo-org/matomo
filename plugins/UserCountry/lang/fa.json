@@ -28,7 +28,6 @@
         "getCountryDocumentation": "این گزارش نشان میدهد که بازدیدکنندگان هنگام ورود به وبسایت شما در کدام کشور بوده اند.",
         "getRegionDocumentation": "این گزارش نشان میدهد که بازدیدکنندگان هنگام ورود به وبسایت شما در کدام منطقه بوده اند.",
         "HowToInstallApacheModule": "چگونه ماژول GeoIP را برای آپاچی نصب کنم؟",
-        "HowToInstallGeoIPDatabases": "چگونه می توانم GeoIP با پایگاه داده را دریافت کنم؟",
         "HttpServerModule": "ماژول HTTP سرور",
         "ISPDatabase": "پایگاه داده ISP",
         "Latitude": "عرض جغرافیایی",

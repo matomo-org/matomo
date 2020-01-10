@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
@@ -18,12 +19,15 @@ use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\RawLogDao;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
+use Piwik\Period\Factory;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\CronArchive\SitesToReprocessDistributedList;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use Piwik\Period\Range;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SegmentEditor\Model as SegmentEditorModel;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -478,7 +482,7 @@ class CronArchive
                     try {
                         if ($this->isWebsiteUsingTheTracker($idSite)) {
 
-                            if(!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
+                            if (!$this->hadWebsiteTrafficSinceMidnightInTimezone($idSite)) {
                                 $this->logger->info("Skipped website id $idSite as archiving is not needed");
 
                                 $this->skippedDayNoRecentData++;
@@ -831,7 +835,6 @@ class CronArchive
         $request = "?module=API&method=API.get&idSite=$idSite&period=$period&date=" . $date . "&format=php";
         if ($segment) {
             $request .= '&segment=' . urlencode($segment);
-            ;
         }
         return $request;
     }
@@ -886,8 +889,6 @@ class CronArchive
         $date = $this->getApiDateParameter($idSite, "day", $processDaysSince);
         $url = $this->getVisitsRequestUrl($idSite, "day", $date);
 
-        $this->logArchiveWebsite($idSite, "day", $date);
-
         $cliMulti = $this->makeCliMulti();
         if ($cliMulti->isCommandAlreadyRunning($this->makeRequestUrl($url))) {
             $this->logger->info("Skipped website id $idSite, such a process is already in progress, " . $timerWebsite->__toString());
@@ -895,53 +896,69 @@ class CronArchive
             return false;
         }
 
-        $content = $this->request($url);
-        $daysResponse = Common::safe_unserialize($content);
+        $visitsLastDays = 0;
 
-        if (empty($content)
-            || !is_array($daysResponse)
-            || count($daysResponse) == 0
-        ) {
-            // cancel marking the site as reprocessed
-            if ($websiteInvalidatedShouldReprocess) {
-                $store = new SitesToReprocessDistributedList();
-                $store->add($idSite);
+        list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, 'day', $date, $segment = '');
+        if ($isThereArchive) {
+            $visitsToday = Archive::build($idSite, 'day', $date)->getNumeric('nb_visits');
+            $visitsToday = end($visitsToday);
+            $visitsToday = isset($visitsToday['nb_visits']) ? $visitsToday['nb_visits'] : 0;
+
+            $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, 'day', $date);
+            ++$this->skipped;
+        } else {
+            $date = $newDate; // use modified lastN param
+
+            $this->logArchiveWebsite($idSite, "day", $date);
+
+            $content = $this->request($url);
+            $daysResponse = Common::safe_unserialize($content);
+
+            if (empty($content)
+                || !is_array($daysResponse)
+                || count($daysResponse) == 0
+            ) {
+                // cancel marking the site as reprocessed
+                if ($websiteInvalidatedShouldReprocess) {
+                    $store = new SitesToReprocessDistributedList();
+                    $store->add($idSite);
+                }
+
+                $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
+                $this->skippedDayOnApiError++;
+                $this->skipped++;
+                return false;
             }
 
-            $this->logError("Empty or invalid response '$content' for website id $idSite, " . $timerWebsite->__toString() . ", skipping");
-            $this->skippedDayOnApiError++;
-            $this->skipped++;
-            return false;
-        }
+            $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
+            $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
 
-        $visitsToday = $this->getVisitsLastPeriodFromApiResponse($daysResponse);
-        $visitsLastDays = $this->getVisitsFromApiResponse($daysResponse);
+            $this->requests++;
+            $this->processed++;
 
-        $this->requests++;
-        $this->processed++;
+            $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
 
-        $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
+            // If there is no visit today and we don't need to process this website, we can skip remaining archives
+            if (
+                0 == $visitsToday && !$shouldArchiveWithoutVisits
+                && !$shouldArchivePeriods
+            ) {
+                $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
+                $this->skippedDayNoRecentData++;
+                $this->skipped++;
+                return false;
+            }
 
-        // If there is no visit today and we don't need to process this website, we can skip remaining archives
-        if (
-            0 == $visitsToday && !$shouldArchiveWithoutVisits
-            && !$shouldArchivePeriods
-        ) {
-            $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
-            $this->skippedDayNoRecentData++;
-            $this->skipped++;
-            return false;
-        }
-
-        if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
-            && !$shouldArchivePeriods
-            && $this->shouldArchiveAllSites
-        ) {
-            $humanReadableDate = $this->formatReadableDateRange($date);
-            $this->logger->info("Skipped website id $idSite, no visits in the $humanReadableDate days, " . $timerWebsite->__toString());
-            $this->skippedPeriodsNoDataInPeriod++;
-            $this->skipped++;
-            return false;
+            if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
+                && !$shouldArchivePeriods
+                && $this->shouldArchiveAllSites
+            ) {
+                $humanReadableDate = $this->formatReadableDateRange($date);
+                $this->logger->info("Skipped website id $idSite, no visits in the $humanReadableDate days, " . $timerWebsite->__toString());
+                $this->skippedPeriodsNoDataInPeriod++;
+                $this->skipped++;
+                return false;
+            }
         }
 
         $this->visitsToday += $visitsToday;
@@ -953,6 +970,67 @@ class CronArchive
             Option::set($this->lastRunKey($idSite, "day"), time());
         }
         return $dayArchiveWasSuccessful;
+    }
+
+    private function isThereAValidArchiveForPeriod($idSite, $period, $date, $segment = '')
+    {
+        if (Range::isMultiplePeriod($date, $period)) {
+            $rangePeriod = Factory::build($period, $date, Site::getTimezoneFor($idSite));
+            $periodsToCheck = $rangePeriod->getSubperiods();
+        } else {
+            $periodsToCheck = [Factory::build($period, $date, Site::getTimezoneFor($idSite))];
+        }
+
+        $periodsToCheckRanges = array_map(function (Period $p) { return $p->getRangeString(); }, $periodsToCheck);
+
+        $this->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain();
+
+        $archiveIds = ArchiveSelector::getArchiveIds(
+            [$idSite], $periodsToCheck, new Segment($segment, [$idSite]), $plugins = [], // empty plugins param since we only check for an 'all' archive
+            $includeInvalidated = false
+        );
+
+        $foundArchivePeriods = [];
+        foreach ($archiveIds as $doneFlag => $dates) {
+            foreach ($dates as $dateRange => $idArchives) {
+                $foundArchivePeriods[] = $dateRange;
+            }
+        }
+
+        $diff = array_diff($periodsToCheckRanges, $foundArchivePeriods);
+        $isThereArchiveForAllPeriods = empty($diff);
+
+        // if there is an invalidated archive within the range, find out the oldest one and how far it is from today,
+        // and change the lastN $date to be value so it is correctly re-processed.
+        $newDate = $date;
+        if (!$isThereArchiveForAllPeriods
+            && preg_match('/^last([0-9]+)/', $date, $matches)
+        ) {
+            $lastNValue = (int) $matches[1];
+
+            usort($diff, function ($lhs, $rhs) {
+                $lhsDate = explode(',', $lhs)[0];
+                $rhsDate = explode(',', $rhs)[0];
+
+                if ($lhsDate == $rhsDate) {
+                    return 1;
+                } else if (Date::factory($lhsDate)->isEarlier(Date::factory($rhsDate))) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+
+            $oldestDateWithoutArchive = explode(',', reset($diff))[0];
+            $todayInTimezone = Date::factoryInTimezone('today', Site::getTimezoneFor($idSite));
+
+            /** @var Range $newRangePeriod */
+            $newRangePeriod = PeriodFactory::build($period, $oldestDateWithoutArchive . ',' . $todayInTimezone);
+
+            $newDate = 'last' . min($lastNValue, $newRangePeriod->getNumberOfSubperiods());
+        }
+
+        return [$isThereArchiveForAllPeriods, $newDate];
     }
 
     /**
@@ -1019,13 +1097,22 @@ class CronArchive
 
             $self = $this;
             $request = new Request($url);
-            $request->before(function () use ($self, $url, $idSite, $period, $date) {
+            $request->before(function () use ($self, $url, $idSite, $period, $date, $segment, $request) {
                 if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
-                     return Request::ABORT;
+                    return Request::ABORT;
                 }
+
+                list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
+                if ($isThereArchive) {
+                    $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date);
+                    return Request::ABORT;
+                }
+
+                $request->changeDate($newDate);
+
+                $this->logArchiveWebsite($idSite, $period, $newDate);
             });
             $urls[] = $request;
-            $this->logArchiveWebsite($idSite, $period, $date);
         }
 
         $segmentRequestsCount = 0;
@@ -1068,6 +1155,18 @@ class CronArchive
         $this->logArchivedWebsite($idSite, $period, $date, $segmentRequestsCount, $visitsInLastPeriods, $visitsInLastPeriod, $periodTimer);
 
         return $success;
+    }
+
+    // TODO: need test to make sure segment archives are invalidated as well
+    private function logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment = '')
+    {
+        $this->logger->info("Skipping archiving for website id = {idSite}, period = {period}, date = {date}, segment = {segment}, "
+            . "since there is already a valid archive (tracking a visit automatically invalidates archives).", [
+            'idSite' => $idSite,
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+        ]);
     }
 
     /**
@@ -1294,7 +1393,7 @@ class CronArchive
     {
         $timezone = Site::getTimezoneFor($idSite);
 
-        $nowInTimezone      = Date::factory('now', $timezone);
+        $nowInTimezone      = Date::factoryInTimezone('now', $timezone);
         $midnightInTimezone = $nowInTimezone->setTime('00:00:00');
 
         $secondsSinceMidnight = $nowInTimezone->getTimestamp() - $midnightInTimezone->getTimestamp();
@@ -1832,6 +1931,7 @@ class CronArchive
             $segments[] = $segment;
         }
 
+
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
 
@@ -1865,18 +1965,28 @@ class CronArchive
             $request = new Request($urlWithSegment);
             $logger = $this->logger;
             $self = $this;
-            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount, $idSite, $period, $urlWithSegment, $self) {
-
+            $request->before(function () use ($logger, $segment, $segmentCount, &$processedSegmentCount, $idSite, $period, $date, $urlWithSegment, $self, $request) {
                 if ($self->isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)) {
                     return Request::ABORT;
                 }
 
+                list($isThereArchive, $newDate) = $this->isThereAValidArchiveForPeriod($idSite, $period, $date, $segment);
+                if ($isThereArchive) {
+                    $this->logArchiveWebsiteSkippedValidArchiveExists($idSite, $period, $date, $segment);
+                    return Request::ABORT;
+                }
+
+                $url = $request->getUrl();
+                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+                $request->setUrl($url);
+
                 $processedSegmentCount++;
                 $logger->info(sprintf(
-                    '- pre-processing segment %d/%d %s',
+                    '- pre-processing segment %d/%d %s [date = %s]',
                     $processedSegmentCount,
                     $segmentCount,
-                    $segment
+                    $segment,
+                    $newDate
                 ));
             });
 

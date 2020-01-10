@@ -1,8 +1,6 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Tar-arkivet %1$sinnehåller ingen GeoIP-databas!",
         "CannotUnzipGeoIPFile": "Kan inte packa upp GeoIP-filen i %1$s: %2$s",
-        "PluginDescription": "Tillhandahåller platstjänster för GeoIP2.",
         "LocationProviderDesc_Php_WithExtension": "Den här platstjänsten kan göras snabbare med det installerade %1$smaxminddb%2$s-tillägget.",
         "LocationProviderDesc_ServerModule": "Den här platstjänsten använder GeoIP 2-modulen som installerats på din HTTP-server. Den här tjänsten är snabb och träffsäker, men %1$skan endast användas tillsammans med normal webbläsarspårning.%2$s",
         "LocationProviderDesc_ServerModule2": "Om du behöver importera loggfiler eller göra något annat som kräver IP-adresser: Använd %1$sPECL GeoIP (rekommenderas)%2$s eller %3$sPHP GeoIP%4$s.",

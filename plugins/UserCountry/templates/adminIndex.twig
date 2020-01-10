@@ -18,8 +18,8 @@
         <h3 style="margin-top:0;">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
         <ul style="list-style:disc !important;margin-left:2em;">
-            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a rel="noreferrer noopener" href="'~geoLiteUrl~'">','</a>','<a rel="noreferrer noopener" target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}</li>
-            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'"~geoLiteFilename~"'",'<strong>','</strong>')|raw }}</li>
+            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a rel="noreferrer noopener" href="'~dbipLiteUrl~'">','</a>','<a rel="noreferrer noopener" target="_blank" href="http://db-ip.com/?refid=mtm">','</a>')|raw }}</li>
+            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'"~dbipLiteFilename~"'",'<strong>','</strong>','<strong>'~dbipLiteDesiredFilename~'</strong>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step4'|translate }}</li>
         </ul>
@@ -146,7 +146,7 @@
                                         <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
                                     </div>
                                     <div class="geoipdb-column-2 col s6">
-                                        <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>')|raw }}</p>
+                                        <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm">','</a>')|raw }}</p>
                                     </div>
                                     <div class="geoipdb-column-1 col s6">
                                         <input type="button" class="btn"
@@ -163,7 +163,7 @@
                         </div>
                         <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
                             <div piwik-progressbar
-                                 label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">'~geoLiteFilename~'</a>') ~ '...')|json_encode }}"
+                                 label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
                                  progress="locationUpdater.progressFreeDownload">
                             </div>
                         </div>

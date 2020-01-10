@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Eşleşen etkinliğin bir geliri varsa ve bu gelir etkinlik değeri olarak izleniyorsa, bu seçeneği etkinleştirerek etkinlik değerinin hedef dönüşüm değeri olarak kaydedilmesini sağlayabilirsiniz. Hedef geliriniz dönüşümlere göre değişmiyorsa bu seçeneği yok sayarak yukarıdaki varsayılan geliri ayarlayabilirsiniz.",
         "EventValueAsRevenueHelp2": "Not: Hem varsayılan hedef geliri hem de etkinlik değeri belirtilmiş ise etkinlik değeri kullanılır. Bu seçenek etkinleştirilmiş olduğu halde bir istekte herhangi bir etkinlik değeri gönderilmemiş ise (belirtilmiş ise) varsayılan gelir kullanılır.",
         "AtLeastMinutes": "en az %1$s dakika. Saniye belirtmek için ondalık olarak yazın. Örneğin 30 saniye için %2$s.",
-        "TimeInMinutes": "Dakika Cinsinden Süre"
+        "TimeInMinutes": "Dakika Cinsinden Süre",
+        "ClickToViewThisGoal": "Bu hedefi görüntülemek için tıklayın."
     }
 }

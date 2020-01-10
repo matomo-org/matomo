@@ -9,6 +9,7 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Common;
 use Piwik\Concurrency\Lock;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Container\StaticContainer;
@@ -34,10 +35,13 @@ class ArchivingStatus
      */
     private $lockStack = [];
 
+    private $pid;
+
     public function __construct(LockBackend $lockBackend, $archivingTTLSecs = self::DEFAULT_ARCHIVING_TTL)
     {
         $this->lockBackend = $lockBackend;
         $this->archivingTTLSecs = $archivingTTLSecs;
+        $this->pid = Common::getProcessId();
     }
 
     public function archiveStarted(Parameters $params)
@@ -102,6 +106,6 @@ class ArchivingStatus
 
     private function getInstanceProcessId()
     {
-        return SettingsPiwik::getPiwikInstanceId() . '.' . getmypid();
+        return SettingsPiwik::getPiwikInstanceId() . '.' . $this->pid;
     }
 }

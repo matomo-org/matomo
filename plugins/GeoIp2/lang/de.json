@@ -1,9 +1,9 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Im TAR Archiv %1$s konnte keine gültige GeoIP Datenbank gefunden werden!",
+        "CannotFindGeoIPDatabaseInArchive": "Im TAR Archiv %1$s konnte keine gültige DBIP \/ GeoIP Datenbank gefunden werden!",
         "CannotUnzipGeoIPFile": "Konnte GeoIP-Datei in %1$s nicht entpacken: %2$s",
-        "PluginDescription": "Liefert GeoIP 2 Standorterkennungsdienste.",
-        "LocationProviderDesc_Php": "Dieser Location Provider ist am einfachsten zu installieren, da er keine Server-Konfiguration benötigt (ideal für Shared Hosting!). Er nutzt eine GeoIP 2 Datenbank und MaxMind's PHP API um den Standort Ihrer Besucher akkurat zu bestimmen.",
+        "PluginDescription": "Liefert DBIP \/ GeoIP2 Standorterkennungsdienste.",
+        "LocationProviderDesc_Php": "Dieser Location Provider ist am einfachsten zu installieren, da er keine Server-Konfiguration benötigt (ideal für Shared Hosting!). Er nutzt eine DBIP oder GeoIP 2 Datenbank und MaxMind's PHP API um den Standort Ihrer Besucher akkurat zu bestimmen.",
         "LocationProviderDesc_Php_WithExtension": "Dieser Standorterkennungsdienst wird durch die installierte %1$smaxminddb%2$s Erweiterung beschleunigt.",
         "LocationProviderDesc_ServerModule": "Diese Art der Standortbestimmung verwendet das GeoIP2-Modul das auf ihrem HTTP-Server installiert ist. Diese ist am schnellsten und genauesten, aber %1$skann nur bei normalem Browser-Tracking benutzt werden%2$s",
         "LocationProviderDesc_ServerModule2": "Falls Sie Protokolldateien oder andere Dinge importieren welche IP-Adressen enthalten sollten Sie die %3$sPHP GeoIP 2 Implementierung%4$s nutzen und die %1$smaxminddb Erweiterung%2$s installieren.",
