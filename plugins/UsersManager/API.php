@@ -1350,6 +1350,8 @@ class API extends \Piwik\Plugin\API
 
         if (empty($expireDate) && !empty($expireHours) && is_numeric($expireHours)) {
             $expireDate = Date::now()->addHour($expireHours)->getDatetime();
+        } elseif (!empty($expireDate)) {
+            $expireDate = Date::factory($expireDate)->getDatetime();
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
