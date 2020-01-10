@@ -54,7 +54,7 @@ See https://matomo.org/docs/installation/
 
 ## Free trial 
 
-If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (30 day free trial): https://matomo.org/start-30-day-free-analytics-trial/
+If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (21 day free trial): https://matomo.org/start-free-analytics-trial/
 
 ## Online Demo
 

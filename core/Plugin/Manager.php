@@ -483,7 +483,7 @@ class Manager
             $path = $dir . $pluginName;
             if (is_dir($path)) {
                 self::$pluginsToPathCache[$pluginName] = self::getPluginRealPath($path);
-                self::$pluginsToWebRootDirCache[$pluginName] = $relative;
+                self::$pluginsToWebRootDirCache[$pluginName] = rtrim($relative, '/');
                 return $path;
             }
         }

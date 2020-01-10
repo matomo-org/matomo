@@ -165,7 +165,11 @@ class Process
             return false;
         }
 
-        if (self::shellExecFunctionIsDisabled()) {
+        if (self::isMethodDisabled('shell_exec')) {
+            return false;
+        }
+
+        if (self::isMethodDisabled('getmypid')) {
             return false;
         }
 
@@ -202,9 +206,12 @@ class Process
         return false;
     }
 
-    private static function shellExecFunctionIsDisabled()
+    public static function isMethodDisabled($command)
     {
-        $command = 'shell_exec';
+        if (!function_exists($command)) {
+            return true;
+        }
+
         $disabled = explode(',', ini_get('disable_functions'));
         $disabled = array_map('trim', $disabled);
         return in_array($command, $disabled)  || !function_exists($command);

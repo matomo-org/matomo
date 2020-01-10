@@ -1,7 +1,7 @@
 {
     "General": {
-        "12HourClock": "Système horaire sur 12 heures",
-        "24HourClock": "Système horaire sur 24 heures",
+        "12HourClock": "Horloge 12 heures",
+        "24HourClock": "Horloge 12 heures",
         "AbandonedCarts": "Paniers abandonnés",
         "AboutPiwikX": "À propos de Matomo %s",
         "Action": "Action",
@@ -594,7 +594,7 @@
     },
     "RowEvolution": {
         "AvailableMetrics": "Métriques disponibles",
-        "CompareDocumentation": "Cliquez sur le lien ci-dessous et ouvrez ce popup pour une autre ligne de la même table pour comparer plusieurs enregistrements. <br \/>Utilisez maj+clic pour marquer la ligne pour la comparaison sans ouvrir ce popup.",
+        "CompareDocumentation": "Cliquez sur le lien ci-dessous et ouvrez cette fenêtre pour une autre ligne du même tableau pour comparer plusieurs enregistrements. <br \/>Utilisez Maj + clic pour marquer la ligne à comparer sans ouvrir cette fenêtre contextuelle.",
         "CompareRows": "Comparer les enregistrements",
         "ComparingRecords": "Comparaison de %s lignes",
         "Documentation": "Cliquez sur les métriques pour les afficher dans le grand graphique d'évolution. Utilisez maj+clic pour afficher plusieurs métriques à la fois.",

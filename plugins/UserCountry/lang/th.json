@@ -12,7 +12,6 @@
         "Location": "ตำแหน่งที่ตั้ง",
         "Longitude": "ลองจิจูด",
         "Region": "ภูมิภาค",
-        "SetupAutomaticUpdatesOfGeoIP": "ติดตั้งการปรับปรุงอัตโนมัติจากฐานข้อมูล GeoIP",
         "SubmenuLocations": "ตำแหน่งที่อยู่",
         "UpdaterWasLastRun": "ตัวปรับปรุงทำงานครั้งล่าสุดเมื่อ %s"
     }

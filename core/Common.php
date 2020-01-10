@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
@@ -198,6 +199,31 @@ class Common
         }
 
         return substr($string, $start, $length);
+    }
+
+    /**
+     * Gets the current process ID.
+     * Note: If getmypid is disabled, a random ID will be generated once and used throughout the request. There is a
+     * small chance that two processes at the same time may generated the same random ID. If you need to rely on the
+     * value being 100% unique, then you may need to use `getmypid` directly or some other logic. Eg in CliMulti it is
+     * fine to use `getmypid` directly as the logic won't be used if getmypid is disabled...
+     * If you are wanting to use the pid to check if the process is running eg using `ps`, then you also have to use
+     * getmypid directly.
+     *
+     * @return int|null
+     */
+    public static function getProcessId()
+    {
+        static $pid;
+        if (!isset($pid)) {
+            if (Process::isMethodDisabled('getmypid')) {
+                $pid = Common::getRandomInt(12);
+            } else {
+                $pid = getmypid();
+            }
+        }
+
+        return $pid;
     }
 
     /**

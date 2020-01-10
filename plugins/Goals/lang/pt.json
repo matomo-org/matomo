@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Se o evento que está a corresponder tem um rendimento e, se esse rendimento é acompanhado como o valor do evento, pode ativar esta opção para registar o valor do evento como rendimento da conversão do objetivo. Se o rendimento do objetivo não vai variar por conversão, pode ignorar esta opção e definir apenas um valor predefinido de rendimento acima.",
         "EventValueAsRevenueHelp2": "Nota: Se estiverem definidos o rendimento predefinido do objetivo e o valor do evento, será utilizado o valor do evento. Se esta opção estiver ativa e se nenhum valor de evento for enviado num pedido, será utilizador o valor predefinido de rendimento (se definido).",
         "AtLeastMinutes": "pelo menos %1$s minutos. Utilize decimais para corresponder segundos, por exemplo, %2$s para corresponder 30 segundos.",
-        "TimeInMinutes": "Tempo em minutos"
+        "TimeInMinutes": "Tempo em minutos",
+        "ClickToViewThisGoal": "Clique para ver este objetivo."
     }
 }

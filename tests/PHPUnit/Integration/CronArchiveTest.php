@@ -151,22 +151,22 @@ Starting Matomo reports archiving...
 Will pre-process for website id = 1, period = day, date = last%s
 - pre-processing all visits
 - skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last52]
 Archived website id = 1, period = day, 1 segments, 1 visits in last %s days, 1 visits today, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = week, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last260]
 Archived website id = 1, period = week, 1 segments, 1 visits in last %s weeks, 1 visits this week, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = month, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last52]
 Archived website id = 1, period = month, 1 segments, 1 visits in last %s months, 1 visits this month, Time elapsed: %s
+- skipping segment archiving for 'actions>=4'.
 Will pre-process for website id = 1, period = year, date = last%s
 - pre-processing all visits
-- skipping segment archiving for 'actions>=4'.
-- pre-processing segment 1/1 actions>=2
+- pre-processing segment 1/1 actions>=2 [date = last7]
 Archived website id = 1, period = year, 1 segments, 1 visits in last %s years, 1 visits this year, Time elapsed: %s
 Archived website id = 1, %s API requests, Time elapsed: %s [1/1 done]
 Done archiving!

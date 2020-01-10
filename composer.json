@@ -34,7 +34,7 @@
         "piwik/decompress": "~1.0",
         "piwik/network": "~0",
         "piwik/cache": "~1.0.0",
-        "piwik/ini": "^1.0.6",
+        "piwik/ini": "^1.0.8",
         "php-di/php-di": "^5.0.0",
         "psr/log": "~1.0",
         "monolog/monolog": "~1.11",

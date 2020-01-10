@@ -146,7 +146,7 @@
                     <div class="configItem dataTableExcludeLowPopulation"></div>
                 </li>
             {% endif %}
-            {% if properties.show_pivot_by_subtable|default is not empty %}
+            {% if properties.show_pivot_by_subtable|default is not empty and not isComparing|default(false) %}
                 <li>
                     <div class="configItem dataTablePivotBySubtable"></div>
                 </li>

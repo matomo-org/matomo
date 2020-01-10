@@ -18,9 +18,8 @@ use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\LocalDevUtilities\LocalDevUtilities;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
-use Piwik\Plugins\Referrers\Reports\Get;
 use Piwik\Site;
 
 /**
@@ -66,7 +65,7 @@ class API extends \Piwik\Plugin\API
             $dataTable->filter(ColumnCallbackAddColumnPercentage::class, [
                 $column . '_percent',
                 $column,
-                $totalVisits
+                $totalVisits,
             ]);
         }
 
@@ -115,7 +114,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable
      */
     public function getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
-                                    $idSubtable = false, $expanded = false)
+                                    $idSubtable = false, $expanded = false, $_setReferrerTypeLabel = true)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -170,8 +169,12 @@ class API extends \Piwik\Plugin\API
                 Common::REFERRER_TYPE_WEBSITE        => 'website',
             )
         ));
+
         // set referrer type column to readable value
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
+        if ($_setReferrerTypeLabel == 1) {
+            $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrer_type']);
+            $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getReferrerTypeLabel'));
+        }
 
         return $dataTable;
     }
@@ -201,6 +204,7 @@ class API extends \Piwik\Plugin\API
             'expanded' => true,
             'disable_generic_filters' => true,
             'disable_queued_filters' => true,
+            '_setReferrerTypeLabel' => 0,
         ], []);
 
         if ($dataTable instanceof DataTable\Map) {
@@ -723,20 +727,22 @@ class API extends \Piwik\Plugin\API
     {
         if ($table instanceof DataTable) {
             $nameToColumnId = array(
-                'Referrers_visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
-                'Referrers_visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
-                'Referrers_visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
-                'Referrers_visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
-                'Referrers_visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
+                Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referrers_visitorsFromSearchEngines',
+                Common::REFERRER_TYPE_SOCIAL_NETWORK => 'Referrers_visitorsFromSocialNetworks',
+                Common::REFERRER_TYPE_DIRECT_ENTRY => 'Referrers_visitorsFromDirectEntry',
+                Common::REFERRER_TYPE_WEBSITE => 'Referrers_visitorsFromWebsites',
+                Common::REFERRER_TYPE_CAMPAIGN => 'Referrers_visitorsFromCampaigns',
             );
 
-            $newRow = array();
-            foreach ($nameToColumnId as $nameVar => $columnId) {
-                $value = 0;
-                $row = $table->getRowFromLabel($columnId);
-                if ($row !== false) {
-                    $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
+            $newRow = array_fill_keys(array_values($nameToColumnId), 0);
+            foreach ($table->getRows() as $row) {
+                $referrerType = $row->getMetadata('referrer_type');
+                if (empty($nameToColumnId[$referrerType])) {
+                    continue;
                 }
+
+                $nameVar = $nameToColumnId[$referrerType];
+                $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
                 $newRow[$nameVar] = $value;
             }
 

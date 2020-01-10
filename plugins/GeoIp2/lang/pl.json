@@ -1,8 +1,6 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Archiwum tar %1$s nie zawiera poprawnej bazy GeoIP!",
         "CannotUnzipGeoIPFile": "Nie udało się rozpakować pliku GeoIP %1$s: %2$s",
-        "PluginDescription": "Dostarcza dostawców lokalizacji GeoIP2.",
         "LocationProviderDesc_Php_WithExtension": "Ten dostawca lokalizacji przyspiesza dzięki zainstalowanemu rozszerzeniu %1$smaxminddb%2$s.",
         "LocationProviderDesc_ServerModule": "Ten dostawca lokalizacji wykorzystuje moduł GeoIP2 zainstalowany w Twoim serwerze WWW. Działa szybko i dokładnie, ale %1$smoże być wykorzystany przy śledzeniu ruchu przeglądarek.%2$s",
         "LocationProviderDesc_ServerModule2": "Jeśli musisz zaimportować pliki logów lub zrobić coś innego, co wymaga ustawienia adresu IP, użyj %3$simplementacji PHP dla GeoIP2%4$s i zainstaluj %1$srozszerzenie maxminddb%2$s.",
