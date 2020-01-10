@@ -3263,16 +3263,16 @@ if (typeof window.Piwik !== 'object') {
                 // a unique ID for this tracker during this request
                 uniqueTrackerId = trackerIdCounter++,
 
-                // TODO
+                // map of extra extra tracker config mapped by plugin name
                 extraTrackerConfigByPlugin = null,
 
-                // TODO
+                // list of callbacks to invoke with extra tracker config once it is loaded
                 extraTrackerConfigCallbacks = [],
 
-                // TODO
+                // true if currently fetching extra tracker config
                 isAlreadyFetchingExtraConfig = false,
 
-                // TODO
+                // true if we failed to load the extra tracker config for some reason
                 loadExtraConfigEncounteredError = false;
 
             // Document title
@@ -7646,7 +7646,8 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * TODO
+             * Returns a unique ID for this tracker instance.
+             *
              * @returns {number}
              */
             this.getUniqueTrackerId = function () {
@@ -7654,11 +7655,12 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * TODO
+             * Loads extra tracker config via an HTTP request. Uses jsonp.
+             *
              * @param {Tracker} tracker
-             * @param {Function} callback
+             * @param {Function} callback @see getExtraConfig
              */
-            function loadExtraConfig(tracker, callback) { // TODO: move to appropriate location
+            function loadExtraConfig(tracker, callback) {
                 extraTrackerConfigCallbacks.push(callback);
 
                 if (isAlreadyFetchingExtraConfig) {
@@ -7723,7 +7725,10 @@ if (typeof window.Piwik !== 'object') {
                 try {
                     cacheEntry = JSON.parse(sessionStorage.getItem(cacheKey));
                 } catch (e) {
-                    // TODO: debug log
+                    var consoleType = typeof console;
+                    if (consoleType !== 'undefined' && console && console.log) {
+                        console.log("Failed to parse cached extra tracker config JSON: " + (e.stack || e.message));
+                    }
                     return;
                 }
 
@@ -7740,10 +7745,11 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /**
-             * TODO
+             * Sets extra tracker config if the config is for this tracker's idSite. For internal use only.
              *
              * @param {string} trackerIdSite
              * @param {object} config
+             * @internal
              */
             this.setExtraConfig = function (trackerIdSite, config) {
                 if (configTrackerSiteId != trackerIdSite
@@ -7757,16 +7763,17 @@ if (typeof window.Piwik !== 'object') {
                 var callbacks = extraTrackerConfigCallbacks;
                 extraTrackerConfigCallbacks = [];
 
-                callbacks.forEach(function (callback) {// TODO: foreach ok to call?
-                    callback(null, config);
-                });
+                for (var i = 0; i < callbacks.length; ++i) {
+                    callbacks[i](null, config);
+                }
             };
 
             /**
-             * TODO
+             * Returns extra tracker config for tracker plugins.
              *
-             * @param {string} plugin TODO
-             * @param {Function} callback TODO
+             * @param {string} plugin The plugin name, eg, ExampleTracker
+             * @param {Function} callback The callback to invoke with the tracker config. Takes two parameters, first is an Error object
+             *                            in case we couldn't load the config, the second is the tracker config.
              */
             this.getExtraConfig = function (plugin, callback) {
                 if (extraTrackerConfigByPlugin !== null) {
@@ -7774,7 +7781,7 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                var cachedTrackerConfig = getCachedTrackerExtraConfig(); // TODO tracker
+                var cachedTrackerConfig = getCachedTrackerExtraConfig();
                 if (cachedTrackerConfig) {
                     extraTrackerConfigByPlugin = cachedTrackerConfig;
                     callback(null, extraTrackerConfigByPlugin[plugin] || {});
@@ -8183,16 +8190,18 @@ if (typeof window.Piwik !== 'object') {
             },
 
             /**
-             * TODO
-             * @param trackerIdSite
-             * @param config
+             * Sets the tracker config. This is used by the jsonp code emitted by the tracker. Not for public use.
+             *
+             * @param {number} trackerIdSite
+             * @param {object} config
              * @internal
              * @ignore
              */
             setTrackerConfig: function (trackerIdSite, config) {
-                this.getAsyncTrackers().forEach(function (tracker) {
-                    tracker.setExtraConfig(trackerIdSite, config);
-                });
+                var trackers = this.getAsyncTrackers();
+                for (var i = 0; i < trackers.length; ++i) {
+                    trackers[i].setExtraConfig(trackerIdSite, config);
+                }
             },
 
             /**
