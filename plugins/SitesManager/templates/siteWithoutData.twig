@@ -52,9 +52,9 @@
                     <br >
                     {{ 'SitesManager_ExtraInformationNeeded'|translate }}
                     <br >
-                    Matomo URL: {{ piwikUrl }}
+                    Matomo URL: <code piwik-select-on-focus>{{ piwikUrl }}</code>
                     <br >
-                    {{ 'SitesManager_EmailInstructionsYourSiteId'|translate(idSite) }}
+                    {{ 'SitesManager_EmailInstructionsYourSiteId'|translate('<code piwik-select-on-focus>' ~ idSite ~ '</code>')|raw }}
                     <br >
                 </p>
                 {% endif %}
