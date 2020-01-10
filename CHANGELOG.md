@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking changes
 * The API `UsersManager.getTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
+* The API `UsersManager.createTokenAuth` has been removed. Instead you need to use `UsersManager.createAppSpecificTokenAuth` and store this token in your application.
 
 ## Matomo 3.13.1
 

@@ -86,24 +86,20 @@ function createSuperUser() {
 
     $login    = 'superUserLogin';
     $password = $passwordHelper->hash(UsersManager::getPasswordHash('superUserPass'));
-    $token    = UsersManagerAPI::getInstance()->createTokenAuth($login);
 
     $model = new \Piwik\Plugins\UsersManager\Model();
     $user  = $model->getUser($login);
 
-    if (!empty($user)) {
-        $token = $user['token_auth'];
-    }
     if (empty($user)) {
-        $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
+        $model->addUser($login, $password, 'hello@example.org', $login, Date::now()->getDatetime());
     } else {
-        $model->updateUser($login, $password, 'hello@example.org', $login, $token);
+        $model->updateUser($login, $password, 'hello@example.org', $login);
     }
 
     $setSuperUser = empty($user) || !empty($user['superuser_access']);
     $model->setSuperUserAccess($login, $setSuperUser);
 
-    return $model->getUserByTokenAuth($token);
+    return $model->getUser($login);
 }
 
 function createWebsite($dateTime)

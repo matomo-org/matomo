@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
+use Piwik\SettingsPiwik;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
@@ -258,7 +259,7 @@ class Model
 
     public function generateRandomTokenAuth()
     {
-        return Common::getRandomString(32, 'abcdef1234567890');
+        return md5(Common::getRandomString(32, 'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
     public function addTokenAuth($login, $tokenAuth, $description, $dateCreated)
@@ -348,14 +349,13 @@ class Model
         }
     }
 
-    public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $alias, $dateRegistered)
     {
         $user = array(
             'login'            => $userLogin,
             'password'         => $hashedPassword,
             'alias'            => $alias,
             'email'            => $email,
-            'token_auth'       => $tokenAuth,
             'date_registered'  => $dateRegistered,
             'superuser_access' => 0,
             'ts_password_modified' => Date::now()->getDatetime(),
@@ -401,7 +401,7 @@ class Model
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login, email, token_auth, superuser_access
+        $users = $db->fetchAll("SELECT login, email, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
                                 ORDER BY date_registered ASC");
@@ -409,24 +409,16 @@ class Model
         return $users;
     }
 
-    public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
+    public function updateUser($userLogin, $hashedPassword, $email, $alias)
     {
         $fields = array(
             'alias'      => $alias,
             'email'      => $email,
-            'token_auth' => $tokenAuth
         );
         if (!empty($hashedPassword)) {
             $fields['password'] = $hashedPassword;
         }
         $this->updateUserFields($userLogin, $fields);
-    }
-
-    public function updateUserTokenAuth($userLogin, $tokenAuth)
-    {
-        $this->updateUserFields($userLogin, array(
-            'token_auth' => $tokenAuth
-        ));
     }
 
     public function userExists($userLogin)

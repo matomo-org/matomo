@@ -684,9 +684,8 @@ class API extends \Piwik\Plugin\API
 
         $alias               = $this->getCleanAlias($alias, $userLogin);
         $passwordTransformed = $this->password->hash($passwordTransformed);
-        $token_auth          = $this->createTokenAuth($userLogin);
 
-        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, $token_auth, Date::now()->getDatetime());
+        $this->model->addUser($userLogin, $passwordTransformed, $email, $alias, Date::now()->getDatetime());
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
@@ -844,29 +843,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Regenerate the token_auth associated with a user.
-     *
-     * If the user currently logged in regenerates his own token, he will be logged out.
-     * His previous token will be rendered invalid.
-     *
-     * @param   string  $userLogin
-     * @throws  Exception
-     */
-    public function regenerateTokenAuth($userLogin)
-    {
-        $this->checkUserIsNotAnonymous($userLogin);
-
-        Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
-
-        $this->model->updateUserTokenAuth(
-            $userLogin,
-            $this->createTokenAuth($userLogin)
-        );
-
-        Cache::deleteTrackerCache();
-    }
-
-    /**
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *
@@ -889,7 +865,6 @@ class API extends \Piwik\Plugin\API
         $this->checkUserExists($userLogin);
 
         $userInfo   = $this->model->getUser($userLogin);
-        $token_auth = $userInfo['token_auth'];
         $changeShouldRequirePasswordConfirmation = false;
 
         $passwordHasBeenUpdated = false;
@@ -936,7 +911,7 @@ class API extends \Piwik\Plugin\API
 
         $alias = $this->getCleanAlias($alias, $userLogin);
 
-        $this->model->updateUser($userLogin, $password, $email, $alias, $token_auth);
+        $this->model->updateUser($userLogin, $password, $email, $alias);
 
         Cache::deleteTrackerCache();
 
@@ -1333,17 +1308,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return empty($superusersByLogin);
-    }
-
-    /**
-     * Generates a new random authentication token.
-     *
-     * @param string $userLogin Login
-     * @return string
-     */
-    public function createTokenAuth($userLogin)
-    {
-        return md5($userLogin . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
     /**

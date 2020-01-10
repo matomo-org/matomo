@@ -82,7 +82,7 @@ class Updates_2_0_4_b5 extends Updates
                     'password'   => $superUser['password'],
                     'alias'      => $superUser['login'],
                     'email'      => $superUser['email'],
-                    'token_auth' => $userApi->getTokenAuth($superUser['login'], $superUser['password']),
+                    'token_auth' => md5(Common::getRandomString(32)),
                     'date_registered'  => Date::now()->getDatetime(),
                     'superuser_access' => 1
                 )
