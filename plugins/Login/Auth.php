@@ -77,7 +77,7 @@ class Auth implements \Piwik\Auth
             if ($this->passwordHelper->needsRehash($user['password'])) {
                 $newPasswordHash = $this->passwordHelper->hash($passwordHash);
 
-                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias'], $user['token_auth']);
+                $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias']);
             }
 
             return $this->authenticationSuccess($user);

@@ -59,8 +59,10 @@ class Mysql implements SchemaInterface
                           login VARCHAR(100) NOT NULL,
                           description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
                           password VARCHAR(255) NOT NULL,
+                          system_token TINYINT(1) NOT NULL DEFAULT 0,
                           last_used DATETIME NULL,
                           date_created DATETIME NOT NULL,
+                          date_expired DATETIME NULL,
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8

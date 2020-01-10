@@ -262,14 +262,18 @@ class Model
         return md5(Common::getRandomString(32, 'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
-    public function addTokenAuth($login, $tokenAuth, $description, $dateCreated)
+    public function addTokenAuth($login, $tokenAuth, $description, $dateCreated, $dateExpired = null, $isSystemToken = false)
     {
         BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
+        if (empty($dateExpired)) {
+            $dateExpired = null;
+        }
+        $isSystemToken = (int) $isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created) VALUES (?, ?, ?, ?)';
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token) VALUES (?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
-        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated]);
+        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken]);
     }
 
     private function getTokenByTokenAuth($tokenAuth)
@@ -280,6 +284,25 @@ class Model
         return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
     }
 
+    private function getTokenByTokenAuthIfNotExpired($tokenAuth)
+    {
+        $tokenAuth = $this->hashTokenAuth($tokenAuth);
+        $db = $this->getDb();
+
+        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
+
+        if (empty($token['date_expired']) || Date::now()->isEarlier(Date::factory($token['date_expired']))) {
+            return $token;
+        }
+    }
+
+    public function deleteExpiredTokens($expiredSince)
+    {
+        $db = $this->getDb();
+
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `date_expired` is not null and date_expired < ?", $expiredSince);
+    }
+
     public function deleteAllTokensForUser($login)
     {
         $db = $this->getDb();
@@ -287,11 +310,11 @@ class Model
         return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
     }
 
-    public function getAllTokensForLogin($login)
+    public function getAllNonSystemTokensForLogin($login)
     {
         $db = $this->getDb();
 
-        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0", $login);
     }
 
     public function getAllHashedTokensForLogins($logins)
@@ -342,7 +365,7 @@ class Model
 
     public function getUserByTokenAuth($tokenAuth)
     {
-        $token = $this->getTokenByTokenAuth($tokenAuth);
+        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
             return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);

@@ -16,6 +16,7 @@ use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Translation\Translator;
 
 /**
@@ -260,6 +261,51 @@ class Piwik
         } catch (NoAccessException $e) {
             throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser', array($theUser)));
         }
+    }
+
+    /**
+     * Request a token auth to authenticate in a request.
+     *
+     * Note: During one request the token is only being requested once and used throughout the request. So you want to make
+     * sure the token is valid for enough time for the whole request to finish.
+     *
+     * @param string $reason some short string/text explaining the reason for the token generation, eg "CliMultiAsyncHttpArchiving"
+     * @param int $validForHours For how many hours the token should be valid. Should not be valid for more than 14 days.
+     * @return mixed
+     */
+    public static function requestTemporarySystemAuthToken($reason, $validForHours)
+    {
+        static $token = array();
+
+        if (isset($token[$reason])) {
+            // note: For now we do not increase the expire time when it is already requested
+            return $token[$reason];
+        }
+
+        $twoWeeksInHours = 14 * 24;
+        if ($validForHours > $twoWeeksInHours) {
+            throw new Exception('The token cannot be valid for so many hours: ' . $validForHours);
+        }
+
+        $model = new Model();
+        $users = $model->getUsersHavingSuperUserAccess();
+        if (!empty($users)) {
+            $user = reset($users);
+            $expireDate = Date::now()->addHour($validForHours)->getDatetime();
+
+            $token[$reason] = $model->generateRandomTokenAuth();
+
+            $model->addTokenAuth(
+                $user['login'],
+                $token[$reason],
+                'System generated ' . $reason,
+                Date::now()->getDatetime(),
+                $expireDate,
+            true);
+
+            return $token[$reason];
+        }
+
     }
 
     /**

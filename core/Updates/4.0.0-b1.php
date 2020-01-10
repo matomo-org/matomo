@@ -42,8 +42,10 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'login' => 'VARCHAR(100) NOT NULL',
             'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
             'password' => 'VARCHAR(255) NOT NULL',
+            'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
             'last_used' => 'DATETIME NULL',
             'date_created' => ' DATETIME NOT NULL',
+            'date_expired' => ' DATETIME NULL',
         ), 'idusertokenauth');
         $migrations[] = $this->migration->db->addUniqueKey('user_token_auth', 'password', 'uniq_password');
 

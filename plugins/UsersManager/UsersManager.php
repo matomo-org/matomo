@@ -43,7 +43,6 @@ class UsersManager extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'CronArchive.getTokenAuth'               => 'getCronArchiveTokenAuth'
         );
     }
 
@@ -112,16 +111,6 @@ class UsersManager extends \Piwik\Plugin
     public static function hashTrackingToken($tokenAuth, $idSite)
     {
         return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
-    }
-
-    public function getCronArchiveTokenAuth(&$tokens)
-    {
-        $model      = new Model();
-        $superUsers = $model->getUsersHavingSuperUserAccess();
-
-        foreach($superUsers as $superUser) {
-            $tokens[] = $superUser['token_auth'];
-        }
     }
 
     /**

@@ -279,7 +279,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $tokens = $this->userModel->getAllTokensForLogin(Piwik::getCurrentUserLogin());
+        $tokens = $this->userModel->getAllNonSystemTokensForLogin(Piwik::getCurrentUserLogin());
 
         return $this->renderTemplate('userSecurity', array(
            'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
