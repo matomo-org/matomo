@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Option;
@@ -22,18 +23,24 @@ use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
+use Piwik\Plugins\TagManager\Validators\TriggerIds;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Translation\Translator;
 use Piwik\Url;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
+use Piwik\Validators\NotEmpty;
 use Piwik\View;
 use Piwik\Session\SessionInitializer;
 
 class Controller extends ControllerAdmin
 {
     const NONCE_CHANGE_PASSWORD = 'changePasswordNonce';
+    const NONCE_ADD_AUTH_TOKEN = 'addAuthTokenNonce';
+    const NONCE_DELETE_AUTH_TOKEN = 'deleteAuthTokenNonce';
 
     /**
      * @var Translator
@@ -45,10 +52,16 @@ class Controller extends ControllerAdmin
      */
     private $passwordVerify;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify)
+    /**
+     * @var Model
+     */
+    private $userModel;
+
+    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel)
     {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
+        $this->userModel = $userModel;
 
         parent::__construct();
     }
@@ -260,21 +273,89 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * The "User Settings" admin UI screen view
+     * The "User Security" admin UI screen view
      */
     public function userSecurity()
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $params = array('module' => 'UsersManager', 'action' => 'userSecurity');
+        $tokens = $this->userModel->getAllTokensForLogin(Piwik::getCurrentUserLogin());
+
+        return $this->renderTemplate('userSecurity', array(
+           'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
+           'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
+           'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
+            'tokens' => $tokens
+        ));
+    }
+
+    /**
+     * The "User Security" admin UI screen view
+     */
+    public function deleteToken()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $params = array('module' => 'UsersManager', 'action' => 'addNewToken');
 
         if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             throw new Exception('Not allowed');
         }
 
-        return $this->renderTemplate('userSecurity', array(
-           'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
-           'nonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD)
+        Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN);
+
+        $idTokenAuth = Common::getRequestVar('id_token_auth', '', 'string', $_POST);
+
+        if (!empty($idTokenAuth)) {
+            if ($idTokenAuth === 'all') {
+                $this->userModel->deleteAllTokensForUser(Piwik::getCurrentUserLogin());
+
+                $notification = new Notification(Piwik::translate('SitesManager_TokensSuccessfullyDeleted'));
+                $notification->context = Notification::CONTEXT_SUCCESS;
+                Notification\Manager::notify('successdeletetokens', $notification);
+
+            } elseif (is_numeric($idTokenAuth)) {
+                $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
+
+                $notification = new Notification(Piwik::translate('SitesManager_TokenSuccessfullyDeleted'));
+                $notification->context = Notification::CONTEXT_SUCCESS;
+                Notification\Manager::notify('successdeletetoken', $notification);
+            }
+        }
+
+        $this->redirectToIndex('UsersManager', 'userSecurity');
+    }
+
+    /**
+     * The "User Security" admin UI screen view
+     */
+    public function addNewToken()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $params = array('module' => 'UsersManager', 'action' => 'addNewToken');
+
+        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+            throw new Exception('Not allowed');
+        }
+
+        if (!empty($_POST['description'])) {
+            Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
+
+            $description = Common::getRequestVar('description', '', 'string');
+            BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, 100)]);
+            $login = Piwik::getCurrentUserLogin();
+
+            $generatedToken = $this->userModel->generateRandomTokenAuth();
+
+            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
+
+            $this->redirectToIndex('UsersManager', 'userSecurity');
+            return;
+        }
+
+        return $this->renderTemplate('addNewToken', array(
+           'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN)
         ));
     }
 

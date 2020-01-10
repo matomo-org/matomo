@@ -14,6 +14,7 @@ use Piwik\AuthResult;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
 
@@ -123,7 +124,7 @@ class SessionAuth implements Auth
         if ($sessionFingerprint->getTempTokenAuth()) {
             $tokenAuth = $sessionFingerprint->getTempTokenAuth();
         } else {
-            $tokenAuth = Common::getRandomString(32, 'abcdef1234567890');
+            $tokenAuth = $this->userModel->generateRandomTokenAuth();
         }
 
         return $this->makeAuthSuccess($user, $tokenAuth);

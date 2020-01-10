@@ -34,7 +34,8 @@ use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 class Model
 {
     private static $rawPrefix = 'user';
-    private $table;
+    private $userTable;
+    private $tokenTable;
 
     /**
      * @var Password
@@ -44,7 +45,8 @@ class Model
     public function __construct()
     {
         $this->passwordHelper = new Password();
-        $this->table = Common::prefixTable(self::$rawPrefix);
+        $this->userTable = Common::prefixTable(self::$rawPrefix);
+        $this->tokenTable = Common::prefixTable('auth_token');
     }
 
     /**
@@ -64,7 +66,7 @@ class Model
         }
 
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT * FROM " . $this->table . "
+        $users = $db->fetchAll("SELECT * FROM " . $this->userTable . "
                                 $where
                                 ORDER BY login ASC", $bind);
 
@@ -79,7 +81,7 @@ class Model
     public function getUsersLogin()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
+        $users = $db->fetchAll("SELECT login FROM " . $this->userTable . " ORDER BY login ASC");
 
         $return = array();
         foreach ($users as $login) {
@@ -230,7 +232,7 @@ class Model
     {
         $db = $this->getDb();
 
-        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->table} WHERE login = ?", $userLogin);
+        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->userTable} WHERE login = ?", $userLogin);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
         // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
@@ -244,17 +246,89 @@ class Model
         return reset($matchedUsers);
     }
 
+    private function hashTokenAuth($tokenAuth)
+    {
+        return hash('sha3-512', $tokenAuth . Config::getInstance()->General['salt']);
+    }
+
+    public function generateRandomTokenAuth()
+    {
+        return Common::getRandomString(32, 'abcdef1234567890');
+    }
+
+    public function addTokenAuth($login, $tokenAuth, $description, $dateCreated)
+    {
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created) VALUES (?, ?, ?, ?)';
+
+        Db::query($insertSql, [$login, $tokenAuth, $description, $dateCreated]);
+    }
+
+    private function getTokenByTokenAuth($tokenAuth)
+    {
+        $tokenAuth = $this->hashTokenAuth($tokenAuth);
+        $db = $this->getDb();
+
+        return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
+    }
+
+    public function deleteAllTokensForUser($login)
+    {
+        $db = $this->getDb();
+
+        return $db->fetchRow("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+    }
+
+    public function getAllTokensForLogin($login)
+    {
+        $db = $this->getDb();
+
+        return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+    }
+
+    public function deleteToken($idTokenAuth, $login)
+    {
+        $db = $this->getDb();
+
+        return $db->fetchRow("DELETE FROM " . $this->tokenTable . " WHERE `id_token_auth` = ? and login = ?", $idTokenAuth, $login);
+    }
+
+    public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
+    {
+        $token = $this->getTokenByTokenAuth($tokenAuth);
+        if (!empty($token)) {
+            $this->updateTokenAuthTable($token['id_auth_token'], array(
+                'last_used' => $dateLastUsed
+            ));
+        }
+    }
+
+    private function updateTokenAuthTable($idTokenAuth, $fields) {
+        $set  = array();
+        $bind = array();
+        foreach ($fields as $key => $val) {
+            $set[]  = "`$key` = ?";
+            $bind[] = $val;
+        }
+
+        $bind[] = $idTokenAuth;
+
+        $db = $this->getDb();
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `id_token_auth` = ?', $this->tokenTable, implode(', ', $set)), $bind);
+    }
+
     public function getUserByEmail($userEmail)
     {
         $db = $this->getDb();
-        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
+        return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE email = ?", $userEmail);
     }
 
     public function getUserByTokenAuth($tokenAuth)
     {
-        $tokenAuth = hash('sha3-512', $tokenAuth . Config::getInstance()->General['salt']);
-        $db = $this->getDb();
-        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE `password` = ? and login_type='token_auth'", $tokenAuth);
+        $token = $this->getTokenByTokenAuth($tokenAuth);
+        if (!empty($token)) {
+            $db = $this->getDb();
+            return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
+        }
     }
 
     public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
@@ -271,7 +345,7 @@ class Model
         );
 
         $db = $this->getDb();
-        $db->insert($this->table, $user);
+        $db->insert($this->userTable, $user);
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
@@ -299,7 +373,7 @@ class Model
         $bind[] = $userLogin;
 
         $db = $this->getDb();
-        $db->query(sprintf('UPDATE `%s` SET %s WHERE `login` = ?', $this->table, implode(', ', $set)), $bind);
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `login` = ?', $this->userTable, implode(', ', $set)), $bind);
     }
 
     /**
@@ -341,7 +415,7 @@ class Model
     public function userExists($userLogin)
     {
         $db = $this->getDb();
-        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE login = ?", $userLogin);
 
         return $count != 0;
     }
@@ -349,7 +423,7 @@ class Model
     public function userEmailExists($userEmail)
     {
         $db = $this->getDb();
-        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE email = ?", $userEmail);
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->userTable . " WHERE email = ?", $userEmail);
 
         return $count != 0;
     }
@@ -382,7 +456,7 @@ class Model
     public function deleteUserOnly($userLogin)
     {
         $db = $this->getDb();
-        $db->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
 
         /**
          * Triggered after a user has been deleted.
@@ -430,7 +504,7 @@ class Model
 
         $bind = array_merge($bind, $whereBind);
 
-        $sql = 'SELECT u.login FROM ' . $this->table . " u $joins $where";
+        $sql = 'SELECT u.login FROM ' . $this->userTable . " u $joins $where";
 
         $db = $this->getDb();
 
@@ -470,7 +544,7 @@ class Model
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
-                  FROM ' . $this->table . " u
+                  FROM ' . $this->userTable . " u
                 $joins
                 $where
               GROUP BY u.login

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Login;
 
 use Piwik\AuthResult;
 use Piwik\Auth\Password;
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -90,6 +91,7 @@ class Auth implements \Piwik\Auth
         $user = $this->userModel->getUserByTokenAuth($token);
 
         if (!empty($user['login'])) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
             return $this->authenticationSuccess($user);
         }
 

@@ -1,0 +1,28 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block content-title="Auth tokens">
+        <p>
+            Tokens you have generated can be used to access the Matomo reporting API, Matomo tracking API, and exported
+            Matomo widgets and have the same permissions as your regular user login.
+        </p>
+        <form>
+            <div piwik-field uicontrol="text" name="description"
+                 data-title="Description"
+                 maxlength="100"
+                 inline-help="What are you using this token for?">
+            </div>
+
+            <input type="submit"
+                   value="{{ 'UsersManager_CreateToken'|translate|e('html_attr') }}"
+                   class="btn"/>
+            {% set backlink = linkTo({'module': 'UsersManager', 'action': 'userSecurity'}) %}
+            {{ 'General_OrCancel'|translate("<a class='entityCancelLink' href='" ~ backlink ~ "'>","</a>")|raw }}
+
+        </form>
+    </div>
+
+{% endblock %}

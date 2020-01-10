@@ -45,8 +45,6 @@ class Mysql implements SchemaInterface
                           password VARCHAR(255) NOT NULL,
                           alias VARCHAR(100) NOT NULL,
                           email VARCHAR(100) NOT NULL,
-                          description VARCHAR(100) NOT NULL,
-                          login_type VARCHAR(10) NOT NULL DEFAULT 'user',
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
@@ -54,6 +52,17 @@ class Mysql implements SchemaInterface
                           ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+            'auth_token' => "CREATE TABLE {$prefixTables}auth_token (
+                          id_auth_token BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          description VARCHAR(100) NOT NULL,
+                          password VARCHAR(255) NOT NULL,
+                          last_used DATETIME NULL,
+                          date_created DATETIME NOT NULL,
+                            PRIMARY KEY(id_auth_token),
+                            UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
