@@ -50,8 +50,7 @@ class Mysql implements SchemaInterface
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
-                            PRIMARY KEY(login),
-                            UNIQUE KEY uniq_keytoken(token_auth)
+                            PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
             'user_token_auth' => "CREATE TABLE {$prefixTables}auth_token (
