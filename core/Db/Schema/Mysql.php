@@ -53,7 +53,7 @@ class Mysql implements SchemaInterface
                             PRIMARY KEY(login)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
-            'user_token_auth' => "CREATE TABLE {$prefixTables}auth_token (
+            'user_token_auth' => "CREATE TABLE {$prefixTables}user_token_auth (
                           idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
                           description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
@@ -522,7 +522,7 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 'anonymous', 0, '$now', '$now' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 0, '$now', '$now' );");
     }
 
     /**
