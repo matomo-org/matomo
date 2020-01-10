@@ -48,6 +48,8 @@
 
     {{ postEvent('Template.userSecurity.afterPassword') }}
 {% endif %}
+
+    <a name="authtokens" id="authtokens"></a>
     <div piwik-content-block content-title="Auth tokens">
         <p>
             {{ 'UsersManager_TokenAuthIntro'|translate }}
@@ -92,6 +94,8 @@
                 <span class="icon-add"></span>
                 Create new token
             </a>
+
+            {% if tokens is not empty %}
             <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
                 <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
                 <input name="idtokenauth" type="hidden" value="all">
@@ -100,6 +104,7 @@
                     <span class="icon-delete"></span> Delete all tokens
                 </button>
             </form>
+            {% endif %}
         </div>
 
     </div>

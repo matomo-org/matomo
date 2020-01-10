@@ -19,13 +19,12 @@
     </div>
     <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
         <p>
-            {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
-            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong piwik-show-sensitive-data="{{ token_auth }}" data-click-element-selector="#token_auth"></strong></pre><br/>
-            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}<br />
-            {{ 'API_ChangeTokenHint'|translate('<a href="' ~ linkTo({
+            {{ 'API_UsingTokenAuth'|translate('','',"<code>token_auth</code>")|raw }} <a target="_blank" rel="noreferrer noopener" href="https://developer.matomo.org/api-reference/reporting-api#authenticate-to-the-api-via-token_auth-parameter">{{ 'CoreAdminHome_LearnMore'|translate }}</a><br/>
+            <br/>
+            <a href="{{ linkTo({
                 'module': 'UsersManager',
-                'action': 'userSettings',
-            }) ~ '">', '</a>')|raw }}
+                'action': 'userSecurity',
+            }) }}#/#authtokens">You can manage your authentication tokens on your security page.</a>
         </p>
     </div>
     {{ list_api_methods_with_links|raw }}
