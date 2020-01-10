@@ -24,6 +24,11 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends PHPUnit_Framework_TestCase
 {
+    public function test_hashalgos_available()
+    {
+        $this->assertEquals(array(), hash_algos());
+    }
+
     /**
      * Dataprovider for testSanitizeInputValues
      */
