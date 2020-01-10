@@ -50,8 +50,7 @@
 {% endif %}
     <div piwik-content-block content-title="Auth tokens">
         <p>
-            Tokens you have generated can be used to access the Matomo reporting API, Matomo tracking API, and exported
-            Matomo widgets and have the same permissions as your regular user login.
+            {{ 'UsersManager_TokenAuthIntro'|translate }}
         </p>
         <table piwik-content-table>
             <thead>
@@ -66,19 +65,19 @@
             <tr>
                 <td colspan="3">No token created yet, <a href="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'}) }}">create a new token now</a>.</td></tr>
             {% else %}
-                {% for token in tokens %}
+                {% for theToken in tokens %}
                     <tr>
-                        <td>{{ token.description }}</td>
-                        <td>{{ token.last_used|prettyDate }}</td>
+                        <td>{{ theToken.description }}</td>
+                        <td>{% if theToken.last_used %}{{ theToken.last_used|prettyDate }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
                         <td>
 
                             <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
                                 <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
-                                <input name="id_token_auth" type="hidden" value="all">
-                                <a href=""
-                                   class="table-action icon-delete"
-                                   title="{{ 'General_Delete'|translate }}"
-                                ></a>
+                                <input name="idtokenauth" type="hidden" value="{{ theToken.idusertokenauth|e('html_attr') }}">
+                                <button type="submit" class="table-action"
+                                        title="{{ 'General_Delete'|translate }}">
+                                    <span class="icon-delete"></span>
+                                </button>
                             </form>
 
                         </td>
@@ -95,8 +94,11 @@
             </a>
             <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
                 <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
-                <input name="id_token_auth" type="hidden" value="all">
-                <span class="icon-delete"></span> Delete all tokens
+                <input name="idtokenauth" type="hidden" value="all">
+                <button type="submit" class="table-action"
+                        title="{{ 'General_Delete'|translate }}">
+                    <span class="icon-delete"></span> Delete all tokens
+                </button>
             </form>
         </div>
 

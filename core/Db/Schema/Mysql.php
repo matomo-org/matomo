@@ -17,6 +17,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\Installation\Installation;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Version;
 
 /**
@@ -46,7 +47,6 @@ class Mysql implements SchemaInterface
                           alias VARCHAR(100) NOT NULL,
                           email VARCHAR(100) NOT NULL,
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
-                          token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
@@ -54,14 +54,14 @@ class Mysql implements SchemaInterface
                             UNIQUE KEY uniq_keytoken(token_auth)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
-            'auth_token' => "CREATE TABLE {$prefixTables}auth_token (
-                          id_auth_token BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            'user_token_auth' => "CREATE TABLE {$prefixTables}auth_token (
+                          idusertokenauth BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
-                          description VARCHAR(100) NOT NULL,
+                          description VARCHAR(".Model::MAX_LENGTH_TOKEN_DESCRIPTION.") NOT NULL,
                           password VARCHAR(255) NOT NULL,
                           last_used DATETIME NULL,
                           date_created DATETIME NOT NULL,
-                            PRIMARY KEY(id_auth_token),
+                            PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",

@@ -207,6 +207,8 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+            $userModel = new \Piwik\Plugins\UsersManager\Model();
+            $tokenAuth = $userModel->hashTokenAuth($tokenAuth);
             $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
 
             if (array_key_exists('tracking_token_auth', $website)

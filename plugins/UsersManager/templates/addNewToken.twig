@@ -6,15 +6,16 @@
 
     <div piwik-content-block content-title="Auth tokens">
         <p>
-            Tokens you have generated can be used to access the Matomo reporting API, Matomo tracking API, and exported
-            Matomo widgets and have the same permissions as your regular user login.
+            {{ 'UsersManager_TokenAuthIntro'|translate }}
         </p>
-        <form>
+        <form  action="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'}) }}" method="post">
             <div piwik-field uicontrol="text" name="description"
                  data-title="Description"
                  maxlength="100"
                  inline-help="What are you using this token for?">
             </div>
+
+            <input type="hidden" value="{{ nonce|e('html_attr') }}" name="nonce">
 
             <input type="submit"
                    value="{{ 'UsersManager_CreateToken'|translate|e('html_attr') }}"

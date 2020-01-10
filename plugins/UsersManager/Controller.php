@@ -296,28 +296,33 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $params = array('module' => 'UsersManager', 'action' => 'addNewToken');
-
-        if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
-            throw new Exception('Not allowed');
-        }
-
-        Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN);
-
-        $idTokenAuth = Common::getRequestVar('id_token_auth', '', 'string', $_POST);
+        $idTokenAuth = Common::getRequestVar('idtokenauth', '', 'string', $_POST);
 
         if (!empty($idTokenAuth)) {
+            $params = array(
+                'module' => 'UsersManager',
+                'action' => 'deleteToken',
+                'idtokenauth' => $idTokenAuth,
+                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN)
+            );
+
+            if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
+                throw new Exception('Not allowed');
+            }
+
+            Nonce::checkNonce(self::NONCE_DELETE_AUTH_TOKEN);
+
             if ($idTokenAuth === 'all') {
                 $this->userModel->deleteAllTokensForUser(Piwik::getCurrentUserLogin());
 
-                $notification = new Notification(Piwik::translate('SitesManager_TokensSuccessfullyDeleted'));
+                $notification = new Notification(Piwik::translate('UsersManager_TokensSuccessfullyDeleted'));
                 $notification->context = Notification::CONTEXT_SUCCESS;
                 Notification\Manager::notify('successdeletetokens', $notification);
 
             } elseif (is_numeric($idTokenAuth)) {
                 $this->userModel->deleteToken($idTokenAuth, Piwik::getCurrentUserLogin());
 
-                $notification = new Notification(Piwik::translate('SitesManager_TokenSuccessfullyDeleted'));
+                $notification = new Notification(Piwik::translate('UsersManager_TokenSuccessfullyDeleted'));
                 $notification->context = Notification::CONTEXT_SUCCESS;
                 Notification\Manager::notify('successdeletetoken', $notification);
             }
@@ -343,15 +348,13 @@ class Controller extends ControllerAdmin
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
             $description = Common::getRequestVar('description', '', 'string');
-            BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, 100)]);
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
             $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
 
-            $this->redirectToIndex('UsersManager', 'userSecurity');
-            return;
+            return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
         }
 
         return $this->renderTemplate('addNewToken', array(

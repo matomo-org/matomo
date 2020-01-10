@@ -94,22 +94,17 @@ class UsersManager extends \Piwik\Plugin
     public function recordAdminUsersInCache(&$attributes, $idSite)
     {
         $model = new Model();
-        $adminLogins = $model->getUsersLoginWithSiteAccess($idSite, Admin::ID);
+        $logins = $model->getUsersLoginWithSiteAccess($idSite, Admin::ID);
         $writeLogins = $model->getUsersLoginWithSiteAccess($idSite, Write::ID);
+        $logins = array_merge($logins, $writeLogins);
+
+        $token_auths = $model->getAllHashedTokensForLogins($logins);
 
         $attributes['tracking_token_auth'] = array();
 
-        if (!empty($adminLogins)) {
-            $users = $model->getUsers($adminLogins);
-            foreach ($users as $user) {
-                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
-            }
-        }
-
-        if (!empty($writeLogins)) {
-            $users = $model->getUsers($writeLogins);
-            foreach ($users as $user) {
-                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
+        if (!empty($token_auths)) {
+            foreach ($token_auths as $token_auth) {
+                $attributes['tracking_token_auth'][] = self::hashTrackingToken($token_auth, $idSite);
             }
         }
     }

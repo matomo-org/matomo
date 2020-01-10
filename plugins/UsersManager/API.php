@@ -1347,15 +1347,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the user's API token.
+     * Generates an app specific API token every time you call this method. You should ideally store this token securely
+     * in your app and not generate a new token every time.
      *
      * If the username/password combination is incorrect an invalid token will be returned.
      *
      * @param string $userLogin Login
      * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
+     * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @return string
      */
-    public function getTokenAuth($userLogin, $md5Password)
+    public function createAppSpecificTokenAuth($userLogin, $md5Password, $description)
     {
         UsersManager::checkPasswordHash($md5Password, Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
 
@@ -1376,7 +1378,10 @@ class API extends \Piwik\Plugin\API
             $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
         }
 
-        return $user['token_auth'];
+        $generatedToken = $this->model->generateRandomTokenAuth();
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime());
+
+        return $generatedToken;
     }
 
     public function newsletterSignup()

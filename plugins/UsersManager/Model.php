@@ -18,6 +18,9 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\CharacterLength;
+use Piwik\Validators\NotEmpty;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -33,6 +36,8 @@ use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
  */
 class Model
 {
+    const MAX_LENGTH_TOKEN_DESCRIPTION = 100;
+
     private static $rawPrefix = 'user';
     private $userTable;
     private $tokenTable;
@@ -46,7 +51,7 @@ class Model
     {
         $this->passwordHelper = new Password();
         $this->userTable = Common::prefixTable(self::$rawPrefix);
-        $this->tokenTable = Common::prefixTable('auth_token');
+        $this->tokenTable = Common::prefixTable('user_token_auth');
     }
 
     /**
@@ -246,7 +251,7 @@ class Model
         return reset($matchedUsers);
     }
 
-    private function hashTokenAuth($tokenAuth)
+    public function hashTokenAuth($tokenAuth)
     {
         return hash('sha3-512', $tokenAuth . Config::getInstance()->General['salt']);
     }
@@ -258,9 +263,12 @@ class Model
 
     public function addTokenAuth($login, $tokenAuth, $description, $dateCreated)
     {
+        BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
+
         $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created) VALUES (?, ?, ?, ?)';
 
-        Db::query($insertSql, [$login, $tokenAuth, $description, $dateCreated]);
+        $tokenAuth = $this->hashTokenAuth($tokenAuth);
+        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated]);
     }
 
     private function getTokenByTokenAuth($tokenAuth)
@@ -275,21 +283,30 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->fetchRow("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
     }
 
     public function getAllTokensForLogin($login)
     {
         $db = $this->getDb();
 
-        return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ?", $login);
+    }
+
+    public function getAllHashedTokensForLogins($logins)
+    {
+        $db = $this->getDb();
+        $placeholder = Common::getSqlStringFieldsArray($logins);
+
+        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (".$placeholder.")", $logins);
+        return array_column($tokens, 'password');
     }
 
     public function deleteToken($idTokenAuth, $login)
     {
         $db = $this->getDb();
 
-        return $db->fetchRow("DELETE FROM " . $this->tokenTable . " WHERE `id_token_auth` = ? and login = ?", $idTokenAuth, $login);
+        return $db->query("DELETE FROM " . $this->tokenTable . " WHERE `idusertokenauth` = ? and login = ?", array($idTokenAuth, $login));
     }
 
     public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
@@ -313,7 +330,7 @@ class Model
         $bind[] = $idTokenAuth;
 
         $db = $this->getDb();
-        $db->query(sprintf('UPDATE `%s` SET %s WHERE `id_token_auth` = ?', $this->tokenTable, implode(', ', $set)), $bind);
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `idusertokenauth` = ?', $this->tokenTable, implode(', ', $set)), $bind);
     }
 
     public function getUserByEmail($userEmail)

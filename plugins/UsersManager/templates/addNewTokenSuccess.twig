@@ -1,0 +1,17 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'General_Security'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block content-title="Token successfully generated">
+        <p>
+            Please store your token securely as you will not be able to access or see the token again.
+        </p>
+        <pre piwik-select-on-focus style="font-size: 40px;"><code>{{ generatedToken }}</code></pre>
+
+        <a href="{{ linkTo({'module': 'UsersManager', 'action': 'userSecurity'}) }}" class="btn"
+        >I confirm I copied the token. Go back to security page.</a>
+    </div>
+
+{% endblock %}
