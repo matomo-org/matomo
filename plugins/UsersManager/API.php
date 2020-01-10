@@ -1361,7 +1361,7 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        if (empty($user)) {
+        if (empty($user) && Piwik::isValidEmailString($userLogin)) {
             $user = $this->model->getUserByEmail($userLogin);
             
             if (!empty($user['login'])) {
