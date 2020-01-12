@@ -38,7 +38,7 @@ use Piwik\Validators\NotEmpty;
 class Model
 {
     const MAX_LENGTH_TOKEN_DESCRIPTION = 100;
-    const TOKEN_HASH_ALGO = 'sha-512';
+    const TOKEN_HASH_ALGO = 'sha512';
 
     private static $rawPrefix = 'user';
     private $userTable;
