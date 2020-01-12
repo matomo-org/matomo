@@ -38,6 +38,7 @@ use Piwik\Validators\NotEmpty;
 class Model
 {
     const MAX_LENGTH_TOKEN_DESCRIPTION = 100;
+    const TOKEN_HASH_ALGO = 'sha-512';
 
     private static $rawPrefix = 'user';
     private $userTable;
@@ -254,7 +255,7 @@ class Model
 
     public function hashTokenAuth($tokenAuth)
     {
-        return hash('sha3-512', $tokenAuth . Config::getInstance()->General['salt']);
+        return hash(self::TOKEN_HASH_ALGO, $tokenAuth . Config::getInstance()->General['salt']);
     }
 
     public function generateRandomTokenAuth()
@@ -270,10 +271,10 @@ class Model
         }
         $isSystemToken = (int) $isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token) VALUES (?, ?, ?, ?, ?, ?)';
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
-        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken]);
+        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
     }
 
     private function getTokenByTokenAuth($tokenAuth)

@@ -43,6 +43,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             'description' => 'VARCHAR('.Model::MAX_LENGTH_TOKEN_DESCRIPTION.') NOT NULL',
             'password' => 'VARCHAR(255) NOT NULL',
             'system_token' => 'TINYINT(1) NOT NULL DEFAULT 0',
+            'hash_algo' => 'VARCHAR(30) NOT NULL',
             'last_used' => 'DATETIME NULL',
             'date_created' => ' DATETIME NOT NULL',
             'date_expired' => ' DATETIME NULL',
