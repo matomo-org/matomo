@@ -11,16 +11,16 @@ namespace Piwik\Plugins\CoreUpdater\ReleaseChannel;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
-class Latest2XBeta extends ReleaseChannel
+class Latest3XStable extends ReleaseChannel
 {
     public function getId()
     {
-        return 'latest_2x_beta';
+        return 'latest_3x_stable';
     }
 
     public function getName()
     {
-        return Piwik::translate('CoreUpdater_Latest2XBetaRelease');
+        return Piwik::translate('CoreUpdater_LatestXStableRelease', '3.X');
     }
 
     public function getDescription()
@@ -28,13 +28,8 @@ class Latest2XBeta extends ReleaseChannel
         return Piwik::translate('CoreUpdater_LtsSupportVersion');
     }
 
-    public function doesPreferStable()
-    {
-        return false;
-    }
-
     public function getOrder()
     {
-        return 21;
+        return 20;
     }
 }
