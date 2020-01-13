@@ -74,7 +74,6 @@
         "SiteWithoutDataDescription": "Aucune donnée d'analyse n'a été enregistrée pour ce site pour le moment.",
         "SiteWithoutDataSetupTracking": "Veuillez configurer le %1$scode de suivi%2$s ci-dessous sur votre site web ou application si vous ne l'avez pas déjà fait.",
         "SiteWithoutDataMessageDisappears": "Ce message disparaitra dès lors que certaines données auront été enregistrées pour ce site web.",
-        "SiteWithoutDataSetupGoals": "Pendant ce temps, vous seriez peut-être intéressé(e) à %1$sconfigurer des objectifs%2$s ou en apprendre plus à propos des %3$sfonctionnalités%4$s de Matomo en utilisant l'un de nos %5$sguides%6$s ou %7$sFAQ%8$s.",
         "SiteWithoutDataIgnoreMessage": "Ne pas afficher ce message pendant une heure",
         "SuperUserAccessCan": "Un utilisateur avec un accès super utilisateur peut aussi %1$sconfigurer les paramètres globaux%2$s pour les nouveaux sites web.",
         "Timezone": "Fuseau horaire",

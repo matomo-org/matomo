@@ -28,8 +28,6 @@
         "InstallingTheLatestVersion": "A instalar a versão mais recente",
         "LatestBetaRelease": "Último lançamento beta",
         "LatestStableRelease": "Último lançamento estável",
-        "Latest2XStableRelease": "Última 2.X estável",
-        "Latest2XBetaRelease": "Última 2.X beta",
         "LtsSupportVersion": "Versão de suporte de longo termo",
         "ListOfSqlQueriesFYI": "Para sua informação: estas são as instruções SQL e os comandos da consola que serão executados para a atualização da sua base de dados do Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Serão executadas as seguintes instruções SQL:",

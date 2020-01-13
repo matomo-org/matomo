@@ -74,7 +74,6 @@
         "SiteWithoutDataDescription": "Bu web sitesi için henüz bir izleme istatistiği verisi oluşturulmamış.",
         "SiteWithoutDataSetupTracking": "Henüz yapmadıysanız lütfen aşağıdaki %1$sizleme kodunu%2$s web sitenize ya da mobil uygulamanıza kurun.",
         "SiteWithoutDataMessageDisappears": "Web siteniz ile ilgili bir veri toplandığında bu ileti görüntülenmez.",
-        "SiteWithoutDataSetupGoals": "Bu sırada %1$s bazı hedefler belirleyebilir ve %2$s Matomo %3$sözellikleri%4$s hakkında ayrıntılı bilgi almak için %5$sbelgelere%6$s ya da %7$sSık Sorulan Sorulara%8$s bakabilirsiniz.",
         "SiteWithoutDataIgnoreMessage": "Bu ileti bir saat boyunca görüntülenmesin",
         "SuperUserAccessCan": "Süper Kullanıcılar ayrıca yeni web siteleri için %1$sgenel ayarları%2$s yönetebilir.",
         "Timezone": "Saat dilimi",

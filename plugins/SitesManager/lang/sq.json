@@ -74,7 +74,6 @@
         "SiteWithoutDataDescription": "Për këtë sajt s’janë ndjekur ende të dhëna analitike.",
         "SiteWithoutDataSetupTracking": "Ju lutemi, rregulloni më poshtë %1$skodin e ndjekjes%2$s për sajtin apo aplikacionin tuaj për celular, po qe se s’e keni bërë ende.",
         "SiteWithoutDataMessageDisappears": "Ky mesazh do të zhduket sapo të ketë ndoca të dhëna të ndjekura për këtë sajt.",
-        "SiteWithoutDataSetupGoals": "Ndërkohë, mund të donit ndoshta të %1$scaktoni ndonjë objektiv global%2$s ose të mësoni më tepër rreth %3$sveçorive%4$s të Matomo-s, në një nga %5$sudhërrëfyesit%6$s tanë apo %7$sFAQ%8$s.",
         "SiteWithoutDataIgnoreMessage": "Mos e shfaq këtë mesazh për orën pasuese",
         "SuperUserAccessCan": "Një përdorues me hyrje Superpërdoruesi mundet gjithashtu %1$s të caktojë rregullime të përgjithshme%2$s për sajte të rinj.",
         "Timezone": "Zonë kohore",

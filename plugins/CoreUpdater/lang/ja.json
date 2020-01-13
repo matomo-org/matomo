@@ -28,8 +28,6 @@
         "InstallingTheLatestVersion": "最新バージョンをインストール中",
         "LatestBetaRelease": "最新のベータ版 リリース",
         "LatestStableRelease": "最新の安定版リリース",
-        "Latest2XStableRelease": "最新の安定版 2.X",
-        "Latest2XBetaRelease": "最新のベータ版 2.X",
         "LtsSupportVersion": "長期サポート版",
         "ListOfSqlQueriesFYI": "参考：これらはデータベースを Matomo %s にアップグレードするために実行されるSQLクエリとコンソールコマンドです。",
         "TheseSqlQueriesWillBeExecuted": "これらの SQL クエリが実行されます:",
