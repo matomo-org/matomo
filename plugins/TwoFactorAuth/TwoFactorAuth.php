@@ -32,7 +32,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
-            'API.UsersManager.createAppSpecificTokenAuth.end' => 'onApiGetTokenAuth',
+            'API.UsersManager.createAppSpecificTokenAuth.end' => 'onCreateAppSpecificTokenAuth',
             'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
             'Template.userSecurity.afterPassword' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
@@ -107,7 +107,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         return !empty($user);
     }
 
-    public function onApiGetTokenAuth($returnedValue, $params)
+    public function onCreateAppSpecificTokenAuth($returnedValue, $params)
     {
         if (!SettingsPiwik::isPiwikInstalled()) {
             return;
