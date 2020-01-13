@@ -44,7 +44,7 @@ class EnvironmentValidator
     {
         $this->checkConfigFileExists($this->settingsProvider->getPathGlobal());
 
-        if(SettingsPiwik::isPiwikInstalled()) {
+        if(SettingsPiwik::isMatomoInstalled()) {
             $this->checkConfigFileExists($this->settingsProvider->getPathLocal(), $startInstaller = false);
             return;
         }

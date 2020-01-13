@@ -127,7 +127,7 @@ function prepareTestDatabaseConfig(Config $config)
     $config->forceSave();
 }
 
-if (!SettingsPiwik::isPiwikInstalled()) {
+if (!SettingsPiwik::isMatomoInstalled()) {
     throw new Exception('Piwik needs to be installed in order to run the tests');
 }
 
