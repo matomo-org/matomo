@@ -26,8 +26,6 @@
         "InstallingTheLatestVersion": "최근 버전 설치중",
         "LatestBetaRelease": "최근 릴리즈 된 베타 버전",
         "LatestStableRelease": "최근 릴리즈 된 안정 버전",
-        "Latest2XStableRelease": "최근 안정 2.X 버전",
-        "Latest2XBetaRelease": "최근 베타 2.X 버전",
         "LtsSupportVersion": "Long Term Support 버전",
         "MajorUpdateWarning1": "중요한 업데이트입니다! 평소보다 더 오래 걸릴지도 모릅니다.",
         "MajorUpdateWarning2": "다음은 무거운 설치시 알아야하는 중요한 내용입니다.",

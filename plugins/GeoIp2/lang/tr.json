@@ -1,6 +1,9 @@
 {
     "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "%1$s tar arşivi dosyasında geçerli bir DB-IP \/ GeoIP veritabanı bulunamadı!",
         "CannotUnzipGeoIPFile": "%1$s içindeki GeoIP arşivi dosyası ayıklanamadı: %2$s",
+        "PluginDescription": "DB-IP \/ GeoIP2 konum hizmeti sağlayıcılarını sunar.",
+        "LocationProviderDesc_Php": "Bu konum hizmeti sağlayıcı en basit kurulanıdır ve sunucu yapılandırmasına gerek duymaz (paylaşılan barındırma hizmetleri için idealdir). DB-IP ya da GeoIP 2 veritabanını ve MaxMind PHP API uygulamasını kullanarak ziyaretçilerinizin konumunu doğru olarak belirler.",
         "LocationProviderDesc_Php_WithExtension": "Bu konum hizmeti sağlayıcısı %1$smaxminddb%2$s eklentisi kurularak hızlandırılmıştır.",
         "LocationProviderDesc_ServerModule": "Bu konum hizmeti sağlayıcısı HTTP sunucunuz üzerine kurulmuş GeoIP 2 modülünü kullanır. Bu hizmet sağlayıcı hızlı ve doğrudur ancak %1$syalnız normal web tarayıcı izlemesi ile kullanılabilir%2$s.",
         "LocationProviderDesc_ServerModule2": "Günlük dosyalarını içe aktarmak ya da IP adresinin ayarlanmasını gerektiren başka bir işlem yapmak zorundaysanız, %3$sPHP GeoIp 2 uygulamasını%4$s kullanarak %1$smaxminddb eklentisini%2$s kurun.",

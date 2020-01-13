@@ -50,6 +50,10 @@
         "PseudonymizeUserId": "Заменить ID пользователя всевдонимом",
         "UseAnonymizeOrderId": "Анонимизировать ID заказа",
         "UseDeleteReports": "Всегда удалять старые отчеты из баз данных",
+        "PrivacyPolicyUrl": "URL политики конфиденциальности",
+        "PrivacyPolicyUrlDescription": "Ссылка на вашу страницу политики конфиденциальности.",
+        "TermsAndConditionUrl": "URL условий использования",
+        "TermsAndConditionUrlDescription": "Ссылка на вашу страницу условий использования.",
         "ShowInEmbeddedWidgets": "Показать во встроенных виджетах",
         "PrivacyPolicy": "Политика конфиденциальности",
         "TermsAndConditions": "Условия использования"
