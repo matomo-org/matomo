@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d99d35ca04c2630aa60587ece9195de",
+    "content-hash": "ed00bb05875405d72ff84af6a52af4f2",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -426,16 +426,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.4",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3"
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
-                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/80ab98ed17ea5b72730f4f4d96acc03847440103",
+                "reference": "80ab98ed17ea5b72730f4f4d96acc03847440103",
                 "shasum": ""
             },
             "replace": {
@@ -447,7 +447,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-05-25T11:09:26+00:00"
+            "time": "2020-01-13T09:01:25+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1238,6 +1238,7 @@
             "license": [
                 "LGPL-3.0"
             ],
+            "abandoned": "matomo/network",
             "time": "2019-11-06T19:13:42+00:00"
         },
         {
@@ -1278,6 +1279,7 @@
                 "piwik",
                 "tracker"
             ],
+            "abandoned": "matomo/matomo-php-tracker",
             "time": "2019-12-23T21:48:04+00:00"
         },
         {
