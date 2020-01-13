@@ -24,9 +24,12 @@ use Piwik\Tests\Framework\Mock\FakeLogger;
  */
 class CommonTest extends PHPUnit_Framework_TestCase
 {
-    public function test_hashalgos_available()
+
+    public function test_getProcessId()
     {
-        $this->assertEquals(array(), hash_algos());
+        $this->assertEquals(getmypid(), Common::getProcessId());
+        //assure always returns same value
+        $this->assertEquals(getmypid(), Common::getProcessId());
     }
 
     /**

@@ -208,6 +208,10 @@ class Process
 
     public static function isMethodDisabled($command)
     {
+        if (!function_exists($command)) {
+            return true;
+        }
+
         $disabled = explode(',', ini_get('disable_functions'));
         $disabled = array_map('trim', $disabled);
         return in_array($command, $disabled)  || !function_exists($command);

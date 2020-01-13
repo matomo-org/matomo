@@ -1316,7 +1316,7 @@ class API extends \Piwik\Plugin\API
      *
      * If the username/password combination is incorrect an invalid token will be returned.
      *
-     * @param string $userLogin Login or email
+     * @param string $userLogin Login or Email address
      * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
      * @param string $description The description for this app specific password, for example your app name. Max 100 characters are allowed
      * @return string
@@ -1332,7 +1332,7 @@ class API extends \Piwik\Plugin\API
                 $userLogin = $user['login'];
             }
         }
-
+        
         if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
             /**
              * @ignore

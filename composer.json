@@ -20,12 +20,12 @@
     },
     "config":{
         "platform": {
-            "php": "5.5.9"
+            "php": "7.2.0"
         },
         "prepend-autoloader": false
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.2.0",
         "twig/twig": "~1.0",
         "leafo/lessphp": "dev-php74-compat",
         "symfony/console": "~2.6.0",

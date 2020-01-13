@@ -3939,7 +3939,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // for IE we want to actually set the cookie to avoid trigger a warning eg in IE see #11507
                 var testCookieName = configCookieNamePrefix + 'testcookie';
-				setCookie(testCookieName, '1');
+                setCookie(testCookieName, '1', undefined, configCookiePath, configCookieDomain, configCookieIsSecure);
 
                 var hasCookie = getCookie(testCookieName) === '1' ? '1' : '0';
                 deleteCookie(testCookieName);
@@ -6019,7 +6019,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Clears the User ID and generates a new visitor id.
+             * Clears the User ID
              */
             this.resetUserId = function() {
                 configUserId = '';

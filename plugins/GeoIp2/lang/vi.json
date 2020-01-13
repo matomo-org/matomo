@@ -1,7 +1,5 @@
 {
     "GeoIp2": {
-        "CannotFindGeoIPDatabaseInArchive": "Không có cơ sở dữ liệu GeoIP hợp lệ trong kho lưu trữ tar %1$s!",
-        "CannotUnzipGeoIPFile": "Không thể giải nén tệp GeoIP trong %1$s: %2$s",
-        "PluginDescription": "Cung cấp vị trí nhà cung cấp GeoIP2."
+        "CannotUnzipGeoIPFile": "Không thể giải nén tệp GeoIP trong %1$s: %2$s"
     }
 }

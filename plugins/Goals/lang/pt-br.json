@@ -120,6 +120,7 @@
         "EventValueAsRevenueHelp": "Se o evento correspondente tem uma receita, e essa receita é monitorada como o valor do evento, você pode habilitar esta opção para registrar o valor do evento como a receita de conversão da meta. Se a receita da meta não irá variar por conversão, você pode ignorar esta opção e apenas definir acima uma receita padrão.",
         "EventValueAsRevenueHelp2": "Observação: Se uma receita padrão de meta e um valor de evento ambos estiverem definidos, o valor do evento será usado. Se esta opção estiver habilitada e nenhum valor de evento for enviado em uma solicitação, a receita padrão será usada (se definida).",
         "AtLeastMinutes": "pelo menos %1$s minutos. Use decimais para corresponder com segundos, por exemplo, %2$s para corresponder a 30 segundos.",
-        "TimeInMinutes": "Tempo em minutos"
+        "TimeInMinutes": "Tempo em minutos",
+        "ClickToViewThisGoal": "Clique para ver esta meta."
     }
 }
