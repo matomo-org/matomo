@@ -36,7 +36,7 @@
         "GlobalWebsitesSettings": "Global websites settings",
         "InstallationGuides": "Installation Guides",
         "InstallationGuidesIntro": "We provide step by step guides explaining how to embed the tracking code for some popular CMS and website builders:",
-        "ExtraInformationNeeded": "Information you might need for some integrations:",
+        "ExtraInformationNeeded": "To setup Matomo on your system, you may need the following information:",
         "Integrations": "Integrations",
         "HelpExcludedIpAddresses": "Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. %1$s or you can use wildcards, eg. %2$s or %3$s",
         "JsTrackingTagHelp": "Here is the JavaScript Tracking code to include on all your pages",
