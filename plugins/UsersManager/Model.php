@@ -343,7 +343,7 @@ class Model
     {
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
-            $this->updateTokenAuthTable($token['id_auth_token'], array(
+            $this->updateTokenAuthTable($token['idusertokenauth'], array(
                 'last_used' => $dateLastUsed
             ));
         }
