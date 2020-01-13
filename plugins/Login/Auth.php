@@ -115,7 +115,10 @@ class Auth implements \Piwik\Auth
 
     private function authenticationSuccess(array $user)
     {
-        //$this->setTokenAuth($user['token_auth']);
+        if (empty($this->token_auth)) {
+            $this->token_auth = $this->userModel->generateRandomTokenAuth();
+            // we generated one randomly which will then be stored in the session and used across the session
+        }
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
