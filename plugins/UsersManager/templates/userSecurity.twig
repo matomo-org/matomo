@@ -53,12 +53,14 @@
     <div piwik-content-block content-title="Auth tokens">
         <p>
             {{ 'UsersManager_TokenAuthIntro'|translate }}
+            Tokens with an expire date will be deleted automatically.
         </p>
         <table piwik-content-table>
             <thead>
             <tr>
                 <th>Description</th>
                 <th>Last used</th>
+                <th>Expire data</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -71,6 +73,7 @@
                     <tr>
                         <td>{{ theToken.description }}</td>
                         <td>{% if theToken.last_used %}{{ theToken.last_used|prettyDate }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
+                        <td>{% if theToken.date_expired %}{{ theToken.date_expired|prettyDate }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
                         <td>
 
                             <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
