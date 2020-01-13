@@ -212,7 +212,7 @@ abstract class ControllerAdmin extends Controller
      */
     private static function getNextRequiredMinimumPHP()
     {
-        return '7.1';
+        return '7.2';
     }
 
     private static function isUsingPhpVersionCompatibleWithNextPiwik()
