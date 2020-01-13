@@ -255,7 +255,8 @@ class Model
 
     public function hashTokenAuth($tokenAuth)
     {
-        return hash(self::TOKEN_HASH_ALGO, $tokenAuth . Config::getInstance()->General['salt']);
+        $salt = SettingsPiwik::getSalt();
+        return hash(self::TOKEN_HASH_ALGO, $tokenAuth . $salt);
     }
 
     public function generateRandomTokenAuth()
@@ -320,6 +321,10 @@ class Model
 
     public function getAllHashedTokensForLogins($logins)
     {
+        if (empty($logins)) {
+            return array();
+        }
+
         $db = $this->getDb();
         $placeholder = Common::getSqlStringFieldsArray($logins);
 
