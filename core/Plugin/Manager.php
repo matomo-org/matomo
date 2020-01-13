@@ -1388,7 +1388,7 @@ class Manager
             return true;
         }
 
-        $hooks = $plugin->getListHooksRegistered();
+        $hooks = $plugin->registerEvents();
         $hookNames = array_keys($hooks);
         foreach ($hookNames as $name) {
             if (strpos($name, self::TRACKER_EVENT_PREFIX) === 0) {

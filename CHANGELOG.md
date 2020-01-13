@@ -10,6 +10,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * Deprecated `piwik` font was removed. Use `matomo` font instead
 * The JavaScript AjaxHelper does not longer support synchronous requests. All requests will be sent async instead.
+* The deprecated Platform API method `\Piwik\Plugin::getListHooksRegistered()` has been removed. Use `\Piwik\Plugin::registerEvents()` instead
 
 ## Matomo 3.13.1
 
