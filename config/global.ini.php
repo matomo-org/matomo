@@ -227,7 +227,7 @@ segments_subquery_cache_ttl  = 3600
 maintenance_mode = 0
 
 ; Defines the release channel that shall be used. Currently available values are:
-; "latest_stable", "latest_beta", "latest_2x_stable", "latest_2x_beta"
+; "latest_stable", "latest_beta", "latest_3x_stable", "latest_3x_beta"
 release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports

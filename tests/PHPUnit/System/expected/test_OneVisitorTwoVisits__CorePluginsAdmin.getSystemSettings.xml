@@ -284,8 +284,8 @@
 				<availableValues>
 					<latest_stable>Latest stable release (Recommended)</latest_stable>
 					<latest_beta>Latest beta release</latest_beta>
-					<latest_2x_stable>Latest stable 2.X (Long Term Support version)</latest_2x_stable>
-					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
+					<latest_3x_stable>Latest stable 3.X (Long Term Support version)</latest_3x_stable>
+					<latest_3x_beta>Latest beta 3.X (Long Term Support version)</latest_3x_beta>
 				</availableValues>
 				<description />
 				<inlineHelp>While our &lt;a target='_blank' rel='noreferrer noopener' href='https://matomo.org/participate/development-process/'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Matomo.&lt;br/&gt;If Matomo is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>

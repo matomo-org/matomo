@@ -79,7 +79,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
         return array(
             array($exists = true, $id = 'latest_stable'),
             array($exists = true, $id = 'latest_beta'),
-            array($exists = true, $id = 'latest_2x_stable'),
+            array($exists = true, $id = 'latest_3x_stable'),
             array($exists = true, $id = 'laTest_stable'), // we do not check for exact match
             array($exists = false, $id = ''),
             array($exists = false, $id = 'latest'),
@@ -92,7 +92,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
     {
         return array(
             array('latest_stable', 'latest_stable'),
-            array('latest_2x_stable', 'latest_2x_stable'),
+            array('latest_3x_stable', 'latest_3x_stable'),
             array('latest_beta', 'latest_beta'),
             array('latest_beta', 'latEst_betA'),
             array('latest_stable', ''), // if nothing configured should return default (the one with lowest order)
