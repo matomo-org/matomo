@@ -629,9 +629,7 @@ class Common
      */
     public static function generateUniqId()
     {
-        $rand = self::getRandomInt();
-
-        return md5(uniqid($rand, true));
+        return bin2hex(random_bytes(16));
     }
 
     /**
