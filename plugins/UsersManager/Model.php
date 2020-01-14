@@ -261,6 +261,25 @@ class Model
 
     public function generateRandomTokenAuth()
     {
+        $count = 0;
+
+        do {
+            $token = $this->generateTokenAuth();
+
+            $count++;
+            if ($count > 20) {
+                // something seems wrong as the odds of that happening is basically 0. Only catching it to prevent
+                // endless loop in case there is some bug somewhere
+                throw new \Exception('Failed to generate token');
+            }
+
+        } while ($this->getUserByTokenAuth($token));
+
+        return $token;
+    }
+
+    private function generateTokenAuth()
+    {
         return md5(Common::getRandomString(32, 'abcdef1234567890') . microtime(true) . Common::generateUniqId() . SettingsPiwik::getSalt());
     }
 
@@ -281,7 +300,11 @@ class Model
         $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
-        Db::query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
+
+        $db = $this->getDb();
+        $db->query($insertSql, [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO]);
+
+        return $db->lastInsertId();
     }
 
     private function getTokenByTokenAuth($tokenAuth)
@@ -335,7 +358,7 @@ class Model
         $expired = $this->getQueryNotExpiredToken();
         $bind = array_merge(array($login), $expired['bind']);
 
-        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'], $bind);
+        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'] . ' order by idusertokenauth ASC', $bind);
     }
 
     public function getAllHashedTokensForLogins($logins)

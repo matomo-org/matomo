@@ -43,6 +43,7 @@ class ModelTest extends IntegrationTestCase
     private $model;
 
     private $login = 'userLogin';
+    private $login2 = 'userLogin2';
 
     public function setUp()
     {
@@ -58,6 +59,7 @@ class ModelTest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         $this->api->addUser($this->login, 'password', 'userlogin@password.de');
+        $this->api->addUser($this->login2, 'password2', 'userlogin2@password.de');
     }
 
     public function test_getSitesAccessFromUser_noAccess()
@@ -134,7 +136,8 @@ class ModelTest extends IntegrationTestCase
 
     public function test_addTokenAuth_expire()
     {
-        $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
+        $id = $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
+        $this->assertEquals(1, $id);
         $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertEquals(array(array(
             'idusertokenauth' => '1',
@@ -156,6 +159,24 @@ class ModelTest extends IntegrationTestCase
     public function test_addTokenAuth_throwsException_ifUserNotExists()
     {
         $this->model->addTokenAuth('foobar', 'token', 'MyDescription', '2020-01-02 03:04:05', '2030-01-05 03:04:05');
+    }
+
+    /**
+     * @expectedException  \Exception
+     * @expectedExceptionMessage  Duplicate entry
+     */
+    public function test_addTokenAuth_throwsException_FailsAddingSameTwice()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'My description', '2020-01-02 03:04:05');
+        $this->model->addTokenAuth($this->login, 'token', 'My duplicate', '2020-01-03 03:04:05');
+    }
+
+    public function test_addTokenAuth_returnsId()
+    {
+        $id = $this->model->addTokenAuth($this->login, 'token', 'MyDescription', '2020-01-02 03:04:05');
+        $this->assertEquals(1, $id);
+        $id = $this->model->addTokenAuth($this->login, 'token2', 'MyDescription', '2020-01-02 03:04:05');
+        $this->assertEquals(2, $id);
     }
 
     /**
@@ -269,18 +290,83 @@ class ModelTest extends IntegrationTestCase
         ), $this->model->getAllHashedTokensForLogins(array('foo', $this->login, 'bar')));
     }
 
+    public function test_deleteToken()
+    {
+        $id1 = $this->model->addTokenAuth($this->login, 'token', 'MyDescription1', '2020-01-02 03:04:05');
+        $id2 = $this->model->addTokenAuth($this->login, 'token2', 'MyDescription2', '2020-01-03 03:04:05');
+
+        // should not have deleted anything as it doesn't match
+        $this->model->deleteToken(999, $this->login);
+        $this->model->deleteToken($id1, 'foobar');
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertCount(2, $tokens);
+        $this->assertEquals($id1, $tokens[0]['idusertokenauth']);
+        $this->assertEquals($id2, $tokens[1]['idusertokenauth']);
+
+        // should only delete that id
+        $this->model->deleteToken($id1, $this->login);
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertCount(1, $tokens);
+        $this->assertEquals($id2, $tokens[0]['idusertokenauth']);
+    }
+
+    public function test_deleteAllTokensForUser()
+    {
+        $this->model->addTokenAuth($this->login, 'token', 'MyDescription1', '2020-01-02 03:04:05');
+        $this->model->addTokenAuth($this->login, 'token2', 'MyDescription2', '2020-01-03 03:04:05');
+        $this->model->addTokenAuth($this->login2, 'token3', 'MyDescription2', '2020-01-03 03:04:05');
+
+        // should not have deleted anything as it doesn't match
+        $this->model->deleteAllTokensForUser('foobar');
+
+        $this->assertCount(2, $this->model->getAllNonSystemTokensForLogin($this->login));
+        $this->assertCount(1, $this->model->getAllNonSystemTokensForLogin($this->login2));
+
+        // should only delete tokens for that login
+        $this->model->deleteAllTokensForUser($this->login);
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertCount(0, $this->model->getAllNonSystemTokensForLogin($this->login));
+        $this->assertCount(1, $this->model->getAllNonSystemTokensForLogin($this->login2));
+    }
+
     public function test_setTokenAuthWasUsed()
     {
         $this->model->addTokenAuth($this->login, 'token2', 'MyDescription', '2020-01-02 03:04:05');
         $this->model->setTokenAuthWasUsed('token2',  '2025-01-02 03:04:05');
 
-        $tokens = $this->model->getAllNonSystemTokensForLogin('token2');
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
         $this->assertSame('2025-01-02 03:04:05', $tokens[0]['last_used']);
     }
 
     public function test_setTokenAuthWasUsed_doesNotFailWhenTokenNotExists()
     {
         $this->model->setTokenAuthWasUsed('tokenFooBar',  '2025-01-02 03:04:05');
+    }
+
+    public function test_deleteExpiredTokens()
+    {
+        $id1 = $this->model->addTokenAuth($this->login, 'token', 'MyDescription1', '2020-01-01 03:04:05', '2020-01-02 03:04:05');
+        $id2 = $this->model->addTokenAuth($this->login, 'token2', 'MyDescription2', '2020-01-02 03:04:05');
+        $id3 = $this->model->addTokenAuth($this->login, 'token3', 'MyDescription3', '2020-01-03 03:04:05', '2022-01-02 03:04:05');
+        $id4 = $this->model->addTokenAuth($this->login2, 'token4', 'MyDescription4', '2020-01-04 03:04:05', '2024-01-02 03:04:05');
+        $id5 = $this->model->addTokenAuth($this->login2, 'token5', 'MyDescription5', '2020-01-05 03:04:05');
+        $id6 = $this->model->addTokenAuth($this->login2, 'token6', 'MyDescription6', '2020-01-06 03:04:05', '2018-01-02 03:04:05');
+
+        // id1 and id6 are expired and should have been deleted
+        $this->model->deleteExpiredTokens('2021-01-02 03:04:05');
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login);
+        $this->assertSame($id2, $tokens[0]['idusertokenauth']);
+        $this->assertSame($id3, $tokens[1]['idusertokenauth']);
+        $this->assertCount(2, $tokens);
+
+        $tokens = $this->model->getAllNonSystemTokensForLogin($this->login2);
+        $this->assertSame($id4, $tokens[0]['idusertokenauth']);
+        $this->assertSame($id5, $tokens[1]['idusertokenauth']);
+        $this->assertCount(2, $tokens);
     }
 
 }
