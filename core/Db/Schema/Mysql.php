@@ -518,12 +518,15 @@ class Mysql implements SchemaInterface
     public function createAnonymousUser()
     {
         $now = Date::factory('now')->getDatetime();
-
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
+                    (`login`, `password`, `alias`, `email`, `twofactor_secret`, `superuser_access`, `date_registered`, `ts_password_modified`)
                     VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 0, '$now', '$now' );");
+
+        $model = new Model();
+        $model->addTokenAuth('anonymous', 'anonymous', 'anonymous default token', $now);
     }
 
     /**

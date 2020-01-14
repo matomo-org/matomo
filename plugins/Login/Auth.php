@@ -79,6 +79,7 @@ class Auth implements \Piwik\Auth
 
                 $this->userModel->updateUser($login, $newPasswordHash, $user['email'], $user['alias']);
             }
+            $this->token_auth = null; // make sure to generate a random token 
 
             return $this->authenticationSuccess($user);
         }
@@ -100,11 +101,11 @@ class Auth implements \Piwik\Auth
 
     private function authenticateWithLoginAndToken($token, $login)
     {
-        if ($login === 'anonymous' && $token === 'anonymous') {
-            $user = $this->userModel->getUser($login);
-            if (!empty($user)) {
-                return $this->authenticationSuccess($user);
-            }
+        $user = $this->userModel->getUserByTokenAuth($token);
+
+        if (!empty($user['login']) && $user['login'] === $login) {
+            $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
+            return $this->authenticationSuccess($user);
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, $token);

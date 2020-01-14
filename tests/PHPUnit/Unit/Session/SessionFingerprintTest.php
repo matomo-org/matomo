@@ -65,9 +65,10 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), true, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, true, self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
+        $this->assertEquals(Fixture::ADMIN_USER_TOKEN, $_SESSION[SessionFingerprint::SESSION_INFO_TEMP_TOKEN_AUTH]);
         $this->assertEquals(
             ['ts' => self::TEST_TIME_VALUE, 'remembered' => true, 'expiration' => self::TEST_TIME_VALUE + 3600],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
@@ -76,7 +77,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_hasVerifiedTwoFactor()
     {
-        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, self::TEST_TIME_VALUE);
 
         // after logging in, the user has by default not verified two factor, important
         $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
@@ -88,7 +89,7 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_updateSessionExpireTime_SetsANewExpirationTime()
     {
-        $this->testInstance->initialize('testuser', Fixture::getTokenAuth(), false, self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', Fixture::ADMIN_USER_TOKEN, false, self::TEST_TIME_VALUE);
 
         Date::$now = self::TEST_TIME_VALUE + 100;
 
