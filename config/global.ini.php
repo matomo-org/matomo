@@ -955,6 +955,7 @@ Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
 Plugins[] = WebsiteMeasurable
 Plugins[] = IntranetMeasurable
+Plugins[] = MobileAppMeasurable
 Plugins[] = Diagnostics
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy
