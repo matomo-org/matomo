@@ -121,7 +121,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
-            'md5Password' => md5($this->userPassword)
+            'md5Password' => md5($this->userPassword),
+            'description' => 'twofa test'
         ));
         $this->assertEquals(32, strlen($token));
     }
