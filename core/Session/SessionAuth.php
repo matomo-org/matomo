@@ -154,6 +154,7 @@ class SessionAuth implements Auth
     private function makeAuthSuccess($user, $tokenAuth)
     {
         $this->user = $user;
+        $this->tokenAuth = $tokenAuth;
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;

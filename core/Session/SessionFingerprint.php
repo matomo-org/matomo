@@ -112,6 +112,10 @@ class SessionFingerprint
         if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) { // may not be available during tests
             unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
         }
+
+        if (isset($_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH])) { // may not be available during tests
+            unset($_SESSION[self::SESSION_INFO_TEMP_TOKEN_AUTH]);
+        }
     }
 
     public function getSessionStartTime()
