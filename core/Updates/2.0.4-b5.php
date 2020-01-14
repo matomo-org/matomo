@@ -36,7 +36,7 @@ class Updates_2_0_4_b5 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('user', 'superuser_access', "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'", 'token_auth')
+            $this->migration->db->addColumn('user', 'superuser_access', "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'")
         );
     }
 
