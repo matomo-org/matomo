@@ -266,10 +266,16 @@ class Model
 
     public function addTokenAuth($login, $tokenAuth, $description, $dateCreated, $dateExpired = null, $isSystemToken = false)
     {
+        if (!$this->getUser($login)) {
+            throw new \Exception('User ' . $login . ' does not exist');
+        }
+
         BaseValidator::check('Description', $description, [new NotEmpty(), new CharacterLength(1, self::MAX_LENGTH_TOKEN_DESCRIPTION)]);
+
         if (empty($dateExpired)) {
             $dateExpired = null;
         }
+
         $isSystemToken = (int) $isSystemToken;
 
         $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -286,16 +292,25 @@ class Model
         return $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
     }
 
+    private function getQueryNotExpiredToken()
+    {
+        return array(
+            'sql' => ' (date_expired is null or date_expired > ?)',
+            'bind' => array(Date::now()->getDatetime())
+        );
+    }
+
     private function getTokenByTokenAuthIfNotExpired($tokenAuth)
     {
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
-        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ?", $tokenAuth);
+        $expired = $this->getQueryNotExpiredToken();
+        $bind = array_merge(array($tokenAuth), $expired['bind']);
 
-        if (empty($token['date_expired']) || Date::now()->isEarlier(Date::factory($token['date_expired']))) {
-            return $token;
-        }
+        $token = $db->fetchRow("SELECT * FROM " . $this->tokenTable . " WHERE `password` = ? and " . $expired['sql'], $bind);
+
+        return $token;
     }
 
     public function deleteExpiredTokens($expiredSince)
@@ -316,7 +331,11 @@ class Model
     {
         $db = $this->getDb();
 
-        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0", $login);
+
+        $expired = $this->getQueryNotExpiredToken();
+        $bind = array_merge(array($login), $expired['bind']);
+
+        return $db->fetchAll("SELECT * FROM " . $this->tokenTable . " WHERE `login` = ? and system_token = 0 and " . $expired['sql'], $bind);
     }
 
     public function getAllHashedTokensForLogins($logins)
@@ -328,7 +347,10 @@ class Model
         $db = $this->getDb();
         $placeholder = Common::getSqlStringFieldsArray($logins);
 
-        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (".$placeholder.")", $logins);
+        $expired = $this->getQueryNotExpiredToken();
+        $bind = array_merge($logins, $expired['bind']);
+
+        $tokens = $db->fetchAll("SELECT password FROM " . $this->tokenTable . " WHERE `login` IN (".$placeholder.") and " . $expired['sql'], $bind);
         return array_column($tokens, 'password');
     }
 
@@ -495,6 +517,7 @@ class Model
     {
         $db = $this->getDb();
         $db->query("DELETE FROM " . $this->userTable . " WHERE login = ?", $userLogin);
+        $db->query("DELETE FROM " . $this->tokenTable . " WHERE login = ?", $userLogin);
 
         /**
          * Triggered after a user has been deleted.
