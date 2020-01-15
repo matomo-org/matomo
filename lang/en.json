@@ -112,6 +112,7 @@
         "Continue": "Continue",
         "ContinueToPiwik": "Continue to Matomo",
         "CurrentlyUsingUnsecureHttp": "You are currently using Matomo over unsecure HTTP. This can make your Matomo vulnerable to security exploits. You may also be in breach of privacy laws, as some features including opt-out cookies will not work. We recommend you set up Matomo to use SSL (HTTPS) for improved security.",
+        "CreationDate": "Creation date",
         "CreatedByUser": "created by %s",
         "CurrentMonth": "Current Month",
         "CurrentWeek": "Current Week",
