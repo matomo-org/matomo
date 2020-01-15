@@ -16,7 +16,7 @@
             </div>
         {% endif %}
 
-        <form  action="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'}) }}" method="post">
+        <form  action="{{ linkTo({'module': 'UsersManager', 'action': 'addNewToken'}) }}" method="post" class="addTokenForm">
             <div piwik-field uicontrol="text" name="description"
                  data-title="{{ 'General_Description'|translate|e('html_attr') }}"
                  maxlength="100" required
