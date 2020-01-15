@@ -280,11 +280,22 @@ class Controller extends ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
 
         $tokens = $this->userModel->getAllNonSystemTokensForLogin(Piwik::getCurrentUserLogin());
+        $tokens = array_map(function ($token){
+            foreach (['date_created', 'last_used', 'date_expired'] as $key) {
+                if (!empty($token[$key])) {
+                    $token[$key] = Date::factory($token[$key])->getLocalized(Date::DATE_FORMAT_LONG);
+                }
+            }
+
+            return $token;
+        }, $tokens);
+        $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
         return $this->renderTemplate('userSecurity', array(
-           'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
-           'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
-           'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
+            'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
+            'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
+            'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
+            'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
             'tokens' => $tokens
         ));
     }
@@ -344,6 +355,8 @@ class Controller extends ControllerAdmin
             throw new Exception('Not allowed');
         }
 
+        $noDescription = false;
+
         if (!empty($_POST['description'])) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
 
@@ -355,10 +368,13 @@ class Controller extends ControllerAdmin
             $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime());
 
             return $this->renderTemplate('addNewTokenSuccess', array('generatedToken' => $generatedToken));
+        } elseif (isset($_POST['description'])) {
+            $noDescription = true;
         }
 
         return $this->renderTemplate('addNewToken', array(
-           'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN)
+           'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
+           'noDescription' => $noDescription
         ));
     }
 
