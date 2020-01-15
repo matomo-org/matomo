@@ -43,7 +43,7 @@ describe("UserSettings", function () {
 
     it('should create new token', async function () {
         await page.type('.addTokenForm input[id=description]', 'test description');
-        await page.click('. .btn');
+        await page.click('.addTokenForm .btn');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.admin')).to.matchImage('add_token_success');
     });
