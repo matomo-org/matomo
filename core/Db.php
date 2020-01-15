@@ -786,7 +786,7 @@ class Db
     {
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
-                Db::lockTables(Common::prefixTable('log_visit'));
+                Db::lockTables(Common::prefixTable('site_url'));
                 Db::unlockAllTables();
 
                 self::$lockPrivilegeGranted = true;
