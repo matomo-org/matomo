@@ -156,7 +156,7 @@ class Access
             return false;
         }
 
-        $auth = $this->auth;
+        $result = null;
 
         $forceApiSession = Common::getRequestVar('force_api_session', 0, 'int', $_POST);
         if ($forceApiSession && Piwik::getModule() === 'API' && (Piwik::getAction() === 'index' || !Piwik::getAction())) {
@@ -165,11 +165,15 @@ class Access
                 Session::start();
                 $auth = StaticContainer::get(SessionAuth::class);
                 $auth->setTokenAuth($tokenAuth);
+                $result = $auth->authenticate();
+                // if not successful, we will fallback to regular auth
             }
         }
 
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
-        $result = $auth->authenticate();
+        if (!$result || !$result->wasAuthenticationSuccessful()) {
+            $result = $auth->authenticate();
+        }
 
         if (!$result->wasAuthenticationSuccessful()) {
             return false;
