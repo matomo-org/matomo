@@ -91,7 +91,7 @@ class Session extends Zend_Session
 
         $currentSaveHandler = ini_get('session.save_handler');
 
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
             // for "files", use our own folder to prevent local session file hijacking
@@ -143,7 +143,7 @@ class Session extends Zend_Session
                 'ignoreInScreenWriter' => true,
             ]);
 
-            if (SettingsPiwik::isPiwikInstalled()) {
+            if (SettingsPiwik::isMatomoInstalled()) {
                 $pathToSessions = '';
             } else {
                 $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Intl;
 
 class Intl extends \Piwik\Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return [
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',

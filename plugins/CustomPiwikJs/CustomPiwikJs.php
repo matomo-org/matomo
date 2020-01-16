@@ -14,7 +14,7 @@ use Piwik\Plugin;
 
 class CustomPiwikJs extends Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'CoreUpdater.update.end' => 'updateTracker',

@@ -34,7 +34,7 @@ class Validator
             return false;
         }
 
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class Validator
     {
         Piwik::checkUserIsNotAnonymous();
 
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             throw new NotYetInstalledException('Matomo is not set up yet');
         }
     }
