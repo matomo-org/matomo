@@ -1025,8 +1025,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     trackContentInteractionNode, trackContentImpressionsWithinNode, trackContentImpression,
     enableTrackOnlyVisibleContent, trackContentInteraction, clearEnableTrackOnlyVisibleContent, logAllContentBlocksOnPage,
     trackVisibleContentImpressions, isTrackOnlyVisibleContentEnabled, port, isUrlToCurrentDomain, piwikTrackers,
-    isNodeAuthorizedToTriggerInteraction, replaceHrefIfInternalLink, getConfigDownloadExtensions, disableLinkTracking,
-    substr, setAnyAttribute, wasContentTargetAttrReplaced, max, abs, childNodes, compareDocumentPosition, body,
+    isNodeAuthorizedToTriggerInteraction, getConfigDownloadExtensions, disableLinkTracking,
+    substr, setAnyAttribute, max, abs, childNodes, compareDocumentPosition, body,
     getConfigVisitorCookieTimeout, getRemainingVisitorCookieTimeout, getDomains, getConfigCookiePath,
     getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -4847,10 +4847,6 @@ if (typeof window.Piwik !== 'object') {
 
                 var href = query.getAttributeValueFromNode(sourceElement, 'href');
 
-                if (startsUrlWithTrackerUrl(href)) {
-                    return;
-                }
-
                 var originalSourcePath = sourceElement.pathname || getPathName(sourceElement.href);
 
                 // browsers, such as Safari, don't downcase hostname and href
@@ -4986,81 +4982,6 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             }
 
-            function replaceHrefIfInternalLink(contentBlock)
-            {
-                if (!contentBlock) {
-                    return false;
-                }
-
-                var targetNode = content.findTargetNode(contentBlock);
-
-                if (!targetNode || content.shouldIgnoreInteraction(targetNode)) {
-                    return false;
-                }
-
-                var link = getLinkIfShouldBeProcessed(targetNode);
-
-                if (linkTrackingEnabled && link && link.type) {
-
-                    return false; // will be handled via outlink or download.
-                }
-
-                if (query.isLinkElement(targetNode) &&
-                    query.hasNodeAttributeWithValue(targetNode, 'href')) {
-                    var url = String(query.getAttributeValueFromNode(targetNode, 'href'));
-
-                    if (0 === url.indexOf('#')) {
-                        return false;
-                    }
-
-                    if (startsUrlWithTrackerUrl(url)) {
-                        return true;
-                    }
-
-                    if (!content.isUrlToCurrentDomain(url)) {
-                        return false;
-                    }
-
-                    var block = content.buildContentBlock(contentBlock);
-
-                    if (!block) {
-                        return;
-                    }
-
-                    var contentName   = block.name;
-                    var contentPiece  = block.piece;
-                    var contentTarget = block.target;
-
-                    if (!query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR) || targetNode.wasContentTargetAttrReplaced) {
-                        // make sure we still track the correct content target when an interaction is happening
-                        targetNode.wasContentTargetAttrReplaced = true;
-                        contentTarget = content.toAbsoluteUrl(url);
-                        query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, contentTarget);
-                    }
-
-                    var targetUrl = buildContentInteractionTrackingRedirectUrl(url, 'click', contentName, contentPiece, contentTarget);
-
-                    // location.href does not respect target=_blank so we prefer to use this
-                    content.setHrefAttribute(targetNode, targetUrl);
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            function replaceHrefsIfInternalLink(contentNodes)
-            {
-                if (!contentNodes || !contentNodes.length) {
-                    return;
-                }
-
-                var index;
-                for (index = 0; index < contentNodes.length; index++) {
-                    replaceHrefIfInternalLink(contentNodes[index]);
-                }
-            }
-
             function trackContentImpressionClickInteraction (targetNode)
             {
                 return function (event) {
@@ -5083,47 +5004,23 @@ if (typeof window.Piwik !== 'object') {
                         return;
                     }
 
-                    setExpireDateTime(configTrackerPause);
-
-                    if (query.isLinkElement(targetNode) &&
-                        query.hasNodeAttributeWithValue(targetNode, 'href') &&
-                        query.hasNodeAttributeWithValue(targetNode, content.CONTENT_TARGET_ATTR)) {
-                        // there is a href attribute, the link was replaced with piwik.php but later the href was changed again by the application.
-                        var href = query.getAttributeValueFromNode(targetNode, 'href');
-                        if (!startsUrlWithTrackerUrl(href) && targetNode.wasContentTargetAttrReplaced) {
-                            query.setAnyAttribute(targetNode, content.CONTENT_TARGET_ATTR, '');
-                        }
+                    if (!contentBlock) {
+                        return false;
                     }
 
-                    var link = getLinkIfShouldBeProcessed(targetNode);
+                    var theTargetNode = content.findTargetNode(contentBlock);
 
-                    if (linkTrackingInstalled && link && link.type) {
-                        // click ignore, will be tracked via processClick, we do not want to track it twice
-
-                        return link.type;
+                    if (!theTargetNode || content.shouldIgnoreInteraction(theTargetNode)) {
+                        return false;
                     }
 
-                    if (replaceHrefIfInternalLink(contentBlock)) {
-                        return 'href';
+                    var link = getLinkIfShouldBeProcessed(theTargetNode);
+
+                    if (linkTrackingEnabled && link && link.type) {
+                        return link.type; // will be handled via outlink or download.
                     }
 
-                    var block = content.buildContentBlock(contentBlock);
-
-                    if (!block) {
-                        return;
-                    }
-
-                    var contentName   = block.name;
-                    var contentPiece  = block.piece;
-                    var contentTarget = block.target;
-
-                    // click on any non link element, or on a link element that has not an href attribute or on an anchor
-                    var request = buildContentInteractionRequest('click', contentName, contentPiece, contentTarget);
-                    if (request) {
-                        sendRequest(request, configTrackerPause);
-                    }
-
-                    return request;
+                    return trackerInstance.trackContentInteractionNode(interactedElement, 'click');
                 };
             }
 
@@ -5170,7 +5067,6 @@ if (typeof window.Piwik !== 'object') {
                     return [];
                 }
 
-                replaceHrefsIfInternalLink(contentNodes);
                 setupInteractionsTracking(contentNodes);
 
                 var requests = [];
@@ -5833,7 +5729,6 @@ if (typeof window.Piwik !== 'object') {
             this.trackContentImpressionClickInteraction = trackContentImpressionClickInteraction;
             this.internalIsNodeVisible = isVisible;
             this.isNodeAuthorizedToTriggerInteraction = isNodeAuthorizedToTriggerInteraction;
-            this.replaceHrefIfInternalLink = replaceHrefIfInternalLink;
             this.getDomains = function () {
                 return configHostsAlias;
             };
@@ -7230,12 +7125,16 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
+                var theRequest = null;
+
                 trackCallback(function () {
-                    var request = buildContentInteractionRequestNode(domNode, contentInteraction);
-                    if (request) {
-                        sendRequest(request, configTrackerPause);
+                    theRequest = buildContentInteractionRequestNode(domNode, contentInteraction);
+                    if (theRequest) {
+                        sendRequest(theRequest, configTrackerPause);
                     }
                 });
+                //note: return value is only for tests... will only work if dom is already ready...
+                return theRequest;
             };
 
             /**

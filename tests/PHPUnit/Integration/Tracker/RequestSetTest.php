@@ -128,49 +128,6 @@ class RequestSetTest extends IntegrationTestCase
         return $request;
     }
 
-    public function test_shouldPerformRedirectToUrl_shouldNotRedirect_IfNoUrlIsSet()
-    {
-        $this->assertFalse($this->requestSet->shouldPerformRedirectToUrl());
-    }
-
-    public function test_shouldPerformRedirectToUrl_shouldNotRedirect_IfUrlIsSetButNoRequests()
-    {
-        $this->requestSet->setRedirectUrl('http://localhost');
-        $this->assertEquals('http://localhost', $this->requestSet->getRedirectUrl());
-
-        $this->requestSet->setRequests(array());
-
-        $this->assertFalse($this->requestSet->shouldPerformRedirectToUrl());
-    }
-
-    public function test_shouldPerformRedirectToUrl_shouldNotRedirect_IfUrlHasNoHostOrIsNotUrl()
-    {
-        $this->requestSet->setRedirectUrl('abc');
-
-        $this->assertFalse($this->requestSet->shouldPerformRedirectToUrl());
-    }
-
-    public function test_shouldPerformRedirectToUrl_shouldNotRedirect_IfUrlIsNotWhitelistedInAnySiteId()
-    {
-        $this->requestSet->setRedirectUrl('http://example.org');
-
-        $this->assertFalse($this->requestSet->shouldPerformRedirectToUrl());
-    }
-
-    public function test_shouldPerformRedirectToUrl_shouldRedirect_IfUrlIsGivenAndWhitelistedInAnySiteId()
-    {
-        $this->requestSet->setRedirectUrl('http://www.example.com');
-
-        $this->assertEquals('http://www.example.com', $this->requestSet->shouldPerformRedirectToUrl());
-    }
-
-    public function test_shouldPerformRedirectToUrl_shouldRedirect_IfBaseDomainIsGivenAndWhitelistedInAnySiteId()
-    {
-        $this->requestSet->setRedirectUrl('http://example.com');
-
-        $this->assertEquals('http://example.com', $this->requestSet->shouldPerformRedirectToUrl());
-    }
-
     public function test_initRequestsAndTokenAuth_shouldTriggerEventToInitRequestsButOnlyOnce()
     {
         $requestSet = $this->buildNewRequestSetThatIsNotInitializedYet();
