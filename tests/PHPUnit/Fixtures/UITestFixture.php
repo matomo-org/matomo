@@ -152,6 +152,8 @@ class UITestFixture extends SqlDump
             throw new Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
         }
 
+        self::createSuperUser();
+
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
         $this->testEnvironment->save();

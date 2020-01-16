@@ -721,7 +721,9 @@ class Fixture extends \PHPUnit_Framework_Assert
             $model->updateUser($login, $password, 'hello@example.org', $login);
         }
         try {
-            $model->addTokenAuth($login,self::ADMIN_USER_TOKEN, 'Admin user token', Date::now()->getDatetime());
+            if (!$model->getUserByTokenAuth(self::ADMIN_USER_TOKEN)) {
+                $model->addTokenAuth($login,self::ADMIN_USER_TOKEN, 'Admin user token', Date::now()->getDatetime());
+            }
         } catch (Exception $e) {
             // duplicate entry errors are expected
             if (strpos($e->getMessage(), 'Duplicate entry') === false) {
