@@ -50,6 +50,7 @@ class Lock
 
     public function execute($id, $callback)
     {
+        $this->lockKeyStart = '';
         if (Common::mb_strlen($id) > self::MAX_KEY_LEN) {
             // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
             // to make it more readable
