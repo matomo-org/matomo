@@ -120,21 +120,6 @@ class HandlerTest extends IntegrationTestCase
         $this->assertSame(400, $this->response->statusCode);
     }
 
-    public function test_onException_ShouldStilRedirectIfThereIsAnExceptionAndAValidRedirectUrl()
-    {
-        $_GET['redirecturl'] = 'http://localhost/test?foo=bar';
-
-        $this->requestSet->setRequests(array(array('idsite' => '1')));
-
-        try {
-            $this->handler->onException($this->tracker, $this->requestSet, $this->buildException());
-            $this->fail('An expected exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertContains('Matomo would redirect you to this URL: ' . $_GET['redirecturl'], $e->getMessage());
-            unset($_GET['redirecturl']);
-        }
-    }
-
     public function test_onException_ShouldNotRethrowExceptionToExitTrackerImmediately()
     {
         $exception = $this->buildException();
