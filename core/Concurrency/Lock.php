@@ -50,11 +50,15 @@ class Lock
 
     public function execute($id, $callback)
     {
-        if (Common::mb_strlen($id) > self::MAX_KEY_LEN) {
+        $maxLen = self::MAX_KEY_LEN;
+        if (!empty($this->lockKeyStart)) {
+            $maxLen = $maxLen - strlen($this->lockKeyStart);
+        }
+        if (Common::mb_strlen($id) > $maxLen) {
             // Lock key might be too long for DB column, so we hash it but leave the start of the original as well
             // to make it more readable
             $md5Len = 32;
-            $id = Common::mb_substr($id, 0, self::MAX_KEY_LEN - $md5Len - 1) . md5($id);
+            $id = Common::mb_substr($id, 0, $maxLen - $md5Len - 1) . md5($id);
         }
 
         $i = 0;
