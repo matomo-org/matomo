@@ -545,14 +545,6 @@ class Updater
     }
 
     /**
-     * @deprecated since Piwik 3.0.0, use {@link executeMigrations()} instead.
-     */
-    public function executeMigrationQueries($file, $migrationQueries)
-    {
-        $this->executeMigrations($file, $migrationQueries);
-    }
-
-    /**
      * Execute multiple migration queries from a single Update file.
      *
      * @param string $file The path to the Updates file.
@@ -637,7 +629,7 @@ class Updater
      */
     public static function updateDatabase($file, $sqlarray)
     {
-        self::$activeInstance->executeMigrationQueries($file, $sqlarray);
+        self::$activeInstance->executeMigrations($file, $sqlarray);
     }
 
     /**
