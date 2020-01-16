@@ -182,8 +182,6 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
         $cookie = $this->getAuthCookie($rememberMe);
-        $cookie->set('login', $authResult->getIdentity());
-        $cookie->set('token_auth', $this->getHashTokenAuth($authResult->getIdentity(), $authResult->getTokenAuth()));
         $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
