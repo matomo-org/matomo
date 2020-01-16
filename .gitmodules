@@ -18,10 +18,6 @@
     path = plugins/TasksTimetable
     url = https://github.com/matomo-org/plugin-TasksTimetable.git
     branch = master
-[submodule "plugins/LoginHttpAuth"]
-    path = plugins/LoginHttpAuth
-    url = https://github.com/matomo-org/plugin-LoginHttpAuth.git
-    branch = master
 [submodule "plugins/QueuedTracking"]
     path = plugins/QueuedTracking
     url = https://github.com/matomo-org/plugin-QueuedTracking.git
