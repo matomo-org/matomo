@@ -102,10 +102,24 @@ class DatabaseAbilitiesCheck implements Diagnostic
         $comment = 'CREATE TEMPORARY TABLES';
 
         try {
+            // create a temporary table
             Db::exec("CREATE TEMPORARY TABLE `piwik_test_table_temp` (
-                                        id INT AUTO_INCREMENT,
+                                        id INT,
+                                        val VARCHAR(5) NULL,
                                         PRIMARY KEY (id)
                                      )");
+
+            // insert an entry into the new temporary table
+            Db::exec('INSERT INTO `piwik_test_table_temp` (`id`, `val`) VALUES ("1", "val1");');
+
+            for ($i=0; $i < 5; $i++) {
+                // try reading the entry a few times to ensure it doesn't fail, which might be possible when using load balanced databases
+                $result = Db::fetchRow('SELECT * FROM `piwik_test_table_temp` WHERE `id` = 1');
+
+                if (empty($result)) {
+                    throw new \Exception('read failed');
+                }
+            }
         } catch (\Exception $e) {
             $status = DiagnosticResult::STATUS_ERROR;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTemporaryTablesWarning');
