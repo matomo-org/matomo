@@ -221,10 +221,9 @@ class BatchInsert
          * @see http://bugs.php.net/bug.php?id=54158
          */
         $openBaseDir = ini_get('open_basedir');
-        $isUsingNonBuggyMysqlnd = function_exists('mysqli_get_client_stats') && version_compare(PHP_VERSION, '5.6.17', '>=');
         $safeMode = ini_get('safe_mode');
 
-        if (($isUsingNonBuggyMysqlnd || empty($openBaseDir)) && empty($safeMode)) {
+        if ((function_exists('mysqli_get_client_stats') || empty($openBaseDir)) && empty($safeMode)) {
             // php 5.x - LOAD DATA LOCAL INFILE only used if open_basedir is not set (or we're using a non-buggy version of mysqlnd)
             //           and if safe mode is not enabled
             $keywords[] = 'LOCAL ';
