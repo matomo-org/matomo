@@ -16,7 +16,7 @@ use Piwik\Tracker\Action;
 class ReferrerName extends Base
 {
     protected $columnName = 'referer_name';
-    protected $columnType = 'VARCHAR(70) NULL';
+    protected $columnType = 'VARCHAR(255) NULL';
     protected $type = self::TYPE_TEXT;
 
     protected $nameSingular = 'Referrers_ReferrerName';

@@ -292,11 +292,6 @@ class CommonTest extends PHPUnit_Framework_TestCase
 
     public function testSafeUnserialize()
     {
-        if (PHP_MAJOR_VERSION < 7) {
-            $this->markTestSkipped('secure unserialize tests are for PHP7 only');
-            return;
-        }
-
         // should unserialize an allowed class
         $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}', ['Piwik\Common']) instanceof Common);
 

@@ -109,7 +109,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function onCreateAppSpecificTokenAuth($returnedValue, $params)
     {
-        if (!SettingsPiwik::isPiwikInstalled()) {
+        if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 

@@ -181,6 +181,10 @@ class ApiTest extends SystemTestCase
 
         $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+
+        /** @var DataTable $referrers */
+        $referrers = Request::processRequest('Referrers.getCampaigns', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+        $this->assertEquals(substr($longReferrer, 0, 255), $referrers->getFirstRow()->getColumn('label'));
     }
 
     public function test_forceNewVisit_shouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()

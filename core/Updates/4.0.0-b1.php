@@ -37,6 +37,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->db->changeColumnType('log_action', 'name', 'VARCHAR(4096)');
         $migrations[] = $this->migration->db->changeColumnType('log_conversion', 'url', 'VARCHAR(4096)');
 
+        /** APP SPECIFIC TOKEN START */
         $migrations[] = $this->migration->db->createTable('user_token_auth', array(
             'idusertokenauth' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
@@ -63,6 +64,9 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         }
 
         $migrations[] = $this->migration->db->dropColumn('user', 'token_auth');
+        /** APP SPECIFIC TOKEN END */
+
+        $migrations[] = $this->migration->plugin->activate('BulkTracking');
 
         return $migrations;
     }

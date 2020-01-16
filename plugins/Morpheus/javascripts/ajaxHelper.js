@@ -72,12 +72,6 @@ function ajaxHelper() {
     this.format =         'json';
 
     /**
-     * Should ajax request be asynchronous
-     * @type {Boolean}
-     */
-    this.async =          true;
-
-    /**
      * A timeout for the request which will override any global timeout
      * @type {Boolean}
      */
@@ -372,17 +366,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
-     *
-     * Note: Sending synchronous requests will be removed in Matomo 4
-     *
-     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
-    this.send = function (sync) {
-        if (sync === true) {
-            this.async = false;
-        }
-
+    this.send = function () {
         if ($(this.errorElement).length) {
             $(this.errorElement).hide();
         }
@@ -433,7 +419,7 @@ function ajaxHelper() {
         url += $.param(parameters);
         var ajaxCall = {
             type:     'POST',
-            async:    this.async !== false,
+            async:    true,
             url:      url,
             dataType: this.format || 'json',
             complete: this.completeCallback,

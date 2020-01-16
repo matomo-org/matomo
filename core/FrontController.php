@@ -652,7 +652,7 @@ class FrontController extends Singleton
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isPiwikInstalled()
+        if (SettingsPiwik::isMatomoInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
             /**

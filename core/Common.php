@@ -292,25 +292,21 @@ class Common
      */
     public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
     {
-        if (PHP_MAJOR_VERSION >= 7) {
-            try {
-                return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
-            } catch (\Throwable $e) {
-                if ($rethrow) {
-                    throw $e;
-                }
-
-                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
-                    'message' => $e->getMessage(),
-                    'backtrace' => $e->getTraceAsString(),
-                    'string' => $string,
-                ]);
-                return false;
+        try {
+            return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+        } catch (\Throwable $e) {
+            if ($rethrow) {
+                throw $e;
             }
-        }
 
-        return @unserialize($string);
+            $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+            $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
+                'message' => $e->getMessage(),
+                'backtrace' => $e->getTraceAsString(),
+                'string' => $string,
+            ]);
+            return false;
+        }
     }
 
     /*
@@ -629,9 +625,7 @@ class Common
      */
     public static function generateUniqId()
     {
-        $rand = self::getRandomInt();
-
-        return md5(uniqid($rand, true));
+        return bin2hex(random_bytes(16));
     }
 
     /**

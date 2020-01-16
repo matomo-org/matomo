@@ -223,16 +223,6 @@ class Plugin
     }
 
     /**
-     * @ignore
-     * @deprecated since 2.15.0 use {@link registerEvents()} instead.
-     * @return array
-     */
-    public function getListHooksRegistered()
-    {
-        return $this->registerEvents();
-    }
-
-    /**
      * This method is executed after a plugin is loaded and translations are registered.
      * Useful for initialization code that uses translated strings.
      */

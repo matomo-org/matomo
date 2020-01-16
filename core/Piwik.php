@@ -865,19 +865,4 @@ class Piwik
 
         return $translator->translate($translationId, $args, $language);
     }
-
-    /**
-     * Executes a callback with superuser privileges, making sure those privileges are rescinded
-     * before this method exits. Privileges will be rescinded even if an exception is thrown.
-     *
-     * @param callback $function The callback to execute. Should accept no arguments.
-     * @return mixed The result of `$function`.
-     * @throws Exception rethrows any exceptions thrown by `$function`.
-     * @api
-     * @deprecated since Matomo 3.8.0 use `Piwik\Access::doAsSuperUser` instead
-     */
-    public static function doAsSuperUser($function)
-    {
-        return Access::doAsSuperUser($function);
-    }
 }

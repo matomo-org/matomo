@@ -599,7 +599,7 @@ abstract class Base extends VisitDimension
 
     private function truncateReferrerName($name)
     {
-        return Common::mb_substr($name, 0, 70);
+        return Common::mb_substr($name, 0, 255);
     }
 
     private function truncateReferrerKeyword($refererKeyword)
