@@ -18,6 +18,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API method `\Piwik\Piwik::doAsSuperUser()` has been removed. Use `\Piwik\Access::doAsSuperUser()` instead
 * The deprecated Platform API method `\Piwik\SettingsPiwik::isPiwikInstalled()` has been removed. Use `\Piwik\SettingsPiwik::isMatomoInstalled()` instead
 
+* The deprecated Platform API method `\Piwik\Updates::getSql()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::getMigrationQueries()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::executeMigrationQueries()` has been removed. Use `\Piwik\Updates::executeMigrations()` instead
+* The deprecated Platform API method `\Piwik\Updates::update()` has been removed. Use `\Piwik\Updates::doUpdate()` instead
+
 ## Matomo 3.13.1
 
 ### Deprecations

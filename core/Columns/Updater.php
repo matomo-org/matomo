@@ -82,7 +82,7 @@ class Updater extends \Piwik\Updates
 
     public function doUpdate(PiwikUpdater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrationQueries($updater));
     }
 
     private function getVisitDimensions()
