@@ -17,7 +17,7 @@
         "ExpireDate": "Expire date",
         "AuthTokens": "Auth tokens",
         "AuthTokenPurpose": "What are you using this token for?",
-        "NoTokenCreatedYetCreateNow": "No token created yet, %screate a new token now%s.",
+        "NoTokenCreatedYetCreateNow": "No token created yet, %1$screate a new token now%2$s.",
         "TokenSuccessfullyGenerated": "Token successfully generated",
         "ConfirmTokenCopied": "I confirm I copied the token.",
         "GoBackSecurityPage": "Go back to security page.",
