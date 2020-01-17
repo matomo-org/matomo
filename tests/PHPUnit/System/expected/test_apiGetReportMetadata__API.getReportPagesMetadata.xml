@@ -1855,6 +1855,35 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Visits per server time</name>
 						<category>
 							<id>Goals by User attribute</id>
@@ -2462,6 +2491,35 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Visits per server time</name>
 						<category>
 							<id>Goals by User attribute</id>
@@ -3064,6 +3122,35 @@
 							<idGoal>3</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -3726,6 +3813,35 @@
 							<idGoal>0</idGoal>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals by User location</id>
+							<name>Goals by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>
@@ -4515,6 +4631,36 @@
 							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
 						</parameters>
 						<uniqueId>widgetDevicesDetectiongetBrandforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Browsers</name>
+						<category>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Sales by User location</id>
+							<name>Sales by User location</name>
+							<order>99</order>
+						</subcategory>
+						<module>DevicesDetection</module>
+						<action>getBrowsers</action>
+						<order>208</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>DevicesDetection</module>
+							<action>getBrowsers</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetDevicesDetectiongetBrowsersforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>tableGoals</viewDataTable>
 						<isReport>1</isReport>

@@ -270,6 +270,7 @@
     "log_conversion": [
         {
             "buster": "0",
+            "config_browser_name": "CH",
             "config_device_brand": "",
             "config_device_model": "generic desktop",
             "config_device_type": "0",
