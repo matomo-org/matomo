@@ -42,6 +42,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         }
 
         $result->addItem($this->checkTemporaryTables());
+        $result->addItem($this->checkTransactionLevel());
 
         return [$result];
     }
@@ -124,6 +125,23 @@ class DatabaseAbilitiesCheck implements Diagnostic
             $status = DiagnosticResult::STATUS_ERROR;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTemporaryTablesWarning');
             $comment .= '<br/>Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/faq_23484/">FAQ on matomo.org</a>';
+        }
+
+        return new DiagnosticResultItem($status, $comment);
+
+    }
+
+    protected function checkTransactionLevel()
+    {
+        $status = DiagnosticResult::STATUS_OK;
+        $comment = 'Changing transaction isolation level';
+
+        $level = new Db\TransactionLevel(Db::getReader());
+        if (!$level->setUncommitted()) {
+            $status = DiagnosticResult::STATUS_WARNING;
+            $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTransactionLevel');
+        } else {
+            $level->restorePreviousStatus();
         }
 
         return new DiagnosticResultItem($status, $comment);
