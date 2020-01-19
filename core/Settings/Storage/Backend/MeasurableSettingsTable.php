@@ -10,11 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
-use Piwik\Version;
 
 /**
  * Measurable settings backend. Stores all settings in a "site_setting" database table.

@@ -9,7 +9,6 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Db;
 
 /**

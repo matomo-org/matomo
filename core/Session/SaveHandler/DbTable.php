@@ -9,7 +9,6 @@
 
 namespace Piwik\Session\SaveHandler;
 
-use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Exception;

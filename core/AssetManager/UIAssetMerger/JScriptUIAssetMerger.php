@@ -12,7 +12,6 @@ use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetCacheBuster;
 use Piwik\AssetManager\UIAssetFetcher\JScriptUIAssetFetcher;
 use Piwik\AssetManager\UIAssetMerger;
-use Piwik\AssetManager;
 use Piwik\AssetManager\UIAssetMinifier;
 use Piwik\Piwik;
 

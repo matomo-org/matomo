@@ -8,8 +8,6 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Piwik\DataTable;
-
 /**
  * Executes a filter for each row of a {@link DataTable} and generates a segment filter for each row.
  *

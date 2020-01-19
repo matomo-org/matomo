@@ -9,8 +9,6 @@
 namespace Piwik\Application\Kernel;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\NotYetInstalledException;
 use Piwik\Filechecks;
 use Piwik\Piwik;

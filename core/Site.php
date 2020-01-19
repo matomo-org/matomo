@@ -10,9 +10,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Container\StaticContainer;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Piwik\Plugins\SitesManager\API;
 
 /**
