@@ -9,8 +9,6 @@
 
 namespace Piwik\Settings\Storage\Backend;
 
-use Piwik\Settings\Storage;
-
 /**
  * Static / temporary storage where a value shall never be persisted. Meaning it will use the default value
  * for each request until configured differently. Useful for tests etc.

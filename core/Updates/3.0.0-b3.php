@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Config;
 use Piwik\Plugin;
 use Piwik\Updater;
-use Piwik\Updates as PiwikUpdates;
 use Piwik\Updates;
 
 class Updates_3_0_0_b3 extends Updates

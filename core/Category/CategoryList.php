@@ -8,7 +8,6 @@
 namespace Piwik\Category;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugin;
 
 /**
  * Base type for category. lets you change the name for a categoryId and specifiy a different order

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Widget;
 
-use Piwik\Cache as PiwikCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Piwik;
