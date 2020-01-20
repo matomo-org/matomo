@@ -9,11 +9,9 @@
 
 namespace Piwik\Settings\Plugin;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Settings\Setting;
-use Piwik\Settings\Storage;
 
 /**
  * Describes a system wide setting. Only the Super User can change this type of setting by d efault and

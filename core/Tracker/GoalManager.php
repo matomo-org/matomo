@@ -18,7 +18,6 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\Events\Actions\ActionEvent;
-use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**

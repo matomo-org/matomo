@@ -15,8 +15,6 @@ use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
-use Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
-use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;

@@ -11,7 +11,6 @@ namespace Piwik\Tracker;
 use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Cache as PiwikCache;
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;

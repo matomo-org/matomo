@@ -11,7 +11,6 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Updater;
 use Piwik\Updates;

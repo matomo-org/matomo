@@ -9,7 +9,6 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;

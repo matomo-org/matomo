@@ -13,7 +13,6 @@ namespace Piwik\Concurrency\LockBackend;
 use Piwik\Common;
 use Piwik\Concurrency\LockBackend;
 use Piwik\Db;
-use Piwik\DbHelper;
 
 class MySqlLockBackend implements LockBackend
 {

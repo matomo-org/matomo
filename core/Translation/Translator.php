@@ -10,7 +10,6 @@ namespace Piwik\Translation;
 
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Translation\Loader\LoaderInterface;
 
 /**

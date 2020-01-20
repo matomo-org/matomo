@@ -8,7 +8,6 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\Backend;
 use Piwik\Container\StaticContainer;
 
 class Cache
