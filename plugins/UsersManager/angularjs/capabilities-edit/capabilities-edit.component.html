@@ -13,7 +13,7 @@
         <span
             class="icon-close"
             ng-if="!$ctrl.isIncludedInRole(capability)"
-            ng-click="$ctrl.capabilityToAddOrRemove = capability; $ctrl.onToggleCapability(fakse)"
+            ng-click="$ctrl.capabilityToAddOrRemoveId = capability.id; $ctrl.onToggleCapability(false)"
         ></span>
     </div>
 
