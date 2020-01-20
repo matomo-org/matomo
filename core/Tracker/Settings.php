@@ -8,7 +8,6 @@
  */
 namespace Piwik\Tracker;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Tracker;
 use Piwik\DeviceDetector\DeviceDetectorFactory;

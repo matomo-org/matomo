@@ -64,13 +64,4 @@ class MetricsFormatter
     {
         return Site::getCurrencySymbolFor($idSite);
     }
-
-    /**
-     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
-     */
-    public static function getCurrencyList()
-    {
-        return Site::getCurrencyList();
-    }
 }

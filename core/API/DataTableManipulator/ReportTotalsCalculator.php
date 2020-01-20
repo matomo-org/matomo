@@ -12,7 +12,6 @@ use Piwik\API\DataTableManipulator;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;

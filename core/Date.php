@@ -10,7 +10,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
 

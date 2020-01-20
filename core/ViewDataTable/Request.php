@@ -11,8 +11,6 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
-use Piwik\DataTable;
-use Piwik\Period;
 
 class Request
 {

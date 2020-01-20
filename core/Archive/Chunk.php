@@ -9,8 +9,6 @@
 
 namespace Piwik\Archive;
 
-use Piwik\DataTable;
-
 /**
  * This class is used to split blobs of DataTables into chunks. Each blob used to be stored under one blob in the
  * archive table. For better efficiency we do now combine multiple DataTable into one blob entry.

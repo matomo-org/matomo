@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
-use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;

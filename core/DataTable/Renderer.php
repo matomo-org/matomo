@@ -11,7 +11,6 @@ namespace Piwik\DataTable;
 use Exception;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\BaseFactory;
