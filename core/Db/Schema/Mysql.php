@@ -44,7 +44,7 @@ class Mysql implements SchemaInterface
             'user'    => "CREATE TABLE {$prefixTables}user (
                           login VARCHAR(100) NOT NULL,
                           password VARCHAR(255) NOT NULL,
-                          alias VARCHAR(100) NOT NULL,
+                          alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
                           twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
