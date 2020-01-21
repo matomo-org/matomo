@@ -65,7 +65,7 @@
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
     setConsentGiven, rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag, alwaysUseSendBeacon,
+    discardHashTag, alwaysUseSendBeacon, disableAlwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
@@ -2172,7 +2172,7 @@ if (typeof window.Piwik !== 'object') {
                 configTrackerPause = 500,
 
                 // If enabled, always use sendBeacon if the browser supports it
-                configAlwaysUseSendBeacon = false,
+                configAlwaysUseSendBeacon = true,
 
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
@@ -5859,6 +5859,14 @@ if (typeof window.Piwik !== 'object') {
              */
             this.alwaysUseSendBeacon = function () {
                 configAlwaysUseSendBeacon = true;
+            };
+
+            /**
+             * Disables send beacon usage instead and instead enables using regular XHR when possible. This makes
+             * callbacks work and also tracking requests will appear in the browser developer tools console.
+             */
+            this.disableAlwaysUseSendBeacon = function () {
+                configAlwaysUseSendBeacon = false;
             };
 
             /**
