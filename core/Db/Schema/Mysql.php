@@ -16,7 +16,6 @@ use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Option;
-use Piwik\Plugins\Installation\Installation;
 use Piwik\Version;
 
 /**

@@ -33,11 +33,6 @@ class PiwikTest extends IntegrationTestCase
             '1e3', 0x123, "-1e-2",
         );
 
-        if (!self::isPhp7orLater()) {
-            // this seems to be no longer considered valid in PHP 7+
-            $value[] = '0x123';
-        }
-
         foreach ($valid as $key => $value) {
             $valid[$key] = array($value);
         }

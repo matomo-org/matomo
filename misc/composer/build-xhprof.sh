@@ -2,7 +2,7 @@
 
 if ! type phpize &> /dev/null; then
     echo "phpize missing, skipping build"
-    echo "If you installed PHP via Aptitude, you can install phpize w/ 'sudo apt-get install php5-dev'"
+    echo "If you installed PHP via Aptitude, you can install phpize w/ 'sudo apt-get install php7-dev'"
     exit
 fi
 

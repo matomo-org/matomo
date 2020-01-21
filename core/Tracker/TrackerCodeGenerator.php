@@ -10,7 +10,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\DbHelper;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;

@@ -9,7 +9,6 @@
 
 namespace Piwik\Settings\Storage\Backend;
 
-use Piwik\Settings\Storage;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 

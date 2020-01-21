@@ -44,9 +44,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $input  = array('xyz/1.gif', 'x/xyz.gif', 'xxyyzzgg');
         $result = Filesystem::sortFilesDescByPathLength($input);
 
-        if (SystemTestCase::isPhp7orLater()) {
-            $input = array('x/xyz.gif', 'xyz/1.gif', 'xxyyzzgg');
-        }
+        $input = array('x/xyz.gif', 'xyz/1.gif', 'xxyyzzgg');
 
         $this->assertEquals($input, $result);
     }

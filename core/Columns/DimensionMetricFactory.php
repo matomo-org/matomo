@@ -11,7 +11,6 @@ namespace Piwik\Columns;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugin\Report;
 
 
 /**
