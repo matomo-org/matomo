@@ -7,7 +7,6 @@
  */
 namespace Piwik\Updater;
 
-use Piwik\Db;
 use Exception;
 
 /**

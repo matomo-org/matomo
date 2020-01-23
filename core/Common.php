@@ -730,33 +730,6 @@ class Common
     }
 
     /**
-     * JSON encode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param mixed $value
-     * @return string
-     * @deprecated
-     */
-    public static function json_encode($value)
-    {
-        return @json_encode($value);
-    }
-
-    /**
-     * JSON decode wrapper
-     * - missing or broken in some php 5.x versions
-     *
-     * @param string $json
-     * @param bool $assoc
-     * @return mixed
-     * @deprecated
-     */
-    public static function json_decode($json, $assoc = false)
-    {
-        return json_decode($json, $assoc);
-    }
-
-    /**
      * Detects whether an error occurred during the last json encode/decode.
      * @return bool
      */
@@ -818,79 +791,6 @@ class Common
     /*
      * DataFiles
      */
-
-    /**
-     * Returns list of continent codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @return array Array of 3 letter continent codes
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()
-     */
-    public static function getContinentsList()
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getContinentList();
-    }
-
-    /**
-     * Returns list of valid country codes
-     *
-     * @see core/DataFiles/Countries.php
-     *
-     * @param bool $includeInternalCodes
-     * @return array Array of (2 letter ISO codes => 3 letter continent code)
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\RegionDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\RegionDataProvider::getCountryList()
-     */
-    public static function getCountriesList($includeInternalCodes = false)
-    {
-        /** @var RegionDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
-        return $dataProvider->getCountryList($includeInternalCodes);
-    }
-
-    /**
-     * Returns the list of valid language codes.
-     *
-     * See [core/DataFiles/Languages.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/Languages.php).
-     *
-     * @return array Array of two letter ISO codes mapped with their associated language names (in English). E.g.
-     *               `array('en' => 'English', 'ja' => 'Japanese')`.
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageList()
-     */
-    public static function getLanguagesList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageList();
-    }
-
-    /**
-     * Returns a list of language to country mappings.
-     *
-     * See [core/DataFiles/LanguageToCountry.php](https://github.com/piwik/piwik/blob/master/core/DataFiles/LanguageToCountry.php).
-     *
-     * @return array Array of two letter ISO language codes mapped with two letter ISO country codes:
-     *               `array('fr' => 'fr') // French => France`
-     * @api
-     *
-     * @deprecated Use Piwik\Intl\Data\Provider\LanguageDataProvider instead.
-     * @see \Piwik\Intl\Data\Provider\LanguageDataProvider::getLanguageToCountryList()
-     */
-    public static function getLanguageToCountryList()
-    {
-        /** @var LanguageDataProvider $dataProvider */
-        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
-        return $dataProvider->getLanguageToCountryList();
-    }
 
     /**
      * Returns list of provider names

@@ -8,10 +8,6 @@
  */
 namespace Piwik\Updates;
 
-use Piwik\Plugins\ScheduledReports\API as ScheduledReportsAPI;
-use Piwik\Plugins\ScheduledReports\Model as ScheduledReportsModel;
-use Piwik\Site;
-use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 
 /**

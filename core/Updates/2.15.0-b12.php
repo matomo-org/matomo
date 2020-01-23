@@ -9,7 +9,6 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
-use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\Updates;
 

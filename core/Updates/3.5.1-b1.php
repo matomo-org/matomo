@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Filesystem;
 use Piwik\Notification;
 use Piwik\Plugin\Manager;
-use Piwik\SettingsServer;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 

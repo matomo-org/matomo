@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
