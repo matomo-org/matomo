@@ -86,7 +86,7 @@ class CliPhp
 
     private function getPhpCommandIfValid($path)
     {
-        if (!empty($path) && is_executable($path)) {
+        if (!empty($path) && @is_executable($path)) {
             if (0 === strpos($path, PHP_BINDIR) && $this->isValidPhpType($path)) {
                 return $path;
             }
