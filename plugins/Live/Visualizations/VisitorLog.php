@@ -219,11 +219,14 @@ class VisitorLog extends Visualization
             }
 
             $action = $group['pageviewAction'];
+            $actionUrl = !empty($action['url']) ? $action['url'] : '';
+            $actionTitle = !empty($action['pageTitle']) ? $action['pageTitle'] : '';
             $lastActionGroup = $actionGroups[$previousId];
+            $lastGroupUrl = !empty($lastActionGroup['pageviewAction']['url']) ? $lastActionGroup['pageviewAction']['url'] : '';
+            $lastGroupTitle = !empty($lastActionGroup['pageviewAction']['pageTitle']) ? $lastActionGroup['pageviewAction']['pageTitle'] : '';
 
             $isLastGroupEmpty = empty($actionGroups[$previousId]['actionsOnPage']);
-            $isPageviewActionSame = $lastActionGroup['pageviewAction']['url'] == $action['url']
-                && $lastActionGroup['pageviewAction']['pageTitle'] == $action['pageTitle'];
+            $isPageviewActionSame = $lastGroupUrl == $actionUrl && $lastGroupTitle == $actionTitle;
 
             // if the current action has the same url/action name as the last, merge w/ the last action group
             if ($isLastGroupEmpty
