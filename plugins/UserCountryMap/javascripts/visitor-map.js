@@ -123,7 +123,7 @@
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
                     dataType: dataType,
-                    data: { token_auth: token_auth },
+                    data: { token_auth: token_auth, force_api_session: '1' },
                     type: 'POST'
                 });
             }
