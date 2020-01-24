@@ -137,6 +137,8 @@ class UITestFixture extends SqlDump
 
         parent::performSetUp($setupEnvironmentOnly);
 
+        self::createSuperUser();
+
         $this->createSegments();
         $this->setupDashboards();
 
@@ -152,8 +154,6 @@ class UITestFixture extends SqlDump
         if ($forcedNowTimestamp == false) {
             throw new Exception("Incorrect fixture setup, Tests.forcedNowTimestamp option does not exist! Run the setup again.");
         }
-
-        self::createSuperUser();
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->tokenAuth = self::getTokenAuth();
@@ -300,7 +300,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        $_GET['token_auth'] = self::getTokenAuth();
+        $_GET['token_auth'] = \Piwik\Piwik::getCurrentUserTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', array(
