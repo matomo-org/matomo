@@ -300,7 +300,7 @@ class UITestFixture extends SqlDump
 
         $oldGet = $_GET;
         $_GET['idSite'] = 1;
-        $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
+        $_GET['token_auth'] = self::getTokenAuth();
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', array(
