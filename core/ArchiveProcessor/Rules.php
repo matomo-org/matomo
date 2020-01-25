@@ -226,9 +226,24 @@ class Rules
         return !$isArchivingEnabled;
     }
 
-    public static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive(Parameters $params = null)
     {
-        return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+        $isRequestAuthorizedToArchive = null;
+        if (!empty($params)) {
+            /**
+             * @ignore
+             *
+             * @params bool &$isRequestAuthorizedToArchive
+             * @params Parameters $params
+             */
+            Piwik::postEvent('Rules.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
+        }
+
+        if ($isRequestAuthorizedToArchive === null) {
+            $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+        }
+
+        return $isRequestAuthorizedToArchive;
     }
 
     public static function isBrowserTriggerEnabled()
@@ -293,11 +308,11 @@ class Rules
      *
      * @return string[]
      */
-    public static function getSelectableDoneFlagValues($includeInvalidated = true)
+    public static function getSelectableDoneFlagValues($includeInvalidated = true, Parameters $params = null)
     {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
-        if (!Rules::isRequestAuthorizedToArchive()
+        if (!Rules::isRequestAuthorizedToArchive($params)
             && $includeInvalidated
         ) {
             //If request is not authorized to archive then fetch also invalidated archives
