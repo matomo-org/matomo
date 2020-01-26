@@ -55,7 +55,7 @@ describe("OptOutForm", function () {
         await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
-        expect(await element.screenshot()).to.matchImage('opted-out');
+        expect(await element.screenshot()).to.matchImage('opted-out2');
     });
 
     it("should correctly show display opted-in form when cookies are cleared", async function () {

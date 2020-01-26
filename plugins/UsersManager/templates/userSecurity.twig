@@ -58,7 +58,7 @@
         <table piwik-content-table class="listAuthTokens">
             <thead>
             <tr>
-                <th class="creationDate">{{ 'General_CreationDate'|translate }}</th>
+                <th>{{ 'General_CreationDate'|translate }}</th>
                 <th>{{ 'General_Description'|translate }}</th>
                 <th>{{ 'UsersManager_LastUsed'|translate }}</th>
                 {% if hasTokensWithExpireDate %}<th title="{{ 'UsersManager_TokensWithExpireDateCreationBySystem'|translate|e('html_attr') }}">{{ 'UsersManager_ExpireDate'|translate }}</th>{% endif %}
@@ -74,7 +74,7 @@
             {% else %}
                 {% for theToken in tokens %}
                     <tr>
-                        <td class="creationDate">{{ theToken.date_created }}</td>
+                        <td><span class="creationDate">{{ theToken.date_created }}</span></td>
                         <td>{{ theToken.description }}</td>
                         <td>{% if theToken.last_used %}{{ theToken.last_used }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
                         {% if hasTokensWithExpireDate %}
