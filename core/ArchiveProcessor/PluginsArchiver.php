@@ -160,13 +160,15 @@ class PluginsArchiver
                 try {
                     self::$currentPluginBeingArchived = $pluginName;
 
+                    $period = $this->params->getPeriod()->getLabel();
+
                     $timer = new Timer();
                     if ($this->shouldAggregateFromRawData) {
-                        Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                        Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' from raw data.", __FUNCTION__, $pluginName);
 
                         $archiver->callAggregateDayReport();
                     } else {
-                        Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
+                        Log::debug("PluginsArchiver::%s: Archiving $period reports for plugin '%s' using reports for smaller periods.", __FUNCTION__, $pluginName);
 
                         $archiver->callAggregateMultipleReports();
                     }

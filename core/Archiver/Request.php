@@ -31,7 +31,7 @@ class Request
      */
     public function __construct($url)
     {
-        $this->url = $url;
+        $this->setUrl($url);
     }
 
     public function before($callable)
@@ -65,12 +65,29 @@ class Request
     public function setUrl($url)
     {
         $this->url = $url;
+
+        // TODO: revisit in matomo 4
+        // period=range&date=last1/period=range&date=previous1 can cause problems during archiving due to Parameters::isDayArchive()
+        if (preg_match('/[&?]period=range/', $this->url)) {
+            $this->changeParam('period', 'day');
+
+            if (preg_match('/[&?]date=last1/', $this->url)) {
+                $this->changeParam('date', 'today');
+            } else if (preg_match('/[&?]date=previous1/', $this->url)) {
+                $this->changeParam('date', 'yesterday');
+            }
+        }
     }
 
     public function changeDate($newDate)
     {
+        $this->changeParam('date', $newDate);
+    }
+
+    private function changeParam($name, $newValue)
+    {
         $url = $this->getUrl();
-        $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+        $url = preg_replace('/([&?])' . preg_quote($name) . '=[^&]*/', '$1' . $name . '=' . $newValue, $url);
         $this->setUrl($url);
     }
 }
