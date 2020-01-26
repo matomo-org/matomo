@@ -50,15 +50,15 @@
 {% endif %}
 
     <a name="authtokens" id="authtokens"></a>
-    <div piwik-content-block content-title="Auth tokens">
+    <div piwik-content-block content-title="{{ 'UsersManager_AuthTokens'|translate|e('html_attr') }}">
         <p>
             {{ 'UsersManager_TokenAuthIntro'|translate }}
             {% if hasTokensWithExpireDate %}{{ 'UsersManager_ExpiredTokensDeleteAutomatically'|translate }}{% endif %}
         </p>
-        <table piwik-content-table>
+        <table piwik-content-table class="listAuthTokens">
             <thead>
             <tr>
-                <th>{{ 'General_CreationDate'|translate }}</th>
+                <th class="creationDate">{{ 'General_CreationDate'|translate }}</th>
                 <th>{{ 'General_Description'|translate }}</th>
                 <th>{{ 'UsersManager_LastUsed'|translate }}</th>
                 {% if hasTokensWithExpireDate %}<th title="{{ 'UsersManager_TokensWithExpireDateCreationBySystem'|translate|e('html_attr') }}">{{ 'UsersManager_ExpireDate'|translate }}</th>{% endif %}
@@ -74,7 +74,7 @@
             {% else %}
                 {% for theToken in tokens %}
                     <tr>
-                        <td>{{ theToken.date_created }}</td>
+                        <td class="creationDate">{{ theToken.date_created }}</td>
                         <td>{{ theToken.description }}</td>
                         <td>{% if theToken.last_used %}{{ theToken.last_used }}{% else %}{{ 'General_Never'|translate }}{% endif %}</td>
                         {% if hasTokensWithExpireDate %}
@@ -87,7 +87,7 @@
                                 <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
                                 <input name="idtokenauth" type="hidden" value="{{ theToken.idusertokenauth|e('html_attr') }}">
                                 <button type="submit" class="table-action"
-                                        title="{{ 'General_Delete'|translate }}">
+                                        title="{{ 'General_Delete'|translate|e('html_attr') }}">
                                     <span class="icon-delete"></span>
                                 </button>
                             </form>
@@ -108,8 +108,7 @@
             <form method="post" action="{{ linkTo({'module': 'UsersManager', 'action': 'deleteToken'}) }}" style="display: inline">
                 <input name="nonce" type="hidden" value="{{ deleteTokenNonce|e('html_attr')  }}">
                 <input name="idtokenauth" type="hidden" value="all">
-                <button type="submit" class="table-action"
-                        title="{{ 'General_Delete'|translate }}">
+                <button type="submit" class="table-action">
                     <span class="icon-delete"></span> {{ 'UsersManager_DeleteAllTokens'|translate }}
                 </button>
             </form>
