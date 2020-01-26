@@ -228,7 +228,8 @@ class Rules
 
     public static function isRequestAuthorizedToArchive(Parameters $params = null)
     {
-        $isRequestAuthorizedToArchive = null;
+        $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+
         if (!empty($params)) {
             /**
              * @ignore
@@ -236,11 +237,7 @@ class Rules
              * @params bool &$isRequestAuthorizedToArchive
              * @params Parameters $params
              */
-            Piwik::postEvent('Rules.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
-        }
-
-        if ($isRequestAuthorizedToArchive === null) {
-            $isRequestAuthorizedToArchive = Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
+            Piwik::postEvent('Archiving.isRequestAuthorizedToArchive', [&$isRequestAuthorizedToArchive, $params]);
         }
 
         return $isRequestAuthorizedToArchive;
