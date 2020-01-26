@@ -85,6 +85,8 @@ class UITestFixture extends SqlDump
         LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
+        self::createSuperUser();
+
         $this->addOverlayVisits();
         $this->addNewSitesForSiteSelector();
 
