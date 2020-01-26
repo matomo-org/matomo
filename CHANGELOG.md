@@ -21,6 +21,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API method `\Piwik\Updates::getMigrationQueries()` has been removed. Use `\Piwik\Updates::getMigrations()` instead
 * The deprecated Platform API method `\Piwik\Updates::executeMigrationQueries()` has been removed. Use `\Piwik\Updates::executeMigrations()` instead
 * The deprecated Platform API method `\Piwik\Updates::update()` has been removed. Use `\Piwik\Updates::doUpdate()` instead
+* Matomo no longer polyills the `JSON` object in the JavaScript tracker. This means IE7 and older, Firefox 3 and older will be no longer suppported in the tracker.
 * The deprecated Platform API method `\Piwik\Common::json_encode()` has been removed. Use `json_encode()` instead
 * The deprecated Platform API method `\Piwik\Common::json_decode()` has been removed. Use `json_decode()` instead
 * The deprecated Platform API method `\Piwik\Common::getContinentsList()` has been removed. Use `\Piwik\Intl\Data\Provider\RegionDataProvider::getContinentList()` instead
@@ -33,6 +34,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API class `\Piwik\Registry` has been removed. Use `\Piwik\Container\StaticContainer` instead
 * The deprecated Platform API class `\Piwik\TaskScheduler` has been removed. Use `\Piwik\Scheduler\Scheduler` instead
 * The deprecated Platform API class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
+* The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools.
 
 ## Matomo 3.13.1
 
