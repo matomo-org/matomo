@@ -319,7 +319,7 @@ class Visitor implements VisitorInterface
     private static function sortActionDetails($actions)
     {
         usort($actions, function ($a, $b) {
-            $fields = array('serverTimePretty', 'idlink_va', 'title', 'url', 'type', 'pageIdAction', 'goalId');
+            $fields = array('serverTimePretty', 'idlink_va', 'type', 'title', 'url', 'pageIdAction', 'goalId');
             foreach ($fields as $field) {
                 $sort = VisitorLog::sortByActionsOnPageColumn($a, $b, $field);
                 if ($sort !== 0) {
