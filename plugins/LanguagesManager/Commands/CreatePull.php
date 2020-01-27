@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreatePull extends TranslationBase
 {
-    const GIT_BASE_BRANCH = '3.x-dev';
+    const GIT_BASE_BRANCH = '4.x-dev';
 
     protected function configure()
     {
