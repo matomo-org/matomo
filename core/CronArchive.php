@@ -1108,7 +1108,16 @@ class CronArchive
                     return Request::ABORT;
                 }
 
+                $urlBefore = $request->getUrl();
                 $request->changeDate($newDate);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $this->logArchiveWebsite($idSite, $period, $newDate);
             });
