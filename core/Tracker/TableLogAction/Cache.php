@@ -31,11 +31,11 @@ class Cache
     private $logger;
 
     /**
-     * @var \Piwik\Cache\Lazy
+     * @var \Matomo\Cache\Lazy
      */
     private $cache;
 
-    public function __construct(LoggerInterface $logger, Config $config, \Piwik\Cache\Lazy $cache)
+    public function __construct(LoggerInterface $logger, Config $config, \Matomo\Cache\Lazy $cache)
     {
         $this->isEnabled = (bool)$config->General['enable_segments_subquery_cache'];
         $this->limitActionIds = $config->General['segments_subquery_cache_limit'];

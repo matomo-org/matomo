@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\UsersManager\API;

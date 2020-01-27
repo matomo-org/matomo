@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Adds one site and tracks a couple visits with many pageviews. The
@@ -137,7 +137,7 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $prefix = $prefixes[$this->prefixCounter % 4];
         $this->prefixCounter = $this->prefixCounter + 1;
 
-        /** @var $visit PiwikTracker */
+        /** @var $visit MatomoTracker */
         $visit->setUrl($prefix . 'example.org/' . $path);
         $visit->setForceVisitDateTime(Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
 

@@ -34,8 +34,6 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
 /**
  * Base class for System tests.
  *

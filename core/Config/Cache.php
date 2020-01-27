@@ -8,7 +8,7 @@
 
 namespace Piwik\Config;
 
-use Piwik\Cache\Backend\File;
+use Matomo\Cache\Backend\File;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Url;

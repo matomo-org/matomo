@@ -11,7 +11,7 @@
 // code, this file has been left as a redirect to its new location in the
 // vendor directory.
 if (!class_exists('PiwikTracker')) {
-    require_once __DIR__ . '/../../vendor/piwik/piwik-php-tracker/PiwikTracker.php';
+    require_once __DIR__ . '/../../vendor/matomo/matomo-php-tracker/PiwikTracker.php';
 }
 
 if (PiwikTracker::VERSION !== 1) {

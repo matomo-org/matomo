@@ -22,7 +22,7 @@ class TrackerTest extends SystemTestCase
     public static $fixture = null;
 
     /**
-     * @var \PiwikTracker
+     * @var \MatomoTracker
      */
     private $tracker;
 

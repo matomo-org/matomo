@@ -14,7 +14,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as APISitesManager;

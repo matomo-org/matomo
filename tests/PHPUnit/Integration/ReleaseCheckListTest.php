@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;

@@ -10,7 +10,7 @@ namespace Piwik\Plugins\UserCountry\Columns;
 
 use Piwik\Common;
 use Piwik\Exception\InvalidRequestParameterException;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
