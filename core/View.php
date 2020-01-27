@@ -123,6 +123,15 @@ class View implements ViewInterface
     private $useStrictReferrerPolicy = true;
 
     /**
+     * Can be disabled to not send headers when rendering a view. This can be useful if heaps of views are being
+     * rendered during one request to possibly prevent a segmentation fault see eg #15307 . It should not be disabled
+     * for a main view, but could be disabled for views that are being rendered eg during a twig event as a "subview" which
+     * is part of the "main view".
+     * @var bool
+     */
+    public $sendHeadersWhenRendering = true;
+
+    /**
      * Constructor.
      *
      * @param string $templateFile The template file to load. Must be in the following format:
@@ -274,18 +283,20 @@ class View implements ViewInterface
             // can fail, for example at installation (no plugin loaded yet)
         }
 
-        ProxyHttp::overrideCacheControlHeaders('no-store');
+        if ($this->sendHeadersWhenRendering) {
+            ProxyHttp::overrideCacheControlHeaders('no-store');
 
-        Common::sendHeader('Content-Type: ' . $this->contentType);
-        // always sending this header, sometimes empty, to ensure that Dashboard embed loads
-        // - when calling sendHeader() multiple times, the last one prevails
-        if(!empty($this->xFrameOptions)) {
-            Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
-        }
+            Common::sendHeader('Content-Type: ' . $this->contentType);
+            // always sending this header, sometimes empty, to ensure that Dashboard embed loads
+            // - when calling sendHeader() multiple times, the last one prevails
+            if(!empty($this->xFrameOptions)) {
+                Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+            }
 
-        // don't send Referer-Header for outgoing links
-        if (!empty($this->useStrictReferrerPolicy)) {
-            Common::sendHeader('Referrer-Policy: same-origin');
+            // don't send Referer-Header for outgoing links
+            if (!empty($this->useStrictReferrerPolicy)) {
+                Common::sendHeader('Referrer-Policy: same-origin');
+            }
         }
 
         return $this->renderTwigTemplate();
