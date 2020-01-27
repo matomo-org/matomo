@@ -226,7 +226,7 @@ class VisitorLog extends Visualization
         }
     }
 
-    private static function sortByActionsOnPageColumn($a, $b, $field)
+    public static function sortByActionsOnPageColumn($a, $b, $field)
     {
         if (!isset($a[$field]) && !isset($b[$field])) {
             return 0;
@@ -236,6 +236,10 @@ class VisitorLog extends Visualization
         }
         if (!isset($b[$field])) {
             return -1;
+        }
+        if ($field === 'serverTimePretty') {
+            $a[$field] = strtotime($a[$field]);
+            $b[$field] = strtotime($b[$field]);
         }
         if ($a[$field] === $b[$field]) {
             return 0;
