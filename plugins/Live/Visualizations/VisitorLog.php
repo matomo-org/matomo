@@ -205,7 +205,7 @@ class VisitorLog extends Visualization
             foreach ($actionGroups as $idPageView => $actionGroup) {
                 if (!empty($actionGroup['actionsOnPage'])) {
                     usort($actionGroup['actionsOnPage'], function ($a, $b) {
-                        $fields = array('timestamp', 'title', 'url', 'timeSpent', 'type', 'pageIdAction', 'goalId');
+                        $fields = array('timestamp', 'title', 'url', 'type', 'pageIdAction', 'goalId', 'timeSpent');
                         foreach ($fields as $field) {
                             $sort = self::sortByActionsOnPageColumn($a, $b, $field);
                             if ($sort !== 0) {
