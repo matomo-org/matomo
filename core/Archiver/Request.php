@@ -69,11 +69,11 @@ class Request
         // TODO: revisit in matomo 4
         // period=range&date=last1/period=range&date=previous1 can cause problems during archiving due to Parameters::isDayArchive()
         if (preg_match('/[&?]period=range/', $this->url)) {
-            $this->changeParam('period', 'day');
-
             if (preg_match('/[&?]date=last1/', $this->url)) {
+                $this->changeParam('period', 'day');
                 $this->changeParam('date', 'today');
             } else if (preg_match('/[&?]date=previous1/', $this->url)) {
+                $this->changeParam('period', 'day');
                 $this->changeParam('date', 'yesterday');
             }
         }
