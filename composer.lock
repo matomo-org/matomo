@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed00bb05875405d72ff84af6a52af4f2",
+    "content-hash": "0e193c668f0333637ac4b5a7f3bef0cc",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -158,23 +158,30 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "dev-multiple-series",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/matomo-org/Sparkline.git",
-                "reference": "91268fa3b812729b230dabcd866771738e67315d"
+                "url": "https://github.com/davaxi/Sparkline.git",
+                "reference": "380d447fcfc6468f7d8e5c041e8c01b8ec969959"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/380d447fcfc6468f7d8e5c041e8c01b8ec969959",
+                "reference": "380d447fcfc6468f7d8e5c041e8c01b8ec969959",
+                "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
                 "ext-gd": "*",
                 "friendsofphp/php-cs-fixer": "^2.8",
                 "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "php": ">=5.3.0",
+                "php": ">=5.4.0",
                 "phpro/grumphp": "^0.12.0",
+                "phpunit/phpunit": "^4.8.36",
                 "povils/phpmnd": "^1.1",
                 "sebastian/phpcpd": "^3.0",
                 "sensiolabs/security-checker": "^4.1",
@@ -187,6 +194,7 @@
                     "Davaxi\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -204,11 +212,7 @@
                 "picture",
                 "sparkline"
             ],
-            "support": {
-                "issues": "https://github.com/davaxi/Sparkline/issues",
-                "source": "https://github.com/davaxi/Sparkline/releases"
-            },
-            "time": "2019-11-12T23:40:23+00:00"
+            "time": "2020-02-05T13:40:09+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -3273,7 +3277,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "leafo/lessphp": 20,
-        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

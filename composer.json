@@ -48,7 +48,7 @@
         "composer/semver": "~1.3.0",
         "szymach/c-pchart": "^2.0",
         "geoip2/geoip2": "^2.8",
-        "davaxi/sparkline": "dev-multiple-series",
+        "davaxi/sparkline": "~1.2",
         "matomo-org/jshrink": "1.3.1"
     },
     "require-dev": {
@@ -114,10 +114,6 @@
                     "reference": "v1.3.1"
                 }
             }
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/matomo-org/Sparkline.git"
         },
         {
             "type": "git",
