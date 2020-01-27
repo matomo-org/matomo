@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+
+use Piwik\FrontController;
+
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
     define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 }
@@ -22,6 +25,8 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     Piwik\ErrorHandler::registerErrorHandler();
     Piwik\ExceptionHandler::setUp();
 }
+
+FrontController::setUpSafeMode();
 
 $console = new Piwik\Console();
 $console->run();

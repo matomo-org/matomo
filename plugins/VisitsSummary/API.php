@@ -25,6 +25,7 @@ class API extends \Piwik\Plugin\API
 {
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
+       // throw new \Exception("forced test");
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
