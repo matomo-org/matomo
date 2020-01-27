@@ -235,7 +235,7 @@ class VisitorLog extends Visualization
             return -1;
         }
         if (!isset($b[$field])) {
-            return -1;
+            return 1;
         }
         if ($field === 'serverTimePretty') {
             $a[$field] = strtotime($a[$field]);
