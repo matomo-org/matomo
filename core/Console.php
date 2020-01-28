@@ -135,8 +135,12 @@ class Console extends Application
 
             return $exitCode;
         } catch (\Exception $ex) {
-            print $ex->getMessage() ."\n" . $ex->getTraceAsString();
-            FrontController::generateSafeModeOutputFromException($ex);
+            try {
+                FrontController::generateSafeModeOutputFromException($ex);
+            } catch (\Exception $ex) {
+                // ignore, we re-throw the original exception, not a wrapped one
+            }
+
             throw $ex;
         }
     }
