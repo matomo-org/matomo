@@ -1108,7 +1108,16 @@ class CronArchive
                     return Request::ABORT;
                 }
 
+                $urlBefore = $request->getUrl();
                 $request->changeDate($newDate);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $this->logArchiveWebsite($idSite, $period, $newDate);
             });
@@ -1976,9 +1985,17 @@ class CronArchive
                     return Request::ABORT;
                 }
 
-                $url = $request->getUrl();
-                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $url);
+                $urlBefore = $request->getUrl();
+                $url = preg_replace('/([&?])date=[^&]*/', '$1date=' . $newDate, $urlBefore);
                 $request->setUrl($url);
+                $request->makeSureDateIsNotSingleDayRange();
+
+                // check again if we are already archiving the URL since we just changed it
+                if ($request->getUrl() !== $urlBefore
+                    && $self->isAlreadyArchivingSegment($request->getUrl(), $idSite, $period, $segment)
+                ) {
+                    return Request::ABORT;
+                }
 
                 $processedSegmentCount++;
                 $logger->info(sprintf(
