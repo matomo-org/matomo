@@ -53,6 +53,7 @@ class PrivacyManager extends Plugin
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
         'delete_logs_unused_actions_schedule_lowest_interval' => 'Deletelogs',
+        'delete_logs_unused_actions_max_rows_per_query'       => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
         'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
