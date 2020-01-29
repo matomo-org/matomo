@@ -186,6 +186,17 @@ class Session extends Zend_Session
         return self::$sessionStarted;
     }
 
+    public static function getSameSiteCookieValue()
+    {
+        $config = Config::getInstance();
+        $general = $config->General;
+        if (!empty($general['enable_framed_pages']) && ProxyHttp::isHttps()) {
+            return 'None';
+        }
+
+        return 'Lax';
+    }
+
     /**
      * Write cookie header.  Similar to the native setcookie() function but also supports
      * the SameSite cookie property.
