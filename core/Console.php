@@ -90,50 +90,7 @@ class Console extends Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         try {
-            if ($input->hasParameterOption('--xhprof')) {
-                Profiler::setupProfilerXHProf(true, true);
-            }
-
-            $this->initMatomoHost($input);
-            $this->initEnvironment($output);
-            $this->initLoggerOutput($output);
-
-            try {
-                self::initPlugins();
-            } catch (ConfigNotFoundException $e) {
-                // Piwik not installed yet, no config file?
-                Log::warning($e->getMessage());
-            }
-
-            $this->initAuth();
-
-            $commands = $this->getAvailableCommands();
-
-            foreach ($commands as $command) {
-                $this->addCommandIfExists($command);
-            }
-
-            $exitCode = null;
-
-            /**
-             * @ignore
-             */
-            Piwik::postEvent('Console.doRun', [&$exitCode, $input, $output]);
-
-            if ($exitCode === null) {
-                $self = $this;
-                $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
-                    return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
-                });
-            }
-
-            $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
-            if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {
-                $output->writeln("Error: error or warning logs detected, exit 1");
-                $exitCode = 1;
-            }
-
-            return $exitCode;
+            $this->doRunImpl($input, $output);
         } catch (\Exception $ex) {
             try {
                 FrontController::generateSafeModeOutputFromException($ex);
@@ -143,6 +100,54 @@ class Console extends Application
 
             throw $ex;
         }
+    }
+
+    private function doRunImpl(InputInterface $input, OutputInterface $output)
+    {
+        if ($input->hasParameterOption('--xhprof')) {
+            Profiler::setupProfilerXHProf(true, true);
+        }
+
+        $this->initMatomoHost($input);
+        $this->initEnvironment($output);
+        $this->initLoggerOutput($output);
+
+        try {
+            self::initPlugins();
+        } catch (ConfigNotFoundException $e) {
+            // Piwik not installed yet, no config file?
+            Log::warning($e->getMessage());
+        }
+
+        $this->initAuth();
+
+        $commands = $this->getAvailableCommands();
+
+        foreach ($commands as $command) {
+            $this->addCommandIfExists($command);
+        }
+
+        $exitCode = null;
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Console.doRun', [&$exitCode, $input, $output]);
+
+        if ($exitCode === null) {
+            $self = $this;
+            $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
+                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+            });
+        }
+
+        $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
+        if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {
+            $output->writeln("Error: error or warning logs detected, exit 1");
+            $exitCode = 1;
+        }
+
+        return $exitCode;
     }
 
     private function addCommandIfExists($command)
