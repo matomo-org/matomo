@@ -129,7 +129,7 @@ class ClientTest extends SystemTestCase
     {
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_ALL);
 
-        $this->assertGreaterThan(15, count($plugins));
+        $this->assertGreaterThan(0, count($plugins));
 
         foreach ($plugins as $plugin) {
             $this->assertNotEmpty($plugin['name']);
@@ -141,7 +141,7 @@ class ClientTest extends SystemTestCase
     {
         $plugins = $this->client->searchForPlugins($keywords = '', $query = '', $sort = '', $purchaseType = PurchaseType::TYPE_FREE);
 
-        $this->assertGreaterThan(15, count($plugins));
+        $this->assertGreaterThan(0, count($plugins));
 
         foreach ($plugins as $plugin) {
             $this->assertTrue($plugin['isFree']);
