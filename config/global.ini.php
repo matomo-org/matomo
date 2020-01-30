@@ -910,12 +910,15 @@ enable_sql_profiler = 0
 [Deletelogs]
 ; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
 ; otherwise you may lose tracking data.
-; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
+; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_visit (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
+; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_action (in days, 1|7|30). Default: 30.
+; *_max_rows_per_query - can be increased for large sites to speed up delete processes
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
+delete_logs_unused_actions_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 enable_database_size_estimate = 1
 delete_logs_unused_actions_schedule_lowest_interval = 30
