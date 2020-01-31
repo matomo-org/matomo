@@ -176,4 +176,7 @@ return array(
     'XOF' => array('Fr', 'West African CFA franc'),
     'YER' => array('﷼', 'Yemeni rial'),
     'ZMW' => array('ZK', 'Zambian kwacha'),
+    
+    // Crypto-currencies
+    'BTC' => array('₿', 'Bitcoin'),
 );
