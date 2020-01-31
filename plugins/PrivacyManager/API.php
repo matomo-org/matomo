@@ -218,15 +218,14 @@ class API extends \Piwik\Plugin\API
 
         $settings['delete_reports_older_than'] = $deleteReportsOlderThan;
 
-        $settings['delete_reports_keep_basic_metrics']             = (int) $keepBasic;
-        $settings['delete_reports_keep_day_reports']               = (int) $keepDay;
-        $settings['delete_reports_keep_week_reports']              = (int) $keepWeek;
-        $settings['delete_reports_keep_month_reports']             = (int) $keepMonth;
-        $settings['delete_reports_keep_year_reports']              = (int) $keepYear;
-        $settings['delete_reports_keep_range_reports']             = (int) $keepRange;
-        $settings['delete_reports_keep_segment_reports']           = (int) $keepSegments;
-        $settings['delete_logs_max_rows_per_query']                = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
-        $settings['delete_logs_unused_actions_max_rows_per_query'] = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
+        $settings['delete_reports_keep_basic_metrics']   = (int) $keepBasic;
+        $settings['delete_reports_keep_day_reports']     = (int) $keepDay;
+        $settings['delete_reports_keep_week_reports']    = (int) $keepWeek;
+        $settings['delete_reports_keep_month_reports']   = (int) $keepMonth;
+        $settings['delete_reports_keep_year_reports']    = (int) $keepYear;
+        $settings['delete_reports_keep_range_reports']   = (int) $keepRange;
+        $settings['delete_reports_keep_segment_reports'] = (int) $keepSegments;
+        $settings['delete_logs_max_rows_per_query']      = PiwikConfig::getInstance()->Deletelogs['delete_logs_max_rows_per_query'];
 
         return $this->savePurgeDataSettings($settings);
     }
