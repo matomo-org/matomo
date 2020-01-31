@@ -106,7 +106,7 @@ class FrontController extends Singleton
      * @param Exception $e
      * @return string
      */
-    private static function generateSafeModeOutputFromException($e)
+    public static function generateSafeModeOutputFromException($e)
     {
         StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
             'exception' => $e,
