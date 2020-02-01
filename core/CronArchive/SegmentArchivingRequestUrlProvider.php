@@ -7,13 +7,14 @@
  */
 namespace Piwik\CronArchive;
 
-use Matomo\Cache\Cache;
+use Doctrine\Common\Cache\Cache;
 use Matomo\Cache\Transient;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
 use Piwik\Plugins\SegmentEditor\Model;
+use Piwik\Segment;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,7 +34,7 @@ class SegmentArchivingRequestUrlProvider
     private $segmentEditorModel;
 
     /**
-     * @var Cache
+     * @var Transient
      */
     private $segmentListCache;
 
@@ -93,6 +94,17 @@ class SegmentArchivingRequestUrlProvider
         }
 
         return $date;
+    }
+
+    public function findSegmentForHash($hash, $idSite)
+    {
+        foreach ($this->getAllSegments() as $segment) {
+            $segmentObj = new Segment($segment, [$idSite]);
+            if ($segmentObj->getHash() == $hash) {
+                return $segment;
+            }
+        }
+        return null;
     }
 
     private function getOldestDateToProcessForNewSegment($idSite, $segment)

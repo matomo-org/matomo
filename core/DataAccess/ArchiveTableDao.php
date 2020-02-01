@@ -61,6 +61,7 @@ class ArchiveTableDao
 
         $rows = Db::fetchAll($sql, array(ArchiveWriter::DONE_INVALIDATED, ArchiveWriter::DONE_OK_TEMPORARY,
             ArchiveWriter::DONE_ERROR));
+        // TODO: modify for DONE_IN_PROGRESS
 
         // index result
         $result = array();

@@ -9,9 +9,13 @@
 namespace Piwik\DataAccess;
 
 use Exception;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\ArchiveProcessor\ArchivingStatus;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period;
@@ -31,9 +35,15 @@ class Model
      */
     private $logger;
 
+    /**
+     * @var ArchivingStatus
+     */
+    private $archivingStatus; // TODO: use DI correctly
+
     public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
+        $this->archivingStatus = StaticContainer::get(ArchivingStatus::class);
     }
 
     /**
@@ -56,13 +66,12 @@ class Model
 
         $idSites = array_map(function ($v) { return (int)$v; }, $idSites);
 
+        // select all usable archives
         $sql = "SELECT idsite, date1, date2, period, name,
                        GROUP_CONCAT(idarchive, '.', value ORDER BY ts_archived DESC) as archives
                   FROM `$archiveTable`
                  WHERE name LIKE 'done%'
-                   AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ','
-                                   . ArchiveWriter::DONE_OK . ','
-                                   . ArchiveWriter::DONE_OK_TEMPORARY . ")
+                   AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ")
                    AND idsite IN (" . implode(',', $idSites) . ")
                  GROUP BY idsite, date1, date2, period, name";
 
@@ -320,7 +329,7 @@ class Model
      */
     public function getSitesWithInvalidatedArchive($numericTable)
     {
-        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value = " . ArchiveWriter::DONE_INVALIDATED);
+        $rows = Db::fetchAll("SELECT DISTINCT idsite FROM `$numericTable` WHERE name LIKE 'done%' AND value IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS);
 
         $result = array();
         foreach ($rows as $row) {
@@ -431,4 +440,105 @@ class Model
         return "((name IN ($allDoneFlags)) AND (value IN (" . implode(',', $possibleValues) . ")))";
     }
 
+    /**
+     * TODO: docs + test
+     */
+    public function startArchive($idSite, $date1, $date2, $period, $doneFlag)
+    {
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($date1));
+
+        // find latest idarchive
+        $latestArchive = Db::fetchOne("SELECT MAX(ts_archived), idarchive, `value`
+            FROM `$table`
+            WHERE idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND `name` = ?",
+            [$idSite, $date1, $date2, $period, $doneFlag]);
+
+        if (empty($latestArchive)) { // should never happen
+            return;
+        }
+
+        // if the archive is done or being processed, we don't need to do anything so we abort
+        if (!empty($latestArchive)
+            && ($latestArchive['value'] == ArchiveWriter::DONE_OK
+                || $latestArchive['value'] == ArchiveWriter::DONE_IN_PROGRESS)
+        ) {
+            return null;
+        }
+
+        // TODO: what do we do when there's no archive? uhhhhh oh.
+        //       archive invalidation must be insert or update? not sure. we could try to switch to using a lock as well?
+        //       easiest to insert if row does not exist.
+
+        // set archive value to DONE_IN_PROGRESS IF NOT SET ALREADY
+        $statement = Db::query("UPDATE `$table` SET `value` = ? WHERE idarchive = ? AND `name` = ? AND value = ?", [
+            ArchiveWriter::DONE_IN_PROGRESS,
+            $latestArchive['idarchive'],
+            $doneFlag,
+            ArchiveWriter::DONE_INVALIDATED,
+        ]);
+
+        if ($statement->rowCount() > 0) { // if we updated, then we've marked the archive as started
+            return $latestArchive['idarchive'];
+        }
+
+        // if we didn't get anything, some process either got there first, OR
+        // the archive was started previously and failed in a way that kept it's done value
+        // set to DONE_IN_PROGRESS. try to acquire the lock and if acquired, archiving isn' in process
+        // so we can claim it.
+        $lock = $this->archivingStatus->acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag);
+        if (!$lock->isLocked()) {
+            return null; // we couldn't claim the lock, archive is in progress
+        }
+
+        Db::query("UPDATE `$table` SET `value` = ? WHERE idarchive = ? AND `name` = ?", [
+            ArchiveWriter::DONE_IN_PROGRESS, $latestArchive['idarchive'], $doneFlag]);
+
+        return $latestArchive['idarchive'];
+    }
+
+    /**
+     * TODO: docs  + test
+     *
+     * @param string[] $tables
+     * @param int $count
+     */
+    public function getNextInvalidatedArchive($table, $period = null, $idSites = null)
+    {
+        $sql = "SELECT idsite, date1, date2, period, `name`
+                  FROM `$table`
+                 WHERE `name` LIKE 'done%' AND `value` = ?";
+        $bind[] = ArchiveWriter::DONE_INVALIDATED;
+
+        if (!empty($period)) {
+            $sql .= " AND period = ?";
+            $bind[] = $period;
+        }
+
+        if (!empty($idSites)) {
+            $idSites = array_map('intval', $idSites);
+            $sql .= " AND idsite IN (" . implode(',', $idSites) . ")";
+        }
+
+        $sql .= "ORDER BY idsite ASC, period ASC LIMIT 1";
+
+        return Db::fetchRow($sql, $bind);
+    }
+
+    public function getTablesWithInvalidatedArchives()
+    {
+        $tables = [];
+
+        $numericTables = ArchiveTableCreator::getTablesArchivesInstalled('numeric');
+        foreach ($numericTables as $table) {
+            // we look for both invalidated and in progress archives, since it's possible an in progress archive failed and was never set to invalidated
+            $sql = "SELECT idarchive FROM `$table` WHERE name LIKE 'done%' AND `value` IN (" . ArchiveWriter::DONE_INVALIDATED . ', ' . ArchiveWriter::DONE_IN_PROGRESS . ") LIMIT 1";
+            $idArchive = Db::fetchOne($sql);
+
+            if (!empty($idArchive)) {
+                $tables[] = $table;
+            }
+        }
+
+        return $tables;
+    }
 }

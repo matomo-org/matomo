@@ -54,6 +54,11 @@ class ArchiveWriter
      */
     const DONE_INVALIDATED = 4;
 
+    /**
+     * TODO
+     */
+    const DONE_IN_PROGRESS = 5;
+
     protected $fields = array('idarchive',
         'idsite',
         'date1',

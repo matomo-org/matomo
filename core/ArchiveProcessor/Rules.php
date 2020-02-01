@@ -302,6 +302,9 @@ class Rules
         ) {
             //If request is not authorized to archive then fetch also invalidated archives
             $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
+
+            // these are also invalidated, just marked that there is another archive being computed, so we look for them too.
+            $possibleValues[] = ArchiveWriter::DONE_IN_PROGRESS;
         }
 
         return $possibleValues;

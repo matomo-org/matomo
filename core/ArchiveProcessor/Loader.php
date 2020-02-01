@@ -72,13 +72,15 @@ class Loader
 
         /** @var ArchivingStatus $archivingStatus */
         $archivingStatus = StaticContainer::get(ArchivingStatus::class);
-        $archivingStatus->archiveStarted($this->params);
+        $locked = $archivingStatus->archiveStarted($this->params);
 
         try {
             list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
             list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
         } finally {
-            $archivingStatus->archiveFinished();
+            if ($locked) {
+                $archivingStatus->archiveFinished();
+            }
         }
 
         if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
