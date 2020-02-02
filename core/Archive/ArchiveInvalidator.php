@@ -260,7 +260,7 @@ class ArchiveInvalidator
         $this->markArchivesInvalidated($idSites, $periodDates, $segment);
 
         $yearMonths = array_keys($periodDates);
-        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday);
+        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday); // TODO: is this still needed anymore? since we query each table I don't think so.
 
         foreach ($idSites as $idSite) {
             foreach ($dates as $date) {

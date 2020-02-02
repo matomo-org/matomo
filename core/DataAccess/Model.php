@@ -114,6 +114,20 @@ class Model
      */
     public function updateArchiveAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
     {
+        /*
+        TODO: instead of updating all, let's upsert them.
+          - for ranges, we do the update
+          - for others, we calculate which archives to invalidate, and do an upsert
+        */
+
+
+
+
+
+
+
+
+
         $idSites = array_map('intval', $idSites);
 
         $bind = array();
