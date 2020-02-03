@@ -912,7 +912,7 @@ enable_sql_profiler = 0
 ; otherwise you may lose tracking data.
 ; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_visit (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
-; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_action (in days, 1|7|30). Default: 30.
+; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for tables named log_* (in days, 1|7|30). Default: 30.
 ; delete_logs_max_rows_per_query and delete_logs_unused_actions_max_rows_per_query can be increased for large sites to speed up delete processes
 ;
 ; The higher value one assign to *_schedule_lowest_interval, the longer the data pruning/deletion will take. This is caused by the fact there is more data to evaluate and process every month, than every week.
