@@ -205,6 +205,21 @@ class DbHelper
     }
 
     /**
+     * Returns the default database charset to use
+     *
+     * Returns utf8mb4 if supported, with fallback to utf8
+     *
+     * @return string
+     * @throws Tracker\Db\DbException
+     */
+    public static function getDefaultCharset()
+    {
+        $result = Db::get()->fetchRow("SHOW CHARACTER SET LIKE 'utf8mb4'");
+
+        return empty($result) ? 'utf8' : 'utf8mb4';
+    }
+
+    /**
      * Get the SQL to create Piwik tables
      *
      * @return array  array of strings containing SQL

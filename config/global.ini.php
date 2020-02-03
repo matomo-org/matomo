@@ -43,7 +43,7 @@ ssl_no_verify =
 ; if charset is set to utf8, Matomo will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
-charset = utf8
+charset = utf8mb4
 
 ; If configured, the following queries will be executed on the reader instead of the writer.
 ; * archiving queries that hit a log table
@@ -67,7 +67,7 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
-charset = utf8
+charset = utf8mb4
 enable_ssl = 0
 ssl_ca =
 ssl_cert =

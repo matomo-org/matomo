@@ -94,6 +94,10 @@ class Request
 
     protected function replaceUnsupportedUtf8Chars($value, $key=false)
     {
+        if ('utf8mb4' === Config::getInstance()->database['charset']) {
+            return $value; // no need to replace anything if utf8mb4 is supported
+        }
+
         if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
             Common::printDebug("Unsupported character detected in $key. Replacing with \xEF\xBF\xBD");
             return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
