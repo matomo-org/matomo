@@ -20,7 +20,9 @@
     </div>
     <div class="mapWidgetStatus">
         {% if noData %}
+            {% if not isWidget %}
             <h2>{{ 'UserCountryMap_VisitorMap'|translate }}</h2>
+            {% endif %}
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
