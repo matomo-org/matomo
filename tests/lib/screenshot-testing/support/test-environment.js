@@ -190,8 +190,8 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         args.push('--plugins=' + options['plugin']);
     }
 
-    if (options['piwik-domain'] || options['matomo-domain']) {
-        args.push('--piwik-domain=' + (options['piwik-domain'] || options['matomo-domain']));
+    if (options['matomo-domain']) {
+        args.push('--matomo-domain=' + options['matomo-domain']);
     }
 
     if (options['enable-logging']) {
@@ -258,8 +258,8 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
 
     var args = [fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME, "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
 
-    if (options['piwik-domain']) {
-        args.push('--piwik-domain=' + options['piwik-domain']);
+    if (options['matomo-domain']) {
+        args.push('--matomo-domain=' + options['matomo-domain']);
     }
 
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
