@@ -9,6 +9,8 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Cache;
+use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -45,5 +47,31 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        $this->renameTrackerJsPluginInConfig();
+
+        Cache::flushAll();
+    }
+
+    protected function renameTrackerJsPluginInConfig()
+    {
+        $updater = new Updater();
+        $updater->markComponentSuccessfullyUninstalled('CustomPiwikJs');
+
+        $config = Config::getInstance();
+
+        foreach ($config->Plugins['Plugins'] as $index => $plugin) {
+            if ($plugin === 'CustomPiwikJs') {
+                $config->Plugins['Plugins'][$index] = 'CustomTrackerJs';
+            }
+        }
+
+        foreach ($config->PluginsInstalled['PluginsInstalled'] as $index => $plugin) {
+            if ($plugin === 'CustomPiwikJs') {
+                $config->PluginsInstalled['PluginsInstalled'][$index] = 'CustomTrackerJs';
+            }
+        }
+
+        $config->forceSave();
     }
 }
