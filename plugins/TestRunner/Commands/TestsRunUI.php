@@ -58,8 +58,7 @@ class TestsRunUI extends ConsoleCommand
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
         $debug = $input->getOption('debug');
-        // @todo remove piwik-domain fallback in Matomo 4
-        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
+        $matomoDomain = $input->getOption('matomo-domain');
         $enableLogging = $input->getOption('enable-logging');
         $timeout = $input->getOption('timeout');
 

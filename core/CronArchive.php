@@ -410,10 +410,7 @@ class CronArchive
                     (!$instanceId
                       || strpos($process, '--matomo-domain=' . $instanceId) !== false
                       || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                      || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                      || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }
