@@ -8038,6 +8038,110 @@ if (typeof window.Piwik !== 'object') {
                 isOrWasNodeVisible: content.isNodeVisible
             },
 
+            URL: {
+                parseUrl: function (urlToParse, urlPart) {
+                    try {
+                        var loc = document.createElement("a");
+                        loc.href = urlToParse;
+                        var absUrl = loc.href;
+
+                        // needed to make tests work in IE10... we first need to convert URL to abs url
+                        loc = document.createElement("a");
+                        loc.href = absUrl;
+
+                        if (urlPart && urlPart in loc) {
+                            if ('hash' === urlPart) {
+                                return String(loc[urlPart]).replace('#', '');
+                            } else if ('protocol' === urlPart) {
+                                return String(loc[urlPart]).replace(':', '');
+                            } else if ('search' === urlPart) {
+                                return String(loc[urlPart]).replace('?', '');
+                            } else if ('port' === urlPart && !loc[urlPart]) {
+                                if (loc.protocol === 'https:') {
+                                    return '443';
+                                } else if (loc.protocol === 'http:') {
+                                    return '80';
+                                }
+                            }
+
+                            if ('pathname' === urlPart && loc[urlPart] && String(loc[urlPart]).substr(0,1) !== '/') {
+                                return '/' + loc[urlPart]; // ie 10 doesn't return leading slash when not added to the dom
+                            }
+
+                            if ('port' === urlPart && loc[urlPart]) {
+                                return String(loc[urlPart]); // ie 10 returns int
+                            }
+
+                            return loc[urlPart];
+                        }
+
+                        if ('origin' === urlPart && 'protocol' in loc && loc.protocol) {
+                            // fix for ie10
+                            return loc.protocol + "//" + loc.hostname + (loc.port ? ':' + loc.port : '');
+                        }
+                        return;
+                    } catch (e) {
+                        if ('function' === typeof URL) {
+                            var theUrl = new URL(urlToParse);
+                            if (urlPart && urlPart in theUrl) {
+                                if ('hash' === urlPart) {
+                                    return String(theUrl[urlPart]).replace('#', '');
+                                } else if ('protocol' === urlPart) {
+                                    return String(theUrl[urlPart]).replace(':', '');
+                                } else if ('search' === urlPart) {
+                                    return String(theUrl[urlPart]).replace('?', '');
+                                } else if ('port' === urlPart && !theUrl[urlPart]) {
+                                    if (theUrl.protocol === 'https:') {
+                                        return 443;
+                                    } else if (theUrl.protocol === 'http:') {
+                                        return 80;
+                                    }
+                                }
+                                return theUrl[urlPart];
+                            }
+                            return;
+                        }
+                    }
+                },
+                decodeSafe: function (text) {
+                    try {
+                        return windowAlias.decodeURIComponent(text);
+                    } catch (e) {
+                        return windowAlias.unescape(text);
+                    }
+                },
+                getQueryParameter: function (urlParameter, locationSearch) {
+                    if (!isDefined(locationSearch)) {
+                        locationSearch = windowAlias.location.search;
+                    }
+                    if (!locationSearch || !isDefined(urlParameter) || urlParameter === null || urlParameter === false || urlParameter === '') {
+                        return null;
+                    }
+                    var locationStart = locationSearch.substr(0,1);
+                    if (locationSearch !== '?' && locationSearch !== '&'){
+                        locationSearch = '?' + locationSearch;
+                    }
+
+                    urlParameter = urlParameter.replace('[', '\\[');
+                    urlParameter = urlParameter.replace(']', '\\]');
+
+                    var regexp = new RegExp('[?&]' + urlParameter + '(=([^&#]*)|&|#|$)');
+                    var matches = regexp.exec(locationSearch);
+
+                    if (!matches) {
+                        return null;
+                    }
+
+                    if (!matches[2]) {
+                        return '';
+                    }
+
+                    var value = matches[2].replace(/\+/g, " ");
+
+                    return this.decodeSafe(value);
+                }
+            },
+
             /**
              * Listen to an event and invoke the handler when a the event is triggered.
              *

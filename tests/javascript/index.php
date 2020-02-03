@@ -530,7 +530,9 @@ function PiwikTest() {
 
                 // we fix the line numbers so they match to the line numbers in ../../js/piwik.js
                 JSLINT.errors.forEach( function (item, index) {
-                    item.line += countOfLinesRemoved;
+                    if (item) {
+                        item.line += countOfLinesRemoved;
+                    }
                     console.log(item);
                 });
 
@@ -2193,11 +2195,12 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(110);
+        expect(111);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
+        equal( typeof Piwik.URL, 'object', 'Piwik.URL' );
         equal( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
         strictEqual( Piwik, Matomo, 'Piwik === Matomo' );
 
@@ -2325,6 +2328,59 @@ function PiwikTest() {
         teardown: function () {
             mockNowValue = null;
         },
+    });
+
+    test("Matomo URL", function() {
+        expect(44);
+
+        var urlHelper = Piwik.URL;
+
+        equal(typeof urlHelper.parseUrl, 'function', 'urlHelper.parseUrl');
+        equal(typeof urlHelper.decodeSafe, 'function', 'urlHelper.decodeSafe');
+        equal(typeof urlHelper.getQueryParameter, 'function', 'urlHelper.getQueryParameter');
+
+        equal('#&2343434k!"', urlHelper.decodeSafe('%23%262343434k!%22'), 'should be able to decode value');
+
+        var search1 = 'module=TagManager&aCtiOn=manage&idSite=&period=day&date=yesterday&barencoded=%23%262343434k!%22';
+        var search2 = '&' + search1;
+        var search3 = '?' + search1
+
+        var searches = [search1, search2, search3];
+        var i = 0, search;
+        for (i; i < searches.length; i++) {
+            search = searches[i];
+
+            strictEqual('day', urlHelper.getQueryParameter('period', search), 'urlHelper.getQueryParameter (i=' + i + '), should return value for existing search param period');
+            strictEqual(null, urlHelper.getQueryParameter('iod', search), 'urlHelper.getQueryParameter (i=' + i + '), should not match when it only match parts of the URL parameter');
+            strictEqual('TagManager', urlHelper.getQueryParameter('module', search), 'urlHelper.getQueryParameter (i=' + i + '), should return value for existing search param module');
+            strictEqual('manage', urlHelper.getQueryParameter('aCtiOn', search), 'urlHelper.getQueryParameter (i=' + i + '), should find params case insensitive');
+            strictEqual('#&2343434k!"', urlHelper.getQueryParameter('barencoded', search), 'urlHelper.getQueryParameter (i=' + i + '), should decode value');
+            strictEqual('', urlHelper.getQueryParameter('idSite', search), 'urlHelper.getQueryParameter (i=' + i + '), should return empty string if param exists with no value');
+            strictEqual(null, urlHelper.getQueryParameter('foobar', search), 'urlHelper.getQueryParameter (i=' + i + '), should return null for not existing search param');
+            strictEqual(null, urlHelper.getQueryParameter('', ''), 'urlHelper.getQueryParameter (i=' + i + '), should return null when no search exists');
+        }
+
+        var url = 'https://apache.matomo:8080/tests/javascript/?testNumber=37#34_test';
+        strictEqual(url, urlHelper.parseUrl(url, 'href'), 'urlHelper.parseUrl, href');
+        strictEqual('8080', urlHelper.parseUrl(url, 'port'), 'urlHelper.parseUrl, port');
+        strictEqual('https://apache.matomo:8080', urlHelper.parseUrl(url, 'origin'), 'urlHelper.parseUrl, origin');
+        strictEqual('testNumber=37', urlHelper.parseUrl(url, 'search'), 'urlHelper.parseUrl, search');
+        strictEqual('/tests/javascript/', urlHelper.parseUrl(url, 'pathname'), 'urlHelper.parseUrl, pathname');
+        strictEqual('https', urlHelper.parseUrl(url, 'protocol'), 'urlHelper.parseUrl, protocol');
+        strictEqual('34_test', urlHelper.parseUrl(url, 'hash'), 'urlHelper.parseUrl, hash');
+        strictEqual('apache.matomo:8080', urlHelper.parseUrl(url, 'host'), 'urlHelper.parseUrl, host');
+        strictEqual('apache.matomo', urlHelper.parseUrl(url, 'hostname'), 'urlHelper.parseUrl, hostname');
+        strictEqual(undefined, urlHelper.parseUrl(url, 'invalidpart'), 'urlHelper.parseUrl, invalid part');
+
+        strictEqual('443', urlHelper.parseUrl('https://apache.matomo/tests', 'port'), 'urlHelper.parseUrl, reads default https port');
+        strictEqual('80', urlHelper.parseUrl('http://apache.matomo/tests', 'port'), 'urlHelper.parseUrl, reads default http port');
+
+        var relativeUrl = 'foobar.php?testNumber=37';
+        strictEqual(window.location.origin + window.location.pathname + relativeUrl, urlHelper.parseUrl(relativeUrl, 'href'), 'urlHelper.parseUrl, relativeUrl, href');
+        strictEqual('testNumber=37', urlHelper.parseUrl(relativeUrl, 'search'), 'urlHelper.parseUrl, relativeUrl, search');
+        strictEqual('/tests/javascript/foobar.php', urlHelper.parseUrl(relativeUrl, 'pathname'), 'urlHelper.parseUrl, relativeUrl, pathname');
+
+        strictEqual('', urlHelper.parseUrl(relativeUrl, 'hash'), 'urlHelper.parseUrl, hash when no hash');
     });
 
     test("Tracker is_a functions", function() {
