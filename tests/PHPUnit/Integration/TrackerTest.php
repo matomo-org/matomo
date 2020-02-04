@@ -413,6 +413,10 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_TrackerGetsConfigIfRequested()
     {
+        $testEnv = self::$fixture->getTestEnvironment();
+        $testEnv->addEventWithNotice = true;
+        $testEnv->save();
+
         $testingEnvironment = new TestingEnvironmentVariables();
         $testingEnvironment->pluginsToLoad = ['ExampleTracker'];
         $testingEnvironment->save();
@@ -521,14 +525,23 @@ class TrackerTest extends IntegrationTestCase
 
     public function provideContainerConfig()
     {
+        $observers = [
+            ['Environment.bootstrapped', function () {
+                // hack to get the plugin to load during tracking
+                Manager::getInstance()->loadPlugin('ExampleTracker');
+                Manager::getInstance()->installLoadedPlugins();
+            }],
+        ];
+
+        $testEnv = self::$fixture->getTestEnvironment();
+        if ($testEnv->addEventWithNotice) {
+            $observers[] = ['Tracker.getTrackerConfigs', function () {
+                $a = $b; // trigger notice in tracker to make sure it doesn't cause a problem for jsonp
+            }];
+        }
+
         return [
-            'observers.global' => \DI\add([
-                ['Environment.bootstrapped', function () {
-                    // hack to get the plugin to load during tracking
-                    Manager::getInstance()->loadPlugin('ExampleTracker');
-                    Manager::getInstance()->installLoadedPlugins();
-                }],
-            ]),
+            'observers.global' => \DI\add($observers),
         ];
     }
 }

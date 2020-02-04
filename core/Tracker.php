@@ -80,6 +80,8 @@ class Tracker
         }
 
         if (self::shouldOutputTrackerConfigs()) {
+            ErrorHandler::registerErrorHandler(); // we don't want notices being printed out for these requests
+
             $generalCache = \Piwik\Tracker\Cache::getCacheGeneral();
 
             $idSite = Common::getRequestVar('idSite', 0, 'int');
