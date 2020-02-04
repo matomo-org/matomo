@@ -1016,7 +1016,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
     CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
     trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
-    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
     appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
     internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
@@ -4881,28 +4881,6 @@ if (typeof window.Piwik !== 'object') {
                 return getRequest(params, null, 'contentInteraction');
             }
 
-            function buildContentInteractionTrackingRedirectUrl(url, contentInteraction, contentName, contentPiece, contentTarget)
-            {
-                if (!isDefined(url)) {
-                    return;
-                }
-
-                if (startsUrlWithTrackerUrl(url)) {
-                    return url;
-                }
-
-                var redirectUrl = content.toAbsoluteUrl(url);
-                var request  = 'redirecturl=' + encodeWrapper(redirectUrl) + '&';
-                request     += buildContentInteractionRequest(contentInteraction, contentName, contentPiece, (contentTarget || url));
-
-                var separator = '&';
-                if (configTrackerUrl.indexOf('?') < 0) {
-                    separator = '?';
-                }
-
-                return configTrackerUrl + separator + request;
-            }
-
             function isNodeAuthorizedToTriggerInteraction(contentNode, interactedNode)
             {
                 if (!contentNode || !interactedNode) {
@@ -5717,7 +5695,6 @@ if (typeof window.Piwik !== 'object') {
             this.buildContentImpressionRequest = buildContentImpressionRequest;
             this.buildContentInteractionRequest = buildContentInteractionRequest;
             this.buildContentInteractionRequestNode = buildContentInteractionRequestNode;
-            this.buildContentInteractionTrackingRedirectUrl = buildContentInteractionTrackingRedirectUrl;
             this.getContentImpressionsRequestsFromNodes = getContentImpressionsRequestsFromNodes;
             this.getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet = getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet;
             this.trackCallbackOnLoad = trackCallbackOnLoad;

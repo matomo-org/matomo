@@ -1784,7 +1784,7 @@ function PiwikTest() {
     });
 
     test("ContentTrackerInternals", function() {
-        expect(125);
+        expect(111);
         var tracker = Piwik.getTracker();
         var actual, expected, trackerUrl;
 
@@ -1854,39 +1854,6 @@ function PiwikTest() {
         actual   = tracker.buildContentInteractionRequestNode($('#ex18 a')[0], 'CustomInteraction://');
         expected = 'c_i=CustomInteraction%3A%2F%2F&c_n=My%20Ad&c_p=http%3A%2F%2Fwww.example.com%2Fpath%2Fxyz.jpg&c_t=' + originEncoded + '%2Fanylink';
         assertTrackingRequest(actual, expected, 'should automatically find parent and search for content from there');
-
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl();
-        strictEqual(actual, undefined, 'nothing set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('/path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper(origin + '/path?a=b') + '&c_t=%2Fpath%3Fa%3Db',
-            'should build redirect url including domain when absolute path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('path?a=b');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('path?a=b') + '&c_t=path%3Fa%3Db',
-            'should build redirect url including domain when relative path. Target should also fallback to passed url if not set');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'all params set');
-
-        trackerUrl = tracker.getTrackerUrl();
-        tracker.setTrackerUrl('matomo.php?test=1');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('#test', 'click', 'name', 'piece', 'target');
-        assertTrackingRequest(actual, 'matomo.php?test=1&redirecturl=' + toEncodedAbsoluteUrl('#test') + '&c_i=click&c_n=name&c_p=piece&c_t=target', 'should use & if tracker url already contains question mark');
-
-        tracker.setTrackerUrl('matomo.php');
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('matomo.php?redirecturl=http://www.example.com', 'click', 'name', 'piece', 'target');
-        strictEqual(actual, 'matomo.php?redirecturl=http://www.example.com', 'should return unmodified url if it is already a tracker url so users can set matomo.php link in href');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl('http://www.example.com', 'click', 'name');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + encodeWrapper('http://www.example.com') + '&c_i=click&c_n=name&c_t=http%3A%2F%2Fwww.example.com', 'should not change url if absolute');
-
-        actual = tracker.buildContentInteractionTrackingRedirectUrl(origin, 'something', 'name', undefined, 'target');
-        assertTrackingRequest(actual, 'matomo.php?redirecturl=' + originEncoded + '&c_i=something&c_n=name&c_t=target', 'should not change url if same domain');
-
-        tracker.setTrackerUrl(trackerUrl);
 
         ok('test wasContentImpressionAlreadyTracked()');
         actual = tracker.wasContentImpressionAlreadyTracked(impression);

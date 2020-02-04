@@ -10,8 +10,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\SiteUrls;
-use Piwik\Url;
 
 class RequestSet
 {
