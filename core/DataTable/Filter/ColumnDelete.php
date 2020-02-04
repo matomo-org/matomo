@@ -148,13 +148,13 @@ class ColumnDelete extends BaseFilter
 
     /**
      * @param $table
-     * @return array
      */
     protected function removeColumnsFromTable(&$table)
     {
         if (!$this->isArrayAccess($table)) {
             return;
         }
+
         foreach ($table as $index => $row) {
             if (!$this->isArrayAccess($row)) {
                 continue;
@@ -166,11 +166,12 @@ class ColumnDelete extends BaseFilter
                     if (!array_key_exists($column, $row)) {
                         continue;
                     }
-                } elseif ($table instanceof \ArrayAccess) {
+                } elseif ($row instanceof \ArrayAccess) {
                     if (!$row->offsetExists($column)) {
-                    continue;
+                        continue;
                     }
                 }
+
                 if ($this->deleteIfZeroOnly) {
                     $value = $row[$column];
                     if ($value === false || !empty($value)) {
@@ -181,7 +182,7 @@ class ColumnDelete extends BaseFilter
                 unset($table[$index][$column]);
             }
 
-            $this->removeColumnsFromTable($row);
+            $this->removeColumnsFromTable($table[$index]);
         }
     }
 

@@ -139,12 +139,11 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
      */
     protected function makeArray_withoutVisitsColumns()
     {
-        $array = array(
+        return array(
             array('label' => 'row1', 'arrayColumn' => array('columnWithin' => 10)),
             array('label' => 'row2', 'arrayColumn' => array('columnWithin' => 11)),
             array('label' => 'row3', 'arrayColumn' => array('columnWithin' => 12)),
         );
-        return $array;
     }
 
     /**
@@ -152,12 +151,11 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
      */
     protected function makeArray_showVisitsColumns()
     {
-        $array = array(
+        return array(
             array('label' => 'row1', 'visits' => 1),
             array('label' => 'row2', 'visits' => 2),
             array('label' => 'row3', 'visits' => 3),
         );
-        return $array;
     }
 
 }
