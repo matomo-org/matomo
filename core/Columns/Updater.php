@@ -13,7 +13,6 @@ use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
-use Piwik\Db;
 use Piwik\Plugin\Manager;
 use Piwik\Updater as PiwikUpdater;
 use Piwik\Filesystem;
@@ -82,7 +81,7 @@ class Updater extends \Piwik\Updates
 
     public function doUpdate(PiwikUpdater $updater)
     {
-        $updater->executeMigrationQueries(__FILE__, $this->getMigrationQueries($updater));
+        $updater->executeMigrations(__FILE__, $this->getMigrationQueries($updater));
     }
 
     private function getVisitDimensions()

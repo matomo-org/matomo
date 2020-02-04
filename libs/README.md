@@ -1,6 +1,6 @@
 ## Legal notice
 
-See the [LEGALNOTICE file](https://github.com/matomo-org/matomo/blob/3.x-dev/LEGALNOTICE).
+See the [LEGALNOTICE file](https://github.com/matomo-org/matomo/blob/4.x-dev/LEGALNOTICE).
 
 ## Matomo modifications to libs/
 

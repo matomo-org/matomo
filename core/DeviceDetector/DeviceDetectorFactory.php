@@ -10,7 +10,6 @@ namespace Piwik\DeviceDetector;
 
 use DeviceDetector\DeviceDetector;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 
 class DeviceDetectorFactory
 {

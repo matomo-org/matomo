@@ -62,23 +62,6 @@ class PhpSettingsCheck implements Diagnostic
         $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
 
-        if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
-            // always_populate_raw_post_data must be -1
-            // removed in PHP 7
-            $requiredSettings[] = new RequiredPhpSetting('always_populate_raw_post_data', -1);
-        }
-        
         return $requiredSettings;
     }
-
-    private function isPhpVersionAtLeast56()
-    {
-        return version_compare(PHP_VERSION, '5.6', '>=');
-    }
-
-    private function isPhpVersionAtLeast70()
-    {
-        return version_compare(PHP_VERSION, '7.0.0-dev', '>=');
-    }
-    
 }

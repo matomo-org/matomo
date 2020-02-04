@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -159,7 +159,6 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
 
-        require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(defined('DEBUG_FORCE_SCHEDULED_TASKS'));
 
         // Check the index.php has "backtrace disabled"

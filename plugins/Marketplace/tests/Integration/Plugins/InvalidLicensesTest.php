@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Integration\Plugins;
 
-use Piwik\Cache\Backend\ArrayCache;
-use Piwik\Cache\Eager;
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Eager;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\Marketplace\Consumer;
 use Piwik\Plugins\Marketplace\Plugins;

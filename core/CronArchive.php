@@ -9,7 +9,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
@@ -411,10 +410,7 @@ class CronArchive
                     (!$instanceId
                       || strpos($process, '--matomo-domain=' . $instanceId) !== false
                       || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
-                      || strpos($process, '--piwik-domain=' . $instanceId) !== false
-                      || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
-                      || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false)) {
                     $numRunning++;
                 }
             }

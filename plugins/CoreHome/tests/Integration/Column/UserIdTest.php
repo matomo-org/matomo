@@ -244,7 +244,7 @@ class UserIdTest extends IntegrationTestCase
         }
     }
 
-    private function trackPageview(\PiwikTracker $tracker, $userId, $url = null)
+    private function trackPageview(\MatomoTracker $tracker, $userId, $url = null)
     {
         if (null !== $url) {
             $tracker->setUrl('http://www.example.org' . $url);

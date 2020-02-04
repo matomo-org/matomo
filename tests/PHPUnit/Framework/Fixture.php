@@ -13,7 +13,7 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Auth\Password;
-use Piwik\Cache\Backend\File;
+use Matomo\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Config;
@@ -24,7 +24,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\FrontController;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Log;
 use Piwik\NumberFormatter;
 use Piwik\Option;
@@ -52,11 +52,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
-use Piwik\Url;
-use PHPUnit_Framework_Assert;
-use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
-use Piwik_LocalTracker;
+use MatomoTracker;
+use Matomo_LocalTracker;
 use Piwik\Updater;
 use Exception;
 use ReflectionClass;
@@ -589,22 +586,22 @@ class Fixture extends \PHPUnit_Framework_Assert
     }
 
     /**
-     * Returns a PiwikTracker object that you can then use to track pages or goals.
+     * Returns a MatomoTracker object that you can then use to track pages or goals.
      *
      * @param int     $idSite
      * @param string  $dateTime
      * @param boolean $defaultInit If set to true, the tracker object will have default IP, user agent, time, resolution, etc.
      * @param bool    $useLocal
      *
-     * @return PiwikTracker
+     * @return MatomoTracker
      */
     public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false)
     {
         if ($useLocal) {
             require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
-            $t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
+            $t = new Matomo_LocalTracker($idSite, self::getTrackerUrl());
         } else {
-            $t = new PiwikTracker($idSite, self::getTrackerUrl());
+            $t = new MatomoTracker($idSite, self::getTrackerUrl());
         }
         $t->setForceVisitDateTime($dateTime);
 
@@ -634,7 +631,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
 
-        $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
+        $url = "\n =========================== \n URL was: " . MatomoTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable [Tracker] debug=1; in config.ini.php to get more debug info."

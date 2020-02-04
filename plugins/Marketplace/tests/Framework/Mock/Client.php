@@ -8,8 +8,8 @@
 
 namespace Piwik\Plugins\Marketplace\tests\Framework\Mock;
 
-use Piwik\Cache\Backend\NullCache;
-use Piwik\Cache\Lazy;
+use Matomo\Cache\Backend\NullCache;
+use Matomo\Cache\Lazy;
 use Psr\Log\NullLogger;
 
 class Client {

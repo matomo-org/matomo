@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\Exception\NoWebsiteFoundException;

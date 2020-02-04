@@ -11,7 +11,7 @@ use Piwik\Date;
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Add one site and track many visits with custom variables & campaign IDs and
@@ -211,7 +211,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
     private function getFirstPartyCookieDomainHash()
     {
         $host = \Piwik\Url::getHost();
-        $cookiePath = PiwikTracker::DEFAULT_COOKIE_PATH;
+        $cookiePath = MatomoTracker::DEFAULT_COOKIE_PATH;
         return substr(sha1( $host . $cookiePath), 0, 4);
     }
 
@@ -219,7 +219,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
      * Test setting/getting the first party cookie via the PHP Tracking Client
      * @param $t
      */
-    private function testFirstPartyCookies(PiwikTracker $t)
+    private function testFirstPartyCookies(MatomoTracker $t)
     {
         $domainHash = $this->getFirstPartyCookieDomainHash();
         $idCookieName = '_pk_id_1_' . $domainHash;

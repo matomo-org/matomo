@@ -256,8 +256,6 @@ class TestsSetupFixture extends ConsoleCommand
 
     private function requireFixtureFiles(InputInterface $input)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
         $file = $input->getOption('file');
         if ($file) {
             if (is_file($file)) {
