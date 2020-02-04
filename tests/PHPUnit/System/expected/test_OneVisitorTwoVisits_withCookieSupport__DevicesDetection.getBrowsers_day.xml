@@ -10,6 +10,20 @@
 		<sum_visit_length>1622</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>42</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>1</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>43</revenue>
 		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 		<segment>browserCode==FF</segment>
 	</row>

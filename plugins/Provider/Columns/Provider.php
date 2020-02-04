@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\Provider\Columns;
 
 use Piwik\Common;
-use Piwik\Network\IP;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IP;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;

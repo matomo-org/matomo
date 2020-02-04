@@ -150,7 +150,7 @@ class VisitsSummaryTest extends IntegrationTestCase
         }
     }
 
-    private function trackPageview(\PiwikTracker $tracker, $userId, $url)
+    private function trackPageview(\MatomoTracker $tracker, $userId, $url)
     {
         $tracker->setUrl('http://www.example.org' . $url);
         $tracker->setUserId($userId);

@@ -11,7 +11,7 @@ namespace Piwik\Tests\Integration;
 use Exception;
 use Piwik\Access;
 use Piwik\AuthResult;
-use Piwik\Cache\Cache;
+use Matomo\Cache\Cache;
 use Piwik\Db;
 use Piwik\NoAccessException;
 use Piwik\Piwik;

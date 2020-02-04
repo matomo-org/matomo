@@ -18,7 +18,6 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\EventDispatcher;
-use Piwik\Exception\Exception;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
 use Piwik\Log;

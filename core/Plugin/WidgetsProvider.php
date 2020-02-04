@@ -11,7 +11,6 @@ namespace Piwik\Plugin;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Exception;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;

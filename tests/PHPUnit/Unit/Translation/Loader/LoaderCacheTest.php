@@ -8,8 +8,8 @@
 
 namespace Piwik\Tests\Unit\Translation\Loader;
 
-use Piwik\Cache\Backend\ArrayCache;
-use Piwik\Cache\Lazy;
+use Matomo\Cache\Backend\ArrayCache;
+use Matomo\Cache\Lazy;
 use Piwik\Translation\Loader\LoaderCache;
 
 /**
@@ -19,7 +19,7 @@ class LoaderCacheTest extends \PHPUnit_Framework_TestCase
 {
     public function test_shouldNotLoad_ifInCache()
     {
-        $cache = $this->getMock('Piwik\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMock('Matomo\Cache\Lazy', array(), array(), '', false);
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(array('translations!'));
@@ -35,7 +35,7 @@ class LoaderCacheTest extends \PHPUnit_Framework_TestCase
 
     public function test_shouldLoad_ifNotInCache()
     {
-        $cache = $this->getMock('Piwik\Cache\Lazy', array(), array(), '', false);
+        $cache = $this->getMock('Matomo\Cache\Lazy', array(), array(), '', false);
         $cache->expects($this->any())
             ->method('fetch')
             ->willReturn(null);

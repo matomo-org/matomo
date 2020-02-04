@@ -23,6 +23,9 @@ $(function () {
         tr = getRealRowIfComparisonRow(tr);
 
         var link = tr.find('> td:first > a').attr('href');
+        // replace all &, that are not part of a named character reference with a tailing semicolon, with a &amp;
+        // otherwise named character references without a tailing , (like &reg) would be replaced
+        link = link.replace(/&([a-z]+[^a-z;])/, '&amp;$1');
         link = $('<textarea>').html(link).val(); // remove html entities
         return link;
     }

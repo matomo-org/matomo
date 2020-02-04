@@ -45,8 +45,6 @@ $GLOBALS['MATOMO_PLUGIN_DIRS'] = array(
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
-require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-
 if (getenv('PIWIK_USE_XHPROF') == 1) {
     \Piwik\Profiler::setupProfilerXHProf();
 }

@@ -138,7 +138,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->trackOrders($t);
     }
 
-    private function trackActions(\PiwikTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
+    private function trackActions(\MatomoTracker $t, &$visitorCounter, $actionType, $userAgents, $resolutions,
                                   $referrers = null, $customVars = null)
     {
         for ($i = 0; $i != 5; ++$i, ++$visitorCounter) {
@@ -207,7 +207,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         }
     }
 
-    private function trackAction(\PiwikTracker $t, $actionType, $visitorCounter, $actionNum)
+    private function trackAction(\MatomoTracker $t, $actionType, $visitorCounter, $actionNum)
     {
         if ($actionType == 'pageview') {
             self::checkResponse($t->doTrackPageView(

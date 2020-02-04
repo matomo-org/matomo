@@ -1696,17 +1696,17 @@ log_visit.visit_total_actions
     {
         $self = $this;
 
-        $cacheProxy = $this->getMockBuilder('Piwik\Cache\Lazy')
+        $cacheProxy = $this->getMockBuilder('Matomo\Cache\Lazy')
                            ->setMethods(array('fetch', 'contains', 'save', 'delete', 'flushAll'))
                            ->disableOriginalConstructor()
                            ->getMock();
 
         $cacheProxy->expects($this->any())->method('fetch')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->fetch($id);
         });
         $cacheProxy->expects($this->any())->method('contains')->willReturnCallback(function ($id) use ($self) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
 
             $result = $realCache->contains($id);
             if ($result) {
@@ -1716,15 +1716,15 @@ log_visit.visit_total_actions
             return $result;
         });
         $cacheProxy->expects($this->any())->method('save')->willReturnCallback(function ($id, $data, $lifetime = 0) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->save($id, $data, $lifetime);
         });
         $cacheProxy->expects($this->any())->method('delete')->willReturnCallback(function ($id) {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->delete($id);
         });
         $cacheProxy->expects($this->any())->method('flushAll')->willReturnCallback(function () {
-            $realCache = StaticContainer::get('Piwik\Cache\Lazy');
+            $realCache = StaticContainer::get('Matomo\Cache\Lazy');
             return $realCache->flushAll();
         });
 

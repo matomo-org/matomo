@@ -44,11 +44,7 @@ class FilterOrderByTest extends BaseUnitTest
 
         $this->applyOrderByFilter();
 
-        if (SystemTestCase::isPhp7orLater()) {
-            $this->assertOrder(array('pos1', 'pos3', 'pos5', 'pos4', 'pos2', 'pos6', 'neg3', 'neg2', 'neg1', 'neg5', 'neg4'));
-        } else {
-            $this->assertOrder(array('pos1', 'pos5', 'pos3', 'pos4', 'pos2', 'pos6', 'neg3', 'neg2', 'neg1', 'neg5', 'neg4'));
-        }
+        $this->assertOrder(array('pos1', 'pos3', 'pos5', 'pos4', 'pos2', 'pos6', 'neg3', 'neg2', 'neg1', 'neg5', 'neg4'));
     }
 
     public function testOrderByShouldSortDependingOnNbVisitsIfColumnsHaveSameValue()

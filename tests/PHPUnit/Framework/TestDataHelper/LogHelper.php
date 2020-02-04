@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Framework\TestDataHelper;
 
 use Piwik\Common;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Db;
 
 /**

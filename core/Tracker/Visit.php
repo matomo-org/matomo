@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;

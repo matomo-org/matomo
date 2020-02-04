@@ -11,7 +11,7 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Decompress\Tar;
+use Matomo\Decompress\Tar;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Http;

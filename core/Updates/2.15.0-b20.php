@@ -23,7 +23,7 @@ class Updates_2_15_0_b20 extends Updates
      * Perform the incremental version update.
      *
      * This method should perform all updating logic. If you define queries in an overridden `getMigrationQueries()`
-     * method, you must call {@link Updater::executeMigrationQueries()} here.
+     * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link Updates} for an example.
      *

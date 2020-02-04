@@ -76,7 +76,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL);
 
-        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME))) {
+        if (in_array($recordName, array(self::DEVICE_TYPE_RECORD_NAME, self::DEVICE_BRAND_RECORD_NAME, self::DEVICE_MODEL_RECORD_NAME, self::BROWSER_RECORD_NAME))) {
 
             $labelSQL = str_replace('log_visit.', 'log_conversion.', $labelSQL);
 

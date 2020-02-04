@@ -336,20 +336,6 @@ class Piwik
     }
 
     /**
-     * Helper method user to set the current as superuser.
-     * This should be used with great care as this gives the user all permissions.
-     *
-     * This method is deprecated, use {@link Access::doAsSuperUser()} instead.
-     *
-     * @param bool $bool true to set current user as Super User
-     * @deprecated
-     */
-    public static function setUserHasSuperUserAccess($bool = true)
-    {
-        Access::getInstance()->setSuperUserAccess($bool);
-    }
-
-    /**
      * Check that the current user has superuser access.
      *
      * @throws Exception if the current user is not the superuser.
