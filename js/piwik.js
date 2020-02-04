@@ -7714,7 +7714,7 @@ if (typeof window.Piwik !== 'object') {
                     config: config,
                     expires: (new Date()).getTime() + (configVisitStandardLength * 60 * 1000)
                 });
-                var cacheKey = 'mtm.extraTrackerConfig.' + idSite;
+                var cacheKey = 'mtm.extraTrackerConfig.' + configTrackerUrl + '.' + idSite;
 
                 sessionStorage.setItem(cacheKey, configStr);
             }
@@ -7725,7 +7725,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 var cacheEntry;
-                var cacheKey = 'mtm.extraTrackerConfig.' + configTrackerSiteId;
+                var cacheKey = 'mtm.extraTrackerConfig.' + configTrackerUrl + '.' + configTrackerSiteId;
 
                 try {
                     cacheEntry = JSON.parse(sessionStorage.getItem(cacheKey));
