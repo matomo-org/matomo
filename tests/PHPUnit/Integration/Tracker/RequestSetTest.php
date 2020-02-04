@@ -19,20 +19,11 @@ class TestRequestSet extends RequestSet {
 
     private $redirectUrl = '';
 
-    public function setRedirectUrl($url)
-    {
-        $this->redirectUrl = $url;
-    }
-
     public function getAllSiteIdsWithinRequest()
     {
         return parent::getAllSiteIdsWithinRequest();
     }
 
-    public function getRedirectUrl()
-    {
-        return $this->redirectUrl;
-    }
 }
 /**
  * @group RequestSetTest
