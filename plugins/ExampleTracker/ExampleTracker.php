@@ -18,12 +18,20 @@ class ExampleTracker extends \Piwik\Plugin
         return [
             'Tracker.getTrackerConfigs' => 'getTrackerConfigs',
             'Live.getAllVisitorDetails' => 'getAllVisitorDetails',
+            'Tracker.Cache.getSiteAttributes' => 'getTrackerCacheSiteAttributes',
         ];
     }
 
     public function isTrackerPlugin()
     {
         return true;
+    }
+
+    public function getTrackerCacheSiteAttributes(&$content, $idSite)
+    {
+        $content['trackerConfigs']['ExampleTracker'] = [
+            'myCustomVisitParam' => 500 + (int)$idSite,
+        ];
     }
 
     public function getAllVisitorDetails(&$visitor, $visitorRawData)
@@ -34,8 +42,7 @@ class ExampleTracker extends \Piwik\Plugin
     public function getTrackerConfigs(&$configs, $params)
     {
         $configs['ExampleTracker'] = [
-            'randomValue' => Common::getRandomInt(0, 100) . ' for site ' . $params['idSite'],
-            'myCustomVisitParam' => 500,
+            'randomValue' => Common::getRandomInt(0, 100),
         ];
     }
 }

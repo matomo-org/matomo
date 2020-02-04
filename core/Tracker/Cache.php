@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 
@@ -171,6 +172,7 @@ class Cache
         $cacheContent = array(
             'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),
             'lastTrackerCronRun'      => Option::get('lastTrackerCronRun'),
+            'pluginsWithCachedTrackerConfigs' => Tracker::getPluginsUsingCacheForTrackerConfigs(),
         );
 
         /**

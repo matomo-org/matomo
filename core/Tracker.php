@@ -78,6 +78,29 @@ class Tracker
         if (empty($GLOBALS['PIWIK_TRACKER_DEBUG'])) {
             $GLOBALS['PIWIK_TRACKER_DEBUG'] = self::isDebugEnabled();
         }
+
+        if (self::shouldOutputTrackerConfigs()) {
+            $generalCache = \Piwik\Tracker\Cache::getCacheGeneral();
+
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            if ($idSite > 0
+                && !empty($generalCache['pluginsWithCachedTrackerConfigs'])
+                && is_array($generalCache['pluginsWithCachedTrackerConfigs'])
+            ) {
+                $pluginsUsingCache = $generalCache['pluginsWithCachedTrackerConfigs'];
+
+                $cacheData = \Piwik\Tracker\Cache::getCacheWebsiteAttributes($idSite);
+
+                $pluginsNotToLoad = [];
+                foreach ($pluginsUsingCache as $plugin) {
+                    if (!empty($cacheData['trackerConfigs'][$plugin])) {
+                        $pluginsNotToLoad[] = $plugin;
+                    }
+                }
+                PluginManager::getInstance()->setTrackerPluginsNotToLoad($pluginsNotToLoad);
+            }
+        }
+
         PluginManager::getInstance()->loadTrackerPlugins();
     }
 
@@ -329,7 +352,7 @@ class Tracker
         PluginManager::getInstance()->setTrackerPluginsNotToLoad($pluginsDisabled);
     }
 
-    public function shouldOutputTrackerConfigs()
+    public static function shouldOutputTrackerConfigs()
     {
         return Common::getRequestVar('configs', 0, 'int') == 1;
     }
@@ -402,6 +425,12 @@ class Tracker
          */
         Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs, ['idSite' => $idSite]]);
 
+        $cacheData = \Piwik\Tracker\Cache::getCacheWebsiteAttributes($idSite);
+        $cachedTrackerConfigs = !empty($cacheData['trackerConfigs']) ? $cacheData['trackerConfigs'] : [];
+        foreach ($cachedTrackerConfigs as $pluginName => $pluginConfig) {
+            $configs[$pluginName] = array_merge(isset($configs[$pluginName]) ? $configs[$pluginName] : [], $pluginConfig);
+        }
+
         $configJsonp = Common::getRequestVar('configJsonp', 0, 'int') == 1;
 
         if ($configJsonp
@@ -417,4 +446,37 @@ class Tracker
             Json::sendHeaderJSON();
             echo json_encode($configs);
         }
-    }}
+    }
+
+    public static function getPluginsUsingCacheForTrackerConfigs()
+    {
+        $pluginsUsingCache = [];
+
+        /**
+         * This event is used as an optimization when retrieving tracker configs. When retrieving tracker
+         * configs, we  check if the data already exists in the cache and if so, the plugin is not loaded for
+         * a performance boost.
+         *
+         * Use this event to take advantage of that performance boost and add your plugin to the list if
+         * it's data is cacheable. Note: this means when the data stored is changed the tracker cache
+         * must be invalidated and the data must be cached via the `Tracker.Cache.getSiteAttributes` event.
+         *
+         * **Example**
+         *
+         *     public function getPluginsUsingCacheForTrackerConfigs(&$pluginsUsingCache)
+         *     {
+         *         $pluginsUsingCache['MyPlugin'] = true;
+         *     }
+         *
+         *     public function getCacheSiteAttributes(&$content, $idSite)
+         *     {
+         *         $content['trackerConfigs']['MyPlugin'] = [ ... ];
+         *     }
+         *
+         * @param string[] $pluginsUsingCache add plugin names to this array to show they use the tracker cache only.
+         */
+        Piwik::postEvent('Tracker.getPluginsUsingCacheForTrackerConfigs', [&$pluginsUsingCache]);
+
+        return $pluginsUsingCache;
+    }
+}

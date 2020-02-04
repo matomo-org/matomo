@@ -426,19 +426,19 @@ class TrackerTest extends IntegrationTestCase
         $t->setCustomTrackingParameter('configs', 1);
 
         $response = $t->doTrackPageView('page view');
-        $expected = '{"ExampleTracker":{"randomValue":%d}}';
+        $expected = '{"ExampleTracker":{"randomValue":%d,"myCustomVisitParam":501}}';
         $this->assertStringMatchesFormat($expected, $response);
 
-        $this->assertEquals(1, $this->getVisitCount());
+        $this->assertEquals(0, $this->getVisitCount());
 
         // tracking request without params
         $url = Fixture::getTrackerUrl() . '?configs=1&idsite=1';
         $response = Http::sendHttpRequest($url, $timeout = 1);
 
-        $expected = '{"ExampleTracker":{"randomValue":%d}}';
+        $expected = '{"ExampleTracker":{"randomValue":%d,"myCustomVisitParam":501}}';
         $this->assertStringMatchesFormat($expected, $response);
 
-        $this->assertEquals(1, $this->getVisitCount());
+        $this->assertEquals(0, $this->getVisitCount());
     }
 
     private function getDefaultHandler()
