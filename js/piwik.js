@@ -8082,7 +8082,8 @@ if (typeof window.Piwik !== 'object') {
                         return;
                     } catch (e) {
                         if ('function' === typeof URL) {
-                            var theUrl = new URL(urlToParse);
+                            // URL can only work with absolute urls if no second parameter provded
+                            var theUrl = new URL(urlToParse, windowAlias.location.href);
                             if (urlPart && urlPart in theUrl) {
                                 if ('hash' === urlPart) {
                                     return String(theUrl[urlPart]).replace('#', '');
