@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Tracker\GoalManager;
 
 class Visitor implements VisitorInterface
@@ -291,7 +292,7 @@ class Visitor implements VisitorInterface
             $instance->filterActions($actionDetails, $visitorDetailsArray);
         }
 
-        usort($actionDetails, array('static', 'sortByServerTime'));
+        $actionDetails = self::sortActionDetails($actionDetails);
 
         $actionDetails = array_values($actionDetails);
 
@@ -315,27 +316,21 @@ class Visitor implements VisitorInterface
         return $visitorDetailsArray;
     }
 
-    private static function sortByServerTime($a, $b)
+    private static function sortActionDetails($actions)
     {
-        $ta = strtotime($a['serverTimePretty']);
-        $tb = strtotime($b['serverTimePretty']);
-
-        if ($ta < $tb) {
-            return -1;
-        }
-
-        if ($ta == $tb) {
-            if ($a['idlink_va'] == $b['idlink_va']) {
-                return strcmp($a['type'], $b['type']);
+        usort($actions, function ($a, $b) {
+            $fields = array('serverTimePretty', 'idlink_va', 'type', 'title', 'url', 'pageIdAction', 'goalId');
+            foreach ($fields as $field) {
+                $sort = VisitorLog::sortByActionsOnPageColumn($a, $b, $field);
+                if ($sort !== 0) {
+                    return $sort;
+                }
             }
 
-            if ($a['idlink_va'] > $b['idlink_va']) {
-               return 1;
-            }
+            return 0;
+        });
 
-            return -1;
-        }
-
-        return 1;
+        return $actions;
     }
+
 }

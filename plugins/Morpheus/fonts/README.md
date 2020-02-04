@@ -15,5 +15,4 @@ Unfortunatly icomoon doesn't create WOFF2 files, but as WOFF2 is just a containe
     - or compile it yourself as explained on https://github.com/google/woff2
 - convert all .ttf 
  files
-    - `woff2_compress piwik.ttf` (this file shouldn't change anymore)
     - `woff2_compress matomo.ttf`

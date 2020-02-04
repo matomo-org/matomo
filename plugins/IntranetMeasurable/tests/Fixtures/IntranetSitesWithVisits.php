@@ -49,7 +49,7 @@ class IntranetSitesWithVisits extends Fixture
         }
     }
 
-    private function configureSameDevice(\PiwikTracker $t)
+    private function configureSameDevice(\MatomoTracker $t)
     {
         // to make purpose of test more clear we configure the device partially...
         $t->setIp('56.11.55.70');

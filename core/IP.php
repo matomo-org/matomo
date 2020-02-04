@@ -9,7 +9,7 @@
 
 namespace Piwik;
 
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 
 /**
  * Contains IP address helper functions (for both IPv4 and IPv6).
@@ -17,9 +17,9 @@ use Piwik\Network\IPUtils;
  * As of Piwik 2.9, most methods in this class are deprecated. You are
  * encouraged to use classes from the Piwik "Network" component:
  *
- * @see \Piwik\Network\IP
- * @see \Piwik\Network\IPUtils
- * @link https://github.com/piwik/component-network
+ * @see \Matomo\Network\IP
+ * @see \Matomo\Network\IPUtils
+ * @link https://github.com/matomo-org/component-network
  *
  * As of Piwik 1.3, IP addresses are stored in the DB has VARBINARY(16),
  * and passed around in network address format which has the advantage of
@@ -113,7 +113,7 @@ class IP
                 if(empty($element)) {
                     continue;
                 }
-                $ip = \Piwik\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));
+                $ip = \Matomo\Network\IP::fromStringIP(IPUtils::sanitizeIp($element));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !$ip->isInRanges($excludedIps))) {
                     return $element;
                 }

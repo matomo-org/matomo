@@ -10,11 +10,8 @@
 namespace Piwik\Settings\Storage\Backend;
 
 use Piwik\Common;
-use Piwik\Concurrency\Lock;
-use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Exception;
-use Piwik\Version;
 
 /**
  * Plugin settings backend. Stores all settings in a "plugin_setting" database table.

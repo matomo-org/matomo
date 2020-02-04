@@ -10,8 +10,6 @@ namespace Piwik;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\FailedCopyException;
-use Piwik\Exception\MissingFilePermissionException;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Cache as PiwikCache;
 use Piwik\Exception\Exception;

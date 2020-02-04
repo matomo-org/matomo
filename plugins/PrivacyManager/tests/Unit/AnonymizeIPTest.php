@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests;
 
-use Piwik\Network\IP;
+use Matomo\Network\IP;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';

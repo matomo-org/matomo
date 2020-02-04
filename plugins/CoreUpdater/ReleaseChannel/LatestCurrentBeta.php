@@ -10,17 +10,18 @@ namespace Piwik\Plugins\CoreUpdater\ReleaseChannel;
 
 use Piwik\Piwik;
 use Piwik\Plugins\CoreUpdater\ReleaseChannel;
+use Piwik\Version;
 
-class Latest2XBeta extends ReleaseChannel
+class LatestCurrentBeta extends ReleaseChannel
 {
     public function getId()
     {
-        return 'latest_2x_beta';
+        return 'latest_'. Version::MAJOR_VERSION . 'x_beta';
     }
 
     public function getName()
     {
-        return Piwik::translate('CoreUpdater_Latest2XBetaRelease');
+        return Piwik::translate('CoreUpdater_LatestXBetaRelease', Version::MAJOR_VERSION . '.X');
     }
 
     public function getDescription()

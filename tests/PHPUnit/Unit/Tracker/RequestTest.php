@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;

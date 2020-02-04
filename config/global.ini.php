@@ -227,7 +227,7 @@ segments_subquery_cache_ttl  = 3600
 maintenance_mode = 0
 
 ; Defines the release channel that shall be used. Currently available values are:
-; "latest_stable", "latest_beta", "latest_2x_stable", "latest_2x_beta"
+; "latest_stable", "latest_beta", "latest_4x_stable", "latest_4x_beta"
 release_channel = "latest_stable"
 
 ; character used to automatically create categories in the Actions > Pages, Outlinks and Downloads reports
@@ -910,12 +910,17 @@ enable_sql_profiler = 0
 [Deletelogs]
 ; delete_logs_enable - enable (1) or disable (0) delete log feature. Make sure that all archives for the given period have been processed (setup a cronjob!),
 ; otherwise you may lose tracking data.
-; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes (in days, 1|7|30). Default: 7.
+; delete_logs_schedule_lowest_interval - lowest possible interval between two table deletes, for tables named log_* (in days, 1|7|30). Default: 7.
 ; delete_logs_older_than - delete data older than XX (days). Default: 180
+; delete_logs_unused_actions_schedule_lowest_interval - lowest possible interval between two table deletes, for table log_action (in days, 1|7|30). Default: 30.
+; delete_logs_max_rows_per_query and delete_logs_unused_actions_max_rows_per_query can be increased for large sites to speed up delete processes
+;
+; The higher value one assign to *_schedule_lowest_interval, the longer the data pruning/deletion will take. This is caused by the fact there is more data to evaluate and process every month, than every week.
 delete_logs_enable = 0
 delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
+delete_logs_unused_actions_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
 enable_database_size_estimate = 1
 delete_logs_unused_actions_schedule_lowest_interval = 30

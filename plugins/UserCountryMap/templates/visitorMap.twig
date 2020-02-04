@@ -20,6 +20,9 @@
     </div>
     <div class="mapWidgetStatus">
         {% if noData %}
+            {% if not isWidget %}
+            <h2>{{ 'UserCountryMap_VisitorMap'|translate }}</h2>
+            {% endif %}
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
@@ -28,6 +31,7 @@
             </span>
         {% endif %}
     </div>
+    {% if not noData %}
     <div class="dataTableFeatures" style="padding-top:0;">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
@@ -70,6 +74,7 @@
             </select>
         </div>
     </div>
+    {% endif %}
 </div>
 </section>
 

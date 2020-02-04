@@ -55,8 +55,8 @@ label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site
 Windows XP,5,16,80%,3.2,00:22:49,20%
 
 Browsers
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Firefox,5,16,80%,3.2,00:22:49,20%
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Firefox,5,16,"$13,361.11",3.2,00:22:49,20%
 
 Browser version
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate

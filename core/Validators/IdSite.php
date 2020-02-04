@@ -9,9 +9,7 @@
 
 namespace Piwik\Validators;
 
-use Piwik\Piwik;
 use Piwik\Site;
-use Piwik\UrlHelper;
 
 class IdSite extends BaseValidator
 {

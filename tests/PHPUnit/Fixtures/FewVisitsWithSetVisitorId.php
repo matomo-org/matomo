@@ -9,9 +9,8 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tracker\Visit;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 use Exception;
 
 /**
@@ -193,7 +192,7 @@ class FewVisitsWithSetVisitorId extends Fixture
 
     }
 
-    private function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidVisitorIdShouldThrow(MatomoTracker $t)
     {
         try {
             $t->setVisitorId('test');
@@ -215,7 +214,7 @@ class FewVisitsWithSetVisitorId extends Fixture
         }
     }
 
-    private function settingInvalidUserIdShouldThrow(PiwikTracker $t)
+    private function settingInvalidUserIdShouldThrow(MatomoTracker $t)
     {
         try {
             $t->setUserId('');

@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
-use Piwik\View\HtmlReportEmailHeaderView;
 use Zend_Mail;
 
 /**

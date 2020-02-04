@@ -1351,7 +1351,7 @@ class API extends \Piwik\Plugin\API
      *
      * If the username/password combination is incorrect an invalid token will be returned.
      *
-     * @param string $userLogin Login
+     * @param string $userLogin Login or Email address
      * @param string $md5Password hashed string of the password (using current hash function; MD5-named for historical reasons)
      * @return string
      */
@@ -1361,6 +1361,14 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
+        if (empty($user) && Piwik::isValidEmailString($userLogin)) {
+            $user = $this->model->getUserByEmail($userLogin);
+            
+            if (!empty($user['login'])) {
+                $userLogin = $user['login'];
+            }
+        }
+        
         if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
             /**
              * @ignore

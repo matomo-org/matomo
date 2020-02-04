@@ -11,7 +11,6 @@ namespace Piwik\Settings\Measurable;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage;
 use Exception;
 
 /**

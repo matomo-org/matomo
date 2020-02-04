@@ -7,8 +7,6 @@
  */
 namespace Piwik\Updater\Migration;
 
-use Interop\Container\ContainerInterface;
-use Piwik\Common;
 use Piwik\Updater\Migration\Db\Factory as DbFactory;
 use Piwik\Updater\Migration\Plugin\Factory as PluginFactory;
 

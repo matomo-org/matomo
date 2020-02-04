@@ -9,7 +9,6 @@
 namespace Piwik\Menu;
 
 use Piwik\Development;
-use Piwik\Piwik;
 
 /**
  * Contains menu entries for the Admin menu.

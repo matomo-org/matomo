@@ -27,7 +27,7 @@ use Piwik\Tracker\Visitor;
 class ReferrerNameTest extends IntegrationTestCase
 {
     /**
-     * @var ReferrerType
+     * @var ReferrerName
      */
     private $referrerName;
     private $idSite1 = 1;
@@ -76,6 +76,8 @@ class ReferrerNameTest extends IntegrationTestCase
         $url = 'http://piwik.org/foo/bar';
         $referrer = 'http://piwik.org';
 
+        $longString = str_repeat('very_long_', 25);
+
         $directEntryReferrerName = null;
 
         return array(
@@ -106,6 +108,7 @@ class ReferrerNameTest extends IntegrationTestCase
             array('test',                   $this->idSite1, $url . '?pk_campaign=test', $referrer),
             array('testfoobar',             $this->idSite2, $url . '?pk_campaign=testfoobar', $referrer),
             array('test',                   $this->idSite3, $url . '?pk_campaign=test', $referrer),
+            array($longString,              $this->idSite3, $url . '?pk_campaign='.$longString, $referrer),
 
             array('Google',                 $this->idSite3, $url, 'http://google.com/search?q=piwik'),
 

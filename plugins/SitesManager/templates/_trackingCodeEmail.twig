@@ -9,7 +9,13 @@
 {{ 'SitesManager_EmailInstructionsGenerateTrackingCode'|translate(piwikUrl ~ linkTo({'module': 'CoreAdminHome', 'action': 'trackingCodeGenerator'}))|raw }}
 
 {% if showMatomoLinks %}
-** Integrations
+** {{ 'SitesManager_InstallationGuides'|translate }}
+WordPress: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/
+Squarespace: https://matomo.org/faq/new-to-piwik/how-do-i-integrate-matomo-with-squarespace-website/
+Wix: https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-analytics-tracking-code-on-wix/
+SharePoint: https://matomo.org/faq/how-to-install/faq_19424/
+
+** {{ 'SitesManager_Integrations'|translate }}
 {{ 'CoreAdminHome_JSTrackingIntro3a'|translate('', '') }}
 https://matomo.org/integrate/
 
