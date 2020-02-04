@@ -382,6 +382,8 @@ class Tracker
     {
         $configs = [];
 
+        $idSite = Common::getRequestVar('idsite', 0, 'int');
+
         /**
          * Triggered when returning tracker configuration to the JavaScript tracker. Some plugins' tracking code may
          * depend on information that is only stored server side. Use this event to provide this information to the
@@ -398,9 +400,8 @@ class Tracker
          *                        ]
          *                        ```
          */
-        Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs]);
+        Piwik::postEvent('Tracker.getTrackerConfigs', [&$configs, ['idSite' => $idSite]]);
 
-        $idSite = Common::getRequestVar('idsite', 0, 'int');
         $configJsonp = Common::getRequestVar('configJsonp', 0, 'int') == 1;
 
         if ($configJsonp

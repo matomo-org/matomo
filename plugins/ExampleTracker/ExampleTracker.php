@@ -31,10 +31,10 @@ class ExampleTracker extends \Piwik\Plugin
         $visitor['myCustomVisitParam'] = isset($visitorRawData['example_visit_dimension']) ? $visitorRawData['example_visit_dimension'] : 'no-value';
     }
 
-    public function getTrackerConfigs(&$configs)
+    public function getTrackerConfigs(&$configs, $params)
     {
         $configs['ExampleTracker'] = [
-            'randomValue' => Common::getRandomInt(0, 100),
+            'randomValue' => Common::getRandomInt(0, 100) . ' for site ' . $params['idSite'],
             'myCustomVisitParam' => 500,
         ];
     }

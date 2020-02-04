@@ -4357,6 +4357,9 @@ if (typeof window.Piwik !== 'object') {
             function setSiteId(siteId) {
                 configTrackerSiteId = siteId;
                 setVisitorIdCookie();
+                if (extraTrackerConfigCallbacks.length > 0) {
+                    loadExtraConfig(this);
+                }
             }
 
             function sortObjectByKeys(value) {
@@ -7661,9 +7664,11 @@ if (typeof window.Piwik !== 'object') {
              * @param {Function} callback @see getExtraConfig
              */
             function loadExtraConfig(tracker, callback) {
-                extraTrackerConfigCallbacks.push(callback);
+                if (callback) {
+                    extraTrackerConfigCallbacks.push(callback);
+                }
 
-                if (isAlreadyFetchingExtraConfig) {
+                if (isAlreadyFetchingExtraConfig && configTrackerSiteId) {
                     return;
                 }
 
