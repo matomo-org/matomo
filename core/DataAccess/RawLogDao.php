@@ -9,6 +9,7 @@
 namespace Piwik\DataAccess;
 
 use Piwik\Common;
+use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
 use Piwik\Plugin\Dimension\DimensionMetadataProvider;
@@ -191,14 +192,17 @@ class RawLogDao
         // get current max ID in log tables w/ idaction references.
         $maxIds = $this->getMaxIdsInLogTables();
 
+        // get max rows to analyze
+        $max_rows_per_query = PiwikConfig::getInstance()->Deletelogs['delete_logs_unused_actions_max_rows_per_query'];
+
         $this->createTempTableForStoringUsedActions();
 
         // do large insert (inserting everything before maxIds) w/o locking tables...
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true);
+        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = true, $max_rows_per_query);
 
         // ... then do small insert w/ locked tables to minimize the amount of time tables are locked.
         $this->lockLogTables();
-        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false);
+        $this->insertActionsToKeep($maxIds, $deleteOlderThanMax = false, $max_rows_per_query);
 
         // delete before unlocking tables so there's no chance a new log row that references an
         // unused action will be inserted.
