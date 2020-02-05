@@ -223,5 +223,5 @@ return array(
     /**
      * @todo remove in Matomo 5. For BC only
      */
-    'Piwik\Plugins\CustomPiwikJs\TrackerUpdater' => DI\get(Piwik\Plugins\CustomTrackerJs\TrackerUpdater::class),
+    'Piwik\Plugins\CustomPiwikJs\TrackerUpdater' => DI\get(Piwik\Plugins\CustomJsTracker\TrackerUpdater::class),
 );

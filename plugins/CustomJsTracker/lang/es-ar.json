@@ -1,0 +1,8 @@
+{
+    "CustomJsTracker": {
+        "PluginDescription": "Permite a cualquier plugin extender el archivo de rastreo vía JavaScript de Matomo (\"matomo.js\"), y agrega nuevas capacidades de medición de funcionalidad y sitios web.",
+        "DiagnosticPiwikJsWritable": "Rastreador escribible de JavaScript (%s)",
+        "DiagnosticPiwikJsNotWritable": "El archivo rastreador vía JavaScript de Matomo %s no es escribible, lo cual significa que otros plugins no pueden extender el rastreador de JavaScript. En el futuro es posible que incluso funciones centrales no funcionen como lo esperado.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos hacer que %1$s sea escribible mediante este comando: %2$s"
+    }
+}

@@ -62,13 +62,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
 
         foreach ($config->Plugins['Plugins'] as $index => $plugin) {
             if ($plugin === 'CustomPiwikJs') {
-                $config->Plugins['Plugins'][$index] = 'CustomTrackerJs';
+                $config->Plugins['Plugins'][$index] = 'CustomJsTracker';
             }
         }
 
         foreach ($config->PluginsInstalled['PluginsInstalled'] as $index => $plugin) {
             if ($plugin === 'CustomPiwikJs') {
-                $config->PluginsInstalled['PluginsInstalled'][$index] = 'CustomTrackerJs';
+                $config->PluginsInstalled['PluginsInstalled'][$index] = 'CustomJsTracker';
             }
         }
 

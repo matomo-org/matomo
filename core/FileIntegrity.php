@@ -10,8 +10,8 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\CustomTrackerJs\Exception\AccessDeniedException;
-use Piwik\Plugins\CustomTrackerJs\TrackerUpdater;
+use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
+use Piwik\Plugins\CustomJsTracker\TrackerUpdater;
 
 class FileIntegrity
 {
@@ -372,7 +372,7 @@ class FileIntegrity
             // as trivial because piwik.js might be already updated, or updated on the next request. We cannot define
             // 2 or 3 different filesizes and md5 hashes for one file so we check it here.
 
-            if (Plugin\Manager::getInstance()->isPluginActivated('CustomTrackerJs')) {
+            if (Plugin\Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
                 $trackerUpdater = new TrackerUpdater();
 
                 if ($trackerUpdater->getCurrentTrackerFileContent() === $trackerUpdater->getUpdatedTrackerFileContent()) {
@@ -383,7 +383,7 @@ class FileIntegrity
 
                 try {
                     // the piwik.js tracker file was not updated yet, but may be updated just after the update by
-                    // one of the events CustomTrackerJs is listening to or by a scheduled task.
+                    // one of the events CustomJsTracker is listening to or by a scheduled task.
                     // In this case, we check whether such an update will succeed later and if it will, the file is
                     // valid as well as it will be updated on the next request
                     $trackerUpdater->checkWillSucceed();
