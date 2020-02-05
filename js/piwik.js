@@ -6764,7 +6764,8 @@ if (typeof window.Piwik !== 'object') {
                     trackerUrl += '/';
                 }
 
-                var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1';
+                var getConfigsUrl = trackerUrl + '/matomo.php?idsite=' + configTrackerSiteId + '&configs=1&configJsonp=1&url='
+                    + encodeURIComponent(windowAlias.location.href);
 
                 var script = documentAlias.createElement('script');
                 script.async = true;
