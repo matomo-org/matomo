@@ -11,6 +11,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Tracker\Db as TrackerDb;
@@ -84,7 +85,7 @@ class Tracker
 
             $generalCache = \Piwik\Tracker\Cache::getCacheGeneral();
 
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idsite', 0, 'int');
             if ($idSite > 0
                 && !empty($generalCache['pluginsWithCachedTrackerConfigs'])
                 && is_array($generalCache['pluginsWithCachedTrackerConfigs'])
@@ -408,6 +409,9 @@ class Tracker
         $configs = [];
 
         $idSite = Common::getRequestVar('idsite', 0, 'int');
+        if ($idSite <= 0) {
+            throw new InvalidRequestParameterException("Invalid idsite, must be positive integer.");
+        }
 
         /**
          * Triggered when returning tracker configuration to the JavaScript tracker. Some plugins' tracking code may
