@@ -65,6 +65,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view                 = new View('@Events/_actionEvent.twig');
+        $view->sendHeadersWhenRendering = false;
         $view->action         = $action;
         $view->previousAction = $previousAction;
         $view->visitInfo      = $visitorDetails;
