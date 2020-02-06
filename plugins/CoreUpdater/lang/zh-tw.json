@@ -27,8 +27,6 @@
         "InstallingTheLatestVersion": "正在安裝最新版本中",
         "LatestBetaRelease": "最新 Beta 版本",
         "LatestStableRelease": "最新穩定版本",
-        "Latest2XStableRelease": "2.X 最新穩定版本",
-        "Latest2XBetaRelease": "2.X 最新 Beta 版本",
         "LtsSupportVersion": "長期支援版本",
         "ListOfSqlQueriesFYI": "備註：這些 SQL 指令和主控台指令將會在你的資料庫升級至 Matomo %s 時執行。",
         "TheseSqlQueriesWillBeExecuted": "這些 SQL 指令將被執行：",

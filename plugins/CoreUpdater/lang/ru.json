@@ -27,8 +27,6 @@
         "InstallingTheLatestVersion": "Установка последней версии",
         "LatestBetaRelease": "Последний тестовый выпуск",
         "LatestStableRelease": "Последний стабильный выпуск",
-        "Latest2XStableRelease": "Последний стабильный 2.X",
-        "Latest2XBetaRelease": "Последний тестовый 2.X",
         "LtsSupportVersion": "Версия долгосрочной поддержки",
         "ListOfSqlQueriesFYI": "Справка: это SQL-запросы и консольные команды, которые будут выполнены для обновления вашей базы данных до Matomo %s",
         "TheseSqlQueriesWillBeExecuted": "Эти SQL-запросы были исключены:",
