@@ -80,6 +80,7 @@ class OmniFixture extends Fixture
                 && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
+                && $className != "Piwik\\Tests\\Fixtures\\VisitsInDifferentTimezones"
             ) {
 
                 $klassReflect = new ReflectionClass($className);
