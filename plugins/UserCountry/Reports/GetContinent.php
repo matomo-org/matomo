@@ -12,7 +12,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\Columns\Continent;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Widget\WidgetContainerConfig;
 use Piwik\Widget\WidgetsList;
 
 class GetContinent extends Base

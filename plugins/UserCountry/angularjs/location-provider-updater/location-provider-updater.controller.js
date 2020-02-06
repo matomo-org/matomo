@@ -56,7 +56,7 @@
 
             // start download of free dbs
             downloadNextChunk(
-                'downloadFreeGeoIPDB',
+                'downloadFreeDBIPLiteDB',
                 'geoipdb-screen2-download',
                 'progressFreeDownload',
                 false,

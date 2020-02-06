@@ -8,18 +8,10 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Url;
-
-/**
- * @see plugins/UserCountry/GeoIPAutoUpdater.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 
 /**
  *
@@ -93,7 +85,7 @@ class UserCountry extends \Piwik\Plugin
     public function isGeoIPWorking()
     {
         $provider = LocationProvider::getCurrentProvider();
-        return $provider instanceof GeoIp
+        return $provider instanceof GeoIp2
         && $provider->isAvailable() === true
         && $provider->isWorking() === true;
     }

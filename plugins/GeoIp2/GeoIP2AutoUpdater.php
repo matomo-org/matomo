@@ -11,6 +11,7 @@ namespace Piwik\Plugins\GeoIp2;
 require_once PIWIK_INCLUDE_PATH . "/core/ScheduledTask.php"; // for the tracker which doesn't include this file
 
 use Exception;
+use GeoIp2\Database\Reader;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -253,7 +254,7 @@ class GeoIP2AutoUpdater extends Task
 
             $success = $unzip->extract($outputPath);
             if ($success !== true) {
-                throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
+                throw new Exception(Piwik::translate('General_CannotUnzipFile',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -592,9 +593,13 @@ class GeoIP2AutoUpdater extends Task
 
             // test the provider. on error, we rename the broken DB.
             try {
+                // check database directly, as location provider ignores invalid database errors
+                $pathToDb = LocationProviderGeoIp2::getPathToGeoIpDatabase($customNames);
+                $reader = new Reader($pathToDb);
+
                 $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
             } catch (\Exception $e) {
-                if($logErrors) {
+                if ($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
                         . "%s database: %s", $type, $e->getMessage());
                 }

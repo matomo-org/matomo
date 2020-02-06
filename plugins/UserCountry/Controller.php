@@ -17,7 +17,6 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\SettingsPiwik;
@@ -48,12 +47,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->locationProviders = $allProviderInfo;
         $view->currentProviderId = LocationProvider::getCurrentProviderId();
         $view->thisIP = IP::getIpFromHeader();
+        $view->hasGeoIp2Provider = Manager::getInstance()->isPluginActivated('GeoIp2');
 
-        if ($this->isGeoIp2Enabled()) {
-            $geoIPDatabasesInstalled = GeoIp2::isDatabaseInstalled();
-        } else {
-            $geoIPDatabasesInstalled = GeoIp::isDatabaseInstalled();
-        }
+        $geoIPDatabasesInstalled = $view->hasGeoIp2Provider ? GeoIp2::isDatabaseInstalled() : false;
 
         $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
         $view->updatePeriodOptions = $this->getPeriodUpdateOptions();
@@ -70,20 +66,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->isThereWorkingProvider = $isThereWorkingProvider;
 
-        $view->notUsingGeoIpPlugin = !Manager::getInstance()->isPluginActivated('GeoIp2')
-            && !Manager::getInstance()->isPluginActivated('GeoIp');
-
-        // if using either the Apache, Nginx or PECL module, they are working and there are no databases
-        // in misc, then the databases are located outside of Piwik, so we cannot update them
+        // if using a server module, they are working and there are no databases
+        // in misc, then the databases are located outside of Matomo, so we cannot update them
         $view->showGeoIPUpdateSection = true;
         $currentProviderId = LocationProvider::getCurrentProviderId();
         if (!$geoIPDatabasesInstalled
-            && in_array($currentProviderId, [GeoIp2\ServerModule::ID, GeoIp\ServerBased::ID, GeoIp\Pecl::ID])
+            && in_array($currentProviderId, [GeoIp2\ServerModule::ID])
             && $allProviderInfo[$currentProviderId]['status'] == LocationProvider::INSTALLED
         ) {
-            $view->showGeoIPUpdateSection = false;
-        }
-        if ($view->notUsingGeoIpPlugin) {
             $view->showGeoIPUpdateSection = false;
         }
 
@@ -94,64 +84,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->setBasicVariablesAdminView($view);
 
         return $view->render();
-    }
-
-    /**
-     * Starts or continues download of GeoLiteCity.dat.
-     *
-     * To avoid a server/PHP timeout & to show progress of the download to the user, we
-     * use the HTTP Range header to download one chunk of the file at a time. After each
-     * chunk, it is the browser's responsibility to call the method again to continue the download.
-     *
-     * Input:
-     *   'continue' query param - if set to 1, will assume we are currently downloading & use
-     *                            Range: HTTP header to get another chunk of the file.
-     *
-     * Output (in JSON):
-     *   'current_size' - Current size of the partially downloaded file on disk.
-     *   'expected_file_size' - The expected finished file size as returned by the HTTP server.
-     *   'next_screen' - When the download finishes, this is the next screen that should be shown.
-     *   'error' - When an error occurs, the message is returned in this property.
-     */
-    public function downloadFreeGeoIPDB()
-    {
-        $this->dieIfGeolocationAdminIsDisabled();
-        Piwik::checkUserHasSuperUserAccess();
-
-        if ($this->isGeoIp2Enabled()) {
-            return $this->downloadFreeDBIPLiteDB();
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->checkTokenInUrl();
-            Json::sendHeaderJSON();
-            $outputPath = GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat') . '.gz';
-            try {
-                $result = Http::downloadChunk(
-                    $url = GeoIp::GEO_LITE_URL,
-                    $outputPath,
-                    $continue = Common::getRequestVar('continue', true, 'int')
-                );
-
-                // if the file is done
-                if ($result['current_size'] >= $result['expected_file_size']) {
-                    GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
-
-                    // setup the auto updater
-                    GeoIPAutoUpdater::setUpdaterOptions(array(
-                                                             'loc' => GeoIp::GEO_LITE_URL,
-                                                             'period' => GeoIPAutoUpdater::SCHEDULE_PERIOD_MONTHLY,
-                                                        ));
-
-                    // make sure to echo out the geoip updater management screen
-                    $result['settings'] = GeoIPAutoUpdater::getConfiguredUrls();
-                }
-
-                return json_encode($result);
-            } catch (Exception $ex) {
-                return json_encode(array('error' => $ex->getMessage()));
-            }
-        }
     }
 
     /**
@@ -175,6 +107,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
             Json::sendHeaderJSON();
@@ -229,42 +162,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $view->isGeoIp2Available = $this->isGeoIp2Enabled();
 
-        if ($this->isGeoIp2Enabled()) {
-            // Get GeoIPLegacy Update information to show them
-            $urls = GeoIPAutoUpdater::getConfiguredUrls();
-            $today = Date::today();
+        $today = Date::today();
 
-            $view->geoIPLegacyLocUrl = $urls['loc'];
-            $view->geoIPLegacyIspUrl = $urls['isp'];
-            $view->geoIPLegacyOrgUrl = $urls['org'];
-            $view->geoIPLegacyUpdatePeriod = GeoIPAutoUpdater::getSchedulePeriod();
+        $urls = GeoIP2AutoUpdater::getConfiguredUrls();
 
-            $urls = GeoIP2AutoUpdater::getConfiguredUrls();
+        $view->geoIPLocUrl = $urls['loc'];
+        $view->geoIPIspUrl = $urls['isp'];
+        $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
 
-            $view->geoIPLocUrl = $urls['loc'];
-            $view->geoIPIspUrl = $urls['isp'];
-            $view->geoIPUpdatePeriod = GeoIP2AutoUpdater::getSchedulePeriod();
+        $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
+        $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
+        $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
+        $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
 
-            $view->dbipLiteUrl = GeoIp2::getDbIpLiteUrl();
-            $view->dbipLiteFilename = "dbip-city-lite-{$today->toString('Y-m')}.mmdb";
-            $view->dbipLiteDesiredFilename = "DBIP-City.mmdb";
-            $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
-
-            $lastRunTime = GeoIP2AutoUpdater::getLastRunTime();
-        } else {
-            $urls = GeoIPAutoUpdater::getConfiguredUrls();
-
-            $view->geoIPLocUrl = $urls['loc'];
-            $view->geoIPIspUrl = $urls['isp'];
-            $view->geoIPOrgUrl = $urls['org'];
-            $view->geoIPUpdatePeriod = GeoIPAutoUpdater::getSchedulePeriod();
-
-            $view->geoLiteUrl = GeoIp::GEO_LITE_URL;
-            $view->geoLiteFilename = 'GeoLiteCity.dat';
-            $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();
-
-            $lastRunTime = GeoIPAutoUpdater::getLastRunTime();
-        }
+        $lastRunTime = GeoIP2AutoUpdater::getLastRunTime();
 
         if ($lastRunTime !== false) {
             $view->lastTimeUpdaterRun = '<strong>' . $lastRunTime->toString() . '</strong>';
@@ -293,24 +204,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             try {
                 $this->checkTokenInUrl();
 
-                if ($this->isGeoIp2Enabled()) {
-                    GeoIP2AutoUpdater::setUpdaterOptionsFromUrl();
-                } else {
-                    GeoIPAutoUpdater::setUpdaterOptionsFromUrl();
-                }
+                GeoIP2AutoUpdater::setUpdaterOptionsFromUrl();
 
                 // if there is a updater URL for a database, but its missing from the misc dir, tell
                 // the browser so it can download it next
-                $info = $this->getNextMissingDbUrlInfo();
+                $info = $this->getNextMissingDbUrlInfoGeoIp2();
+
                 if ($info !== false) {
                     return json_encode($info);
                 } else {
                     $view = new View("@UserCountry/_updaterNextRunTime");
-                    if ($this->isGeoIp2Enabled()) {
-                        $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
-                    } else {
-                        $view->nextRunTime = GeoIPAutoUpdater::getNextRunTime();
-                    }
+                    $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
                     $nextRunTimeHtml = $view->render();
                     return json_encode(array('nextRunTime' => $nextRunTimeHtml));
                 }
@@ -341,6 +245,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $this->dieIfGeolocationAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $this->checkTokenInUrl();
@@ -351,20 +256,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 // url & output file name
                 $key = Common::getRequestVar('key', null, 'string');
 
-                if ($this->isGeoIp2Enabled()) {
-                    $url = GeoIP2AutoUpdater::getConfiguredUrl($key);
-                    $filename = GeoIP2AutoUpdater::getZippedFilenameToDownloadTo($url, $key, GeoIP2AutoUpdater::getGeoIPUrlExtension($url));
-                    $outputPath = GeoIp2::getPathForGeoIpDatabase($filename);
-                } else {
-                    $url = GeoIPAutoUpdater::getConfiguredUrl($key);
-                    $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
-                    $filename = GeoIp::$dbNames[$key][0] . '.' . $ext;
-
-                    if (substr($filename, 0, 15) == 'GeoLiteCity.dat') {
-                        $filename = 'GeoIPCity.dat' . substr($filename, 15);
-                    }
-                    $outputPath = GeoIp::getPathForGeoIpDatabase($filename);
-                }
+                $url = GeoIP2AutoUpdater::getConfiguredUrl($key);
+                $filename = GeoIP2AutoUpdater::getZippedFilenameToDownloadTo($url, $key, GeoIP2AutoUpdater::getGeoIPUrlExtension($url));
+                $outputPath = GeoIp2::getPathForGeoIpDatabase($filename);
 
                 // download part of the file
                 $result = Http::downloadChunk(
@@ -372,13 +266,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    if ($this->isGeoIp2Enabled()) {
-                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $key, $url, $unlink = true);
-                    } else {
-                        GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
-                    }
+                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $key, $url, $unlink = true);
 
-                    $info = $this->getNextMissingDbUrlInfo();
+                    $info = $this->getNextMissingDbUrlInfoGeoIp2();
                     if ($info !== false) {
                         return json_encode($info);
                     }
@@ -402,6 +292,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getLocationUsingProvider()
     {
+        $this->dieIfGeolocationAdminIsDisabled();
+        Piwik::checkUserHasSuperUserAccess();
+
         $providerId = Common::getRequestVar('id');
         $provider = LocationProvider::getProviderById($providerId);
         if (empty($provider)) {
@@ -430,32 +323,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Gets information for the first missing GeoIP database (if any).
-     *
-     * @return array|bool
-     */
-    private function getNextMissingDbUrlInfo()
-    {
-        if ($this->isGeoIp2Enabled()) {
-            return $this->getNextMissingDbUrlInfoGeoIp2();
-        }
-
-        $missingDbs = GeoIPAutoUpdater::getMissingDatabases();
-        if (!empty($missingDbs)) {
-            $missingDbKey = $missingDbs[0];
-            $url = GeoIPAutoUpdater::getConfiguredUrl($missingDbKey);
-
-            $link = '<a href="' . $url . '">' . $url . '</a>';
-
-            return array(
-                'to_download'       => $missingDbKey,
-                'to_download_label' => Piwik::translate('UserCountry_DownloadingDb', $link) . '...',
-            );
-        }
-        return false;
-    }
-
-    /**
      * Gets information for the first missing GeoIP2 database (if any).
      *
      * @return array|bool
@@ -469,10 +336,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             $link = '<a href="' . $url . '">' . $url . '</a>';
 
-            return array(
+            return [
                 'to_download'       => $missingDbKey,
                 'to_download_label' => Piwik::translate('UserCountry_DownloadingDb', $link) . '...',
-            );
+            ];
         }
         return false;
     }

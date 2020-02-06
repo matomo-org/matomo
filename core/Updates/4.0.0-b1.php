@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -48,11 +49,32 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
 
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // activate GeoIp2 plugin for users still using GeoIp2 Legacy (others might have it disabled on purpose)
+            $migrations[] = $this->migration->plugin->activate('GeoIp2');
+        }
+
         return $migrations;
     }
 
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        if ($this->usesGeoIpLegacyLocationProvider()) {
+            // switch to default provider if GeoIp Legacy was still in use
+            LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
+        }
+    }
+
+    protected function usesGeoIpLegacyLocationProvider()
+    {
+        $currentProvider = LocationProvider::getCurrentProviderId();
+
+        return in_array($currentProvider, [
+            'geoip_pecl',
+            'geoip_php',
+            'geoip_serverbased',
+        ]);
     }
 }

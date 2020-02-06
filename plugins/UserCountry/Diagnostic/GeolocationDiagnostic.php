@@ -44,7 +44,6 @@ class GeolocationDiagnostic implements Diagnostic
         $allProviders = LocationProvider::getAllProviderInfo();
         $isNotRecommendedProvider = in_array($currentProviderId, array(
             LocationProvider\DefaultProvider::ID,
-            LocationProvider\GeoIp\ServerBased::ID,
             GeoIp2\ServerModule::ID));
         $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
@@ -54,7 +53,7 @@ class GeolocationDiagnostic implements Diagnostic
 
         if ($isProviderInstalled) {
             $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
-            $message = Manager::getInstance()->isPluginActivated('GeoIp2') ? 'GeoIp2_LocationProviderDesc_ServerModule2' : 'UserCountry_GeoIpLocationProviderDesc_ServerBased2';
+            $message = 'GeoIp2_LocationProviderDesc_ServerModule2';
             $comment .= $this->translator->translate($message, array(
                 '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
             ));
