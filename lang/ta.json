@@ -1,7 +1,7 @@
 {
     "General": {
         "AbandonedCarts": "கைவிடப்பட்ட தெரிவுகள்",
-        "AboutPiwikX": "பிவிக்கை பற்றி %s",
+        "AboutPiwikX": "மடோமோவைப் பற்றி %s",
         "Action": "செயல்",
         "Actions": "செயல்கள்",
         "Add": "சேர்க்க",
@@ -214,13 +214,13 @@
         "Yes": "ஓம்"
     },
     "Mobile": {
-        "AboutPiwikMobile": "பிவிக் கையடக்கத்தொலைபேசி பற்றி",
+        "AboutPiwikMobile": "மாட்டோமோ செயலி பற்றி",
         "Account": "கணக்கு",
         "Accounts": "கணக்குகள்",
         "AddAccount": "புதிய கணக்கை சேர்க்க",
         "AddPiwikDemo": "பிவிக் சோதனையை சேர்க்க",
         "Advanced": "மேம்பட்டவை",
-        "DefaultReportDate": "அறிக்கைத்திகதி",
+        "DefaultReportDate": "அறிக்கைத் திகதி",
         "EmailUs": "எங்களுக்கு மின்னஞ்சல் அனுப்ப",
         "LoadingReport": "தரவிறங்குகிறது %s",
         "LoginUseHttps": "https பாவிக்க",

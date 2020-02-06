@@ -98,6 +98,7 @@
         "UpdaterScheduledForNextRun": "Está programado para ejecutarse durante la próxima ejecución de comando cron \"core:archive\".",
         "UpdaterWasLastRun": "El actualizador se ejecutó por última vez: %s.",
         "UpdaterWillRunNext": "Está programado para ejecutarse: %s.",
-        "WidgetLocation": "Ubicación del visitante"
+        "WidgetLocation": "Ubicación del visitante",
+        "InstallGeoIp2": "Matomo recomienda usar las bases de datos de %1$sdbip%2$s, pero requiere usar el plugin GeoIP2. Si lo instalás y activás (el cual probablemente requiera una larga actualización), vas a poder usar las bases de datos de %1$sdbip%2$s (ignorá esto si ya estás usando un plugin de terceros que ofrece su propia función de geolocalización)."
     }
 }

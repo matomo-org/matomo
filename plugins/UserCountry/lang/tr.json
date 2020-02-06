@@ -98,6 +98,7 @@
         "UpdaterScheduledForNextRun": "core:archive komutunun yürütüleceği zamanlanmış görevin bir sonraki çalışmasında güncellenecek.",
         "UpdaterWasLastRun": "Güncelleyici en son %s zamanında çalıştı.",
         "UpdaterWillRunNext": "Zamanlanmış görev %s zamanında çalışacak.",
-        "WidgetLocation": "Ziyaretçi Konumu"
+        "WidgetLocation": "Ziyaretçi Konumu",
+        "InstallGeoIp2": "Matomo %1$sdbip%2$s veritabanlarının kullanılmasını önerir. Ancak bunun için GeoIp2 uygulama eki gereklidir. Bu uygulama ekini kurup etkinleştirdiyseniz (büyük olasılıkla uzun sürecek bir güncelleme yapılır), %1$sdbip%2$s veritabanlarını kullanmaya başlayabilirsiniz (kendi coğrafi konum özelliğini sunan bir üçüncü taraf uygulama eki kullanıyorsanız bunu yok sayabilirsiniz)."
     }
 }
