@@ -10,7 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Tests\Framework\Fixture;
-use PiwikTracker;
+use MatomoTracker;
 
 /**
  * Tracks custom events
@@ -82,13 +82,13 @@ class ThreeVisitsWithCustomEvents extends Fixture
 
     }
 
-    private function moveTimeForward(PiwikTracker $vis, $minutes)
+    private function moveTimeForward(MatomoTracker $vis, $minutes)
     {
         $hour = $minutes / 60;
         return $vis->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hour)->getDatetime());
     }
 
-    protected function trackEventWithoutUrl(PiwikTracker $vis)
+    protected function trackEventWithoutUrl(MatomoTracker $vis)
     {
         $url = $vis->pageUrl;
         $vis->setUrl('');
@@ -108,7 +108,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         $vis->setUrl($url);
     }
 
-    protected function trackMusicPlaying(PiwikTracker $vis)
+    protected function trackMusicPlaying(MatomoTracker $vis)
     {
         $this->moveTimeForward($vis, 1);
         $this->setMusicEventCustomVar($vis);
@@ -129,7 +129,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         self::checkResponse($vis->doTrackEvent('Music', 'playEnd', 'La fiancée de l\'eau'));
     }
 
-    protected function trackMusicRatings(PiwikTracker $vis)
+    protected function trackMusicRatings(MatomoTracker $vis)
     {
         $this->moveTimeForward($vis, 5);
         $this->setMusicEventCustomVar($vis);
@@ -140,7 +140,7 @@ class ThreeVisitsWithCustomEvents extends Fixture
         self::checkResponse($vis->doTrackEvent('Music', 'rating', 'La fiancée de l\'eau', 10));
     }
 
-    protected function trackMovieWatchingIncludingInterval(PiwikTracker $vis)
+    protected function trackMovieWatchingIncludingInterval(MatomoTracker $vis)
     {
         // First a pageview so the time on page is tracked properly
         $this->moveTimeForward($vis, 30);
@@ -208,14 +208,14 @@ class ThreeVisitsWithCustomEvents extends Fixture
         self::checkResponse($vis->doTrackEvent('Movie', 'Purchase'));
     }
 
-    private function setMusicEventCustomVar(PiwikTracker $vis)
+    private function setMusicEventCustomVar(MatomoTracker $vis)
     {
         $vis->setCustomVariable($id = 1, $name = 'Page Scope Custom var', $value = 'should not appear in events report', $scope = 'page');
         $vis->setCustomVariable($id = 1, $name = 'album', $value = 'En attendant les caravanes...', $scope = 'event');
         $vis->setCustomVariable($id = 1, $name = 'genre', $value = 'World music', $scope = 'event');
     }
 
-    private function setMovieEventCustomVar(PiwikTracker $vis)
+    private function setMovieEventCustomVar(MatomoTracker $vis)
     {
         $vis->setCustomVariable($id = 1, $name = 'country', $value = '日本', $scope = 'event');
         $vis->setCustomVariable($id = 2, $name = 'genre', $value = 'Greatest animated films', $scope = 'event');

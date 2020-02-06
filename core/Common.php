@@ -723,8 +723,7 @@ class Common
      */
     public static function convertUserIdToVisitorIdBin($userId)
     {
-        require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
-        $userIdHashed = \PiwikTracker::getUserIdHashed($userId);
+        $userIdHashed = \MatomoTracker::getUserIdHashed($userId);
 
         return self::convertVisitorIdToBin($userIdHashed);
     }

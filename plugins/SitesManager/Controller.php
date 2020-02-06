@@ -102,6 +102,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     /**
      *  User will download a file called PiwikTracker.php that is the content of the actual script
+     *
+     * @deprecated  seems unused and PiwikTracker is now MatomoTracker
      */
     function downloadPiwikTracker()
     {

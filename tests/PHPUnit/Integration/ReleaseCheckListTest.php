@@ -13,7 +13,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Ini\IniReader;
+use Matomo\Ini\IniReader;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
@@ -221,7 +221,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             // Note: entries below are paths and any file within these paths will be automatically whitelisted
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site-real/',
             PIWIK_INCLUDE_PATH . '/tests/resources/overlay-test-site/',
-            PIWIK_INCLUDE_PATH . '/vendor/facebook/xhprof/xhprof_html/docs/',
+            PIWIK_INCLUDE_PATH . '/vendor/lox/xhprof/xhprof_html/docs/',
             PIWIK_INCLUDE_PATH . '/plugins/Morpheus/icons/',
         );
 
