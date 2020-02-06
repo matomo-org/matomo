@@ -27,18 +27,6 @@ class Session extends Zend_Session
     protected static $sessionStarted = false;
 
     /**
-     * Are we using file-based session store?
-     *
-     * @return bool  True if file-based; false otherwise
-     */
-    public static function isSessionHandler($handler)
-    {
-        $config = Config::getInstance();
-        return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === $handler;
-    }
-
-    /**
      * Start the session
      *
      * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
@@ -101,10 +89,7 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } elseif (self::isSessionHandler('dbtable')
-            || self::isSessionHandler('files')
-            || in_array($currentSaveHandler, array('user', 'mm'))
-        ) {
+        } else {
             // as of Matomo 3.7.0 we only support files session handler during installation
 
             // We consider these to be misconfigurations, in that:

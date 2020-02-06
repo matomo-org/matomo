@@ -400,10 +400,6 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; Matomo uses PHP's dbtable for session.
-; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
-session_save_handler = dbtable
-
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
