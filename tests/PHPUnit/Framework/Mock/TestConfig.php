@@ -81,10 +81,6 @@ class TestConfig extends Config
         $log =& $chain->get('log');
         $database =& $chain->get('database');
 
-        if ($testingEnvironment->configFileLocal) {
-            $general['session_save_handler'] = 'dbtable';
-        }
-
         $log['log_writers'] = array('file');
 
         // TODO: replace this and below w/ configOverride use

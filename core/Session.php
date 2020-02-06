@@ -27,18 +27,6 @@ class Session extends Zend_Session
     protected static $sessionStarted = false;
 
     /**
-     * Are we using file-based session store?
-     *
-     * @return bool  True if file-based; false otherwise
-     */
-    public static function isSessionHandler($handler)
-    {
-        $config = Config::getInstance();
-        return !isset($config->General['session_save_handler'])
-        || $config->General['session_save_handler'] === $handler;
-    }
-
-    /**
      * Start the session
      *
      * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
