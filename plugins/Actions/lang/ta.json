@@ -1,5 +1,8 @@
 {
     "Actions": {
+        "ColumnClickedURL": "சொடுக்கிய வெளியிணைப்பு",
+        "ColumnClickedURLs": "சொடுக்கிய வெளியிணைப்புகள்",
+        "ColumnActionURL": "செயல் இணைய முகவரி",
         "ColumnClicks": "சொடுக்குகள்",
         "ColumnClicksDocumentation": "இந்த இணைப்பு சொடுக்குகளின் எண்ணிக்கை",
         "ColumnDownloadURL": "பதிவிறக்க URL",

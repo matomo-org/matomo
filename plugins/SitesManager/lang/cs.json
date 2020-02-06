@@ -70,7 +70,6 @@
         "SiteWithoutDataDescription": "Pro tuto stránku nebyla zatím zaznamenána žádná analytická data.",
         "SiteWithoutDataSetupTracking": "Prosím, nastavte %1$ssledovací kód%2$s uvedený níže na vašich stránkách nebo v mobilní aplikaci, pokud jste to ješště neudělali.",
         "SiteWithoutDataMessageDisappears": "Tato zpráva zmizí jakmile dojde k nahrání nějakých dat pro tento web.",
-        "SiteWithoutDataSetupGoals": "Mezitím byste možná chtěl(a) %1$snastavit nějaké cíle%2$s, nebo se něco dozvědět o %3$sfunkcích%4$s Matomou v některém z našich %5$snávodů%6$s, nebo %7$sFAQ%8$s.",
         "SiteWithoutDataIgnoreMessage": "Nezobrazovat tuto zprávu další hodinu",
         "SuperUserAccessCan": "Uživatel se super-uživatelským přístupem může také %1$sspecifikovat globální nastavení%2$s pro nové weby.",
         "Timezone": "Časová zóna",
