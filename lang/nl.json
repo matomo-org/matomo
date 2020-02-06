@@ -111,6 +111,7 @@
         "ConfigFileIsNotWritable": "Het Matomo configuratiebestand %1$s is niet beschrijfbaar. Niet alle wijzigingen worden bewaard. %2$s Wijzig de permissies van het configuratiebestand om het beschrijfbaar te maken.",
         "Continue": "Doorgaan",
         "ContinueToPiwik": "Doorgaan naar Matomo",
+        "CurrentlyUsingUnsecureHttp": "Momenteel gebruik je Matomo over een onveilige HTTP verbinding. Dit kan je Matomo kwetsbaar voor beveiligingsexploitaties maken. Je kunt ook in strijd zijn met de privacywetgeving, omdat sommige functies, waaronder opt-out-cookies, niet werken. We raden je aan Matomo in te stellen om SSL (HTTPS) te gebruiken voor verbeterde beveiliging.",
         "CreatedByUser": "aangemaakt door %s",
         "CurrentMonth": "Huidige maand",
         "CurrentWeek": "Huidige week",

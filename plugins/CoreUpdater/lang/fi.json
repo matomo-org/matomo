@@ -28,8 +28,6 @@
         "InstallingTheLatestVersion": "Asennetaan uusinta versiota",
         "LatestBetaRelease": "Viimeisin beta-julkaisu",
         "LatestStableRelease": "Viimeisin vakaa julkaisu",
-        "Latest2XStableRelease": "Viimeisin vakaa 2.X",
-        "Latest2XBetaRelease": "Viimeisin beta 2.X",
         "LtsSupportVersion": "Pitkään tuettu versio",
         "ListOfSqlQueriesFYI": "Tiedoksesi: tässä ovat SQL-kyselyt ja konsolikomennot, jotka suoritetaan tietokantasi päivityksen yhteydessä Matomon versioon %s",
         "TheseSqlQueriesWillBeExecuted": "Nämä SQL-kyselyt suoritetaan:",

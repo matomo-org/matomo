@@ -22,6 +22,7 @@
         "SetupIntroFollowSteps": "Volg de volgende stappen om twee-factor-authenticatie in te schakelen:",
         "SetupFinishedTitle": "Gefeliciteerd! Je account is nu beter beveiligd.",
         "SetupFinishedSubtitle": "Je hebt twee-factor-authenticatie ingeschakeld voor je account. De volgende keer dat je inlogt, wordt je om een authenticatiecode gevraagd. Zorg ervoor dat je je mobiele apparaat of je back-up codes bij de hand hebt.",
+        "WarningChangingConfiguredDevice": "Je staat op het punt om het two-factor authenticate apparaat te wijzigen. Dit maakt elk eerder geconfigureerd apparaat ongeldig.",
         "ShowRecoveryCodes": "Back-up codes tonen",
         "ConfirmSetup": "Bevestig inschakeling",
         "NotPossibleToLogIn": "Kan niet inloggen bij Matomo Analytics",
