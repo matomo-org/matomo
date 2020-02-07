@@ -44,7 +44,7 @@
                     }
                 }
             }, function () {
-                callback({error: _pk_translate('UserCountry_FatalErrorDuringDownload')});
+                callback({error: _pk_translate('GeoIp2_FatalErrorDuringDownload')});
             });
         };
 
@@ -81,7 +81,7 @@
             this.geoipDatabaseInstalled = true;
 
             // todo we need to replace this the proper way eventually
-            $('#geoip-db-mangement .card-title').text(_pk_translate('UserCountry_SetupAutomaticUpdatesOfGeoIP'));
+            $('#geoip-db-mangement .card-title').text(_pk_translate('GeoIp2_SetupAutomaticUpdatesOfGeoIP'));
         }
 
         this.saveGeoIpLinks = function () {

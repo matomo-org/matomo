@@ -1,0 +1,9 @@
+{% if nextRunTime|default is not empty %}
+  {% if date(nextRunTime.getTimestamp()) <= date() %}
+      {{ 'GeoIp2_UpdaterScheduledForNextRun'|translate }}
+  {% else %}
+      {{ 'GeoIp2_UpdaterWillRunNext'|translate('<strong>' ~ nextRunTime.toString() ~ '</strong>')|raw }}
+  {% endif %}
+{% else %}
+  {{ 'GeoIp2_UpdaterIsNotScheduledToRun'|translate }}
+{% endif %}

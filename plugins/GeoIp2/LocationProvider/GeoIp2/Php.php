@@ -397,16 +397,16 @@ class Php extends GeoIp2
         }
 
         if (isset($availableInfo[self::ISP_KEY]) && $availableInfo[self::ISP_KEY]) {
-            $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
+            $availableDatabaseTypes[] = Piwik::translate('GeoIp2_ISPDatabase');
         }
 
         if (!empty($availableDatabaseTypes)) {
             $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-                . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
+                . Piwik::translate('GeoIp2_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
                 . implode(', ', $availableDatabaseTypes) . '</strong>.';
         } else {
             $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound');
+                . Piwik::translate('GeoIp2_GeoIPNoDatabaseFound');
         }
 
         return array('id'            => self::ID,

@@ -200,7 +200,7 @@ class GeoIP2AutoUpdater extends Task
             $content = $unzip->listContent();
 
             if (empty($content)) {
-                throw new Exception(Piwik::translate('UserCountry_CannotListContent',
+                throw new Exception(Piwik::translate('GeoIp2_CannotListContent',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -263,7 +263,7 @@ class GeoIP2AutoUpdater extends Task
             }
         } else {
             $ext = end(explode(basename($path), '.', 2));
-            throw new Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
 
         try {
@@ -286,11 +286,11 @@ class GeoIP2AutoUpdater extends Task
                 Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
                     " GeoIP 2 database: %s", $e->getMessage());
 
-                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+                throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
             }
 
             if (empty($location)) {
-                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+                throw new Exception(Piwik::translate('GeoIp2_ThisUrlIsNotAValidGeoIPDB'));
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
@@ -403,7 +403,7 @@ class GeoIP2AutoUpdater extends Task
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
                 throw new Exception(Piwik::translate(
-                    'UserCountry_InvalidGeoIPUpdatePeriod',
+                    'GeoIp2_InvalidGeoIPUpdatePeriod',
                     array("'$period'", "'" . self::SCHEDULE_PERIOD_MONTHLY . "', '" . self::SCHEDULE_PERIOD_WEEKLY . "'")
                 ));
             }
@@ -556,7 +556,7 @@ class GeoIP2AutoUpdater extends Task
             && $ext != 'gz'
             && $ext != 'mmdb.gz'
         ) {
-            throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new \Exception(Piwik::translate('GeoIp2_UnsupportedArchiveType', "'$ext'"));
         }
     }
 

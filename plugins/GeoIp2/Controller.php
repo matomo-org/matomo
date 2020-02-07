@@ -3,7 +3,6 @@ namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
-use Piwik\Date;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -102,7 +101,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 if ($info !== false) {
                     return json_encode($info);
                 } else {
-                    $view = new View("@UserCountry/_updaterNextRunTime");
+                    $view = new View("@GeoIp2/_updaterNextRunTime");
                     $view->nextRunTime = GeoIP2AutoUpdater::getNextRunTime();
                     $nextRunTimeHtml = $view->render();
                     return json_encode(array('nextRunTime' => $nextRunTimeHtml));
@@ -186,7 +185,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             return [
                 'to_download'       => $missingDbKey,
-                'to_download_label' => Piwik::translate('UserCountry_DownloadingDb', $link) . '...',
+                'to_download_label' => Piwik::translate('GeoIp2_DownloadingDb', $link) . '...',
             ];
         }
         return false;

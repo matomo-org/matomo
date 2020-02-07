@@ -44,8 +44,8 @@ class GeoIp2 extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
-        $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
+        $translationKeys[] = "GeoIp2_FatalErrorDuringDownload";
+        $translationKeys[] = "GeoIp2_SetupAutomaticUpdatesOfGeoIP";
         $translationKeys[] = "General_Done";
         $translationKeys[] = "General_Save";
         $translationKeys[] = "General_Continue";

@@ -29,7 +29,7 @@ class GeoIp2Test extends \PHPUnit_Framework_TestCase
         $this->createEmptyISPFile();
 
         // run redundant checks
-        $updater = new Piwik_UserCountry_GeoIP2AutoUpdater_publictest();
+        $updater = new Piwik_GeoIp2_GeoIP2AutoUpdater_publictest();
         $updater->performRedundantDbChecks();
 
         // check that files are renamed correctly
@@ -53,12 +53,12 @@ class GeoIp2Test extends \PHPUnit_Framework_TestCase
         // unset translations, otherwise Exception message will be translated
         StaticContainer::get('Piwik\Translation\Translator')->reset();
 
-        $updater = new Piwik_UserCountry_GeoIP2AutoUpdater_publictest();
+        $updater = new Piwik_GeoIp2_GeoIP2AutoUpdater_publictest();
         try {
             $updater->downloadFile('loc', $url);
             $this->fail("Downloading invalid url succeeded!");
         } catch (Exception $ex) {
-            $this->assertEquals("UserCountry_UnsupportedArchiveType", $ex->getMessage());
+            $this->assertEquals("GeoIp2_UnsupportedArchiveType", $ex->getMessage());
         }
     }
 
@@ -115,7 +115,7 @@ class GeoIp2Test extends \PHPUnit_Framework_TestCase
     }
 }
 
-class Piwik_UserCountry_GeoIP2AutoUpdater_publictest extends GeoIP2AutoUpdater
+class Piwik_GeoIp2_GeoIP2AutoUpdater_publictest extends GeoIP2AutoUpdater
 {
     public function __construct()
     {

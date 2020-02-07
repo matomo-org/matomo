@@ -1,5 +1,5 @@
 <div piwik-content-block
-     content-title="{% if not geoIPDatabasesInstalled %}{{ 'UserCountry_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'UserCountry_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
+     content-title="{% if not geoIPDatabasesInstalled %}{{ 'GeoIp2_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'GeoIp2_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
      id="geoip-db-mangement">
 
     <div piwik-geoip2-updater
@@ -9,14 +9,14 @@
             {% if not geoIPDatabasesInstalled %}
                 <div ng-show="!locationUpdater.geoipDatabaseInstalled">
                     <div ng-show="locationUpdater.showPiwikNotManagingInfo">
-                        <h3>{{ 'UserCountry_PiwikNotManagingGeoIPDBs'|translate|e('html_attr') }}</h3>
+                        <h3>{{ 'GeoIp2_NotManagingGeoIPDBs'|translate|e('html_attr') }}</h3>
                         <div id="manage-geoip-dbs">
                             <div class="row" id="geoipdb-screen1">
                                 <div class="geoipdb-column-1 col s6">
-                                    <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
+                                    <p>{{ 'GeoIp2_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
                                 </div>
                                 <div class="geoipdb-column-2 col s6">
-                                    <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm">','</a>')|raw }}</p>
+                                    <p>{{ 'GeoIp2_IPurchasedGeoIPDBs'|translate('<a rel="noreferrer noopener" href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>','<a rel="noreferrer noopener" href="https://db-ip.com/db/?refid=mtm">','</a>')|raw }}</p>
                                 </div>
                                 <div class="geoipdb-column-1 col s6">
                                     <input type="button" class="btn"
@@ -33,7 +33,7 @@
                     </div>
                     <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
                         <div piwik-progressbar
-                             label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
+                             label="{{ ('GeoIp2_DownloadingDb'|translate('<a href="'~dbipLiteUrl~'">'~dbipLiteFilename~'</a>') ~ '...')|json_encode }}"
                              progress="locationUpdater.progressFreeDownload">
                         </div>
                     </div>
@@ -42,7 +42,7 @@
 
             {% include "@GeoIp2/_updaterManage.twig" %}
         {% else %}
-            <p class="form-description">{{ 'UserCountry_CannotSetupGeoIPAutoUpdating'|translate }}</p>
+            <p class="form-description">{{ 'GeoIp2_CannotSetupGeoIPAutoUpdating'|translate }}</p>
         {% endif %}
     </div>
 </div>

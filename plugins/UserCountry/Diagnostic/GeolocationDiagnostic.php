@@ -52,7 +52,7 @@ class GeolocationDiagnostic implements Diagnostic
         }
 
         if ($isProviderInstalled) {
-            $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
+            $comment = $this->translator->translate('GeoIp2_GeoIPLocationProviderNotRecommended') . ' ';
             $message = 'GeoIp2_LocationProviderDesc_ServerModule2';
             $comment .= $this->translator->translate($message, array(
                 '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
