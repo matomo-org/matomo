@@ -32,9 +32,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The deprecated Platform API class `\Piwik\DeviceDetectorFactory` has been removed. Use `\Piwik\DeviceDetector\DeviceDetectorFactory` instead
 * The JavaScript tracker now uses `sendBeacon` by default if supported by the browser. You can disable this by calling the tracker method `disableAlwaysUseSendBeacon`. As a result, callback parameters won't work anymore and a tracking request might not appear in the developer tools.
 * The console option `--piwik-domain` has been removed. Use `--matomo-domain` instead
-* The core plugin `CustomPiwikJs` was renamed to `CustomJsTracker`
-* The event `CustomPiwikJs.piwikJsChanged` has been renamed. Use `CustomJsTracker.trackerJsChanged` instead
-* The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed. Use `CustomJsTracker.shouldAddTrackerFile` instead
+* The core plugin `CustomPiwikJs` has been renamed to `CustomJsTracker`
+  * The event `CustomPiwikJs.piwikJsChanged` has been renamed to `CustomJsTracker.trackerJsChanged`
+  * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
+  * Public API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
+  * API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
 
 ## Matomo 3.13.1
 
