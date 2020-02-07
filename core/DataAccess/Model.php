@@ -104,6 +104,59 @@ class Model
         return $archiveIds;
     }
 
+    public function updateArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null)
+    {
+        // select all idarchive/name pairs we want to invalidate
+        $sql = "SELECT idarchive, idsite, date1, date2, `name`
+                  FROM `$archiveTable`
+                 WHERE idsite IN (" . implode(',', $idSites) . ") AND (";
+
+        $isFirst = true;
+        foreach ($allPeriodsToInvalidate as $periods) {
+            /** @var Period $period */
+            foreach ($periods as $period) {
+                if ($isFirst) {
+                    $isFirst = false;
+                } else {
+                    $sql .= " OR ";
+                }
+
+                $sql .= "(period = " . (int)$period
+                    . " AND date1 = '" . $period->getDateStart()->getDatetime()
+                    . "' AND date2 = '" . $period->getDateEnd()->getDatetime() . "')";
+            }
+        }
+
+        $sql .= ")";
+
+        if ($segment) {
+            $nameCondition = "name LIKE '" . Rules::getDoneFlagArchiveContainsAllPlugins($segment) . "%'";
+        } else {
+            $nameCondition = "name LIKE 'done%'";
+        }
+
+        $sql .= " AND $nameCondition";
+
+        $archivesToInvalidate = Db::fetchAll($sql);
+        $idArchives = array_column($archivesToInvalidate, 'idarchive');
+
+        // update each archive as invalidated
+        $sql = "UPDATE `$archiveTable` SET `value` = " . ArchiveWriter::DONE_INVALIDATED . " WHERE idarchive IN ("
+            . implode(',', $idArchives) . ") AND $nameCondition";
+        Db::query($sql);
+
+        // for every archive we need to invalidate, if one does not already exist, create a dummy archive so CronArchive
+        // will pick it up
+        // TODO
+
+        // TODO: check about race conditions here between the select and update
+        /*
+        - select all idarchive,names for idsites/period/segment
+        - update each of those as invalidated
+        - for every permutation not in above, insert new record
+        */
+    }
+
     /**
      * @param string $archiveTable Prefixed table name
      * @param int[] $idSites
@@ -112,59 +165,23 @@ class Model
      * @return \Zend_Db_Statement
      * @throws Exception
      */
-    public function updateArchiveAsInvalidated($archiveTable, $idSites, $datesByPeriodType, Segment $segment = null)
+    public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, Segment $segment = null)
     {
-        /*
-        TODO: instead of updating all, let's upsert them.
-          - for ranges, we do the update
-          - for others, we calculate which archives to invalidate, and do an upsert
-        */
-
-
-
-
-
-
-
-
-
-        $idSites = array_map('intval', $idSites);
-
         $bind = array();
 
         $periodConditions = array();
-        foreach ($datesByPeriodType as $periodType => $dates) {
+        foreach ($allPeriodsToInvalidate as $periods) {
             $dateConditions = array();
 
-            if ($periodType == Period\Range::PERIOD_ID) {
-                foreach ($dates as $date) {
-                    // Ranges in the DB match if their date2 is after the start of the search range and date1 is before the end
-                    // e.g. search range is 2019-01-01 to 2019-01-31
-                    // date2 >= startdate -> Ranges with date2 < 2019-01-01 (ended before 1 January) and are excluded
-                    // date1 <= endate -> Ranges with date1 > 2019-01-31 (started after 31 January) and are excluded
-                    $dateConditions[] = "(date2 >= ? AND date1 <= ?)";
-                    $bind = array_merge($bind, explode(',', $date));
-                }
-            } else {
-                foreach ($dates as $date) {
-                    $dateConditions[] = "(date1 <= ? AND ? <= date2)";
-                    $bind[] = $date;
-                    $bind[] = $date;
-                }
+            /** @var Period $period */
+            foreach ($periods as $period) {
+                $dateConditions[] = "(date1 <= ? AND ? <= date2)";
+                $bind[] = $period->getDateStart();
+                $bind[] = $period->getDateEnd();
             }
 
             $dateConditionsSql = implode(" OR ", $dateConditions);
-            if (empty($periodType)
-                || $periodType == Period\Day::PERIOD_ID
-            ) {
-                // invalidate all periods if no period supplied or period is day
-                $periodConditions[] = "($dateConditionsSql)";
-            } else if ($periodType == Period\Range::PERIOD_ID) {
-                $periodConditions[] = "(period = " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
-            } else {
-                // for non-day periods, invalidate greater periods, but not range periods
-                $periodConditions[] = "(period >= " . (int)$periodType . " AND period < " . Period\Range::PERIOD_ID . " AND ($dateConditionsSql))";
-            }
+            $periodConditions[] = "(period = 5 AND ($dateConditionsSql))";
         }
 
         if ($segment) {

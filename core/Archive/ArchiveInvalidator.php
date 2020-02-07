@@ -247,20 +247,13 @@ class ArchiveInvalidator
 
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 
-        if (empty($period)) {
-            // if the period is empty, we don't need to cascade in any way, since we'll remove all periods
-            $periodDates = $this->getDatesByYearMonthAndPeriodType($dates);
-        } else {
-            $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
-            $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
-        }
+        $allPeriodsToInvalidate = $this->getAllPeriodsByYearMonth($period, $datesToInvalidate, $cascadeDown);
 
-        $periodDates = $this->getUniqueDates($periodDates);
+        $this->markArchivesInvalidated($idSites, $allPeriodsToInvalidate, $segment, $period != 'range');
 
-        $this->markArchivesInvalidated($idSites, $periodDates, $segment);
-
-        $yearMonths = array_keys($periodDates);
-        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday); // TODO: is this still needed anymore? since we query each table I don't think so.
+        // TODO: Remove related code
+        // $yearMonths = array_keys($periodDates);
+        // $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths, $hasMoreThanJustToday); // TODO: is this still needed anymore? since we query each table I don't think so.
 
         foreach ($idSites as $idSite) {
             foreach ($dates as $date) {
@@ -269,6 +262,51 @@ class ArchiveInvalidator
         }
 
         return $invalidationInfo;
+    }
+
+    private function getAllPeriodsByYearMonth($period, $dates, $cascadeDown, &$result = [])
+    {
+        foreach ($dates as $date) {
+            $periodObj = Period\Factory::build($period, $date);
+            $result[$this->getYearMonth($periodObj)][$this->getUniquePeriodId($periodObj)] = $periodObj;
+
+            // cascade down
+            if ($cascadeDown) {
+                $this->addChildPeriodsByYearMonth($result, $periodObj);
+            }
+
+            // cascade up
+            $this->addParentPeriodsByYearMonth($result, $periodObj);
+        }
+
+        return $result;
+    }
+
+    private function addChildPeriodsByYearMonth(&$result, Period $period)
+    {
+        if ($period->getLabel() == 'day'
+            || $period->getLabel() == 'range'
+        ) {
+            return;
+        }
+
+        foreach ($period->getSubperiods() as $subperiod) {
+            $result[$this->getYearMonth($subperiod)][$this->getUniquePeriodId($subperiod)] = $subperiod;
+            $this->addChildPeriodsByYearMonth($result, $subperiod);
+        }
+    }
+
+    private function addParentPeriodsByYearMonth(&$result, Period $period)
+    {
+        if ($period->getLabel() == 'year'
+            || $period->getLabel() == 'range'
+        ) {
+            return;
+        }
+
+        $parentPeriod = Period\Factory::build($period->getParentPeriodLabel(), $period->getDateStart());
+        $result[$this->getYearMonth($parentPeriod)][$this->getUniquePeriodId($parentPeriod)] = $parentPeriod;
+        $this->addParentPeriodsByYearMonth($result, $period);
     }
 
     /**
@@ -409,8 +447,10 @@ class ArchiveInvalidator
      * @param string[][][] $dates
      * @throws \Exception
      */
-    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null)
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null, $removeRanges = false)
     {
+        $idSites = array_map('intval', $idSites);
+
         $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
         foreach ($archiveNumericTables as $table) {
             $tableDate = ArchiveTableCreator::getDateFromTableName($table);
@@ -418,7 +458,10 @@ class ArchiveInvalidator
                 continue;
             }
 
-            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment); // TODO
+            if ($removeRanges) {
+                $this->model->updateRangeArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+            }
         }
     }
 
@@ -476,5 +519,15 @@ class ArchiveInvalidator
 
         $archivesToPurge = new ArchivesToPurgeDistributedList();
         $archivesToPurge->add($yearMonths);
+    }
+
+    private function getYearMonth(Period $period)
+    {
+        return $period->getDateStart()->toString('Y_m');
+    }
+
+    private function getUniquePeriodId(Period $period)
+    {
+        return $period->getId() . '.' . $period->getRangeString();
     }
 }
