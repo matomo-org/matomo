@@ -94,11 +94,6 @@ class PluginTrackerFiles
          */
         Piwik::postEvent('CustomJsTracker.shouldAddTrackerFile', array(&$shouldAddFile, $pluginName));
 
-        /**
-         * @todo remove in Matomo 5. For BC only
-         */
-        Piwik::postEvent('CustomPiwikJs.shouldAddTrackerFile', array(&$shouldAddFile, $pluginName));
-
         return $shouldAddFile;
     }
 

@@ -140,11 +140,6 @@ class TrackerUpdater
                  * @param string $absolutePath The path to the new piwik.js file.
                  */
                 Piwik::postEvent('CustomJsTracker.trackerJsChanged', [$savedFile]);
-
-                /**
-                 * @todo remove in Matomo 5. For BC only
-                 */
-                Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
             }
 
         }
@@ -163,11 +158,6 @@ class TrackerUpdater
                 $savedFiles = $file->save($newContent);
                 foreach ($savedFiles as $savedFile) {
                     Piwik::postEvent('CustomJsTracker.trackerJsChanged', [$savedFile]);
-
-                    /**
-                     * @todo remove in Matomo 5. For BC only
-                     */
-                    Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$savedFile]);
                 }
             }
         }
