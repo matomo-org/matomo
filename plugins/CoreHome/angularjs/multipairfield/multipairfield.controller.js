@@ -43,7 +43,7 @@
         }
 
         var self = this;
-        $scope.$watch('formValue', function () {;
+        $scope.$watch('formValue', function () {
             if (!$scope.formValue || !$scope.formValue.length) {
                 self.addEntry();
             } else {
