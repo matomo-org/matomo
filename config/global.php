@@ -219,9 +219,4 @@ return array(
     \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
 
     \Piwik\Concurrency\LockBackend::class => \DI\get(\Piwik\Concurrency\LockBackend\MySqlLockBackend::class),
-
-    /**
-     * @todo remove in Matomo 5. For BC only
-     */
-    'Piwik\Plugins\CustomPiwikJs\TrackerUpdater' => DI\get(Piwik\Plugins\CustomJsTracker\TrackerUpdater::class),
 );
